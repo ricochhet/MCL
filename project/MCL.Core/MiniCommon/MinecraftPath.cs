@@ -10,24 +10,29 @@ public static class MinecraftPath
         return Path.Combine(minecraftPath, "assets");
     }
 
-    public static string ClientPath(string minecraftPath, VersionDetails versionDetails)
+    public static string ServerPath(string minecraftPath)
+    {
+        return Path.Combine(minecraftPath, "server");
+    }
+
+    public static string ClientJarPath(string minecraftPath, VersionDetails versionDetails)
     {
         return Path.Combine(minecraftPath, "versions", versionDetails.ID, versionDetails.ID + ".jar");
     }
 
-    public static string ServerPath(string minecraftPath, VersionDetails versionDetails)
+    public static string ServerJarPath(string minecraftPath, VersionDetails versionDetails)
     {
-        return Path.Combine(minecraftPath, "server", $"minecraft_server.{versionDetails.ID}.jar");
+        return Path.Combine(ServerPath(minecraftPath), $"minecraft_server.{versionDetails.ID}.jar");
     }
 
     public static string ServerEulaPath(string minecraftPath)
     {
-        return Path.Combine(minecraftPath, "server", "server.properties");
+        return Path.Combine(ServerPath(minecraftPath), "server.properties");
     }
 
     public static string ServerPropertiesPath(string minecraftPath)
     {
-        return Path.Combine(minecraftPath, "server", "server.properties");
+        return Path.Combine(ServerPath(minecraftPath), "server.properties");
     }
 
     public static string DownloadedVersionManifestPath(string minecraftPath)

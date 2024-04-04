@@ -82,7 +82,7 @@ public static class DownloadHelper
 
     public static async Task<bool> DownloadClient(string minecraftPath, VersionDetails versionDetails)
     {
-        string downloadPath = MinecraftPath.ClientPath(minecraftPath, versionDetails);
+        string downloadPath = MinecraftPath.ClientJarPath(minecraftPath, versionDetails);
         if (
             FsProvider.Exists(downloadPath)
             && CryptographyHelper.Sha1(downloadPath) == versionDetails.Downloads.Client.SHA1
@@ -95,7 +95,7 @@ public static class DownloadHelper
 
     public static async Task<bool> DownloadServer(string minecraftPath, VersionDetails versionDetails)
     {
-        string downloadPath = MinecraftPath.ServerPath(minecraftPath, versionDetails);
+        string downloadPath = MinecraftPath.ServerJarPath(minecraftPath, versionDetails);
         if (
             FsProvider.Exists(downloadPath)
             && CryptographyHelper.Sha1(downloadPath) == versionDetails.Downloads.Server.SHA1
