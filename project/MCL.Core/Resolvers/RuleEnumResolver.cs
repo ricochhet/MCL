@@ -5,6 +5,13 @@ namespace MCL.Core.Resolvers;
 
 public class RuleEnumResolver
 {
+    public static RuleEnum Parse(string value)
+    {
+        if (Enum.TryParse(value, true, out RuleEnum result))
+            return result;
+        throw new ArgumentException($"Invalid rule value: {value}");
+    }
+
     public static string Rule(RuleEnum type) => type switch
     {
         RuleEnum.ALLOW => "allow",
