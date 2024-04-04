@@ -2,11 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using MCL.Core.MiniCommon;
-using MCL.Core.Models;
+using MCL.Core.Resolvers.Minecraft;
 
-namespace MCL.Core.Helpers;
+namespace MCL.Core.Helpers.Minecraft;
 
 public static class ClassPathHelper
 {
@@ -20,7 +19,7 @@ public static class ClassPathHelper
         };
         string libPath = Path.Combine(minecraftPath, "libraries");
         List<string> libraries = FsProvider.GetFiles(libPath, "*");
-        libraries = libraries.Prepend(MinecraftArgs.MainClassLibrary(minecraftVersion)).ToList();
+        libraries = libraries.Prepend(MinecraftArgsResolver.MainClassLibrary(minecraftVersion)).ToList();
 
         return string.Join(separator, libraries.Select(lib => lib.Replace(minecraftPath, "").Replace("\\", "/")));
     }

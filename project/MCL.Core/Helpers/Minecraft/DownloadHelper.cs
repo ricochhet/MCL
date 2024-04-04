@@ -1,30 +1,34 @@
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using MCL.Core.Config.Minecraft;
 using MCL.Core.Enums;
-using MCL.Core.Logger;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models;
+using MCL.Core.Models.Minecraft;
 using MCL.Core.Resolvers;
+using MCL.Core.Resolvers.Minecraft;
 
-namespace MCL.Core.Helpers;
+namespace MCL.Core.Helpers.Minecraft;
 
 public static class DownloadHelper
 {
-    public static async Task<bool> DownloadVersionManifestJson(string minecraftPath)
+    public static async Task<bool> DownloadVersionManifestJson(
+        MinecraftUrlConfig minecraftUrlConfig,
+        string minecraftPath
+    )
     {
-        return await WebRequest.Download(
-            MinecraftUrl.VersionManifestUrl,
-            MinecraftPath.DownloadedVersionManifestPath(minecraftPath)
+        return await Request.Download(
+            minecraftUrlConfig.URL.VersionManifest,
+            MinecraftPathResolver.DownloadedVersionManifestPath(minecraftPath)
         );
     }
 
-    public static async Task<bool> DownloadVersionDetailsJson(string minecraftPath, Models.Version version)
+    public static async Task<bool> DownloadVersionDetailsJson(string minecraftPath, Version version)
     {
-        return await WebRequest.Download(
+        return await Request.Download(
             version.URL,
-            MinecraftPath.DownloadedVersionDetailsPath(minecraftPath, version)
+            MinecraftPathResolver.DownloadedVersionDetailsPath(minecraftPath, version)
         );
     }
 
@@ -76,14 +80,18 @@ public static class DownloadHelper
                         break;
                 }
 
-                bool status = await NewDownloadRequest(classifierDownloadPath, classifierUrl, classifierSha1);
+                bool status = await Request.NewDownloadRequest(classifierDownloadPath, classifierUrl, classifierSha1);
 
                 if (!status)
                     return false;
             }
 
             string downloadPath = Path.Combine(libPath, lib.Downloads.Artifact.Path);
-            return await NewDownloadRequest(downloadPath, lib.Downloads.Artifact.URL, lib.Downloads.Artifact.SHA1);
+            return await Request.NewDownloadRequest(
+                downloadPath,
+                lib.Downloads.Artifact.URL,
+                lib.Downloads.Artifact.SHA1
+            );
         }
 
         return true;
@@ -91,7 +99,7 @@ public static class DownloadHelper
 
     public static async Task<bool> DownloadClient(string minecraftPath, VersionDetails versionDetails)
     {
-        string downloadPath = MinecraftPath.ClientJarPath(minecraftPath, versionDetails);
+        string downloadPath = MinecraftPathResolver.ClientJarPath(minecraftPath, versionDetails);
         if (
             FsProvider.Exists(downloadPath)
             && CryptographyHelper.Sha1(downloadPath) == versionDetails.Downloads.Client.SHA1
@@ -99,12 +107,12 @@ public static class DownloadHelper
         {
             return true;
         }
-        return await WebRequest.Download(versionDetails.Downloads.Client.URL, downloadPath);
+        return await Request.Download(versionDetails.Downloads.Client.URL, downloadPath);
     }
 
     public static async Task<bool> DownloadServer(string minecraftPath, VersionDetails versionDetails)
     {
-        string downloadPath = MinecraftPath.ServerJarPath(minecraftPath, versionDetails);
+        string downloadPath = MinecraftPathResolver.ServerJarPath(minecraftPath, versionDetails);
         if (
             FsProvider.Exists(downloadPath)
             && CryptographyHelper.Sha1(downloadPath) == versionDetails.Downloads.Server.SHA1
@@ -113,10 +121,10 @@ public static class DownloadHelper
             return true;
         }
 
-        MinecraftServerProperties.NewEula(minecraftPath);
-        MinecraftServerProperties.NewProperties(minecraftPath);
+        ServerProperties.NewEula(minecraftPath);
+        ServerProperties.NewProperties(minecraftPath);
 
-        return await WebRequest.Download(versionDetails.Downloads.Server.URL, downloadPath);
+        return await Request.Download(versionDetails.Downloads.Server.URL, downloadPath);
     }
 
     public static async Task<bool> DownloadResources(
@@ -125,12 +133,12 @@ public static class DownloadHelper
         AssetsData assets
     )
     {
-        string objectsPath = Path.Combine(MinecraftPath.AssetsPath(minecraftPath), "objects");
+        string objectsPath = Path.Combine(MinecraftPathResolver.AssetsPath(minecraftPath), "objects");
         foreach ((_, Asset asset) in assets.Objects)
         {
             string url = $"{minecraftResourcesUrl}/{asset.Hash[..2]}/{asset.Hash}";
             string downloadPath = Path.Combine(objectsPath, asset.Hash[..2], asset.Hash);
-            return await NewDownloadRequest(downloadPath, url, asset.Hash);
+            return await Request.NewDownloadRequest(downloadPath, url, asset.Hash);
         }
 
         return true;
@@ -138,25 +146,15 @@ public static class DownloadHelper
 
     public static async Task<bool> DownloadIndexJson(string minecraftPath, AssetIndex assetIndex)
     {
-        string downloadPath = Path.Combine(MinecraftPath.AssetsPath(minecraftPath), "indexes", assetIndex.ID + ".json");
+        string downloadPath = Path.Combine(
+            MinecraftPathResolver.AssetsPath(minecraftPath),
+            "indexes",
+            assetIndex.ID + ".json"
+        );
         if (FsProvider.Exists(downloadPath) && CryptographyHelper.Sha1(downloadPath) == assetIndex.SHA1)
         {
             return true;
         }
-        return await WebRequest.Download(assetIndex.URL, downloadPath);
-    }
-
-    private static async Task<bool> NewDownloadRequest(string downloadPath, string url, string sha1)
-    {
-        if (FsProvider.Exists(downloadPath) && CryptographyHelper.Sha1(downloadPath) == sha1)
-        {
-            return true;
-        }
-        else if (!await WebRequest.Download(url, downloadPath))
-        {
-            return false;
-        }
-
-        return true;
+        return await Request.Download(assetIndex.URL, downloadPath);
     }
 }

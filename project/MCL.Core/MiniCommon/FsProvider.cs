@@ -9,7 +9,7 @@ namespace MCL.Core.MiniCommon;
 
 public class FsProvider
 {
-    private static readonly string[] UnsafeFiles =  [ "desktop.ini", "thumbs.db", ];
+    private static readonly string[] UnsafeFiles = ["desktop.ini", "thumbs.db",];
 
     public static bool IsPathSafe(string file) => UnsafeFiles.Contains(file);
 

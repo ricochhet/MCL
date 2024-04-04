@@ -1,9 +1,10 @@
 using System.IO;
 using MCL.Core.Models;
+using MCL.Core.Models.Minecraft;
 
-namespace MCL.Core.MiniCommon;
+namespace MCL.Core.Resolvers.Minecraft;
 
-public static class MinecraftPath
+public static class MinecraftPathResolver
 {
     public static string AssetsPath(string minecraftPath)
     {

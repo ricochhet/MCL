@@ -4,11 +4,12 @@ using System.Net;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
+using MCL.Core.Helpers;
 using MCL.Core.Logger;
 
 namespace MCL.Core.MiniCommon;
 
-public static class WebRequest
+public static class Request
 {
     public static async Task<T> DoRequest<T>(string url, JsonSerializerOptions options)
     {
@@ -53,5 +54,19 @@ public static class WebRequest
             LogBase.Error($"Failed to download file: {ex.Message}");
             return false;
         }
+    }
+
+    public static async Task<bool> NewDownloadRequest(string downloadPath, string url, string sha1)
+    {
+        if (FsProvider.Exists(downloadPath) && CryptographyHelper.Sha1(downloadPath) == sha1)
+        {
+            return true;
+        }
+        else if (!await Download(url, downloadPath))
+        {
+            return false;
+        }
+
+        return true;
     }
 }

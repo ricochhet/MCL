@@ -1,42 +1,57 @@
 using System;
 using System.Text.Json;
 using System.Threading.Tasks;
+using MCL.Core.Config.Minecraft;
 using MCL.Core.Enums;
+using MCL.Core.Helpers;
+using MCL.Core.Helpers.Minecraft;
 using MCL.Core.Logger;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models;
+using MCL.Core.Models.Minecraft;
+using MCL.Core.Resolvers;
+using MCL.Core.Resolvers.Minecraft;
 
-namespace MCL.Core.Helpers;
+namespace MCL.Core.Providers;
 
 public class DownloadProvider
 {
     public VersionManifest versionManifest = new();
     public VersionDetails versionDetails = new();
-    public Models.Version version;
+    public Models.Minecraft.Version version;
     public AssetsData assets = new();
     private static string minecraftPath;
     private static string minecraftVersion;
     private static PlatformEnum minecraftPlatform;
     private static JsonSerializerOptions options;
+    private static MinecraftUrlConfig minecraftUrlConfig;
 
-    public DownloadProvider(string _minecraftPath, string _minecraftVersion, PlatformEnum _minecraftPlatform)
+    public DownloadProvider(
+        string _minecraftPath,
+        string _minecraftVersion,
+        PlatformEnum _minecraftPlatform,
+        MinecraftUrlConfig _minecraftUrlConfig
+    )
     {
         minecraftPath = _minecraftPath;
         minecraftVersion = _minecraftVersion;
         minecraftPlatform = _minecraftPlatform;
+        minecraftUrlConfig = _minecraftUrlConfig;
 
         options = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
     }
 
     public async Task<bool> RequestDownloads()
     {
-        if (!await DownloadHelper.DownloadVersionManifestJson(minecraftPath))
+        if (!await DownloadHelper.DownloadVersionManifestJson(minecraftUrlConfig, minecraftPath))
         {
             LogBase.Error($"Failed to download version manifest");
             return false;
         }
 
-        versionManifest = Json.Read<VersionManifest>(MinecraftPath.DownloadedVersionManifestPath(minecraftPath));
+        versionManifest = Json.Read<VersionManifest>(
+            MinecraftPathResolver.DownloadedVersionManifestPath(minecraftPath)
+        );
         try
         {
             version = VersionHelper.GetVersion(minecraftVersion, versionManifest.Versions);
@@ -53,7 +68,9 @@ public class DownloadProvider
             return false;
         }
 
-        versionDetails = Json.Read<VersionDetails>(MinecraftPath.DownloadedVersionDetailsPath(minecraftPath, version));
+        versionDetails = Json.Read<VersionDetails>(
+            MinecraftPathResolver.DownloadedVersionDetailsPath(minecraftPath, version)
+        );
         if (!await DownloadHelper.DownloadLibraries(minecraftPath, minecraftPlatform, versionDetails.Libraries))
         {
             LogBase.Error("Failed to download libraries");
@@ -72,15 +89,14 @@ public class DownloadProvider
             return false;
         }
 
-        assets = await WebRequest.DoRequest<AssetsData>(versionDetails.AssetIndex.URL, options);
-
+        assets = await Request.DoRequest<AssetsData>(versionDetails.AssetIndex.URL, options);
         if (!await DownloadHelper.DownloadIndexJson(minecraftPath, versionDetails.AssetIndex))
         {
             LogBase.Error("Failed to download assets index json");
             return false;
         }
 
-        if (!await DownloadHelper.DownloadResources(minecraftPath, MinecraftUrl.MinecraftResourcesUrl, assets))
+        if (!await DownloadHelper.DownloadResources(minecraftPath, minecraftUrlConfig.URL.MinecraftResources, assets))
         {
             LogBase.Error("Failed to download resources");
             return false;

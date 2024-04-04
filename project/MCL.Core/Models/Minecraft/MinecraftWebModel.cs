@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace MCL.Core.Models;
+namespace MCL.Core.Models.Minecraft;
 
 public class VersionManifest
 {

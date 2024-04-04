@@ -1,10 +1,15 @@
 using System;
 using System.Threading.Tasks;
+using MCL.Core.Config;
+using MCL.Core.Config.Minecraft;
 using MCL.Core.Helpers;
+using MCL.Core.Helpers.Minecraft;
 using MCL.Core.Logger;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models;
+using MCL.Core.Providers;
 using MCL.Core.Resolvers;
+using MCL.Core.Resolvers.Minecraft;
 
 namespace MCL.Launcher;
 
@@ -24,7 +29,7 @@ internal class Program
             async () =>
             {
                 DownloadProvider downloadProvider =
-                    new("./.minecraft", "1.20.4", PlatformEnumResolver.Parse("windows"));
+                    new("./.minecraft", "1.20.4", PlatformEnumResolver.Parse("windows"), new());
                 if (!await downloadProvider.RequestDownloads())
                     return;
             }
@@ -44,38 +49,42 @@ internal class Program
             "--launch",
             () =>
             {
-                MinecraftArgHelper minecraftArgHelper =
+                MinecraftArgConfig minecraftArgConfig =
                     new(
-                        _initialHeapSize: "4096",
-                        _maxHeapSize: "4096",
-                        _classPath: ClassPathHelper.CreateClassPath("./.minecraft/", "1.20.4"),
-                        _mainClass: MinecraftArgs.MainClass,
-                        _username: "Ricochet",
-                        _userType: "legacy",
-                        _gameDir: ".",
-                        _assetIndex: MinecraftArgs.AssetIndexId("./.minecraft/").ToString(),
-                        _assetsDir: "assets",
-                        _uuid: CryptographyHelper.UUID("Ricochet"),
-                        _clientId: "0",
-                        _xuid: "0",
-                        _accessToken: "1337535510N",
-                        _version: "1.20.4",
-                        _versionType: "release",
-                        [
-                            "-XX:+UnlockExperimentalVMOptions",
-                            "-XX:+UseG1GC",
-                            "-XX:G1NewSizePercent=20",
-                            "-XX:G1ReservePercent=20",
-                            "-XX:MaxGCPauseMillis=50",
-                            "-XX:G1HeapRegionSize=32M",
-                            "-XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump",
-                            $"-Djava.library.path={MinecraftArgs.Libraries("1.20.4")}",
-                            $"-Dminecraft.launcher.brand=mcl",
-                            $"-Dminecraft.launcher.version=1.0.0",
-                        ]
+                        new()
+                        {
+                            InitialHeapSize = "4096",
+                            MaxHeapSize = "4096",
+                            ClassPath = ClassPathHelper.CreateClassPath("./.minecraft/", "1.20.4"),
+                            MainClass = MinecraftArgsResolver.MainClass,
+                            Username = "Ricochet",
+                            UserType = "legacy",
+                            GameDir = ".",
+                            AssetIndex = MinecraftArgsResolver.AssetIndexId("./.minecraft/").ToString(),
+                            AssetsDir = "assets",
+                            Uuid = CryptographyHelper.UUID("Ricochet"),
+                            ClientId = "0",
+                            Xuid = "0",
+                            AccessToken = "1337535510N",
+                            Version = "1.20.4",
+                            VersionType = "release",
+                            AdditionalArguments =
+                            [
+                                "-XX:+UnlockExperimentalVMOptions",
+                                "-XX:+UseG1GC",
+                                "-XX:G1NewSizePercent=20",
+                                "-XX:G1ReservePercent=20",
+                                "-XX:MaxGCPauseMillis=50",
+                                "-XX:G1HeapRegionSize=32M",
+                                "-XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump",
+                                $"-Djava.library.path={MinecraftArgsResolver.Libraries("1.20.4")}",
+                                $"-Dminecraft.launcher.brand=mcl",
+                                $"-Dminecraft.launcher.version=1.0.0",
+                            ]
+                        }
                     );
 
-                MinecraftLaunchHelper minecraftLaunchHelper = new(minecraftArgHelper);
+                LaunchHelper minecraftLaunchHelper = new(minecraftArgConfig);
                 minecraftLaunchHelper.Launch("./.minecraft/");
             }
         );

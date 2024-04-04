@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using System.IO;
+using MCL.Core.MiniCommon;
 
-namespace MCL.Core.MiniCommon;
+namespace MCL.Core.Resolvers.Minecraft;
 
-public static class MinecraftArgs
+public static class MinecraftArgsResolver
 {
     public const string MainClass = "net.minecraft.client.main.Main";
 
@@ -20,7 +21,7 @@ public static class MinecraftArgs
     public static int AssetIndexId(string minecraftPath)
     {
         List<string> fileName = FsProvider.GetFiles(
-            Path.Combine(MinecraftPath.AssetsPath(minecraftPath), "indexes"),
+            Path.Combine(MinecraftPathResolver.AssetsPath(minecraftPath), "indexes"),
             "*.json",
             true
         );
