@@ -3,10 +3,10 @@ using MCL.Core.Config.Minecraft;
 
 namespace MCL.Core.Helpers.Minecraft;
 
-public class LaunchHelper(MinecraftArgConfig minecraftArgConfig)
+public static class LaunchHelper
 {
-    public void Launch(string minecraftPath)
+    public static void Launch(string minecraftArgs, string minecraftPath)
     {
-        ProcessHelper.RunProcess("java", minecraftArgConfig.Build(), minecraftPath, false);
+        ProcessHelper.RunProcess("java", minecraftArgs, minecraftPath, false);
     }
 }

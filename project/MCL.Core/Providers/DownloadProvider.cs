@@ -24,26 +24,26 @@ public class DownloadProvider
     private static string minecraftVersion;
     private static PlatformEnum minecraftPlatform;
     private static JsonSerializerOptions options;
-    private static MinecraftUrlConfig minecraftUrlConfig;
+    private static MinecraftUrls minecraftUrls;
 
     public DownloadProvider(
         string _minecraftPath,
         string _minecraftVersion,
         PlatformEnum _minecraftPlatform,
-        MinecraftUrlConfig _minecraftUrlConfig
+        MinecraftUrls _minecraftUrls
     )
     {
         minecraftPath = _minecraftPath;
         minecraftVersion = _minecraftVersion;
         minecraftPlatform = _minecraftPlatform;
-        minecraftUrlConfig = _minecraftUrlConfig;
+        minecraftUrls = _minecraftUrls;
 
         options = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
     }
 
     public async Task<bool> RequestDownloads()
     {
-        if (!await DownloadHelper.DownloadVersionManifestJson(minecraftUrlConfig, minecraftPath))
+        if (!await DownloadHelper.DownloadVersionManifestJson(minecraftUrls, minecraftPath))
         {
             LogBase.Error($"Failed to download version manifest");
             return false;
@@ -96,7 +96,7 @@ public class DownloadProvider
             return false;
         }
 
-        if (!await DownloadHelper.DownloadResources(minecraftPath, minecraftUrlConfig.URL.MinecraftResources, assets))
+        if (!await DownloadHelper.DownloadResources(minecraftPath, minecraftUrls.MinecraftResources, assets))
         {
             LogBase.Error("Failed to download resources");
             return false;

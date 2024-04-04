@@ -3,6 +3,7 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using MCL.Core.Config;
 
 namespace MCL.Core.Logger;
 
@@ -17,7 +18,7 @@ public class FileStreamLogger : ILogger, IDisposable
     }
 
     private static readonly SemaphoreSlim Semaphore = new(1);
-    private static readonly FileStream Stream = File.OpenWrite("MCL.log");
+    private static readonly FileStream Stream = File.OpenWrite(ConfigProvider.LogFilePath);
 
     public Task Debug(string message) => WriteToBuffer(LogLevel.Debug, message);
 

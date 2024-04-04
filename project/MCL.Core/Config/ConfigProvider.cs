@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 using MCL.Core.Logger;
@@ -15,6 +16,12 @@ public static class ConfigProvider
         get { return Path.Combine(DataPath, LogFileName); }
     }
 
+    public static List<string> WatermarkText = 
+        [
+            "MCL.Launcher",
+            "This work is free of charge",
+            "If you paid money, you were scammed"
+        ];
     private const string LogFileName = "MCL.log";
     private static readonly string ConfigFilePath = Path.Combine(DataPath, ConfigFileName);
 

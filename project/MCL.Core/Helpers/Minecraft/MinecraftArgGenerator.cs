@@ -3,11 +3,9 @@ using MCL.Core.Models.Minecraft;
 
 namespace MCL.Core.Config.Minecraft;
 
-public class MinecraftArgConfig(MinecraftArgs _minecraftArgs)
+public static class MinecraftArgGenerator
 {
-    private readonly MinecraftArgs minecraftArgs = _minecraftArgs;
-
-    public string Build()
+    public static string Generate(MinecraftArgs minecraftArgs)
     {
         return $"-Xms{minecraftArgs.InitialHeapSize}m "
             + $"-Xmx{minecraftArgs.MaxHeapSize}m "

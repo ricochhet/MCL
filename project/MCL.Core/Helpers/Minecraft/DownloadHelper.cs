@@ -14,12 +14,12 @@ namespace MCL.Core.Helpers.Minecraft;
 public static class DownloadHelper
 {
     public static async Task<bool> DownloadVersionManifestJson(
-        MinecraftUrlConfig minecraftUrlConfig,
+        MinecraftUrls minecraftUrls,
         string minecraftPath
     )
     {
         return await Request.Download(
-            minecraftUrlConfig.URL.VersionManifest,
+            minecraftUrls.VersionManifest,
             MinecraftPathResolver.DownloadedVersionManifestPath(minecraftPath)
         );
     }
