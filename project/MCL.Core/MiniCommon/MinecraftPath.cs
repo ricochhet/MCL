@@ -29,4 +29,14 @@ public static class MinecraftPath
     {
         return Path.Combine(minecraftPath, "server", "server.properties");
     }
+
+    public static string DownloadedVersionManifestPath(string minecraftPath)
+    {
+        return Path.Combine(minecraftPath, "version_manifest.json");
+    }
+
+    public static string DownloadedVersionDetailsPath(string minecraftPath, Version version)
+    {
+        return Path.Combine(minecraftPath, "versions", version.ID + ".json");
+    }
 }

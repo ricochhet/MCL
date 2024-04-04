@@ -12,6 +12,16 @@ namespace MCL.Core.Helpers;
 
 public static class DownloadHelper
 {
+    public static async Task<bool> DownloadVersionManifestJson(string minecraftPath)
+    {
+        return await WebRequest.Download(MinecraftUrl.VersionManifestUrl, MinecraftPath.DownloadedVersionManifestPath(minecraftPath));
+    }
+
+    public static async Task<bool> DownloadVersionDetailsJson(string minecraftPath, Models.Version version)
+    {
+        return await WebRequest.Download(version.URL, MinecraftPath.DownloadedVersionDetailsPath(minecraftPath, version));
+    }
+
     public static async Task<bool> DownloadLibraries(
         string minecraftPath,
         PlatformEnum minecraftPlatform,

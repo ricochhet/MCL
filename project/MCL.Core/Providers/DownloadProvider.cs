@@ -30,7 +30,13 @@ public class DownloadProvider
 
     public async Task<bool> RequestDownloads()
     {
-        versionManifest = await WebRequest.DoRequest<VersionManifest>(MinecraftUrl.VersionManifestUrl, options);
+        if (!await DownloadHelper.DownloadVersionManifestJson(minecraftPath))
+        {
+            LogBase.Error($"Failed to download version manifest");
+            return false;
+        }
+
+        versionManifest = Json.Read<VersionManifest>(MinecraftPath.DownloadedVersionManifestPath(minecraftPath));
         try
         {
             version = VersionHelper.GetVersion(minecraftVersion, versionManifest.Versions);
@@ -41,8 +47,13 @@ public class DownloadProvider
             return false;
         }
 
-        versionDetails = await WebRequest.DoRequest<VersionDetails>(version.URL, options);
+        if (!await DownloadHelper.DownloadVersionDetailsJson(minecraftPath, version))
+        {
+            LogBase.Error($"Failed to download version details");
+            return false;
+        }
 
+        versionDetails = Json.Read<VersionDetails>(MinecraftPath.DownloadedVersionDetailsPath(minecraftPath, version));
         if (!await DownloadHelper.DownloadLibraries(minecraftPath, minecraftPlatform, versionDetails.Libraries))
         {
             LogBase.Error("Failed to download libraries");
