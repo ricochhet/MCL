@@ -14,12 +14,18 @@ public static class DownloadHelper
 {
     public static async Task<bool> DownloadVersionManifestJson(string minecraftPath)
     {
-        return await WebRequest.Download(MinecraftUrl.VersionManifestUrl, MinecraftPath.DownloadedVersionManifestPath(minecraftPath));
+        return await WebRequest.Download(
+            MinecraftUrl.VersionManifestUrl,
+            MinecraftPath.DownloadedVersionManifestPath(minecraftPath)
+        );
     }
 
     public static async Task<bool> DownloadVersionDetailsJson(string minecraftPath, Models.Version version)
     {
-        return await WebRequest.Download(version.URL, MinecraftPath.DownloadedVersionDetailsPath(minecraftPath, version));
+        return await WebRequest.Download(
+            version.URL,
+            MinecraftPath.DownloadedVersionDetailsPath(minecraftPath, version)
+        );
     }
 
     public static async Task<bool> DownloadLibraries(
@@ -35,7 +41,10 @@ public static class DownloadHelper
             {
                 foreach (Rule rule in lib.Rules)
                 {
-                    if (rule?.Action == RuleEnumResolver.ToString(RuleEnum.ALLOW) && rule?.Os?.Name != PlatformEnumResolver.ToString(minecraftPlatform))
+                    if (
+                        rule?.Action == RuleEnumResolver.ToString(RuleEnum.ALLOW)
+                        && rule?.Os?.Name != PlatformEnumResolver.ToString(minecraftPlatform)
+                    )
                     {
                         continue;
                     }

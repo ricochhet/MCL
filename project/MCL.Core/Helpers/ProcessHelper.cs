@@ -6,7 +6,12 @@ namespace MCL.Core.Helpers;
 
 public static class ProcessHelper
 {
-    public static void RunProcess(string fileName, string arguments, string workingDirectory, bool useShellExecute = true)
+    public static void RunProcess(
+        string fileName,
+        string arguments,
+        string workingDirectory,
+        bool useShellExecute = true
+    )
     {
         try
         {

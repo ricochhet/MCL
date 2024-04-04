@@ -23,7 +23,8 @@ internal class Program
             "--download",
             async () =>
             {
-                DownloadProvider downloadProvider = new("./.minecraft", "1.20.4", PlatformEnumResolver.Parse("windows"));
+                DownloadProvider downloadProvider =
+                    new("./.minecraft", "1.20.4", PlatformEnumResolver.Parse("windows"));
                 if (!await downloadProvider.RequestDownloads())
                     return;
             }

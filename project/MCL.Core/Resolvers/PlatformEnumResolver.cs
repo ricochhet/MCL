@@ -12,11 +12,12 @@ public class PlatformEnumResolver
         throw new ArgumentException($"Invalid platform value: {value}");
     }
 
-    public static string ToString(PlatformEnum type) => type switch
-    {
-        PlatformEnum.WINDOWS => "windows",
-        PlatformEnum.LINUX => "linux",
-        PlatformEnum.OSX => "osx",
-        _ => throw new NotImplementedException(),
-    };
+    public static string ToString(PlatformEnum type) =>
+        type switch
+        {
+            PlatformEnum.WINDOWS => "windows",
+            PlatformEnum.LINUX => "linux",
+            PlatformEnum.OSX => "osx",
+            _ => throw new NotImplementedException(),
+        };
 }
