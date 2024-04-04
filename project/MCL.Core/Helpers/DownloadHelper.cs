@@ -83,6 +83,19 @@ public static class DownloadHelper
         return await WebRequest.Download(versionDetails.Downloads.Client.URL, downloadPath);
     }
 
+    public static async Task<bool> DownloadServer(string minecraftPath, VersionDetails versionDetails)
+    {
+        string downloadPath = MinecraftPath.ServerPath(minecraftPath, versionDetails);
+        if (
+            FsProvider.Exists(downloadPath)
+            && CryptographyHelper.Sha1(downloadPath) == versionDetails.Downloads.Server.SHA1
+        )
+        {
+            return true;
+        }
+        return await WebRequest.Download(versionDetails.Downloads.Server.URL, downloadPath);
+    }
+
     public static async Task<bool> DownloadResources(
         string minecraftPath,
         string minecraftResourcesUrl,

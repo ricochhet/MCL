@@ -55,6 +55,12 @@ public class DownloadProvider
             return false;
         }
 
+        if (!await DownloadHelper.DownloadServer(minecraftPath, versionDetails))
+        {
+            LogBase.Error("Failed to download server");
+            return false;
+        }
+
         assets = await WebRequest.DoRequest<AssetsData>(versionDetails.AssetIndex.URL, options);
 
         if (!await DownloadHelper.DownloadIndexJson(minecraftPath, versionDetails.AssetIndex))

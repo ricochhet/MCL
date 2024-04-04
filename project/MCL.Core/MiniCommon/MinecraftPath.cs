@@ -14,4 +14,9 @@ public static class MinecraftPath
     {
         return Path.Combine(minecraftPath, "versions", versionDetails.ID, versionDetails.ID + ".jar");
     }
+
+    public static string ServerPath(string minecraftPath, VersionDetails versionDetails)
+    {
+        return Path.Combine(minecraftPath, "server", $"minecraft_server.{versionDetails.ID}.jar");
+    }
 }
