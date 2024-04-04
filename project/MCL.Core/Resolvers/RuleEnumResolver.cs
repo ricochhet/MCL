@@ -12,7 +12,7 @@ public class RuleEnumResolver
         throw new ArgumentException($"Invalid rule value: {value}");
     }
 
-    public static string Rule(RuleEnum type) => type switch
+    public static string ToString(RuleEnum type) => type switch
     {
         RuleEnum.ALLOW => "allow",
         RuleEnum.DISALLOW => "disallow",

@@ -14,7 +14,7 @@ public static class DownloadHelper
 {
     public static async Task<bool> DownloadLibraries(
         string minecraftPath,
-        string minecraftPlatform,
+        PlatformEnum minecraftPlatform,
         List<Library> libraries
     )
     {
@@ -25,7 +25,7 @@ public static class DownloadHelper
             {
                 foreach (Rule rule in lib.Rules)
                 {
-                    if (rule?.Action == RuleEnumResolver.Rule(RuleEnum.ALLOW) && rule?.Os?.Name != minecraftPlatform)
+                    if (rule?.Action == RuleEnumResolver.ToString(RuleEnum.ALLOW) && rule?.Os?.Name != PlatformEnumResolver.ToString(minecraftPlatform))
                     {
                         continue;
                     }
@@ -40,17 +40,17 @@ public static class DownloadHelper
 
                 switch (minecraftPlatform)
                 {
-                    case "windows":
+                    case PlatformEnum.WINDOWS:
                         classifierDownloadPath = Path.Combine(libPath, lib.Downloads.Classifiers.NativesWindows.Path);
                         classifierUrl = lib.Downloads.Classifiers.NativesWindows.URL;
                         classifierSha1 = lib.Downloads.Classifiers.NativesWindows.SHA1;
                         break;
-                    case "linux":
+                    case PlatformEnum.LINUX:
                         classifierDownloadPath = Path.Combine(libPath, lib.Downloads.Classifiers.NativesLinux.Path);
                         classifierUrl = lib.Downloads.Classifiers.NativesLinux.URL;
                         classifierSha1 = lib.Downloads.Classifiers.NativesLinux.SHA1;
                         break;
-                    case "osx":
+                    case PlatformEnum.OSX:
                         classifierDownloadPath = Path.Combine(libPath, lib.Downloads.Classifiers.NativesMacos.Path);
                         classifierUrl = lib.Downloads.Classifiers.NativesMacos.URL;
                         classifierSha1 = lib.Downloads.Classifiers.NativesMacos.SHA1;

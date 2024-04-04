@@ -1,6 +1,7 @@
 using System;
 using System.Text.Json;
 using System.Threading.Tasks;
+using MCL.Core.Enums;
 using MCL.Core.Logger;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models;
@@ -15,10 +16,10 @@ public class DownloadProvider
     public AssetsData assets = new();
     private static string minecraftPath;
     private static string minecraftVersion;
-    private static string minecraftPlatform;
+    private static PlatformEnum minecraftPlatform;
     private static JsonSerializerOptions options;
 
-    public DownloadProvider(string _minecraftPath, string _minecraftVersion, string _minecraftPlatform)
+    public DownloadProvider(string _minecraftPath, string _minecraftVersion, PlatformEnum _minecraftPlatform)
     {
         minecraftPath = _minecraftPath;
         minecraftVersion = _minecraftVersion;

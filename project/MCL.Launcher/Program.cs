@@ -4,6 +4,7 @@ using MCL.Core.Helpers;
 using MCL.Core.Logger;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models;
+using MCL.Core.Resolvers;
 
 namespace MCL.Launcher;
 
@@ -22,7 +23,7 @@ internal class Program
             "--download",
             async () =>
             {
-                DownloadProvider downloadProvider = new("./.minecraft", "1.20.4", "windows");
+                DownloadProvider downloadProvider = new("./.minecraft", "1.20.4", PlatformEnumResolver.Parse("windows"));
                 if (!await downloadProvider.RequestDownloads())
                     return;
             }
