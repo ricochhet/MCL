@@ -25,22 +25,46 @@ public static class DownloadHelper
             {
                 foreach (Rule rule in lib.Rules)
                 {
-                    if (rule?.Action == RuleEnumResolver.Rule(RuleEnum.ALLOW) && rule?.Os != null && rule?.Os?.Name != minecraftPlatform)
+                    if (rule?.Action == RuleEnumResolver.Rule(RuleEnum.ALLOW) && rule?.Os?.Name != minecraftPlatform)
                     {
                         continue;
                     }
                 }
             }
 
+            if (lib.Downloads?.Classifiers != null)
+            {
+                string classifierDownloadPath = string.Empty;
+                string classifierUrl = string.Empty;
+                string classifierSha1 = string.Empty;
+
+                switch (minecraftPlatform)
+                {
+                    case "windows":
+                        classifierDownloadPath = Path.Combine(libPath, lib.Downloads.Classifiers.NativesWindows.Path);
+                        classifierUrl = lib.Downloads.Classifiers.NativesWindows.URL;
+                        classifierSha1 = lib.Downloads.Classifiers.NativesWindows.SHA1;
+                        break;
+                    case "linux":
+                        classifierDownloadPath = Path.Combine(libPath, lib.Downloads.Classifiers.NativesLinux.Path);
+                        classifierUrl = lib.Downloads.Classifiers.NativesLinux.URL;
+                        classifierSha1 = lib.Downloads.Classifiers.NativesLinux.SHA1;
+                        break;
+                    case "osx":
+                        classifierDownloadPath = Path.Combine(libPath, lib.Downloads.Classifiers.NativesMacos.Path);
+                        classifierUrl = lib.Downloads.Classifiers.NativesMacos.URL;
+                        classifierSha1 = lib.Downloads.Classifiers.NativesMacos.SHA1;
+                        break;
+                }
+
+                bool status = await NewDownloadRequest(classifierDownloadPath, classifierUrl, classifierSha1);
+
+                if (!status)
+                    return false;
+            }
+
             string downloadPath = Path.Combine(libPath, lib.Downloads.Artifact.Path);
-            if (FsProvider.Exists(downloadPath) && CryptographyHelper.Sha1(downloadPath) == lib.Downloads.Artifact.SHA1)
-            {
-                return true;
-            }
-            else if (!await WebRequest.Download(lib.Downloads.Artifact.URL, downloadPath))
-            {
-                return false;
-            }
+            return await NewDownloadRequest(downloadPath, lib.Downloads.Artifact.URL, lib.Downloads.Artifact.SHA1);
         }
 
         return true;
@@ -70,14 +94,7 @@ public static class DownloadHelper
         {
             string url = $"{minecraftResourcesUrl}/{asset.Hash[..2]}/{asset.Hash}";
             string downloadPath = Path.Combine(objectsPath, asset.Hash[..2], asset.Hash);
-            if (FsProvider.Exists(downloadPath) && CryptographyHelper.Sha1(downloadPath) == asset.Hash)
-            {
-                return true;
-            }
-            else if (!await WebRequest.Download(url, downloadPath))
-            {
-                return false;
-            }
+            return await NewDownloadRequest(downloadPath, url, asset.Hash);
         }
 
         return true;
@@ -91,5 +108,19 @@ public static class DownloadHelper
             return true;
         }
         return await WebRequest.Download(assetIndex.URL, downloadPath);
+    }
+
+    private static async Task<bool> NewDownloadRequest(string downloadPath, string url, string sha1)
+    {
+        if (FsProvider.Exists(downloadPath) && CryptographyHelper.Sha1(downloadPath) == sha1)
+        {
+            return true;
+        }
+        else if (!await WebRequest.Download(url, downloadPath))
+        {
+            return false;
+        }
+
+        return true;
     }
 }
