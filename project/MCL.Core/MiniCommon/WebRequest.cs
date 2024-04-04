@@ -33,7 +33,7 @@ public static class WebRequest
             using HttpResponseMessage response = await httpClient.GetAsync(url);
             if (response.IsSuccessStatusCode)
             {
-                Directory.CreateDirectory(Path.GetDirectoryName(fileName));
+                FsProvider.CreateDirectory(Path.GetDirectoryName(fileName));
 
                 using Stream contentStream = await response.Content.ReadAsStreamAsync();
                 using FileStream fileStream = new(fileName, FileMode.Create, FileAccess.Write, FileShare.None);

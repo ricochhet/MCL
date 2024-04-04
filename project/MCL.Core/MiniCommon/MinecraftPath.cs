@@ -19,4 +19,14 @@ public static class MinecraftPath
     {
         return Path.Combine(minecraftPath, "server", $"minecraft_server.{versionDetails.ID}.jar");
     }
+
+    public static string ServerEulaPath(string minecraftPath)
+    {
+        return Path.Combine(minecraftPath, "server", "server.properties");
+    }
+
+    public static string ServerPropertiesPath(string minecraftPath)
+    {
+        return Path.Combine(minecraftPath, "server", "server.properties");
+    }
 }

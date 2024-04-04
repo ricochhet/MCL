@@ -93,6 +93,10 @@ public static class DownloadHelper
         {
             return true;
         }
+
+        MinecraftServerProperties.NewEula(minecraftPath);
+        MinecraftServerProperties.NewProperties(minecraftPath);
+
         return await WebRequest.Download(versionDetails.Downloads.Server.URL, downloadPath);
     }
 
