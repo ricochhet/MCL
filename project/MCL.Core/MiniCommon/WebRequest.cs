@@ -16,11 +16,12 @@ public static class WebRequest
         {
             using HttpClient client = new();
             string jsonData = await client.GetStringAsync(new Uri(url));
+            LogBase.Info($"Requesting data from URL:\n{url}");
             return JsonSerializer.Deserialize<T>(jsonData, options);
         }
         catch (Exception ex)
         {
-            LogBase.Error($"Request failed: {ex.Message}");
+            LogBase.Error($"Request failed: {ex.Message}\nUrl: {url}");
             return default;
         }
     }
@@ -37,7 +38,7 @@ public static class WebRequest
 
                 using Stream contentStream = await response.Content.ReadAsStreamAsync();
                 using FileStream fileStream = new(fileName, FileMode.Create, FileAccess.Write, FileShare.None);
-                LogBase.Info($"Downloading: {fileName} ({url})");
+                LogBase.Info($"Downloading file:\nPath: {fileName}\nUrl: {url}");
                 await contentStream.CopyToAsync(fileStream);
                 return true;
             }
