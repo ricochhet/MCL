@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using MCL.Core.Enums;
 using MCL.Core.Logger;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models;
+using MCL.Core.Resolvers;
 
 namespace MCL.Core.Helpers;
 
@@ -19,11 +21,11 @@ public static class DownloadHelper
         string libPath = Path.Combine(minecraftPath, "libraries");
         foreach (Library lib in libraries)
         {
-            if (lib.Rules != null)
+            if (lib?.Rules?.Count != 0)
             {
-                if (lib.Rules.Count != 0)
+                foreach (Rule rule in lib.Rules)
                 {
-                    if (lib.Rules[0].Os.Name != minecraftPlatform)
+                    if (rule?.Action == RuleEnumResolver.Rule(RuleEnum.ALLOW) && rule?.Os != null && rule?.Os?.Name != minecraftPlatform)
                     {
                         continue;
                     }
