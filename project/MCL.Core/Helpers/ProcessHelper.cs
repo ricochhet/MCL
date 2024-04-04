@@ -23,13 +23,30 @@ public static class ProcessHelper
                         FileName = fileName,
                         Arguments = arguments,
                         WorkingDirectory = workingDirectory,
-                        UseShellExecute = useShellExecute
+                        UseShellExecute = useShellExecute,
+                        RedirectStandardOutput = !useShellExecute,
                     },
                 };
 
-            process.StartInfo.RedirectStandardOutput = !useShellExecute;
-            process.Start();
-            LogBase.Info(process.StandardOutput.ReadToEnd());
+            if (!useShellExecute)
+            {
+                process.OutputDataReceived += (sender, e) =>
+                {
+                    if (!string.IsNullOrEmpty(e.Data))
+                    {
+                        LogBase.Info(e.Data);
+                    }
+                };
+
+                process.Start();
+                process.BeginOutputReadLine();
+            }
+            else
+            {
+                process.Start();
+                LogBase.Info(process.StandardOutput.ReadToEnd());
+            }
+
             process.WaitForExit();
         }
         catch (Exception e)
