@@ -20,7 +20,6 @@ public class DownloadProvider
     private static string minecraftPath;
     private static string minecraftVersion;
     private static PlatformEnum minecraftPlatform;
-    private static JsonSerializerOptions options;
     private static MCConfigUrls minecraftUrls;
 
     public DownloadProvider(
@@ -34,8 +33,6 @@ public class DownloadProvider
         minecraftVersion = _minecraftVersion;
         minecraftPlatform = _minecraftPlatform;
         minecraftUrls = _minecraftUrls;
-
-        options = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
     }
 
     public async Task<bool> DownloadAll()
@@ -148,7 +145,7 @@ public class DownloadProvider
             return false;
         }
 
-        assets = Json.Read<MCAssetsData>(MinecraftPathResolver.ClientIndexPath(minecraftPath, versionDetails), options);
+        assets = Json.Read<MCAssetsData>(MinecraftPathResolver.ClientIndexPath(minecraftPath, versionDetails));
 
         return true;
     }
