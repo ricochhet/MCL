@@ -15,11 +15,11 @@ public static class LibraryDownloader
     public static async Task<bool> Download(
         string minecraftPath,
         PlatformEnum minecraftPlatform,
-        List<Library> libraries
+        List<MCLibrary> libraries
     )
     {
         string libPath = Path.Combine(minecraftPath, "libraries");
-        foreach (Library lib in libraries)
+        foreach (MCLibrary lib in libraries)
         {
             if (lib.Downloads == null)
                 return false;
@@ -45,13 +45,13 @@ public static class LibraryDownloader
         return true;
     }
 
-    private static bool SkipLibrary(Library lib, PlatformEnum minecraftPlatform)
+    private static bool SkipLibrary(MCLibrary lib, PlatformEnum minecraftPlatform)
     {
         if (lib.Rules == null | lib?.Rules?.Count <= 0)
             return false;
 
         bool allowLibrary = false;
-        foreach (Rule rule in lib.Rules)
+        foreach (MCLibraryRule rule in lib.Rules)
         {
             string action = rule?.Action;
             string os = rule?.Os?.Name;
@@ -73,7 +73,7 @@ public static class LibraryDownloader
         return !allowLibrary;
     }
 
-    private static async Task<bool> DownloadNatives(string minecraftPath, Library lib, PlatformEnum minecraftPlatform)
+    private static async Task<bool> DownloadNatives(string minecraftPath, MCLibrary lib, PlatformEnum minecraftPlatform)
     {
         if (lib.Downloads?.Classifiers == null)
             return true;
@@ -124,21 +124,21 @@ public static class LibraryDownloader
         return true;
     }
 
-    private static bool WindowsClassifierNativesExists(Library lib) =>
+    private static bool WindowsClassifierNativesExists(MCLibrary lib) =>
         !(
             lib.Downloads.Classifiers.NativesWindows == null
             || string.IsNullOrEmpty(lib.Downloads.Classifiers.NativesWindows?.URL)
             || string.IsNullOrEmpty(lib.Downloads.Classifiers.NativesWindows?.SHA1)
         );
 
-    private static bool LinuxClassifierNativesExists(Library lib) =>
+    private static bool LinuxClassifierNativesExists(MCLibrary lib) =>
         !(
             lib.Downloads.Classifiers.NativesLinux == null
             || string.IsNullOrEmpty(lib.Downloads.Classifiers.NativesLinux?.URL)
             || string.IsNullOrEmpty(lib.Downloads.Classifiers.NativesLinux?.SHA1)
         );
 
-    private static bool OSXClassifierNativesExists(Library lib) =>
+    private static bool OSXClassifierNativesExists(MCLibrary lib) =>
         !(
             lib.Downloads.Classifiers.NativesMacos == null
             || string.IsNullOrEmpty(lib.Downloads.Classifiers.NativesMacos?.URL)

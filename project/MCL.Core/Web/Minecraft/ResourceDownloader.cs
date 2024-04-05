@@ -8,13 +8,13 @@ namespace MCL.Core.Web.Minecraft;
 
 public static class ResourceDownloader
 {
-    public static async Task<bool> Download(string minecraftPath, MinecraftUrls minecraftUrls, AssetsData assets)
+    public static async Task<bool> Download(string minecraftPath, MCConfigUrls minecraftUrls, MCAssetsData assets)
     {
         if (assets == null || assets?.Objects == null || minecraftUrls == null)
             return false;
 
         string objectsPath = Path.Combine(MinecraftPathResolver.AssetsPath(minecraftPath), "objects");
-        foreach ((_, Asset asset) in assets.Objects)
+        foreach ((_, MCAsset asset) in assets.Objects)
         {
             if (string.IsNullOrEmpty(asset.Hash) || string.IsNullOrEmpty(minecraftUrls.MinecraftResources))
                 return false;

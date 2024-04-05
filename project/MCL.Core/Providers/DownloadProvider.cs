@@ -13,21 +13,21 @@ namespace MCL.Core.Providers;
 
 public class DownloadProvider
 {
-    public VersionManifest versionManifest = new();
-    public VersionDetails versionDetails = new();
-    public Models.Minecraft.Version version;
-    public AssetsData assets = new();
+    public MCVersionManifest versionManifest = new();
+    public MCVersionDetails versionDetails = new();
+    public Models.Minecraft.MCVersion version;
+    public MCAssetsData assets = new();
     private static string minecraftPath;
     private static string minecraftVersion;
     private static PlatformEnum minecraftPlatform;
     private static JsonSerializerOptions options;
-    private static MinecraftUrls minecraftUrls;
+    private static MCConfigUrls minecraftUrls;
 
     public DownloadProvider(
         string _minecraftPath,
         string _minecraftVersion,
         PlatformEnum _minecraftPlatform,
-        MinecraftUrls _minecraftUrls
+        MCConfigUrls _minecraftUrls
     )
     {
         minecraftPath = _minecraftPath;
@@ -75,7 +75,7 @@ public class DownloadProvider
             return false;
         }
 
-        versionManifest = Json.Read<VersionManifest>(
+        versionManifest = Json.Read<MCVersionManifest>(
             MinecraftPathResolver.DownloadedVersionManifestPath(minecraftPath)
         );
 
@@ -100,7 +100,7 @@ public class DownloadProvider
             return false;
         }
 
-        versionDetails = Json.Read<VersionDetails>(
+        versionDetails = Json.Read<MCVersionDetails>(
             MinecraftPathResolver.DownloadedVersionDetailsPath(minecraftPath, version)
         );
 
@@ -148,7 +148,7 @@ public class DownloadProvider
             return false;
         }
 
-        assets = Json.Read<AssetsData>(MinecraftPathResolver.ClientIndexPath(minecraftPath, versionDetails), options);
+        assets = Json.Read<MCAssetsData>(MinecraftPathResolver.ClientIndexPath(minecraftPath, versionDetails), options);
 
         return true;
     }

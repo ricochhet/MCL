@@ -7,7 +7,7 @@ namespace MCL.Core.Web.Minecraft;
 
 public static class IndexDownloader
 {
-    public static async Task<bool> Download(string minecraftPath, VersionDetails versionDetails)
+    public static async Task<bool> Download(string minecraftPath, MCVersionDetails versionDetails)
     {
         if (
             versionDetails?.AssetIndex == null

@@ -20,37 +20,37 @@ public static class MinecraftPathResolver
         return Path.Combine(minecraftPath, "server");
     }
 
-    public static string VersionPath(string minecraftPath, VersionDetails versionDetails)
+    public static string VersionPath(string minecraftPath, MCVersionDetails versionDetails)
     {
         return Path.Combine(minecraftPath, "versions", versionDetails.ID);
     }
 
-    public static string ClientJarPath(string minecraftPath, VersionDetails versionDetails)
+    public static string ClientJarPath(string minecraftPath, MCVersionDetails versionDetails)
     {
         return Path.Combine(VersionPath(minecraftPath, versionDetails), versionDetails.ID + ".jar");
     }
 
-    public static string ClientMappingsPath(string minecraftPath, VersionDetails versionDetails)
+    public static string ClientMappingsPath(string minecraftPath, MCVersionDetails versionDetails)
     {
         return Path.Combine(VersionPath(minecraftPath, versionDetails), "client.txt");
     }
 
-    public static string ClientIndexPath(string minecraftPath, VersionDetails versionDetails)
+    public static string ClientIndexPath(string minecraftPath, MCVersionDetails versionDetails)
     {
         return Path.Combine(AssetsPath(minecraftPath), "indexes", versionDetails.Assets + ".json");
     }
 
-    public static string LoggingPath(string minecraftPath, VersionDetails versionDetails)
+    public static string LoggingPath(string minecraftPath, MCVersionDetails versionDetails)
     {
         return Path.Combine(VersionPath(minecraftPath, versionDetails), "client.xml");
     }
 
-    public static string ServerJarPath(string minecraftPath, VersionDetails versionDetails)
+    public static string ServerJarPath(string minecraftPath, MCVersionDetails versionDetails)
     {
         return Path.Combine(ServerPath(minecraftPath), $"minecraft_server.{versionDetails.ID}.jar");
     }
 
-    public static string ServerMappingsPath(string minecraftPath, VersionDetails versionDetails)
+    public static string ServerMappingsPath(string minecraftPath, MCVersionDetails versionDetails)
     {
         return Path.Combine(ServerPath(minecraftPath), $"minecraft_server.{versionDetails.ID}.txt");
     }
@@ -70,7 +70,7 @@ public static class MinecraftPathResolver
         return Path.Combine(minecraftPath, "version_manifest.json");
     }
 
-    public static string DownloadedVersionDetailsPath(string minecraftPath, Version version)
+    public static string DownloadedVersionDetailsPath(string minecraftPath, MCVersion version)
     {
         return Path.Combine(minecraftPath, "versions", version.ID + ".json");
     }

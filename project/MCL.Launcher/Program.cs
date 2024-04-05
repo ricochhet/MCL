@@ -64,7 +64,7 @@ internal class Program
             "--launch",
             () =>
             {
-                MinecraftArgs minecraftArgs =
+                MCConfigArgs minecraftArgs =
                     new()
                     {
                         InitialHeapSize = "4096",

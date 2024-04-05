@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace MCL.Core.Models.Minecraft;
 
-public class MinecraftArgs
+public class MCConfigArgs
 {
     public string InitialHeapSize { get; set; } = string.Empty;
     public string MaxHeapSize { get; set; } = string.Empty;

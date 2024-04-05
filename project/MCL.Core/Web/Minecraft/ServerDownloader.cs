@@ -8,7 +8,7 @@ namespace MCL.Core.Web.Minecraft;
 
 public static class ServerDownloader
 {
-    public static async Task<bool> Download(string minecraftPath, VersionDetails versionDetails)
+    public static async Task<bool> Download(string minecraftPath, MCVersionDetails versionDetails)
     {
         if (
             versionDetails?.Downloads?.Server == null
@@ -27,7 +27,7 @@ public static class ServerDownloader
         );
     }
 
-    public static async Task<bool> DownloadMappings(string minecraftPath, VersionDetails versionDetails)
+    public static async Task<bool> DownloadMappings(string minecraftPath, MCVersionDetails versionDetails)
     {
         if (
             versionDetails?.Downloads?.ServerMappings == null

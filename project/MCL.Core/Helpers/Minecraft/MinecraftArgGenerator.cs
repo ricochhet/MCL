@@ -4,7 +4,7 @@ namespace MCL.Core.Config.Minecraft;
 
 public static class MinecraftArgGenerator
 {
-    public static string Generate(MinecraftArgs minecraftArgs)
+    public static string Generate(MCConfigArgs minecraftArgs)
     {
         return $"-Xms{minecraftArgs.InitialHeapSize}m "
             + $"-Xmx{minecraftArgs.MaxHeapSize}m "

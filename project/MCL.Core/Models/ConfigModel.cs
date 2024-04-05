@@ -4,6 +4,6 @@ namespace MCL.Core.Models;
 
 public class ConfigModel
 {
-    public MinecraftUrls MinecraftUrls { get; set; }
-    public MinecraftArgs MinecraftArgs { get; set; }
+    public MCConfigUrls MinecraftUrls { get; set; }
+    public MCConfigArgs MinecraftArgs { get; set; }
 }

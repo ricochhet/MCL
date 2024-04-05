@@ -8,7 +8,7 @@ namespace MCL.Core.Web.Minecraft;
 
 public static class VersionDetailsDownloader
 {
-    public static async Task<bool> Download(string minecraftPath, Version version)
+    public static async Task<bool> Download(string minecraftPath, MCVersion version)
     {
         if (version == null || string.IsNullOrEmpty(version?.URL))
             return false;
