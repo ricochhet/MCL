@@ -16,7 +16,7 @@ public class ClientTypeEnumResolver
         type switch
         {
             ClientTypeEnum.VANILLA => "net.minecraft.client.main.Main",
-            ClientTypeEnum.FABRIC => "net.fabricmc.loader.launch.knot.KnotClient",
+            ClientTypeEnum.FABRIC => "net.fabricmc.loader.impl.launch.knot.KnotClient",
             _ => throw new NotImplementedException(),
         };
 }
