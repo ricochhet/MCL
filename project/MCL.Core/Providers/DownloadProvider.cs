@@ -65,6 +65,9 @@ public class DownloadProvider
         if (!await DownloadResources())
             return false;
 
+        if (!await DownloadLogging())
+            return false;
+
         return true;
     }
 
@@ -159,6 +162,17 @@ public class DownloadProvider
         if (!await ResourceDownloader.Download(minecraftPath, minecraftUrls.MinecraftResources, assets))
         {
             LogBase.Error("Failed to download resources");
+            return false;
+        }
+
+        return true;
+    }
+
+    public async Task<bool> DownloadLogging()
+    {
+        if (!await LoggingDownloader.Download(minecraftPath, versionDetails))
+        {
+            LogBase.Error("Failed to download logging");
             return false;
         }
 

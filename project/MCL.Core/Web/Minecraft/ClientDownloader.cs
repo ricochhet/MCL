@@ -21,4 +21,15 @@ public static class ClientDownloader
         }
         return await Request.Download(versionDetails.Downloads.Client.URL, downloadPath);
     }
+
+    public static async Task<bool> DownloadMappings(string minecraftPath, VersionDetails versionDetails)
+    {
+        string downloadPath = MinecraftPathResolver.ClientMappingsPath(minecraftPath, versionDetails);
+        if (FsProvider.Exists(downloadPath) && CryptographyHelper.Sha1(downloadPath) == versionDetails.Downloads.ClientMappings.SHA1)
+        {
+            return true;
+        }
+
+        return await Request.Download(versionDetails.Downloads.ClientMappings.URL, downloadPath);
+    }
 }
