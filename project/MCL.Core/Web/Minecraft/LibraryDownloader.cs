@@ -50,39 +50,27 @@ public static class LibraryDownloader
         if (lib.Rules == null | lib?.Rules?.Count <= 0)
             return false;
 
-        bool allowedWithoutOS = false;
+        bool allowLibrary = false;
         foreach (Rule rule in lib.Rules)
         {
             string action = rule?.Action;
             string os = rule?.Os?.Name;
             LogBase.Info($"Library Rule:\nAction: {action}\nOS: {os}");
 
-            if (action == RuleEnumResolver.ToString(RuleEnum.ALLOW))
+            if (os == null)
             {
-                if (os == null)
-                {
-                    allowedWithoutOS = true;
-                    continue;
-                }
-
-                if (os == PlatformEnumResolver.ToString(minecraftPlatform))
-                    return false;
+                allowLibrary = action == RuleEnumResolver.ToString(RuleEnum.ALLOW);
+                continue;
             }
-            else if (action == RuleEnumResolver.ToString(RuleEnum.DISALLOW))
-            {
-                if (os == null)
-                {
-                    if (allowedWithoutOS)
-                        return false;
-                    continue;
-                }
 
-                if (os == PlatformEnumResolver.ToString(minecraftPlatform))
-                    return true;
+            if (os == PlatformEnumResolver.ToString(minecraftPlatform))
+            {
+                allowLibrary = action == RuleEnumResolver.ToString(RuleEnum.ALLOW);
+                continue;
             }
         }
 
-        return allowedWithoutOS;
+        return !allowLibrary;
     }
 
     private static async Task<bool> DownloadNatives(string minecraftPath, Library lib, PlatformEnum minecraftPlatform)
