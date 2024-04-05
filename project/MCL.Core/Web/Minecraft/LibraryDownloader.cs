@@ -5,6 +5,7 @@ using MCL.Core.Enums;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Minecraft;
 using MCL.Core.Resolvers;
+using MCL.Core.Resolvers.Minecraft;
 
 namespace MCL.Core.Web.Minecraft;
 
@@ -25,43 +26,8 @@ public static class LibraryDownloader
             if (SkipLibrary(lib, minecraftPlatform))
                 continue;
 
-            if (lib.Downloads.Classifiers != null)
-            {
-                string classifierDownloadPath = string.Empty;
-                string classifierUrl = string.Empty;
-                string classifierSha1 = string.Empty;
-
-                switch (minecraftPlatform)
-                {
-                    case PlatformEnum.WINDOWS:
-                        if (!WindowsClassifierNativesExists(lib))
-                            return false;
-
-                        classifierDownloadPath = Path.Combine(libPath, lib.Downloads.Classifiers.NativesWindows.Path);
-                        classifierUrl = lib.Downloads.Classifiers.NativesWindows.URL;
-                        classifierSha1 = lib.Downloads.Classifiers.NativesWindows.SHA1;
-                        break;
-                    case PlatformEnum.LINUX:
-                        if (!LinuxClassifierNativesExists(lib))
-                            return false;
-
-                        classifierDownloadPath = Path.Combine(libPath, lib.Downloads.Classifiers.NativesLinux.Path);
-                        classifierUrl = lib.Downloads.Classifiers.NativesLinux.URL;
-                        classifierSha1 = lib.Downloads.Classifiers.NativesLinux.SHA1;
-                        break;
-                    case PlatformEnum.OSX:
-                        if (!OSXClassifierNativesExists(lib))
-                            return false;
-
-                        classifierDownloadPath = Path.Combine(libPath, lib.Downloads.Classifiers.NativesMacos.Path);
-                        classifierUrl = lib.Downloads.Classifiers.NativesMacos.URL;
-                        classifierSha1 = lib.Downloads.Classifiers.NativesMacos.SHA1;
-                        break;
-                }
-
-                if (!await Request.Download(classifierDownloadPath, classifierUrl, classifierSha1))
-                    return false;
-            }
+            if (!await DownloadNatives(minecraftPath, lib, minecraftPlatform))
+                return false;
 
             if (
                 lib.Downloads.Artifact == null
@@ -99,6 +65,48 @@ public static class LibraryDownloader
                 return true;
             }
         }
+        return true;
+    }
+
+    private static async Task<bool> DownloadNatives(string minecraftPath, Library lib, PlatformEnum minecraftPlatform)
+    {
+        if (lib.Downloads?.Classifiers == null)
+            return true;
+
+        string classifierDownloadPath = string.Empty;
+        string classifierUrl = string.Empty;
+        string classifierSha1 = string.Empty;
+
+        switch (minecraftPlatform)
+        {
+            case PlatformEnum.WINDOWS:
+                if (!WindowsClassifierNativesExists(lib))
+                    return false;
+
+                classifierDownloadPath = Path.Combine(MinecraftPathResolver.LibraryPath(minecraftPath), lib.Downloads.Classifiers.NativesWindows.Path);
+                classifierUrl = lib.Downloads.Classifiers.NativesWindows.URL;
+                classifierSha1 = lib.Downloads.Classifiers.NativesWindows.SHA1;
+                break;
+            case PlatformEnum.LINUX:
+                if (!LinuxClassifierNativesExists(lib))
+                    return false;
+
+                classifierDownloadPath = Path.Combine(MinecraftPathResolver.LibraryPath(minecraftPath), lib.Downloads.Classifiers.NativesLinux.Path);
+                classifierUrl = lib.Downloads.Classifiers.NativesLinux.URL;
+                classifierSha1 = lib.Downloads.Classifiers.NativesLinux.SHA1;
+                break;
+            case PlatformEnum.OSX:
+                if (!OSXClassifierNativesExists(lib))
+                    return false;
+
+                classifierDownloadPath = Path.Combine(MinecraftPathResolver.LibraryPath(minecraftPath), lib.Downloads.Classifiers.NativesMacos.Path);
+                classifierUrl = lib.Downloads.Classifiers.NativesMacos.URL;
+                classifierSha1 = lib.Downloads.Classifiers.NativesMacos.SHA1;
+                break;
+        }
+
+        if (!await Request.Download(classifierDownloadPath, classifierUrl, classifierSha1))
+            return false;
         return true;
     }
 

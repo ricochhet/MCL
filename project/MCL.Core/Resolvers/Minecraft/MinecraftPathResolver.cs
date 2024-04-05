@@ -10,6 +10,11 @@ public static class MinecraftPathResolver
         return Path.Combine(minecraftPath, "assets");
     }
 
+    public static string LibraryPath(string minecraftPath)
+    {
+        return Path.Combine(minecraftPath, "libraries");
+    }
+
     public static string ServerPath(string minecraftPath)
     {
         return Path.Combine(minecraftPath, "server");
