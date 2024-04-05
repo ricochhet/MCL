@@ -83,7 +83,10 @@ public static class LibraryDownloader
                 if (!WindowsClassifierNativesExists(lib))
                     return false;
 
-                classifierDownloadPath = Path.Combine(MinecraftPathResolver.LibraryPath(minecraftPath), lib.Downloads.Classifiers.NativesWindows.Path);
+                classifierDownloadPath = Path.Combine(
+                    MinecraftPathResolver.LibraryPath(minecraftPath),
+                    lib.Downloads.Classifiers.NativesWindows.Path
+                );
                 classifierUrl = lib.Downloads.Classifiers.NativesWindows.URL;
                 classifierSha1 = lib.Downloads.Classifiers.NativesWindows.SHA1;
                 break;
@@ -91,7 +94,10 @@ public static class LibraryDownloader
                 if (!LinuxClassifierNativesExists(lib))
                     return false;
 
-                classifierDownloadPath = Path.Combine(MinecraftPathResolver.LibraryPath(minecraftPath), lib.Downloads.Classifiers.NativesLinux.Path);
+                classifierDownloadPath = Path.Combine(
+                    MinecraftPathResolver.LibraryPath(minecraftPath),
+                    lib.Downloads.Classifiers.NativesLinux.Path
+                );
                 classifierUrl = lib.Downloads.Classifiers.NativesLinux.URL;
                 classifierSha1 = lib.Downloads.Classifiers.NativesLinux.SHA1;
                 break;
@@ -99,7 +105,10 @@ public static class LibraryDownloader
                 if (!OSXClassifierNativesExists(lib))
                     return false;
 
-                classifierDownloadPath = Path.Combine(MinecraftPathResolver.LibraryPath(minecraftPath), lib.Downloads.Classifiers.NativesMacos.Path);
+                classifierDownloadPath = Path.Combine(
+                    MinecraftPathResolver.LibraryPath(minecraftPath),
+                    lib.Downloads.Classifiers.NativesMacos.Path
+                );
                 classifierUrl = lib.Downloads.Classifiers.NativesMacos.URL;
                 classifierSha1 = lib.Downloads.Classifiers.NativesMacos.SHA1;
                 break;
