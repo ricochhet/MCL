@@ -22,19 +22,8 @@ public static class LibraryDownloader
             if (lib.Downloads == null)
                 return false;
 
-            if (lib.Rules != null && lib?.Rules?.Count != 0)
-            {
-                foreach (Rule rule in lib.Rules)
-                {
-                    if (
-                        rule?.Action == RuleEnumResolver.ToString(RuleEnum.ALLOW)
-                        && rule?.Os?.Name != PlatformEnumResolver.ToString(minecraftPlatform)
-                    )
-                    {
-                        continue;
-                    }
-                }
-            }
+            if (SkipLibrary(lib, minecraftPlatform))
+                continue;
 
             if (lib.Downloads.Classifiers != null)
             {
@@ -86,6 +75,30 @@ public static class LibraryDownloader
             return await Request.Download(downloadPath, lib.Downloads.Artifact.URL, lib.Downloads.Artifact.SHA1);
         }
 
+        return true;
+    }
+
+    private static bool SkipLibrary(Library lib, PlatformEnum minecraftPlatform)
+    {
+        if (lib.Rules == null | lib?.Rules?.Count <= 0)
+            return false;
+        foreach (Rule rule in lib.Rules)
+        {
+            if (
+                rule?.Action == RuleEnumResolver.ToString(RuleEnum.ALLOW)
+                && rule?.Os?.Name != PlatformEnumResolver.ToString(minecraftPlatform)
+            )
+            {
+                return true;
+            }
+            else if (
+                rule?.Action == RuleEnumResolver.ToString(RuleEnum.DISALLOW)
+                && rule?.Os?.Name == PlatformEnumResolver.ToString(minecraftPlatform)
+            )
+            {
+                return true;
+            }
+        }
         return true;
     }
 
