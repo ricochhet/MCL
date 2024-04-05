@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using MCL.Core.Config;
 using MCL.Core.Config.Minecraft;
+using MCL.Core.Enums;
 using MCL.Core.Helpers;
 using MCL.Core.Helpers.Minecraft;
 using MCL.Core.Logger;
@@ -70,7 +71,7 @@ internal class Program
                         InitialHeapSize = "4096",
                         MaxHeapSize = "4096",
                         ClassPath = ClassPathHelper.CreateClassPath("./.minecraft/", "1.20.4"),
-                        MainClass = MinecraftArgsResolver.MainClass,
+                        MainClass = ClientTypeEnumResolver.ToString(ClientTypeEnum.VANILLA),
                         Username = "Ricochet",
                         UserType = "legacy",
                         GameDir = ".",
