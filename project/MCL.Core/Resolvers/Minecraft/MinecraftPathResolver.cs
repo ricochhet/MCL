@@ -31,6 +31,11 @@ public static class MinecraftPathResolver
         return Path.Combine(VersionPath(minecraftPath, versionDetails), "client.txt");
     }
 
+    public static string ClientIndexPath(string minecraftPath, VersionDetails versionDetails)
+    {
+        return Path.Combine(AssetsPath(minecraftPath), "indexes", versionDetails.Assets + ".json");
+    }
+
     public static string LoggingPath(string minecraftPath, VersionDetails versionDetails)
     {
         return Path.Combine(VersionPath(minecraftPath, versionDetails), "client.xml");

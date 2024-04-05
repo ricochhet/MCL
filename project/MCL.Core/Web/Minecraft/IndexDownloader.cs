@@ -10,20 +10,16 @@ namespace MCL.Core.Web.Minecraft;
 
 public static class IndexDownloader
 {
-    public static async Task<bool> Download(string minecraftPath, AssetIndex assetIndex)
+    public static async Task<bool> Download(string minecraftPath, VersionDetails versionDetails)
     {
-        if (assetIndex == null || string.IsNullOrEmpty(assetIndex?.SHA1) || string.IsNullOrEmpty(assetIndex?.URL))
+        if (versionDetails?.AssetIndex == null || string.IsNullOrEmpty(versionDetails.AssetIndex?.SHA1) || string.IsNullOrEmpty(versionDetails.AssetIndex?.URL))
             return false;
 
-        string downloadPath = Path.Combine(
-            MinecraftPathResolver.AssetsPath(minecraftPath),
-            "indexes",
-            assetIndex.ID + ".json"
-        );
-        if (FsProvider.Exists(downloadPath) && CryptographyHelper.Sha1(downloadPath) == assetIndex.SHA1)
+        string downloadPath = MinecraftPathResolver.ClientIndexPath(minecraftPath, versionDetails);
+        if (FsProvider.Exists(downloadPath) && CryptographyHelper.Sha1(downloadPath) == versionDetails.AssetIndex.SHA1)
         {
             return true;
         }
-        return await Request.Download(assetIndex.URL, downloadPath);
+        return await Request.Download(versionDetails.AssetIndex.URL, downloadPath);
     }
 }

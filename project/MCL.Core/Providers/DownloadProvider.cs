@@ -146,20 +146,20 @@ public class DownloadProvider
 
     public async Task<bool> DownloadAssetIndex()
     {
-        assets = await Request.DoRequest<AssetsData>(versionDetails.AssetIndex.URL, options);
-
-        if (!await IndexDownloader.Download(minecraftPath, versionDetails.AssetIndex))
+        if (!await IndexDownloader.Download(minecraftPath, versionDetails))
         {
             LogBase.Error("Failed to download assets index json");
             return false;
         }
+
+        assets = Json.Read<AssetsData>(MinecraftPathResolver.ClientIndexPath(minecraftPath, versionDetails), options);
 
         return true;
     }
 
     public async Task<bool> DownloadResources()
     {
-        if (!await ResourceDownloader.Download(minecraftPath, minecraftUrls.MinecraftResources, assets))
+        if (!await ResourceDownloader.Download(minecraftPath, minecraftUrls, assets))
         {
             LogBase.Error("Failed to download resources");
             return false;
