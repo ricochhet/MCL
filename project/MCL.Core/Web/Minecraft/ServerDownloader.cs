@@ -22,7 +22,7 @@ public static class ServerDownloader
         ServerProperties.NewEula(minecraftPath);
         ServerProperties.NewProperties(minecraftPath);
 
-        return await Request.NewDownloadRequest(
+        return await Request.Download(
             MinecraftPathResolver.ServerJarPath(minecraftPath, versionDetails),
             versionDetails.Downloads.Server.URL,
             versionDetails.Downloads.Server.SHA1
@@ -38,7 +38,7 @@ public static class ServerDownloader
         )
             return false;
 
-        return await Request.NewDownloadRequest(
+        return await Request.Download(
             MinecraftPathResolver.ServerMappingsPath(minecraftPath, versionDetails),
             versionDetails.Downloads.ServerMappings.URL,
             versionDetails.Downloads.ServerMappings.SHA1

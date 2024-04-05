@@ -18,7 +18,7 @@ public static class LoggingDownloader
         )
             return false;
 
-        return await Request.NewDownloadRequest(
+        return await Request.Download(
             MinecraftPathResolver.LoggingPath(minecraftPath, versionDetails),
             versionDetails.Logging.Client.File.URL,
             versionDetails.Logging.Client.File.SHA1

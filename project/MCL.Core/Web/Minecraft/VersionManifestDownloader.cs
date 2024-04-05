@@ -1,3 +1,4 @@
+using System.Text;
 using System.Threading.Tasks;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Minecraft;
@@ -12,9 +13,10 @@ public class VersionManifestDownloader
         if (minecraftUrls == null || string.IsNullOrEmpty(minecraftUrls?.VersionManifest))
             return false;
 
-        return await Request.Download(
-            minecraftUrls.VersionManifest,
-            MinecraftPathResolver.DownloadedVersionManifestPath(minecraftPath)
-        );
+        string downloadPath = MinecraftPathResolver.DownloadedVersionManifestPath(minecraftPath);
+        string versionManifest = await Request.DoRequest(minecraftUrls.VersionManifest, downloadPath, Encoding.UTF8);
+        if (string.IsNullOrEmpty(versionManifest))
+            return false;
+        return true;
     }
 }

@@ -18,7 +18,7 @@ public static class ClientDownloader
         )
             return false;
 
-        return await Request.NewDownloadRequest(
+        return await Request.Download(
             MinecraftPathResolver.ClientJarPath(minecraftPath, versionDetails),
             versionDetails.Downloads.Client.URL,
             versionDetails.Downloads.Client.SHA1
@@ -34,7 +34,7 @@ public static class ClientDownloader
         )
             return false;
 
-        return await Request.NewDownloadRequest(
+        return await Request.Download(
             MinecraftPathResolver.ClientMappingsPath(minecraftPath, versionDetails),
             versionDetails.Downloads.ClientMappings.URL,
             versionDetails.Downloads.ClientMappings.SHA1

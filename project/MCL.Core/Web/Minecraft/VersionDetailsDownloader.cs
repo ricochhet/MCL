@@ -1,3 +1,4 @@
+using System.Text;
 using System.Threading.Tasks;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Minecraft;
@@ -12,9 +13,10 @@ public static class VersionDetailsDownloader
         if (version == null || string.IsNullOrEmpty(version?.URL))
             return false;
 
-        return await Request.Download(
-            version.URL,
-            MinecraftPathResolver.DownloadedVersionDetailsPath(minecraftPath, version)
-        );
+        string downloadPath = MinecraftPathResolver.DownloadedVersionDetailsPath(minecraftPath, version);
+        string versionDetails = await Request.DoRequest(version.URL, downloadPath, Encoding.UTF8);
+        if (string.IsNullOrEmpty(versionDetails))
+            return false;
+        return true;
     }
 }

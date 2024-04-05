@@ -19,11 +19,10 @@ public static class IndexDownloader
         )
             return false;
 
-        string downloadPath = MinecraftPathResolver.ClientIndexPath(minecraftPath, versionDetails);
-        if (FsProvider.Exists(downloadPath) && CryptographyHelper.Sha1(downloadPath) == versionDetails.AssetIndex.SHA1)
-        {
-            return true;
-        }
-        return await Request.Download(versionDetails.AssetIndex.URL, downloadPath);
+        return await Request.Download(
+            MinecraftPathResolver.ClientIndexPath(minecraftPath, versionDetails),
+            versionDetails.AssetIndex.URL,
+            versionDetails.AssetIndex.SHA1
+        );
     }
 }
