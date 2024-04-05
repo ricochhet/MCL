@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using MCL.Core.Enums;
+using MCL.Core.Logger;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Minecraft;
 using MCL.Core.Resolvers;
@@ -48,24 +49,40 @@ public static class LibraryDownloader
     {
         if (lib.Rules == null | lib?.Rules?.Count <= 0)
             return false;
+
+        bool allowedWithoutOS = false;
         foreach (Rule rule in lib.Rules)
         {
-            if (
-                rule?.Action == RuleEnumResolver.ToString(RuleEnum.ALLOW)
-                && rule?.Os?.Name != PlatformEnumResolver.ToString(minecraftPlatform)
-            )
+            string action = rule?.Action;
+            string os = rule?.Os?.Name;
+            LogBase.Info($"Library Rule:\nAction: {action}\nOS: {os}");
+
+            if (action == RuleEnumResolver.ToString(RuleEnum.ALLOW))
             {
-                return true;
+                if (os == null)
+                {
+                    allowedWithoutOS = true;
+                    continue;
+                }
+
+                if (os == PlatformEnumResolver.ToString(minecraftPlatform))
+                    return false;
             }
-            else if (
-                rule?.Action == RuleEnumResolver.ToString(RuleEnum.DISALLOW)
-                && rule?.Os?.Name == PlatformEnumResolver.ToString(minecraftPlatform)
-            )
+            else if (action == RuleEnumResolver.ToString(RuleEnum.DISALLOW))
             {
-                return true;
+                if (os == null)
+                {
+                    if (allowedWithoutOS)
+                        return false;
+                    continue;
+                }
+
+                if (os == PlatformEnumResolver.ToString(minecraftPlatform))
+                    return true;
             }
         }
-        return true;
+
+        return allowedWithoutOS;
     }
 
     private static async Task<bool> DownloadNatives(string minecraftPath, Library lib, PlatformEnum minecraftPlatform)
