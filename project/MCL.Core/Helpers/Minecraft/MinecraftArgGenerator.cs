@@ -1,4 +1,3 @@
-using MCL.Core.Models;
 using MCL.Core.Models.Minecraft;
 
 namespace MCL.Core.Config.Minecraft;

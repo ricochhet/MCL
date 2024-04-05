@@ -1,5 +1,4 @@
 using System.IO;
-using MCL.Core.Models;
 using MCL.Core.Models.Minecraft;
 
 namespace MCL.Core.Resolvers.Minecraft;
