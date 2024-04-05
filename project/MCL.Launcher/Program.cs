@@ -45,7 +45,7 @@ internal class Program
             {
                 DownloadProvider downloadProvider =
                     new("./.minecraft", "1.20.4", PlatformEnumResolver.Parse("windows"), config.MinecraftUrls);
-                if (!await downloadProvider.RequestDownloads())
+                if (!await downloadProvider.DownloadAll())
                     return;
             }
         );

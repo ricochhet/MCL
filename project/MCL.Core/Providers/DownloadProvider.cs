@@ -42,17 +42,44 @@ public class DownloadProvider
         options = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
     }
 
-    public async Task<bool> RequestDownloads()
+    public async Task<bool> DownloadAll()
+    {
+        if (!await DownloadVersionManifest())
+            return false;
+
+        if (!await DownloadVersionDetails())
+            return false;
+
+        if (!await DownloadLibraries())
+            return false;
+
+        if (!await DownloadClient())
+            return false;
+
+        if (!await DownloadServer())
+            return false;
+
+        if (!await DownloadAssetIndex())
+            return false;
+
+        if (!await DownloadResources())
+            return false;
+
+        return true;
+    }
+
+    public async Task<bool> DownloadVersionManifest()
     {
         if (!await VersionManifestDownloader.Download(minecraftUrls, minecraftPath))
         {
-            LogBase.Error($"Failed to download version manifest");
+            LogBase.Error("Failed to download version manifest");
             return false;
         }
 
         versionManifest = Json.Read<VersionManifest>(
             MinecraftPathResolver.DownloadedVersionManifestPath(minecraftPath)
         );
+
         try
         {
             version = VersionHelper.GetVersion(minecraftVersion, versionManifest.Versions);
@@ -63,40 +90,72 @@ public class DownloadProvider
             return false;
         }
 
+        return true;
+    }
+
+    public async Task<bool> DownloadVersionDetails()
+    {
         if (!await VersionDetailsDownloader.Download(minecraftPath, version))
         {
-            LogBase.Error($"Failed to download version details");
+            LogBase.Error("Failed to download version details");
             return false;
         }
 
         versionDetails = Json.Read<VersionDetails>(
             MinecraftPathResolver.DownloadedVersionDetailsPath(minecraftPath, version)
         );
+
+        return true;
+    }
+
+    public async Task<bool> DownloadLibraries()
+    {
         if (!await LibraryDownloader.Download(minecraftPath, minecraftPlatform, versionDetails.Libraries))
         {
             LogBase.Error("Failed to download libraries");
             return false;
         }
 
+        return true;
+    }
+
+    public async Task<bool> DownloadClient()
+    {
         if (!await ClientDownloader.Download(minecraftPath, versionDetails))
         {
             LogBase.Error("Failed to download client");
             return false;
         }
 
+        return true;
+    }
+
+    public async Task<bool> DownloadServer()
+    {
         if (!await ServerDownloader.Download(minecraftPath, versionDetails))
         {
             LogBase.Error("Failed to download server");
             return false;
         }
 
+        return true;
+    }
+
+    public async Task<bool> DownloadAssetIndex()
+    {
         assets = await Request.DoRequest<AssetsData>(versionDetails.AssetIndex.URL, options);
+
         if (!await IndexDownloader.Download(minecraftPath, versionDetails.AssetIndex))
         {
             LogBase.Error("Failed to download assets index json");
             return false;
         }
 
+        return true;
+    }
+
+    public async Task<bool> DownloadResources()
+    {
         if (!await ResourceDownloader.Download(minecraftPath, minecraftUrls.MinecraftResources, assets))
         {
             LogBase.Error("Failed to download resources");
