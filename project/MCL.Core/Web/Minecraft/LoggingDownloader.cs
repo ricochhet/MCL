@@ -11,6 +11,13 @@ public static class LoggingDownloader
 {
     public static async Task<bool> Download(string minecraftPath, VersionDetails versionDetails)
     {
+        if (
+            versionDetails?.Logging?.Client == null
+            || string.IsNullOrEmpty(versionDetails.Logging.Client.File?.SHA1)
+            || string.IsNullOrEmpty(versionDetails.Logging.Client.File?.URL)
+        )
+            return false;
+
         string downloadPath = MinecraftPathResolver.LoggingPath(minecraftPath, versionDetails);
         if (
             FsProvider.Exists(downloadPath)

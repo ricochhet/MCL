@@ -9,15 +9,17 @@ namespace MCL.Core.Web.Minecraft;
 
 public static class ResourceDownloader
 {
-    public static async Task<bool> Download(
-        string minecraftPath,
-        string minecraftResourcesUrl,
-        AssetsData assets
-    )
+    public static async Task<bool> Download(string minecraftPath, string minecraftResourcesUrl, AssetsData assets)
     {
+        if (assets == null || assets?.Objects == null)
+            return false;
+
         string objectsPath = Path.Combine(MinecraftPathResolver.AssetsPath(minecraftPath), "objects");
         foreach ((_, Asset asset) in assets.Objects)
         {
+            if (string.IsNullOrEmpty(asset.Hash))
+                return false;
+
             string url = $"{minecraftResourcesUrl}/{asset.Hash[..2]}/{asset.Hash}";
             string downloadPath = Path.Combine(objectsPath, asset.Hash[..2], asset.Hash);
             return await Request.NewDownloadRequest(downloadPath, url, asset.Hash);

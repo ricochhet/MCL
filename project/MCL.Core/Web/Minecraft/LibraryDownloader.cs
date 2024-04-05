@@ -19,7 +19,10 @@ public static class LibraryDownloader
         string libPath = Path.Combine(minecraftPath, "libraries");
         foreach (Library lib in libraries)
         {
-            if (lib?.Rules?.Count != 0)
+            if (lib.Downloads == null)
+                return false;
+
+            if (lib.Rules != null && lib?.Rules?.Count != 0)
             {
                 foreach (Rule rule in lib.Rules)
                 {
@@ -33,7 +36,7 @@ public static class LibraryDownloader
                 }
             }
 
-            if (lib.Downloads?.Classifiers != null)
+            if (lib.Downloads.Classifiers != null)
             {
                 string classifierDownloadPath = string.Empty;
                 string classifierUrl = string.Empty;
@@ -42,16 +45,25 @@ public static class LibraryDownloader
                 switch (minecraftPlatform)
                 {
                     case PlatformEnum.WINDOWS:
+                        if (!WindowsClassifierNativesExists(lib))
+                            return false;
+
                         classifierDownloadPath = Path.Combine(libPath, lib.Downloads.Classifiers.NativesWindows.Path);
                         classifierUrl = lib.Downloads.Classifiers.NativesWindows.URL;
                         classifierSha1 = lib.Downloads.Classifiers.NativesWindows.SHA1;
                         break;
                     case PlatformEnum.LINUX:
+                        if (!LinuxClassifierNativesExists(lib))
+                            return false;
+
                         classifierDownloadPath = Path.Combine(libPath, lib.Downloads.Classifiers.NativesLinux.Path);
                         classifierUrl = lib.Downloads.Classifiers.NativesLinux.URL;
                         classifierSha1 = lib.Downloads.Classifiers.NativesLinux.SHA1;
                         break;
                     case PlatformEnum.OSX:
+                        if (!OSXClassifierNativesExists(lib))
+                            return false;
+
                         classifierDownloadPath = Path.Combine(libPath, lib.Downloads.Classifiers.NativesMacos.Path);
                         classifierUrl = lib.Downloads.Classifiers.NativesMacos.URL;
                         classifierSha1 = lib.Downloads.Classifiers.NativesMacos.SHA1;
@@ -64,6 +76,14 @@ public static class LibraryDownloader
                     return false;
             }
 
+            if (
+                lib.Downloads.Artifact == null
+                || string.IsNullOrEmpty(lib.Downloads.Artifact?.Path)
+                || string.IsNullOrEmpty(lib.Downloads.Artifact?.URL)
+                || string.IsNullOrEmpty(lib.Downloads.Artifact?.SHA1)
+            )
+                return false;
+
             string downloadPath = Path.Combine(libPath, lib.Downloads.Artifact.Path);
             return await Request.NewDownloadRequest(
                 downloadPath,
@@ -74,4 +94,25 @@ public static class LibraryDownloader
 
         return true;
     }
+
+    private static bool WindowsClassifierNativesExists(Library lib) =>
+        !(
+            lib.Downloads.Classifiers.NativesWindows == null
+            || string.IsNullOrEmpty(lib.Downloads.Classifiers.NativesWindows?.URL)
+            || string.IsNullOrEmpty(lib.Downloads.Classifiers.NativesWindows?.SHA1)
+        );
+
+    private static bool LinuxClassifierNativesExists(Library lib) =>
+        !(
+            lib.Downloads.Classifiers.NativesLinux == null
+            || string.IsNullOrEmpty(lib.Downloads.Classifiers.NativesLinux?.URL)
+            || string.IsNullOrEmpty(lib.Downloads.Classifiers.NativesLinux?.SHA1)
+        );
+
+    private static bool OSXClassifierNativesExists(Library lib) =>
+        !(
+            lib.Downloads.Classifiers.NativesMacos == null
+            || string.IsNullOrEmpty(lib.Downloads.Classifiers.NativesMacos?.URL)
+            || string.IsNullOrEmpty(lib.Downloads.Classifiers.NativesMacos?.SHA1)
+        );
 }

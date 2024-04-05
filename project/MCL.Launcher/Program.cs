@@ -64,24 +64,25 @@ internal class Program
             "--launch",
             () =>
             {
-                MinecraftArgs minecraftArgs = new()
-                {
-                    InitialHeapSize = "4096",
-                    MaxHeapSize = "4096",
-                    ClassPath = ClassPathHelper.CreateClassPath("./.minecraft/", "1.20.4"),
-                    MainClass = MinecraftArgsResolver.MainClass,
-                    Username = "Ricochet",
-                    UserType = "legacy",
-                    GameDir = ".",
-                    AssetIndex = MinecraftArgsResolver.AssetIndexId("./.minecraft/").ToString(),
-                    AssetsDir = "assets",
-                    Uuid = CryptographyHelper.UUID("Ricochet"),
-                    ClientId = "0",
-                    Xuid = "0",
-                    AccessToken = "1337535510N",
-                    Version = "1.20.4",
-                    VersionType = "release",
-                    AdditionalArguments =
+                MinecraftArgs minecraftArgs =
+                    new()
+                    {
+                        InitialHeapSize = "4096",
+                        MaxHeapSize = "4096",
+                        ClassPath = ClassPathHelper.CreateClassPath("./.minecraft/", "1.20.4"),
+                        MainClass = MinecraftArgsResolver.MainClass,
+                        Username = "Ricochet",
+                        UserType = "legacy",
+                        GameDir = ".",
+                        AssetIndex = MinecraftArgsResolver.AssetIndexId("./.minecraft/").ToString(),
+                        AssetsDir = "assets",
+                        Uuid = CryptographyHelper.UUID("Ricochet"),
+                        ClientId = "0",
+                        Xuid = "0",
+                        AccessToken = "1337535510N",
+                        Version = "1.20.4",
+                        VersionType = "release",
+                        AdditionalArguments =
                         [
                             "-XX:+UnlockExperimentalVMOptions",
                             "-XX:+UseG1GC",
@@ -94,7 +95,7 @@ internal class Program
                             $"-Dminecraft.launcher.brand=mcl",
                             $"-Dminecraft.launcher.version=1.0.0",
                         ]
-                };
+                    };
 
                 LaunchHelper.Launch(MinecraftArgGenerator.Generate(minecraftArgs), "./.minecraft/");
             }

@@ -31,6 +31,11 @@ public static class MinecraftPathResolver
         return Path.Combine(VersionPath(minecraftPath, versionDetails), "client.txt");
     }
 
+    public static string LoggingPath(string minecraftPath, VersionDetails versionDetails)
+    {
+        return Path.Combine(VersionPath(minecraftPath, versionDetails), "client.xml");
+    }
+
     public static string ServerJarPath(string minecraftPath, VersionDetails versionDetails)
     {
         return Path.Combine(ServerPath(minecraftPath), $"minecraft_server.{versionDetails.ID}.jar");
@@ -59,10 +64,5 @@ public static class MinecraftPathResolver
     public static string DownloadedVersionDetailsPath(string minecraftPath, Version version)
     {
         return Path.Combine(minecraftPath, "versions", version.ID + ".json");
-    }
-
-    public static string LoggingPath(string minecraftPath, VersionDetails versionDetails)
-    {
-        return Path.Combine(VersionPath(minecraftPath, versionDetails), "client.xml");
     }
 }

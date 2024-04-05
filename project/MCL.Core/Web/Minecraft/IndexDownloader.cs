@@ -12,6 +12,9 @@ public static class IndexDownloader
 {
     public static async Task<bool> Download(string minecraftPath, AssetIndex assetIndex)
     {
+        if (assetIndex == null || string.IsNullOrEmpty(assetIndex?.SHA1) || string.IsNullOrEmpty(assetIndex?.URL))
+            return false;
+
         string downloadPath = Path.Combine(
             MinecraftPathResolver.AssetsPath(minecraftPath),
             "indexes",
