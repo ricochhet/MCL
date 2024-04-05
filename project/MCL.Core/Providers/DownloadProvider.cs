@@ -11,6 +11,7 @@ using MCL.Core.Models;
 using MCL.Core.Models.Minecraft;
 using MCL.Core.Resolvers;
 using MCL.Core.Resolvers.Minecraft;
+using MCL.Core.Web.Minecraft;
 
 namespace MCL.Core.Providers;
 
@@ -43,7 +44,7 @@ public class DownloadProvider
 
     public async Task<bool> RequestDownloads()
     {
-        if (!await DownloadHelper.DownloadVersionManifestJson(minecraftUrls, minecraftPath))
+        if (!await VersionManifestDownloader.Download(minecraftUrls, minecraftPath))
         {
             LogBase.Error($"Failed to download version manifest");
             return false;
@@ -62,7 +63,7 @@ public class DownloadProvider
             return false;
         }
 
-        if (!await DownloadHelper.DownloadVersionDetailsJson(minecraftPath, version))
+        if (!await VersionDetailsDownloader.Download(minecraftPath, version))
         {
             LogBase.Error($"Failed to download version details");
             return false;
@@ -71,32 +72,32 @@ public class DownloadProvider
         versionDetails = Json.Read<VersionDetails>(
             MinecraftPathResolver.DownloadedVersionDetailsPath(minecraftPath, version)
         );
-        if (!await DownloadHelper.DownloadLibraries(minecraftPath, minecraftPlatform, versionDetails.Libraries))
+        if (!await LibraryDownloader.Download(minecraftPath, minecraftPlatform, versionDetails.Libraries))
         {
             LogBase.Error("Failed to download libraries");
             return false;
         }
 
-        if (!await DownloadHelper.DownloadClient(minecraftPath, versionDetails))
+        if (!await ClientDownloader.Download(minecraftPath, versionDetails))
         {
             LogBase.Error("Failed to download client");
             return false;
         }
 
-        if (!await DownloadHelper.DownloadServer(minecraftPath, versionDetails))
+        if (!await ServerDownloader.Download(minecraftPath, versionDetails))
         {
             LogBase.Error("Failed to download server");
             return false;
         }
 
         assets = await Request.DoRequest<AssetsData>(versionDetails.AssetIndex.URL, options);
-        if (!await DownloadHelper.DownloadIndexJson(minecraftPath, versionDetails.AssetIndex))
+        if (!await IndexDownloader.Download(minecraftPath, versionDetails.AssetIndex))
         {
             LogBase.Error("Failed to download assets index json");
             return false;
         }
 
-        if (!await DownloadHelper.DownloadResources(minecraftPath, minecraftUrls.MinecraftResources, assets))
+        if (!await ResourceDownloader.Download(minecraftPath, minecraftUrls.MinecraftResources, assets))
         {
             LogBase.Error("Failed to download resources");
             return false;

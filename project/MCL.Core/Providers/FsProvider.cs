@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using MCL.Core.Logger;
 
-namespace MCL.Core.MiniCommon;
+namespace MCL.Core.Providers;
 
 public class FsProvider
 {

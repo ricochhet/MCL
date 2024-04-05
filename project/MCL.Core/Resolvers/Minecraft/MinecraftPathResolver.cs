@@ -16,9 +16,14 @@ public static class MinecraftPathResolver
         return Path.Combine(minecraftPath, "server");
     }
 
+    public static string VersionPath(string minecraftPath, VersionDetails versionDetails)
+    {
+        return Path.Combine(minecraftPath, "versions", versionDetails.ID);
+    }
+
     public static string ClientJarPath(string minecraftPath, VersionDetails versionDetails)
     {
-        return Path.Combine(minecraftPath, "versions", versionDetails.ID, versionDetails.ID + ".jar");
+        return Path.Combine(VersionPath(minecraftPath, versionDetails), versionDetails.ID + ".jar");
     }
 
     public static string ServerJarPath(string minecraftPath, VersionDetails versionDetails)

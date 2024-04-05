@@ -75,15 +75,19 @@ public class Library
 public class LibDownloads
 {
     public Artifact Artifact { get; set; }
-    public Classifiers Classifiers { get; set; }
+#nullable enable // Classifiers are not present in newer Minecraft versions.
+    public Classifiers? Classifiers { get; set; }
+#nullable disable
 }
 
 public class Rule
 {
     public string Action { get; set; }
 
+#nullable enable // Not all action objects specify an operating system.
     [JsonPropertyName("os")]
-    public OS Os { get; set; }
+    public OS? Os { get; set; }
+#nullable disable
 }
 
 public class OS
