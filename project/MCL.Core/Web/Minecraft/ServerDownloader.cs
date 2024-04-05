@@ -19,19 +19,14 @@ public static class ServerDownloader
         )
             return false;
 
-        string downloadPath = MinecraftPathResolver.ServerJarPath(minecraftPath, versionDetails);
-        if (
-            FsProvider.Exists(downloadPath)
-            && CryptographyHelper.Sha1(downloadPath) == versionDetails.Downloads.Server.SHA1
-        )
-        {
-            return true;
-        }
-
         ServerProperties.NewEula(minecraftPath);
         ServerProperties.NewProperties(minecraftPath);
 
-        return await Request.Download(versionDetails.Downloads.Server.URL, downloadPath);
+        return await Request.NewDownloadRequest(
+            MinecraftPathResolver.ServerJarPath(minecraftPath, versionDetails),
+            versionDetails.Downloads.Server.URL,
+            versionDetails.Downloads.Server.SHA1
+        );
     }
 
     public static async Task<bool> DownloadMappings(string minecraftPath, VersionDetails versionDetails)
@@ -43,15 +38,10 @@ public static class ServerDownloader
         )
             return false;
 
-        string downloadPath = MinecraftPathResolver.ServerMappingsPath(minecraftPath, versionDetails);
-        if (
-            FsProvider.Exists(downloadPath)
-            && CryptographyHelper.Sha1(downloadPath) == versionDetails.Downloads.ServerMappings.SHA1
-        )
-        {
-            return true;
-        }
-
-        return await Request.Download(versionDetails.Downloads.ServerMappings.URL, downloadPath);
+        return await Request.NewDownloadRequest(
+            MinecraftPathResolver.ServerMappingsPath(minecraftPath, versionDetails),
+            versionDetails.Downloads.ServerMappings.URL,
+            versionDetails.Downloads.ServerMappings.SHA1
+        );
     }
 }

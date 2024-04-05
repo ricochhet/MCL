@@ -70,9 +70,7 @@ public static class LibraryDownloader
                         break;
                 }
 
-                bool status = await Request.NewDownloadRequest(classifierDownloadPath, classifierUrl, classifierSha1);
-
-                if (!status)
+                if (!await Request.NewDownloadRequest(classifierDownloadPath, classifierUrl, classifierSha1))
                     return false;
             }
 

@@ -18,14 +18,10 @@ public static class LoggingDownloader
         )
             return false;
 
-        string downloadPath = MinecraftPathResolver.LoggingPath(minecraftPath, versionDetails);
-        if (
-            FsProvider.Exists(downloadPath)
-            && CryptographyHelper.Sha1(downloadPath) == versionDetails.Logging.Client.File.SHA1
-        )
-        {
-            return true;
-        }
-        return await Request.Download(versionDetails.Logging.Client.File.URL, downloadPath);
+        return await Request.NewDownloadRequest(
+            MinecraftPathResolver.LoggingPath(minecraftPath, versionDetails),
+            versionDetails.Logging.Client.File.URL,
+            versionDetails.Logging.Client.File.SHA1
+        );
     }
 }

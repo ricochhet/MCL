@@ -12,7 +12,11 @@ public static class IndexDownloader
 {
     public static async Task<bool> Download(string minecraftPath, VersionDetails versionDetails)
     {
-        if (versionDetails?.AssetIndex == null || string.IsNullOrEmpty(versionDetails.AssetIndex?.SHA1) || string.IsNullOrEmpty(versionDetails.AssetIndex?.URL))
+        if (
+            versionDetails?.AssetIndex == null
+            || string.IsNullOrEmpty(versionDetails.AssetIndex?.SHA1)
+            || string.IsNullOrEmpty(versionDetails.AssetIndex?.URL)
+        )
             return false;
 
         string downloadPath = MinecraftPathResolver.ClientIndexPath(minecraftPath, versionDetails);

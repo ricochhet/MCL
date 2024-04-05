@@ -18,15 +18,11 @@ public static class ClientDownloader
         )
             return false;
 
-        string downloadPath = MinecraftPathResolver.ClientJarPath(minecraftPath, versionDetails);
-        if (
-            FsProvider.Exists(downloadPath)
-            && CryptographyHelper.Sha1(downloadPath) == versionDetails.Downloads.Client.SHA1
-        )
-        {
-            return true;
-        }
-        return await Request.Download(versionDetails.Downloads.Client.URL, downloadPath);
+        return await Request.NewDownloadRequest(
+            MinecraftPathResolver.ClientJarPath(minecraftPath, versionDetails),
+            versionDetails.Downloads.Client.URL,
+            versionDetails.Downloads.Client.SHA1
+        );
     }
 
     public static async Task<bool> DownloadMappings(string minecraftPath, VersionDetails versionDetails)
@@ -38,15 +34,10 @@ public static class ClientDownloader
         )
             return false;
 
-        string downloadPath = MinecraftPathResolver.ClientMappingsPath(minecraftPath, versionDetails);
-        if (
-            FsProvider.Exists(downloadPath)
-            && CryptographyHelper.Sha1(downloadPath) == versionDetails.Downloads.ClientMappings.SHA1
-        )
-        {
-            return true;
-        }
-
-        return await Request.Download(versionDetails.Downloads.ClientMappings.URL, downloadPath);
+        return await Request.NewDownloadRequest(
+            MinecraftPathResolver.ClientMappingsPath(minecraftPath, versionDetails),
+            versionDetails.Downloads.ClientMappings.URL,
+            versionDetails.Downloads.ClientMappings.SHA1
+        );
     }
 }
