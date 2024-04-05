@@ -15,7 +15,7 @@ public class DownloadProvider
 {
     public MCVersionManifest versionManifest = new();
     public MCVersionDetails versionDetails = new();
-    public Models.Minecraft.MCVersion version;
+    public MCVersion version;
     public MCAssetsData assets = new();
     private static string minecraftPath;
     private static string minecraftVersion;
