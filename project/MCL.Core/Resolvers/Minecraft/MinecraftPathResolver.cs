@@ -74,4 +74,19 @@ public static class MinecraftPathResolver
     {
         return Path.Combine(minecraftPath, "versions", version.ID + ".json");
     }
+
+    public static string DownloadedJavaRuntimeIndexPath(string minecraftPath)
+    {
+        return Path.Combine(minecraftPath, "java_runtime_index.json");
+    }
+
+    public static string DownloadedJavaRuntimeManifestPath(string minecraftPath)
+    {
+        return Path.Combine(minecraftPath, "java_runtime_manifest.json");
+    }
+
+    public static string DownloadedJavaRuntimePath(string minecraftPath, string javaRuntimeVersion)
+    {
+        return Path.Combine(minecraftPath, "runtime", javaRuntimeVersion);
+    }
 }

@@ -44,7 +44,7 @@ internal class Program
             async () =>
             {
                 DownloadProvider downloadProvider =
-                    new("./.minecraft", "1.20.4", PlatformEnumResolver.Parse("windows"), config.MinecraftUrls);
+                    new("./.minecraft", "1.20.4", PlatformEnum.WINDOWS, config.MinecraftUrls);
                 if (!await downloadProvider.DownloadAll())
                     return;
             }
