@@ -6,7 +6,7 @@ using MCL.Core.MiniCommon;
 using MCL.Core.Models.Minecraft;
 using MCL.Core.Resolvers.Minecraft;
 
-namespace MCL.Core.Web.Minecraft;
+namespace MCL.Core.Web.Java;
 
 public static class JavaRuntimeManifestDownloader
 {
