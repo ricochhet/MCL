@@ -23,11 +23,13 @@ public static class Request
             if (string.IsNullOrEmpty(stringData))
                 return default;
 
-            if (
-                FsProvider.Exists(fileName)
-                && CryptographyHelper.Sha1(fileName) == CryptographyHelper.Sha1(stringData, enc)
-            )
+            string existingSha1 = CryptographyHelper.Sha1(fileName);
+            string downloadedSha1 = CryptographyHelper.Sha1(stringData, enc);
+            if (FsProvider.Exists(fileName) && existingSha1 == downloadedSha1)
+            {
+                LogBase.Info($"File: {fileName} already exists.\n{existingSha1} == {downloadedSha1}");
                 return stringData;
+            }
 
             FsProvider.WriteFile(Path.GetDirectoryName(fileName), Path.GetFileName(fileName), stringData);
             return stringData;
@@ -50,11 +52,13 @@ public static class Request
             if (string.IsNullOrEmpty(jsonData))
                 return default;
 
-            if (
-                FsProvider.Exists(fileName)
-                && CryptographyHelper.Sha1(fileName) == CryptographyHelper.Sha1(jsonData, enc)
-            )
+            string existingSha1 = CryptographyHelper.Sha1(fileName);
+            string downloadedSha1 = CryptographyHelper.Sha1(jsonData, enc);
+            if (FsProvider.Exists(fileName) && existingSha1 == downloadedSha1)
+            {
+                LogBase.Info($"File: {fileName} already exists.\n{existingSha1} == {downloadedSha1}");
                 return JsonSerializer.Deserialize<T>(jsonData, options);
+            }
 
             FsProvider.WriteFile(Path.GetDirectoryName(fileName), Path.GetFileName(fileName), jsonData);
             return JsonSerializer.Deserialize<T>(jsonData, options);
@@ -68,8 +72,10 @@ public static class Request
 
     public static async Task<bool> Download(string downloadPath, string url, string sha1)
     {
-        if (FsProvider.Exists(downloadPath) && CryptographyHelper.Sha1(downloadPath) == sha1)
+        string existingSha1 = CryptographyHelper.Sha1(downloadPath);
+        if (FsProvider.Exists(downloadPath) && existingSha1 == sha1)
         {
+            LogBase.Info($"File: {downloadPath} already exists.\n{existingSha1} == {sha1}");
             return true;
         }
         else if (!await Download(url, downloadPath))
