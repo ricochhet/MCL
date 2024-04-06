@@ -3,6 +3,7 @@ using System.Text;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using MCL.Core.Enums;
+using MCL.Core.Logger;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Minecraft;
 using MCL.Core.Resolvers;
@@ -18,7 +19,7 @@ public static class JavaRuntimeDownloader
         JavaRuntimeFiles javaRuntimeFiles
     )
     {
-        if (javaRuntimeFiles == null || javaRuntimeFiles?.Files.Count != 0)
+        if (javaRuntimeFiles == null || javaRuntimeFiles?.Files.Count == 0)
             return false;
 
         foreach ((string path, JavaRuntimeFile javaRuntimeFile) in javaRuntimeFiles.Files)
@@ -28,7 +29,7 @@ public static class JavaRuntimeDownloader
 
             if (javaRuntimeFile.Type == "file")
             {
-                if (javaRuntimeFile.Downloads == null || javaRuntimeFile?.Downloads?.Raw == null)
+                if (javaRuntimeFile?.Downloads?.Raw == null)
                     return false;
 
                 string downloadPath = Path.Combine(
@@ -38,14 +39,18 @@ public static class JavaRuntimeDownloader
                     ),
                     path
                 );
-                return await Request.Download(
-                    downloadPath,
-                    javaRuntimeFile.Downloads.Raw.URL,
-                    javaRuntimeFile.Downloads.Raw.SHA1
-                );
+
+                if (
+                    !await Request.Download(
+                        downloadPath,
+                        javaRuntimeFile.Downloads.Raw.URL,
+                        javaRuntimeFile.Downloads.Raw.SHA1
+                    )
+                )
+                    return false;
             }
         }
 
-        return false;
+        return true;
     }
 }

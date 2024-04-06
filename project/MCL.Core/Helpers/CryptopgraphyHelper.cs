@@ -7,13 +7,16 @@ namespace MCL.Core.Helpers;
 
 public static class CryptographyHelper
 {
-    public static string Sha1(string fileName)
+    public static string Sha1(string fileName, bool formatting)
     {
         if (!File.Exists(fileName))
             return string.Empty;
 
         using FileStream stream = File.OpenRead(fileName);
         byte[] hash = SHA1.HashData(stream);
+
+        if (formatting)
+            return BitConverter.ToString(hash).ToLower().Replace("-", "");
 
         return BitConverter.ToString(hash);
     }

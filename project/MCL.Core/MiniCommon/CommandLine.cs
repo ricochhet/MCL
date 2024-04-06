@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using MCL.Core.Logger;
 
 namespace MCL.Core.MiniCommon;
@@ -15,12 +16,31 @@ public static class CommandLine
         }
     }
 
+    public static async Task ProcessArgumentAsync<T>(string[] args, string flag, Func<T, Task> action)
+    {
+        int index = Array.IndexOf(args, flag);
+        if (index != -1)
+        {
+            T value = (T)Convert.ChangeType(args[index + 1], typeof(T));
+            await action(value);
+        }
+    }
+
     public static void ProcessArgument(string[] args, string flag, Action action)
     {
         int index = Array.IndexOf(args, flag);
         if (index != -1)
         {
             action();
+        }
+    }
+
+    public static async Task ProcessArgumentAsync(string[] args, string flag, Func<Task> action)
+    {
+        int index = Array.IndexOf(args, flag);
+        if (index != -1)
+        {
+            await action();
         }
     }
 

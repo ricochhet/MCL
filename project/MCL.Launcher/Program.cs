@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using MCL.Core.Config;
 using MCL.Core.Config.Minecraft;
 using MCL.Core.Enums;
@@ -11,12 +12,13 @@ using MCL.Core.Models.Minecraft;
 using MCL.Core.Providers;
 using MCL.Core.Resolvers;
 using MCL.Core.Resolvers.Minecraft;
+using MCL.Core.Web.Minecraft;
 
 namespace MCL.Launcher;
 
 internal class Program
 {
-    private static void Main(string[] args)
+    private static async Task Main(string[] args)
     {
         Console.Title = "MCL.Launcher";
         LogBase.Add(new NativeLogger());
@@ -38,10 +40,10 @@ internal class Program
         if (args.Length <= 0)
             return;
 
-        CommandLine.ProcessArgument(
+        await CommandLine.ProcessArgumentAsync(
             args,
             "--dl-java",
-            () =>
+            async () =>
             {
                 JavaDownloadProvider javaDownloadProvider =
                     new(
@@ -50,27 +52,21 @@ internal class Program
                         JavaRuntimeTypeEnum.JAVA_RUNTIME_GAMMA,
                         JavaRuntimePlatformEnum.WINDOWSX64
                     );
+
+                if (!await javaDownloadProvider.DownloadAll())
+                    return;
             }
         );
 
-        CommandLine.ProcessArgument(
+        await CommandLine.ProcessArgumentAsync(
             args,
-            "--download",
+            "--dl-minecraft",
             async () =>
             {
                 MCDownloadProvider downloadProvider =
                     new("./.minecraft", "1.20.4", PlatformEnum.WINDOWS, config.MinecraftUrls);
                 if (!await downloadProvider.DownloadAll())
                     return;
-            }
-        );
-
-        CommandLine.ProcessArgument(
-            args,
-            "--cp",
-            () =>
-            {
-                LogBase.Info(ClassPathHelper.CreateClassPath("./.minecraft/", "1.20.4"));
             }
         );
 

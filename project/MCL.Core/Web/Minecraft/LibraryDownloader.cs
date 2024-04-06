@@ -39,7 +39,8 @@ public static class LibraryDownloader
                 return false;
 
             string downloadPath = Path.Combine(libPath, lib.Downloads.Artifact.Path);
-            return await Request.Download(downloadPath, lib.Downloads.Artifact.URL, lib.Downloads.Artifact.SHA1);
+            if (!await Request.Download(downloadPath, lib.Downloads.Artifact.URL, lib.Downloads.Artifact.SHA1))
+                return false;
         }
 
         return true;

@@ -21,7 +21,8 @@ public static class ResourceDownloader
 
             string url = $"{minecraftUrls.MinecraftResources}/{asset.Hash[..2]}/{asset.Hash}";
             string downloadPath = Path.Combine(objectsPath, asset.Hash[..2], asset.Hash);
-            return await Request.Download(downloadPath, url, asset.Hash);
+            if (!await Request.Download(downloadPath, url, asset.Hash))
+                return false;
         }
 
         return true;
