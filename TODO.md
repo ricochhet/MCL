@@ -1,0 +1,37 @@
+## TODO
+TODO items is not in a specific order.
+
+- [ ] Implement DownloadStatistic object.
+    - Allows better implementation of logging and ui.
+    - DownloadStatistic should include the size of the download if applicable.
+    - DownloadStatistic should implement a DowloadStatistics parent.
+        - The parent object should store the amount of files to download.
+        - The parent object should contain a list of DownloadStatistic objects.
+- [ ] Implement Fabric/Forge/Quilt installers
+    - This includes the functionality to run the loaders.
+        - Fabric already contains the functionality.
+- [ ] Better handling of JVM arguments.
+    - Every JVM argument should be an object that we can parse.
+    - JVM argument objects should be added to a list.
+    - JVM arguments should be stored.
+        - Stored arguments should be categorized by the loader.
+        - As a byproduct; user-specific information is stored, e.g. username.
+- [ ] Add support for downloading and installing third-party server clients.
+    - This includes the functionality to run the clients.
+- [ ] Handling of missed file downloads due to an error.
+    - We should restart the download process if the download files.
+        - The download process should not continue trying to download files after the first fail.
+        - Continuous failures can indicate a connection problem and cause instability within the program.
+        - The download process should indicate failures, and be given a number of chances to continue.
+            - After the chances have been used, the user will have to manually continue downloads.
+- [ ] Evaluate error handling of objects and null-reference handling.
+- [ ] Implement player skin options on non-vanilla loaders.
+    - Non-vanilla loaders can use modifications such as OfflineSkins to provide skins without in-depth networking systems.
+    - Skins can still be supplied via an API or website to reduce the manual processes.
+- [ ] Pre-download version details when downloading the JRE so the user does not have to specify the runtime type.
+    - This should be an optional step. The user should be able to have full control over the downloads.
+- [ ] Implement the usage of the downloaded Java runtime.
+    - This includes the setting of environment variables, e.g. JAVA_HOME.
+- [ ] Evaluate configuration properties and architecture.
+    - This includes unifying property names.
+- [ ] Implement frontend interface via Avalonia.
