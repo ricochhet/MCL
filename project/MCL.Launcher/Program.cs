@@ -40,10 +40,25 @@ internal class Program
 
         CommandLine.ProcessArgument(
             args,
+            "--dl-java",
+            () =>
+            {
+                JavaDownloadProvider javaDownloadProvider =
+                    new(
+                        "./.minecraft",
+                        config.MinecraftUrls,
+                        JavaRuntimeTypeEnum.JAVA_RUNTIME_GAMMA,
+                        JavaRuntimePlatformEnum.WINDOWSX64
+                    );
+            }
+        );
+
+        CommandLine.ProcessArgument(
+            args,
             "--download",
             async () =>
             {
-                DownloadProvider downloadProvider =
+                MCDownloadProvider downloadProvider =
                     new("./.minecraft", "1.20.4", PlatformEnum.WINDOWS, config.MinecraftUrls);
                 if (!await downloadProvider.DownloadAll())
                     return;

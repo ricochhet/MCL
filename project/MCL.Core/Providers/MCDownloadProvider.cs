@@ -11,7 +11,7 @@ using MCL.Core.Web.Minecraft;
 
 namespace MCL.Core.Providers;
 
-public class DownloadProvider
+public class MCDownloadProvider
 {
     public MCVersionManifest versionManifest = new();
     public MCVersionDetails versionDetails = new();
@@ -22,7 +22,7 @@ public class DownloadProvider
     private static PlatformEnum minecraftPlatform;
     private static MCConfigUrls minecraftUrls;
 
-    public DownloadProvider(
+    public MCDownloadProvider(
         string _minecraftPath,
         string _minecraftVersion,
         PlatformEnum _minecraftPlatform,
