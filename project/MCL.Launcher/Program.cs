@@ -51,7 +51,7 @@ internal class Program
                     new(
                         "./.minecraft",
                         config.MinecraftUrls,
-                        JavaRuntimeTypeEnum.JAVA_RUNTIME_GAMMA,
+                        VersionHelper.GetDownloadedMCVersionJava("./.minecraft", "1.20.4"),
                         JavaRuntimePlatformEnum.WINDOWSX64
                     );
 

@@ -4,11 +4,11 @@ namespace MCL.Core.Resolvers;
 
 public static class GenericEnumParser
 {
-    public static T Parse<T>(string value)
+    public static T Parse<T>(string value, T fallback)
         where T : struct
     {
-        if (Enum.TryParse(value, true, out T result))
+        if (Enum.TryParse(value.Replace("-", "_"), true, out T result))
             return result;
-        throw new ArgumentException($"Invalid platform value: {value}");
+        return fallback;
     }
 }

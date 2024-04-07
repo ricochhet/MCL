@@ -28,7 +28,7 @@ TODO items is not in a specific order.
 - [ ] Implement player skin options on non-vanilla loaders.
     - Non-vanilla loaders can use modifications such as OfflineSkins to provide skins without in-depth networking systems.
     - Skins can still be supplied via an API or website to reduce the manual processes.
-- [ ] Pre-download version details when downloading the JRE so the user does not have to specify the runtime type.
+- [x] Pre-download version details when downloading the JRE so the user does not have to specify the runtime type.
     - This should be an optional step. The user should be able to have full control over the downloads.
 - [ ] Implement the usage of the downloaded Java runtime.
     - This includes the setting of environment variables, e.g. JAVA_HOME.
