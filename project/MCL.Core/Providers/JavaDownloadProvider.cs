@@ -77,7 +77,10 @@ public class JavaDownloadProvider
         }
 
         javaRuntimeFiles = Json.Read<JavaRuntimeFiles>(
-            MinecraftPathResolver.DownloadedJavaRuntimeManifestPath(minecraftPath, JavaRuntimeTypeEnumResolver.ToString(javaRuntimeType))
+            MinecraftPathResolver.DownloadedJavaRuntimeManifestPath(
+                minecraftPath,
+                JavaRuntimeTypeEnumResolver.ToString(javaRuntimeType)
+            )
         );
 
         return true;

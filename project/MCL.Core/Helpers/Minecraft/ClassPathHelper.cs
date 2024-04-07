@@ -19,7 +19,7 @@ public static class ClassPathHelper
         };
         string libPath = Path.Combine(minecraftPath, "libraries");
         List<string> libraries = FsProvider.GetFiles(libPath, "*");
-        libraries = libraries.Prepend(MinecraftArgsResolver.ClientLibrary(minecraftVersion)).ToList();
+        libraries = libraries.Prepend(MinecraftPathResolver.ClientLibrary(minecraftVersion)).ToList();
 
         return string.Join(separator, libraries.Select(lib => lib.Replace(minecraftPath, "").Replace("\\", "/")));
     }

@@ -43,7 +43,10 @@ public static class JavaRuntimeManifestDownloader
         if (string.IsNullOrEmpty(url))
             return false;
 
-        string downloadPath = MinecraftPathResolver.DownloadedJavaRuntimeManifestPath(minecraftPath, JavaRuntimeTypeEnumResolver.ToString(javaRuntimeTypeEnum));
+        string downloadPath = MinecraftPathResolver.DownloadedJavaRuntimeManifestPath(
+            minecraftPath,
+            JavaRuntimeTypeEnumResolver.ToString(javaRuntimeTypeEnum)
+        );
         string javaRuntimeManifest = await Request.DoRequest(url, downloadPath, Encoding.UTF8);
         if (string.IsNullOrEmpty(javaRuntimeManifest))
             return false;

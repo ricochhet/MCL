@@ -1,10 +1,31 @@
+using System.Collections.Generic;
 using System.IO;
 using MCL.Core.Models.Minecraft;
+using MCL.Core.Providers;
 
 namespace MCL.Core.Resolvers.Minecraft;
 
 public static class MinecraftPathResolver
 {
+    public static string ClientLibrary(string minecraftVersion)
+    {
+        return Path.Combine("versions", minecraftVersion, $"{minecraftVersion}.jar").Replace("\\", "/");
+    }
+
+    public static string Libraries(string minecraftVersion)
+    {
+        return Path.Combine("versions", minecraftVersion, $"{minecraftVersion}-natives").Replace("\\", "/");
+    }
+
+    public static int AssetIndexId(string minecraftPath)
+    {
+        List<string> fileName = FsProvider.GetFiles(Path.Combine(AssetsPath(minecraftPath), "indexes"), "*.json", true);
+        bool success = int.TryParse(fileName[0], out int id);
+        if (success)
+            return id;
+        return -1;
+    }
+
     public static string AssetsPath(string minecraftPath)
     {
         return Path.Combine(minecraftPath, "assets");

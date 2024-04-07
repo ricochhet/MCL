@@ -102,7 +102,7 @@ internal class Program
                         "-XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump"
                     )
                 );
-                jvmArguments.Add(new LaunchArg("-Djava.library.path={0}", [MinecraftArgsResolver.Libraries("1.20.4")]));
+                jvmArguments.Add(new LaunchArg("-Djava.library.path={0}", [MinecraftPathResolver.Libraries("1.20.4")]));
                 jvmArguments.Add(new LaunchArg("-Dminecraft.launcher.brand={0}", ["mcl"]));
                 jvmArguments.Add(new LaunchArg("-Dminecraft.launcher.version={0}", ["1.0.0"]));
                 jvmArguments.Add(
@@ -118,7 +118,7 @@ internal class Program
                 jvmArguments.Add(new LaunchArg("--userType {0}", ["legacy"]));
                 jvmArguments.Add(new LaunchArg("--gameDir {0}", ["."]));
                 jvmArguments.Add(
-                    new LaunchArg("--assetIndex {0}", [MinecraftArgsResolver.AssetIndexId("./.minecraft/").ToString()])
+                    new LaunchArg("--assetIndex {0}", [MinecraftPathResolver.AssetIndexId("./.minecraft/").ToString()])
                 );
                 jvmArguments.Add(new LaunchArg("--assetsDir {0}", ["assets"]));
                 jvmArguments.Add(new LaunchArg("--accessToken {0}", ["1337535510N"]));
