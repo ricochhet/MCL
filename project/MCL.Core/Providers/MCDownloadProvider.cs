@@ -79,6 +79,11 @@ public class MCDownloadProvider
         versionManifest = Json.Read<MCVersionManifest>(
             MinecraftPathResolver.DownloadedVersionManifestPath(minecraftPath)
         );
+        if (versionManifest == null)
+        {
+            LogBase.Info($"Failed to get version manifest");
+            return false;
+        }
 
         version = VersionHelper.GetVersion(minecraftVersion, versionManifest.Versions);
         if (version == null)
@@ -101,6 +106,11 @@ public class MCDownloadProvider
         versionDetails = Json.Read<MCVersionDetails>(
             MinecraftPathResolver.DownloadedVersionDetailsPath(minecraftPath, version)
         );
+        if (versionDetails == null)
+        {
+            LogBase.Error($"Failed to get version details");
+            return false;
+        }
 
         return true;
     }
@@ -169,6 +179,11 @@ public class MCDownloadProvider
         }
 
         assets = Json.Read<MCAssetsData>(MinecraftPathResolver.ClientIndexPath(minecraftPath, versionDetails));
+        if (assets == null)
+        {
+            LogBase.Error($"Failed to get assets index json");
+            return false;
+        }
 
         return true;
     }

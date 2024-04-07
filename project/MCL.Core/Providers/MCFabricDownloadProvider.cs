@@ -44,6 +44,11 @@ public class MCFabricDownloadProvider
         }
 
         fabricIndex = Json.Read<MCFabricIndex>(MinecraftFabricPathResolver.DownloadedFabricIndexPath(fabricPath));
+        if (fabricIndex == null)
+        {
+            LogBase.Error($"Failed to get fabric index");
+            return false;
+        }
 
         return true;
     }

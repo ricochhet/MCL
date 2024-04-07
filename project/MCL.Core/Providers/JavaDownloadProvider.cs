@@ -57,6 +57,11 @@ public class JavaDownloadProvider
         javaRuntimeIndex = Json.Read<JavaRuntimeIndex>(
             MinecraftPathResolver.DownloadedJavaRuntimeIndexPath(minecraftPath)
         );
+        if (javaRuntimeIndex == null)
+        {
+            LogBase.Error($"Failed to get java runtime index");
+            return false;
+        }
 
         return true;
     }
@@ -82,6 +87,11 @@ public class JavaDownloadProvider
                 JavaRuntimeTypeEnumResolver.ToString(javaRuntimeType)
             )
         );
+        if (javaRuntimeFiles == null)
+        {
+            LogBase.Error($"Failed to get java runtime manifest");
+            return false;
+        }
 
         return true;
     }
