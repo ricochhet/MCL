@@ -3,6 +3,7 @@ using System.IO;
 using System.Threading.Tasks;
 using MCL.Core.Enums;
 using MCL.Core.Interfaces;
+using MCL.Core.Interfaces.Minecraft;
 using MCL.Core.Logger;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Minecraft;
@@ -19,6 +20,9 @@ public class LibraryDownloader : IMCLibraryDownloader
         List<MCLibrary> libraries
     )
     {
+        if (string.IsNullOrEmpty(minecraftPath))
+            return false;
+
         string libPath = Path.Combine(minecraftPath, "libraries");
         foreach (MCLibrary lib in libraries)
         {

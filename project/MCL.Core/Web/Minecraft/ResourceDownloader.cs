@@ -1,6 +1,7 @@
 using System.IO;
 using System.Threading.Tasks;
 using MCL.Core.Interfaces;
+using MCL.Core.Interfaces.Minecraft;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Minecraft;
 using MCL.Core.Resolvers.Minecraft;
@@ -11,7 +12,7 @@ public class ResourceDownloader : IMCResourceDownloader
 {
     public static async Task<bool> Download(string minecraftPath, MCConfigUrls minecraftUrls, MCAssetsData assets)
     {
-        if (!Exists(minecraftUrls, assets))
+        if (!Exists(minecraftPath, minecraftUrls, assets))
             return false;
 
         string objectsPath = Path.Combine(MinecraftPathResolver.AssetsPath(minecraftPath), "objects");
@@ -32,8 +33,11 @@ public class ResourceDownloader : IMCResourceDownloader
         return true;
     }
 
-    public static bool Exists(MCConfigUrls minecraftUrls, MCAssetsData assets)
+    public static bool Exists(string minecraftPath, MCConfigUrls minecraftUrls, MCAssetsData assets)
     {
+        if (string.IsNullOrEmpty(minecraftPath))
+            return false;
+
         if (assets == null)
             return false;
 

@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using MCL.Core.Enums;
+using MCL.Core.Interfaces.Java;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Java;
 using MCL.Core.Resolvers;
@@ -9,7 +11,7 @@ using MCL.Core.Resolvers.Minecraft;
 
 namespace MCL.Core.Web.Java;
 
-public static class JavaRuntimeManifestDownloader
+public class JavaRuntimeManifestDownloader : IJavaRuntimeManifestDownloader
 {
     public static async Task<bool> Download(
         string minecraftPath,
@@ -18,7 +20,7 @@ public static class JavaRuntimeManifestDownloader
         JavaRuntimeIndex javaRuntimeIndex
     )
     {
-        if (javaRuntimeIndex == null)
+        if (!Exists(minecraftPath, javaRuntimeIndex))
             return false;
 
         string url = javaRuntimePlatformEnum switch
@@ -42,18 +44,77 @@ public static class JavaRuntimeManifestDownloader
         if (string.IsNullOrEmpty(url))
             return false;
 
-        string downloadPath = MinecraftPathResolver.DownloadedJavaRuntimeManifestPath(
-            minecraftPath,
-            JavaRuntimeTypeEnumResolver.ToString(javaRuntimeTypeEnum)
+        string javaRuntimeManifest = await Request.DoRequest(
+            url,
+            MinecraftPathResolver.DownloadedJavaRuntimeManifestPath(
+                minecraftPath,
+                JavaRuntimeTypeEnumResolver.ToString(javaRuntimeTypeEnum)
+            ),
+            Encoding.UTF8
         );
-        string javaRuntimeManifest = await Request.DoRequest(url, downloadPath, Encoding.UTF8);
         if (string.IsNullOrEmpty(javaRuntimeManifest))
             return false;
         return true;
     }
 
-    private static string GetJavaRuntimeUrl(JavaRuntimeTypeEnum javaRuntimeTypeEnum, JavaRuntime javaRuntimePlatform)
+    public static bool Exists(string minecraftPath, JavaRuntimeIndex javaRuntimeIndex)
     {
+        if (string.IsNullOrEmpty(minecraftPath))
+            return false;
+
+        if (javaRuntimeIndex == null)
+            return false;
+
+        if (javaRuntimeIndex.Gamecore == null)
+            return false;
+
+        if (javaRuntimeIndex.Linux == null)
+            return false;
+
+        if (javaRuntimeIndex.LinuxI386 == null)
+            return false;
+
+        if (javaRuntimeIndex.Macos == null)
+            return false;
+
+        if (javaRuntimeIndex.MacosArm64 == null)
+            return false;
+
+        if (javaRuntimeIndex.WindowsArm64 == null)
+            return false;
+
+        if (javaRuntimeIndex.WindowsX64 == null)
+            return false;
+
+        if (javaRuntimeIndex.WindowsX86 == null)
+            return false;
+
+        return true;
+    }
+
+    public static string GetJavaRuntimeUrl(JavaRuntimeTypeEnum javaRuntimeTypeEnum, JavaRuntime javaRuntimePlatform)
+    {
+        if (!JavaRuntimeUrlExists(javaRuntimePlatform, javaRuntimePlatform.JavaRuntimeAlpha))
+            return default;
+
+        if (!JavaRuntimeUrlExists(javaRuntimePlatform, javaRuntimePlatform.JavaRuntimeBeta))
+            return default;
+
+        if (!JavaRuntimeUrlExists(javaRuntimePlatform, javaRuntimePlatform.JavaRuntimeDelta))
+            return default;
+
+        if (!JavaRuntimeUrlExists(javaRuntimePlatform, javaRuntimePlatform.JavaRuntimeGamma))
+            return default;
+
+        if (!JavaRuntimeUrlExists(javaRuntimePlatform, javaRuntimePlatform.JavaRuntimeGammaSnapshot))
+            return default;
+
+        if (!JavaRuntimeUrlExists(javaRuntimePlatform, javaRuntimePlatform.JreLegacy))
+            return default;
+
+        if (!JavaRuntimeUrlExists(javaRuntimePlatform, javaRuntimePlatform.MinecraftJavaExe))
+            return default;
+
         return javaRuntimeTypeEnum switch
         {
             JavaRuntimeTypeEnum.JAVA_RUNTIME_ALPHA => javaRuntimePlatform.JavaRuntimeAlpha[0].JavaRuntimeManifest.Url,
@@ -66,5 +127,25 @@ public static class JavaRuntimeManifestDownloader
             JavaRuntimeTypeEnum.MINECRAFT_JAVA_EXE => javaRuntimePlatform.MinecraftJavaExe[0].JavaRuntimeManifest.Url,
             _ => throw new ArgumentOutOfRangeException(nameof(javaRuntimeTypeEnum), "Invalid Java runtime type."),
         };
+    }
+
+    public static bool JavaRuntimeUrlExists(JavaRuntime javaRuntimePlatform, List<JavaRuntimeObject> javaRuntimeObjects)
+    {
+        if (javaRuntimePlatform == null)
+            return false;
+
+        if (javaRuntimeObjects == null)
+            return false;
+
+        if (javaRuntimeObjects.Count <= 0)
+            return false;
+
+        if (javaRuntimeObjects[0].JavaRuntimeManifest == null)
+            return false;
+
+        if (string.IsNullOrEmpty(javaRuntimeObjects[0].JavaRuntimeManifest.Url))
+            return false;
+
+        return true;
     }
 }

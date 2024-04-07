@@ -3,7 +3,10 @@ TODO tasks are in order from top-to-bottom, most-to-least important.
 
 Tasks marked with (*) are easier to do.
 
-- [ ] Evaluate error handling of objects and null-reference handling.
+- [x] Evaluate error handling of objects and null-reference handling.
+    - [ ] Add logging to error handles.
+- [ ] Implement log information object.
+    - This provides more consistent logging and client frontend logging.
 - [ ] Evaluate configuration properties and architecture.
     - This includes unifying property names.
 - [ ] (*) JVM arguments should be stored.

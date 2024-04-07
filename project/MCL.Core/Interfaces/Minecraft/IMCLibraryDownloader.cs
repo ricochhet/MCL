@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using MCL.Core.Enums;
 using MCL.Core.Models.Minecraft;
 
-namespace MCL.Core.Interfaces;
+namespace MCL.Core.Interfaces.Minecraft;
 
 public interface IMCLibraryDownloader
 {

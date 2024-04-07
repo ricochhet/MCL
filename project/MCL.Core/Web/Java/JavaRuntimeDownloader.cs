@@ -1,6 +1,7 @@
 using System.IO;
 using System.Threading.Tasks;
 using MCL.Core.Enums;
+using MCL.Core.Interfaces.Java;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Java;
 using MCL.Core.Resolvers;
@@ -8,7 +9,7 @@ using MCL.Core.Resolvers.Minecraft;
 
 namespace MCL.Core.Web.Java;
 
-public static class JavaRuntimeDownloader
+public class JavaRuntimeDownloader : IJavaRuntimeDownloader
 {
     public static async Task<bool> Download(
         string minecraftPath,
@@ -16,7 +17,7 @@ public static class JavaRuntimeDownloader
         JavaRuntimeFiles javaRuntimeFiles
     )
     {
-        if (javaRuntimeFiles == null || javaRuntimeFiles?.Files.Count == 0)
+        if (!Exists(minecraftPath, javaRuntimeFiles))
             return false;
 
         foreach ((string path, JavaRuntimeFile javaRuntimeFile) in javaRuntimeFiles.Files)
@@ -26,20 +27,27 @@ public static class JavaRuntimeDownloader
 
             if (javaRuntimeFile.Type == "file")
             {
-                if (javaRuntimeFile?.Downloads?.Raw == null)
+                if (javaRuntimeFile.Downloads == null)
                     return false;
 
-                string downloadPath = Path.Combine(
-                    MinecraftPathResolver.DownloadedJavaRuntimePath(
-                        minecraftPath,
-                        JavaRuntimeTypeEnumResolver.ToString(javaRuntimeType)
-                    ),
-                    path
-                );
+                if (javaRuntimeFile.Downloads.Raw == null)
+                    return false;
+
+                if (string.IsNullOrEmpty(javaRuntimeFile.Downloads.Raw.URL))
+                    return false;
+
+                if (string.IsNullOrEmpty(javaRuntimeFile.Downloads.Raw.SHA1))
+                    return false;
 
                 if (
                     !await Request.Download(
-                        downloadPath,
+                        Path.Combine(
+                            MinecraftPathResolver.DownloadedJavaRuntimePath(
+                                minecraftPath,
+                                JavaRuntimeTypeEnumResolver.ToString(javaRuntimeType)
+                            ),
+                            path
+                        ),
                         javaRuntimeFile.Downloads.Raw.URL,
                         javaRuntimeFile.Downloads.Raw.SHA1
                     )
@@ -47,6 +55,23 @@ public static class JavaRuntimeDownloader
                     return false;
             }
         }
+
+        return true;
+    }
+
+    public static bool Exists(string minecraftPath, JavaRuntimeFiles javaRuntimeFiles)
+    {
+        if (string.IsNullOrEmpty(minecraftPath))
+            return false;
+
+        if (javaRuntimeFiles == null)
+            return false;
+
+        if (javaRuntimeFiles.Files == null)
+            return false;
+
+        if (javaRuntimeFiles.Files.Count <= 0)
+            return false;
 
         return true;
     }

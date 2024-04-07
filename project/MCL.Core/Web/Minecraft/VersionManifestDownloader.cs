@@ -1,6 +1,7 @@
 using System.Text;
 using System.Threading.Tasks;
 using MCL.Core.Interfaces;
+using MCL.Core.Interfaces.Minecraft;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Minecraft;
 using MCL.Core.Resolvers.Minecraft;
@@ -9,9 +10,9 @@ namespace MCL.Core.Web.Minecraft;
 
 public class VersionManifestDownloader : IMCVersionManifestDownloader
 {
-    public static async Task<bool> Download(MCConfigUrls minecraftUrls, string minecraftPath)
+    public static async Task<bool> Download(string minecraftPath, MCConfigUrls minecraftUrls)
     {
-        if (!Exists(minecraftUrls, minecraftPath))
+        if (!Exists(minecraftPath, minecraftUrls))
             return false;
 
         string downloadPath = MinecraftPathResolver.DownloadedVersionManifestPath(minecraftPath);
@@ -21,7 +22,7 @@ public class VersionManifestDownloader : IMCVersionManifestDownloader
         return true;
     }
 
-    public static bool Exists(MCConfigUrls minecraftUrls, string minecraftPath)
+    public static bool Exists(string minecraftPath, MCConfigUrls minecraftUrls)
     {
         if (minecraftUrls == null)
             return false;
