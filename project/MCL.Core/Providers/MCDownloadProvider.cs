@@ -75,13 +75,10 @@ public class MCDownloadProvider
             MinecraftPathResolver.DownloadedVersionManifestPath(minecraftPath)
         );
 
-        try
+        version = VersionHelper.GetVersion(minecraftVersion, versionManifest.Versions);
+        if (version == null)
         {
-            version = VersionHelper.GetVersion(minecraftVersion, versionManifest.Versions);
-        }
-        catch (Exception ex)
-        {
-            LogBase.Error($"Failed to get version: {ex.Message}");
+            LogBase.Error($"Failed to get version: {version}");
             return false;
         }
 

@@ -51,13 +51,10 @@ public class MCFabricDownloadProvider
 
     public async Task<bool> DownloadFabricLoader()
     {
-        try
+        fabricInstaller = VersionHelper.GetFabricVersion(fabricVersion, fabricIndex.Installer);
+        if (fabricInstaller == null)
         {
-            fabricInstaller = VersionHelper.GetFabricVersion(fabricVersion, fabricIndex.Installer);
-        }
-        catch (Exception ex)
-        {
-            LogBase.Error($"Failed to get version: {ex.Message}");
+            LogBase.Error($"Failed to get version: {fabricVersion}");
             return false;
         }
 

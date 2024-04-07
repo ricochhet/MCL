@@ -14,7 +14,7 @@ public static class VersionHelper
             if (item.ID == minecraftVersion)
                 return item;
         }
-        throw new Exception($"Can't find version {minecraftVersion}");
+        return null;
     }
 
     public static MCFabricInstaller GetFabricVersion(string fabricVersion, List<MCFabricInstaller> installers)
@@ -24,6 +24,6 @@ public static class VersionHelper
             if (item.Version == fabricVersion)
                 return item;
         }
-        throw new Exception($"Can't find version {fabricVersion}");
+        return null;
     }
 }
