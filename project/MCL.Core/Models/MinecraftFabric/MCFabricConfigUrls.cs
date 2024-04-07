@@ -1,4 +1,4 @@
-namespace MCL.Core.Models.Minecraft;
+namespace MCL.Core.Models.MinecraftFabric;
 
 public class MCFabricConfigUrls
 {

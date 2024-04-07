@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using MCL.Core.Interfaces.Minecraft;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Minecraft;
+using MCL.Core.Models.MinecraftFabric;
 using MCL.Core.Resolvers.Minecraft;
 
 namespace MCL.Core.Web.Minecraft;

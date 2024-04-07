@@ -26,7 +26,14 @@ public static class ConfigProvider
         if (!FsProvider.Exists(ConfigFilePath))
         {
             LogBase.Info("Setup: Creating config...");
-            Models.Config config = new() { MinecraftUrls = new(), FabricUrls = new() };
+            Models.Config config =
+                new()
+                {
+                    MinecraftUrls = new(),
+                    FabricUrls = new(),
+                    MinecraftArgs = new(),
+                    FabricArgs = new()
+                };
 
             JsonSerializerOptions options = new() { WriteIndented = true };
             Json.Write(DataPath, ConfigFileName, config, options);
