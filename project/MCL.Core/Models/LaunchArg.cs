@@ -2,10 +2,11 @@ using System.Collections.Generic;
 
 namespace MCL.Core.Models;
 
-public class LaunchArg(string arg, List<string> argParams = null)
+public class LaunchArg(string arg, List<string> argParams = null, int priority = 0)
 {
     public string Arg { get; set; } = arg;
     public List<string> ArgParams { get; set; } = argParams;
+    public int Priority { get; set; } = priority;
 
     private string currentArg = arg;
     private int currentParam = 0;
