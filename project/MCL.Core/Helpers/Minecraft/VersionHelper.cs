@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using MCL.Core.Models.Minecraft;
+using MCL.Core.Models.MinecraftFabric;
 
 namespace MCL.Core.Helpers.Minecraft;
 
@@ -14,5 +15,15 @@ public static class VersionHelper
                 return item;
         }
         throw new Exception($"Can't find version {minecraftVersion}");
+    }
+
+    public static MCFabricInstaller GetFabricVersion(string fabricVersion, List<MCFabricInstaller> installers)
+    {
+        foreach (MCFabricInstaller item in installers)
+        {
+            if (item.Version == fabricVersion)
+                return item;
+        }
+        throw new Exception($"Can't find version {fabricVersion}");
     }
 }

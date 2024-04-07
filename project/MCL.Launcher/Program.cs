@@ -70,6 +70,17 @@ internal class Program
             }
         );
 
+        await CommandLine.ProcessArgumentAsync(
+            args,
+            "--dl-fabric",
+            async () =>
+            {
+                MCFabricDownloadProvider downloadProvider = new("./.minecraft-fabric", "1.0.0", config.FabricUrls);
+                if (!await downloadProvider.DownloadAll())
+                    return;
+            }
+        );
+
         CommandLine.ProcessArgument(
             args,
             "--launch",
