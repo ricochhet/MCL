@@ -6,8 +6,6 @@ namespace MCL.Core.Resolvers.Minecraft;
 
 public static class MinecraftArgsResolver
 {
-    public const string MainClass = "net.minecraft.client.main.Main";
-
     public static string ClientLibrary(string minecraftVersion)
     {
         return Path.Combine("versions", minecraftVersion, $"{minecraftVersion}.jar").Replace("\\", "/");

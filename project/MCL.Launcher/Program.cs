@@ -91,6 +91,20 @@ internal class Program
                 JvmArguments jvmArguments = new();
                 jvmArguments.Add(new LaunchArg("-Xms{0}m", ["4096"]));
                 jvmArguments.Add(new LaunchArg("-Xmx{0}m", ["4096"]));
+                jvmArguments.Add(new LaunchArg("-XX:+UnlockExperimentalVMOptions"));
+                jvmArguments.Add(new LaunchArg("-XX:+UseG1GC"));
+                jvmArguments.Add(new LaunchArg("-XX:G1NewSizePercent=20"));
+                jvmArguments.Add(new LaunchArg("-XX:G1ReservePercent=20"));
+                jvmArguments.Add(new LaunchArg("-XX:MaxGCPauseMillis=50"));
+                jvmArguments.Add(new LaunchArg("-XX:G1HeapRegionSize=32M"));
+                jvmArguments.Add(
+                    new LaunchArg(
+                        "-XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump"
+                    )
+                );
+                jvmArguments.Add(new LaunchArg("-Djava.library.path={0}", [MinecraftArgsResolver.Libraries("1.20.4")]));
+                jvmArguments.Add(new LaunchArg("-Dminecraft.launcher.brand={0}", ["mcl"]));
+                jvmArguments.Add(new LaunchArg("-Dminecraft.launcher.version={0}", ["1.0.0"]));
                 jvmArguments.Add(
                     new LaunchArg(
                         "-cp {0} {1}",
@@ -114,22 +128,7 @@ internal class Program
                 jvmArguments.Add(new LaunchArg("--version {0}", ["1.20.4"]));
                 jvmArguments.Add(new LaunchArg("--versionType {0}", ["release"]));
 
-                jvmArguments.Add(new LaunchArg("-XX:+UnlockExperimentalVMOptions"));
-                jvmArguments.Add(new LaunchArg("-XX:+UseG1GC"));
-                jvmArguments.Add(new LaunchArg("-XX:G1NewSizePercent=20"));
-                jvmArguments.Add(new LaunchArg("-XX:G1ReservePercent=20"));
-                jvmArguments.Add(new LaunchArg("-XX:MaxGCPauseMillis=50"));
-                jvmArguments.Add(new LaunchArg("-XX:G1HeapRegionSize=32M"));
-                jvmArguments.Add(
-                    new LaunchArg(
-                        "-XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump"
-                    )
-                );
-                jvmArguments.Add(new LaunchArg("-Djava.library.path={0}", [MinecraftArgsResolver.Libraries("1.20.4")]));
-                jvmArguments.Add(new LaunchArg("-Dminecraft.launcher.brand={0}", ["mcl"]));
-                jvmArguments.Add(new LaunchArg("-Dminecraft.launcher.version={0}", ["1.0.0"]));
-
-                JavaLaunchHelper.Launch(jvmArguments.Build(), "./.minecraft/");
+                JavaLaunchHelper.Launch(jvmArguments, "./.minecraft/", JavaRuntimeTypeEnum.JAVA_RUNTIME_GAMMA);
             }
         );
     }
