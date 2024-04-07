@@ -3,6 +3,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MCL.Core.Enums;
 using MCL.Core.MiniCommon;
+using MCL.Core.Models.Java;
 using MCL.Core.Models.Minecraft;
 using MCL.Core.Resolvers.Minecraft;
 

@@ -4,10 +4,12 @@ using MCL.Core.Config;
 using MCL.Core.Config.Minecraft;
 using MCL.Core.Enums;
 using MCL.Core.Helpers;
+using MCL.Core.Helpers.Java;
 using MCL.Core.Helpers.Minecraft;
 using MCL.Core.Logger;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models;
+using MCL.Core.Models.Java;
 using MCL.Core.Models.Minecraft;
 using MCL.Core.Providers;
 using MCL.Core.Resolvers;
@@ -27,7 +29,7 @@ internal class Program
         Watermark.Draw(ConfigProvider.WatermarkText);
 
         ConfigProvider.Write();
-        ConfigModel config = ConfigProvider.Read();
+        Config config = ConfigProvider.Read();
         if (config == null)
         {
             LogBase.Error(
@@ -86,40 +88,48 @@ internal class Program
             "--launch",
             () =>
             {
-                MCConfigArgs minecraftArgs =
-                    new()
-                    {
-                        InitialHeapSize = "4096",
-                        MaxHeapSize = "4096",
-                        ClassPath = ClassPathHelper.CreateClassPath("./.minecraft/", "1.20.4"),
-                        MainClass = ClientTypeEnumResolver.ToString(ClientTypeEnum.VANILLA),
-                        Username = "Ricochet",
-                        UserType = "legacy",
-                        GameDir = ".",
-                        AssetIndex = MinecraftArgsResolver.AssetIndexId("./.minecraft/").ToString(),
-                        AssetsDir = "assets",
-                        Uuid = CryptographyHelper.UUID("Ricochet"),
-                        ClientId = "0",
-                        Xuid = "0",
-                        AccessToken = "1337535510N",
-                        Version = "1.20.4",
-                        VersionType = "release",
-                        AdditionalArguments =
+                JvmArguments jvmArguments = new();
+                jvmArguments.Add(new LaunchArg("-Xms{0}m", ["4096"]));
+                jvmArguments.Add(new LaunchArg("-Xmx{0}m", ["4096"]));
+                jvmArguments.Add(
+                    new LaunchArg(
+                        "-cp {0} {1}",
                         [
-                            "-XX:+UnlockExperimentalVMOptions",
-                            "-XX:+UseG1GC",
-                            "-XX:G1NewSizePercent=20",
-                            "-XX:G1ReservePercent=20",
-                            "-XX:MaxGCPauseMillis=50",
-                            "-XX:G1HeapRegionSize=32M",
-                            "-XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump",
-                            $"-Djava.library.path={MinecraftArgsResolver.Libraries("1.20.4")}",
-                            $"-Dminecraft.launcher.brand=mcl",
-                            $"-Dminecraft.launcher.version=1.0.0",
+                            ClassPathHelper.CreateClassPath("./.minecraft/", "1.20.4"),
+                            ClientTypeEnumResolver.ToString(ClientTypeEnum.VANILLA)
                         ]
-                    };
+                    )
+                );
+                jvmArguments.Add(new LaunchArg("--username {0}", ["Ricochet"]));
+                jvmArguments.Add(new LaunchArg("--userType {0}", ["legacy"]));
+                jvmArguments.Add(new LaunchArg("--gameDir {0}", ["."]));
+                jvmArguments.Add(
+                    new LaunchArg("--assetIndex {0}", [MinecraftArgsResolver.AssetIndexId("./.minecraft/").ToString()])
+                );
+                jvmArguments.Add(new LaunchArg("--assetsDir {0}", ["assets"]));
+                jvmArguments.Add(new LaunchArg("--accessToken {0}", ["1337535510N"]));
+                jvmArguments.Add(new LaunchArg("--uuid {0}", [CryptographyHelper.UUID("Ricochet")]));
+                jvmArguments.Add(new LaunchArg("--clientId {0}", ["0"]));
+                jvmArguments.Add(new LaunchArg("--xuid {0}", ["0"]));
+                jvmArguments.Add(new LaunchArg("--version {0}", ["1.20.4"]));
+                jvmArguments.Add(new LaunchArg("--versionType {0}", ["release"]));
 
-                LaunchHelper.Launch(MinecraftArgGenerator.Generate(minecraftArgs), "./.minecraft/");
+                jvmArguments.Add(new LaunchArg("-XX:+UnlockExperimentalVMOptions"));
+                jvmArguments.Add(new LaunchArg("-XX:+UseG1GC"));
+                jvmArguments.Add(new LaunchArg("-XX:G1NewSizePercent=20"));
+                jvmArguments.Add(new LaunchArg("-XX:G1ReservePercent=20"));
+                jvmArguments.Add(new LaunchArg("-XX:MaxGCPauseMillis=50"));
+                jvmArguments.Add(new LaunchArg("-XX:G1HeapRegionSize=32M"));
+                jvmArguments.Add(
+                    new LaunchArg(
+                        "-XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump"
+                    )
+                );
+                jvmArguments.Add(new LaunchArg("-Djava.library.path={0}", [MinecraftArgsResolver.Libraries("1.20.4")]));
+                jvmArguments.Add(new LaunchArg("-Dminecraft.launcher.brand={0}", ["mcl"]));
+                jvmArguments.Add(new LaunchArg("-Dminecraft.launcher.version={0}", ["1.0.0"]));
+
+                JavaLaunchHelper.Launch(jvmArguments.Build(), "./.minecraft/");
             }
         );
     }

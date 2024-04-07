@@ -1,6 +1,6 @@
-namespace MCL.Core.Helpers.Minecraft;
+namespace MCL.Core.Helpers.Java;
 
-public static class LaunchHelper
+public static class JavaLaunchHelper
 {
     public static void Launch(string minecraftArgs, string minecraftPath)
     {

@@ -27,7 +27,7 @@ public static class ConfigProvider
         if (!FsProvider.Exists(ConfigFilePath))
         {
             LogBase.Info("Setup: Creating config...");
-            ConfigModel config =
+            Models.Config config =
                 new()
                 {
                     MinecraftArgs = new(),
@@ -40,11 +40,11 @@ public static class ConfigProvider
         }
     }
 
-    public static ConfigModel Read()
+    public static Models.Config Read()
     {
         if (FsProvider.Exists(ConfigFilePath))
         {
-            ConfigModel inputJson = Json.Read<ConfigModel>(ConfigFilePath);
+            Models.Config inputJson = Json.Read<Models.Config>(ConfigFilePath);
             if (inputJson != null)
             {
                 return inputJson;

@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace MCL.Core.Models.Minecraft;
+namespace MCL.Core.Models.Java;
 
 public class JavaRuntimeManifest
 {

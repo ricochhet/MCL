@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using MCL.Core.Enums;
 using MCL.Core.Logger;
 using MCL.Core.MiniCommon;
+using MCL.Core.Models.Java;
 using MCL.Core.Models.Minecraft;
 using MCL.Core.Resolvers.Minecraft;
 using MCL.Core.Web.Java;
