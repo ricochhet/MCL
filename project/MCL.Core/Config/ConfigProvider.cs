@@ -3,7 +3,6 @@ using System.IO;
 using System.Text.Json;
 using MCL.Core.Logger;
 using MCL.Core.MiniCommon;
-using MCL.Core.Models;
 using MCL.Core.Providers;
 
 namespace MCL.Core.Config;
@@ -27,13 +26,7 @@ public static class ConfigProvider
         if (!FsProvider.Exists(ConfigFilePath))
         {
             LogBase.Info("Setup: Creating config...");
-            Models.Config config =
-                new()
-                {
-                    MinecraftArgs = new(),
-                    MinecraftUrls = new(),
-                    FabricUrls = new()
-                };
+            Models.Config config = new() { MinecraftUrls = new(), FabricUrls = new() };
 
             JsonSerializerOptions options = new() { WriteIndented = true };
             Json.Write(DataPath, ConfigFileName, config, options);

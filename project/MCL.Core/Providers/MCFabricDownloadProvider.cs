@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 using MCL.Core.Helpers.Minecraft;
 using MCL.Core.Logger;

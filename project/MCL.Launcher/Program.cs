@@ -1,7 +1,6 @@
 using System;
 using System.Threading.Tasks;
 using MCL.Core.Config;
-using MCL.Core.Config.Minecraft;
 using MCL.Core.Enums;
 using MCL.Core.Helpers;
 using MCL.Core.Helpers.Java;
@@ -10,11 +9,9 @@ using MCL.Core.Logger;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models;
 using MCL.Core.Models.Java;
-using MCL.Core.Models.Minecraft;
 using MCL.Core.Providers;
 using MCL.Core.Resolvers;
 using MCL.Core.Resolvers.Minecraft;
-using MCL.Core.Web.Minecraft;
 
 namespace MCL.Launcher;
 
