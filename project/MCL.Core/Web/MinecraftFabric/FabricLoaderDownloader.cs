@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using MCL.Core.Interfaces.Minecraft;
 using MCL.Core.Logger;
 using MCL.Core.MiniCommon;
+using MCL.Core.Models.Launcher;
 using MCL.Core.Models.MinecraftFabric;
 using MCL.Core.Providers;
 using MCL.Core.Resolvers.Minecraft;
@@ -10,9 +11,12 @@ namespace MCL.Core.Web.Minecraft;
 
 public class FabricLoaderDownloader : IFabricLoaderDownloader
 {
-    public static async Task<bool> Download(string fabricPath, MCFabricInstaller fabricInstaller)
+    public static async Task<bool> Download(MCLauncherPath fabricPath, MCFabricInstaller fabricInstaller)
     {
-        if (!Exists(fabricPath, fabricInstaller))
+        if (!MCLauncherPath.Exists(fabricPath))
+            return false;
+
+        if (!Exists(fabricInstaller))
             return false;
 
         // Fabric does not provide a file hash through the current method. We do simple check of the version instead.
@@ -28,11 +32,8 @@ public class FabricLoaderDownloader : IFabricLoaderDownloader
         );
     }
 
-    public static bool Exists(string fabricPath, MCFabricInstaller fabricInstaller)
+    public static bool Exists(MCFabricInstaller fabricInstaller)
     {
-        if (string.IsNullOrEmpty(fabricPath))
-            return false;
-
         if (fabricInstaller == null)
             return false;
 

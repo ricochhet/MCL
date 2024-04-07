@@ -8,6 +8,7 @@ using MCL.Core.Logger;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models;
 using MCL.Core.Models.Java;
+using MCL.Core.Models.Launcher;
 using MCL.Core.Providers;
 using MCL.Core.Resolvers;
 using MCL.Core.Resolvers.Minecraft;
@@ -35,6 +36,17 @@ internal class Program
             return;
         }
 
+        MCLauncherPath launcherPath = new() { MCPath = "./.minecraft", FabricPath = "./.minecraft-fabric" };
+        MCLauncherVersion launcherVersion = new() { MCVersion = "1.20.4", FabricVersion = "1.0.0" };
+        MCLauncher launcher =
+            new(
+                launcherPath,
+                launcherVersion,
+                ClientTypeEnum.VANILLA,
+                JavaRuntimeTypeEnum.JAVA_RUNTIME_GAMMA,
+                JavaRuntimePlatformEnum.WINDOWSX64
+            );
+
         if (args.Length <= 0)
             return;
 
@@ -45,9 +57,9 @@ internal class Program
             {
                 JavaDownloadProvider javaDownloadProvider =
                     new(
-                        "./.minecraft",
+                        launcher.MCLauncherPath,
                         config.MinecraftUrls,
-                        VersionHelper.GetDownloadedMCVersionJava("./.minecraft", "1.20.4"),
+                        VersionHelper.GetDownloadedMCVersionJava(launcher.MCLauncherPath, launcher.MCLauncherVersion),
                         JavaRuntimePlatformEnum.WINDOWSX64
                     );
 
@@ -62,7 +74,12 @@ internal class Program
             async () =>
             {
                 MCDownloadProvider downloadProvider =
-                    new("./.minecraft", "1.20.4", PlatformEnum.WINDOWS, config.MinecraftUrls);
+                    new(
+                        launcher.MCLauncherPath,
+                        launcher.MCLauncherVersion,
+                        PlatformEnum.WINDOWS,
+                        config.MinecraftUrls
+                    );
                 if (!await downloadProvider.DownloadAll())
                     return;
             }
@@ -73,7 +90,8 @@ internal class Program
             "--dl-fabric",
             async () =>
             {
-                MCFabricDownloadProvider downloadProvider = new("./.minecraft-fabric", "1.0.0", config.FabricUrls);
+                MCFabricDownloadProvider downloadProvider =
+                    new(launcher.MCLauncherPath, launcher.MCLauncherVersion, config.FabricUrls);
                 if (!await downloadProvider.DownloadAll())
                     return;
             }
@@ -98,14 +116,19 @@ internal class Program
                         "-XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump"
                     )
                 );
-                jvmArguments.Add(new LaunchArg("-Djava.library.path={0}", [MinecraftPathResolver.Libraries("1.20.4")]));
+                jvmArguments.Add(
+                    new LaunchArg(
+                        "-Djava.library.path={0}",
+                        [MinecraftPathResolver.Libraries(launcher.MCLauncherVersion)]
+                    )
+                );
                 jvmArguments.Add(new LaunchArg("-Dminecraft.launcher.brand={0}", ["mcl"]));
                 jvmArguments.Add(new LaunchArg("-Dminecraft.launcher.version={0}", ["1.0.0"]));
                 jvmArguments.Add(
                     new LaunchArg(
                         "-cp {0} {1}",
                         [
-                            ClassPathHelper.CreateClassPath("./.minecraft/", "1.20.4"),
+                            ClassPathHelper.CreateClassPath(launcher.MCLauncherPath, launcher.MCLauncherVersion),
                             ClientTypeEnumResolver.ToString(ClientTypeEnum.VANILLA)
                         ]
                     )
@@ -114,7 +137,10 @@ internal class Program
                 jvmArguments.Add(new LaunchArg("--userType {0}", ["legacy"]));
                 jvmArguments.Add(new LaunchArg("--gameDir {0}", ["."]));
                 jvmArguments.Add(
-                    new LaunchArg("--assetIndex {0}", [MinecraftPathResolver.AssetIndexId("./.minecraft/").ToString()])
+                    new LaunchArg(
+                        "--assetIndex {0}",
+                        [MinecraftPathResolver.AssetIndexId(launcher.MCLauncherPath).ToString()]
+                    )
                 );
                 jvmArguments.Add(new LaunchArg("--assetsDir {0}", ["assets"]));
                 jvmArguments.Add(new LaunchArg("--accessToken {0}", ["1337535510N"]));

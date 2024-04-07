@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using MCL.Core.Interfaces;
 using MCL.Core.Interfaces.Minecraft;
 using MCL.Core.MiniCommon;
+using MCL.Core.Models.Launcher;
 using MCL.Core.Models.Minecraft;
 using MCL.Core.Resolvers.Minecraft;
 
@@ -9,9 +10,12 @@ namespace MCL.Core.Web.Minecraft;
 
 public class IndexDownloader : IMCGenericDownloader
 {
-    public static async Task<bool> Download(string minecraftPath, MCVersionDetails versionDetails)
+    public static async Task<bool> Download(MCLauncherPath minecraftPath, MCVersionDetails versionDetails)
     {
-        if (!Exists(minecraftPath, versionDetails))
+        if (!MCLauncherPath.Exists(minecraftPath))
+            return false;
+
+        if (!Exists(versionDetails))
             return false;
 
         return await Request.Download(
@@ -21,11 +25,8 @@ public class IndexDownloader : IMCGenericDownloader
         );
     }
 
-    public static bool Exists(string minecraftPath, MCVersionDetails versionDetails)
+    public static bool Exists(MCVersionDetails versionDetails)
     {
-        if (string.IsNullOrEmpty(minecraftPath))
-            return false;
-
         if (versionDetails == null)
             return false;
 

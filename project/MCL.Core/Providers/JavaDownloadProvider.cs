@@ -3,6 +3,7 @@ using MCL.Core.Enums;
 using MCL.Core.Logger;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Java;
+using MCL.Core.Models.Launcher;
 using MCL.Core.Models.Minecraft;
 using MCL.Core.Resolvers;
 using MCL.Core.Resolvers.Minecraft;
@@ -14,13 +15,13 @@ public class JavaDownloadProvider
 {
     public JavaRuntimeIndex javaRuntimeIndex = new();
     public JavaRuntimeFiles javaRuntimeFiles = new();
-    private static string minecraftPath;
+    private static MCLauncherPath minecraftPath;
     private static MCConfigUrls minecraftUrls;
     private static JavaRuntimeTypeEnum javaRuntimeType;
     private static JavaRuntimePlatformEnum javaRuntimePlatform;
 
     public JavaDownloadProvider(
-        string _minecraftPath,
+        MCLauncherPath _minecraftPath,
         MCConfigUrls _minecraftUrls,
         JavaRuntimeTypeEnum _javaRuntimeType,
         JavaRuntimePlatformEnum _javaRuntimePlatform

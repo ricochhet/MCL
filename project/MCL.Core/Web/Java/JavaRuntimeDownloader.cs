@@ -4,6 +4,7 @@ using MCL.Core.Enums;
 using MCL.Core.Interfaces.Java;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Java;
+using MCL.Core.Models.Launcher;
 using MCL.Core.Resolvers;
 using MCL.Core.Resolvers.Minecraft;
 
@@ -12,12 +13,15 @@ namespace MCL.Core.Web.Java;
 public class JavaRuntimeDownloader : IJavaRuntimeDownloader
 {
     public static async Task<bool> Download(
-        string minecraftPath,
+        MCLauncherPath minecraftPath,
         JavaRuntimeTypeEnum javaRuntimeType,
         JavaRuntimeFiles javaRuntimeFiles
     )
     {
-        if (!Exists(minecraftPath, javaRuntimeFiles))
+        if (!MCLauncherPath.Exists(minecraftPath))
+            return false;
+
+        if (!Exists(javaRuntimeFiles))
             return false;
 
         foreach ((string path, JavaRuntimeFile javaRuntimeFile) in javaRuntimeFiles.Files)
@@ -59,11 +63,8 @@ public class JavaRuntimeDownloader : IJavaRuntimeDownloader
         return true;
     }
 
-    public static bool Exists(string minecraftPath, JavaRuntimeFiles javaRuntimeFiles)
+    public static bool Exists(JavaRuntimeFiles javaRuntimeFiles)
     {
-        if (string.IsNullOrEmpty(minecraftPath))
-            return false;
-
         if (javaRuntimeFiles == null)
             return false;
 

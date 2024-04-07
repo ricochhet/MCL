@@ -6,6 +6,7 @@ using MCL.Core.Enums;
 using MCL.Core.Interfaces.Java;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Java;
+using MCL.Core.Models.Launcher;
 using MCL.Core.Resolvers;
 using MCL.Core.Resolvers.Minecraft;
 
@@ -14,13 +15,16 @@ namespace MCL.Core.Web.Java;
 public class JavaRuntimeManifestDownloader : IJavaRuntimeManifestDownloader
 {
     public static async Task<bool> Download(
-        string minecraftPath,
+        MCLauncherPath minecraftPath,
         JavaRuntimePlatformEnum javaRuntimePlatformEnum,
         JavaRuntimeTypeEnum javaRuntimeTypeEnum,
         JavaRuntimeIndex javaRuntimeIndex
     )
     {
-        if (!Exists(minecraftPath, javaRuntimeIndex))
+        if (!MCLauncherPath.Exists(minecraftPath))
+            return false;
+
+        if (!Exists(javaRuntimeIndex))
             return false;
 
         string url = javaRuntimePlatformEnum switch
@@ -57,11 +61,8 @@ public class JavaRuntimeManifestDownloader : IJavaRuntimeManifestDownloader
         return true;
     }
 
-    public static bool Exists(string minecraftPath, JavaRuntimeIndex javaRuntimeIndex)
+    public static bool Exists(JavaRuntimeIndex javaRuntimeIndex)
     {
-        if (string.IsNullOrEmpty(minecraftPath))
-            return false;
-
         if (javaRuntimeIndex == null)
             return false;
 

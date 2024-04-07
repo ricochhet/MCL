@@ -6,6 +6,7 @@ using MCL.Core.Interfaces;
 using MCL.Core.Interfaces.Minecraft;
 using MCL.Core.Logger;
 using MCL.Core.MiniCommon;
+using MCL.Core.Models.Launcher;
 using MCL.Core.Models.Minecraft;
 using MCL.Core.Resolvers;
 using MCL.Core.Resolvers.Minecraft;
@@ -15,15 +16,15 @@ namespace MCL.Core.Web.Minecraft;
 public class LibraryDownloader : IMCLibraryDownloader
 {
     public static async Task<bool> Download(
-        string minecraftPath,
+        MCLauncherPath minecraftPath,
         PlatformEnum minecraftPlatform,
         List<MCLibrary> libraries
     )
     {
-        if (string.IsNullOrEmpty(minecraftPath))
+        if (!MCLauncherPath.Exists(minecraftPath))
             return false;
 
-        string libPath = Path.Combine(minecraftPath, "libraries");
+        string libPath = Path.Combine(minecraftPath.MCPath, "libraries");
         foreach (MCLibrary lib in libraries)
         {
             if (lib.Downloads == null)
@@ -94,7 +95,11 @@ public class LibraryDownloader : IMCLibraryDownloader
         return !allowLibrary;
     }
 
-    public static async Task<bool> DownloadNatives(string minecraftPath, MCLibrary lib, PlatformEnum minecraftPlatform)
+    public static async Task<bool> DownloadNatives(
+        MCLauncherPath minecraftPath,
+        MCLibrary lib,
+        PlatformEnum minecraftPlatform
+    )
     {
         if (lib.Downloads.Classifiers == null)
             return true;

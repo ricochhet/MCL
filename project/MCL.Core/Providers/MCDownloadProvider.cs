@@ -3,6 +3,7 @@ using MCL.Core.Enums;
 using MCL.Core.Helpers.Minecraft;
 using MCL.Core.Logger;
 using MCL.Core.MiniCommon;
+using MCL.Core.Models.Launcher;
 using MCL.Core.Models.Minecraft;
 using MCL.Core.Resolvers.Minecraft;
 using MCL.Core.Web.Minecraft;
@@ -15,14 +16,14 @@ public class MCDownloadProvider
     public MCVersionDetails versionDetails = new();
     public MCVersion version;
     public MCAssetsData assets = new();
-    private static string minecraftPath;
-    private static string minecraftVersion;
+    private static MCLauncherPath minecraftPath;
+    private static MCLauncherVersion minecraftVersion;
     private static PlatformEnum minecraftPlatform;
     private static MCConfigUrls minecraftUrls;
 
     public MCDownloadProvider(
-        string _minecraftPath,
-        string _minecraftVersion,
+        MCLauncherPath _minecraftPath,
+        MCLauncherVersion _minecraftVersion,
         PlatformEnum _minecraftPlatform,
         MCConfigUrls _minecraftUrls
     )

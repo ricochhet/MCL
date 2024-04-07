@@ -2,6 +2,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MCL.Core.Interfaces.Minecraft;
 using MCL.Core.MiniCommon;
+using MCL.Core.Models.Launcher;
 using MCL.Core.Models.Minecraft;
 using MCL.Core.Models.MinecraftFabric;
 using MCL.Core.Resolvers.Minecraft;
@@ -10,9 +11,12 @@ namespace MCL.Core.Web.Minecraft;
 
 public class FabricIndexDownloader : IFabricIndexDownloader
 {
-    public static async Task<bool> Download(string fabricPath, MCFabricConfigUrls fabricUrls)
+    public static async Task<bool> Download(MCLauncherPath fabricPath, MCFabricConfigUrls fabricUrls)
     {
-        if (!Exists(fabricPath, fabricUrls))
+        if (!MCLauncherPath.Exists(fabricPath))
+            return false;
+
+        if (!Exists(fabricUrls))
             return false;
 
         string downloadPath = MinecraftFabricPathResolver.DownloadedFabricIndexPath(fabricPath);
@@ -22,11 +26,8 @@ public class FabricIndexDownloader : IFabricIndexDownloader
         return true;
     }
 
-    public static bool Exists(string fabricPath, MCFabricConfigUrls fabricUrls)
+    public static bool Exists(MCFabricConfigUrls fabricUrls)
     {
-        if (string.IsNullOrEmpty(fabricPath))
-            return false;
-
         if (fabricUrls == null)
             return false;
 

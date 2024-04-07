@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using MCL.Core.Enums;
 using MCL.Core.Models.Java;
+using MCL.Core.Models.Launcher;
 using MCL.Core.Models.Minecraft;
 
 namespace MCL.Core.Interfaces.Java;
@@ -9,7 +10,7 @@ namespace MCL.Core.Interfaces.Java;
 public interface IJavaRuntimeManifestDownloader
 {
     public static abstract Task<bool> Download(
-        string minecraftPath,
+        MCLauncherPath minecraftPath,
         JavaRuntimePlatformEnum javaRuntimePlatformEnum,
         JavaRuntimeTypeEnum javaRuntimeTypeEnum,
         JavaRuntimeIndex javaRuntimeIndex
@@ -18,7 +19,7 @@ public interface IJavaRuntimeManifestDownloader
         JavaRuntimeTypeEnum javaRuntimeTypeEnum,
         JavaRuntime javaRuntimePlatform
     );
-    public static abstract bool Exists(string minecraftPath, JavaRuntimeIndex javaRuntimeIndex);
+    public static abstract bool Exists(JavaRuntimeIndex javaRuntimeIndex);
 
     public static abstract bool JavaRuntimeUrlExists(
         JavaRuntime javaRuntimePlatform,

@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using MCL.Core.Helpers.Minecraft;
 using MCL.Core.Logger;
 using MCL.Core.MiniCommon;
+using MCL.Core.Models.Launcher;
 using MCL.Core.Models.Minecraft;
 using MCL.Core.Models.MinecraftFabric;
 using MCL.Core.Resolvers.Minecraft;
@@ -12,12 +13,16 @@ namespace MCL.Core.Providers;
 public class MCFabricDownloadProvider
 {
     public MCFabricIndex fabricIndex = new();
-    private static string fabricPath;
-    private static string fabricVersion;
+    private static MCLauncherPath fabricPath;
+    private static MCLauncherVersion fabricVersion;
     private static MCFabricConfigUrls fabricUrls;
     private static MCFabricInstaller fabricInstaller;
 
-    public MCFabricDownloadProvider(string _fabricPath, string _fabricVersion, MCFabricConfigUrls _fabricUrls)
+    public MCFabricDownloadProvider(
+        MCLauncherPath _fabricPath,
+        MCLauncherVersion _fabricVersion,
+        MCFabricConfigUrls _fabricUrls
+    )
     {
         fabricPath = _fabricPath;
         fabricVersion = _fabricVersion;

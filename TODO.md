@@ -7,7 +7,7 @@ Tasks marked with (*) are easier to do.
     - [ ] Add logging to error handles.
 - [ ] Implement log information object.
     - This provides more consistent logging and client frontend logging.
-- [ ] Evaluate configuration properties and architecture.
+- [x] Evaluate configuration properties and architecture.
     - This includes unifying property names.
 - [x] (*) JVM arguments should be stored.
     - Stored arguments should be categorized by the loader.
