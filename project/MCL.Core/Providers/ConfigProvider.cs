@@ -1,11 +1,13 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Text.Encodings.Web;
 using System.Text.Json;
 using MCL.Core.Logger;
 using MCL.Core.MiniCommon;
+using MCL.Core.Models;
 using MCL.Core.Providers;
 
-namespace MCL.Core.Config;
+namespace MCL.Core.Providers;
 
 public static class ConfigProvider
 {
@@ -26,7 +28,7 @@ public static class ConfigProvider
         if (!FsProvider.Exists(ConfigFilePath))
         {
             LogBase.Info("Setup: Creating config...");
-            Models.Config config =
+            Config config =
                 new()
                 {
                     MinecraftUrls = new(),
@@ -40,16 +42,27 @@ public static class ConfigProvider
         }
     }
 
-    public static Models.Config Read()
+    public static void Write(Config config)
+    {
+        if (!FsProvider.Exists(ConfigFilePath))
+            return;
+
+        Config existingConfig = Read();
+        if (existingConfig == config)
+            return;
+
+        JsonSerializerOptions options =
+            new() { WriteIndented = true, Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping };
+        Json.Write(DataPath, ConfigFileName, config, options);
+    }
+
+    public static Config Read()
     {
         if (FsProvider.Exists(ConfigFilePath))
         {
-            Models.Config inputJson = Json.Read<Models.Config>(ConfigFilePath);
+            Config inputJson = Json.Read<Config>(ConfigFilePath);
             if (inputJson != null)
-            {
                 return inputJson;
-            }
-
             return null;
         }
 

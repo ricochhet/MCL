@@ -1,5 +1,7 @@
+using System.Diagnostics;
 using System.IO;
 using MCL.Core.Enums;
+using MCL.Core.Models;
 using MCL.Core.Models.Java;
 using MCL.Core.Resolvers;
 
@@ -27,5 +29,66 @@ public static class JavaLaunchHelper
             false,
             new() { { "JAVA_HOME", javaBin } }
         );
+    }
+
+    public static void Launch(
+        Config config,
+        string workingDirectory,
+        ClientTypeEnum clientType,
+        JavaRuntimeTypeEnum javaRuntimeType
+    )
+    {
+        if (config == null)
+            return;
+
+        string javaBin = Path.Combine(
+            workingDirectory,
+            "runtime",
+            JavaRuntimeTypeEnumResolver.ToString(javaRuntimeType),
+            "bin"
+        );
+
+        switch (clientType)
+        {
+            case ClientTypeEnum.VANILLA:
+                if (!JvmArgumentsExist(config, config.MinecraftArgs))
+                    return;
+                ProcessHelper.RunProcess(
+                    Path.Combine(javaBin, "java.exe"),
+                    config.MinecraftArgs.Build(),
+                    workingDirectory,
+                    false,
+                    new() { { "JAVA_HOME", javaBin } }
+                );
+                break;
+            case ClientTypeEnum.FABRIC:
+                if (!JvmArgumentsExist(config, config.FabricArgs))
+                    return;
+                ProcessHelper.RunProcess(
+                    Path.Combine(javaBin, "java.exe"),
+                    config.FabricArgs.Build(),
+                    workingDirectory,
+                    false,
+                    new() { { "JAVA_HOME", javaBin } }
+                );
+                break;
+        }
+    }
+
+    private static bool JvmArgumentsExist(Config config, JvmArguments jvmArguments)
+    {
+        if (config == null)
+            return false;
+
+        if (jvmArguments == null)
+            return false;
+
+        if (jvmArguments.Arguments == null)
+            return false;
+
+        if (jvmArguments.Arguments.Count <= 0)
+            return false;
+
+        return true;
     }
 }

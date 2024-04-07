@@ -1,6 +1,5 @@
 using System;
 using System.Threading.Tasks;
-using MCL.Core.Config;
 using MCL.Core.Enums;
 using MCL.Core.Helpers;
 using MCL.Core.Helpers.Java;
@@ -125,7 +124,13 @@ internal class Program
                 jvmArguments.Add(new LaunchArg("--version {0}", ["1.20.4"]));
                 jvmArguments.Add(new LaunchArg("--versionType {0}", ["release"]));
 
-                JavaLaunchHelper.Launch(jvmArguments, "./.minecraft/", JavaRuntimeTypeEnum.JAVA_RUNTIME_GAMMA);
+                ConfigProvider.Write(ConfigHelper.Write(ClientTypeEnum.VANILLA, config, jvmArguments));
+                JavaLaunchHelper.Launch(
+                    config,
+                    "./.minecraft/",
+                    ClientTypeEnum.VANILLA,
+                    JavaRuntimeTypeEnum.JAVA_RUNTIME_GAMMA
+                );
             }
         );
     }

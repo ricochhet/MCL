@@ -70,7 +70,7 @@ public class MCDownloadProvider
 
     public async Task<bool> DownloadVersionManifest()
     {
-        if (!await VersionManifestDownloader.Download(minecraftUrls, minecraftPath))
+        if (!await VersionManifestDownloader.Download(minecraftPath, minecraftUrls))
         {
             LogBase.Error("Failed to download version manifest");
             return false;

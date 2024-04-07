@@ -9,7 +9,7 @@ Tasks marked with (*) are easier to do.
     - This provides more consistent logging and client frontend logging.
 - [ ] Evaluate configuration properties and architecture.
     - This includes unifying property names.
-- [ ] (*) JVM arguments should be stored.
+- [x] (*) JVM arguments should be stored.
     - Stored arguments should be categorized by the loader.
     - As a byproduct; user-specific information is stored, e.g. username.
 - [ ] Implement DownloadStatistic object.
