@@ -48,23 +48,18 @@ public static class JavaRuntimeManifestDownloader
         return true;
     }
 
-    private static string GetJavaRuntimeUrl(JavaRuntimeTypeEnum javaRuntimeTypeEnum, dynamic javaRuntimePlatform)
+    private static string GetJavaRuntimeUrl(JavaRuntimeTypeEnum javaRuntimeTypeEnum, JavaRuntime javaRuntimePlatform)
     {
         return javaRuntimeTypeEnum switch
         {
-            JavaRuntimeTypeEnum.JAVA_RUNTIME_ALPHA
-                => (string)javaRuntimePlatform.JavaRuntimeAlpha[0].JavaRuntimeManifest.Url,
-            JavaRuntimeTypeEnum.JAVA_RUNTIME_BETA
-                => (string)javaRuntimePlatform.JavaRuntimeBeta[0].JavaRuntimeManifest.Url,
-            JavaRuntimeTypeEnum.JAVA_RUNTIME_DELTA
-                => (string)javaRuntimePlatform.JavaRuntimeDelta[0].JavaRuntimeManifest.Url,
-            JavaRuntimeTypeEnum.JAVA_RUNTIME_GAMMA
-                => (string)javaRuntimePlatform.JavaRuntimeGamma[0].JavaRuntimeManifest.Url,
+            JavaRuntimeTypeEnum.JAVA_RUNTIME_ALPHA => javaRuntimePlatform.JavaRuntimeAlpha[0].JavaRuntimeManifest.Url,
+            JavaRuntimeTypeEnum.JAVA_RUNTIME_BETA => javaRuntimePlatform.JavaRuntimeBeta[0].JavaRuntimeManifest.Url,
+            JavaRuntimeTypeEnum.JAVA_RUNTIME_DELTA => javaRuntimePlatform.JavaRuntimeDelta[0].JavaRuntimeManifest.Url,
+            JavaRuntimeTypeEnum.JAVA_RUNTIME_GAMMA => javaRuntimePlatform.JavaRuntimeGamma[0].JavaRuntimeManifest.Url,
             JavaRuntimeTypeEnum.JAVA_RUNTIME_GAMMA_SNAPSHOT
-                => (string)javaRuntimePlatform.JavaRuntimeGammaSnapshot[0].JavaRuntimeManifest.Url,
-            JavaRuntimeTypeEnum.JRE_LEGACY => (string)javaRuntimePlatform.JreLegacy[0].JavaRuntimeManifest.Url,
-            JavaRuntimeTypeEnum.MINECRAFT_JAVA_EXE
-                => (string)javaRuntimePlatform.MinecraftJavaExe[0].JavaRuntimeManifest.Url,
+                => javaRuntimePlatform.JavaRuntimeGammaSnapshot[0].JavaRuntimeManifest.Url,
+            JavaRuntimeTypeEnum.JRE_LEGACY => javaRuntimePlatform.JreLegacy[0].JavaRuntimeManifest.Url,
+            JavaRuntimeTypeEnum.MINECRAFT_JAVA_EXE => javaRuntimePlatform.MinecraftJavaExe[0].JavaRuntimeManifest.Url,
             _ => throw new ArgumentOutOfRangeException(nameof(javaRuntimeTypeEnum), "Invalid Java runtime type."),
         };
     }
