@@ -4,6 +4,7 @@ using MCL.Core.Logger;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Java;
 using MCL.Core.Models.Minecraft;
+using MCL.Core.Resolvers;
 using MCL.Core.Resolvers.Minecraft;
 using MCL.Core.Web.Java;
 
@@ -76,7 +77,7 @@ public class JavaDownloadProvider
         }
 
         javaRuntimeFiles = Json.Read<JavaRuntimeFiles>(
-            MinecraftPathResolver.DownloadedJavaRuntimeManifestPath(minecraftPath)
+            MinecraftPathResolver.DownloadedJavaRuntimeManifestPath(minecraftPath, JavaRuntimeTypeEnumResolver.ToString(javaRuntimeType))
         );
 
         return true;

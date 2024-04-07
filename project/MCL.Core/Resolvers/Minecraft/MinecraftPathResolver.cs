@@ -75,18 +75,23 @@ public static class MinecraftPathResolver
         return Path.Combine(minecraftPath, "versions", version.ID + ".json");
     }
 
-    public static string DownloadedJavaRuntimeIndexPath(string minecraftPath)
+    public static string JavaRuntimePath(string minecraftPath)
     {
-        return Path.Combine(minecraftPath, "java_runtime_index.json");
+        return Path.Combine(minecraftPath, "runtime");
     }
 
-    public static string DownloadedJavaRuntimeManifestPath(string minecraftPath)
+    public static string DownloadedJavaRuntimeIndexPath(string minecraftPath)
     {
-        return Path.Combine(minecraftPath, "java_runtime_manifest.json");
+        return Path.Combine(JavaRuntimePath(minecraftPath), "java_runtime_index.json");
+    }
+
+    public static string DownloadedJavaRuntimeManifestPath(string minecraftPath, string javaRuntimeVersion)
+    {
+        return Path.Combine(JavaRuntimePath(minecraftPath), javaRuntimeVersion, "java_runtime_manifest.json");
     }
 
     public static string DownloadedJavaRuntimePath(string minecraftPath, string javaRuntimeVersion)
     {
-        return Path.Combine(minecraftPath, "runtime", javaRuntimeVersion);
+        return Path.Combine(JavaRuntimePath(minecraftPath), javaRuntimeVersion);
     }
 }

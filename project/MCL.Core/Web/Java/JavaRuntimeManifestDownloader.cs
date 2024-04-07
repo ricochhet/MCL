@@ -5,6 +5,7 @@ using MCL.Core.Enums;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Java;
 using MCL.Core.Models.Minecraft;
+using MCL.Core.Resolvers;
 using MCL.Core.Resolvers.Minecraft;
 
 namespace MCL.Core.Web.Java;
@@ -42,7 +43,7 @@ public static class JavaRuntimeManifestDownloader
         if (string.IsNullOrEmpty(url))
             return false;
 
-        string downloadPath = MinecraftPathResolver.DownloadedJavaRuntimeManifestPath(minecraftPath);
+        string downloadPath = MinecraftPathResolver.DownloadedJavaRuntimeManifestPath(minecraftPath, JavaRuntimeTypeEnumResolver.ToString(javaRuntimeTypeEnum));
         string javaRuntimeManifest = await Request.DoRequest(url, downloadPath, Encoding.UTF8);
         if (string.IsNullOrEmpty(javaRuntimeManifest))
             return false;

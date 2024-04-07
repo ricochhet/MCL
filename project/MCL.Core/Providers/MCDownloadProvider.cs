@@ -119,6 +119,12 @@ public class MCDownloadProvider
             return false;
         }
 
+        if (!await ClientDownloader.DownloadMappings(minecraftPath, versionDetails))
+        {
+            LogBase.Error("Failed to download client mappings");
+            return false;
+        }
+
         return true;
     }
 
@@ -127,6 +133,12 @@ public class MCDownloadProvider
         if (!await ServerDownloader.Download(minecraftPath, versionDetails))
         {
             LogBase.Error("Failed to download server");
+            return false;
+        }
+
+        if (!await ServerDownloader.DownloadMappings(minecraftPath, versionDetails))
+        {
+            LogBase.Error("Failed to download server mappings");
             return false;
         }
 
