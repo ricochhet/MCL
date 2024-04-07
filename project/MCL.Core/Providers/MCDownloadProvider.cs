@@ -47,7 +47,13 @@ public class MCDownloadProvider
         if (!await DownloadClient())
             return false;
 
+        if (!await DownloadClientMappings())
+            return false;
+
         if (!await DownloadServer())
+            return false;
+
+        if (!await DownloadServerMappings())
             return false;
 
         if (!await DownloadAssetIndex())
@@ -118,7 +124,12 @@ public class MCDownloadProvider
             return false;
         }
 
-        if (!await ClientDownloader.DownloadMappings(minecraftPath, versionDetails))
+        return true;
+    }
+
+    public async Task<bool> DownloadClientMappings()
+    {
+        if (!await ClientMappingsDownloader.Download(minecraftPath, versionDetails))
         {
             LogBase.Error("Failed to download client mappings");
             return false;
@@ -135,7 +146,12 @@ public class MCDownloadProvider
             return false;
         }
 
-        if (!await ServerDownloader.DownloadMappings(minecraftPath, versionDetails))
+        return true;
+    }
+
+    public async Task<bool> DownloadServerMappings()
+    {
+        if (!await ServerMappingsDownloader.Download(minecraftPath, versionDetails))
         {
             LogBase.Error("Failed to download server mappings");
             return false;

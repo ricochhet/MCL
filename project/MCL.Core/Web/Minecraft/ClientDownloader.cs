@@ -22,20 +22,4 @@ public static class ClientDownloader
             versionDetails.Downloads.Client.SHA1
         );
     }
-
-    public static async Task<bool> DownloadMappings(string minecraftPath, MCVersionDetails versionDetails)
-    {
-        if (
-            versionDetails?.Downloads?.ClientMappings == null
-            || string.IsNullOrEmpty(versionDetails.Downloads.ClientMappings?.SHA1)
-            || string.IsNullOrEmpty(versionDetails.Downloads.ClientMappings?.URL)
-        )
-            return false;
-
-        return await Request.Download(
-            MinecraftPathResolver.ClientMappingsPath(minecraftPath, versionDetails),
-            versionDetails.Downloads.ClientMappings.URL,
-            versionDetails.Downloads.ClientMappings.SHA1
-        );
-    }
 }

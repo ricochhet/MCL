@@ -26,20 +26,4 @@ public static class ServerDownloader
             versionDetails.Downloads.Server.SHA1
         );
     }
-
-    public static async Task<bool> DownloadMappings(string minecraftPath, MCVersionDetails versionDetails)
-    {
-        if (
-            versionDetails?.Downloads?.ServerMappings == null
-            || string.IsNullOrEmpty(versionDetails.Downloads.ServerMappings?.SHA1)
-            || string.IsNullOrEmpty(versionDetails.Downloads.ServerMappings?.URL)
-        )
-            return false;
-
-        return await Request.Download(
-            MinecraftPathResolver.ServerMappingsPath(minecraftPath, versionDetails),
-            versionDetails.Downloads.ServerMappings.URL,
-            versionDetails.Downloads.ServerMappings.SHA1
-        );
-    }
 }
