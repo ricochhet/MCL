@@ -1,20 +1,17 @@
 using System.Threading.Tasks;
 using MCL.Core.Helpers.Minecraft;
+using MCL.Core.Interfaces;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Minecraft;
 using MCL.Core.Resolvers.Minecraft;
 
 namespace MCL.Core.Web.Minecraft;
 
-public static class ServerDownloader
+public class ServerDownloader : IMCGenericDownloader
 {
     public static async Task<bool> Download(string minecraftPath, MCVersionDetails versionDetails)
     {
-        if (
-            versionDetails?.Downloads?.Server == null
-            || string.IsNullOrEmpty(versionDetails.Downloads.Server?.SHA1)
-            || string.IsNullOrEmpty(versionDetails.Downloads.Server?.URL)
-        )
+        if (!Exists(versionDetails))
             return false;
 
         ServerProperties.NewEula(minecraftPath);
@@ -25,5 +22,25 @@ public static class ServerDownloader
             versionDetails.Downloads.Server.URL,
             versionDetails.Downloads.Server.SHA1
         );
+    }
+
+    public static bool Exists(MCVersionDetails versionDetails)
+    {
+        if (versionDetails == null)
+            return false;
+
+        if (versionDetails.Downloads == null)
+            return false;
+
+        if (versionDetails.Downloads.Server == null)
+            return false;
+
+        if (string.IsNullOrEmpty(versionDetails.Downloads.Server.SHA1))
+            return false;
+
+        if (string.IsNullOrEmpty(versionDetails.Downloads.Server.URL))
+            return false;
+
+        return true;
     }
 }

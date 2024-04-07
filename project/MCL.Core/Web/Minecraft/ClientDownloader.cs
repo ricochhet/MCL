@@ -1,19 +1,16 @@
 using System.Threading.Tasks;
+using MCL.Core.Interfaces;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Minecraft;
 using MCL.Core.Resolvers.Minecraft;
 
 namespace MCL.Core.Web.Minecraft;
 
-public static class ClientDownloader
+public class ClientDownloader : IMCGenericDownloader
 {
     public static async Task<bool> Download(string minecraftPath, MCVersionDetails versionDetails)
     {
-        if (
-            versionDetails?.Downloads?.Client == null
-            || string.IsNullOrEmpty(versionDetails.Downloads.Client?.SHA1)
-            || string.IsNullOrEmpty(versionDetails.Downloads.Client?.URL)
-        )
+        if (!Exists(versionDetails))
             return false;
 
         return await Request.Download(
@@ -21,5 +18,25 @@ public static class ClientDownloader
             versionDetails.Downloads.Client.URL,
             versionDetails.Downloads.Client.SHA1
         );
+    }
+
+    public static bool Exists(MCVersionDetails versionDetails)
+    {
+        if (versionDetails == null)
+            return false;
+
+        if (versionDetails.Downloads == null)
+            return false;
+
+        if (versionDetails.Downloads.Client == null)
+            return false;
+
+        if (string.IsNullOrEmpty(versionDetails.Downloads.Client.SHA1))
+            return false;
+
+        if (string.IsNullOrEmpty(versionDetails.Downloads.Client.URL))
+            return false;
+
+        return true;
     }
 }

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using MCL.Core.Enums;
+using MCL.Core.Interfaces;
 using MCL.Core.Logger;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Minecraft;
@@ -10,7 +11,7 @@ using MCL.Core.Resolvers.Minecraft;
 
 namespace MCL.Core.Web.Minecraft;
 
-public static class LibraryDownloader
+public class LibraryDownloader : IMCLibraryDownloader
 {
     public static async Task<bool> Download(
         string minecraftPath,
@@ -30,12 +31,7 @@ public static class LibraryDownloader
             if (!await DownloadNatives(minecraftPath, lib, minecraftPlatform))
                 return false;
 
-            if (
-                lib.Downloads.Artifact == null
-                || string.IsNullOrEmpty(lib.Downloads.Artifact?.Path)
-                || string.IsNullOrEmpty(lib.Downloads.Artifact?.URL)
-                || string.IsNullOrEmpty(lib.Downloads.Artifact?.SHA1)
-            )
+            if (!Exists(lib))
                 return false;
 
             string downloadPath = Path.Combine(libPath, lib.Downloads.Artifact.Path);
@@ -46,16 +42,36 @@ public static class LibraryDownloader
         return true;
     }
 
-    private static bool SkipLibrary(MCLibrary lib, PlatformEnum minecraftPlatform)
+    public static bool Exists(MCLibrary lib)
     {
-        if (lib.Rules == null | lib?.Rules?.Count <= 0)
+        if (lib.Downloads.Artifact == null)
+            return false;
+
+        if (string.IsNullOrEmpty(lib.Downloads.Artifact.Path))
+            return false;
+
+        if (string.IsNullOrEmpty(lib.Downloads.Artifact.URL))
+            return false;
+
+        if (string.IsNullOrEmpty(lib.Downloads.Artifact.SHA1))
+            return false;
+
+        return true;
+    }
+
+    public static bool SkipLibrary(MCLibrary lib, PlatformEnum minecraftPlatform)
+    {
+        if (lib.Rules == null)
+            return false;
+
+        if (lib.Rules.Count <= 0)
             return false;
 
         bool allowLibrary = false;
         foreach (MCLibraryRule rule in lib.Rules)
         {
-            string action = rule?.Action;
-            string os = rule?.Os?.Name;
+            string action = rule.Action;
+            string os = rule.Os?.Name;
             LogBase.Info($"Library Rule:\nAction: {action}\nOS: {os}");
 
             if (os == null)
@@ -74,9 +90,9 @@ public static class LibraryDownloader
         return !allowLibrary;
     }
 
-    private static async Task<bool> DownloadNatives(string minecraftPath, MCLibrary lib, PlatformEnum minecraftPlatform)
+    public static async Task<bool> DownloadNatives(string minecraftPath, MCLibrary lib, PlatformEnum minecraftPlatform)
     {
-        if (lib.Downloads?.Classifiers == null)
+        if (lib.Downloads.Classifiers == null)
             return true;
 
         string classifierDownloadPath = string.Empty;
@@ -125,24 +141,45 @@ public static class LibraryDownloader
         return true;
     }
 
-    private static bool WindowsClassifierNativesExists(MCLibrary lib) =>
-        !(
-            lib.Downloads.Classifiers.NativesWindows == null
-            || string.IsNullOrEmpty(lib.Downloads.Classifiers.NativesWindows?.URL)
-            || string.IsNullOrEmpty(lib.Downloads.Classifiers.NativesWindows?.SHA1)
-        );
+    public static bool WindowsClassifierNativesExists(MCLibrary lib)
+    {
+        if (lib.Downloads.Classifiers.NativesWindows == null)
+            return false;
 
-    private static bool LinuxClassifierNativesExists(MCLibrary lib) =>
-        !(
-            lib.Downloads.Classifiers.NativesLinux == null
-            || string.IsNullOrEmpty(lib.Downloads.Classifiers.NativesLinux?.URL)
-            || string.IsNullOrEmpty(lib.Downloads.Classifiers.NativesLinux?.SHA1)
-        );
+        if (string.IsNullOrEmpty(lib.Downloads.Classifiers.NativesWindows.URL))
+            return false;
 
-    private static bool OSXClassifierNativesExists(MCLibrary lib) =>
-        !(
-            lib.Downloads.Classifiers.NativesMacos == null
-            || string.IsNullOrEmpty(lib.Downloads.Classifiers.NativesMacos?.URL)
-            || string.IsNullOrEmpty(lib.Downloads.Classifiers.NativesMacos?.SHA1)
-        );
+        if (string.IsNullOrEmpty(lib.Downloads.Classifiers.NativesWindows.SHA1))
+            return false;
+
+        return true;
+    }
+
+    public static bool LinuxClassifierNativesExists(MCLibrary lib)
+    {
+        if (lib.Downloads.Classifiers.NativesLinux == null)
+            return false;
+
+        if (string.IsNullOrEmpty(lib.Downloads.Classifiers.NativesLinux.URL))
+            return false;
+
+        if (string.IsNullOrEmpty(lib.Downloads.Classifiers.NativesLinux.SHA1))
+            return false;
+
+        return true;
+    }
+
+    public static bool OSXClassifierNativesExists(MCLibrary lib)
+    {
+        if (lib.Downloads.Classifiers.NativesMacos == null)
+            return false;
+
+        if (string.IsNullOrEmpty(lib.Downloads.Classifiers.NativesMacos.URL))
+            return false;
+
+        if (string.IsNullOrEmpty(lib.Downloads.Classifiers.NativesMacos.SHA1))
+            return false;
+
+        return true;
+    }
 }
