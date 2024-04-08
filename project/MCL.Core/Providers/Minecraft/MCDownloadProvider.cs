@@ -86,7 +86,7 @@ public class MCDownloadProvider
             return false;
         }
 
-        version = VersionHelper.GetVersion(launcherVersion, versionManifest.Versions);
+        version = MCVersionHelper.GetVersion(launcherVersion, versionManifest.Versions);
         if (version == null)
         {
             LogBase.Error($"Failed to get version: {version}");

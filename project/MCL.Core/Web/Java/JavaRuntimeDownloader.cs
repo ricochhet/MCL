@@ -48,7 +48,7 @@ public class JavaRuntimeDownloader : IJavaRuntimeDownloader
                 if (
                     !await Request.Download(
                         Path.Combine(
-                            MinecraftPathResolver.DownloadedJavaRuntimePath(
+                            JavaPathResolver.DownloadedJavaRuntimePath(
                                 launcherPath,
                                 JavaRuntimeTypeEnumResolver.ToString(javaRuntimeType)
                             ),

@@ -58,7 +58,7 @@ public class JavaDownloadProvider
         }
 
         javaRuntimeIndex = Json.Read<JavaRuntimeIndex>(
-            MinecraftPathResolver.DownloadedJavaRuntimeIndexPath(launcherPath)
+            JavaPathResolver.DownloadedJavaRuntimeIndexPath(launcherPath)
         );
         if (javaRuntimeIndex == null)
         {
@@ -85,7 +85,7 @@ public class JavaDownloadProvider
         }
 
         javaRuntimeFiles = Json.Read<JavaRuntimeFiles>(
-            MinecraftPathResolver.DownloadedJavaRuntimeManifestPath(
+            JavaPathResolver.DownloadedJavaRuntimeManifestPath(
                 launcherPath,
                 JavaRuntimeTypeEnumResolver.ToString(javaRuntimeType)
             )

@@ -10,6 +10,7 @@ using MCL.Core.MiniCommon;
 using MCL.Core.Models;
 using MCL.Core.Models.Java;
 using MCL.Core.Models.Launcher;
+using MCL.Core.Models.Minecraft;
 using MCL.Core.Providers;
 using MCL.Core.Providers.Java;
 using MCL.Core.Providers.Minecraft;
@@ -69,7 +70,7 @@ internal class Program
                     new(
                         launcher.MCLauncherPath,
                         config.MinecraftUrls,
-                        VersionHelper.GetDownloadedMCVersionJava(
+                        JavaVersionHelper.GetDownloadedMCVersionJava(
                             launcher.MCLauncherPath,
                             launcher.MCLauncherVersion,
                             launcher.JavaRuntimeType

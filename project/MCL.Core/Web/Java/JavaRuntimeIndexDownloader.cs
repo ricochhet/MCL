@@ -18,7 +18,7 @@ public class JavaRuntimeIndexDownloader : IJavaRuntimeIndexDownloader
         if (!Exists(configUrls))
             return false;
 
-        string downloadPath = MinecraftPathResolver.DownloadedJavaRuntimeIndexPath(launcherPath);
+        string downloadPath = JavaPathResolver.DownloadedJavaRuntimeIndexPath(launcherPath);
         string javaRuntimeIndex = await Request.DoRequest(configUrls.JavaRuntimeIndexUrl, downloadPath, Encoding.UTF8);
         if (string.IsNullOrEmpty(javaRuntimeIndex))
             return false;

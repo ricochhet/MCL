@@ -52,7 +52,7 @@ public class JavaRuntimeManifestDownloader : IJavaRuntimeManifestDownloader
 
         string javaRuntimeManifest = await Request.DoRequest(
             url,
-            MinecraftPathResolver.DownloadedJavaRuntimeManifestPath(
+            JavaPathResolver.DownloadedJavaRuntimeManifestPath(
                 launcherPath,
                 JavaRuntimeTypeEnumResolver.ToString(javaRuntimeTypeEnum)
             ),

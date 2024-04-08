@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using MCL.Core.Helpers.Minecraft;
+using MCL.Core.Helpers.MinecraftFabric;
 using MCL.Core.Logger;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
@@ -60,7 +61,7 @@ public class MCFabricInstallerDownloadProvider
 
     public async Task<bool> DownloadFabricInstaller()
     {
-        fabricInstaller = VersionHelper.GetFabricInstallerVersion(launcherVersion, fabricIndex.Installer);
+        fabricInstaller = MCFabricVersionHelper.GetFabricInstallerVersion(launcherVersion, fabricIndex.Installer);
         if (fabricInstaller == null)
         {
             LogBase.Error($"Failed to get version: {launcherVersion}");
