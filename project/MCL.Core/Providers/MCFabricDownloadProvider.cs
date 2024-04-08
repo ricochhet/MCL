@@ -3,7 +3,6 @@ using MCL.Core.Helpers.Minecraft;
 using MCL.Core.Logger;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
-using MCL.Core.Models.Minecraft;
 using MCL.Core.Models.MinecraftFabric;
 using MCL.Core.Resolvers.Minecraft;
 using MCL.Core.Web.Minecraft;

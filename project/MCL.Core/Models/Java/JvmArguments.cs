@@ -17,6 +17,7 @@ public class JvmArguments
 
     public string Build()
     {
+        parsedLaunchArgs.Clear();
         sortedLaunchArgs = [.. Arguments.OrderBy(a => a.Priority)];
         foreach (LaunchArg arg in sortedLaunchArgs)
         {

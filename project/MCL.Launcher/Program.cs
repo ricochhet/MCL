@@ -59,7 +59,11 @@ internal class Program
                     new(
                         launcher.MCLauncherPath,
                         config.MinecraftUrls,
-                        VersionHelper.GetDownloadedMCVersionJava(launcher.MCLauncherPath, launcher.MCLauncherVersion),
+                        VersionHelper.GetDownloadedMCVersionJava(
+                            launcher.MCLauncherPath,
+                            launcher.MCLauncherVersion,
+                            launcher.JavaRuntimeType
+                        ),
                         JavaRuntimePlatformEnum.WINDOWSX64
                     );
 

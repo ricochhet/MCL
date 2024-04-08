@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using MCL.Core.Enums;
 using MCL.Core.Models.Java;
 using MCL.Core.Models.Launcher;
-using MCL.Core.Models.Minecraft;
 
 namespace MCL.Core.Interfaces.Java;
 

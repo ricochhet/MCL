@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using System.IO;
 using MCL.Core.Enums;
 using MCL.Core.Models;

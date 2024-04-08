@@ -7,6 +7,9 @@ public static class Json
 {
     public static T Read<T>(string pathToFile, JsonSerializerOptions options = null)
     {
+        if (!FsProvider.Exists(pathToFile))
+            return default;
+
         return JsonSerializer.Deserialize<T>(FsProvider.ReadAllText(pathToFile), options);
     }
 

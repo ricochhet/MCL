@@ -13,32 +13,33 @@ public static class VersionHelper
 {
     public static JavaRuntimeTypeEnum GetDownloadedMCVersionJava(
         MCLauncherPath minecraftPath,
-        MCLauncherVersion minecraftVersion
+        MCLauncherVersion minecraftVersion,
+        JavaRuntimeTypeEnum fallback
     )
     {
         if (!MCLauncherPath.Exists(minecraftPath))
-            return default;
+            return fallback;
 
         if (!MCLauncherVersion.Exists(minecraftVersion))
-            return default;
+            return fallback;
 
         MCVersionManifest versionManifest = Json.Read<MCVersionManifest>(
             MinecraftPathResolver.DownloadedVersionManifestPath(minecraftPath)
         );
 
         if (versionManifest == null)
-            return default;
+            return fallback;
 
         MCVersion version = GetVersion(minecraftVersion, versionManifest.Versions);
         if (version == null)
-            return default;
+            return fallback;
 
         MCVersionDetails versionDetails = Json.Read<MCVersionDetails>(
             MinecraftPathResolver.DownloadedVersionDetailsPath(minecraftPath, version)
         );
 
         if (versionDetails == null)
-            return default;
+            return fallback;
         return GenericEnumParser.Parse(versionDetails?.JavaVersion?.Component, JavaRuntimeTypeEnum.JAVA_RUNTIME_GAMMA);
     }
 
