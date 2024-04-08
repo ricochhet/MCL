@@ -3,6 +3,7 @@ namespace MCL.Core.Models.Launcher;
 public class MCLauncherVersion
 {
     public string MCVersion { get; set; }
+    public string MCVersionType { get; set; }
     public string FabricInstallerVersion { get; set; }
     public string FabricLoaderVersion { get; set; }
 
@@ -12,6 +13,9 @@ public class MCLauncherVersion
             return false;
 
         if (string.IsNullOrEmpty(launcherVersion.MCVersion))
+            return false;
+
+        if (string.IsNullOrEmpty(launcherVersion.MCVersionType))
             return false;
 
         if (string.IsNullOrEmpty(launcherVersion.FabricInstallerVersion))

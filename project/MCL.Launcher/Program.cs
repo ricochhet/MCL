@@ -41,16 +41,19 @@ internal class Program
             return;
         }
 
+        MCLauncherUsername launcherUsername = new() { Username = "Ricochet" };
         MCLauncherPath launcherPath = new() { MCPath = "./.minecraft", FabricInstallerPath = "./.minecraft-fabric" };
         MCLauncherVersion launcherVersion =
             new()
             {
                 MCVersion = "1.20.4",
+                MCVersionType = "release",
                 FabricInstallerVersion = "1.0.0",
                 FabricLoaderVersion = "0.15.9"
             };
         MCLauncher launcher =
             new(
+                launcherUsername,
                 launcherPath,
                 launcherVersion,
                 ClientTypeEnum.FABRIC,
@@ -159,7 +162,7 @@ internal class Program
                         ]
                     )
                 );
-                jvmArguments.Add(new LaunchArg("--username {0}", ["Ricochet"]));
+                jvmArguments.Add(new LaunchArg("--username {0}", [launcherUsername.ValidateUsername()]));
                 jvmArguments.Add(new LaunchArg("--userType {0}", ["legacy"]));
                 jvmArguments.Add(new LaunchArg("--gameDir {0}", ["."]));
                 jvmArguments.Add(
@@ -170,11 +173,11 @@ internal class Program
                 );
                 jvmArguments.Add(new LaunchArg("--assetsDir {0}", ["assets"]));
                 jvmArguments.Add(new LaunchArg("--accessToken {0}", ["1337535510N"]));
-                jvmArguments.Add(new LaunchArg("--uuid {0}", [CryptographyHelper.UUID("Ricochet")]));
+                jvmArguments.Add(new LaunchArg("--uuid {0}", [launcherUsername.UUID()]));
                 jvmArguments.Add(new LaunchArg("--clientId {0}", ["0"]));
                 jvmArguments.Add(new LaunchArg("--xuid {0}", ["0"]));
-                jvmArguments.Add(new LaunchArg("--version {0}", ["1.20.4"]));
-                jvmArguments.Add(new LaunchArg("--versionType {0}", ["release"]));
+                jvmArguments.Add(new LaunchArg("--version {0}", [launcherVersion.MCVersion]));
+                jvmArguments.Add(new LaunchArg("--versionType {0}", [launcherVersion.MCVersionType]));
 
                 ConfigProvider.Write(ConfigHelper.Write(launcher.ClientType, config, jvmArguments));
                 JavaLaunchHelper.Launch(config, "./.minecraft/", launcher.ClientType, launcher.JavaRuntimeType);
