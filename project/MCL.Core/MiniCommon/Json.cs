@@ -1,3 +1,4 @@
+using System.IO;
 using System.Text.Json;
 using MCL.Core.Providers;
 
@@ -5,22 +6,51 @@ namespace MCL.Core.MiniCommon;
 
 public static class Json
 {
-    public static T Read<T>(string pathToFile, JsonSerializerOptions options = null)
+    public static string Serialize<T>(T data, JsonSerializerOptions options = null)
     {
-        if (!FsProvider.Exists(pathToFile))
-            return default;
-
-        return JsonSerializer.Deserialize<T>(FsProvider.ReadAllText(pathToFile), options);
+        return JsonSerializer.Serialize<T>(data, options);
     }
 
-    public static void Write(string folderPath, string fileName, object data, JsonSerializerOptions options = null)
+    public static T Deserialize<T>(string json, JsonSerializerOptions options = null)
     {
-        FsProvider.WriteFile(folderPath, fileName, JsonSerializer.Serialize(data, options));
+        return JsonSerializer.Deserialize<T>(json, options);
     }
 
-    public static void Write(string folderPath, string fileName, string data, JsonSerializerOptions options = null)
+    public static void Save<T>(string filepath, T data)
     {
-        object deserialized = JsonSerializer.Deserialize<object>(data);
-        FsProvider.WriteFile(folderPath, fileName, JsonSerializer.Serialize(deserialized, options));
+        string json = Serialize<T>(data);
+        VFS.WriteFile(filepath, json);
+    }
+
+    public static void Save<T>(string filepath, T data, JsonSerializerOptions options = null)
+    {
+        if (!VFS.Exists(filepath))
+            VFS.CreateDirectory(Path.GetDirectoryName(filepath));
+
+        VFS.WriteFile(filepath, Serialize<T>(data, options));
+    }
+
+    public static T Load<T>(string filepath)
+        where T : new()
+    {
+        if (!VFS.Exists(filepath))
+        {
+            Save(filepath, new T());
+        }
+
+        string json = VFS.ReadAllText(filepath);
+        return Deserialize<T>(json);
+    }
+
+    public static T Load<T>(string filepath, JsonSerializerOptions options = null)
+        where T : new()
+    {
+        if (!VFS.Exists(filepath))
+        {
+            Save(filepath, new T());
+        }
+
+        string json = VFS.ReadAllText(filepath);
+        return Deserialize<T>(json, options);
     }
 }

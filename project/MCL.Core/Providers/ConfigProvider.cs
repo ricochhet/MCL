@@ -24,7 +24,7 @@ public static class ConfigProvider
 
     public static void Write()
     {
-        if (!FsProvider.Exists(ConfigFilePath))
+        if (!VFS.Exists(ConfigFilePath))
         {
             LogBase.Info("Setup: Creating config...");
             Config config =
@@ -37,13 +37,13 @@ public static class ConfigProvider
                 };
 
             JsonSerializerOptions options = new() { WriteIndented = true };
-            Json.Write(DataPath, ConfigFileName, config, options);
+            Json.Save(ConfigFilePath, config, options);
         }
     }
 
     public static void Write(Config config)
     {
-        if (!FsProvider.Exists(ConfigFilePath))
+        if (!VFS.Exists(ConfigFilePath))
             return;
 
         Config existingConfig = Read();
@@ -52,14 +52,14 @@ public static class ConfigProvider
 
         JsonSerializerOptions options =
             new() { WriteIndented = true, Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping };
-        Json.Write(DataPath, ConfigFileName, config, options);
+        Json.Save(ConfigFilePath, config, options);
     }
 
     public static Config Read()
     {
-        if (FsProvider.Exists(ConfigFilePath))
+        if (VFS.Exists(ConfigFilePath))
         {
-            Config inputJson = Json.Read<Config>(ConfigFilePath);
+            Config inputJson = Json.Load<Config>(ConfigFilePath);
             if (inputJson != null)
                 return inputJson;
             return null;

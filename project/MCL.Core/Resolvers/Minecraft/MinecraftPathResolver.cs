@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
+using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Models.Minecraft;
 using MCL.Core.Providers;
@@ -22,7 +23,12 @@ public static class MinecraftPathResolver
 
     public static int AssetIndexId(MCLauncherPath launcherPath)
     {
-        List<string> fileName = FsProvider.GetFiles(Path.Combine(AssetsPath(launcherPath), "indexes"), "*.json", true);
+        string[] fileName = VFS.GetFiles(
+            Path.Combine(AssetsPath(launcherPath), "indexes"),
+            "*.json",
+            SearchOption.AllDirectories,
+            false
+        );
         bool success = int.TryParse(fileName[0], out int id);
         if (success)
             return id;

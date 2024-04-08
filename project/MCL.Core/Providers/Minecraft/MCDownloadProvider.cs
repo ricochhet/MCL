@@ -77,7 +77,7 @@ public class MCDownloadProvider
             return false;
         }
 
-        versionManifest = Json.Read<MCVersionManifest>(
+        versionManifest = Json.Load<MCVersionManifest>(
             MinecraftPathResolver.DownloadedVersionManifestPath(launcherPath)
         );
         if (versionManifest == null)
@@ -104,7 +104,7 @@ public class MCDownloadProvider
             return false;
         }
 
-        versionDetails = Json.Read<MCVersionDetails>(
+        versionDetails = Json.Load<MCVersionDetails>(
             MinecraftPathResolver.DownloadedVersionDetailsPath(launcherPath, version)
         );
         if (versionDetails == null)
@@ -179,7 +179,7 @@ public class MCDownloadProvider
             return false;
         }
 
-        assets = Json.Read<MCAssetsData>(MinecraftPathResolver.ClientIndexPath(launcherPath, versionDetails));
+        assets = Json.Load<MCAssetsData>(MinecraftPathResolver.ClientIndexPath(launcherPath, versionDetails));
         if (assets == null)
         {
             LogBase.Error($"Failed to get assets index json");

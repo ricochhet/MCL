@@ -57,7 +57,7 @@ public class JavaDownloadProvider
             return false;
         }
 
-        javaRuntimeIndex = Json.Read<JavaRuntimeIndex>(JavaPathResolver.DownloadedJavaRuntimeIndexPath(launcherPath));
+        javaRuntimeIndex = Json.Load<JavaRuntimeIndex>(JavaPathResolver.DownloadedJavaRuntimeIndexPath(launcherPath));
         if (javaRuntimeIndex == null)
         {
             LogBase.Error($"Failed to get java runtime index");
@@ -82,7 +82,7 @@ public class JavaDownloadProvider
             return false;
         }
 
-        javaRuntimeFiles = Json.Read<JavaRuntimeFiles>(
+        javaRuntimeFiles = Json.Load<JavaRuntimeFiles>(
             JavaPathResolver.DownloadedJavaRuntimeManifestPath(
                 launcherPath,
                 JavaRuntimeTypeEnumResolver.ToString(javaRuntimeType)

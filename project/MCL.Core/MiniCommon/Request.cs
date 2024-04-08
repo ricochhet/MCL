@@ -27,13 +27,13 @@ public static class Request
 
                 string existingSha1 = CryptographyHelper.Sha1(fileName, true);
                 string downloadedSha1 = CryptographyHelper.Sha1(stringData, enc);
-                if (FsProvider.Exists(fileName) && existingSha1 == downloadedSha1)
+                if (VFS.Exists(fileName) && existingSha1 == downloadedSha1)
                 {
                     LogBase.Info($"File: {fileName} already exists.\n{existingSha1} == {downloadedSha1}");
                     return stringData;
                 }
 
-                FsProvider.WriteFile(Path.GetDirectoryName(fileName), Path.GetFileName(fileName), stringData);
+                VFS.WriteFile(fileName, stringData);
                 return stringData;
             }
             else
@@ -52,7 +52,7 @@ public static class Request
     public static async Task<bool> Download(string downloadPath, string url, string sha1)
     {
         string existingSha1 = CryptographyHelper.Sha1(downloadPath, true);
-        if (FsProvider.Exists(downloadPath) && existingSha1 == sha1)
+        if (VFS.Exists(downloadPath) && existingSha1 == sha1)
         {
             LogBase.Info($"File: {downloadPath} already exists.\n{existingSha1} == {sha1}");
             return true;
@@ -73,7 +73,7 @@ public static class Request
             using HttpResponseMessage response = await httpClient.GetAsync(url);
             if (response.IsSuccessStatusCode)
             {
-                FsProvider.CreateDirectory(Path.GetDirectoryName(fileName));
+                VFS.CreateDirectory(Path.GetDirectoryName(fileName));
 
                 using Stream contentStream = await response.Content.ReadAsStreamAsync();
                 using FileStream fileStream = new(fileName, FileMode.Create, FileAccess.Write, FileShare.None);

@@ -1,3 +1,5 @@
+using System.IO;
+using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Providers;
 using MCL.Core.Resolvers.Minecraft;
@@ -8,14 +10,13 @@ public static class ServerProperties
 {
     public static void NewEula(MCLauncherPath launcherPath)
     {
-        FsProvider.WriteFile(MinecraftPathResolver.ServerPath(launcherPath), "eula.txt", "eula=true\n");
+        VFS.WriteFile(Path.Combine(MinecraftPathResolver.ServerPath(launcherPath), "eula.txt"), "eula=true\n");
     }
 
     public static void NewProperties(MCLauncherPath launcherPath)
     {
-        FsProvider.WriteFile(
-            MinecraftPathResolver.ServerPath(launcherPath),
-            "server.properties",
+        VFS.WriteFile(
+            Path.Combine(MinecraftPathResolver.ServerPath(launcherPath), "server.properties"),
             "online-mode=false\n"
         );
     }

@@ -25,7 +25,7 @@ public static class JavaVersionHelper
         if (!MCLauncherVersion.Exists(launcherVersion))
             return fallback;
 
-        MCVersionManifest versionManifest = Json.Read<MCVersionManifest>(
+        MCVersionManifest versionManifest = Json.Load<MCVersionManifest>(
             MinecraftPathResolver.DownloadedVersionManifestPath(launcherPath)
         );
 
@@ -36,7 +36,7 @@ public static class JavaVersionHelper
         if (version == null)
             return fallback;
 
-        MCVersionDetails versionDetails = Json.Read<MCVersionDetails>(
+        MCVersionDetails versionDetails = Json.Load<MCVersionDetails>(
             MinecraftPathResolver.DownloadedVersionDetailsPath(launcherPath, version)
         );
 

@@ -21,7 +21,7 @@ public class FabricInstallerDownloader : IFabricInstallerDownloader
             return false;
 
         // Fabric does not provide a file hash through the current method. We do simple check of the version instead.
-        if (FsProvider.Exists(MinecraftFabricPathResolver.DownloadedFabricInstallerPath(launcherPath, fabricInstaller)))
+        if (VFS.Exists(MinecraftFabricPathResolver.DownloadedFabricInstallerPath(launcherPath, fabricInstaller)))
         {
             LogBase.Info($"Fabric version: {fabricInstaller.Version} is already downloaded.");
             return true;

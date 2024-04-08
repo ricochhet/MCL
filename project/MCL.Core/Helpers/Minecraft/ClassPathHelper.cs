@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Providers;
 using MCL.Core.Resolvers.Minecraft;
@@ -25,8 +26,8 @@ public static class ClassPathHelper
             _ => throw new Exception("Unsupported OS."),
         };
         string libPath = Path.Combine(launcherPath.MCPath + "/", "libraries");
-        List<string> libraries = FsProvider.GetFiles(libPath, "*");
-        libraries = libraries.Prepend(MinecraftPathResolver.ClientLibrary(launcherVersion)).ToList();
+        string[] libraries = VFS.GetFiles(libPath, "*");
+        libraries = libraries.Prepend(MinecraftPathResolver.ClientLibrary(launcherVersion)).ToArray();
 
         return string.Join(
             separator,
