@@ -1,6 +1,7 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using MCL.Core.Logger.Enums;
 
 namespace MCL.Core.Logger;
 
@@ -9,50 +10,42 @@ public class NativeLogger : ILogger
     [DllImport("kernel32", SetLastError = true)]
     private static extern bool AllocConsole();
 
-    private enum LogLevel
-    {
-        Benchmark = ConsoleColor.Gray,
-        Debug = ConsoleColor.DarkGreen,
-        Warn = ConsoleColor.DarkYellow,
-        Error = ConsoleColor.DarkRed,
-        Info = ConsoleColor.DarkCyan,
-        Native = ConsoleColor.Magenta
-    }
-
     public NativeLogger()
     {
         _ = AllocConsole();
     }
 
-    public Task Benchmark(string message) => WriteToStdout(LogLevel.Benchmark, message);
+    public Task Benchmark(string message) => WriteToStdout(NativeLogLevel.Benchmark, message);
 
     public Task Benchmark(string format, params object[] args) =>
-        WriteToStdout(LogLevel.Benchmark, string.Format(format, args));
+        WriteToStdout(NativeLogLevel.Benchmark, string.Format(format, args));
 
-    public Task Debug(string message) => WriteToStdout(LogLevel.Debug, message);
+    public Task Debug(string message) => WriteToStdout(NativeLogLevel.Debug, message);
 
     public Task Debug(string format, params object[] args) =>
-        WriteToStdout(LogLevel.Debug, string.Format(format, args));
+        WriteToStdout(NativeLogLevel.Debug, string.Format(format, args));
 
-    public Task Info(string message) => WriteToStdout(LogLevel.Info, message);
+    public Task Info(string message) => WriteToStdout(NativeLogLevel.Info, message);
 
-    public Task Info(string format, params object[] args) => WriteToStdout(LogLevel.Info, string.Format(format, args));
+    public Task Info(string format, params object[] args) =>
+        WriteToStdout(NativeLogLevel.Info, string.Format(format, args));
 
-    public Task Warn(string message) => WriteToStdout(LogLevel.Warn, message);
+    public Task Warn(string message) => WriteToStdout(NativeLogLevel.Warn, message);
 
-    public Task Warn(string format, params object[] args) => WriteToStdout(LogLevel.Warn, string.Format(format, args));
+    public Task Warn(string format, params object[] args) =>
+        WriteToStdout(NativeLogLevel.Warn, string.Format(format, args));
 
-    public Task Error(string message) => WriteToStdout(LogLevel.Error, message);
+    public Task Error(string message) => WriteToStdout(NativeLogLevel.Error, message);
 
     public Task Error(string format, params object[] args) =>
-        WriteToStdout(LogLevel.Error, string.Format(format, args));
+        WriteToStdout(NativeLogLevel.Error, string.Format(format, args));
 
-    public Task Native(string message) => WriteToStdout(LogLevel.Error, message);
+    public Task Native(string message) => WriteToStdout(NativeLogLevel.Error, message);
 
     public Task Native(string format, params object[] args) =>
-        WriteToStdout(LogLevel.Native, string.Format(format, args));
+        WriteToStdout(NativeLogLevel.Native, string.Format(format, args));
 
-    private static Task WriteToStdout(LogLevel level, string message)
+    private static Task WriteToStdout(NativeLogLevel level, string message)
     {
         Console.ForegroundColor = ConsoleColor.DarkMagenta;
         Console.Write($"[{DateTime.Now.ToLongTimeString()}]");

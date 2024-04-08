@@ -3,52 +3,47 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using MCL.Core.Logger.Enums;
 using MCL.Core.Providers;
 
 namespace MCL.Core.Logger;
 
 public class FileStreamLogger : ILogger, IDisposable
 {
-    private enum LogLevel
-    {
-        Debug,
-        Info,
-        Warn,
-        Error
-    }
-
     private static readonly SemaphoreSlim Semaphore = new(1);
     private static readonly FileStream Stream = File.OpenWrite(ConfigProvider.LogFilePath);
 
-    public Task Debug(string message) => WriteToBuffer(LogLevel.Debug, message);
+    public Task Debug(string message) => WriteToBuffer(FileStreamLogLevel.Debug, message);
 
     public Task Debug(string format, params object[] args) =>
-        WriteToBuffer(LogLevel.Debug, string.Format(format, args));
+        WriteToBuffer(FileStreamLogLevel.Debug, string.Format(format, args));
 
-    public Task Info(string message) => WriteToBuffer(LogLevel.Info, message);
+    public Task Info(string message) => WriteToBuffer(FileStreamLogLevel.Info, message);
 
-    public Task Info(string format, params object[] args) => WriteToBuffer(LogLevel.Info, string.Format(format, args));
+    public Task Info(string format, params object[] args) =>
+        WriteToBuffer(FileStreamLogLevel.Info, string.Format(format, args));
 
-    public Task Warn(string message) => WriteToBuffer(LogLevel.Warn, message);
+    public Task Warn(string message) => WriteToBuffer(FileStreamLogLevel.Warn, message);
 
-    public Task Warn(string format, params object[] args) => WriteToBuffer(LogLevel.Warn, string.Format(format, args));
+    public Task Warn(string format, params object[] args) =>
+        WriteToBuffer(FileStreamLogLevel.Warn, string.Format(format, args));
 
-    public Task Native(string message) => WriteToBuffer(LogLevel.Info, message);
+    public Task Native(string message) => WriteToBuffer(FileStreamLogLevel.Info, message);
 
     public Task Native(string format, params object[] args) =>
-        WriteToBuffer(LogLevel.Info, string.Format(format, args));
+        WriteToBuffer(FileStreamLogLevel.Info, string.Format(format, args));
 
-    public Task Error(string message) => WriteToBuffer(LogLevel.Error, message);
+    public Task Error(string message) => WriteToBuffer(FileStreamLogLevel.Error, message);
 
     public Task Error(string format, params object[] args) =>
-        WriteToBuffer(LogLevel.Error, string.Format(format, args));
+        WriteToBuffer(FileStreamLogLevel.Error, string.Format(format, args));
 
-    public Task Benchmark(string message) => WriteToBuffer(LogLevel.Info, message);
+    public Task Benchmark(string message) => WriteToBuffer(FileStreamLogLevel.Info, message);
 
     public Task Benchmark(string format, params object[] args) =>
-        WriteToBuffer(LogLevel.Info, string.Format(format, args));
+        WriteToBuffer(FileStreamLogLevel.Info, string.Format(format, args));
 
-    private static async Task WriteToBuffer(LogLevel level, string message)
+    private static async Task WriteToBuffer(FileStreamLogLevel level, string message)
     {
         try
         {
