@@ -3,9 +3,6 @@ TODO tasks are in order from top-to-bottom, most-to-least important.
 
 Tasks marked with (*) are easier to do.
 
-- [ ] Evaluate usage of MCVersion, MCVersionDetails, and MCLauncherVersion when exclusively used for verifying the client version.
-    - MCLauncherVersion implies that there is no evaluation of the version provided.
-    - MCVersion can be processed faster than MCVersionDetails when exclusively used for providing a valid client version.
 - [x] Evaluate error handling of objects and null-reference handling.
     - [ ] Add logging to error handles.
 - [ ] Implement log information object.
