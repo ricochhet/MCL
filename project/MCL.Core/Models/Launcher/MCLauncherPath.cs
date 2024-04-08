@@ -5,15 +5,15 @@ public class MCLauncherPath
     public string MCPath { get; set; }
     public string FabricInstallerPath { get; set; }
 
-    public static bool Exists(MCLauncherPath minecraftPath)
+    public static bool Exists(MCLauncherPath launcherPath)
     {
-        if (minecraftPath == null)
+        if (launcherPath == null)
             return false;
 
-        if (string.IsNullOrEmpty(minecraftPath.MCPath))
+        if (string.IsNullOrEmpty(launcherPath.MCPath))
             return false;
 
-        if (string.IsNullOrEmpty(minecraftPath.FabricInstallerPath))
+        if (string.IsNullOrEmpty(launcherPath.FabricInstallerPath))
             return false;
 
         return true;

@@ -11,23 +11,23 @@ namespace MCL.Core.Web.Minecraft;
 public class FabricProfileDownloader : IFabricProfileDownloader
 {
     public static async Task<bool> Download(
-        MCLauncherPath minecraftPath,
-        MCLauncherVersion minecraftVersion,
-        MCFabricConfigUrls fabricUrls
+        MCLauncherPath launcherPath,
+        MCLauncherVersion launcherVersion,
+        MCFabricConfigUrls fabricConfigUrls
     )
     {
-        if (!MCLauncherPath.Exists(minecraftPath))
+        if (!MCLauncherPath.Exists(launcherPath))
             return false;
 
-        if (!MCLauncherVersion.Exists(minecraftVersion))
+        if (!MCLauncherVersion.Exists(launcherVersion))
             return false;
 
-        if (!Exists(fabricUrls))
+        if (!Exists(fabricConfigUrls))
             return false;
 
         string fabricProfile = await Request.DoRequest(
-            MinecraftFabricPathResolver.FabricLoaderProfileUrlPath(fabricUrls, minecraftVersion),
-            MinecraftFabricPathResolver.DownloadedFabricProfilePath(minecraftPath, minecraftVersion),
+            MinecraftFabricPathResolver.FabricLoaderProfileUrlPath(fabricConfigUrls, launcherVersion),
+            MinecraftFabricPathResolver.DownloadedFabricProfilePath(launcherPath, launcherVersion),
             Encoding.UTF8
         );
         if (string.IsNullOrEmpty(fabricProfile))
@@ -35,12 +35,12 @@ public class FabricProfileDownloader : IFabricProfileDownloader
         return true;
     }
 
-    public static bool Exists(MCFabricConfigUrls fabricUrls)
+    public static bool Exists(MCFabricConfigUrls fabricConfigUrls)
     {
-        if (fabricUrls == null)
+        if (fabricConfigUrls == null)
             return false;
 
-        if (string.IsNullOrEmpty(fabricUrls.FabricLoaderProfileUrl))
+        if (string.IsNullOrEmpty(fabricConfigUrls.FabricLoaderProfileUrl))
             return false;
 
         return true;

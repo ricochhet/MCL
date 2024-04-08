@@ -10,19 +10,15 @@ namespace MCL.Core.Web.Minecraft;
 
 public class ResourceDownloader : IMCResourceDownloader
 {
-    public static async Task<bool> Download(
-        MCLauncherPath minecraftPath,
-        MCConfigUrls minecraftUrls,
-        MCAssetsData assets
-    )
+    public static async Task<bool> Download(MCLauncherPath launcherPath, MCConfigUrls configUrls, MCAssetsData assets)
     {
-        if (!MCLauncherPath.Exists(minecraftPath))
+        if (!MCLauncherPath.Exists(launcherPath))
             return false;
 
-        if (!Exists(minecraftUrls, assets))
+        if (!Exists(configUrls, assets))
             return false;
 
-        string objectsPath = Path.Combine(MinecraftPathResolver.AssetsPath(minecraftPath), "objects");
+        string objectsPath = Path.Combine(MinecraftPathResolver.AssetsPath(launcherPath), "objects");
         foreach ((_, MCAsset asset) in assets.Objects)
         {
             if (asset == null)
@@ -31,7 +27,7 @@ public class ResourceDownloader : IMCResourceDownloader
             if (string.IsNullOrEmpty(asset.Hash))
                 return false;
 
-            string url = $"{minecraftUrls.MinecraftResources}/{asset.Hash[..2]}/{asset.Hash}";
+            string url = $"{configUrls.MinecraftResources}/{asset.Hash[..2]}/{asset.Hash}";
             string downloadPath = Path.Combine(objectsPath, asset.Hash[..2], asset.Hash);
             if (!await Request.Download(downloadPath, url, asset.Hash))
                 return false;
@@ -40,7 +36,7 @@ public class ResourceDownloader : IMCResourceDownloader
         return true;
     }
 
-    public static bool Exists(MCConfigUrls minecraftUrls, MCAssetsData assets)
+    public static bool Exists(MCConfigUrls configUrls, MCAssetsData assets)
     {
         if (assets == null)
             return false;
@@ -48,10 +44,10 @@ public class ResourceDownloader : IMCResourceDownloader
         if (assets.Objects == null)
             return false;
 
-        if (minecraftUrls == null)
+        if (configUrls == null)
             return false;
 
-        if (string.IsNullOrEmpty(minecraftUrls.MinecraftResources))
+        if (string.IsNullOrEmpty(configUrls.MinecraftResources))
             return false;
 
         return true;

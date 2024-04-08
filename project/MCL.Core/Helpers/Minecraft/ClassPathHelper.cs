@@ -10,12 +10,12 @@ namespace MCL.Core.Helpers.Minecraft;
 
 public static class ClassPathHelper
 {
-    public static string CreateClassPath(MCLauncherPath minecraftPath, MCLauncherVersion minecraftVersion)
+    public static string CreateClassPath(MCLauncherPath launcherPath, MCLauncherVersion launcherVersion)
     {
-        if (!MCLauncherPath.Exists(minecraftPath))
+        if (!MCLauncherPath.Exists(launcherPath))
             return default;
 
-        if (!MCLauncherVersion.Exists(minecraftVersion))
+        if (!MCLauncherVersion.Exists(launcherVersion))
             return default;
 
         string separator = Environment.OSVersion.Platform switch
@@ -24,13 +24,13 @@ public static class ClassPathHelper
             PlatformID.Win32NT => ";",
             _ => throw new Exception("Unsupported OS."),
         };
-        string libPath = Path.Combine(minecraftPath.MCPath + "/", "libraries");
+        string libPath = Path.Combine(launcherPath.MCPath + "/", "libraries");
         List<string> libraries = FsProvider.GetFiles(libPath, "*");
-        libraries = libraries.Prepend(MinecraftPathResolver.ClientLibrary(minecraftVersion)).ToList();
+        libraries = libraries.Prepend(MinecraftPathResolver.ClientLibrary(launcherVersion)).ToList();
 
         return string.Join(
             separator,
-            libraries.Select(lib => lib.Replace(minecraftPath.MCPath + "/", "").Replace("\\", "/"))
+            libraries.Select(lib => lib.Replace(launcherPath.MCPath + "/", "").Replace("\\", "/"))
         );
     }
 }

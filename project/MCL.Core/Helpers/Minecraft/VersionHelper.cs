@@ -12,30 +12,30 @@ namespace MCL.Core.Helpers.Minecraft;
 public static class VersionHelper
 {
     public static JavaRuntimeTypeEnum GetDownloadedMCVersionJava(
-        MCLauncherPath minecraftPath,
-        MCLauncherVersion minecraftVersion,
+        MCLauncherPath launcherPath,
+        MCLauncherVersion launcherVersion,
         JavaRuntimeTypeEnum fallback
     )
     {
-        if (!MCLauncherPath.Exists(minecraftPath))
+        if (!MCLauncherPath.Exists(launcherPath))
             return fallback;
 
-        if (!MCLauncherVersion.Exists(minecraftVersion))
+        if (!MCLauncherVersion.Exists(launcherVersion))
             return fallback;
 
         MCVersionManifest versionManifest = Json.Read<MCVersionManifest>(
-            MinecraftPathResolver.DownloadedVersionManifestPath(minecraftPath)
+            MinecraftPathResolver.DownloadedVersionManifestPath(launcherPath)
         );
 
         if (versionManifest == null)
             return fallback;
 
-        MCVersion version = GetVersion(minecraftVersion, versionManifest.Versions);
+        MCVersion version = GetVersion(launcherVersion, versionManifest.Versions);
         if (version == null)
             return fallback;
 
         MCVersionDetails versionDetails = Json.Read<MCVersionDetails>(
-            MinecraftPathResolver.DownloadedVersionDetailsPath(minecraftPath, version)
+            MinecraftPathResolver.DownloadedVersionDetailsPath(launcherPath, version)
         );
 
         if (versionDetails == null)
@@ -43,14 +43,14 @@ public static class VersionHelper
         return GenericEnumParser.Parse(versionDetails?.JavaVersion?.Component, JavaRuntimeTypeEnum.JAVA_RUNTIME_GAMMA);
     }
 
-    public static MCVersion GetVersion(MCLauncherVersion minecraftVersion, List<MCVersion> versions)
+    public static MCVersion GetVersion(MCLauncherVersion launcherVersion, List<MCVersion> versions)
     {
-        if (!MCLauncherVersion.Exists(minecraftVersion))
+        if (!MCLauncherVersion.Exists(launcherVersion))
             return null;
 
         foreach (MCVersion item in versions)
         {
-            if (item.ID == minecraftVersion.MCVersion)
+            if (item.ID == launcherVersion.MCVersion)
                 return item;
         }
         return null;

@@ -12,20 +12,20 @@ namespace MCL.Core.Providers;
 public class MCFabricInstallerDownloadProvider
 {
     public MCFabricIndex fabricIndex = new();
-    private static MCLauncherPath fabricInstallerPath;
-    private static MCLauncherVersion fabricInstallerVersion;
-    private static MCFabricConfigUrls fabricUrls;
+    private static MCLauncherPath launcherPath;
+    private static MCLauncherVersion launcherVersion;
+    private static MCFabricConfigUrls fabricConfigUrls;
     private static MCFabricInstaller fabricInstaller;
 
     public MCFabricInstallerDownloadProvider(
-        MCLauncherPath _fabricInstallerPath,
-        MCLauncherVersion _fabricInstallerVersion,
-        MCFabricConfigUrls _fabricUrls
+        MCLauncherPath _launcherPath,
+        MCLauncherVersion _launcherVersion,
+        MCFabricConfigUrls _fabricConfigUrls
     )
     {
-        fabricInstallerPath = _fabricInstallerPath;
-        fabricInstallerVersion = _fabricInstallerVersion;
-        fabricUrls = _fabricUrls;
+        launcherPath = _launcherPath;
+        launcherVersion = _launcherVersion;
+        fabricConfigUrls = _fabricConfigUrls;
     }
 
     public async Task<bool> DownloadAll()
@@ -41,15 +41,13 @@ public class MCFabricInstallerDownloadProvider
 
     public async Task<bool> DownloadFabricIndex()
     {
-        if (!await FabricIndexDownloader.Download(fabricInstallerPath, fabricUrls))
+        if (!await FabricIndexDownloader.Download(launcherPath, fabricConfigUrls))
         {
             LogBase.Error("Failed to download fabric index");
             return false;
         }
 
-        fabricIndex = Json.Read<MCFabricIndex>(
-            MinecraftFabricPathResolver.DownloadedFabricIndexPath(fabricInstallerPath)
-        );
+        fabricIndex = Json.Read<MCFabricIndex>(MinecraftFabricPathResolver.DownloadedFabricIndexPath(launcherPath));
         if (fabricIndex == null)
         {
             LogBase.Error($"Failed to get fabric index");
@@ -61,14 +59,14 @@ public class MCFabricInstallerDownloadProvider
 
     public async Task<bool> DownloadFabricInstaller()
     {
-        fabricInstaller = VersionHelper.GetFabricInstallerVersion(fabricInstallerVersion, fabricIndex.Installer);
+        fabricInstaller = VersionHelper.GetFabricInstallerVersion(launcherVersion, fabricIndex.Installer);
         if (fabricInstaller == null)
         {
-            LogBase.Error($"Failed to get version: {fabricInstallerVersion}");
+            LogBase.Error($"Failed to get version: {launcherVersion}");
             return false;
         }
 
-        if (!await FabricInstallerDownloader.Download(fabricInstallerPath, fabricInstaller))
+        if (!await FabricInstallerDownloader.Download(launcherPath, fabricInstaller))
         {
             LogBase.Error("Failed to download fabric installer");
             return false;

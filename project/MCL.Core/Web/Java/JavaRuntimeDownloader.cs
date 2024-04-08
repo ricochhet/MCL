@@ -13,12 +13,12 @@ namespace MCL.Core.Web.Java;
 public class JavaRuntimeDownloader : IJavaRuntimeDownloader
 {
     public static async Task<bool> Download(
-        MCLauncherPath minecraftPath,
+        MCLauncherPath launcherPath,
         JavaRuntimeTypeEnum javaRuntimeType,
         JavaRuntimeFiles javaRuntimeFiles
     )
     {
-        if (!MCLauncherPath.Exists(minecraftPath))
+        if (!MCLauncherPath.Exists(launcherPath))
             return false;
 
         if (!Exists(javaRuntimeFiles))
@@ -47,7 +47,7 @@ public class JavaRuntimeDownloader : IJavaRuntimeDownloader
                     !await Request.Download(
                         Path.Combine(
                             MinecraftPathResolver.DownloadedJavaRuntimePath(
-                                minecraftPath,
+                                launcherPath,
                                 JavaRuntimeTypeEnumResolver.ToString(javaRuntimeType)
                             ),
                             path

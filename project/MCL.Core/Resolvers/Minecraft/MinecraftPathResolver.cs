@@ -8,114 +8,114 @@ namespace MCL.Core.Resolvers.Minecraft;
 
 public static class MinecraftPathResolver
 {
-    public static string ClientLibrary(MCLauncherVersion minecraftVersion)
+    public static string ClientLibrary(MCLauncherVersion launcherVersion)
     {
-        return Path.Combine("versions", minecraftVersion.MCVersion, $"{minecraftVersion.MCVersion}.jar")
+        return Path.Combine("versions", launcherVersion.MCVersion, $"{launcherVersion.MCVersion}.jar")
             .Replace("\\", "/");
     }
 
-    public static string Libraries(MCLauncherVersion minecraftVersion)
+    public static string Libraries(MCLauncherVersion launcherVersion)
     {
-        return Path.Combine("versions", minecraftVersion.MCVersion, $"{minecraftVersion.MCVersion}-natives")
+        return Path.Combine("versions", launcherVersion.MCVersion, $"{launcherVersion.MCVersion}-natives")
             .Replace("\\", "/");
     }
 
-    public static int AssetIndexId(MCLauncherPath minecraftPath)
+    public static int AssetIndexId(MCLauncherPath launcherPath)
     {
-        List<string> fileName = FsProvider.GetFiles(Path.Combine(AssetsPath(minecraftPath), "indexes"), "*.json", true);
+        List<string> fileName = FsProvider.GetFiles(Path.Combine(AssetsPath(launcherPath), "indexes"), "*.json", true);
         bool success = int.TryParse(fileName[0], out int id);
         if (success)
             return id;
         return -1;
     }
 
-    public static string AssetsPath(MCLauncherPath minecraftPath)
+    public static string AssetsPath(MCLauncherPath launcherPath)
     {
-        return Path.Combine(minecraftPath.MCPath, "assets");
+        return Path.Combine(launcherPath.MCPath, "assets");
     }
 
-    public static string LibraryPath(MCLauncherPath minecraftPath)
+    public static string LibraryPath(MCLauncherPath launcherPath)
     {
-        return Path.Combine(minecraftPath.MCPath, "libraries");
+        return Path.Combine(launcherPath.MCPath, "libraries");
     }
 
-    public static string ServerPath(MCLauncherPath minecraftPath)
+    public static string ServerPath(MCLauncherPath launcherPath)
     {
-        return Path.Combine(minecraftPath.MCPath, "server");
+        return Path.Combine(launcherPath.MCPath, "server");
     }
 
-    public static string VersionPath(MCLauncherPath minecraftPath, MCVersionDetails versionDetails)
+    public static string VersionPath(MCLauncherPath launcherPath, MCVersionDetails versionDetails)
     {
-        return Path.Combine(minecraftPath.MCPath, "versions", versionDetails.ID);
+        return Path.Combine(launcherPath.MCPath, "versions", versionDetails.ID);
     }
 
-    public static string ClientJarPath(MCLauncherPath minecraftPath, MCVersionDetails versionDetails)
+    public static string ClientJarPath(MCLauncherPath launcherPath, MCVersionDetails versionDetails)
     {
-        return Path.Combine(VersionPath(minecraftPath, versionDetails), versionDetails.ID + ".jar");
+        return Path.Combine(VersionPath(launcherPath, versionDetails), versionDetails.ID + ".jar");
     }
 
-    public static string ClientMappingsPath(MCLauncherPath minecraftPath, MCVersionDetails versionDetails)
+    public static string ClientMappingsPath(MCLauncherPath launcherPath, MCVersionDetails versionDetails)
     {
-        return Path.Combine(VersionPath(minecraftPath, versionDetails), "client.txt");
+        return Path.Combine(VersionPath(launcherPath, versionDetails), "client.txt");
     }
 
-    public static string ClientIndexPath(MCLauncherPath minecraftPath, MCVersionDetails versionDetails)
+    public static string ClientIndexPath(MCLauncherPath launcherPath, MCVersionDetails versionDetails)
     {
-        return Path.Combine(AssetsPath(minecraftPath), "indexes", versionDetails.Assets + ".json");
+        return Path.Combine(AssetsPath(launcherPath), "indexes", versionDetails.Assets + ".json");
     }
 
-    public static string LoggingPath(MCLauncherPath minecraftPath, MCVersionDetails versionDetails)
+    public static string LoggingPath(MCLauncherPath launcherPath, MCVersionDetails versionDetails)
     {
-        return Path.Combine(VersionPath(minecraftPath, versionDetails), "client.xml");
+        return Path.Combine(VersionPath(launcherPath, versionDetails), "client.xml");
     }
 
-    public static string ServerJarPath(MCLauncherPath minecraftPath, MCVersionDetails versionDetails)
+    public static string ServerJarPath(MCLauncherPath launcherPath, MCVersionDetails versionDetails)
     {
-        return Path.Combine(ServerPath(minecraftPath), $"minecraft_server.{versionDetails.ID}.jar");
+        return Path.Combine(ServerPath(launcherPath), $"minecraft_server.{versionDetails.ID}.jar");
     }
 
-    public static string ServerMappingsPath(MCLauncherPath minecraftPath, MCVersionDetails versionDetails)
+    public static string ServerMappingsPath(MCLauncherPath launcherPath, MCVersionDetails versionDetails)
     {
-        return Path.Combine(ServerPath(minecraftPath), $"minecraft_server.{versionDetails.ID}.txt");
+        return Path.Combine(ServerPath(launcherPath), $"minecraft_server.{versionDetails.ID}.txt");
     }
 
-    public static string ServerEulaPath(MCLauncherPath minecraftPath)
+    public static string ServerEulaPath(MCLauncherPath launcherPath)
     {
-        return Path.Combine(ServerPath(minecraftPath), "server.properties");
+        return Path.Combine(ServerPath(launcherPath), "server.properties");
     }
 
-    public static string ServerPropertiesPath(MCLauncherPath minecraftPath)
+    public static string ServerPropertiesPath(MCLauncherPath launcherPath)
     {
-        return Path.Combine(ServerPath(minecraftPath), "server.properties");
+        return Path.Combine(ServerPath(launcherPath), "server.properties");
     }
 
-    public static string DownloadedVersionManifestPath(MCLauncherPath minecraftPath)
+    public static string DownloadedVersionManifestPath(MCLauncherPath launcherPath)
     {
-        return Path.Combine(minecraftPath.MCPath, "version_manifest.json");
+        return Path.Combine(launcherPath.MCPath, "version_manifest.json");
     }
 
-    public static string DownloadedVersionDetailsPath(MCLauncherPath minecraftPath, MCVersion version)
+    public static string DownloadedVersionDetailsPath(MCLauncherPath launcherPath, MCVersion version)
     {
-        return Path.Combine(minecraftPath.MCPath, "versions", version.ID + ".json");
+        return Path.Combine(launcherPath.MCPath, "versions", version.ID + ".json");
     }
 
-    public static string JavaRuntimePath(MCLauncherPath minecraftPath)
+    public static string JavaRuntimePath(MCLauncherPath launcherPath)
     {
-        return Path.Combine(minecraftPath.MCPath, "runtime");
+        return Path.Combine(launcherPath.MCPath, "runtime");
     }
 
-    public static string DownloadedJavaRuntimeIndexPath(MCLauncherPath minecraftPath)
+    public static string DownloadedJavaRuntimeIndexPath(MCLauncherPath launcherPath)
     {
-        return Path.Combine(JavaRuntimePath(minecraftPath), "java_runtime_index.json");
+        return Path.Combine(JavaRuntimePath(launcherPath), "java_runtime_index.json");
     }
 
-    public static string DownloadedJavaRuntimeManifestPath(MCLauncherPath minecraftPath, string javaRuntimeVersion)
+    public static string DownloadedJavaRuntimeManifestPath(MCLauncherPath launcherPath, string javaRuntimeVersion)
     {
-        return Path.Combine(JavaRuntimePath(minecraftPath), javaRuntimeVersion, "java_runtime_manifest.json");
+        return Path.Combine(JavaRuntimePath(launcherPath), javaRuntimeVersion, "java_runtime_manifest.json");
     }
 
-    public static string DownloadedJavaRuntimePath(MCLauncherPath minecraftPath, string javaRuntimeVersion)
+    public static string DownloadedJavaRuntimePath(MCLauncherPath launcherPath, string javaRuntimeVersion)
     {
-        return Path.Combine(JavaRuntimePath(minecraftPath), javaRuntimeVersion);
+        return Path.Combine(JavaRuntimePath(launcherPath), javaRuntimeVersion);
     }
 }

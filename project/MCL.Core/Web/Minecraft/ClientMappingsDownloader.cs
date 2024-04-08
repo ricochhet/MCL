@@ -9,16 +9,16 @@ namespace MCL.Core.Web.Minecraft;
 
 public class ClientMappingsDownloader : IMCGenericDownloader
 {
-    public static async Task<bool> Download(MCLauncherPath minecraftPath, MCVersionDetails versionDetails)
+    public static async Task<bool> Download(MCLauncherPath launcherPath, MCVersionDetails versionDetails)
     {
-        if (!MCLauncherPath.Exists(minecraftPath))
+        if (!MCLauncherPath.Exists(launcherPath))
             return false;
 
         if (!Exists(versionDetails))
             return false;
 
         return await Request.Download(
-            MinecraftPathResolver.ClientMappingsPath(minecraftPath, versionDetails),
+            MinecraftPathResolver.ClientMappingsPath(launcherPath, versionDetails),
             versionDetails.Downloads.ClientMappings.URL,
             versionDetails.Downloads.ClientMappings.SHA1
         );

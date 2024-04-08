@@ -15,13 +15,13 @@ namespace MCL.Core.Web.Java;
 public class JavaRuntimeManifestDownloader : IJavaRuntimeManifestDownloader
 {
     public static async Task<bool> Download(
-        MCLauncherPath minecraftPath,
+        MCLauncherPath launcherPath,
         JavaRuntimePlatformEnum javaRuntimePlatformEnum,
         JavaRuntimeTypeEnum javaRuntimeTypeEnum,
         JavaRuntimeIndex javaRuntimeIndex
     )
     {
-        if (!MCLauncherPath.Exists(minecraftPath))
+        if (!MCLauncherPath.Exists(launcherPath))
             return false;
 
         if (!Exists(javaRuntimeIndex))
@@ -51,7 +51,7 @@ public class JavaRuntimeManifestDownloader : IJavaRuntimeManifestDownloader
         string javaRuntimeManifest = await Request.DoRequest(
             url,
             MinecraftPathResolver.DownloadedJavaRuntimeManifestPath(
-                minecraftPath,
+                launcherPath,
                 JavaRuntimeTypeEnumResolver.ToString(javaRuntimeTypeEnum)
             ),
             Encoding.UTF8
@@ -93,46 +93,46 @@ public class JavaRuntimeManifestDownloader : IJavaRuntimeManifestDownloader
         return true;
     }
 
-    public static string GetJavaRuntimeUrl(JavaRuntimeTypeEnum javaRuntimeTypeEnum, JavaRuntime javaRuntimePlatform)
+    public static string GetJavaRuntimeUrl(JavaRuntimeTypeEnum javaRuntimeTypeEnum, JavaRuntime javaRuntime)
     {
-        if (!JavaRuntimeUrlExists(javaRuntimePlatform, javaRuntimePlatform.JavaRuntimeAlpha))
+        if (!JavaRuntimeUrlExists(javaRuntime, javaRuntime.JavaRuntimeAlpha))
             return default;
 
-        if (!JavaRuntimeUrlExists(javaRuntimePlatform, javaRuntimePlatform.JavaRuntimeBeta))
+        if (!JavaRuntimeUrlExists(javaRuntime, javaRuntime.JavaRuntimeBeta))
             return default;
 
-        if (!JavaRuntimeUrlExists(javaRuntimePlatform, javaRuntimePlatform.JavaRuntimeDelta))
+        if (!JavaRuntimeUrlExists(javaRuntime, javaRuntime.JavaRuntimeDelta))
             return default;
 
-        if (!JavaRuntimeUrlExists(javaRuntimePlatform, javaRuntimePlatform.JavaRuntimeGamma))
+        if (!JavaRuntimeUrlExists(javaRuntime, javaRuntime.JavaRuntimeGamma))
             return default;
 
-        if (!JavaRuntimeUrlExists(javaRuntimePlatform, javaRuntimePlatform.JavaRuntimeGammaSnapshot))
+        if (!JavaRuntimeUrlExists(javaRuntime, javaRuntime.JavaRuntimeGammaSnapshot))
             return default;
 
-        if (!JavaRuntimeUrlExists(javaRuntimePlatform, javaRuntimePlatform.JreLegacy))
+        if (!JavaRuntimeUrlExists(javaRuntime, javaRuntime.JreLegacy))
             return default;
 
-        if (!JavaRuntimeUrlExists(javaRuntimePlatform, javaRuntimePlatform.MinecraftJavaExe))
+        if (!JavaRuntimeUrlExists(javaRuntime, javaRuntime.MinecraftJavaExe))
             return default;
 
         return javaRuntimeTypeEnum switch
         {
-            JavaRuntimeTypeEnum.JAVA_RUNTIME_ALPHA => javaRuntimePlatform.JavaRuntimeAlpha[0].JavaRuntimeManifest.Url,
-            JavaRuntimeTypeEnum.JAVA_RUNTIME_BETA => javaRuntimePlatform.JavaRuntimeBeta[0].JavaRuntimeManifest.Url,
-            JavaRuntimeTypeEnum.JAVA_RUNTIME_DELTA => javaRuntimePlatform.JavaRuntimeDelta[0].JavaRuntimeManifest.Url,
-            JavaRuntimeTypeEnum.JAVA_RUNTIME_GAMMA => javaRuntimePlatform.JavaRuntimeGamma[0].JavaRuntimeManifest.Url,
+            JavaRuntimeTypeEnum.JAVA_RUNTIME_ALPHA => javaRuntime.JavaRuntimeAlpha[0].JavaRuntimeManifest.Url,
+            JavaRuntimeTypeEnum.JAVA_RUNTIME_BETA => javaRuntime.JavaRuntimeBeta[0].JavaRuntimeManifest.Url,
+            JavaRuntimeTypeEnum.JAVA_RUNTIME_DELTA => javaRuntime.JavaRuntimeDelta[0].JavaRuntimeManifest.Url,
+            JavaRuntimeTypeEnum.JAVA_RUNTIME_GAMMA => javaRuntime.JavaRuntimeGamma[0].JavaRuntimeManifest.Url,
             JavaRuntimeTypeEnum.JAVA_RUNTIME_GAMMA_SNAPSHOT
-                => javaRuntimePlatform.JavaRuntimeGammaSnapshot[0].JavaRuntimeManifest.Url,
-            JavaRuntimeTypeEnum.JRE_LEGACY => javaRuntimePlatform.JreLegacy[0].JavaRuntimeManifest.Url,
-            JavaRuntimeTypeEnum.MINECRAFT_JAVA_EXE => javaRuntimePlatform.MinecraftJavaExe[0].JavaRuntimeManifest.Url,
+                => javaRuntime.JavaRuntimeGammaSnapshot[0].JavaRuntimeManifest.Url,
+            JavaRuntimeTypeEnum.JRE_LEGACY => javaRuntime.JreLegacy[0].JavaRuntimeManifest.Url,
+            JavaRuntimeTypeEnum.MINECRAFT_JAVA_EXE => javaRuntime.MinecraftJavaExe[0].JavaRuntimeManifest.Url,
             _ => throw new ArgumentOutOfRangeException(nameof(javaRuntimeTypeEnum), "Invalid Java runtime type."),
         };
     }
 
-    public static bool JavaRuntimeUrlExists(JavaRuntime javaRuntimePlatform, List<JavaRuntimeObject> javaRuntimeObjects)
+    public static bool JavaRuntimeUrlExists(JavaRuntime javaRuntime, List<JavaRuntimeObject> javaRuntimeObjects)
     {
-        if (javaRuntimePlatform == null)
+        if (javaRuntime == null)
             return false;
 
         if (javaRuntimeObjects == null)

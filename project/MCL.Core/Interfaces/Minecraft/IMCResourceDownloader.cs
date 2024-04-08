@@ -7,9 +7,9 @@ namespace MCL.Core.Interfaces.Minecraft;
 public interface IMCResourceDownloader
 {
     public static abstract Task<bool> Download(
-        MCLauncherPath minecraftPath,
-        MCConfigUrls minecraftUrls,
+        MCLauncherPath launcherPath,
+        MCConfigUrls configUrls,
         MCAssetsData assets
     );
-    public static abstract bool Exists(MCConfigUrls minecraftUrls, MCAssetsData assets);
+    public static abstract bool Exists(MCConfigUrls configUrls, MCAssetsData assets);
 }

@@ -9,16 +9,16 @@ namespace MCL.Core.Web.Minecraft;
 
 public class IndexDownloader : IMCGenericDownloader
 {
-    public static async Task<bool> Download(MCLauncherPath minecraftPath, MCVersionDetails versionDetails)
+    public static async Task<bool> Download(MCLauncherPath launcherPath, MCVersionDetails versionDetails)
     {
-        if (!MCLauncherPath.Exists(minecraftPath))
+        if (!MCLauncherPath.Exists(launcherPath))
             return false;
 
         if (!Exists(versionDetails))
             return false;
 
         return await Request.Download(
-            MinecraftPathResolver.ClientIndexPath(minecraftPath, versionDetails),
+            MinecraftPathResolver.ClientIndexPath(launcherPath, versionDetails),
             versionDetails.AssetIndex.URL,
             versionDetails.AssetIndex.SHA1
         );

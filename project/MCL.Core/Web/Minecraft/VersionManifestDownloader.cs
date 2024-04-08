@@ -10,27 +10,27 @@ namespace MCL.Core.Web.Minecraft;
 
 public class VersionManifestDownloader : IMCVersionManifestDownloader
 {
-    public static async Task<bool> Download(MCLauncherPath minecraftPath, MCConfigUrls minecraftUrls)
+    public static async Task<bool> Download(MCLauncherPath launcherPath, MCConfigUrls configUrls)
     {
-        if (!MCLauncherPath.Exists(minecraftPath))
+        if (!MCLauncherPath.Exists(launcherPath))
             return false;
 
-        if (!Exists(minecraftUrls))
+        if (!Exists(configUrls))
             return false;
 
-        string downloadPath = MinecraftPathResolver.DownloadedVersionManifestPath(minecraftPath);
-        string versionManifest = await Request.DoRequest(minecraftUrls.VersionManifest, downloadPath, Encoding.UTF8);
+        string downloadPath = MinecraftPathResolver.DownloadedVersionManifestPath(launcherPath);
+        string versionManifest = await Request.DoRequest(configUrls.VersionManifest, downloadPath, Encoding.UTF8);
         if (string.IsNullOrEmpty(versionManifest))
             return false;
         return true;
     }
 
-    public static bool Exists(MCConfigUrls minecraftUrls)
+    public static bool Exists(MCConfigUrls configUrls)
     {
-        if (minecraftUrls == null)
+        if (configUrls == null)
             return false;
 
-        if (string.IsNullOrEmpty(minecraftUrls.VersionManifest))
+        if (string.IsNullOrEmpty(configUrls.VersionManifest))
             return false;
 
         return true;

@@ -10,19 +10,19 @@ namespace MCL.Core.Web.Minecraft;
 
 public class ServerDownloader : IMCGenericDownloader
 {
-    public static async Task<bool> Download(MCLauncherPath minecraftPath, MCVersionDetails versionDetails)
+    public static async Task<bool> Download(MCLauncherPath launcherPath, MCVersionDetails versionDetails)
     {
-        if (!MCLauncherPath.Exists(minecraftPath))
+        if (!MCLauncherPath.Exists(launcherPath))
             return false;
 
         if (!Exists(versionDetails))
             return false;
 
-        ServerProperties.NewEula(minecraftPath);
-        ServerProperties.NewProperties(minecraftPath);
+        ServerProperties.NewEula(launcherPath);
+        ServerProperties.NewProperties(launcherPath);
 
         return await Request.Download(
-            MinecraftPathResolver.ServerJarPath(minecraftPath, versionDetails),
+            MinecraftPathResolver.ServerJarPath(launcherPath, versionDetails),
             versionDetails.Downloads.Server.URL,
             versionDetails.Downloads.Server.SHA1
         );

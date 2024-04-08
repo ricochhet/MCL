@@ -8,7 +8,7 @@ namespace MCL.Core.Interfaces.Java;
 public interface IJavaRuntimeDownloader
 {
     public static abstract Task<bool> Download(
-        MCLauncherPath minecraftPath,
+        MCLauncherPath launcherPath,
         JavaRuntimeTypeEnum javaRuntimeType,
         JavaRuntimeFiles javaRuntimeFiles
     );

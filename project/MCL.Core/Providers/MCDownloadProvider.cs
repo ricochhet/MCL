@@ -16,22 +16,22 @@ public class MCDownloadProvider
     public MCVersionDetails versionDetails = new();
     public MCVersion version;
     public MCAssetsData assets = new();
-    private static MCLauncherPath minecraftPath;
-    private static MCLauncherVersion minecraftVersion;
-    private static PlatformEnum minecraftPlatform;
-    private static MCConfigUrls minecraftUrls;
+    private static MCLauncherPath launcherPath;
+    private static MCLauncherVersion launcherVersion;
+    private static PlatformEnum platform;
+    private static MCConfigUrls configUrls;
 
     public MCDownloadProvider(
-        MCLauncherPath _minecraftPath,
-        MCLauncherVersion _minecraftVersion,
-        PlatformEnum _minecraftPlatform,
-        MCConfigUrls _minecraftUrls
+        MCLauncherPath _launcherPath,
+        MCLauncherVersion _launcherVersion,
+        PlatformEnum _platform,
+        MCConfigUrls _configUrls
     )
     {
-        minecraftPath = _minecraftPath;
-        minecraftVersion = _minecraftVersion;
-        minecraftPlatform = _minecraftPlatform;
-        minecraftUrls = _minecraftUrls;
+        launcherPath = _launcherPath;
+        launcherVersion = _launcherVersion;
+        platform = _platform;
+        configUrls = _configUrls;
     }
 
     public async Task<bool> DownloadAll()
@@ -71,14 +71,14 @@ public class MCDownloadProvider
 
     public async Task<bool> DownloadVersionManifest()
     {
-        if (!await VersionManifestDownloader.Download(minecraftPath, minecraftUrls))
+        if (!await VersionManifestDownloader.Download(launcherPath, configUrls))
         {
             LogBase.Error("Failed to download version manifest");
             return false;
         }
 
         versionManifest = Json.Read<MCVersionManifest>(
-            MinecraftPathResolver.DownloadedVersionManifestPath(minecraftPath)
+            MinecraftPathResolver.DownloadedVersionManifestPath(launcherPath)
         );
         if (versionManifest == null)
         {
@@ -86,7 +86,7 @@ public class MCDownloadProvider
             return false;
         }
 
-        version = VersionHelper.GetVersion(minecraftVersion, versionManifest.Versions);
+        version = VersionHelper.GetVersion(launcherVersion, versionManifest.Versions);
         if (version == null)
         {
             LogBase.Error($"Failed to get version: {version}");
@@ -98,14 +98,14 @@ public class MCDownloadProvider
 
     public async Task<bool> DownloadVersionDetails()
     {
-        if (!await VersionDetailsDownloader.Download(minecraftPath, version))
+        if (!await VersionDetailsDownloader.Download(launcherPath, version))
         {
             LogBase.Error("Failed to download version details");
             return false;
         }
 
         versionDetails = Json.Read<MCVersionDetails>(
-            MinecraftPathResolver.DownloadedVersionDetailsPath(minecraftPath, version)
+            MinecraftPathResolver.DownloadedVersionDetailsPath(launcherPath, version)
         );
         if (versionDetails == null)
         {
@@ -118,7 +118,7 @@ public class MCDownloadProvider
 
     public async Task<bool> DownloadLibraries()
     {
-        if (!await LibraryDownloader.Download(minecraftPath, minecraftPlatform, versionDetails.Libraries))
+        if (!await LibraryDownloader.Download(launcherPath, platform, versionDetails.Libraries))
         {
             LogBase.Error("Failed to download libraries");
             return false;
@@ -129,7 +129,7 @@ public class MCDownloadProvider
 
     public async Task<bool> DownloadClient()
     {
-        if (!await ClientDownloader.Download(minecraftPath, versionDetails))
+        if (!await ClientDownloader.Download(launcherPath, versionDetails))
         {
             LogBase.Error("Failed to download client");
             return false;
@@ -140,7 +140,7 @@ public class MCDownloadProvider
 
     public async Task<bool> DownloadClientMappings()
     {
-        if (!await ClientMappingsDownloader.Download(minecraftPath, versionDetails))
+        if (!await ClientMappingsDownloader.Download(launcherPath, versionDetails))
         {
             LogBase.Error("Failed to download client mappings");
             return false;
@@ -151,7 +151,7 @@ public class MCDownloadProvider
 
     public async Task<bool> DownloadServer()
     {
-        if (!await ServerDownloader.Download(minecraftPath, versionDetails))
+        if (!await ServerDownloader.Download(launcherPath, versionDetails))
         {
             LogBase.Error("Failed to download server");
             return false;
@@ -162,7 +162,7 @@ public class MCDownloadProvider
 
     public async Task<bool> DownloadServerMappings()
     {
-        if (!await ServerMappingsDownloader.Download(minecraftPath, versionDetails))
+        if (!await ServerMappingsDownloader.Download(launcherPath, versionDetails))
         {
             LogBase.Error("Failed to download server mappings");
             return false;
@@ -173,13 +173,13 @@ public class MCDownloadProvider
 
     public async Task<bool> DownloadAssetIndex()
     {
-        if (!await IndexDownloader.Download(minecraftPath, versionDetails))
+        if (!await IndexDownloader.Download(launcherPath, versionDetails))
         {
             LogBase.Error("Failed to download assets index json");
             return false;
         }
 
-        assets = Json.Read<MCAssetsData>(MinecraftPathResolver.ClientIndexPath(minecraftPath, versionDetails));
+        assets = Json.Read<MCAssetsData>(MinecraftPathResolver.ClientIndexPath(launcherPath, versionDetails));
         if (assets == null)
         {
             LogBase.Error($"Failed to get assets index json");
@@ -191,7 +191,7 @@ public class MCDownloadProvider
 
     public async Task<bool> DownloadResources()
     {
-        if (!await ResourceDownloader.Download(minecraftPath, minecraftUrls, assets))
+        if (!await ResourceDownloader.Download(launcherPath, configUrls, assets))
         {
             LogBase.Error("Failed to download resources");
             return false;
@@ -202,7 +202,7 @@ public class MCDownloadProvider
 
     public async Task<bool> DownloadLogging()
     {
-        if (!await LoggingDownloader.Download(minecraftPath, versionDetails))
+        if (!await LoggingDownloader.Download(launcherPath, versionDetails))
         {
             LogBase.Error("Failed to download logging");
             return false;

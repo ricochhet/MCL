@@ -6,55 +6,52 @@ namespace MCL.Core.Resolvers.Minecraft;
 
 public static class MinecraftFabricPathResolver
 {
-    public static string FabricInstallerPath(MCLauncherPath fabricInstallerPath)
+    public static string FabricInstallerPath(MCLauncherPath launcherPath)
     {
-        return Path.Combine(fabricInstallerPath.FabricInstallerPath, "installers");
+        return Path.Combine(launcherPath.FabricInstallerPath, "installers");
     }
 
-    public static string FabricModPath(MCLauncherPath fabricInstallerPath)
+    public static string FabricModPath(MCLauncherPath launcherPath)
     {
-        return Path.Combine(fabricInstallerPath.FabricInstallerPath, "mods");
+        return Path.Combine(launcherPath.FabricInstallerPath, "mods");
     }
 
-    public static string DownloadedFabricInstallerPath(
-        MCLauncherPath fabricInstallerPath,
-        MCFabricInstaller fabricInstaller
-    )
+    public static string DownloadedFabricInstallerPath(MCLauncherPath launcherPath, MCFabricInstaller fabricInstaller)
     {
         return Path.Combine(
-            fabricInstallerPath.FabricInstallerPath,
+            launcherPath.FabricInstallerPath,
             "installers",
             $"fabric-installer-{fabricInstaller.Version}.jar"
         );
     }
 
-    public static string DownloadedFabricIndexPath(MCLauncherPath fabricInstallerPath)
+    public static string DownloadedFabricIndexPath(MCLauncherPath launcherPath)
     {
-        return Path.Combine(fabricInstallerPath.FabricInstallerPath, "fabric_manifest.json");
+        return Path.Combine(launcherPath.FabricInstallerPath, "fabric_manifest.json");
     }
 
-    public static string DownloadedFabricProfilePath(
-        MCLauncherPath fabricInstallerPath,
-        MCLauncherVersion minecraftVersion
-    )
+    public static string DownloadedFabricProfilePath(MCLauncherPath launcherPath, MCLauncherVersion launcherVersion)
     {
         return Path.Combine(
-            fabricInstallerPath.FabricInstallerPath,
-            $"fabric_profile-{minecraftVersion.MCVersion}-{minecraftVersion.FabricLoaderVersion}.json"
+            launcherPath.FabricInstallerPath,
+            $"fabric_profile-{launcherVersion.MCVersion}-{launcherVersion.FabricLoaderVersion}.json"
         );
     }
 
-    public static string FabricLoaderJarUrlPath(MCFabricConfigUrls fabricUrls, MCLauncherVersion launcherVersion)
+    public static string FabricLoaderJarUrlPath(MCFabricConfigUrls fabricConfigUrls, MCLauncherVersion launcherVersion)
     {
-        return fabricUrls.FabricLoaderJarUrl.Replace("{0}", launcherVersion.FabricLoaderVersion);
+        return fabricConfigUrls.FabricLoaderJarUrl.Replace("{0}", launcherVersion.FabricLoaderVersion);
     }
 
-    public static string FabricLoaderProfileUrlPath(MCFabricConfigUrls fabricUrls, MCLauncherVersion minecraftVersion)
+    public static string FabricLoaderProfileUrlPath(
+        MCFabricConfigUrls fabricConfigUrls,
+        MCLauncherVersion launcherVersion
+    )
     {
         return string.Format(
-            fabricUrls.FabricLoaderProfileUrl,
-            minecraftVersion.MCVersion,
-            minecraftVersion.FabricLoaderVersion
+            fabricConfigUrls.FabricLoaderProfileUrl,
+            launcherVersion.MCVersion,
+            launcherVersion.FabricLoaderVersion
         );
     }
 }

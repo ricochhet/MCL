@@ -13,13 +13,13 @@ namespace MCL.Core.Web.Minecraft;
 public class FabricLoaderDownloader : IFabricLoaderDownloader
 {
     public static async Task<bool> Download(
-        MCLauncherPath minecraftPath,
+        MCLauncherPath launcherPath,
         MCLauncherVersion launcherVersion,
         MCFabricProfile fabricProfile,
         MCFabricConfigUrls fabricConfigUrls
     )
     {
-        if (!MCLauncherPath.Exists(minecraftPath))
+        if (!MCLauncherPath.Exists(launcherPath))
             return false;
 
         if (!Exists(fabricProfile, fabricConfigUrls))
@@ -56,7 +56,7 @@ public class FabricLoaderDownloader : IFabricLoaderDownloader
             if (
                 !await Request.Download(
                     Path.Combine(
-                        MinecraftPathResolver.LibraryPath(minecraftPath),
+                        MinecraftPathResolver.LibraryPath(launcherPath),
                         MCFabricLibrary.ParsePath(library.Name)
                     ),
                     url,

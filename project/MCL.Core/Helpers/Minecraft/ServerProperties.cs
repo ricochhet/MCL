@@ -6,15 +6,15 @@ namespace MCL.Core.Helpers.Minecraft;
 
 public static class ServerProperties
 {
-    public static void NewEula(MCLauncherPath minecraftPath)
+    public static void NewEula(MCLauncherPath launcherPath)
     {
-        FsProvider.WriteFile(MinecraftPathResolver.ServerPath(minecraftPath), "eula.txt", "eula=true\n");
+        FsProvider.WriteFile(MinecraftPathResolver.ServerPath(launcherPath), "eula.txt", "eula=true\n");
     }
 
-    public static void NewProperties(MCLauncherPath minecraftPath)
+    public static void NewProperties(MCLauncherPath launcherPath)
     {
         FsProvider.WriteFile(
-            MinecraftPathResolver.ServerPath(minecraftPath),
+            MinecraftPathResolver.ServerPath(launcherPath),
             "server.properties",
             "online-mode=false\n"
         );

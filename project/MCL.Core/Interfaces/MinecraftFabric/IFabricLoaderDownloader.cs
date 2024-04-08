@@ -7,7 +7,7 @@ namespace MCL.Core.Interfaces.Minecraft;
 public interface IFabricLoaderDownloader
 {
     public static abstract Task<bool> Download(
-        MCLauncherPath minecraftPath,
+        MCLauncherPath launcherPath,
         MCLauncherVersion launcherVersion,
         MCFabricProfile fabricProfile,
         MCFabricConfigUrls fabricConfigUrls

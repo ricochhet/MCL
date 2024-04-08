@@ -6,18 +6,18 @@ public class MCLauncherVersion
     public string FabricInstallerVersion { get; set; }
     public string FabricLoaderVersion { get; set; }
 
-    public static bool Exists(MCLauncherVersion minecraftVersion)
+    public static bool Exists(MCLauncherVersion launcherVersion)
     {
-        if (minecraftVersion == null)
+        if (launcherVersion == null)
             return false;
 
-        if (string.IsNullOrEmpty(minecraftVersion.MCVersion))
+        if (string.IsNullOrEmpty(launcherVersion.MCVersion))
             return false;
 
-        if (string.IsNullOrEmpty(minecraftVersion.FabricInstallerVersion))
+        if (string.IsNullOrEmpty(launcherVersion.FabricInstallerVersion))
             return false;
 
-        if (string.IsNullOrEmpty(minecraftVersion.FabricLoaderVersion))
+        if (string.IsNullOrEmpty(launcherVersion.FabricLoaderVersion))
             return false;
 
         return true;

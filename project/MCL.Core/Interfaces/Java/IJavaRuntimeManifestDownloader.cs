@@ -9,19 +9,16 @@ namespace MCL.Core.Interfaces.Java;
 public interface IJavaRuntimeManifestDownloader
 {
     public static abstract Task<bool> Download(
-        MCLauncherPath minecraftPath,
+        MCLauncherPath launcherPath,
         JavaRuntimePlatformEnum javaRuntimePlatformEnum,
         JavaRuntimeTypeEnum javaRuntimeTypeEnum,
         JavaRuntimeIndex javaRuntimeIndex
     );
-    public static abstract string GetJavaRuntimeUrl(
-        JavaRuntimeTypeEnum javaRuntimeTypeEnum,
-        JavaRuntime javaRuntimePlatform
-    );
+    public static abstract string GetJavaRuntimeUrl(JavaRuntimeTypeEnum javaRuntimeTypeEnum, JavaRuntime javaRuntime);
     public static abstract bool Exists(JavaRuntimeIndex javaRuntimeIndex);
 
     public static abstract bool JavaRuntimeUrlExists(
-        JavaRuntime javaRuntimePlatform,
+        JavaRuntime javaRuntime,
         List<JavaRuntimeObject> javaRuntimeObjects
     );
 }

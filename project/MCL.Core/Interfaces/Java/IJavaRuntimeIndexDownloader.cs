@@ -6,6 +6,6 @@ namespace MCL.Core.Interfaces.Java;
 
 public interface IJavaRuntimeIndexDownloader
 {
-    public static abstract Task<bool> Download(MCLauncherPath minecraftPath, MCConfigUrls minecraftUrls);
-    public static abstract bool Exists(MCConfigUrls minecraftUrls);
+    public static abstract Task<bool> Download(MCLauncherPath launcherPath, MCConfigUrls configUrls);
+    public static abstract bool Exists(MCConfigUrls configUrls);
 }

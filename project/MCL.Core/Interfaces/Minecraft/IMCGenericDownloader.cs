@@ -6,6 +6,6 @@ namespace MCL.Core.Interfaces.Minecraft;
 
 public interface IMCGenericDownloader
 {
-    public static abstract Task<bool> Download(MCLauncherPath minecraftPath, MCVersionDetails versionDetails);
+    public static abstract Task<bool> Download(MCLauncherPath launcherPath, MCVersionDetails versionDetails);
     public static abstract bool Exists(MCVersionDetails versionDetails);
 }

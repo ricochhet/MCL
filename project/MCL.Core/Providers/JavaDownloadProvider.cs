@@ -15,20 +15,20 @@ public class JavaDownloadProvider
 {
     public JavaRuntimeIndex javaRuntimeIndex = new();
     public JavaRuntimeFiles javaRuntimeFiles = new();
-    private static MCLauncherPath minecraftPath;
-    private static MCConfigUrls minecraftUrls;
+    private static MCLauncherPath launcherPath;
+    private static MCConfigUrls configUrls;
     private static JavaRuntimeTypeEnum javaRuntimeType;
     private static JavaRuntimePlatformEnum javaRuntimePlatform;
 
     public JavaDownloadProvider(
-        MCLauncherPath _minecraftPath,
-        MCConfigUrls _minecraftUrls,
+        MCLauncherPath _launcherPath,
+        MCConfigUrls _configUrls,
         JavaRuntimeTypeEnum _javaRuntimeType,
         JavaRuntimePlatformEnum _javaRuntimePlatform
     )
     {
-        minecraftPath = _minecraftPath;
-        minecraftUrls = _minecraftUrls;
+        launcherPath = _launcherPath;
+        configUrls = _configUrls;
         javaRuntimeType = _javaRuntimeType;
         javaRuntimePlatform = _javaRuntimePlatform;
     }
@@ -49,14 +49,14 @@ public class JavaDownloadProvider
 
     public async Task<bool> DownloadJavaRuntimeIndex()
     {
-        if (!await JavaRuntimeIndexDownloader.Download(minecraftPath, minecraftUrls))
+        if (!await JavaRuntimeIndexDownloader.Download(launcherPath, configUrls))
         {
             LogBase.Error("Failed to download java runtime index");
             return false;
         }
 
         javaRuntimeIndex = Json.Read<JavaRuntimeIndex>(
-            MinecraftPathResolver.DownloadedJavaRuntimeIndexPath(minecraftPath)
+            MinecraftPathResolver.DownloadedJavaRuntimeIndexPath(launcherPath)
         );
         if (javaRuntimeIndex == null)
         {
@@ -71,7 +71,7 @@ public class JavaDownloadProvider
     {
         if (
             !await JavaRuntimeManifestDownloader.Download(
-                minecraftPath,
+                launcherPath,
                 javaRuntimePlatform,
                 javaRuntimeType,
                 javaRuntimeIndex
@@ -84,7 +84,7 @@ public class JavaDownloadProvider
 
         javaRuntimeFiles = Json.Read<JavaRuntimeFiles>(
             MinecraftPathResolver.DownloadedJavaRuntimeManifestPath(
-                minecraftPath,
+                launcherPath,
                 JavaRuntimeTypeEnumResolver.ToString(javaRuntimeType)
             )
         );
@@ -99,7 +99,7 @@ public class JavaDownloadProvider
 
     public async Task<bool> DownloadJavaRuntime()
     {
-        if (!await JavaRuntimeDownloader.Download(minecraftPath, javaRuntimeType, javaRuntimeFiles))
+        if (!await JavaRuntimeDownloader.Download(launcherPath, javaRuntimeType, javaRuntimeFiles))
         {
             LogBase.Error("Failed to download java runtime");
             return false;

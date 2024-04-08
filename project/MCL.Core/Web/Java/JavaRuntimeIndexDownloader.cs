@@ -10,31 +10,27 @@ namespace MCL.Core.Web.Java;
 
 public class JavaRuntimeIndexDownloader : IJavaRuntimeIndexDownloader
 {
-    public static async Task<bool> Download(MCLauncherPath minecraftPath, MCConfigUrls minecraftUrls)
+    public static async Task<bool> Download(MCLauncherPath launcherPath, MCConfigUrls configUrls)
     {
-        if (!MCLauncherPath.Exists(minecraftPath))
+        if (!MCLauncherPath.Exists(launcherPath))
             return false;
 
-        if (!Exists(minecraftUrls))
+        if (!Exists(configUrls))
             return false;
 
-        string downloadPath = MinecraftPathResolver.DownloadedJavaRuntimeIndexPath(minecraftPath);
-        string javaRuntimeIndex = await Request.DoRequest(
-            minecraftUrls.JavaRuntimeIndexUrl,
-            downloadPath,
-            Encoding.UTF8
-        );
+        string downloadPath = MinecraftPathResolver.DownloadedJavaRuntimeIndexPath(launcherPath);
+        string javaRuntimeIndex = await Request.DoRequest(configUrls.JavaRuntimeIndexUrl, downloadPath, Encoding.UTF8);
         if (string.IsNullOrEmpty(javaRuntimeIndex))
             return false;
         return true;
     }
 
-    public static bool Exists(MCConfigUrls minecraftUrls)
+    public static bool Exists(MCConfigUrls configUrls)
     {
-        if (minecraftUrls == null)
+        if (configUrls == null)
             return false;
 
-        if (string.IsNullOrEmpty(minecraftUrls.JavaRuntimeIndexUrl))
+        if (string.IsNullOrEmpty(configUrls.JavaRuntimeIndexUrl))
             return false;
 
         return true;

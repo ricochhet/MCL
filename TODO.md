@@ -29,7 +29,8 @@ Tasks marked with (*) are easier to do.
     - [ ] (*) Quilt
     - [ ] Forge
 - [ ] Automate installation of Fabric/Forge/Quilt loaders.
-    - [ ] (*) Fabric
+    - [x] (*) Fabric
+        - [ ] Implement installation of Fabric via installer.
     - [ ] Quilt
     - [ ] Forge
 - [ ] Implement frontend interface via Avalonia.

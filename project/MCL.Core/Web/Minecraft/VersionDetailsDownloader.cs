@@ -10,15 +10,15 @@ namespace MCL.Core.Web.Minecraft;
 
 public class VersionDetailsDownloader : IMCVersionDetailsDownloader
 {
-    public static async Task<bool> Download(MCLauncherPath minecraftPath, MCVersion version)
+    public static async Task<bool> Download(MCLauncherPath launcherPath, MCVersion version)
     {
-        if (!MCLauncherPath.Exists(minecraftPath))
+        if (!MCLauncherPath.Exists(launcherPath))
             return false;
 
         if (!Exists(version))
             return false;
 
-        string downloadPath = MinecraftPathResolver.DownloadedVersionDetailsPath(minecraftPath, version);
+        string downloadPath = MinecraftPathResolver.DownloadedVersionDetailsPath(launcherPath, version);
         string versionDetails = await Request.DoRequest(version.URL, downloadPath, Encoding.UTF8);
         if (string.IsNullOrEmpty(versionDetails))
             return false;
