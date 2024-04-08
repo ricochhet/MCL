@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using MCL.Core.Helpers.Minecraft;
+using MCL.Core.Helpers.MinecraftFabric;
 using MCL.Core.Logger;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
@@ -17,6 +18,7 @@ public class MCFabricLoaderDownloadProvider
     private static MCLauncherVersion launcherVersion;
     private static MCFabricConfigUrls fabricConfigUrls;
     private static MCFabricProfile fabricProfile;
+    private static MCFabricLoader fabricLoader;
 
     public MCFabricLoaderDownloadProvider(
         MCLauncherPath _launcherPath,
@@ -31,11 +33,32 @@ public class MCFabricLoaderDownloadProvider
 
     public async Task<bool> DownloadAll()
     {
+        if (!await DownloadFabricIndex())
+            return false;
+
         if (!await DownloadFabricProfile())
             return false;
 
         if (!await DownloadFabricLoader())
             return false;
+
+        return true;
+    }
+
+    public async Task<bool> DownloadFabricIndex()
+    {
+        if (!await FabricIndexDownloader.Download(launcherPath, fabricConfigUrls))
+        {
+            LogBase.Error("Failed to download fabric index");
+            return false;
+        }
+
+        fabricIndex = Json.Read<MCFabricIndex>(MinecraftFabricPathResolver.DownloadedFabricIndexPath(launcherPath));
+        if (fabricIndex == null)
+        {
+            LogBase.Error($"Failed to get fabric index");
+            return false;
+        }
 
         return true;
     }
@@ -62,6 +85,13 @@ public class MCFabricLoaderDownloadProvider
 
     public async Task<bool> DownloadFabricLoader()
     {
+        fabricLoader = MCFabricVersionHelper.GetFabricLoaderVersion(launcherVersion, fabricIndex.Loader);
+        if (fabricLoader == null)
+        {
+            LogBase.Error($"Failed to get version: {launcherVersion}");
+            return false;
+        }
+
         if (!await FabricLoaderDownloader.Download(launcherPath, launcherVersion, fabricProfile, fabricConfigUrls))
         {
             LogBase.Error("Failed to download fabric loader");
