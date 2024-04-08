@@ -1,8 +1,5 @@
-using System.Collections.Generic;
 using System.IO;
 using MCL.Core.Models.Launcher;
-using MCL.Core.Models.Minecraft;
-using MCL.Core.Providers;
 
 namespace MCL.Core.Resolvers.Minecraft;
 

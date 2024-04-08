@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MCL.Core.Enums;
 using MCL.Core.Enums.Java;
 using MCL.Core.Models.Java;
 using MCL.Core.Models.Launcher;
