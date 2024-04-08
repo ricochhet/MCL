@@ -16,6 +16,11 @@ public static class MinecraftFabricPathResolver
         return Path.Combine(launcherPath.FabricInstallerPath, "mods");
     }
 
+    public static string FabricModCategoryPath(MCLauncherPath launcherPath, MCLauncherVersion launcherVersion)
+    {
+        return Path.Combine(FabricModPath(launcherPath), launcherVersion.MCVersion);
+    }
+
     public static string DownloadedFabricInstallerPath(MCLauncherPath launcherPath, MCFabricInstaller fabricInstaller)
     {
         return Path.Combine(

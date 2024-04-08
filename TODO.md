@@ -33,6 +33,7 @@ Tasks marked with (*) are easier to do.
         - [ ] Implement installation of Fabric via installer.
     - [ ] Quilt
     - [ ] Forge
+- [ ] Implement simple management of Fabric / Quilt mods.
 - [ ] Implement frontend interface via Avalonia.
 - [ ] Add support for downloading and installing third-party server clients.
     - This includes the functionality to run the clients.
