@@ -9,22 +9,22 @@ using MCL.Core.Web.Minecraft;
 
 namespace MCL.Core.Providers;
 
-public class MCFabricDownloadProvider
+public class MCFabricInstallerDownloadProvider
 {
     public MCFabricIndex fabricIndex = new();
-    private static MCLauncherPath fabricPath;
-    private static MCLauncherVersion fabricVersion;
+    private static MCLauncherPath fabricInstallerPath;
+    private static MCLauncherVersion fabricInstallerVersion;
     private static MCFabricConfigUrls fabricUrls;
     private static MCFabricInstaller fabricInstaller;
 
-    public MCFabricDownloadProvider(
-        MCLauncherPath _fabricPath,
-        MCLauncherVersion _fabricVersion,
+    public MCFabricInstallerDownloadProvider(
+        MCLauncherPath _fabricInstallerPath,
+        MCLauncherVersion _fabricInstallerVersion,
         MCFabricConfigUrls _fabricUrls
     )
     {
-        fabricPath = _fabricPath;
-        fabricVersion = _fabricVersion;
+        fabricInstallerPath = _fabricInstallerPath;
+        fabricInstallerVersion = _fabricInstallerVersion;
         fabricUrls = _fabricUrls;
     }
 
@@ -33,7 +33,7 @@ public class MCFabricDownloadProvider
         if (!await DownloadFabricIndex())
             return false;
 
-        if (!await DownloadFabricLoader())
+        if (!await DownloadFabricInstaller())
             return false;
 
         return true;
@@ -41,13 +41,15 @@ public class MCFabricDownloadProvider
 
     public async Task<bool> DownloadFabricIndex()
     {
-        if (!await FabricIndexDownloader.Download(fabricPath, fabricUrls))
+        if (!await FabricIndexDownloader.Download(fabricInstallerPath, fabricUrls))
         {
             LogBase.Error("Failed to download fabric index");
             return false;
         }
 
-        fabricIndex = Json.Read<MCFabricIndex>(MinecraftFabricPathResolver.DownloadedFabricIndexPath(fabricPath));
+        fabricIndex = Json.Read<MCFabricIndex>(
+            MinecraftFabricPathResolver.DownloadedFabricIndexPath(fabricInstallerPath)
+        );
         if (fabricIndex == null)
         {
             LogBase.Error($"Failed to get fabric index");
@@ -57,18 +59,18 @@ public class MCFabricDownloadProvider
         return true;
     }
 
-    public async Task<bool> DownloadFabricLoader()
+    public async Task<bool> DownloadFabricInstaller()
     {
-        fabricInstaller = VersionHelper.GetFabricVersion(fabricVersion, fabricIndex.Installer);
+        fabricInstaller = VersionHelper.GetFabricInstallerVersion(fabricInstallerVersion, fabricIndex.Installer);
         if (fabricInstaller == null)
         {
-            LogBase.Error($"Failed to get version: {fabricVersion}");
+            LogBase.Error($"Failed to get version: {fabricInstallerVersion}");
             return false;
         }
 
-        if (!await FabricLoaderDownloader.Download(fabricPath, fabricInstaller))
+        if (!await FabricInstallerDownloader.Download(fabricInstallerPath, fabricInstaller))
         {
-            LogBase.Error("Failed to download fabric loader");
+            LogBase.Error("Failed to download fabric installer");
             return false;
         }
 

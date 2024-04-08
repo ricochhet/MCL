@@ -10,12 +10,14 @@ public static class MinecraftPathResolver
 {
     public static string ClientLibrary(MCLauncherVersion minecraftVersion)
     {
-        return Path.Combine("versions", minecraftVersion.MCVersion, $"{minecraftVersion.MCVersion}.jar").Replace("\\", "/");
+        return Path.Combine("versions", minecraftVersion.MCVersion, $"{minecraftVersion.MCVersion}.jar")
+            .Replace("\\", "/");
     }
 
     public static string Libraries(MCLauncherVersion minecraftVersion)
     {
-        return Path.Combine("versions", minecraftVersion.MCVersion, $"{minecraftVersion.MCVersion}-natives").Replace("\\", "/");
+        return Path.Combine("versions", minecraftVersion.MCVersion, $"{minecraftVersion.MCVersion}-natives")
+            .Replace("\\", "/");
     }
 
     public static int AssetIndexId(MCLauncherPath minecraftPath)

@@ -1,3 +1,4 @@
+using System.IO;
 using System.Threading.Tasks;
 using MCL.Core.Interfaces.Minecraft;
 using MCL.Core.Logger;
@@ -11,36 +12,75 @@ namespace MCL.Core.Web.Minecraft;
 
 public class FabricLoaderDownloader : IFabricLoaderDownloader
 {
-    public static async Task<bool> Download(MCLauncherPath fabricPath, MCFabricInstaller fabricInstaller)
+    public static async Task<bool> Download(
+        MCLauncherPath minecraftPath,
+        MCLauncherVersion launcherVersion,
+        MCFabricProfile fabricProfile,
+        MCFabricConfigUrls fabricConfigUrls
+    )
     {
-        if (!MCLauncherPath.Exists(fabricPath))
+        if (!MCLauncherPath.Exists(minecraftPath))
             return false;
 
-        if (!Exists(fabricInstaller))
+        if (!Exists(fabricProfile, fabricConfigUrls))
             return false;
 
-        // Fabric does not provide a file hash through the current method. We do simple check of the version instead.
-        if (FsProvider.Exists(MinecraftFabricPathResolver.DownloadedFabricLoaderPath(fabricPath, fabricInstaller)))
+        foreach (MCFabricLibrary library in fabricProfile.Libraries)
         {
-            LogBase.Info($"Fabric version: {fabricInstaller.Version} is already downloaded.");
-            return true;
+            if (string.IsNullOrEmpty(library.Name))
+                return false;
+
+            if (string.IsNullOrEmpty(library.URL))
+                return false;
+
+            string url;
+            string sha1;
+            if (library.Name.Contains(fabricConfigUrls.FabricApiLoaderName))
+            {
+                url = MinecraftFabricPathResolver.FabricLoaderJarUrlPath(fabricConfigUrls, launcherVersion);
+                sha1 = string.Empty;
+            }
+            else if (library.Name.Contains(fabricConfigUrls.FabricApiIntermediaryName))
+            {
+                url = MCFabricLibrary.ParseURL(library.Name, library.URL);
+                sha1 = string.Empty;
+            }
+            else
+            {
+                if (string.IsNullOrEmpty(library.SHA1))
+                    return false;
+                url = MCFabricLibrary.ParseURL(library.Name, library.URL);
+                sha1 = library.SHA1;
+            }
+
+            if (
+                !await Request.Download(
+                    Path.Combine(
+                        MinecraftPathResolver.LibraryPath(minecraftPath),
+                        MCFabricLibrary.ParsePath(library.Name)
+                    ),
+                    url,
+                    sha1
+                )
+            )
+                return false;
         }
 
-        return await Request.Download(
-            fabricInstaller.URL,
-            MinecraftFabricPathResolver.DownloadedFabricLoaderPath(fabricPath, fabricInstaller)
-        );
+        return true;
     }
 
-    public static bool Exists(MCFabricInstaller fabricInstaller)
+    public static bool Exists(MCFabricProfile fabricProfile, MCFabricConfigUrls fabricConfigUrls)
     {
-        if (fabricInstaller == null)
+        if (fabricConfigUrls == null)
             return false;
 
-        if (string.IsNullOrEmpty(fabricInstaller.URL))
+        if (string.IsNullOrEmpty(fabricConfigUrls.FabricLoaderJarUrl))
             return false;
 
-        if (string.IsNullOrEmpty(fabricInstaller.Version))
+        if (fabricProfile == null)
+            return false;
+
+        if (fabricProfile.Libraries == null)
             return false;
 
         return true;

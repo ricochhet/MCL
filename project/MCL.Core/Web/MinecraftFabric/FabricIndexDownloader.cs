@@ -10,15 +10,15 @@ namespace MCL.Core.Web.Minecraft;
 
 public class FabricIndexDownloader : IFabricIndexDownloader
 {
-    public static async Task<bool> Download(MCLauncherPath fabricPath, MCFabricConfigUrls fabricUrls)
+    public static async Task<bool> Download(MCLauncherPath fabricInstallerPath, MCFabricConfigUrls fabricUrls)
     {
-        if (!MCLauncherPath.Exists(fabricPath))
+        if (!MCLauncherPath.Exists(fabricInstallerPath))
             return false;
 
         if (!Exists(fabricUrls))
             return false;
 
-        string downloadPath = MinecraftFabricPathResolver.DownloadedFabricIndexPath(fabricPath);
+        string downloadPath = MinecraftFabricPathResolver.DownloadedFabricIndexPath(fabricInstallerPath);
         string fabricIndex = await Request.DoRequest(fabricUrls.FabricVersionsIndex, downloadPath, Encoding.UTF8);
         if (string.IsNullOrEmpty(fabricIndex))
             return false;

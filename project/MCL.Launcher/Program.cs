@@ -36,13 +36,19 @@ internal class Program
             return;
         }
 
-        MCLauncherPath launcherPath = new() { MCPath = "./.minecraft", FabricPath = "./.minecraft-fabric" };
-        MCLauncherVersion launcherVersion = new() { MCVersion = "1.20.4", FabricVersion = "1.0.0" };
+        MCLauncherPath launcherPath = new() { MCPath = "./.minecraft", FabricInstallerPath = "./.minecraft-fabric" };
+        MCLauncherVersion launcherVersion =
+            new()
+            {
+                MCVersion = "1.20.4",
+                FabricInstallerVersion = "1.0.0",
+                FabricLoaderVersion = "0.15.9"
+            };
         MCLauncher launcher =
             new(
                 launcherPath,
                 launcherVersion,
-                ClientTypeEnum.VANILLA,
+                ClientTypeEnum.FABRIC,
                 JavaRuntimeTypeEnum.JAVA_RUNTIME_GAMMA,
                 JavaRuntimePlatformEnum.WINDOWSX64
             );
@@ -91,11 +97,22 @@ internal class Program
 
         await CommandLine.ProcessArgumentAsync(
             args,
-            "--dl-fabric",
+            "--dl-fabric-installer",
             async () =>
             {
-                MCFabricDownloadProvider downloadProvider =
+                MCFabricInstallerDownloadProvider downloadProvider =
                     new(launcher.MCLauncherPath, launcher.MCLauncherVersion, config.FabricUrls);
+                if (!await downloadProvider.DownloadAll())
+                    return;
+            }
+        );
+
+        await CommandLine.ProcessArgumentAsync(
+            args,
+            "--dl-fabric-loader",
+            async () =>
+            {
+                MCFabricLoaderDownloadProvider downloadProvider = new(launcherPath, launcherVersion, config.FabricUrls);
                 if (!await downloadProvider.DownloadAll())
                     return;
             }
@@ -133,7 +150,7 @@ internal class Program
                         "-cp {0} {1}",
                         [
                             ClassPathHelper.CreateClassPath(launcher.MCLauncherPath, launcher.MCLauncherVersion),
-                            ClientTypeEnumResolver.ToString(ClientTypeEnum.VANILLA)
+                            ClientTypeEnumResolver.ToString(launcher.ClientType)
                         ]
                     )
                 );
@@ -154,13 +171,8 @@ internal class Program
                 jvmArguments.Add(new LaunchArg("--version {0}", ["1.20.4"]));
                 jvmArguments.Add(new LaunchArg("--versionType {0}", ["release"]));
 
-                ConfigProvider.Write(ConfigHelper.Write(ClientTypeEnum.VANILLA, config, jvmArguments));
-                JavaLaunchHelper.Launch(
-                    config,
-                    "./.minecraft/",
-                    ClientTypeEnum.VANILLA,
-                    JavaRuntimeTypeEnum.JAVA_RUNTIME_GAMMA
-                );
+                ConfigProvider.Write(ConfigHelper.Write(launcher.ClientType, config, jvmArguments));
+                JavaLaunchHelper.Launch(config, "./.minecraft/", launcher.ClientType, launcher.JavaRuntimeType);
             }
         );
     }
