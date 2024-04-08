@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using MCL.Core.Enums;
+using MCL.Core.Enums.Java;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Models.Minecraft;

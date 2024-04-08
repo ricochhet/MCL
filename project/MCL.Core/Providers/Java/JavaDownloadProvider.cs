@@ -1,15 +1,17 @@
 using System.Threading.Tasks;
 using MCL.Core.Enums;
+using MCL.Core.Enums.Java;
 using MCL.Core.Logger;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Java;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Models.Minecraft;
 using MCL.Core.Resolvers;
+using MCL.Core.Resolvers.Java;
 using MCL.Core.Resolvers.Minecraft;
 using MCL.Core.Web.Java;
 
-namespace MCL.Core.Providers;
+namespace MCL.Core.Providers.Java;
 
 public class JavaDownloadProvider
 {

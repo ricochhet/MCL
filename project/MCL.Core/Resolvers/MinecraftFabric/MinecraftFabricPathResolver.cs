@@ -2,7 +2,7 @@ using System.IO;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Models.MinecraftFabric;
 
-namespace MCL.Core.Resolvers.Minecraft;
+namespace MCL.Core.Resolvers.MinecraftFabric;
 
 public static class MinecraftFabricPathResolver
 {

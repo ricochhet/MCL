@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using MCL.Core.Enums;
+using MCL.Core.Enums.Java;
 using MCL.Core.Helpers;
 using MCL.Core.Helpers.Java;
 using MCL.Core.Helpers.Minecraft;
@@ -10,6 +11,9 @@ using MCL.Core.Models;
 using MCL.Core.Models.Java;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Providers;
+using MCL.Core.Providers.Java;
+using MCL.Core.Providers.Minecraft;
+using MCL.Core.Providers.MinecraftFabric;
 using MCL.Core.Resolvers;
 using MCL.Core.Resolvers.Minecraft;
 

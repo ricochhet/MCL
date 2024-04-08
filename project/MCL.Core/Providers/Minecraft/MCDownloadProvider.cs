@@ -8,7 +8,7 @@ using MCL.Core.Models.Minecraft;
 using MCL.Core.Resolvers.Minecraft;
 using MCL.Core.Web.Minecraft;
 
-namespace MCL.Core.Providers;
+namespace MCL.Core.Providers.Minecraft;
 
 public class MCDownloadProvider
 {

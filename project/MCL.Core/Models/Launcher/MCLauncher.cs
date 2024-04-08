@@ -1,4 +1,5 @@
 using MCL.Core.Enums;
+using MCL.Core.Enums.Java;
 
 namespace MCL.Core.Models.Launcher;
 

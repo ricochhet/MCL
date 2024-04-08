@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using MCL.Core.Enums;
+using MCL.Core.Enums.Java;
 using MCL.Core.Interfaces.Java;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Java;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Resolvers;
+using MCL.Core.Resolvers.Java;
 using MCL.Core.Resolvers.Minecraft;
 
 namespace MCL.Core.Web.Java;

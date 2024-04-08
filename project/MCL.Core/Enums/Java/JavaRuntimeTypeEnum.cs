@@ -1,4 +1,4 @@
-namespace MCL.Core.Enums;
+namespace MCL.Core.Enums.Java;
 
 public enum JavaRuntimeTypeEnum
 {

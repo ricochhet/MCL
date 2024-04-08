@@ -1,8 +1,10 @@
 using System.IO;
 using MCL.Core.Enums;
+using MCL.Core.Enums.Java;
 using MCL.Core.Models;
 using MCL.Core.Models.Java;
 using MCL.Core.Resolvers;
+using MCL.Core.Resolvers.Java;
 
 namespace MCL.Core.Helpers.Java;
 

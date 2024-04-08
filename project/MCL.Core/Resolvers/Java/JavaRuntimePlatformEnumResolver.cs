@@ -1,7 +1,8 @@
 using System;
 using MCL.Core.Enums;
+using MCL.Core.Enums.Java;
 
-namespace MCL.Core.Resolvers;
+namespace MCL.Core.Resolvers.Java;
 
 public class JavaRuntimePlatformEnumResolver
 {
