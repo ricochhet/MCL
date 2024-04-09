@@ -4,8 +4,37 @@ using MCL.Core.Models.Minecraft;
 
 namespace MCL.Core.Handlers.Java;
 
-public static class JavaRuntimeObjectErr
+public static class JavaRuntimeManifestDownloaderErr
 {
+    public static bool Exists(JavaRuntimeIndex javaRuntimeIndex)
+    {
+        if (javaRuntimeIndex?.Gamecore == null)
+            return false;
+
+        if (javaRuntimeIndex?.Linux == null)
+            return false;
+
+        if (javaRuntimeIndex?.LinuxI386 == null)
+            return false;
+
+        if (javaRuntimeIndex?.Macos == null)
+            return false;
+
+        if (javaRuntimeIndex?.MacosArm64 == null)
+            return false;
+
+        if (javaRuntimeIndex?.WindowsArm64 == null)
+            return false;
+
+        if (javaRuntimeIndex?.WindowsX64 == null)
+            return false;
+
+        if (javaRuntimeIndex?.WindowsX86 == null)
+            return false;
+
+        return true;
+    }
+
     public static bool Exists(JavaRuntime javaRuntime)
     {
         if (!Exists(javaRuntime, javaRuntime.JavaRuntimeAlpha))
@@ -40,13 +69,10 @@ public static class JavaRuntimeObjectErr
         if (javaRuntimeObjects == null)
             return false;
 
-        if (javaRuntimeObjects.Count <= 0)
+        if (javaRuntimeObjects?.Count <= 0)
             return false;
 
-        if (javaRuntimeObjects[0].JavaRuntimeManifest == null)
-            return false;
-
-        if (string.IsNullOrWhiteSpace(javaRuntimeObjects[0].JavaRuntimeManifest.Url))
+        if (string.IsNullOrWhiteSpace(javaRuntimeObjects[0]?.JavaRuntimeManifest?.Url))
             return false;
 
         return true;

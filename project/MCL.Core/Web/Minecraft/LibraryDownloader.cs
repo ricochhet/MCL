@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using MCL.Core.Enums;
 using MCL.Core.Handlers.Java;
+using MCL.Core.Handlers.Minecraft;
 using MCL.Core.Interfaces.Minecraft;
 using MCL.Core.Logger;
 using MCL.Core.MiniCommon;
@@ -35,7 +36,7 @@ public class LibraryDownloader : IMCLibraryDownloader
             if (!await DownloadNatives(launcherPath, lib, platform))
                 return false;
 
-            if (!MCLibraryErrorHandler.Exists(lib))
+            if (!LibraryDownloaderErr.Exists(lib))
                 return false;
 
             string downloadPath = VFS.Combine(libPath, lib.Downloads.Artifact.Path);
@@ -89,7 +90,7 @@ public class LibraryDownloader : IMCLibraryDownloader
         switch (platform)
         {
             case PlatformEnum.WINDOWS:
-                if (!MCLibraryNativesErrorHandler.WindowsClassifierNativesExists(lib))
+                if (!LibraryNativesDownloaderErr.WindowsClassifierNativesExists(lib))
                     return false;
 
                 classifierDownloadPath = VFS.Combine(
@@ -100,7 +101,7 @@ public class LibraryDownloader : IMCLibraryDownloader
                 classifierSha1 = lib.Downloads.Classifiers.NativesWindows.SHA1;
                 break;
             case PlatformEnum.LINUX:
-                if (!MCLibraryNativesErrorHandler.LinuxClassifierNativesExists(lib))
+                if (!LibraryNativesDownloaderErr.LinuxClassifierNativesExists(lib))
                     return false;
 
                 classifierDownloadPath = VFS.Combine(
@@ -111,7 +112,7 @@ public class LibraryDownloader : IMCLibraryDownloader
                 classifierSha1 = lib.Downloads.Classifiers.NativesLinux.SHA1;
                 break;
             case PlatformEnum.OSX:
-                if (!MCLibraryNativesErrorHandler.OSXClassifierNativesExists(lib))
+                if (!LibraryNativesDownloaderErr.OSXClassifierNativesExists(lib))
                     return false;
 
                 classifierDownloadPath = VFS.Combine(

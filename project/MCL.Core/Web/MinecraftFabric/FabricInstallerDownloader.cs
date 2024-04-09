@@ -15,7 +15,7 @@ public class FabricInstallerDownloader : IFabricInstallerDownloader
         if (!MCLauncherPath.Exists(launcherPath))
             return false;
 
-        if (!MCFabricInstallerErr.Exists(fabricInstaller))
+        if (!FabricInstallerDownloaderErr.Exists(fabricInstaller))
             return false;
 
         // Fabric does not provide a file hash through the current method. We do simple check of the version instead.

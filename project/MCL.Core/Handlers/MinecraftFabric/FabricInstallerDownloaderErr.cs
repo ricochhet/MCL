@@ -9,17 +9,14 @@ using MCL.Core.Resolvers.MinecraftFabric;
 
 namespace MCL.Core.Web.Minecraft;
 
-public class MCFabricInstallerErr
+public class FabricInstallerDownloaderErr
 {
     public static bool Exists(MCFabricInstaller fabricInstaller)
     {
-        if (fabricInstaller == null)
+        if (string.IsNullOrWhiteSpace(fabricInstaller?.URL))
             return false;
 
-        if (string.IsNullOrWhiteSpace(fabricInstaller.URL))
-            return false;
-
-        if (string.IsNullOrWhiteSpace(fabricInstaller.Version))
+        if (string.IsNullOrWhiteSpace(fabricInstaller?.Version))
             return false;
 
         return true;

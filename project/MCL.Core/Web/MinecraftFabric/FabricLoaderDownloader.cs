@@ -20,7 +20,7 @@ public class FabricLoaderDownloader : IFabricLoaderDownloader
         if (!MCLauncherPath.Exists(launcherPath))
             return false;
 
-        if (!MCFabricProfileErr.Exists(fabricProfile, fabricConfigUrls))
+        if (!FabricLoaderDownloaderErr.Exists(fabricProfile, fabricConfigUrls))
             return false;
 
         foreach (MCFabricLibrary library in fabricProfile.Libraries)

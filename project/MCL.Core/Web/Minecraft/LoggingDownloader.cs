@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using MCL.Core.Handlers.Java;
+using MCL.Core.Handlers.Minecraft;
 using MCL.Core.Interfaces.Minecraft;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
@@ -15,7 +16,7 @@ public class LoggingDownloader : IMCGenericDownloader
         if (!MCLauncherPath.Exists(launcherPath))
             return false;
 
-        if (!MCVersionDetailsLoggingErrorHandler.Exists(versionDetails))
+        if (!LoggingDownloaderErr.Exists(versionDetails))
             return false;
 
         return await Request.Download(

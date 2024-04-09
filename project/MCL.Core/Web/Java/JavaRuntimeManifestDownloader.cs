@@ -25,7 +25,7 @@ public class JavaRuntimeManifestDownloader : IJavaRuntimeManifestDownloader
         if (!MCLauncherPath.Exists(launcherPath))
             return false;
 
-        if (!JavaRuntimeIndexErr.Exists(javaRuntimeIndex))
+        if (!JavaRuntimeManifestDownloaderErr.Exists(javaRuntimeIndex))
             return false;
 
         string url = javaRuntimePlatformEnum switch
@@ -64,7 +64,7 @@ public class JavaRuntimeManifestDownloader : IJavaRuntimeManifestDownloader
 
     public static string GetJavaRuntimeUrl(JavaRuntimeTypeEnum javaRuntimeTypeEnum, JavaRuntime javaRuntime)
     {
-        if (!JavaRuntimeObjectErr.Exists(javaRuntime))
+        if (!JavaRuntimeManifestDownloaderErr.Exists(javaRuntime))
             return default;
 
         return javaRuntimeTypeEnum switch

@@ -21,7 +21,7 @@ public class JavaRuntimeDownloader : IJavaRuntimeDownloader
         if (!MCLauncherPath.Exists(launcherPath))
             return false;
 
-        if (!JavaRuntimeFilesErr.Exists(javaRuntimeFiles))
+        if (!JavaRuntimeDownloaderErr.Exists(javaRuntimeFiles))
             return false;
 
         foreach ((string path, JavaRuntimeFile javaRuntimeFile) in javaRuntimeFiles.Files)
@@ -31,7 +31,7 @@ public class JavaRuntimeDownloader : IJavaRuntimeDownloader
 
             if (javaRuntimeFile.Type == "file")
             {
-                if (!JavaRuntimeFileErr.Exists(javaRuntimeFile))
+                if (!JavaRuntimeDownloaderErr.Exists(javaRuntimeFile))
                     return false;
 
                 if (

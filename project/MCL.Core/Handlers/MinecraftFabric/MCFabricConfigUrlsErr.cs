@@ -8,13 +8,10 @@ public static class MCFabricConfigUrlsErr
 {
     public static bool Exists(MCFabricConfigUrls fabricConfigUrls)
     {
-        if (fabricConfigUrls == null)
+        if (string.IsNullOrWhiteSpace(fabricConfigUrls?.FabricVersionsIndex))
             return false;
 
-        if (string.IsNullOrWhiteSpace(fabricConfigUrls.FabricVersionsIndex))
-            return false;
-
-        if (string.IsNullOrWhiteSpace(fabricConfigUrls.FabricLoaderProfileUrl))
+        if (string.IsNullOrWhiteSpace(fabricConfigUrls?.FabricLoaderProfileUrl))
             return false;
 
         return true;

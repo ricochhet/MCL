@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using MCL.Core.Handlers.Java;
+using MCL.Core.Handlers.Minecraft;
 using MCL.Core.Interfaces.Minecraft;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
@@ -15,7 +16,7 @@ public class ResourceDownloader : IMCResourceDownloader
         if (!MCLauncherPath.Exists(launcherPath))
             return false;
 
-        if (!MCAssetsDataErrorHandler.Exists(configUrls, assets))
+        if (!ResourceDownloaderErr.Exists(configUrls, assets))
             return false;
 
         string objectsPath = VFS.Combine(MinecraftPathResolver.AssetsPath(launcherPath), "objects");

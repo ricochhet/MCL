@@ -16,7 +16,7 @@ public class JavaRuntimeIndexDownloader : IJavaRuntimeIndexDownloader
         if (!MCLauncherPath.Exists(launcherPath))
             return false;
 
-        if (!JavaRuntimeIndexUrlErr.Exists(configUrls))
+        if (!JavaRuntimeIndexDownloaderErr.Exists(configUrls))
             return false;
 
         string downloadPath = JavaPathResolver.DownloadedJavaRuntimeIndexPath(launcherPath);

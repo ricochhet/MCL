@@ -3,14 +3,11 @@ using MCL.Core.Models.Minecraft;
 
 namespace MCL.Core.Handlers.Java;
 
-public static class JavaRuntimeIndexUrlErr
+public static class JavaRuntimeIndexDownloaderErr
 {
     public static bool Exists(MCConfigUrls configUrls)
     {
-        if (configUrls == null)
-            return false;
-
-        if (string.IsNullOrWhiteSpace(configUrls.JavaRuntimeIndexUrl))
+        if (string.IsNullOrWhiteSpace(configUrls?.JavaRuntimeIndexUrl))
             return false;
 
         return true;

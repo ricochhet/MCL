@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using MCL.Core.Handlers.Java;
+using MCL.Core.Handlers.Minecraft;
 using MCL.Core.Helpers.Minecraft;
 using MCL.Core.Interfaces.Minecraft;
 using MCL.Core.MiniCommon;
@@ -16,7 +17,7 @@ public class ServerDownloader : IMCGenericDownloader
         if (!MCLauncherPath.Exists(launcherPath))
             return false;
 
-        if (!MCVersionDetailsServerErrorHandler.Exists(versionDetails))
+        if (!ServerDownloaderErr.Exists(versionDetails))
             return false;
 
         ServerProperties.NewEula(launcherPath);
