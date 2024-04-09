@@ -23,13 +23,13 @@ public static class ClassPathHelper
             PlatformID.Win32NT => ";",
             _ => throw new Exception("Unsupported OS."),
         };
-        string libPath = Path.Combine(launcherPath.MCPath + "/", "libraries");
+        string libPath = Path.Combine(launcherPath.Path + "/", "libraries");
         string[] libraries = VFS.GetFiles(libPath, "*");
         libraries = libraries.Prepend(MinecraftPathResolver.ClientLibrary(launcherVersion)).ToArray();
 
         return string.Join(
             separator,
-            libraries.Select(lib => lib.Replace(launcherPath.MCPath + "/", "").Replace("\\", "/"))
+            libraries.Select(lib => lib.Replace(launcherPath.Path + "/", "").Replace("\\", "/"))
         );
     }
 }

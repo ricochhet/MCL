@@ -12,10 +12,10 @@ namespace MCL.Core.Providers.Minecraft;
 
 public class MCDownloadProvider
 {
-    public MCVersionManifest versionManifest = new();
-    public MCVersionDetails versionDetails = new();
+    public MCVersionManifest versionManifest;
+    public MCVersionDetails versionDetails;
     public MCVersion version;
-    public MCAssetsData assets = new();
+    public MCAssetsData assets;
     private static MCLauncherPath launcherPath;
     private static MCLauncherVersion launcherVersion;
     private static PlatformEnum platform;

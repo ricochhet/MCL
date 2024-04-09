@@ -6,6 +6,11 @@ public class MCLauncherUsername
 {
     public string Username { get; set; }
 
+    public MCLauncherUsername(string username)
+    {
+        Username = username;
+    }
+
     public string ValidateUsername(int length = 16)
     {
         if (Username.Length > length)

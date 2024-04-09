@@ -15,4 +15,12 @@ public class MCLoggingFile
 
     [JsonPropertyName("url")]
     public string URL { get; set; }
+
+    public MCLoggingFile(string iD, string sha1, int size, string url)
+    {
+        ID = iD;
+        SHA1 = sha1;
+        Size = size;
+        URL = url;
+    }
 }

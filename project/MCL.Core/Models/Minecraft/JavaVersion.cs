@@ -9,4 +9,10 @@ public class JavaVersion
 
     [JsonPropertyName("majorVersion")]
     public int MajorVersion { get; set; }
+
+    public JavaVersion(string component, int majorVersion)
+    {
+        Component = component;
+        MajorVersion = majorVersion;
+    }
 }

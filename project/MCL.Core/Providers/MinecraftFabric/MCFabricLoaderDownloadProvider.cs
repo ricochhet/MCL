@@ -11,7 +11,7 @@ namespace MCL.Core.Providers.MinecraftFabric;
 
 public class MCFabricLoaderDownloadProvider
 {
-    public MCFabricIndex fabricIndex = new();
+    public MCFabricIndex fabricIndex;
     private static MCLauncherPath launcherPath;
     private static MCLauncherVersion launcherVersion;
     private static MCFabricConfigUrls fabricConfigUrls;

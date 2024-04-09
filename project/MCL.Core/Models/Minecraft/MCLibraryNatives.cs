@@ -12,4 +12,11 @@ public class MCLibraryNatives
 
     [JsonPropertyName("linux")]
     public string Linux { get; set; }
+
+    public MCLibraryNatives(string windows, string osx, string linux)
+    {
+        Windows = windows;
+        Osx = osx;
+        Linux = linux;
+    }
 }

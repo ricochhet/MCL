@@ -12,4 +12,11 @@ public class MCLoggingClient
 
     [JsonPropertyName("type")]
     public string Type { get; set; }
+
+    public MCLoggingClient(string argument, MCLoggingFile file, string type)
+    {
+        Argument = argument;
+        File = file;
+        Type = type;
+    }
 }

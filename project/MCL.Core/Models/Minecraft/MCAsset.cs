@@ -9,4 +9,10 @@ public class MCAsset
 
     [JsonPropertyName("size")]
     public int Size { get; set; }
+
+    public MCAsset(string hash, int size)
+    {
+        Hash = hash;
+        Size = size;
+    }
 }

@@ -15,4 +15,12 @@ public class MCDownloads
 
     [JsonPropertyName("server_mappings")]
     public MCDownload ServerMappings { get; set; }
+
+    public MCDownloads(MCDownload client, MCDownload clientMappings, MCDownload server, MCDownload serverMappings)
+    {
+        Client = client;
+        ClientMappings = clientMappings;
+        Server = server;
+        ServerMappings = serverMappings;
+    }
 }

@@ -12,4 +12,11 @@ public class MCDownload
 
     [JsonPropertyName("url")]
     public string URL { get; set; }
+
+    public MCDownload(string sha1, int size, string url)
+    {
+        SHA1 = sha1;
+        Size = size;
+        URL = url;
+    }
 }

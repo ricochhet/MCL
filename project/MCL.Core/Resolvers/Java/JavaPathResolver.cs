@@ -7,7 +7,7 @@ public static class JavaPathResolver
 {
     public static string JavaRuntimePath(MCLauncherPath launcherPath)
     {
-        return Path.Combine(launcherPath.MCPath, "runtime");
+        return Path.Combine(launcherPath.Path, "runtime");
     }
 
     public static string DownloadedJavaRuntimeIndexPath(MCLauncherPath launcherPath)

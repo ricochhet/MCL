@@ -13,7 +13,7 @@ public static class MCVersionHelper
 
         foreach (MCVersion item in versions)
         {
-            if (item.ID == launcherVersion.MCVersion)
+            if (item.ID == launcherVersion.Version)
                 return item;
         }
         return null;

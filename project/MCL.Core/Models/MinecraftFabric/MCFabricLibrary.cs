@@ -25,6 +25,17 @@ public class MCFabricLibrary
     [JsonPropertyName("size")]
     public int Size { get; set; }
 
+    public MCFabricLibrary(string name, string url, string md5, string sha1, string sha256, string sha512, int size)
+    {
+        Name = name;
+        URL = url;
+        MD5 = md5;
+        SHA1 = sha1;
+        SHA256 = sha256;
+        SHA512 = sha512;
+        Size = size;
+    }
+
     public static string ParseURL(string name, string url)
     {
         string path;

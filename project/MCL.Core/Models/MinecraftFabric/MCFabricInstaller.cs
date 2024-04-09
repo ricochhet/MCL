@@ -15,4 +15,12 @@ public class MCFabricInstaller
 
     [JsonPropertyName("stable")]
     public bool Stable { get; set; }
+
+    public MCFabricInstaller(string url, string maven, string version, bool stable)
+    {
+        URL = url;
+        Maven = maven;
+        Version = version;
+        Stable = stable;
+    }
 }

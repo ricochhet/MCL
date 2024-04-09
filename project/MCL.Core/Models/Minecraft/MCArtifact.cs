@@ -15,4 +15,12 @@ public class MCArtifact
 
     [JsonPropertyName("url")]
     public string URL { get; set; }
+
+    public MCArtifact(string path, string sha1, int size, string url)
+    {
+        Path = path;
+        SHA1 = sha1;
+        Size = size;
+        URL = url;
+    }
 }

@@ -10,4 +10,12 @@ public class MCLibraryDownloads
 #nullable enable // Classifiers are not present in newer Minecraft versions.
     [JsonPropertyName("classifiers")]
     public MCClassifiers? Classifiers { get; set; }
+
+#nullable disable
+
+    public MCLibraryDownloads(MCArtifact artifact, MCClassifiers classifiers)
+    {
+        Artifact = artifact;
+        Classifiers = classifiers;
+    }
 }

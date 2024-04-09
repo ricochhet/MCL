@@ -9,4 +9,10 @@ public class MCFabricGame
 
     [JsonPropertyName("stable")]
     public bool Stable { get; set; }
+
+    public MCFabricGame(string version, bool stable)
+    {
+        Version = version;
+        Stable = stable;
+    }
 }

@@ -12,4 +12,11 @@ public class JavaRuntimeManifest
 
     [JsonPropertyName("url")]
     public string Url { get; set; }
+
+    public JavaRuntimeManifest(string sha1, int size, string url)
+    {
+        SHA1 = sha1;
+        Size = size;
+        Url = url;
+    }
 }

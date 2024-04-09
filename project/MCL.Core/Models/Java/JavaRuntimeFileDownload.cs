@@ -12,4 +12,11 @@ public class JavaRuntimeFileDownload
 
     [JsonPropertyName("url")]
     public string URL { get; set; }
+
+    public JavaRuntimeFileDownload(string sha1, int size, string url)
+    {
+        SHA1 = sha1;
+        Size = size;
+        URL = url;
+    }
 }

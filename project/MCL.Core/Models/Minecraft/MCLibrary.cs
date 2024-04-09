@@ -18,4 +18,14 @@ public class MCLibrary
 
     [JsonPropertyName("natives")]
     public MCLibraryNatives? Natives { get; set; }
+
+#nullable disable
+
+    public MCLibrary(string name, MCLibraryDownloads downloads, List<MCLibraryRule> rules, MCLibraryNatives natives)
+    {
+        Name = name;
+        Downloads = downloads;
+        Rules = rules;
+        Natives = natives;
+    }
 }

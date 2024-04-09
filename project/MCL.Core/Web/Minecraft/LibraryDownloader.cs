@@ -23,7 +23,7 @@ public class LibraryDownloader : IMCLibraryDownloader
         if (!MCLauncherPath.Exists(launcherPath))
             return false;
 
-        string libPath = Path.Combine(launcherPath.MCPath, "libraries");
+        string libPath = Path.Combine(launcherPath.Path, "libraries");
         foreach (MCLibrary lib in libraries)
         {
             if (lib.Downloads == null)

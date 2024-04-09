@@ -18,4 +18,13 @@ public class MCVersion
 
     [JsonPropertyName("releaseTime")]
     public string ReleaseTime { get; set; }
+
+    public MCVersion(string id, string type, string url, string time, string releaseTime)
+    {
+        ID = id;
+        Type = type;
+        URL = url;
+        Time = time;
+        ReleaseTime = releaseTime;
+    }
 }

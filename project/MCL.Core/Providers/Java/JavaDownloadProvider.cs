@@ -13,8 +13,8 @@ namespace MCL.Core.Providers.Java;
 
 public class JavaDownloadProvider
 {
-    public JavaRuntimeIndex javaRuntimeIndex = new();
-    public JavaRuntimeFiles javaRuntimeFiles = new();
+    public JavaRuntimeIndex javaRuntimeIndex;
+    public JavaRuntimeFiles javaRuntimeFiles;
     private static MCLauncherPath launcherPath;
     private static MCConfigUrls configUrls;
     private static JavaRuntimeTypeEnum javaRuntimeType;

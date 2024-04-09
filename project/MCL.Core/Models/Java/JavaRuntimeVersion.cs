@@ -9,4 +9,10 @@ public class JavaRuntimeVersion
 
     [JsonPropertyName("released")]
     public string Released { get; set; }
+
+    public JavaRuntimeVersion(string name, string released)
+    {
+        Name = name;
+        Released = released;
+    }
 }

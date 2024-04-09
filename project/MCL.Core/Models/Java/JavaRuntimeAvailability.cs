@@ -9,4 +9,10 @@ public class JavaRuntimeAvailability
 
     [JsonPropertyName("progress")]
     public int Progress { get; set; }
+
+    public JavaRuntimeAvailability(int group, int progress)
+    {
+        Group = group;
+        Progress = progress;
+    }
 }

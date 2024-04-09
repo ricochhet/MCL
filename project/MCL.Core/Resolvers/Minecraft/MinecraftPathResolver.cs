@@ -9,13 +9,12 @@ public static class MinecraftPathResolver
 {
     public static string ClientLibrary(MCLauncherVersion launcherVersion)
     {
-        return Path.Combine("versions", launcherVersion.MCVersion, $"{launcherVersion.MCVersion}.jar")
-            .Replace("\\", "/");
+        return Path.Combine("versions", launcherVersion.Version, $"{launcherVersion.Version}.jar").Replace("\\", "/");
     }
 
     public static string Libraries(MCLauncherVersion launcherVersion)
     {
-        return Path.Combine("versions", launcherVersion.MCVersion, $"{launcherVersion.MCVersion}-natives")
+        return Path.Combine("versions", launcherVersion.Version, $"{launcherVersion.Version}-natives")
             .Replace("\\", "/");
     }
 
@@ -35,22 +34,22 @@ public static class MinecraftPathResolver
 
     public static string AssetsPath(MCLauncherPath launcherPath)
     {
-        return Path.Combine(launcherPath.MCPath, "assets");
+        return Path.Combine(launcherPath.Path, "assets");
     }
 
     public static string LibraryPath(MCLauncherPath launcherPath)
     {
-        return Path.Combine(launcherPath.MCPath, "libraries");
+        return Path.Combine(launcherPath.Path, "libraries");
     }
 
     public static string ServerPath(MCLauncherPath launcherPath)
     {
-        return Path.Combine(launcherPath.MCPath, "server");
+        return Path.Combine(launcherPath.Path, "server");
     }
 
     public static string VersionPath(MCLauncherPath launcherPath, MCVersionDetails versionDetails)
     {
-        return Path.Combine(launcherPath.MCPath, "versions", versionDetails.ID);
+        return Path.Combine(launcherPath.Path, "versions", versionDetails.ID);
     }
 
     public static string ClientJarPath(MCLauncherPath launcherPath, MCVersionDetails versionDetails)
@@ -95,11 +94,11 @@ public static class MinecraftPathResolver
 
     public static string DownloadedVersionManifestPath(MCLauncherPath launcherPath)
     {
-        return Path.Combine(launcherPath.MCPath, "version_manifest.json");
+        return Path.Combine(launcherPath.Path, "version_manifest.json");
     }
 
     public static string DownloadedVersionDetailsPath(MCLauncherPath launcherPath, MCVersion version)
     {
-        return Path.Combine(launcherPath.MCPath, "versions", version.ID + ".json");
+        return Path.Combine(launcherPath.Path, "versions", version.ID + ".json");
     }
 }

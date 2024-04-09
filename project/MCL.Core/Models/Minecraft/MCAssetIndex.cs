@@ -18,4 +18,13 @@ public class MCAssetIndex
 
     [JsonPropertyName("url")]
     public string URL { get; set; }
+
+    public MCAssetIndex(string id, string sha1, int size, int totalSize, string url)
+    {
+        ID = id;
+        SHA1 = sha1;
+        Size = size;
+        TotalSize = totalSize;
+        URL = url;
+    }
 }

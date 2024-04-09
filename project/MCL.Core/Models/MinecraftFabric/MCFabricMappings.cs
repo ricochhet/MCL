@@ -21,4 +21,14 @@ public class MCFabricMappings
 
     [JsonPropertyName("stable")]
     public bool Stable { get; set; }
+
+    public MCFabricMappings(string gameVersion, string separator, int build, string maven, string version, bool stable)
+    {
+        GameVersion = gameVersion;
+        Separator = separator;
+        Build = build;
+        Maven = maven;
+        Version = version;
+        Stable = stable;
+    }
 }

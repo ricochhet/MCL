@@ -7,4 +7,11 @@ public class JavaRuntimeFiles
 {
     [JsonPropertyName("files")]
     public Dictionary<string, JavaRuntimeFile> Files { get; set; }
+
+    public JavaRuntimeFiles() { }
+
+    public JavaRuntimeFiles(Dictionary<string, JavaRuntimeFile> files)
+    {
+        Files = files;
+    }
 }

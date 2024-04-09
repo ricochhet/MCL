@@ -25,4 +25,23 @@ public class JavaRuntime
 
     [JsonPropertyName("minecraft-java-exe")]
     public List<JavaRuntimeObject> MinecraftJavaExe { get; set; }
+
+    public JavaRuntime(
+        List<JavaRuntimeObject> javaRuntimeAlpha,
+        List<JavaRuntimeObject> javaRuntimeBeta,
+        List<JavaRuntimeObject> javaRuntimeDelta,
+        List<JavaRuntimeObject> javaRuntimeGamma,
+        List<JavaRuntimeObject> javaRuntimeGammaSnapshot,
+        List<JavaRuntimeObject> jreLegacy,
+        List<JavaRuntimeObject> minecraftJavaExe
+    )
+    {
+        JavaRuntimeAlpha = javaRuntimeAlpha;
+        JavaRuntimeBeta = javaRuntimeBeta;
+        JavaRuntimeDelta = javaRuntimeDelta;
+        JavaRuntimeGamma = javaRuntimeGamma;
+        JavaRuntimeGammaSnapshot = javaRuntimeGammaSnapshot;
+        JreLegacy = jreLegacy;
+        MinecraftJavaExe = minecraftJavaExe;
+    }
 }

@@ -13,4 +13,13 @@ public class MCClassifiers
 
     [JsonPropertyName("natives-windows")]
     public MCArtifact? NativesWindows { get; set; }
+
+#nullable disable
+
+    public MCClassifiers(MCArtifact nativesLinux, MCArtifact nativesMacos, MCArtifact nativesWindows)
+    {
+        NativesLinux = nativesLinux;
+        NativesMacos = nativesMacos;
+        NativesWindows = nativesWindows;
+    }
 }

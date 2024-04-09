@@ -41,22 +41,20 @@ internal class Program
             return;
         }
 
-        MCLauncherUsername launcherUsername = new() { Username = "Ricochet" };
+        MCLauncherUsername launcherUsername = new(username: "Ricochet");
         MCLauncherPath launcherPath =
-            new()
-            {
-                MCPath = "./.minecraft",
-                FabricInstallerPath = "./.minecraft-fabric",
-                LanguageTranslationPath = "./.language"
-            };
+            new(
+                path: "./.minecraft",
+                fabricInstallerPath: "./.minecraft-fabric",
+                languageTranslationPath: "./.language"
+            );
         MCLauncherVersion launcherVersion =
-            new()
-            {
-                MCVersion = "1.20.4",
-                MCVersionType = "release",
-                FabricInstallerVersion = "1.0.0",
-                FabricLoaderVersion = "0.15.9"
-            };
+            new(
+                version: "1.20.4",
+                versionType: "release",
+                fabricInstallerVersion: "1.0.0",
+                fabricLoaderVersion: "0.15.9"
+            );
         MCLauncher launcher =
             new(
                 launcherUsername,
@@ -184,8 +182,8 @@ internal class Program
                 jvmArguments.Add(new LaunchArg("--uuid {0}", [launcherUsername.UUID()]));
                 jvmArguments.Add(new LaunchArg("--clientId {0}", ["0"]));
                 jvmArguments.Add(new LaunchArg("--xuid {0}", ["0"]));
-                jvmArguments.Add(new LaunchArg("--version {0}", [launcherVersion.MCVersion]));
-                jvmArguments.Add(new LaunchArg("--versionType {0}", [launcherVersion.MCVersionType]));
+                jvmArguments.Add(new LaunchArg("--version {0}", [launcherVersion.Version]));
+                jvmArguments.Add(new LaunchArg("--versionType {0}", [launcherVersion.VersionType]));
 
                 ConfigProvider.Write(ConfigHelper.Write(launcher.ClientType, config, jvmArguments));
                 JavaLaunchHelper.Launch(config, "./.minecraft/", launcher.ClientType, launcher.JavaRuntimeType);

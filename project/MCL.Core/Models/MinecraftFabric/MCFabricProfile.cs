@@ -29,4 +29,27 @@ public class MCFabricProfile
 
     [JsonPropertyName("libraries")]
     public List<MCFabricLibrary> Libraries { get; set; }
+
+    public MCFabricProfile() { }
+
+    public MCFabricProfile(
+        string id,
+        string inheritsFrom,
+        string releaseTime,
+        string time,
+        string type,
+        string mainClass,
+        MCArgument arguments,
+        List<MCFabricLibrary> libraries
+    )
+    {
+        ID = id;
+        InheritsFrom = inheritsFrom;
+        ReleaseTime = releaseTime;
+        Time = time;
+        Type = type;
+        MainClass = mainClass;
+        Arguments = arguments;
+        Libraries = libraries;
+    }
 }

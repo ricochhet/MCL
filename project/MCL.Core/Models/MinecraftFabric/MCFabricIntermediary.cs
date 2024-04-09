@@ -12,4 +12,11 @@ public class MCFabricIntermediary
 
     [JsonPropertyName("stable")]
     public bool Stable { get; set; }
+
+    public MCFabricIntermediary(string maven, string version, bool stable)
+    {
+        Maven = maven;
+        Version = version;
+        Stable = stable;
+    }
 }

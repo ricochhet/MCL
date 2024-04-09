@@ -18,4 +18,13 @@ public class MCFabricLoader
 
     [JsonPropertyName("stable")]
     public bool Stable { get; set; }
+
+    public MCFabricLoader(string separator, int build, string maven, string version, bool stable)
+    {
+        Separator = separator;
+        Build = build;
+        Maven = maven;
+        Version = version;
+        Stable = stable;
+    }
 }

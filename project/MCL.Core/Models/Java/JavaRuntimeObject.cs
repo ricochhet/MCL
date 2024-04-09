@@ -12,4 +12,15 @@ public class JavaRuntimeObject
 
     [JsonPropertyName("version")]
     public JavaRuntimeVersion JavaRuntimeVersion { get; set; }
+
+    public JavaRuntimeObject(
+        JavaRuntimeAvailability javaRuntimeAvailability,
+        JavaRuntimeManifest javaRuntimeManifest,
+        JavaRuntimeVersion javaRuntimeVersion
+    )
+    {
+        JavaRuntimeAvailability = javaRuntimeAvailability;
+        JavaRuntimeManifest = javaRuntimeManifest;
+        JavaRuntimeVersion = javaRuntimeVersion;
+    }
 }

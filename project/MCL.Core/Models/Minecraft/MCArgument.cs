@@ -10,4 +10,10 @@ public class MCArgument
 
     [JsonPropertyName("jvm")]
     public List<object> JVM { get; set; }
+
+    public MCArgument(List<object> game, List<object> jvm)
+    {
+        Game = game;
+        JVM = jvm;
+    }
 }

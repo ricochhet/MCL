@@ -18,7 +18,7 @@ public static class MinecraftFabricPathResolver
 
     public static string FabricModCategoryPath(MCLauncherPath launcherPath, MCLauncherVersion launcherVersion)
     {
-        return Path.Combine(FabricModPath(launcherPath), launcherVersion.MCVersion);
+        return Path.Combine(FabricModPath(launcherPath), launcherVersion.Version);
     }
 
     public static string DownloadedFabricInstallerPath(MCLauncherPath launcherPath, MCFabricInstaller fabricInstaller)
@@ -39,7 +39,7 @@ public static class MinecraftFabricPathResolver
     {
         return Path.Combine(
             launcherPath.FabricInstallerPath,
-            $"fabric_profile-{launcherVersion.MCVersion}-{launcherVersion.FabricLoaderVersion}.json"
+            $"fabric_profile-{launcherVersion.Version}-{launcherVersion.FabricLoaderVersion}.json"
         );
     }
 
@@ -55,7 +55,7 @@ public static class MinecraftFabricPathResolver
     {
         return string.Format(
             fabricConfigUrls.FabricLoaderProfileUrl,
-            launcherVersion.MCVersion,
+            launcherVersion.Version,
             launcherVersion.FabricLoaderVersion
         );
     }

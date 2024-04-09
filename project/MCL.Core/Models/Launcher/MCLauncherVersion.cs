@@ -2,20 +2,33 @@ namespace MCL.Core.Models.Launcher;
 
 public class MCLauncherVersion
 {
-    public string MCVersion { get; set; }
-    public string MCVersionType { get; set; }
+    public string Version { get; set; }
+    public string VersionType { get; set; }
     public string FabricInstallerVersion { get; set; }
     public string FabricLoaderVersion { get; set; }
+
+    public MCLauncherVersion(
+        string version,
+        string versionType,
+        string fabricInstallerVersion,
+        string fabricLoaderVersion
+    )
+    {
+        Version = version;
+        VersionType = versionType;
+        FabricInstallerVersion = fabricInstallerVersion;
+        FabricLoaderVersion = fabricLoaderVersion;
+    }
 
     public static bool Exists(MCLauncherVersion launcherVersion)
     {
         if (launcherVersion == null)
             return false;
 
-        if (string.IsNullOrEmpty(launcherVersion.MCVersion))
+        if (string.IsNullOrEmpty(launcherVersion.Version))
             return false;
 
-        if (string.IsNullOrEmpty(launcherVersion.MCVersionType))
+        if (string.IsNullOrEmpty(launcherVersion.VersionType))
             return false;
 
         if (string.IsNullOrEmpty(launcherVersion.FabricInstallerVersion))

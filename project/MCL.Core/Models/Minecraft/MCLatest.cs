@@ -9,4 +9,10 @@ public class MCLatest
 
     [JsonPropertyName("snapshot")]
     public string Snapshot { get; set; }
+
+    public MCLatest(string release, string snapshot)
+    {
+        Release = release;
+        Snapshot = snapshot;
+    }
 }
