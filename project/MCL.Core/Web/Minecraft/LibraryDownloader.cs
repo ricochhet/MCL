@@ -23,7 +23,7 @@ public class LibraryDownloader : IMCLibraryDownloader
         if (!MCLauncherPath.Exists(launcherPath))
             return false;
 
-        string libPath = Path.Combine(launcherPath.Path, "libraries");
+        string libPath = VFS.Combine(launcherPath.Path, "libraries");
         foreach (MCLibrary lib in libraries)
         {
             if (lib.Downloads == null)
@@ -38,7 +38,7 @@ public class LibraryDownloader : IMCLibraryDownloader
             if (!Exists(lib))
                 return false;
 
-            string downloadPath = Path.Combine(libPath, lib.Downloads.Artifact.Path);
+            string downloadPath = VFS.Combine(libPath, lib.Downloads.Artifact.Path);
             if (!await Request.Download(downloadPath, lib.Downloads.Artifact.URL, lib.Downloads.Artifact.SHA1))
                 return false;
         }
@@ -109,7 +109,7 @@ public class LibraryDownloader : IMCLibraryDownloader
                 if (!WindowsClassifierNativesExists(lib))
                     return false;
 
-                classifierDownloadPath = Path.Combine(
+                classifierDownloadPath = VFS.Combine(
                     MinecraftPathResolver.LibraryPath(launcherPath),
                     lib.Downloads.Classifiers.NativesWindows.Path
                 );
@@ -120,7 +120,7 @@ public class LibraryDownloader : IMCLibraryDownloader
                 if (!LinuxClassifierNativesExists(lib))
                     return false;
 
-                classifierDownloadPath = Path.Combine(
+                classifierDownloadPath = VFS.Combine(
                     MinecraftPathResolver.LibraryPath(launcherPath),
                     lib.Downloads.Classifiers.NativesLinux.Path
                 );
@@ -131,7 +131,7 @@ public class LibraryDownloader : IMCLibraryDownloader
                 if (!OSXClassifierNativesExists(lib))
                     return false;
 
-                classifierDownloadPath = Path.Combine(
+                classifierDownloadPath = VFS.Combine(
                     MinecraftPathResolver.LibraryPath(launcherPath),
                     lib.Downloads.Classifiers.NativesMacos.Path
                 );

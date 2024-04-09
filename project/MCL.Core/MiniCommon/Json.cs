@@ -7,7 +7,7 @@ public static class Json
 {
     public static string Serialize<T>(T data, JsonSerializerOptions options = null)
     {
-        return JsonSerializer.Serialize<T>(data, options);
+        return JsonSerializer.Serialize(data, options);
     }
 
     public static T Deserialize<T>(string json, JsonSerializerOptions options = null)
@@ -24,9 +24,9 @@ public static class Json
     public static void Save<T>(string filepath, T data, JsonSerializerOptions options = null)
     {
         if (!VFS.Exists(filepath))
-            VFS.CreateDirectory(Path.GetDirectoryName(filepath));
+            VFS.CreateDirectory(VFS.GetDirectoryName(filepath));
 
-        VFS.WriteFile(filepath, Serialize<T>(data, options));
+        VFS.WriteFile(filepath, Serialize(data, options));
     }
 
     public static T Load<T>(string filepath)

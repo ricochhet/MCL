@@ -25,6 +25,30 @@ public static class VFS
     }
 
     /// <summary>
+    /// Combine three filepaths.
+    /// </summary>
+    public static string Combine(string path1, string path2, string path3)
+    {
+        return Path.Combine(path1, path2, path3);
+    }
+
+    /// <summary>
+    /// Combine four filepaths.
+    /// </summary>
+    public static string Combine(string path1, string path2, string path3, string path4)
+    {
+        return Path.Combine(path1, path2, path3, path4);
+    }
+
+    /// <summary>
+    /// Combine an array of filepaths.
+    /// </summary>
+    public static string Combine(params string[] paths)
+    {
+        return Path.Combine(paths);
+    }
+
+    /// <summary>
     /// Combines the filepath with the current working directory.
     /// </summary>
     public static string FromCwd(this string filepath)
@@ -47,6 +71,15 @@ public static class VFS
     public static string GetFile(this string filepath)
     {
         string value = Path.GetFileName(filepath);
+        return (!string.IsNullOrWhiteSpace(value)) ? value : "";
+    }
+
+    /// <summary>
+    /// Get directory name of a filepath
+    /// </summary>
+    public static string GetDirectoryName(this string filepath)
+    {
+        string value = Path.GetDirectoryName(filepath);
         return (!string.IsNullOrWhiteSpace(value)) ? value : "";
     }
 

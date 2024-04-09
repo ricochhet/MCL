@@ -1,6 +1,7 @@
 using System.IO;
 using MCL.Core.Enums;
 using MCL.Core.Enums.Java;
+using MCL.Core.MiniCommon;
 using MCL.Core.Models;
 using MCL.Core.Models.Java;
 using MCL.Core.Resolvers.Java;
@@ -16,14 +17,14 @@ public static class JavaLaunchHelper
 
     public static void Launch(JvmArguments jvmArguments, string workingDirectory, JavaRuntimeTypeEnum javaRuntimeType)
     {
-        string javaBin = Path.Combine(
+        string javaBin = VFS.Combine(
             workingDirectory,
             "runtime",
             JavaRuntimeTypeEnumResolver.ToString(javaRuntimeType),
             "bin"
         );
         ProcessHelper.RunProcess(
-            Path.Combine(javaBin, "java.exe"),
+            VFS.Combine(javaBin, "java.exe"),
             jvmArguments.Build(),
             workingDirectory,
             false,
@@ -41,7 +42,7 @@ public static class JavaLaunchHelper
         if (config == null)
             return;
 
-        string javaBin = Path.Combine(
+        string javaBin = VFS.Combine(
             workingDirectory,
             "runtime",
             JavaRuntimeTypeEnumResolver.ToString(javaRuntimeType),
@@ -54,7 +55,7 @@ public static class JavaLaunchHelper
                 if (!JvmArgumentsExist(config, config.MinecraftArgs))
                     return;
                 ProcessHelper.RunProcess(
-                    Path.Combine(javaBin, "java.exe"),
+                    VFS.Combine(javaBin, "java.exe"),
                     config.MinecraftArgs.Build(),
                     workingDirectory,
                     false,
@@ -65,7 +66,7 @@ public static class JavaLaunchHelper
                 if (!JvmArgumentsExist(config, config.FabricArgs))
                     return;
                 ProcessHelper.RunProcess(
-                    Path.Combine(javaBin, "java.exe"),
+                    VFS.Combine(javaBin, "java.exe"),
                     config.FabricArgs.Build(),
                     workingDirectory,
                     false,

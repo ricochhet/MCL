@@ -45,7 +45,7 @@ public class JavaRuntimeDownloader : IJavaRuntimeDownloader
 
                 if (
                     !await Request.Download(
-                        Path.Combine(
+                        VFS.Combine(
                             JavaPathResolver.DownloadedJavaRuntimePath(
                                 launcherPath,
                                 JavaRuntimeTypeEnumResolver.ToString(javaRuntimeType)

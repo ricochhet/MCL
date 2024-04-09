@@ -18,7 +18,7 @@ public class ResourceDownloader : IMCResourceDownloader
         if (!Exists(configUrls, assets))
             return false;
 
-        string objectsPath = Path.Combine(MinecraftPathResolver.AssetsPath(launcherPath), "objects");
+        string objectsPath = VFS.Combine(MinecraftPathResolver.AssetsPath(launcherPath), "objects");
         foreach ((_, MCAsset asset) in assets.Objects)
         {
             if (asset == null)
@@ -28,7 +28,7 @@ public class ResourceDownloader : IMCResourceDownloader
                 return false;
 
             string url = $"{configUrls.MinecraftResources}/{asset.Hash[..2]}/{asset.Hash}";
-            string downloadPath = Path.Combine(objectsPath, asset.Hash[..2], asset.Hash);
+            string downloadPath = VFS.Combine(objectsPath, asset.Hash[..2], asset.Hash);
             if (!await Request.Download(downloadPath, url, asset.Hash))
                 return false;
         }

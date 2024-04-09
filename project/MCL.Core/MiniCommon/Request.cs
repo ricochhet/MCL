@@ -72,7 +72,7 @@ public static class Request
             using HttpResponseMessage response = await httpClient.GetAsync(url);
             if (response.IsSuccessStatusCode)
             {
-                VFS.CreateDirectory(Path.GetDirectoryName(fileName));
+                VFS.CreateDirectory(VFS.GetDirectoryName(fileName));
 
                 using Stream contentStream = await response.Content.ReadAsStreamAsync();
                 using FileStream fileStream = new(fileName, FileMode.Create, FileAccess.Write, FileShare.None);

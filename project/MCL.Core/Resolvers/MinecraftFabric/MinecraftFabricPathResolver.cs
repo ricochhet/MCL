@@ -1,4 +1,5 @@
 using System.IO;
+using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Models.MinecraftFabric;
 
@@ -8,22 +9,22 @@ public static class MinecraftFabricPathResolver
 {
     public static string FabricInstallerPath(MCLauncherPath launcherPath)
     {
-        return Path.Combine(launcherPath.FabricInstallerPath, "installers");
+        return VFS.Combine(launcherPath.FabricInstallerPath, "installers");
     }
 
     public static string FabricModPath(MCLauncherPath launcherPath)
     {
-        return Path.Combine(launcherPath.FabricInstallerPath, "mods");
+        return VFS.Combine(launcherPath.FabricInstallerPath, "mods");
     }
 
     public static string FabricModCategoryPath(MCLauncherPath launcherPath, MCLauncherVersion launcherVersion)
     {
-        return Path.Combine(FabricModPath(launcherPath), launcherVersion.Version);
+        return VFS.Combine(FabricModPath(launcherPath), launcherVersion.Version);
     }
 
     public static string DownloadedFabricInstallerPath(MCLauncherPath launcherPath, MCFabricInstaller fabricInstaller)
     {
-        return Path.Combine(
+        return VFS.Combine(
             launcherPath.FabricInstallerPath,
             "installers",
             $"fabric-installer-{fabricInstaller.Version}.jar"
@@ -32,12 +33,12 @@ public static class MinecraftFabricPathResolver
 
     public static string DownloadedFabricIndexPath(MCLauncherPath launcherPath)
     {
-        return Path.Combine(launcherPath.FabricInstallerPath, "fabric_manifest.json");
+        return VFS.Combine(launcherPath.FabricInstallerPath, "fabric_manifest.json");
     }
 
     public static string DownloadedFabricProfilePath(MCLauncherPath launcherPath, MCLauncherVersion launcherVersion)
     {
-        return Path.Combine(
+        return VFS.Combine(
             launcherPath.FabricInstallerPath,
             $"fabric_profile-{launcherVersion.Version}-{launcherVersion.FabricLoaderVersion}.json"
         );

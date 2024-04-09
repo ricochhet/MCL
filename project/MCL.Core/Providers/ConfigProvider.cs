@@ -12,7 +12,7 @@ public static class ConfigProvider
 {
     public const string DataPath = "./MCL_Data";
     public const string ConfigFileName = "Config.json";
-    public static readonly string LogFilePath = Path.Combine(DataPath, LogFileName);
+    public static readonly string LogFilePath = VFS.Combine(DataPath, LogFileName);
     public static readonly List<string> WatermarkText =
     [
         "MCL.Launcher",
@@ -20,7 +20,7 @@ public static class ConfigProvider
         "If you paid money, you were scammed"
     ];
     private const string LogFileName = "MCL.log";
-    private static readonly string ConfigFilePath = Path.Combine(DataPath, ConfigFileName);
+    private static readonly string ConfigFilePath = VFS.Combine(DataPath, ConfigFileName);
 
     public static void Write()
     {

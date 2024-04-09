@@ -54,7 +54,7 @@ public class FabricLoaderDownloader : IFabricLoaderDownloader
 
             if (
                 !await Request.Download(
-                    Path.Combine(
+                    VFS.Combine(
                         MinecraftPathResolver.LibraryPath(launcherPath),
                         MCFabricLibrary.ParsePath(library.Name)
                     ),
