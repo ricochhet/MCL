@@ -186,6 +186,22 @@ public static class VFS
     }
 
     /// <summary>
+    /// Open a file write stream.
+    /// </summary>
+    public static FileStream OpenWrite(string filepath)
+    {
+        return File.OpenWrite(filepath);
+    }
+
+    /// <summary>
+    /// Open a file read stream.
+    /// </summary>
+    public static FileStream OpenRead(string filepath)
+    {
+        return File.OpenRead(filepath);
+    }
+
+    /// <summary>
     /// Get directories in directory by full path.
     /// </summary>
     public static string[] GetDirectories(string filepath)

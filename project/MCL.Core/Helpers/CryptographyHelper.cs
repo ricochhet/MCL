@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using MCL.Core.MiniCommon;
 
 namespace MCL.Core.Helpers;
 
@@ -9,10 +10,10 @@ public static class CryptographyHelper
 {
     public static string Sha1(string fileName, bool formatting)
     {
-        if (!File.Exists(fileName))
+        if (!VFS.Exists(fileName))
             return string.Empty;
 
-        using FileStream stream = File.OpenRead(fileName);
+        using FileStream stream = VFS.OpenRead(fileName);
         byte[] hash = SHA1.HashData(stream);
 
         if (formatting)

@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using MCL.Core.Logger.Enums;
+using MCL.Core.MiniCommon;
 using MCL.Core.Providers;
 
 namespace MCL.Core.Logger;
@@ -11,7 +12,7 @@ namespace MCL.Core.Logger;
 public class FileStreamLogger : ILogger, IDisposable
 {
     private static readonly SemaphoreSlim Semaphore = new(1);
-    private static readonly FileStream Stream = File.OpenWrite(ConfigProvider.LogFilePath);
+    private static readonly FileStream Stream = VFS.OpenWrite(ConfigProvider.LogFilePath);
 
     public Task Debug(string message) => WriteToBuffer(FileStreamLogLevel.Debug, message);
 

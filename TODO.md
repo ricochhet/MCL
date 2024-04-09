@@ -3,7 +3,7 @@ TODO tasks are in order from top-to-bottom, most-to-least important.
 
 Tasks marked with (*) are easier to do.
 
-- [ ] Refactor code to utilize VFS common library with applicable functions.
+- [x] Refactor code to utilize VFS common library with applicable functions.
 - [x] Evaluate error handling of objects and null-reference handling.
     - [ ] Add logging to error handles.
 - [x] Implement log information object.
