@@ -20,7 +20,7 @@ public class FabricLoaderDownloader : IFabricLoaderDownloader
         if (!MCLauncherPath.Exists(launcherPath))
             return false;
 
-        if (!Exists(fabricProfile, fabricConfigUrls))
+        if (!MCFabricProfileErr.Exists(fabricProfile, fabricConfigUrls))
             return false;
 
         foreach (MCFabricLibrary library in fabricProfile.Libraries)
@@ -63,23 +63,6 @@ public class FabricLoaderDownloader : IFabricLoaderDownloader
             )
                 return false;
         }
-
-        return true;
-    }
-
-    public static bool Exists(MCFabricProfile fabricProfile, MCFabricConfigUrls fabricConfigUrls)
-    {
-        if (fabricConfigUrls == null)
-            return false;
-
-        if (string.IsNullOrWhiteSpace(fabricConfigUrls.FabricLoaderJarUrl))
-            return false;
-
-        if (fabricProfile == null)
-            return false;
-
-        if (fabricProfile.Libraries == null)
-            return false;
 
         return true;
     }

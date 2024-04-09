@@ -11,5 +11,4 @@ public interface IFabricProfileDownloader
         MCLauncherVersion launcherVersion,
         MCFabricConfigUrls fabricConfigUrls
     );
-    public static abstract bool Exists(MCFabricConfigUrls fabricConfigUrls);
 }

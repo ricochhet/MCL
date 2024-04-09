@@ -11,5 +11,4 @@ public interface IMCResourceDownloader
         MCConfigUrls configUrls,
         MCAssetsData assets
     );
-    public static abstract bool Exists(MCConfigUrls configUrls, MCAssetsData assets);
 }

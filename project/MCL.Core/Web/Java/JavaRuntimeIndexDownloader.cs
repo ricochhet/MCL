@@ -1,5 +1,6 @@
 using System.Text;
 using System.Threading.Tasks;
+using MCL.Core.Handlers.Java;
 using MCL.Core.Interfaces.Java;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
@@ -15,24 +16,13 @@ public class JavaRuntimeIndexDownloader : IJavaRuntimeIndexDownloader
         if (!MCLauncherPath.Exists(launcherPath))
             return false;
 
-        if (!Exists(configUrls))
+        if (!JavaRuntimeIndexUrlErr.Exists(configUrls))
             return false;
 
         string downloadPath = JavaPathResolver.DownloadedJavaRuntimeIndexPath(launcherPath);
         string javaRuntimeIndex = await Request.DoRequest(configUrls.JavaRuntimeIndexUrl, downloadPath, Encoding.UTF8);
         if (string.IsNullOrWhiteSpace(javaRuntimeIndex))
             return false;
-        return true;
-    }
-
-    public static bool Exists(MCConfigUrls configUrls)
-    {
-        if (configUrls == null)
-            return false;
-
-        if (string.IsNullOrWhiteSpace(configUrls.JavaRuntimeIndexUrl))
-            return false;
-
         return true;
     }
 }

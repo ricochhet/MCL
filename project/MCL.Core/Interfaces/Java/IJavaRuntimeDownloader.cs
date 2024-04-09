@@ -12,5 +12,4 @@ public interface IJavaRuntimeDownloader
         JavaRuntimeTypeEnum javaRuntimeType,
         JavaRuntimeFiles javaRuntimeFiles
     );
-    public static abstract bool Exists(JavaRuntimeFiles javaRuntimeFiles);
 }

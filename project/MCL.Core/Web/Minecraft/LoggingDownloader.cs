@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using MCL.Core.Handlers.Java;
 using MCL.Core.Interfaces.Minecraft;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
@@ -14,7 +15,7 @@ public class LoggingDownloader : IMCGenericDownloader
         if (!MCLauncherPath.Exists(launcherPath))
             return false;
 
-        if (!Exists(versionDetails))
+        if (!MCVersionDetailsLoggingErrorHandler.Exists(versionDetails))
             return false;
 
         return await Request.Download(
@@ -22,28 +23,5 @@ public class LoggingDownloader : IMCGenericDownloader
             versionDetails.Logging.Client.File.URL,
             versionDetails.Logging.Client.File.SHA1
         );
-    }
-
-    public static bool Exists(MCVersionDetails versionDetails)
-    {
-        if (versionDetails == null)
-            return false;
-
-        if (versionDetails.Logging == null)
-            return false;
-
-        if (versionDetails.Logging.Client == null)
-            return false;
-
-        if (versionDetails.Logging.Client.File == null)
-            return false;
-
-        if (string.IsNullOrWhiteSpace(versionDetails.Logging.Client.File.SHA1))
-            return false;
-
-        if (string.IsNullOrWhiteSpace(versionDetails.Logging.Client.File.URL))
-            return false;
-
-        return true;
     }
 }

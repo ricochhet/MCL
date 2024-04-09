@@ -12,5 +12,4 @@ public interface IFabricLoaderDownloader
         MCFabricProfile fabricProfile,
         MCFabricConfigUrls fabricConfigUrls
     );
-    public static abstract bool Exists(MCFabricProfile fabricProfile, MCFabricConfigUrls fabricConfigUrls);
 }

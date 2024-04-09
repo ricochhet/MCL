@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using MCL.Core.Enums.Java;
+using MCL.Core.Handlers.Java;
 using MCL.Core.Interfaces.Java;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Java;
@@ -20,7 +21,7 @@ public class JavaRuntimeDownloader : IJavaRuntimeDownloader
         if (!MCLauncherPath.Exists(launcherPath))
             return false;
 
-        if (!Exists(javaRuntimeFiles))
+        if (!JavaRuntimeFilesErr.Exists(javaRuntimeFiles))
             return false;
 
         foreach ((string path, JavaRuntimeFile javaRuntimeFile) in javaRuntimeFiles.Files)
@@ -30,16 +31,7 @@ public class JavaRuntimeDownloader : IJavaRuntimeDownloader
 
             if (javaRuntimeFile.Type == "file")
             {
-                if (javaRuntimeFile.Downloads == null)
-                    return false;
-
-                if (javaRuntimeFile.Downloads.Raw == null)
-                    return false;
-
-                if (string.IsNullOrWhiteSpace(javaRuntimeFile.Downloads.Raw.URL))
-                    return false;
-
-                if (string.IsNullOrWhiteSpace(javaRuntimeFile.Downloads.Raw.SHA1))
+                if (!JavaRuntimeFileErr.Exists(javaRuntimeFile))
                     return false;
 
                 if (
@@ -58,20 +50,6 @@ public class JavaRuntimeDownloader : IJavaRuntimeDownloader
                     return false;
             }
         }
-
-        return true;
-    }
-
-    public static bool Exists(JavaRuntimeFiles javaRuntimeFiles)
-    {
-        if (javaRuntimeFiles == null)
-            return false;
-
-        if (javaRuntimeFiles.Files == null)
-            return false;
-
-        if (javaRuntimeFiles.Files.Count <= 0)
-            return false;
 
         return true;
     }

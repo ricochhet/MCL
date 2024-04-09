@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using MCL.Core.Handlers.Java;
 using MCL.Core.Helpers.Minecraft;
 using MCL.Core.Interfaces.Minecraft;
 using MCL.Core.MiniCommon;
@@ -15,7 +16,7 @@ public class ServerDownloader : IMCGenericDownloader
         if (!MCLauncherPath.Exists(launcherPath))
             return false;
 
-        if (!Exists(versionDetails))
+        if (!MCVersionDetailsServerErrorHandler.Exists(versionDetails))
             return false;
 
         ServerProperties.NewEula(launcherPath);
@@ -26,25 +27,5 @@ public class ServerDownloader : IMCGenericDownloader
             versionDetails.Downloads.Server.URL,
             versionDetails.Downloads.Server.SHA1
         );
-    }
-
-    public static bool Exists(MCVersionDetails versionDetails)
-    {
-        if (versionDetails == null)
-            return false;
-
-        if (versionDetails.Downloads == null)
-            return false;
-
-        if (versionDetails.Downloads.Server == null)
-            return false;
-
-        if (string.IsNullOrWhiteSpace(versionDetails.Downloads.Server.SHA1))
-            return false;
-
-        if (string.IsNullOrWhiteSpace(versionDetails.Downloads.Server.URL))
-            return false;
-
-        return true;
     }
 }

@@ -1,5 +1,6 @@
 using System.Text;
 using System.Threading.Tasks;
+using MCL.Core.Handlers.Java;
 using MCL.Core.Interfaces.Minecraft;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
@@ -15,24 +16,13 @@ public class VersionManifestDownloader : IMCVersionManifestDownloader
         if (!MCLauncherPath.Exists(launcherPath))
             return false;
 
-        if (!Exists(configUrls))
+        if (!MCConfigVersionManifestErrorHandler.Exists(configUrls))
             return false;
 
         string downloadPath = MinecraftPathResolver.DownloadedVersionManifestPath(launcherPath);
         string versionManifest = await Request.DoRequest(configUrls.VersionManifest, downloadPath, Encoding.UTF8);
         if (string.IsNullOrWhiteSpace(versionManifest))
             return false;
-        return true;
-    }
-
-    public static bool Exists(MCConfigUrls configUrls)
-    {
-        if (configUrls == null)
-            return false;
-
-        if (string.IsNullOrWhiteSpace(configUrls.VersionManifest))
-            return false;
-
         return true;
     }
 }

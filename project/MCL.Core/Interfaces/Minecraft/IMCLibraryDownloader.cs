@@ -13,14 +13,10 @@ public interface IMCLibraryDownloader
         PlatformEnum platform,
         List<MCLibrary> libraries
     );
-    public static abstract bool Exists(MCLibrary lib);
     public static abstract bool SkipLibrary(MCLibrary lib, PlatformEnum platform);
     public static abstract Task<bool> DownloadNatives(
         MCLauncherPath launcherPath,
         MCLibrary lib,
         PlatformEnum platform
     );
-    public static abstract bool WindowsClassifierNativesExists(MCLibrary lib);
-    public static abstract bool LinuxClassifierNativesExists(MCLibrary lib);
-    public static abstract bool OSXClassifierNativesExists(MCLibrary lib);
 }

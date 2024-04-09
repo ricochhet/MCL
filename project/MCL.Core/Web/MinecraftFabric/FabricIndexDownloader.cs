@@ -1,5 +1,6 @@
 using System.Text;
 using System.Threading.Tasks;
+using MCL.Core.Handlers.Minecraft;
 using MCL.Core.Interfaces.Minecraft;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
@@ -15,24 +16,13 @@ public class FabricIndexDownloader : IFabricIndexDownloader
         if (!MCLauncherPath.Exists(launcherPath))
             return false;
 
-        if (!Exists(fabricConfigUrls))
+        if (!MCFabricConfigUrlsErr.Exists(fabricConfigUrls))
             return false;
 
         string downloadPath = MinecraftFabricPathResolver.DownloadedFabricIndexPath(launcherPath);
         string fabricIndex = await Request.DoRequest(fabricConfigUrls.FabricVersionsIndex, downloadPath, Encoding.UTF8);
         if (string.IsNullOrWhiteSpace(fabricIndex))
             return false;
-        return true;
-    }
-
-    public static bool Exists(MCFabricConfigUrls fabricConfigUrls)
-    {
-        if (fabricConfigUrls == null)
-            return false;
-
-        if (string.IsNullOrWhiteSpace(fabricConfigUrls.FabricVersionsIndex))
-            return false;
-
         return true;
     }
 }

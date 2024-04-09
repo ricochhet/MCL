@@ -1,5 +1,6 @@
 using System.Text;
 using System.Threading.Tasks;
+using MCL.Core.Handlers.Minecraft;
 using MCL.Core.Interfaces.Minecraft;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
@@ -22,7 +23,7 @@ public class FabricProfileDownloader : IFabricProfileDownloader
         if (!MCLauncherVersion.Exists(launcherVersion))
             return false;
 
-        if (!Exists(fabricConfigUrls))
+        if (!MCFabricConfigUrlsErr.Exists(fabricConfigUrls))
             return false;
 
         string fabricProfile = await Request.DoRequest(
@@ -32,17 +33,6 @@ public class FabricProfileDownloader : IFabricProfileDownloader
         );
         if (string.IsNullOrWhiteSpace(fabricProfile))
             return false;
-        return true;
-    }
-
-    public static bool Exists(MCFabricConfigUrls fabricConfigUrls)
-    {
-        if (fabricConfigUrls == null)
-            return false;
-
-        if (string.IsNullOrWhiteSpace(fabricConfigUrls.FabricLoaderProfileUrl))
-            return false;
-
         return true;
     }
 }

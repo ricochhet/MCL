@@ -15,10 +15,4 @@ public interface IJavaRuntimeManifestDownloader
         JavaRuntimeIndex javaRuntimeIndex
     );
     public static abstract string GetJavaRuntimeUrl(JavaRuntimeTypeEnum javaRuntimeTypeEnum, JavaRuntime javaRuntime);
-    public static abstract bool Exists(JavaRuntimeIndex javaRuntimeIndex);
-
-    public static abstract bool JavaRuntimeUrlExists(
-        JavaRuntime javaRuntime,
-        List<JavaRuntimeObject> javaRuntimeObjects
-    );
 }

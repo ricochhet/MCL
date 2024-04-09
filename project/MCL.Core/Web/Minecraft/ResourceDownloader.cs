@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using MCL.Core.Handlers.Java;
 using MCL.Core.Interfaces.Minecraft;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
@@ -14,7 +15,7 @@ public class ResourceDownloader : IMCResourceDownloader
         if (!MCLauncherPath.Exists(launcherPath))
             return false;
 
-        if (!Exists(configUrls, assets))
+        if (!MCAssetsDataErrorHandler.Exists(configUrls, assets))
             return false;
 
         string objectsPath = VFS.Combine(MinecraftPathResolver.AssetsPath(launcherPath), "objects");
@@ -31,23 +32,6 @@ public class ResourceDownloader : IMCResourceDownloader
             if (!await Request.Download(downloadPath, url, asset.Hash))
                 return false;
         }
-
-        return true;
-    }
-
-    public static bool Exists(MCConfigUrls configUrls, MCAssetsData assets)
-    {
-        if (assets == null)
-            return false;
-
-        if (assets.Objects == null)
-            return false;
-
-        if (configUrls == null)
-            return false;
-
-        if (string.IsNullOrWhiteSpace(configUrls.MinecraftResources))
-            return false;
 
         return true;
     }

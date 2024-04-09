@@ -1,5 +1,6 @@
 using System.Text;
 using System.Threading.Tasks;
+using MCL.Core.Handlers.Java;
 using MCL.Core.Interfaces.Minecraft;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
@@ -15,7 +16,7 @@ public class VersionDetailsDownloader : IMCVersionDetailsDownloader
         if (!MCLauncherPath.Exists(launcherPath))
             return false;
 
-        if (!Exists(version))
+        if (!MCVersionUrlErrorHandler.Exists(version))
             return false;
 
         string downloadPath = MinecraftPathResolver.DownloadedVersionDetailsPath(launcherPath, version);
