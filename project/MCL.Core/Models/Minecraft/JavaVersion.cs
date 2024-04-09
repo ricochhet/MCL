@@ -2,17 +2,11 @@ using System.Text.Json.Serialization;
 
 namespace MCL.Core.Models.Minecraft;
 
-public class JavaVersion
+public class JavaVersion(string component, int majorVersion)
 {
     [JsonPropertyName("component")]
-    public string Component { get; set; }
+    public string Component { get; set; } = component;
 
     [JsonPropertyName("majorVersion")]
-    public int MajorVersion { get; set; }
-
-    public JavaVersion(string component, int majorVersion)
-    {
-        Component = component;
-        MajorVersion = majorVersion;
-    }
+    public int MajorVersion { get; set; } = majorVersion;
 }

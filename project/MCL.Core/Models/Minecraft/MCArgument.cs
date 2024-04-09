@@ -3,17 +3,11 @@ using System.Text.Json.Serialization;
 
 namespace MCL.Core.Models.Minecraft;
 
-public class MCArgument
+public class MCArgument(List<object> game, List<object> jvm)
 {
     [JsonPropertyName("game")]
-    public List<object> Game { get; set; }
+    public List<object> Game { get; set; } = game;
 
     [JsonPropertyName("jvm")]
-    public List<object> JVM { get; set; }
-
-    public MCArgument(List<object> game, List<object> jvm)
-    {
-        Game = game;
-        JVM = jvm;
-    }
+    public List<object> JVM { get; set; } = jvm;
 }

@@ -2,17 +2,11 @@ using System.Text.Json.Serialization;
 
 namespace MCL.Core.Models.Java;
 
-public class JavaRuntimeAvailability
+public class JavaRuntimeAvailability(int group, int progress)
 {
     [JsonPropertyName("group")]
-    public int Group { get; set; }
+    public int Group { get; set; } = group;
 
     [JsonPropertyName("progress")]
-    public int Progress { get; set; }
-
-    public JavaRuntimeAvailability(int group, int progress)
-    {
-        Group = group;
-        Progress = progress;
-    }
+    public int Progress { get; set; } = progress;
 }

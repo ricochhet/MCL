@@ -2,13 +2,8 @@ using System.Text.Json.Serialization;
 
 namespace MCL.Core.Models.Minecraft;
 
-public class MCLibraryRuleValue
+public class MCLibraryRuleValue(string name)
 {
     [JsonPropertyName("name")]
-    public string Name { get; set; }
-
-    public MCLibraryRuleValue(string name)
-    {
-        Name = name;
-    }
+    public string Name { get; set; } = name;
 }

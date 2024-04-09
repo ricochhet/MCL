@@ -1,24 +1,16 @@
 namespace MCL.Core.Models.Launcher;
 
-public class MCLauncherVersion
+public class MCLauncherVersion(
+    string version,
+    string versionType,
+    string fabricInstallerVersion,
+    string fabricLoaderVersion
+)
 {
-    public string Version { get; set; }
-    public string VersionType { get; set; }
-    public string FabricInstallerVersion { get; set; }
-    public string FabricLoaderVersion { get; set; }
-
-    public MCLauncherVersion(
-        string version,
-        string versionType,
-        string fabricInstallerVersion,
-        string fabricLoaderVersion
-    )
-    {
-        Version = version;
-        VersionType = versionType;
-        FabricInstallerVersion = fabricInstallerVersion;
-        FabricLoaderVersion = fabricLoaderVersion;
-    }
+    public string Version { get; set; } = version;
+    public string VersionType { get; set; } = versionType;
+    public string FabricInstallerVersion { get; set; } = fabricInstallerVersion;
+    public string FabricLoaderVersion { get; set; } = fabricLoaderVersion;
 
     public static bool Exists(MCLauncherVersion launcherVersion)
     {

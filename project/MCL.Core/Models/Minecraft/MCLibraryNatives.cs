@@ -2,21 +2,14 @@ using System.Text.Json.Serialization;
 
 namespace MCL.Core.Models.Minecraft;
 
-public class MCLibraryNatives
+public class MCLibraryNatives(string windows, string osx, string linux)
 {
     [JsonPropertyName("windows")]
-    public string Windows { get; set; }
+    public string Windows { get; set; } = windows;
 
     [JsonPropertyName("osx")]
-    public string Osx { get; set; }
+    public string Osx { get; set; } = osx;
 
     [JsonPropertyName("linux")]
-    public string Linux { get; set; }
-
-    public MCLibraryNatives(string windows, string osx, string linux)
-    {
-        Windows = windows;
-        Osx = osx;
-        Linux = linux;
-    }
+    public string Linux { get; set; } = linux;
 }

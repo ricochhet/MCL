@@ -3,29 +3,19 @@ using System.Text.Json.Serialization;
 
 namespace MCL.Core.Models.Minecraft;
 
-public class MCLibrary
+public class MCLibrary(string name, MCLibraryDownloads downloads, List<MCLibraryRule> rules, MCLibraryNatives natives)
 {
     [JsonPropertyName("name")]
-    public string Name { get; set; }
+    public string Name { get; set; } = name;
 
     [JsonPropertyName("downloads")]
-    public MCLibraryDownloads Downloads { get; set; }
+    public MCLibraryDownloads Downloads { get; set; } = downloads;
 
     [JsonPropertyName("rules")]
-    public List<MCLibraryRule> Rules { get; set; }
+    public List<MCLibraryRule> Rules { get; set; } = rules;
 
 #nullable enable // Natives object typically doesn't exist for newer versions.
 
     [JsonPropertyName("natives")]
-    public MCLibraryNatives? Natives { get; set; }
-
-#nullable disable
-
-    public MCLibrary(string name, MCLibraryDownloads downloads, List<MCLibraryRule> rules, MCLibraryNatives natives)
-    {
-        Name = name;
-        Downloads = downloads;
-        Rules = rules;
-        Natives = natives;
-    }
+    public MCLibraryNatives? Natives { get; set; } = natives;
 }

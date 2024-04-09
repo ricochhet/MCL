@@ -2,39 +2,28 @@ using System.Text.Json.Serialization;
 
 namespace MCL.Core.Models.MinecraftFabric;
 
-public class MCFabricLibrary
+public class MCFabricLibrary(string name, string url, string md5, string sha1, string sha256, string sha512, int size)
 {
     [JsonPropertyName("name")]
-    public string Name { get; set; }
+    public string Name { get; set; } = name;
 
     [JsonPropertyName("url")]
-    public string URL { get; set; }
+    public string URL { get; set; } = url;
 
     [JsonPropertyName("md5")]
-    public string MD5 { get; set; }
+    public string MD5 { get; set; } = md5;
 
     [JsonPropertyName("sha1")]
-    public string SHA1 { get; set; }
+    public string SHA1 { get; set; } = sha1;
 
     [JsonPropertyName("sha256")]
-    public string SHA256 { get; set; }
+    public string SHA256 { get; set; } = sha256;
 
     [JsonPropertyName("sha512")]
-    public string SHA512 { get; set; }
+    public string SHA512 { get; set; } = sha512;
 
     [JsonPropertyName("size")]
-    public int Size { get; set; }
-
-    public MCFabricLibrary(string name, string url, string md5, string sha1, string sha256, string sha512, int size)
-    {
-        Name = name;
-        URL = url;
-        MD5 = md5;
-        SHA1 = sha1;
-        SHA256 = sha256;
-        SHA512 = sha512;
-        Size = size;
-    }
+    public int Size { get; set; } = size;
 
     public static string ParseURL(string name, string url)
     {

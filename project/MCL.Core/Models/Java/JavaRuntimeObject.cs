@@ -2,25 +2,18 @@ using System.Text.Json.Serialization;
 
 namespace MCL.Core.Models.Java;
 
-public class JavaRuntimeObject
+public class JavaRuntimeObject(
+    JavaRuntimeAvailability javaRuntimeAvailability,
+    JavaRuntimeManifest javaRuntimeManifest,
+    JavaRuntimeVersion javaRuntimeVersion
+)
 {
     [JsonPropertyName("availability")]
-    public JavaRuntimeAvailability JavaRuntimeAvailability { get; set; }
+    public JavaRuntimeAvailability JavaRuntimeAvailability { get; set; } = javaRuntimeAvailability;
 
     [JsonPropertyName("manifest")]
-    public JavaRuntimeManifest JavaRuntimeManifest { get; set; }
+    public JavaRuntimeManifest JavaRuntimeManifest { get; set; } = javaRuntimeManifest;
 
     [JsonPropertyName("version")]
-    public JavaRuntimeVersion JavaRuntimeVersion { get; set; }
-
-    public JavaRuntimeObject(
-        JavaRuntimeAvailability javaRuntimeAvailability,
-        JavaRuntimeManifest javaRuntimeManifest,
-        JavaRuntimeVersion javaRuntimeVersion
-    )
-    {
-        JavaRuntimeAvailability = javaRuntimeAvailability;
-        JavaRuntimeManifest = javaRuntimeManifest;
-        JavaRuntimeVersion = javaRuntimeVersion;
-    }
+    public JavaRuntimeVersion JavaRuntimeVersion { get; set; } = javaRuntimeVersion;
 }

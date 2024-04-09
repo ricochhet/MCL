@@ -2,33 +2,30 @@ using System.Text.Json.Serialization;
 
 namespace MCL.Core.Models.MinecraftFabric;
 
-public class MCFabricMappings
+public class MCFabricMappings(
+    string gameVersion,
+    string separator,
+    int build,
+    string maven,
+    string version,
+    bool stable
+)
 {
     [JsonPropertyName("gameVersion")]
-    public string GameVersion { get; set; }
+    public string GameVersion { get; set; } = gameVersion;
 
     [JsonPropertyName("separator")]
-    public string Separator { get; set; }
+    public string Separator { get; set; } = separator;
 
     [JsonPropertyName("build")]
-    public int Build { get; set; }
+    public int Build { get; set; } = build;
 
     [JsonPropertyName("maven")]
-    public string Maven { get; set; }
+    public string Maven { get; set; } = maven;
 
     [JsonPropertyName("version")]
-    public string Version { get; set; }
+    public string Version { get; set; } = version;
 
     [JsonPropertyName("stable")]
-    public bool Stable { get; set; }
-
-    public MCFabricMappings(string gameVersion, string separator, int build, string maven, string version, bool stable)
-    {
-        GameVersion = gameVersion;
-        Separator = separator;
-        Build = build;
-        Maven = maven;
-        Version = version;
-        Stable = stable;
-    }
+    public bool Stable { get; set; } = stable;
 }

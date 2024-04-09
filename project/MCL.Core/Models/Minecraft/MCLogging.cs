@@ -2,13 +2,8 @@ using System.Text.Json.Serialization;
 
 namespace MCL.Core.Models.Minecraft;
 
-public class MCLogging
+public class MCLogging(MCLoggingClient client)
 {
     [JsonPropertyName("client")]
-    public MCLoggingClient Client { get; set; }
-
-    public MCLogging(MCLoggingClient client)
-    {
-        Client = client;
-    }
+    public MCLoggingClient Client { get; set; } = client;
 }

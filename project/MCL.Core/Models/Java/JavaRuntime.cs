@@ -3,45 +3,34 @@ using System.Text.Json.Serialization;
 
 namespace MCL.Core.Models.Java;
 
-public class JavaRuntime
+public class JavaRuntime(
+    List<JavaRuntimeObject> javaRuntimeAlpha,
+    List<JavaRuntimeObject> javaRuntimeBeta,
+    List<JavaRuntimeObject> javaRuntimeDelta,
+    List<JavaRuntimeObject> javaRuntimeGamma,
+    List<JavaRuntimeObject> javaRuntimeGammaSnapshot,
+    List<JavaRuntimeObject> jreLegacy,
+    List<JavaRuntimeObject> minecraftJavaExe
+)
 {
     [JsonPropertyName("java-runtime-alpha")]
-    public List<JavaRuntimeObject> JavaRuntimeAlpha { get; set; }
+    public List<JavaRuntimeObject> JavaRuntimeAlpha { get; set; } = javaRuntimeAlpha;
 
     [JsonPropertyName("java-runtime-beta")]
-    public List<JavaRuntimeObject> JavaRuntimeBeta { get; set; }
+    public List<JavaRuntimeObject> JavaRuntimeBeta { get; set; } = javaRuntimeBeta;
 
     [JsonPropertyName("java-runtime-delta")]
-    public List<JavaRuntimeObject> JavaRuntimeDelta { get; set; }
+    public List<JavaRuntimeObject> JavaRuntimeDelta { get; set; } = javaRuntimeDelta;
 
     [JsonPropertyName("java-runtime-gamma")]
-    public List<JavaRuntimeObject> JavaRuntimeGamma { get; set; }
+    public List<JavaRuntimeObject> JavaRuntimeGamma { get; set; } = javaRuntimeGamma;
 
     [JsonPropertyName("java-runtime-gamma-snapshot")]
-    public List<JavaRuntimeObject> JavaRuntimeGammaSnapshot { get; set; }
+    public List<JavaRuntimeObject> JavaRuntimeGammaSnapshot { get; set; } = javaRuntimeGammaSnapshot;
 
     [JsonPropertyName("jre-legacy")]
-    public List<JavaRuntimeObject> JreLegacy { get; set; }
+    public List<JavaRuntimeObject> JreLegacy { get; set; } = jreLegacy;
 
     [JsonPropertyName("minecraft-java-exe")]
-    public List<JavaRuntimeObject> MinecraftJavaExe { get; set; }
-
-    public JavaRuntime(
-        List<JavaRuntimeObject> javaRuntimeAlpha,
-        List<JavaRuntimeObject> javaRuntimeBeta,
-        List<JavaRuntimeObject> javaRuntimeDelta,
-        List<JavaRuntimeObject> javaRuntimeGamma,
-        List<JavaRuntimeObject> javaRuntimeGammaSnapshot,
-        List<JavaRuntimeObject> jreLegacy,
-        List<JavaRuntimeObject> minecraftJavaExe
-    )
-    {
-        JavaRuntimeAlpha = javaRuntimeAlpha;
-        JavaRuntimeBeta = javaRuntimeBeta;
-        JavaRuntimeDelta = javaRuntimeDelta;
-        JavaRuntimeGamma = javaRuntimeGamma;
-        JavaRuntimeGammaSnapshot = javaRuntimeGammaSnapshot;
-        JreLegacy = jreLegacy;
-        MinecraftJavaExe = minecraftJavaExe;
-    }
+    public List<JavaRuntimeObject> MinecraftJavaExe { get; set; } = minecraftJavaExe;
 }

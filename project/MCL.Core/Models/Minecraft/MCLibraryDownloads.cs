@@ -2,20 +2,12 @@ using System.Text.Json.Serialization;
 
 namespace MCL.Core.Models.Minecraft;
 
-public class MCLibraryDownloads
+public class MCLibraryDownloads(MCArtifact artifact, MCClassifiers classifiers)
 {
     [JsonPropertyName("artifact")]
-    public MCArtifact Artifact { get; set; }
+    public MCArtifact Artifact { get; set; } = artifact;
 
 #nullable enable // Classifiers are not present in newer Minecraft versions.
     [JsonPropertyName("classifiers")]
-    public MCClassifiers? Classifiers { get; set; }
-
-#nullable disable
-
-    public MCLibraryDownloads(MCArtifact artifact, MCClassifiers classifiers)
-    {
-        Artifact = artifact;
-        Classifiers = classifiers;
-    }
+    public MCClassifiers? Classifiers { get; set; } = classifiers;
 }

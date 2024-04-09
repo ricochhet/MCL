@@ -2,17 +2,11 @@ using System.Text.Json.Serialization;
 
 namespace MCL.Core.Models.Minecraft;
 
-public class MCLatest
+public class MCLatest(string release, string snapshot)
 {
     [JsonPropertyName("release")]
-    public string Release { get; set; }
+    public string Release { get; set; } = release;
 
     [JsonPropertyName("snapshot")]
-    public string Snapshot { get; set; }
-
-    public MCLatest(string release, string snapshot)
-    {
-        Release = release;
-        Snapshot = snapshot;
-    }
+    public string Snapshot { get; set; } = snapshot;
 }

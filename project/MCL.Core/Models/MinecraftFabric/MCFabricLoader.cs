@@ -2,29 +2,20 @@ using System.Text.Json.Serialization;
 
 namespace MCL.Core.Models.MinecraftFabric;
 
-public class MCFabricLoader
+public class MCFabricLoader(string separator, int build, string maven, string version, bool stable)
 {
     [JsonPropertyName("separator")]
-    public string Separator { get; set; }
+    public string Separator { get; set; } = separator;
 
     [JsonPropertyName("build")]
-    public int Build { get; set; }
+    public int Build { get; set; } = build;
 
     [JsonPropertyName("maven")]
-    public string Maven { get; set; }
+    public string Maven { get; set; } = maven;
 
     [JsonPropertyName("version")]
-    public string Version { get; set; }
+    public string Version { get; set; } = version;
 
     [JsonPropertyName("stable")]
-    public bool Stable { get; set; }
-
-    public MCFabricLoader(string separator, int build, string maven, string version, bool stable)
-    {
-        Separator = separator;
-        Build = build;
-        Maven = maven;
-        Version = version;
-        Stable = stable;
-    }
+    public bool Stable { get; set; } = stable;
 }

@@ -2,29 +2,20 @@ using System.Text.Json.Serialization;
 
 namespace MCL.Core.Models.Minecraft;
 
-public class MCAssetIndex
+public class MCAssetIndex(string id, string sha1, int size, int totalSize, string url)
 {
     [JsonPropertyName("id")]
-    public string ID { get; set; }
+    public string ID { get; set; } = id;
 
     [JsonPropertyName("sha1")]
-    public string SHA1 { get; set; }
+    public string SHA1 { get; set; } = sha1;
 
     [JsonPropertyName("size")]
-    public int Size { get; set; }
+    public int Size { get; set; } = size;
 
     [JsonPropertyName("totalSize")]
-    public int TotalSize { get; set; }
+    public int TotalSize { get; set; } = totalSize;
 
     [JsonPropertyName("url")]
-    public string URL { get; set; }
-
-    public MCAssetIndex(string id, string sha1, int size, int totalSize, string url)
-    {
-        ID = id;
-        SHA1 = sha1;
-        Size = size;
-        TotalSize = totalSize;
-        URL = url;
-    }
+    public string URL { get; set; } = url;
 }

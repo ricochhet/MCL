@@ -2,14 +2,9 @@ using MCL.Core.Helpers;
 
 namespace MCL.Core.Models.Launcher;
 
-public class MCLauncherUsername
+public class MCLauncherUsername(string username)
 {
-    public string Username { get; set; }
-
-    public MCLauncherUsername(string username)
-    {
-        Username = username;
-    }
+    public string Username { get; set; } = username;
 
     public string ValidateUsername(int length = 16)
     {

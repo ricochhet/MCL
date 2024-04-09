@@ -2,21 +2,14 @@ using System.Text.Json.Serialization;
 
 namespace MCL.Core.Models.MinecraftFabric;
 
-public class MCFabricIntermediary
+public class MCFabricIntermediary(string maven, string version, bool stable)
 {
     [JsonPropertyName("maven")]
-    public string Maven { get; set; }
+    public string Maven { get; set; } = maven;
 
     [JsonPropertyName("version")]
-    public string Version { get; set; }
+    public string Version { get; set; } = version;
 
     [JsonPropertyName("stable")]
-    public bool Stable { get; set; }
-
-    public MCFabricIntermediary(string maven, string version, bool stable)
-    {
-        Maven = maven;
-        Version = version;
-        Stable = stable;
-    }
+    public bool Stable { get; set; } = stable;
 }
