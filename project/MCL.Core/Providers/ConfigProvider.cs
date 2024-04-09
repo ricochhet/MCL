@@ -33,7 +33,8 @@ public static class ConfigProvider
                     FabricUrls = new(),
                     MinecraftArgs = new(),
                     FabricArgs = new(),
-                    JavaConfig = new()
+                    JavaConfig = new(),
+                    ModConfig = new()
                 };
 
             JsonSerializerOptions options = new() { WriteIndented = true };
