@@ -2,14 +2,13 @@ using System.Collections.Generic;
 
 namespace MCL.Core.Models.Services;
 
-public class Translation
+public class Localization
 {
     public Dictionary<string, string> Entries { get; set; }
 
-    public Translation()
+    public Localization()
     {
         Entries ??= [];
-        Entries.Add("translation.en", "English");
-        Entries.Add("translation.cn", "Chinese");
+        Entries.Add("localization.service", "localization.service");
     }
 }

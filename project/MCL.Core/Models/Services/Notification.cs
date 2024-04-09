@@ -16,6 +16,6 @@ public class Notification
         CurrentDateTime = DateTime.Now;
         LogLevel = _logLevel;
         ID = _ID;
-        Message = TranslationService.Translate(ID);
+        Message = LocalizationService.Translate(ID);
     }
 }

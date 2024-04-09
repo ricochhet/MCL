@@ -46,7 +46,7 @@ internal class Program
             new(
                 path: "./.minecraft",
                 fabricInstallerPath: "./.minecraft-fabric",
-                languageTranslationPath: "./.language"
+                languageLocalizationPath: "./.language"
             );
         MCLauncherVersion launcherVersion =
             new(
@@ -65,7 +65,7 @@ internal class Program
                 JavaRuntimePlatformEnum.WINDOWSX64
             );
 
-        TranslationService.InitService(launcherPath, LanguageEnum.ENGLISH, true);
+        LocalizationService.Init(launcherPath, LanguageEnum.ENGLISH, true);
 
         if (args.Length <= 0)
             return;

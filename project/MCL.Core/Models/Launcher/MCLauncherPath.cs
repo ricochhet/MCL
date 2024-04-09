@@ -1,10 +1,10 @@
 namespace MCL.Core.Models.Launcher;
 
-public class MCLauncherPath(string path, string fabricInstallerPath, string languageTranslationPath)
+public class MCLauncherPath(string path, string fabricInstallerPath, string languageLocalizationPath)
 {
     public string Path { get; set; } = path;
     public string FabricInstallerPath { get; set; } = fabricInstallerPath;
-    public string LanguageTranslationPath { get; set; } = languageTranslationPath;
+    public string LanguageLocalizationPath { get; set; } = languageLocalizationPath;
 
     public static bool Exists(MCLauncherPath launcherPath)
     {
