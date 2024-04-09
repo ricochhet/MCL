@@ -7,19 +7,9 @@ namespace MCL.Core.Resolvers.Minecraft;
 
 public static class MinecraftPathResolver
 {
-    public static string ClientLibrary(MCLauncherVersion launcherVersion)
-    {
-        return VFS.Combine("versions", launcherVersion.Version, $"{launcherVersion.Version}.jar").Replace("\\", "/");
-    }
-
-    public static string Libraries(MCLauncherVersion launcherVersion)
-    {
-        return VFS.Combine("versions", launcherVersion.Version, $"{launcherVersion.Version}-natives")
-            .Replace("\\", "/");
-    }
-
     public static int AssetIndexId(MCLauncherPath launcherPath)
     {
+        // TODO: Refactor to get index by version.
         string[] fileName = VFS.GetFiles(
             VFS.Combine(AssetsPath(launcherPath), "indexes"),
             "*.json",
@@ -32,73 +22,48 @@ public static class MinecraftPathResolver
         return -1;
     }
 
-    public static string AssetsPath(MCLauncherPath launcherPath)
-    {
-        return VFS.Combine(launcherPath.Path, "assets");
-    }
+    public static string ClientLibrary(MCLauncherVersion launcherVersion) =>
+        VFS.Combine("versions", launcherVersion.Version, $"{launcherVersion.Version}.jar").Replace("\\", "/");
 
-    public static string LibraryPath(MCLauncherPath launcherPath)
-    {
-        return VFS.Combine(launcherPath.Path, "libraries");
-    }
+    public static string Libraries(MCLauncherVersion launcherVersion) =>
+        VFS.Combine("versions", launcherVersion.Version, $"{launcherVersion.Version}-natives").Replace("\\", "/");
 
-    public static string ServerPath(MCLauncherPath launcherPath)
-    {
-        return VFS.Combine(launcherPath.Path, "server");
-    }
+    public static string AssetsPath(MCLauncherPath launcherPath) => VFS.Combine(launcherPath.Path, "assets");
 
-    public static string VersionPath(MCLauncherPath launcherPath, MCVersionDetails versionDetails)
-    {
-        return VFS.Combine(launcherPath.Path, "versions", versionDetails.ID);
-    }
+    public static string LibraryPath(MCLauncherPath launcherPath) => VFS.Combine(launcherPath.Path, "libraries");
 
-    public static string ClientJarPath(MCLauncherPath launcherPath, MCVersionDetails versionDetails)
-    {
-        return VFS.Combine(VersionPath(launcherPath, versionDetails), versionDetails.ID + ".jar");
-    }
+    public static string ServerPath(MCLauncherPath launcherPath) => VFS.Combine(launcherPath.Path, "server");
 
-    public static string ClientMappingsPath(MCLauncherPath launcherPath, MCVersionDetails versionDetails)
-    {
-        return VFS.Combine(VersionPath(launcherPath, versionDetails), "client.txt");
-    }
+    public static string VersionPath(MCLauncherPath launcherPath, MCVersionDetails versionDetails) =>
+        VFS.Combine(launcherPath.Path, "versions", versionDetails.ID);
 
-    public static string ClientIndexPath(MCLauncherPath launcherPath, MCVersionDetails versionDetails)
-    {
-        return VFS.Combine(AssetsPath(launcherPath), "indexes", versionDetails.Assets + ".json");
-    }
+    public static string ClientJarPath(MCLauncherPath launcherPath, MCVersionDetails versionDetails) =>
+        VFS.Combine(VersionPath(launcherPath, versionDetails), versionDetails.ID + ".jar");
 
-    public static string LoggingPath(MCLauncherPath launcherPath, MCVersionDetails versionDetails)
-    {
-        return VFS.Combine(VersionPath(launcherPath, versionDetails), "client.xml");
-    }
+    public static string ClientMappingsPath(MCLauncherPath launcherPath, MCVersionDetails versionDetails) =>
+        VFS.Combine(VersionPath(launcherPath, versionDetails), "client.txt");
 
-    public static string ServerJarPath(MCLauncherPath launcherPath, MCVersionDetails versionDetails)
-    {
-        return VFS.Combine(ServerPath(launcherPath), $"minecraft_server.{versionDetails.ID}.jar");
-    }
+    public static string ClientIndexPath(MCLauncherPath launcherPath, MCVersionDetails versionDetails) =>
+        VFS.Combine(AssetsPath(launcherPath), "indexes", versionDetails.Assets + ".json");
 
-    public static string ServerMappingsPath(MCLauncherPath launcherPath, MCVersionDetails versionDetails)
-    {
-        return VFS.Combine(ServerPath(launcherPath), $"minecraft_server.{versionDetails.ID}.txt");
-    }
+    public static string LoggingPath(MCLauncherPath launcherPath, MCVersionDetails versionDetails) =>
+        VFS.Combine(VersionPath(launcherPath, versionDetails), "client.xml");
 
-    public static string ServerEulaPath(MCLauncherPath launcherPath)
-    {
-        return VFS.Combine(ServerPath(launcherPath), "server.properties");
-    }
+    public static string ServerJarPath(MCLauncherPath launcherPath, MCVersionDetails versionDetails) =>
+        VFS.Combine(ServerPath(launcherPath), $"minecraft_server.{versionDetails.ID}.jar");
 
-    public static string ServerPropertiesPath(MCLauncherPath launcherPath)
-    {
-        return VFS.Combine(ServerPath(launcherPath), "server.properties");
-    }
+    public static string ServerMappingsPath(MCLauncherPath launcherPath, MCVersionDetails versionDetails) =>
+        VFS.Combine(ServerPath(launcherPath), $"minecraft_server.{versionDetails.ID}.txt");
 
-    public static string DownloadedVersionManifestPath(MCLauncherPath launcherPath)
-    {
-        return VFS.Combine(launcherPath.Path, "version_manifest.json");
-    }
+    public static string ServerEulaPath(MCLauncherPath launcherPath) =>
+        VFS.Combine(ServerPath(launcherPath), "server.properties");
 
-    public static string DownloadedVersionDetailsPath(MCLauncherPath launcherPath, MCVersion version)
-    {
-        return VFS.Combine(launcherPath.Path, "versions", version.ID + ".json");
-    }
+    public static string ServerPropertiesPath(MCLauncherPath launcherPath) =>
+        VFS.Combine(ServerPath(launcherPath), "server.properties");
+
+    public static string DownloadedVersionManifestPath(MCLauncherPath launcherPath) =>
+        VFS.Combine(launcherPath.Path, "version_manifest.json");
+
+    public static string DownloadedVersionDetailsPath(MCLauncherPath launcherPath, MCVersion version) =>
+        VFS.Combine(launcherPath.Path, "versions", version.ID + ".json");
 }
