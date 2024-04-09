@@ -1,3 +1,5 @@
+using System.Data;
+using System.IO;
 using MCL.Core.Enums;
 using MCL.Core.Enums.Java;
 using MCL.Core.MiniCommon;
@@ -9,28 +11,6 @@ namespace MCL.Core.Helpers.Java;
 
 public static class JavaLaunchHelper
 {
-    public static void Launch(JvmArguments jvmArguments, string workingDirectory)
-    {
-        ProcessHelper.RunProcess("java", jvmArguments.Build(), workingDirectory, false);
-    }
-
-    public static void Launch(JvmArguments jvmArguments, string workingDirectory, JavaRuntimeTypeEnum javaRuntimeType)
-    {
-        string javaBin = VFS.Combine(
-            workingDirectory,
-            "runtime",
-            JavaRuntimeTypeEnumResolver.ToString(javaRuntimeType),
-            "bin"
-        );
-        ProcessHelper.RunProcess(
-            VFS.Combine(javaBin, "java.exe"),
-            jvmArguments.Build(),
-            workingDirectory,
-            false,
-            new() { { "JAVA_HOME", javaBin } }
-        );
-    }
-
     public static void Launch(
         Config config,
         string workingDirectory,
@@ -54,22 +34,22 @@ public static class JavaLaunchHelper
                 if (!JvmArgumentsExist(config, config.MinecraftArgs))
                     return;
                 ProcessHelper.RunProcess(
-                    VFS.Combine(javaBin, "java.exe"),
+                    VFS.Combine(javaBin, config.JavaConfig.JavaExecutable),
                     config.MinecraftArgs.Build(),
                     workingDirectory,
                     false,
-                    new() { { "JAVA_HOME", javaBin } }
+                    new() { { config.JavaConfig.JavaHomeEnvironmentVariable, javaBin } }
                 );
                 break;
             case ClientTypeEnum.FABRIC:
                 if (!JvmArgumentsExist(config, config.FabricArgs))
                     return;
                 ProcessHelper.RunProcess(
-                    VFS.Combine(javaBin, "java.exe"),
+                    VFS.Combine(javaBin, config.JavaConfig.JavaExecutable),
                     config.FabricArgs.Build(),
                     workingDirectory,
                     false,
-                    new() { { "JAVA_HOME", javaBin } }
+                    new() { { config.JavaConfig.JavaHomeEnvironmentVariable, javaBin } }
                 );
                 break;
         }

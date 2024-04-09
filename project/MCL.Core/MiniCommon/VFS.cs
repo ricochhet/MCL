@@ -102,6 +102,15 @@ public static class VFS
     }
 
     /// <summary>
+    /// Get file name without extension of a filepath.
+    /// </summary>
+    public static string GetFileNameWithoutExtension(this string filepath)
+    {
+        string value = Path.GetFileNameWithoutExtension(filepath);
+        return (!string.IsNullOrWhiteSpace(value)) ? value : "";
+    }
+
+    /// <summary>
     /// Move file from one place to another
     /// </summary>
     public static void MoveFile(string a, string b)

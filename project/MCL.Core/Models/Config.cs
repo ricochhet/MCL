@@ -10,6 +10,7 @@ public class Config
     public MCFabricConfigUrls FabricUrls { get; set; }
     public JvmArguments MinecraftArgs { get; set; }
     public JvmArguments FabricArgs { get; set; }
+    public JavaConfig JavaConfig { get; set; }
 
     public Config() { }
 
@@ -17,12 +18,14 @@ public class Config
         MCConfigUrls minecraftUrls,
         MCFabricConfigUrls fabricUrls,
         JvmArguments minecraftArgs,
-        JvmArguments fabricArgs
+        JvmArguments fabricArgs,
+        JavaConfig javaConfig
     )
     {
         MinecraftUrls = minecraftUrls;
         FabricUrls = fabricUrls;
         MinecraftArgs = minecraftArgs;
         FabricArgs = fabricArgs;
+        JavaConfig = javaConfig;
     }
 }
