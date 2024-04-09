@@ -7,21 +7,6 @@ namespace MCL.Core.Resolvers.Minecraft;
 
 public static class MinecraftPathResolver
 {
-    public static int AssetIndexId(MCLauncherPath launcherPath)
-    {
-        // TODO: Refactor to get index by version.
-        string[] fileName = VFS.GetFiles(
-            VFS.Combine(AssetsPath(launcherPath), "indexes"),
-            "*.json",
-            SearchOption.AllDirectories,
-            false
-        );
-        bool success = int.TryParse(fileName[0], out int id);
-        if (success)
-            return id;
-        return -1;
-    }
-
     public static string ClientLibrary(MCLauncherVersion launcherVersion) =>
         VFS.Combine("versions", launcherVersion.Version, $"{launcherVersion.Version}.jar").Replace("\\", "/");
 

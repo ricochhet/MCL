@@ -39,6 +39,12 @@ public static class JavaVersionHelper
 
         if (versionDetails == null)
             return fallback;
-        return GenericEnumParser.Parse(versionDetails?.JavaVersion?.Component, JavaRuntimeTypeEnum.JAVA_RUNTIME_GAMMA);
+
+        if (versionDetails.JavaVersion == null)
+            return fallback;
+
+        if (string.IsNullOrWhiteSpace(versionDetails.JavaVersion.Component))
+            return fallback;
+        return GenericEnumParser.Parse(versionDetails.JavaVersion.Component, JavaRuntimeTypeEnum.JAVA_RUNTIME_GAMMA);
     }
 }

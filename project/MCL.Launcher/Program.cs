@@ -174,7 +174,7 @@ internal class Program
                 jvmArguments.Add(
                     new LaunchArg(
                         "--assetIndex {0}",
-                        [MinecraftPathResolver.AssetIndexId(launcher.MCLauncherPath).ToString()]
+                        [AssetHelper.GetAssetId(launcher.MCLauncherPath, launcher.MCLauncherVersion)]
                     )
                 );
                 jvmArguments.Add(new LaunchArg("--assetsDir {0}", ["assets"]));
