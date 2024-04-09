@@ -3,9 +3,10 @@ TODO tasks are in order from top-to-bottom, most-to-least important.
 
 Tasks marked with (*) are easier to do.
 
+- [ ] Refactor code to utilize VFS common library with applicable functions.
 - [x] Evaluate error handling of objects and null-reference handling.
     - [ ] Add logging to error handles.
-- [ ] Implement log information object.
+- [x] Implement log information object.
     - This provides more consistent logging and client frontend logging.
 - [x] Evaluate configuration properties and architecture.
     - This includes unifying property names.
