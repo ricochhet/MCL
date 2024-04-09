@@ -37,10 +37,10 @@ public class JavaRuntimeDownloader : IJavaRuntimeDownloader
                 if (javaRuntimeFile.Downloads.Raw == null)
                     return false;
 
-                if (string.IsNullOrEmpty(javaRuntimeFile.Downloads.Raw.URL))
+                if (string.IsNullOrWhiteSpace(javaRuntimeFile.Downloads.Raw.URL))
                     return false;
 
-                if (string.IsNullOrEmpty(javaRuntimeFile.Downloads.Raw.SHA1))
+                if (string.IsNullOrWhiteSpace(javaRuntimeFile.Downloads.Raw.SHA1))
                     return false;
 
                 if (

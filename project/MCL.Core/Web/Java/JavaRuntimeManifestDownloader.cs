@@ -45,7 +45,7 @@ public class JavaRuntimeManifestDownloader : IJavaRuntimeManifestDownloader
                 ),
         };
 
-        if (string.IsNullOrEmpty(url))
+        if (string.IsNullOrWhiteSpace(url))
             return false;
 
         string javaRuntimeManifest = await Request.DoRequest(
@@ -56,7 +56,7 @@ public class JavaRuntimeManifestDownloader : IJavaRuntimeManifestDownloader
             ),
             Encoding.UTF8
         );
-        if (string.IsNullOrEmpty(javaRuntimeManifest))
+        if (string.IsNullOrWhiteSpace(javaRuntimeManifest))
             return false;
         return true;
     }
@@ -144,7 +144,7 @@ public class JavaRuntimeManifestDownloader : IJavaRuntimeManifestDownloader
         if (javaRuntimeObjects[0].JavaRuntimeManifest == null)
             return false;
 
-        if (string.IsNullOrEmpty(javaRuntimeObjects[0].JavaRuntimeManifest.Url))
+        if (string.IsNullOrWhiteSpace(javaRuntimeObjects[0].JavaRuntimeManifest.Url))
             return false;
 
         return true;

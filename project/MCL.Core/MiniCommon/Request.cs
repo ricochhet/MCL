@@ -21,7 +21,7 @@ public static class Request
                 string stringData = await response.Content.ReadAsStringAsync();
                 LogBase.Info($"Requesting data from URL:\n{url}");
 
-                if (string.IsNullOrEmpty(stringData))
+                if (string.IsNullOrWhiteSpace(stringData))
                     return default;
 
                 string existingSha1 = CryptographyHelper.Sha1(fileName, true);

@@ -20,7 +20,7 @@ public class FabricIndexDownloader : IFabricIndexDownloader
 
         string downloadPath = MinecraftFabricPathResolver.DownloadedFabricIndexPath(launcherPath);
         string fabricIndex = await Request.DoRequest(fabricConfigUrls.FabricVersionsIndex, downloadPath, Encoding.UTF8);
-        if (string.IsNullOrEmpty(fabricIndex))
+        if (string.IsNullOrWhiteSpace(fabricIndex))
             return false;
         return true;
     }
@@ -30,7 +30,7 @@ public class FabricIndexDownloader : IFabricIndexDownloader
         if (fabricConfigUrls == null)
             return false;
 
-        if (string.IsNullOrEmpty(fabricConfigUrls.FabricVersionsIndex))
+        if (string.IsNullOrWhiteSpace(fabricConfigUrls.FabricVersionsIndex))
             return false;
 
         return true;

@@ -20,7 +20,7 @@ public class VersionManifestDownloader : IMCVersionManifestDownloader
 
         string downloadPath = MinecraftPathResolver.DownloadedVersionManifestPath(launcherPath);
         string versionManifest = await Request.DoRequest(configUrls.VersionManifest, downloadPath, Encoding.UTF8);
-        if (string.IsNullOrEmpty(versionManifest))
+        if (string.IsNullOrWhiteSpace(versionManifest))
             return false;
         return true;
     }
@@ -30,7 +30,7 @@ public class VersionManifestDownloader : IMCVersionManifestDownloader
         if (configUrls == null)
             return false;
 
-        if (string.IsNullOrEmpty(configUrls.VersionManifest))
+        if (string.IsNullOrWhiteSpace(configUrls.VersionManifest))
             return false;
 
         return true;

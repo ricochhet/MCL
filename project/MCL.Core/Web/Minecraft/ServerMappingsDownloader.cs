@@ -35,10 +35,10 @@ public class ServerMappingsDownloader : IMCGenericDownloader
         if (versionDetails.Downloads.ServerMappings == null)
             return false;
 
-        if (string.IsNullOrEmpty(versionDetails.Downloads.ServerMappings.SHA1))
+        if (string.IsNullOrWhiteSpace(versionDetails.Downloads.ServerMappings.SHA1))
             return false;
 
-        if (string.IsNullOrEmpty(versionDetails.Downloads.ServerMappings.URL))
+        if (string.IsNullOrWhiteSpace(versionDetails.Downloads.ServerMappings.URL))
             return false;
 
         return true;

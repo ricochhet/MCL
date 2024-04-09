@@ -35,10 +35,10 @@ public class ClientMappingsDownloader : IMCGenericDownloader
         if (versionDetails.Downloads.ClientMappings == null)
             return false;
 
-        if (string.IsNullOrEmpty(versionDetails.Downloads.ClientMappings.SHA1))
+        if (string.IsNullOrWhiteSpace(versionDetails.Downloads.ClientMappings.SHA1))
             return false;
 
-        if (string.IsNullOrEmpty(versionDetails.Downloads.ClientMappings.URL))
+        if (string.IsNullOrWhiteSpace(versionDetails.Downloads.ClientMappings.URL))
             return false;
 
         return true;

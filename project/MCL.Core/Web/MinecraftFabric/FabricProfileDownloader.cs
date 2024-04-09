@@ -30,7 +30,7 @@ public class FabricProfileDownloader : IFabricProfileDownloader
             MinecraftFabricPathResolver.DownloadedFabricProfilePath(launcherPath, launcherVersion),
             Encoding.UTF8
         );
-        if (string.IsNullOrEmpty(fabricProfile))
+        if (string.IsNullOrWhiteSpace(fabricProfile))
             return false;
         return true;
     }
@@ -40,7 +40,7 @@ public class FabricProfileDownloader : IFabricProfileDownloader
         if (fabricConfigUrls == null)
             return false;
 
-        if (string.IsNullOrEmpty(fabricConfigUrls.FabricLoaderProfileUrl))
+        if (string.IsNullOrWhiteSpace(fabricConfigUrls.FabricLoaderProfileUrl))
             return false;
 
         return true;

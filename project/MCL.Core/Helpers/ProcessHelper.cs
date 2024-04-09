@@ -41,7 +41,7 @@ public static class ProcessHelper
             {
                 process.OutputDataReceived += (sender, e) =>
                 {
-                    if (!string.IsNullOrEmpty(e.Data))
+                    if (!string.IsNullOrWhiteSpace(e.Data))
                     {
                         LogBase.Info(e.Data);
                     }

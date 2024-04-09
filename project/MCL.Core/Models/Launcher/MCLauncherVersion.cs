@@ -17,16 +17,16 @@ public class MCLauncherVersion(
         if (launcherVersion == null)
             return false;
 
-        if (string.IsNullOrEmpty(launcherVersion.Version))
+        if (string.IsNullOrWhiteSpace(launcherVersion.Version))
             return false;
 
-        if (string.IsNullOrEmpty(launcherVersion.VersionType))
+        if (string.IsNullOrWhiteSpace(launcherVersion.VersionType))
             return false;
 
-        if (string.IsNullOrEmpty(launcherVersion.FabricInstallerVersion))
+        if (string.IsNullOrWhiteSpace(launcherVersion.FabricInstallerVersion))
             return false;
 
-        if (string.IsNullOrEmpty(launcherVersion.FabricLoaderVersion))
+        if (string.IsNullOrWhiteSpace(launcherVersion.FabricLoaderVersion))
             return false;
 
         return true;

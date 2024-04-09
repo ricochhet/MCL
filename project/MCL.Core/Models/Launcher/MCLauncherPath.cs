@@ -11,10 +11,10 @@ public class MCLauncherPath(string path, string fabricInstallerPath, string lang
         if (launcherPath == null)
             return false;
 
-        if (string.IsNullOrEmpty(launcherPath.Path))
+        if (string.IsNullOrWhiteSpace(launcherPath.Path))
             return false;
 
-        if (string.IsNullOrEmpty(launcherPath.FabricInstallerPath))
+        if (string.IsNullOrWhiteSpace(launcherPath.FabricInstallerPath))
             return false;
 
         return true;

@@ -39,10 +39,10 @@ public class ServerDownloader : IMCGenericDownloader
         if (versionDetails.Downloads.Server == null)
             return false;
 
-        if (string.IsNullOrEmpty(versionDetails.Downloads.Server.SHA1))
+        if (string.IsNullOrWhiteSpace(versionDetails.Downloads.Server.SHA1))
             return false;
 
-        if (string.IsNullOrEmpty(versionDetails.Downloads.Server.URL))
+        if (string.IsNullOrWhiteSpace(versionDetails.Downloads.Server.URL))
             return false;
 
         return true;

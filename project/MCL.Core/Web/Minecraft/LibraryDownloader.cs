@@ -51,13 +51,13 @@ public class LibraryDownloader : IMCLibraryDownloader
         if (lib.Downloads.Artifact == null)
             return false;
 
-        if (string.IsNullOrEmpty(lib.Downloads.Artifact.Path))
+        if (string.IsNullOrWhiteSpace(lib.Downloads.Artifact.Path))
             return false;
 
-        if (string.IsNullOrEmpty(lib.Downloads.Artifact.URL))
+        if (string.IsNullOrWhiteSpace(lib.Downloads.Artifact.URL))
             return false;
 
-        if (string.IsNullOrEmpty(lib.Downloads.Artifact.SHA1))
+        if (string.IsNullOrWhiteSpace(lib.Downloads.Artifact.SHA1))
             return false;
 
         return true;
@@ -150,10 +150,10 @@ public class LibraryDownloader : IMCLibraryDownloader
         if (lib.Downloads.Classifiers.NativesWindows == null)
             return false;
 
-        if (string.IsNullOrEmpty(lib.Downloads.Classifiers.NativesWindows.URL))
+        if (string.IsNullOrWhiteSpace(lib.Downloads.Classifiers.NativesWindows.URL))
             return false;
 
-        if (string.IsNullOrEmpty(lib.Downloads.Classifiers.NativesWindows.SHA1))
+        if (string.IsNullOrWhiteSpace(lib.Downloads.Classifiers.NativesWindows.SHA1))
             return false;
 
         return true;
@@ -164,10 +164,10 @@ public class LibraryDownloader : IMCLibraryDownloader
         if (lib.Downloads.Classifiers.NativesLinux == null)
             return false;
 
-        if (string.IsNullOrEmpty(lib.Downloads.Classifiers.NativesLinux.URL))
+        if (string.IsNullOrWhiteSpace(lib.Downloads.Classifiers.NativesLinux.URL))
             return false;
 
-        if (string.IsNullOrEmpty(lib.Downloads.Classifiers.NativesLinux.SHA1))
+        if (string.IsNullOrWhiteSpace(lib.Downloads.Classifiers.NativesLinux.SHA1))
             return false;
 
         return true;
@@ -178,10 +178,10 @@ public class LibraryDownloader : IMCLibraryDownloader
         if (lib.Downloads.Classifiers.NativesMacos == null)
             return false;
 
-        if (string.IsNullOrEmpty(lib.Downloads.Classifiers.NativesMacos.URL))
+        if (string.IsNullOrWhiteSpace(lib.Downloads.Classifiers.NativesMacos.URL))
             return false;
 
-        if (string.IsNullOrEmpty(lib.Downloads.Classifiers.NativesMacos.SHA1))
+        if (string.IsNullOrWhiteSpace(lib.Downloads.Classifiers.NativesMacos.SHA1))
             return false;
 
         return true;

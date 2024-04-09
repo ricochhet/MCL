@@ -20,7 +20,7 @@ public class JavaRuntimeIndexDownloader : IJavaRuntimeIndexDownloader
 
         string downloadPath = JavaPathResolver.DownloadedJavaRuntimeIndexPath(launcherPath);
         string javaRuntimeIndex = await Request.DoRequest(configUrls.JavaRuntimeIndexUrl, downloadPath, Encoding.UTF8);
-        if (string.IsNullOrEmpty(javaRuntimeIndex))
+        if (string.IsNullOrWhiteSpace(javaRuntimeIndex))
             return false;
         return true;
     }
@@ -30,7 +30,7 @@ public class JavaRuntimeIndexDownloader : IJavaRuntimeIndexDownloader
         if (configUrls == null)
             return false;
 
-        if (string.IsNullOrEmpty(configUrls.JavaRuntimeIndexUrl))
+        if (string.IsNullOrWhiteSpace(configUrls.JavaRuntimeIndexUrl))
             return false;
 
         return true;

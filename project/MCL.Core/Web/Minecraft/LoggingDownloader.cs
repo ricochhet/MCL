@@ -38,10 +38,10 @@ public class LoggingDownloader : IMCGenericDownloader
         if (versionDetails.Logging.Client.File == null)
             return false;
 
-        if (string.IsNullOrEmpty(versionDetails.Logging.Client.File.SHA1))
+        if (string.IsNullOrWhiteSpace(versionDetails.Logging.Client.File.SHA1))
             return false;
 
-        if (string.IsNullOrEmpty(versionDetails.Logging.Client.File.URL))
+        if (string.IsNullOrWhiteSpace(versionDetails.Logging.Client.File.URL))
             return false;
 
         return true;

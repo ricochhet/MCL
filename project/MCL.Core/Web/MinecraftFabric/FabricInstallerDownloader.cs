@@ -36,10 +36,10 @@ public class FabricInstallerDownloader : IFabricInstallerDownloader
         if (fabricInstaller == null)
             return false;
 
-        if (string.IsNullOrEmpty(fabricInstaller.URL))
+        if (string.IsNullOrWhiteSpace(fabricInstaller.URL))
             return false;
 
-        if (string.IsNullOrEmpty(fabricInstaller.Version))
+        if (string.IsNullOrWhiteSpace(fabricInstaller.Version))
             return false;
 
         return true;

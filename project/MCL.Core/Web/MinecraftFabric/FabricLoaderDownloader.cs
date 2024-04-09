@@ -26,10 +26,10 @@ public class FabricLoaderDownloader : IFabricLoaderDownloader
 
         foreach (MCFabricLibrary library in fabricProfile.Libraries)
         {
-            if (string.IsNullOrEmpty(library.Name))
+            if (string.IsNullOrWhiteSpace(library.Name))
                 return false;
 
-            if (string.IsNullOrEmpty(library.URL))
+            if (string.IsNullOrWhiteSpace(library.URL))
                 return false;
 
             string url;
@@ -46,7 +46,7 @@ public class FabricLoaderDownloader : IFabricLoaderDownloader
             }
             else
             {
-                if (string.IsNullOrEmpty(library.SHA1))
+                if (string.IsNullOrWhiteSpace(library.SHA1))
                     return false;
                 url = MCFabricLibrary.ParseURL(library.Name, library.URL);
                 sha1 = library.SHA1;
@@ -73,7 +73,7 @@ public class FabricLoaderDownloader : IFabricLoaderDownloader
         if (fabricConfigUrls == null)
             return false;
 
-        if (string.IsNullOrEmpty(fabricConfigUrls.FabricLoaderJarUrl))
+        if (string.IsNullOrWhiteSpace(fabricConfigUrls.FabricLoaderJarUrl))
             return false;
 
         if (fabricProfile == null)

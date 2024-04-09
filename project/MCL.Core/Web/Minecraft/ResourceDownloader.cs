@@ -24,7 +24,7 @@ public class ResourceDownloader : IMCResourceDownloader
             if (asset == null)
                 continue;
 
-            if (string.IsNullOrEmpty(asset.Hash))
+            if (string.IsNullOrWhiteSpace(asset.Hash))
                 return false;
 
             string url = $"{configUrls.MinecraftResources}/{asset.Hash[..2]}/{asset.Hash}";
@@ -47,7 +47,7 @@ public class ResourceDownloader : IMCResourceDownloader
         if (configUrls == null)
             return false;
 
-        if (string.IsNullOrEmpty(configUrls.MinecraftResources))
+        if (string.IsNullOrWhiteSpace(configUrls.MinecraftResources))
             return false;
 
         return true;

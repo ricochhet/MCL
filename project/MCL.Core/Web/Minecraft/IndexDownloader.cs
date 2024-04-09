@@ -32,10 +32,10 @@ public class IndexDownloader : IMCGenericDownloader
         if (versionDetails.AssetIndex == null)
             return false;
 
-        if (string.IsNullOrEmpty(versionDetails.AssetIndex.SHA1))
+        if (string.IsNullOrWhiteSpace(versionDetails.AssetIndex.SHA1))
             return false;
 
-        if (string.IsNullOrEmpty(versionDetails.AssetIndex.URL))
+        if (string.IsNullOrWhiteSpace(versionDetails.AssetIndex.URL))
             return false;
 
         return true;

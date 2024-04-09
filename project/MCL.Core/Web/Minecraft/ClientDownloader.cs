@@ -35,10 +35,10 @@ public class ClientDownloader : IMCGenericDownloader
         if (versionDetails.Downloads.Client == null)
             return false;
 
-        if (string.IsNullOrEmpty(versionDetails.Downloads.Client.SHA1))
+        if (string.IsNullOrWhiteSpace(versionDetails.Downloads.Client.SHA1))
             return false;
 
-        if (string.IsNullOrEmpty(versionDetails.Downloads.Client.URL))
+        if (string.IsNullOrWhiteSpace(versionDetails.Downloads.Client.URL))
             return false;
 
         return true;
