@@ -1,8 +1,13 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.Encodings.Web;
+using MCL.Core.Enums.Services;
 using MCL.Core.Helpers;
+using MCL.Core.Logger;
 using MCL.Core.MiniCommon;
+using MCL.Core.Models;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Models.Services;
 using MCL.Core.Resolvers.Modding;
@@ -22,6 +27,8 @@ public static class ModdingService
     {
         LauncherPath = launcherPath;
         ModConfig = modConfig;
+        if (!VFS.Exists(LauncherPath.ModPath))
+            VFS.CreateDirectory(launcherPath.ModPath);
     }
 
     public static void Save(string modStoreName)
@@ -29,38 +36,73 @@ public static class ModdingService
         if (!VFS.Exists(ModPathResolver.ModPath(LauncherPath, modStoreName)))
             return;
 
-        string[] mods = VFS.GetFiles(
+        string[] modFilePaths = VFS.GetFiles(
             ModPathResolver.ModPath(LauncherPath, modStoreName),
             "*",
             SearchOption.TopDirectoryOnly
         );
-        if (mods.Length <= 0)
+        if (modFilePaths.Length <= 0)
             return;
 
-        string[] filteredMods = mods.Where(file => ModConfig.FileTypes.Any(file.ToLower().EndsWith)).ToArray();
-        if (filteredMods.Length <= 0)
+        string[] filteredModFilePaths = modFilePaths
+            .Where(file => ModConfig.FileTypes.Any(file.ToLower().EndsWith))
+            .ToArray();
+        if (filteredModFilePaths.Length <= 0)
             return;
 
         ModFiles modFiles = new();
-        foreach (string mod in filteredMods)
+        foreach (string modFilePath in filteredModFilePaths)
         {
-            modFiles.Files.Add(new ModFile(mod, CryptographyHelper.Sha1(mod, true)));
+            if (ModConfig.CopyOnlyTypes.Contains(VFS.GetFileExtension(modFilePath)))
+                modFiles.Files.Add(
+                    new ModFile(modFilePath, CryptographyHelper.Sha1(modFilePath, true), ModRuleEnum.COPY_ONLY)
+                );
+            else if (ModConfig.UnzipAndCopyTypes.Contains(VFS.GetFileExtension(modFilePath)))
+                modFiles.Files.Add(
+                    new ModFile(modFilePath, CryptographyHelper.Sha1(modFilePath, true), ModRuleEnum.UNZIP_AND_COPY)
+                );
         }
         string filepath = ModPathResolver.ModStorePath(LauncherPath, modStoreName);
-        if (!VFS.Exists(filepath))
-            Json.Save(filepath, modFiles);
+        if (!ModConfig.IsStoreRegistered(modStoreName))
+            ModConfig.RegisteredStores.Add(modStoreName);
+        Json.Save(filepath, modFiles, new() { WriteIndented = true, Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping  });
     }
 
     public static ModFiles Load(string modStoreName)
     {
-        if (VFS.Exists(ModPathResolver.ModStorePath(LauncherPath, modStoreName)))
+        if (
+            VFS.Exists(ModPathResolver.ModStorePath(LauncherPath, modStoreName))
+            && ModConfig.IsStoreRegistered(modStoreName)
+        )
             return Json.Load<ModFiles>(ModPathResolver.ModStorePath(LauncherPath, modStoreName));
         return default;
     }
 
     public static void Delete(string modStoreName)
     {
-        if (VFS.Exists(ModPathResolver.ModStorePath(LauncherPath, modStoreName)))
-            VFS.DeleteFile(ModPathResolver.ModStorePath(LauncherPath, modStoreName));
+        if (!VFS.Exists(ModPathResolver.ModStorePath(LauncherPath, modStoreName)))
+            return;
+
+        ModConfig.RegisteredStores.Remove(modStoreName);
+        VFS.DeleteFile(ModPathResolver.ModStorePath(LauncherPath, modStoreName));
+    }
+
+    public static void Deploy(ModFiles modFiles, string deployPath)
+    {
+        if (modFiles?.Files?.Count <= 0)
+            return;
+
+        List<ModFile> sortedModFiles = [.. modFiles.Files.OrderBy(a => a.Priority)];
+        foreach (ModFile modFile in sortedModFiles)
+        {
+            switch (modFile.ModRule)
+            {
+                case ModRuleEnum.COPY_ONLY:
+                    VFS.CopyFile(modFile.ModPath, VFS.Combine(deployPath, VFS.GetFileName(modFile.ModPath)));
+                    break;
+                case ModRuleEnum.UNZIP_AND_COPY:
+                    throw new NotImplementedException();
+            }
+        }
     }
 }

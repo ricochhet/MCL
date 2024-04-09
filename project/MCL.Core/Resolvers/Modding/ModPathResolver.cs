@@ -10,5 +10,5 @@ public static class ModPathResolver
         VFS.Combine(launcherPath.ModPath, modStoreName);
 
     public static string ModStorePath(MCLauncherPath launcherPath, string modStoreName) =>
-        VFS.Combine(launcherPath.ModPath, $"{modStoreName}.json");
+        VFS.Combine(launcherPath.ModPath, $"{modStoreName}.modstore.json");
 }

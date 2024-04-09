@@ -45,6 +45,7 @@ internal class Program
         MCLauncherPath launcherPath =
             new(
                 path: "./.minecraft",
+                modPath: "./.minecraft-mods",
                 fabricInstallerPath: "./.minecraft-fabric",
                 languageLocalizationPath: "./.language"
             );
@@ -66,6 +67,9 @@ internal class Program
             );
 
         LocalizationService.Init(launcherPath, LanguageEnum.ENGLISH, true);
+        ModdingService.Init(launcherPath, config.ModConfig);
+        ModdingService.Save("fabric-mods");
+        ModdingService.Deploy(ModdingService.Load("fabric-mods"), VFS.Combine(launcherPath.Path, "mods"));
 
         if (args.Length <= 0)
             return;

@@ -88,7 +88,7 @@ public static class VFS
     /// </summary>
     public static string GetFileName(this string filepath)
     {
-        string value = Path.GetFileNameWithoutExtension(filepath);
+        string value = Path.GetFileName(filepath);
         return (!string.IsNullOrWhiteSpace(value)) ? value : "";
     }
 
@@ -118,6 +118,22 @@ public static class VFS
         lock (mutex)
         {
             new FileInfo(a).MoveTo(b);
+        }
+    }
+
+    /// <summary>
+    /// Copy file from one place to another
+    /// </summary>
+    public static void CopyFile(string a, string b, bool overwrite = true)
+    {
+        lock (mutex)
+        {
+            if (!Exists(b))
+            {
+                CreateDirectory(b.GetDirectory());
+            }
+
+            File.Copy(a, b, overwrite);
         }
     }
 
@@ -276,7 +292,7 @@ public static class VFS
     /// <summary>
     /// Delete directory.
     /// </summary>
-    public static void DeleteDirectory(string filepath)
+    public static void DeleteDirectory(string filepath, bool recursive = false)
     {
         lock (mutex)
         {
@@ -293,7 +309,7 @@ public static class VFS
                 DeleteDirectory(directory.FullName);
             }
 
-            di.Delete();
+            di.Delete(recursive);
         }
     }
 
