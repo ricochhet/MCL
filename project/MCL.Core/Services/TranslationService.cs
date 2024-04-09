@@ -9,16 +9,27 @@ namespace MCL.Core.Services;
 
 public static class TranslationService
 {
-    private static Translation translation = new();
+    private static Translation translation;
     private static LanguageEnum language;
 
-    static TranslationService() { }
+    static TranslationService()
+    {
+        translation = new();
+    }
 
-    public static void InitTranslationService(MCLauncherPath launcherPath, LanguageEnum _language)
+    public static void InitService(
+        MCLauncherPath launcherPath,
+        LanguageEnum _language,
+        bool alwaysSaveNewTranslation = false
+    )
     {
         language = _language;
-        if (!VFS.Exists(TranslationPathResolver.LanguageFilePath(launcherPath)))
-            Json.Save(TranslationPathResolver.LanguageFilePath(launcherPath), new Translation());
+        if (!VFS.Exists(TranslationPathResolver.LanguageFilePath(launcherPath)) || alwaysSaveNewTranslation)
+            Json.Save(
+                TranslationPathResolver.LanguageFilePath(launcherPath),
+                new Translation(),
+                new() { WriteIndented = true }
+            );
         translation = Json.Load<Translation>(TranslationPathResolver.LanguageFilePath(launcherPath));
     }
 

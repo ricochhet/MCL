@@ -67,7 +67,7 @@ internal class Program
                 JavaRuntimePlatformEnum.WINDOWSX64
             );
 
-        TranslationService.InitTranslationService(launcherPath, LanguageEnum.CHINESE);
+        TranslationService.InitService(launcherPath, LanguageEnum.ENGLISH, true);
 
         if (args.Length <= 0)
             return;
