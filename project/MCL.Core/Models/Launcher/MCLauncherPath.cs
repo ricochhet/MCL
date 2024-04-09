@@ -4,6 +4,7 @@ public class MCLauncherPath
 {
     public string MCPath { get; set; }
     public string FabricInstallerPath { get; set; }
+    public string LanguageTranslationPath { get; set; }
 
     public static bool Exists(MCLauncherPath launcherPath)
     {

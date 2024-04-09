@@ -202,9 +202,8 @@ public static class VFS
     {
         lock (mutex)
         {
-            IEnumerable<string> enumerable = Directory.EnumerateDirectories(filepath, searchPattern, searchOption);
             List<string> paths = [];
-            foreach (string file in enumerable)
+            foreach (string file in Directory.EnumerateFiles(filepath, searchPattern, searchOption))
             {
                 if (includeExtension)
                     paths.Add(file);

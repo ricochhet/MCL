@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using MCL.Core.Enums;
 using MCL.Core.Enums.Java;
+using MCL.Core.Enums.Services;
 using MCL.Core.Helpers.Java;
 using MCL.Core.Helpers.Minecraft;
 using MCL.Core.Logger;
@@ -15,6 +16,7 @@ using MCL.Core.Providers.Minecraft;
 using MCL.Core.Providers.MinecraftFabric;
 using MCL.Core.Resolvers;
 using MCL.Core.Resolvers.Minecraft;
+using MCL.Core.Services;
 
 namespace MCL.Launcher;
 
@@ -40,7 +42,13 @@ internal class Program
         }
 
         MCLauncherUsername launcherUsername = new() { Username = "Ricochet" };
-        MCLauncherPath launcherPath = new() { MCPath = "./.minecraft", FabricInstallerPath = "./.minecraft-fabric" };
+        MCLauncherPath launcherPath =
+            new()
+            {
+                MCPath = "./.minecraft",
+                FabricInstallerPath = "./.minecraft-fabric",
+                LanguageTranslationPath = "./.language"
+            };
         MCLauncherVersion launcherVersion =
             new()
             {
@@ -58,6 +66,8 @@ internal class Program
                 JavaRuntimeTypeEnum.JAVA_RUNTIME_GAMMA,
                 JavaRuntimePlatformEnum.WINDOWSX64
             );
+
+        TranslationService.InitTranslationService(launcherPath, LanguageEnum.CHINESE);
 
         if (args.Length <= 0)
             return;
