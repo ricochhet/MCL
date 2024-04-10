@@ -36,6 +36,7 @@ public class JavaRuntimeDownloader : IJavaRuntimeDownloader
 
                 if (
                     !await Request.Download(
+                        javaRuntimeFile.Downloads.Raw.URL,
                         VFS.Combine(
                             JavaPathResolver.DownloadedJavaRuntimePath(
                                 launcherPath,
@@ -43,7 +44,6 @@ public class JavaRuntimeDownloader : IJavaRuntimeDownloader
                             ),
                             path
                         ),
-                        javaRuntimeFile.Downloads.Raw.URL,
                         javaRuntimeFile.Downloads.Raw.SHA1
                     )
                 )

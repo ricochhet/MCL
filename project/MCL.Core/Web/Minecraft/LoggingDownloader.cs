@@ -20,8 +20,8 @@ public class LoggingDownloader : IMCGenericDownloader
             return false;
 
         return await Request.Download(
-            MinecraftPathResolver.LoggingPath(launcherPath, versionDetails),
             versionDetails.Logging.Client.File.URL,
+            MinecraftPathResolver.LoggingPath(launcherPath, versionDetails),
             versionDetails.Logging.Client.File.SHA1
         );
     }

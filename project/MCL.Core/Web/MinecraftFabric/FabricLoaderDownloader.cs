@@ -53,11 +53,11 @@ public class FabricLoaderDownloader : IFabricLoaderDownloader
 
             if (
                 !await Request.Download(
+                    url,
                     VFS.Combine(
                         MinecraftPathResolver.LibraryPath(launcherPath),
                         MCFabricLibrary.ParsePath(library.Name)
                     ),
-                    url,
                     sha1
                 )
             )

@@ -26,7 +26,7 @@ public static class JavaVersionHelper
             MinecraftPathResolver.DownloadedVersionManifestPath(launcherPath)
         );
 
-        if (versionManifest == null)
+        if (versionManifest?.Versions == null)
             return fallback;
 
         MCVersion version = MCVersionHelper.GetVersion(launcherVersion, versionManifest.Versions);
@@ -37,13 +37,7 @@ public static class JavaVersionHelper
             MinecraftPathResolver.DownloadedVersionDetailsPath(launcherPath, version)
         );
 
-        if (versionDetails == null)
-            return fallback;
-
-        if (versionDetails.JavaVersion == null)
-            return fallback;
-
-        if (string.IsNullOrWhiteSpace(versionDetails.JavaVersion.Component))
+        if (string.IsNullOrWhiteSpace(versionDetails?.JavaVersion?.Component))
             return fallback;
         return GenericEnumParser.Parse(versionDetails.JavaVersion.Component, JavaRuntimeTypeEnum.JAVA_RUNTIME_GAMMA);
     }

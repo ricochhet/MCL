@@ -24,8 +24,8 @@ public class ServerDownloader : IMCGenericDownloader
         ServerProperties.NewProperties(launcherPath);
 
         return await Request.Download(
-            MinecraftPathResolver.ServerJarPath(launcherPath, versionDetails),
             versionDetails.Downloads.Server.URL,
+            MinecraftPathResolver.ServerJarPath(launcherPath, versionDetails),
             versionDetails.Downloads.Server.SHA1
         );
     }

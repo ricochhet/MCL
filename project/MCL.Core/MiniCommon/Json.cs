@@ -32,9 +32,7 @@ public static class Json
         where T : new()
     {
         if (!VFS.Exists(filepath))
-        {
-            Save(filepath, new T());
-        }
+            return default;
 
         string json = VFS.ReadAllText(filepath);
         return Deserialize<T>(json);
@@ -44,9 +42,7 @@ public static class Json
         where T : new()
     {
         if (!VFS.Exists(filepath))
-        {
-            Save(filepath, new T());
-        }
+            return default;
 
         string json = VFS.ReadAllText(filepath);
         return Deserialize<T>(json, options);

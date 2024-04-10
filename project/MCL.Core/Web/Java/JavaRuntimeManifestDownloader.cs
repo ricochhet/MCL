@@ -49,7 +49,7 @@ public class JavaRuntimeManifestDownloader : IJavaRuntimeManifestDownloader
         if (string.IsNullOrWhiteSpace(url))
             return false;
 
-        string javaRuntimeManifest = await Request.DoRequest(
+        string javaRuntimeFiles = await Request.GetJsonAsync<JavaRuntimeFiles>(
             url,
             JavaPathResolver.DownloadedJavaRuntimeManifestPath(
                 launcherPath,
@@ -57,7 +57,7 @@ public class JavaRuntimeManifestDownloader : IJavaRuntimeManifestDownloader
             ),
             Encoding.UTF8
         );
-        if (string.IsNullOrWhiteSpace(javaRuntimeManifest))
+        if (string.IsNullOrWhiteSpace(javaRuntimeFiles))
             return false;
         return true;
     }

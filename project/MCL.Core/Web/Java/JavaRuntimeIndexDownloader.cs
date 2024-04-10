@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using MCL.Core.Handlers.Java;
 using MCL.Core.Interfaces.Java;
 using MCL.Core.MiniCommon;
+using MCL.Core.Models.Java;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Models.Minecraft;
 using MCL.Core.Resolvers.Minecraft;
@@ -20,7 +21,11 @@ public class JavaRuntimeIndexDownloader : IJavaRuntimeIndexDownloader
             return false;
 
         string downloadPath = JavaPathResolver.DownloadedJavaRuntimeIndexPath(launcherPath);
-        string javaRuntimeIndex = await Request.DoRequest(configUrls.JavaRuntimeIndexUrl, downloadPath, Encoding.UTF8);
+        string javaRuntimeIndex = await Request.GetJsonAsync<JavaRuntimeIndex>(
+            configUrls.JavaRuntimeIndexUrl,
+            downloadPath,
+            Encoding.UTF8
+        );
         if (string.IsNullOrWhiteSpace(javaRuntimeIndex))
             return false;
         return true;

@@ -20,8 +20,8 @@ public class IndexDownloader : IMCGenericDownloader
             return false;
 
         return await Request.Download(
-            MinecraftPathResolver.ClientIndexPath(launcherPath, versionDetails),
             versionDetails.AssetIndex.URL,
+            MinecraftPathResolver.ClientIndexPath(launcherPath, versionDetails),
             versionDetails.AssetIndex.SHA1
         );
     }

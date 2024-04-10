@@ -40,7 +40,7 @@ public class LibraryDownloader : IMCLibraryDownloader
                 return false;
 
             string downloadPath = VFS.Combine(libPath, lib.Downloads.Artifact.Path);
-            if (!await Request.Download(downloadPath, lib.Downloads.Artifact.URL, lib.Downloads.Artifact.SHA1))
+            if (!await Request.Download(lib.Downloads.Artifact.URL, downloadPath, lib.Downloads.Artifact.SHA1))
                 return false;
         }
 
@@ -124,7 +124,7 @@ public class LibraryDownloader : IMCLibraryDownloader
                 break;
         }
 
-        if (!await Request.Download(classifierDownloadPath, classifierUrl, classifierSha1))
+        if (!await Request.Download(classifierUrl, classifierDownloadPath, classifierSha1))
             return false;
         return true;
     }

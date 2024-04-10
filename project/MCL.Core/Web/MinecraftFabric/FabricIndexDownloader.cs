@@ -20,7 +20,11 @@ public class FabricIndexDownloader : IFabricIndexDownloader
             return false;
 
         string downloadPath = MinecraftFabricPathResolver.DownloadedFabricIndexPath(launcherPath);
-        string fabricIndex = await Request.DoRequest(fabricConfigUrls.FabricVersionsIndex, downloadPath, Encoding.UTF8);
+        string fabricIndex = await Request.GetJsonAsync<MCFabricIndex>(
+            fabricConfigUrls.FabricVersionsIndex,
+            downloadPath,
+            Encoding.UTF8
+        );
         if (string.IsNullOrWhiteSpace(fabricIndex))
             return false;
         return true;

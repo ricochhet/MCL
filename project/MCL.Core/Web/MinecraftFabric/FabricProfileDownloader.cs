@@ -26,7 +26,7 @@ public class FabricProfileDownloader : IFabricProfileDownloader
         if (!MCFabricConfigUrlsErr.Exists(fabricConfigUrls))
             return false;
 
-        string fabricProfile = await Request.DoRequest(
+        string fabricProfile = await Request.GetJsonAsync<MCFabricProfile>(
             MinecraftFabricPathResolver.FabricLoaderProfileUrlPath(fabricConfigUrls, launcherVersion),
             MinecraftFabricPathResolver.DownloadedFabricProfilePath(launcherPath, launcherVersion),
             Encoding.UTF8

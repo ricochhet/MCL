@@ -30,6 +30,7 @@ internal class Program
         LogBase.Info("Initialized logger");
         Watermark.Draw(ConfigProvider.WatermarkText);
 
+        Request.SetJsonSerializerOptions(new() { WriteIndented = true });
         ConfigProvider.Write();
         Config config = ConfigProvider.Read();
         if (config == null)

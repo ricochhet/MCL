@@ -1,7 +1,9 @@
 using System;
 using System.IO;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using MCL.Core.Helpers;
 using MCL.Core.Logger;
@@ -10,85 +12,135 @@ namespace MCL.Core.MiniCommon;
 
 public static class Request
 {
-    public static async Task<string> DoRequest(string url, string fileName, Encoding enc)
+    private static readonly HttpClient httpClient = new();
+    private static JsonSerializerOptions JsonSerializerOptions = new();
+
+    public static HttpClient GetHttpClient() => httpClient;
+
+    public static JsonSerializerOptions GetJsonSerializerOptions() => JsonSerializerOptions;
+
+    public static void SetJsonSerializerOptions(JsonSerializerOptions options) => JsonSerializerOptions = options;
+
+#nullable enable
+    public static async Task<HttpResponseMessage?> GetAsync(string request)
     {
         try
         {
-            using HttpClient httpClient = new();
-            using HttpResponseMessage response = await httpClient.GetAsync(url);
-            if (response.IsSuccessStatusCode)
-            {
-                string stringData = await response.Content.ReadAsStringAsync();
-                LogBase.Info($"Requesting data from URL:\n{url}");
-
-                if (string.IsNullOrWhiteSpace(stringData))
-                    return default;
-
-                string existingSha1 = CryptographyHelper.Sha1(fileName, true);
-                string downloadedSha1 = CryptographyHelper.Sha1(stringData, enc);
-                if (VFS.Exists(fileName) && existingSha1 == downloadedSha1)
-                {
-                    LogBase.Info($"File: {fileName} already exists.\n{existingSha1} == {downloadedSha1}");
-                    return stringData;
-                }
-
-                VFS.WriteFile(fileName, stringData);
-                return stringData;
-            }
-            else
-            {
-                LogBase.Error($"Failed to download file.\nUrl: {url}\nStatus code: {response.StatusCode}");
-                return default;
-            }
+            LogBase.Debug($"GET: {request}");
+            return await httpClient.GetAsync(request);
         }
         catch (Exception ex)
         {
-            LogBase.Error($"Request failed: {ex.Message}\nUrl: {url}");
+            LogBase.Error(ex.ToString());
+            return null;
+        }
+    }
+
+    public static async Task<string?> GetStringAsync(string request)
+    {
+        try
+        {
+            LogBase.Debug($"GET: {request}");
+            return await httpClient.GetStringAsync(request);
+        }
+        catch (Exception ex)
+        {
+            LogBase.Error(ex.ToString());
+            return null;
+        }
+    }
+
+    public static async Task<T?> GetObjectFromJsonAsync<T>(string request)
+    {
+        try
+        {
+            return await httpClient.GetFromJsonAsync<T>(request);
+        }
+        catch (Exception ex)
+        {
+            LogBase.Error(ex.ToString());
             return default;
         }
     }
 
-    public static async Task<bool> Download(string downloadPath, string url, string sha1)
-    {
-        string existingSha1 = CryptographyHelper.Sha1(downloadPath, true);
-        if (VFS.Exists(downloadPath) && existingSha1 == sha1)
-        {
-            LogBase.Info($"File: {downloadPath} already exists.\n{existingSha1} == {sha1}");
-            return true;
-        }
-        else if (!await Download(url, downloadPath))
-        {
-            return false;
-        }
+#nullable disable
 
-        return true;
-    }
-
-    public static async Task<bool> Download(string url, string fileName)
+    public static async Task<string> GetJsonAsync<T>(string request, string filepath, Encoding encoding)
     {
         try
         {
-            using HttpClient httpClient = new();
-            using HttpResponseMessage response = await httpClient.GetAsync(url);
-            if (response.IsSuccessStatusCode)
+            string response = await GetStringAsync(request);
+            if (VFS.Exists(filepath))
             {
-                VFS.CreateDirectory(VFS.GetDirectoryName(fileName));
+                if (CryptographyHelper.Sha1(filepath, true) == CryptographyHelper.Sha1(response, encoding))
+                    return response;
+            }
 
-                using Stream contentStream = await response.Content.ReadAsStreamAsync();
-                using FileStream fileStream = new(fileName, FileMode.Create, FileAccess.Write, FileShare.None);
-                LogBase.Info($"Downloading file:\nPath: {fileName}\nUrl: {url}");
-                await contentStream.CopyToAsync(fileStream);
-                return true;
-            }
-            else
-            {
-                LogBase.Error($"Failed to download file.\nUrl: {url}\nStatus code: {response.StatusCode}");
-                return false;
-            }
+            Json.Save(filepath, Json.Deserialize<T>(response), JsonSerializerOptions);
+            return response;
         }
         catch (Exception ex)
         {
-            LogBase.Error($"Failed to download file: {ex.Message}");
+            LogBase.Error(ex.ToString());
+            return default;
+        }
+    }
+
+    public static async Task<string> GetStringAsync(string request, string filepath, Encoding encoding)
+    {
+        try
+        {
+            string response = await GetStringAsync(request);
+            if (VFS.Exists(filepath))
+            {
+                if (CryptographyHelper.Sha1(filepath, true) == CryptographyHelper.Sha1(response, encoding))
+                    return response;
+            }
+
+            VFS.WriteFile(filepath, response);
+            return response;
+        }
+        catch (Exception ex)
+        {
+            LogBase.Error(ex.ToString());
+            return default;
+        }
+    }
+
+    public static async Task<bool> Download(string request, string filepath, string hash)
+    {
+        if (VFS.Exists(filepath) && CryptographyHelper.Sha1(filepath, true) == hash)
+            return true;
+        else if (!await Download(request, filepath))
+            return false;
+        return true;
+    }
+
+    public static async Task<bool> Download(string request, string filepath)
+    {
+        try
+        {
+#nullable enable
+            HttpResponseMessage? response = await GetAsync(request);
+#nullable disable
+
+            if (response == null)
+                return false;
+
+            if (!response.IsSuccessStatusCode)
+                return false;
+
+            if (!VFS.Exists(filepath))
+                VFS.CreateDirectory(VFS.GetDirectoryName(filepath));
+
+            using Stream contentStream = await response.Content.ReadAsStreamAsync();
+            using FileStream fileStream = new(filepath, FileMode.Create, FileAccess.Write, FileShare.None);
+            await contentStream.CopyToAsync(fileStream);
+            return true;
+        }
+        catch (Exception ex)
+        {
+            LogBase.Error(ex.ToString());
             return false;
         }
     }

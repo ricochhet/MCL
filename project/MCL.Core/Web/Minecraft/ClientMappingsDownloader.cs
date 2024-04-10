@@ -20,8 +20,8 @@ public class ClientMappingsDownloader : IMCGenericDownloader
             return false;
 
         return await Request.Download(
-            MinecraftPathResolver.ClientMappingsPath(launcherPath, versionDetails),
             versionDetails.Downloads.ClientMappings.URL,
+            MinecraftPathResolver.ClientMappingsPath(launcherPath, versionDetails),
             versionDetails.Downloads.ClientMappings.SHA1
         );
     }

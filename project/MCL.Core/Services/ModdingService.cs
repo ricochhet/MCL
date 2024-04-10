@@ -65,7 +65,11 @@ public static class ModdingService
         string filepath = ModPathResolver.ModStorePath(LauncherPath, modStoreName);
         if (!ModConfig.IsStoreRegistered(modStoreName))
             ModConfig.RegisteredStores.Add(modStoreName);
-        Json.Save(filepath, modFiles, new() { WriteIndented = true, Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping  });
+        Json.Save(
+            filepath,
+            modFiles,
+            new() { WriteIndented = true, Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping }
+        );
     }
 
     public static ModFiles Load(string modStoreName)
@@ -83,7 +87,9 @@ public static class ModdingService
         if (!VFS.Exists(ModPathResolver.ModStorePath(LauncherPath, modStoreName)))
             return;
 
-        ModConfig.RegisteredStores.Remove(modStoreName);
+        if (ModConfig.IsStoreRegistered(modStoreName))
+            ModConfig.RegisteredStores.Remove(modStoreName);
+
         VFS.DeleteFile(ModPathResolver.ModStorePath(LauncherPath, modStoreName));
     }
 
@@ -92,7 +98,12 @@ public static class ModdingService
         if (modFiles?.Files?.Count <= 0)
             return;
 
+        if (!VFS.Exists(deployPath))
+            return;
+
+        VFS.DeleteDirectory(deployPath);
         List<ModFile> sortedModFiles = [.. modFiles.Files.OrderBy(a => a.Priority)];
+
         foreach (ModFile modFile in sortedModFiles)
         {
             switch (modFile.ModRule)

@@ -30,7 +30,7 @@ public class ResourceDownloader : IMCResourceDownloader
 
             string url = $"{configUrls.MinecraftResources}/{asset.Hash[..2]}/{asset.Hash}";
             string downloadPath = VFS.Combine(objectsPath, asset.Hash[..2], asset.Hash);
-            if (!await Request.Download(downloadPath, url, asset.Hash))
+            if (!await Request.Download(url, downloadPath, asset.Hash))
                 return false;
         }
 
