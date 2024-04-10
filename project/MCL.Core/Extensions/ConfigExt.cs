@@ -1,12 +1,13 @@
 using MCL.Core.Enums;
 using MCL.Core.Models;
 using MCL.Core.Models.Java;
+using MCL.Core.Services.Modding;
 
-namespace MCL.Core.Helpers.Minecraft;
+namespace MCL.Core.Extensions;
 
-public static class ConfigHelper
+public static class ConfigExt
 {
-    public static Config Write(ClientTypeEnum clientType, Config config, JvmArguments jvmArguments)
+    public static Config Save(this Config config, ClientTypeEnum clientType, JvmArguments jvmArguments)
     {
         switch (clientType)
         {
@@ -18,6 +19,12 @@ public static class ConfigHelper
                 break;
         }
 
+        return config;
+    }
+
+    public static Config Save(this Config config, ModConfig modConfig)
+    {
+        config.ModConfig = modConfig;
         return config;
     }
 }

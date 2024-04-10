@@ -21,7 +21,7 @@ public static class ConfigProvider
     private const string LogFileName = "MCL.log";
     private static readonly string ConfigFilePath = VFS.Combine(DataPath, ConfigFileName);
 
-    public static void Write()
+    public static void Save()
     {
         if (!VFS.Exists(ConfigFilePath))
         {
@@ -42,12 +42,12 @@ public static class ConfigProvider
         }
     }
 
-    public static void Write(Config config)
+    public static void Save(Config config)
     {
         if (!VFS.Exists(ConfigFilePath))
             return;
 
-        Config existingConfig = Read();
+        Config existingConfig = Load();
         if (existingConfig == config)
             return;
 
@@ -56,7 +56,7 @@ public static class ConfigProvider
         Json.Save(ConfigFilePath, config, options);
     }
 
-    public static Config Read()
+    public static Config Load()
     {
         if (VFS.Exists(ConfigFilePath))
         {

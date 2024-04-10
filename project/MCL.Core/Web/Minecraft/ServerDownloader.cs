@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using MCL.Core.Handlers.Java;
 using MCL.Core.Handlers.Minecraft;
 using MCL.Core.Helpers.Minecraft;
 using MCL.Core.Interfaces.Minecraft;

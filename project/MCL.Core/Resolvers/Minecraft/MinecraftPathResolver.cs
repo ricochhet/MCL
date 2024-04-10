@@ -1,4 +1,3 @@
-using System.IO;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Models.Minecraft;
@@ -33,6 +32,9 @@ public static class MinecraftPathResolver
 
     public static string LoggingPath(MCLauncherPath launcherPath, MCVersionDetails versionDetails) =>
         VFS.Combine(VersionPath(launcherPath, versionDetails), "client.xml");
+
+    public static string LoggingPath(MCLauncherVersion launcherVersion) =>
+        VFS.Combine("versions", launcherVersion.Version, "client.xml");
 
     public static string ServerJarPath(MCLauncherPath launcherPath, MCVersionDetails versionDetails) =>
         VFS.Combine(ServerPath(launcherPath), $"minecraft_server.{versionDetails.ID}.jar");

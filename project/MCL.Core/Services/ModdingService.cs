@@ -5,13 +5,9 @@ using System.Linq;
 using System.Text.Encodings.Web;
 using MCL.Core.Enums.Services;
 using MCL.Core.Helpers;
-using MCL.Core.Logger;
 using MCL.Core.MiniCommon;
-using MCL.Core.Models;
 using MCL.Core.Models.Launcher;
-using MCL.Core.Models.Services;
 using MCL.Core.Resolvers.Modding;
-using MCL.Core.Resolvers.Services;
 using MCL.Core.Services.Modding;
 
 namespace MCL.Core.Services;
@@ -31,10 +27,10 @@ public static class ModdingService
             VFS.CreateDirectory(launcherPath.ModPath);
     }
 
-    public static void Save(string modStoreName)
+    public static bool Save(string modStoreName)
     {
         if (!VFS.Exists(ModPathResolver.ModPath(LauncherPath, modStoreName)))
-            return;
+            return false;
 
         string[] modFilePaths = VFS.GetFiles(
             ModPathResolver.ModPath(LauncherPath, modStoreName),
@@ -42,13 +38,13 @@ public static class ModdingService
             SearchOption.TopDirectoryOnly
         );
         if (modFilePaths.Length <= 0)
-            return;
+            return false;
 
         string[] filteredModFilePaths = modFilePaths
             .Where(file => ModConfig.FileTypes.Any(file.ToLower().EndsWith))
             .ToArray();
         if (filteredModFilePaths.Length <= 0)
-            return;
+            return false;
 
         ModFiles modFiles = new();
         foreach (string modFilePath in filteredModFilePaths)
@@ -70,11 +66,16 @@ public static class ModdingService
             modFiles,
             new() { WriteIndented = true, Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping }
         );
+
+        return true;
     }
 
     public static void Register(string modStoreName)
     {
-        if (VFS.Exists(ModPathResolver.ModStorePath(LauncherPath, modStoreName)) && !ModConfig.IsStoreRegistered(modStoreName))
+        if (
+            VFS.Exists(ModPathResolver.ModStorePath(LauncherPath, modStoreName))
+            && !ModConfig.IsStoreRegistered(modStoreName)
+        )
             ModConfig.RegisteredStores.Add(modStoreName);
     }
 
@@ -88,34 +89,37 @@ public static class ModdingService
         return default;
     }
 
-    public static void Delete(string modStoreName)
+    public static bool Delete(string modStoreName)
     {
         if (!VFS.Exists(ModPathResolver.ModStorePath(LauncherPath, modStoreName)))
-            return;
+            return false;
 
         if (ModConfig.IsStoreRegistered(modStoreName))
             ModConfig.RegisteredStores.Remove(modStoreName);
 
         VFS.DeleteFile(ModPathResolver.ModStorePath(LauncherPath, modStoreName));
+        return true;
     }
 
-    public static void Deploy(ModFiles modFiles, string deployPath)
+    public static bool Deploy(ModFiles modFiles, string deployPath, bool overwrite = false)
     {
         if (modFiles?.Files?.Count <= 0)
-            return;
+            return false;
 
         if (!VFS.Exists(deployPath))
-            return;
+            VFS.CreateDirectory(deployPath);
 
-        VFS.DeleteDirectory(deployPath);
         List<ModFile> sortedModFiles = [.. modFiles.Files.OrderBy(a => a.Priority)];
 
         foreach (ModFile modFile in sortedModFiles)
         {
             if (modFile == null)
-                return;
+                return false;
 
-            if (VFS.Exists(modFile?.ModPath))
+            if (!VFS.Exists(modFile?.ModPath))
+                continue;
+
+            if (VFS.Exists(VFS.Combine(deployPath, VFS.GetFileName(modFile.ModPath))) && !overwrite)
                 continue;
 
             switch (modFile.ModRule)
@@ -127,5 +131,7 @@ public static class ModdingService
                     throw new NotImplementedException();
             }
         }
+
+        return true;
     }
 }

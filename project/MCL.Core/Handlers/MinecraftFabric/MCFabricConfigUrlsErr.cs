@@ -1,5 +1,3 @@
-using MCL.Core.Models.Java;
-using MCL.Core.Models.Minecraft;
 using MCL.Core.Models.MinecraftFabric;
 
 namespace MCL.Core.Handlers.Minecraft;
