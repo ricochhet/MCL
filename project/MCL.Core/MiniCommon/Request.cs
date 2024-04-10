@@ -21,6 +21,9 @@ public static class Request
 
     public static void SetJsonSerializerOptions(JsonSerializerOptions options) => JsonSerializerOptions = options;
 
+    public static TimeSpan TimeOut { get; set; } = TimeSpan.MaxValue;
+    public static int Retry { get; set; } = 1;
+
 #nullable enable
     public static async Task<HttpResponseMessage?> GetAsync(string request)
     {
@@ -53,48 +56,60 @@ public static class Request
 
     public static async Task<string> GetJsonAsync<T>(string request, string filepath, Encoding encoding)
     {
-        try
+        httpClient.Timeout = TimeOut;
+        for (int retry = 0; retry < Math.Max(1, Retry); retry++)
         {
-            string response = await GetStringAsync(request);
-            if (
-                VFS.Exists(filepath)
-                && CryptographyHelper.Sha1(filepath, true) == CryptographyHelper.Sha1(response, encoding)
-            )
+            string response;
+            try
             {
+                response = await GetStringAsync(request);
+                if (
+                    VFS.Exists(filepath)
+                    && CryptographyHelper.Sha1(filepath, true) == CryptographyHelper.Sha1(response, encoding)
+                )
+                {
+                    return response;
+                }
+
+                Json.Save(filepath, Json.Deserialize<T>(response), JsonSerializerOptions);
                 return response;
             }
+            catch (Exception ex)
+            {
+                LogBase.Error(ex.ToString());
+            }
+        }
 
-            Json.Save(filepath, Json.Deserialize<T>(response), JsonSerializerOptions);
-            return response;
-        }
-        catch (Exception ex)
-        {
-            LogBase.Error(ex.ToString());
-            return default;
-        }
+        return default;
     }
 
     public static async Task<string> GetStringAsync(string request, string filepath, Encoding encoding)
     {
-        try
+        httpClient.Timeout = TimeOut;
+        for (int retry = 0; retry < Math.Max(1, Retry); retry++)
         {
-            string response = await GetStringAsync(request);
-            if (
-                VFS.Exists(filepath)
-                && CryptographyHelper.Sha1(filepath, true) == CryptographyHelper.Sha1(response, encoding)
-            )
+            string response;
+            try
             {
+                response = await GetStringAsync(request);
+                if (
+                    VFS.Exists(filepath)
+                    && CryptographyHelper.Sha1(filepath, true) == CryptographyHelper.Sha1(response, encoding)
+                )
+                {
+                    return response;
+                }
+
+                VFS.WriteFile(filepath, response);
                 return response;
             }
+            catch (Exception ex)
+            {
+                LogBase.Error(ex.ToString());
+            }
+        }
 
-            VFS.WriteFile(filepath, response);
-            return response;
-        }
-        catch (Exception ex)
-        {
-            LogBase.Error(ex.ToString());
-            return default;
-        }
+        return default;
     }
 
 #nullable enable
@@ -125,30 +140,36 @@ public static class Request
 
     public static async Task<bool> Download(string request, string filepath)
     {
-        try
+        httpClient.Timeout = TimeOut;
+        for (int retry = 0; retry < Math.Max(1, Retry); retry++)
         {
 #nullable enable
-            HttpResponseMessage? response = await GetAsync(request);
+            HttpResponseMessage? response;
 #nullable disable
+            try
+            {
+                response = await GetAsync(request);
 
-            if (response == null)
-                return false;
+                if (response == null)
+                    return false;
 
-            if (!response.IsSuccessStatusCode)
-                return false;
+                if (!response.IsSuccessStatusCode)
+                    return false;
 
-            if (!VFS.Exists(filepath))
-                VFS.CreateDirectory(VFS.GetDirectoryName(filepath));
+                if (!VFS.Exists(filepath))
+                    VFS.CreateDirectory(VFS.GetDirectoryName(filepath));
 
-            using Stream contentStream = await response.Content.ReadAsStreamAsync();
-            using FileStream fileStream = new(filepath, FileMode.Create, FileAccess.Write, FileShare.None);
-            await contentStream.CopyToAsync(fileStream);
-            return true;
+                using Stream contentStream = await response.Content.ReadAsStreamAsync();
+                using FileStream fileStream = new(filepath, FileMode.Create, FileAccess.Write, FileShare.None);
+                await contentStream.CopyToAsync(fileStream);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                LogBase.Error(ex.ToString());
+            }
         }
-        catch (Exception ex)
-        {
-            LogBase.Error(ex.ToString());
-            return false;
-        }
+
+        return false;
     }
 }
