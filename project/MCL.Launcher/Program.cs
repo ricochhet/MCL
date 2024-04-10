@@ -7,9 +7,11 @@ using MCL.Core.Extensions;
 using MCL.Core.Helpers.Java;
 using MCL.Core.Helpers.Launcher;
 using MCL.Core.Logger;
+using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models;
 using MCL.Core.Models.Launcher;
+using MCL.Core.Models.Services;
 using MCL.Core.Providers;
 using MCL.Core.Providers.Java;
 using MCL.Core.Providers.Minecraft;
@@ -29,6 +31,7 @@ internal static class Program
         Watermark.Draw(ConfigProvider.WatermarkText);
 
         Request.SetJsonSerializerOptions(new() { WriteIndented = true });
+        Request.SetHttpClientTimeOut(TimeSpan.FromMinutes(1));
         ConfigProvider.Save();
         Config config = ConfigProvider.Load();
         if (config == null)
@@ -70,6 +73,9 @@ internal static class Program
         ModdingService.Init(launcherPath, config.ModConfig);
         ModdingService.Save("fabric-mods");
         ModdingService.Deploy(ModdingService.Load("fabric-mods"), VFS.Combine(launcherPath.Path, "mods"));
+        NotificationService.LogNotification((Notification notification) => {
+            LogBase.Base(notification.LogLevel, notification.Message);
+        });
 
         if (args.Length <= 0)
             return;

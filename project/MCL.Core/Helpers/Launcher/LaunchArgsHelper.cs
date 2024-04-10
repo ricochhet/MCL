@@ -50,6 +50,7 @@ public static class LaunchArgsHelper
             )
         );
         jvmArguments.Add(
+            launcher.LauncherType,
             LauncherType.DEBUG,
             new LaunchArg(
                 "-Dlog4j2.configurationFile={0}",
@@ -59,10 +60,12 @@ public static class LaunchArgsHelper
         jvmArguments.Add(new LaunchArg("-Dminecraft.launcher.brand={0}", ["MCL"]));
         jvmArguments.Add(new LaunchArg("-Dminecraft.launcher.version={0}", ["1.0.0"]));
         jvmArguments.Add(
+            launcher.ClientType,
             ClientType.VANILLA,
             new LaunchArg("-DMcEmu={0}", [ClientTypeResolver.ToString(ClientType.VANILLA)])
         );
         jvmArguments.Add(
+            launcher.ClientType,
             ClientType.FABRIC,
             new LaunchArg("-DFabricMcEmu={0}", [ClientTypeResolver.ToString(ClientType.VANILLA)])
         );

@@ -1,9 +1,13 @@
 using System.Threading.Tasks;
+using MCL.Core.Logger.Enums;
 
 namespace MCL.Core.Logger;
 
 public interface ILogger
 {
+    public Task Base(NativeLogLevel level, string message);
+    public Task Base(NativeLogLevel level, string format, params object[] args);
+
     public Task Debug(string message);
     public Task Debug(string format, params object[] args);
 

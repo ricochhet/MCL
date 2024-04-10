@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Threading;
-using System.Threading.Tasks;
+using MCL.Core.Logger.Enums;
 
 namespace MCL.Core.Logger;
 
@@ -31,6 +31,36 @@ public class LogBase
         {
             await _semaphore.WaitAsync();
             Instance._io.Add(logger);
+        }
+        finally
+        {
+            _ = _semaphore.Release();
+        }
+    }
+
+    public static async void Base(NativeLogLevel level, string message)
+    {
+        try
+        {
+            await _semaphore.WaitAsync();
+
+            foreach (ILogger logger in Instance._io)
+                await logger.Base(level, message);
+        }
+        finally
+        {
+            _ = _semaphore.Release();
+        }
+    }
+
+    public static async void Base(NativeLogLevel level, string format, params object[] args)
+    {
+        try
+        {
+            await _semaphore.WaitAsync();
+
+            foreach (ILogger logger in Instance._io)
+                await logger.Base(level, format, args);
         }
         finally
         {

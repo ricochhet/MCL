@@ -6,16 +6,21 @@ namespace MCL.Core.Models.Services;
 
 public class Notification
 {
-    public DateTime CurrentDateTime { get; set; }
-    public FileStreamLogLevel LogLevel { get; set; }
+    public DateTime CurrentDateTime { get; set; } = DateTime.Now;
+    public NativeLogLevel LogLevel { get; set; }
     public string ID { get; set; }
-    public string Message { get; private set; }
-
-    public Notification(FileStreamLogLevel _logLevel, string _ID)
+    public string Message { get; set; } 
+    public static event Action<Notification> OnNotificationAdded;
+#nullable enable
+    public Exception? Exception { get; set; }
+    
+    public Notification(NativeLogLevel _logLevel, string _ID, Exception? _exception = null)
+#nullable disable
     {
-        CurrentDateTime = DateTime.Now;
         LogLevel = _logLevel;
         ID = _ID;
         Message = LocalizationService.Translate(ID);
+        Exception = _exception;
+        OnNotificationAdded?.Invoke(this);
     }
 }

@@ -23,11 +23,8 @@ public static class LocalizationService
 
     public static string Translate(string id)
     {
-        foreach ((string key, string value) in translation.Entries)
-        {
-            if (key == id)
-                return value;
-        }
+        if (translation.Entries.TryGetValue(id, out string value))
+            return value;
         return "NO_LOCALIZATION";
     }
 }

@@ -21,8 +21,12 @@ public static class Request
 
     public static void SetJsonSerializerOptions(JsonSerializerOptions options) => JsonSerializerOptions = options;
 
-    public static TimeSpan TimeOut { get; set; } = TimeSpan.MaxValue;
     public static int Retry { get; set; } = 1;
+
+    public static void SetHttpClientTimeOut(TimeSpan timeout)
+    {
+        httpClient.Timeout = timeout;
+    }
 
 #nullable enable
     public static async Task<HttpResponseMessage?> GetAsync(string request)
@@ -56,7 +60,6 @@ public static class Request
 
     public static async Task<string> GetJsonAsync<T>(string request, string filepath, Encoding encoding)
     {
-        httpClient.Timeout = TimeOut;
         for (int retry = 0; retry < Math.Max(1, Retry); retry++)
         {
             string response;
@@ -85,7 +88,6 @@ public static class Request
 
     public static async Task<string> GetStringAsync(string request, string filepath, Encoding encoding)
     {
-        httpClient.Timeout = TimeOut;
         for (int retry = 0; retry < Math.Max(1, Retry); retry++)
         {
             string response;
@@ -140,7 +142,6 @@ public static class Request
 
     public static async Task<bool> Download(string request, string filepath)
     {
-        httpClient.Timeout = TimeOut;
         for (int retry = 0; retry < Math.Max(1, Retry); retry++)
         {
 #nullable enable

@@ -14,37 +14,42 @@ public class FileStreamLogger : ILogger, IDisposable
     private static readonly SemaphoreSlim Semaphore = new(1);
     private static readonly FileStream Stream = VFS.OpenWrite(ConfigProvider.LogFilePath);
 
-    public Task Debug(string message) => WriteToBuffer(FileStreamLogLevel.Debug, message);
+    public Task Base(NativeLogLevel level, string message) => WriteToBuffer(level, message);
+
+    public Task Base(NativeLogLevel level, string format, params object[] args) =>
+        WriteToBuffer(level, string.Format(format, args));
+
+    public Task Debug(string message) => WriteToBuffer(NativeLogLevel.Debug, message);
 
     public Task Debug(string format, params object[] args) =>
-        WriteToBuffer(FileStreamLogLevel.Debug, string.Format(format, args));
+        WriteToBuffer(NativeLogLevel.Debug, string.Format(format, args));
 
-    public Task Info(string message) => WriteToBuffer(FileStreamLogLevel.Info, message);
+    public Task Info(string message) => WriteToBuffer(NativeLogLevel.Info, message);
 
     public Task Info(string format, params object[] args) =>
-        WriteToBuffer(FileStreamLogLevel.Info, string.Format(format, args));
+        WriteToBuffer(NativeLogLevel.Info, string.Format(format, args));
 
-    public Task Warn(string message) => WriteToBuffer(FileStreamLogLevel.Warn, message);
+    public Task Warn(string message) => WriteToBuffer(NativeLogLevel.Warn, message);
 
     public Task Warn(string format, params object[] args) =>
-        WriteToBuffer(FileStreamLogLevel.Warn, string.Format(format, args));
+        WriteToBuffer(NativeLogLevel.Warn, string.Format(format, args));
 
-    public Task Native(string message) => WriteToBuffer(FileStreamLogLevel.Info, message);
+    public Task Native(string message) => WriteToBuffer(NativeLogLevel.Info, message);
 
     public Task Native(string format, params object[] args) =>
-        WriteToBuffer(FileStreamLogLevel.Info, string.Format(format, args));
+        WriteToBuffer(NativeLogLevel.Info, string.Format(format, args));
 
-    public Task Error(string message) => WriteToBuffer(FileStreamLogLevel.Error, message);
+    public Task Error(string message) => WriteToBuffer(NativeLogLevel.Error, message);
 
     public Task Error(string format, params object[] args) =>
-        WriteToBuffer(FileStreamLogLevel.Error, string.Format(format, args));
+        WriteToBuffer(NativeLogLevel.Error, string.Format(format, args));
 
-    public Task Benchmark(string message) => WriteToBuffer(FileStreamLogLevel.Info, message);
+    public Task Benchmark(string message) => WriteToBuffer(NativeLogLevel.Info, message);
 
     public Task Benchmark(string format, params object[] args) =>
-        WriteToBuffer(FileStreamLogLevel.Info, string.Format(format, args));
+        WriteToBuffer(NativeLogLevel.Info, string.Format(format, args));
 
-    private static async Task WriteToBuffer(FileStreamLogLevel level, string message)
+    private static async Task WriteToBuffer(NativeLogLevel level, string message)
     {
         try
         {

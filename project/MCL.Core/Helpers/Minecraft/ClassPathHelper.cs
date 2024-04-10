@@ -28,7 +28,7 @@ public static class ClassPathHelper
 
         return string.Join(
             separator,
-            libraries.Select(lib => lib.Replace(launcherPath.Path + "/", "").Replace("\\", "/"))
+            libraries.Select(lib => lib.Replace("\\", "/").Replace(launcherPath.Path + "/", ""))
         );
     }
 }

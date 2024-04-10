@@ -16,6 +16,11 @@ public partial class NativeLogger : ILogger
         _ = AllocConsole();
     }
 
+    public Task Base(NativeLogLevel level, string message) => WriteToStdout(level, message);
+
+    public Task Base(NativeLogLevel level, string format, params object[] args) =>
+        WriteToStdout(level, string.Format(format, args));
+
     public Task Benchmark(string message) => WriteToStdout(NativeLogLevel.Benchmark, message);
 
     public Task Benchmark(string format, params object[] args) =>

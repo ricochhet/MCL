@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using MCL.Core.Models.Services;
 
@@ -12,8 +13,9 @@ public static class NotificationService
         Notifications = [];
     }
 
-    public static void Add(Notification item)
+    public static void Add(Notification item) => Notifications.Add(item);
+    public static void LogNotification(Action<Notification> func)
     {
-        Notifications.Add(item);
+        Notification.OnNotificationAdded += func;
     }
 }
