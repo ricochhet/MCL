@@ -25,15 +25,4 @@ public class VersionDetailsDownloader : IMCVersionDetailsDownloader
             return false;
         return true;
     }
-
-    public static bool Exists(MCVersion version)
-    {
-        if (version == null)
-            return false;
-
-        if (string.IsNullOrWhiteSpace(version.URL))
-            return false;
-
-        return true;
-    }
 }
