@@ -16,6 +16,15 @@ public static class CommandLine
         }
     }
 
+    public static void ProcessArgument(string[] args, string flag, Action action)
+    {
+        int index = Array.IndexOf(args, flag);
+        if (index != -1)
+        {
+            action();
+        }
+    }
+
     public static async Task ProcessArgumentAsync<T>(string[] args, string flag, Func<T, Task> action)
     {
         int index = Array.IndexOf(args, flag);
@@ -23,15 +32,6 @@ public static class CommandLine
         {
             T value = (T)Convert.ChangeType(args[index + 1], typeof(T));
             await action(value);
-        }
-    }
-
-    public static void ProcessArgument(string[] args, string flag, Action action)
-    {
-        int index = Array.IndexOf(args, flag);
-        if (index != -1)
-        {
-            action();
         }
     }
 
@@ -47,7 +47,10 @@ public static class CommandLine
     public static void Pause()
     {
         LogBase.Info("Press \"F\" to safely exit.");
+
+#pragma warning disable IDE0079
+#pragma warning disable S108
         while (Console.ReadKey(intercept: true).Key != ConsoleKey.F) { }
-        return;
+#pragma warning restore
     }
 }

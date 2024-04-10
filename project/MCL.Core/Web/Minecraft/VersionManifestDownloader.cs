@@ -19,10 +19,10 @@ public class VersionManifestDownloader : IMCVersionManifestDownloader
         if (!VersionManifestDownloaderErr.Exists(configUrls))
             return false;
 
-        string downloadPath = MinecraftPathResolver.DownloadedVersionManifestPath(launcherPath);
+        string filepath = MinecraftPathResolver.DownloadedVersionManifestPath(launcherPath);
         string versionManifest = await Request.GetJsonAsync<MCVersionManifest>(
             configUrls.VersionManifest,
-            downloadPath,
+            filepath,
             Encoding.UTF8
         );
         if (string.IsNullOrWhiteSpace(versionManifest))

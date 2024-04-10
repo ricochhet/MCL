@@ -36,20 +36,6 @@ public static class Request
         }
     }
 
-    public static async Task<string?> GetStringAsync(string request)
-    {
-        try
-        {
-            LogBase.Debug($"GET: {request}");
-            return await httpClient.GetStringAsync(request);
-        }
-        catch (Exception ex)
-        {
-            LogBase.Error(ex.ToString());
-            return null;
-        }
-    }
-
     public static async Task<T?> GetObjectFromJsonAsync<T>(string request)
     {
         try
@@ -70,10 +56,12 @@ public static class Request
         try
         {
             string response = await GetStringAsync(request);
-            if (VFS.Exists(filepath))
+            if (
+                VFS.Exists(filepath)
+                && CryptographyHelper.Sha1(filepath, true) == CryptographyHelper.Sha1(response, encoding)
+            )
             {
-                if (CryptographyHelper.Sha1(filepath, true) == CryptographyHelper.Sha1(response, encoding))
-                    return response;
+                return response;
             }
 
             Json.Save(filepath, Json.Deserialize<T>(response), JsonSerializerOptions);
@@ -91,10 +79,12 @@ public static class Request
         try
         {
             string response = await GetStringAsync(request);
-            if (VFS.Exists(filepath))
+            if (
+                VFS.Exists(filepath)
+                && CryptographyHelper.Sha1(filepath, true) == CryptographyHelper.Sha1(response, encoding)
+            )
             {
-                if (CryptographyHelper.Sha1(filepath, true) == CryptographyHelper.Sha1(response, encoding))
-                    return response;
+                return response;
             }
 
             VFS.WriteFile(filepath, response);
@@ -106,6 +96,23 @@ public static class Request
             return default;
         }
     }
+
+#nullable enable
+    public static async Task<string?> GetStringAsync(string request)
+    {
+        try
+        {
+            LogBase.Debug($"GET: {request}");
+            return await httpClient.GetStringAsync(request);
+        }
+        catch (Exception ex)
+        {
+            LogBase.Error(ex.ToString());
+            return null;
+        }
+    }
+
+#nullable disable
 
     public static async Task<bool> Download(string request, string filepath, string hash)
     {

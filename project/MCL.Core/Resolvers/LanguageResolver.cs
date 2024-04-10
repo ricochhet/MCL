@@ -3,13 +3,13 @@ using MCL.Core.Enums.Services;
 
 namespace MCL.Core.Resolvers;
 
-public class LanguageEnumResolver
+public static class LanguageResolver
 {
-    public static string ToString(LanguageEnum type) =>
+    public static string ToString(Language type) =>
         type switch
         {
-            LanguageEnum.ENGLISH => "en",
-            LanguageEnum.CHINESE => "cn",
+            Language.ENGLISH => "en",
+            Language.CHINESE => "cn",
             _ => throw new NotImplementedException(),
         };
 }

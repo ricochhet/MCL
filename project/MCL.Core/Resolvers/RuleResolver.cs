@@ -3,13 +3,13 @@ using MCL.Core.Enums;
 
 namespace MCL.Core.Resolvers;
 
-public class RuleEnumResolver
+public static class RuleResolver
 {
-    public static string ToString(RuleEnum type) =>
+    public static string ToString(Rule type) =>
         type switch
         {
-            RuleEnum.ALLOW => "allow",
-            RuleEnum.DISALLOW => "disallow",
+            Rule.ALLOW => "allow",
+            Rule.DISALLOW => "disallow",
             _ => throw new NotImplementedException(),
         };
 }

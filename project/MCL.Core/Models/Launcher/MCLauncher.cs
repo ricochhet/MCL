@@ -7,17 +7,17 @@ public class MCLauncher(
     MCLauncherUsername _launcherUsername,
     MCLauncherPath _launcherPath,
     MCLauncherVersion _launcherVersion,
-    LauncherTypeEnum _launcherType,
-    ClientTypeEnum _clientType,
-    JavaRuntimeTypeEnum _javaRuntimeType,
-    JavaRuntimePlatformEnum _javaRuntimePlatform
+    LauncherType _launcherType,
+    ClientType _clientType,
+    JavaRuntimeType _javaRuntimeType,
+    JavaRuntimePlatform _javaRuntimePlatform
 )
 {
     public MCLauncherUsername MCLauncherUsername { get; set; } = _launcherUsername;
     public MCLauncherPath MCLauncherPath { get; set; } = _launcherPath;
     public MCLauncherVersion MCLauncherVersion { get; set; } = _launcherVersion;
-    public LauncherTypeEnum LauncherType { get; set; } = _launcherType;
-    public ClientTypeEnum ClientType { get; set; } = _clientType;
-    public JavaRuntimeTypeEnum JavaRuntimeType { get; set; } = _javaRuntimeType;
-    public JavaRuntimePlatformEnum JavaRuntimePlatform { get; set; } = _javaRuntimePlatform;
+    public LauncherType LauncherType { get; set; } = _launcherType;
+    public ClientType ClientType { get; set; } = _clientType;
+    public JavaRuntimeType JavaRuntimeType { get; set; } = _javaRuntimeType;
+    public JavaRuntimePlatform JavaRuntimePlatform { get; set; } = _javaRuntimePlatform;
 }

@@ -10,25 +10,25 @@ public static class JavaRuntimeManifestDownloaderErr
         if (javaRuntimeIndex?.Gamecore == null)
             return false;
 
-        if (javaRuntimeIndex?.Linux == null)
+        if (javaRuntimeIndex.Linux == null)
             return false;
 
-        if (javaRuntimeIndex?.LinuxI386 == null)
+        if (javaRuntimeIndex.LinuxI386 == null)
             return false;
 
-        if (javaRuntimeIndex?.Macos == null)
+        if (javaRuntimeIndex.Macos == null)
             return false;
 
-        if (javaRuntimeIndex?.MacosArm64 == null)
+        if (javaRuntimeIndex.MacosArm64 == null)
             return false;
 
-        if (javaRuntimeIndex?.WindowsArm64 == null)
+        if (javaRuntimeIndex.WindowsArm64 == null)
             return false;
 
-        if (javaRuntimeIndex?.WindowsX64 == null)
+        if (javaRuntimeIndex.WindowsX64 == null)
             return false;
 
-        if (javaRuntimeIndex?.WindowsX86 == null)
+        if (javaRuntimeIndex.WindowsX86 == null)
             return false;
 
         return true;
@@ -68,7 +68,7 @@ public static class JavaRuntimeManifestDownloaderErr
         if (javaRuntimeObjects == null)
             return false;
 
-        if (javaRuntimeObjects?.Count <= 0)
+        if (javaRuntimeObjects.Count <= 0)
             return false;
 
         if (string.IsNullOrWhiteSpace(javaRuntimeObjects[0]?.JavaRuntimeManifest?.Url))

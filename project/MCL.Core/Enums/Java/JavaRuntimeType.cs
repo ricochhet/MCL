@@ -1,6 +1,6 @@
 namespace MCL.Core.Enums.Java;
 
-public enum JavaRuntimeTypeEnum
+public enum JavaRuntimeType
 {
     JAVA_RUNTIME_ALPHA,
     JAVA_RUNTIME_BETA,

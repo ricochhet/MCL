@@ -8,17 +8,10 @@ namespace MCL.Core.Services;
 
 public static class LocalizationService
 {
-    private static Localization translation;
-    private static LanguageEnum language;
+    private static Localization translation = new();
 
-    static LocalizationService()
+    public static void Init(MCLauncherPath launcherPath, Language language, bool alwaysSaveNewTranslation = false)
     {
-        translation = new();
-    }
-
-    public static void Init(MCLauncherPath launcherPath, LanguageEnum _language, bool alwaysSaveNewTranslation = false)
-    {
-        language = _language;
         if (!VFS.Exists(LocalizationPathResolver.LanguageFilePath(launcherPath, language)) || alwaysSaveNewTranslation)
             Json.Save(
                 LocalizationPathResolver.LanguageFilePath(launcherPath, language),

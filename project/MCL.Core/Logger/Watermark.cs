@@ -7,7 +7,7 @@ public static class Watermark
 {
     public static void Draw(List<string> text)
     {
-        List<string> result = new();
+        List<string> result = [];
         int longestLength = text.Max(TextLength);
         string line = new('-', longestLength);
         result.Add($"┌─{line}─┐");

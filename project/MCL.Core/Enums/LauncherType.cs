@@ -1,6 +1,6 @@
 namespace MCL.Core.Enums;
 
-public enum LauncherTypeEnum
+public enum LauncherType
 {
     RELEASE,
     DEBUG

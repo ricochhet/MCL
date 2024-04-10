@@ -54,7 +54,6 @@ public class FileStreamLogger : ILogger, IDisposable
             );
             await Stream.FlushAsync();
         }
-        catch { }
         finally
         {
             Semaphore.Release();
@@ -63,16 +62,25 @@ public class FileStreamLogger : ILogger, IDisposable
 
     public void Dispose()
     {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
         try
         {
-            GC.SuppressFinalize(this);
             Semaphore.Wait();
             Stream.Dispose();
         }
-        catch { }
         finally
         {
             Semaphore.Release();
         }
+    }
+
+    ~FileStreamLogger()
+    {
+        Dispose(false);
     }
 }

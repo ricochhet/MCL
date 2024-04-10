@@ -12,19 +12,18 @@ namespace MCL.Core.Providers.Minecraft;
 
 public class MCDownloadProvider
 {
-    public MCVersionManifest versionManifest;
-    public MCVersionDetails versionDetails;
-    public MCVersion version;
-    public MCAssetsData assets;
-    private static MCLauncherPath launcherPath;
-    private static MCLauncherVersion launcherVersion;
-    private static PlatformEnum platform;
-    private static MCConfigUrls configUrls;
+    private MCVersionDetails versionDetails;
+    private MCVersion version;
+    private MCAssetsData assets;
+    private readonly MCLauncherPath launcherPath;
+    private readonly MCLauncherVersion launcherVersion;
+    private readonly Platform platform;
+    private readonly MCConfigUrls configUrls;
 
     public MCDownloadProvider(
         MCLauncherPath _launcherPath,
         MCLauncherVersion _launcherVersion,
-        PlatformEnum _platform,
+        Platform _platform,
         MCConfigUrls _configUrls
     )
     {
@@ -77,7 +76,7 @@ public class MCDownloadProvider
             return false;
         }
 
-        versionManifest = Json.Load<MCVersionManifest>(
+        MCVersionManifest versionManifest = Json.Load<MCVersionManifest>(
             MinecraftPathResolver.DownloadedVersionManifestPath(launcherPath)
         );
         if (versionManifest == null)

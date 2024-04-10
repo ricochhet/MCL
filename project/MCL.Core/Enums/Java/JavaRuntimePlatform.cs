@@ -1,6 +1,6 @@
 namespace MCL.Core.Enums.Java;
 
-public enum JavaRuntimePlatformEnum
+public enum JavaRuntimePlatform
 {
     GAMECORE,
     LINUX,

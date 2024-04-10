@@ -1,6 +1,6 @@
 namespace MCL.Core.Enums;
 
-public enum ClientTypeEnum
+public enum ServerType
 {
     VANILLA,
     FABRIC,

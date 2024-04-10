@@ -14,11 +14,7 @@ namespace MCL.Core.Web.Minecraft;
 
 public class LibraryDownloader : IMCLibraryDownloader
 {
-    public static async Task<bool> Download(
-        MCLauncherPath launcherPath,
-        PlatformEnum platform,
-        List<MCLibrary> libraries
-    )
+    public static async Task<bool> Download(MCLauncherPath launcherPath, Platform platform, List<MCLibrary> libraries)
     {
         if (!MCLauncherPath.Exists(launcherPath))
             return false;
@@ -38,15 +34,15 @@ public class LibraryDownloader : IMCLibraryDownloader
             if (!LibraryDownloaderErr.Exists(lib))
                 return false;
 
-            string downloadPath = VFS.Combine(libPath, lib.Downloads.Artifact.Path);
-            if (!await Request.Download(lib.Downloads.Artifact.URL, downloadPath, lib.Downloads.Artifact.SHA1))
+            string filepath = VFS.Combine(libPath, lib.Downloads.Artifact.Path);
+            if (!await Request.Download(lib.Downloads.Artifact.URL, filepath, lib.Downloads.Artifact.SHA1))
                 return false;
         }
 
         return true;
     }
 
-    public static bool SkipLibrary(MCLibrary lib, PlatformEnum platform)
+    public static bool SkipLibrary(MCLibrary lib, Platform platform)
     {
         if (lib.Rules == null)
             return false;
@@ -63,58 +59,57 @@ public class LibraryDownloader : IMCLibraryDownloader
 
             if (os == null)
             {
-                allowLibrary = action == RuleEnumResolver.ToString(RuleEnum.ALLOW);
+                allowLibrary = action == RuleResolver.ToString(Rule.ALLOW);
                 continue;
             }
 
-            if (os == PlatformEnumResolver.ToString(platform))
+            if (os == PlatformResolver.ToString(platform))
             {
-                allowLibrary = action == RuleEnumResolver.ToString(RuleEnum.ALLOW);
-                continue;
+                allowLibrary = action == RuleResolver.ToString(Rule.ALLOW);
             }
         }
 
         return !allowLibrary;
     }
 
-    public static async Task<bool> DownloadNatives(MCLauncherPath launcherPath, MCLibrary lib, PlatformEnum platform)
+    public static async Task<bool> DownloadNatives(MCLauncherPath launcherPath, MCLibrary lib, Platform platform)
     {
         if (lib.Downloads.Classifiers == null)
             return true;
 
-        string classifierDownloadPath = string.Empty;
+        string classifierFilePath = string.Empty;
         string classifierUrl = string.Empty;
         string classifierSha1 = string.Empty;
 
         switch (platform)
         {
-            case PlatformEnum.WINDOWS:
+            case Platform.WINDOWS:
                 if (!LibraryNativesDownloaderErr.WindowsClassifierNativesExists(lib))
                     return false;
 
-                classifierDownloadPath = VFS.Combine(
+                classifierFilePath = VFS.Combine(
                     MinecraftPathResolver.LibraryPath(launcherPath),
                     lib.Downloads.Classifiers.NativesWindows.Path
                 );
                 classifierUrl = lib.Downloads.Classifiers.NativesWindows.URL;
                 classifierSha1 = lib.Downloads.Classifiers.NativesWindows.SHA1;
                 break;
-            case PlatformEnum.LINUX:
+            case Platform.LINUX:
                 if (!LibraryNativesDownloaderErr.LinuxClassifierNativesExists(lib))
                     return false;
 
-                classifierDownloadPath = VFS.Combine(
+                classifierFilePath = VFS.Combine(
                     MinecraftPathResolver.LibraryPath(launcherPath),
                     lib.Downloads.Classifiers.NativesLinux.Path
                 );
                 classifierUrl = lib.Downloads.Classifiers.NativesLinux.URL;
                 classifierSha1 = lib.Downloads.Classifiers.NativesLinux.SHA1;
                 break;
-            case PlatformEnum.OSX:
+            case Platform.OSX:
                 if (!LibraryNativesDownloaderErr.OSXClassifierNativesExists(lib))
                     return false;
 
-                classifierDownloadPath = VFS.Combine(
+                classifierFilePath = VFS.Combine(
                     MinecraftPathResolver.LibraryPath(launcherPath),
                     lib.Downloads.Classifiers.NativesMacos.Path
                 );
@@ -123,7 +118,7 @@ public class LibraryDownloader : IMCLibraryDownloader
                 break;
         }
 
-        if (!await Request.Download(classifierUrl, classifierDownloadPath, classifierSha1))
+        if (!await Request.Download(classifierUrl, classifierFilePath, classifierSha1))
             return false;
         return true;
     }

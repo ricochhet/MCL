@@ -50,7 +50,7 @@ public static class LaunchArgsHelper
             )
         );
         jvmArguments.Add(
-            LauncherTypeEnum.DEBUG,
+            LauncherType.DEBUG,
             new LaunchArg(
                 "-Dlog4j2.configurationFile={0}",
                 [MinecraftPathResolver.LoggingPath(launcher.MCLauncherVersion)]
@@ -59,12 +59,12 @@ public static class LaunchArgsHelper
         jvmArguments.Add(new LaunchArg("-Dminecraft.launcher.brand={0}", ["MCL"]));
         jvmArguments.Add(new LaunchArg("-Dminecraft.launcher.version={0}", ["1.0.0"]));
         jvmArguments.Add(
-            ClientTypeEnum.VANILLA,
-            new LaunchArg("-DMcEmu={0}", [ClientTypeEnumResolver.ToString(ClientTypeEnum.VANILLA)])
+            ClientType.VANILLA,
+            new LaunchArg("-DMcEmu={0}", [ClientTypeResolver.ToString(ClientType.VANILLA)])
         );
         jvmArguments.Add(
-            ClientTypeEnum.FABRIC,
-            new LaunchArg("-DFabricMcEmu={0}", [ClientTypeEnumResolver.ToString(ClientTypeEnum.VANILLA)])
+            ClientType.FABRIC,
+            new LaunchArg("-DFabricMcEmu={0}", [ClientTypeResolver.ToString(ClientType.VANILLA)])
         );
         jvmArguments.Add(new LaunchArg("-Dlog4j2.formatMsgNoLookups=true"));
         jvmArguments.Add(new LaunchArg("-Djava.rmi.server.useCodebaseOnly=true"));
@@ -74,7 +74,7 @@ public static class LaunchArgsHelper
                 "-cp {0} {1}",
                 [
                     ClassPathHelper.CreateClassPath(launcher.MCLauncherPath, launcher.MCLauncherVersion),
-                    ClientTypeEnumResolver.ToString(launcher.ClientType)
+                    ClientTypeResolver.ToString(launcher.ClientType)
                 ]
             )
         );

@@ -25,40 +25,37 @@ public class FabricLoaderDownloader : IFabricLoaderDownloader
 
         foreach (MCFabricLibrary library in fabricProfile.Libraries)
         {
-            if (string.IsNullOrWhiteSpace(library.Name))
+            if (!FabricLoaderDownloaderErr.Exists(library))
                 return false;
 
-            if (string.IsNullOrWhiteSpace(library.URL))
-                return false;
-
-            string url;
-            string sha1;
+            string request;
+            string hash;
             if (library.Name.Contains(fabricConfigUrls.FabricApiLoaderName))
             {
-                url = MinecraftFabricPathResolver.FabricLoaderJarUrlPath(fabricConfigUrls, launcherVersion);
-                sha1 = string.Empty;
+                request = MinecraftFabricPathResolver.FabricLoaderJarUrlPath(fabricConfigUrls, launcherVersion);
+                hash = string.Empty;
             }
             else if (library.Name.Contains(fabricConfigUrls.FabricApiIntermediaryName))
             {
-                url = MCFabricLibrary.ParseURL(library.Name, library.URL);
-                sha1 = string.Empty;
+                request = MCFabricLibrary.ParseURL(library.Name, library.URL);
+                hash = string.Empty;
             }
             else
             {
                 if (string.IsNullOrWhiteSpace(library.SHA1))
                     return false;
-                url = MCFabricLibrary.ParseURL(library.Name, library.URL);
-                sha1 = library.SHA1;
+                request = MCFabricLibrary.ParseURL(library.Name, library.URL);
+                hash = library.SHA1;
             }
 
             if (
                 !await Request.Download(
-                    url,
+                    request,
                     VFS.Combine(
                         MinecraftPathResolver.LibraryPath(launcherPath),
                         MCFabricLibrary.ParsePath(library.Name)
                     ),
-                    sha1
+                    hash
                 )
             )
                 return false;

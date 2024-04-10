@@ -9,7 +9,7 @@ public static class MCFabricConfigUrlsErr
         if (string.IsNullOrWhiteSpace(fabricConfigUrls?.FabricVersionsIndex))
             return false;
 
-        if (string.IsNullOrWhiteSpace(fabricConfigUrls?.FabricLoaderProfileUrl))
+        if (string.IsNullOrWhiteSpace(fabricConfigUrls.FabricLoaderProfileUrl))
             return false;
 
         return true;

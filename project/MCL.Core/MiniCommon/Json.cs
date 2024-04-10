@@ -20,7 +20,7 @@ public static class Json
         VFS.WriteFile(filepath, json);
     }
 
-    public static void Save<T>(string filepath, T data, JsonSerializerOptions options = null)
+    public static void Save<T>(string filepath, T data, JsonSerializerOptions options)
     {
         if (!VFS.Exists(filepath))
             VFS.CreateDirectory(VFS.GetDirectoryName(filepath));
@@ -45,7 +45,7 @@ public static class Json
         }
     }
 
-    public static T Load<T>(string filepath, JsonSerializerOptions options = null)
+    public static T Load<T>(string filepath, JsonSerializerOptions options)
         where T : new()
     {
         if (!VFS.Exists(filepath))

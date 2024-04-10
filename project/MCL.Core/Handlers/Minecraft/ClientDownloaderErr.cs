@@ -9,7 +9,7 @@ public static class ClientDownloaderErr
         if (string.IsNullOrWhiteSpace(versionDetails?.Downloads?.Client?.SHA1))
             return false;
 
-        if (string.IsNullOrWhiteSpace(versionDetails?.Downloads?.Client?.URL))
+        if (string.IsNullOrWhiteSpace(versionDetails.Downloads?.Client?.URL))
             return false;
 
         return true;

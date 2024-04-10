@@ -9,7 +9,7 @@ public static class LoggingDownloaderErr
         if (string.IsNullOrWhiteSpace(versionDetails?.Logging?.Client?.File?.SHA1))
             return false;
 
-        if (string.IsNullOrWhiteSpace(versionDetails?.Logging?.Client?.File?.URL))
+        if (string.IsNullOrWhiteSpace(versionDetails.Logging?.Client?.File?.URL))
             return false;
 
         return true;

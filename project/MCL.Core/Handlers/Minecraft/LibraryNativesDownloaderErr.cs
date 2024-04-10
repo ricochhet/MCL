@@ -9,7 +9,7 @@ public static class LibraryNativesDownloaderErr
         if (string.IsNullOrWhiteSpace(lib?.Downloads?.Classifiers?.NativesWindows?.URL))
             return false;
 
-        if (string.IsNullOrWhiteSpace(lib?.Downloads?.Classifiers?.NativesWindows?.SHA1))
+        if (string.IsNullOrWhiteSpace(lib.Downloads?.Classifiers?.NativesWindows?.SHA1))
             return false;
 
         return true;
@@ -20,7 +20,7 @@ public static class LibraryNativesDownloaderErr
         if (string.IsNullOrWhiteSpace(lib?.Downloads?.Classifiers?.NativesLinux?.URL))
             return false;
 
-        if (string.IsNullOrWhiteSpace(lib?.Downloads?.Classifiers?.NativesLinux?.SHA1))
+        if (string.IsNullOrWhiteSpace(lib.Downloads?.Classifiers?.NativesLinux?.SHA1))
             return false;
 
         return true;
@@ -31,7 +31,7 @@ public static class LibraryNativesDownloaderErr
         if (string.IsNullOrWhiteSpace(lib?.Downloads?.Classifiers?.NativesMacos?.URL))
             return false;
 
-        if (string.IsNullOrWhiteSpace(lib?.Downloads?.Classifiers?.NativesMacos?.SHA1))
+        if (string.IsNullOrWhiteSpace(lib.Downloads?.Classifiers?.NativesMacos?.SHA1))
             return false;
 
         return true;

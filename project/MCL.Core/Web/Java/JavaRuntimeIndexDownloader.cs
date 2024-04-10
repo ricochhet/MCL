@@ -20,10 +20,10 @@ public class JavaRuntimeIndexDownloader : IJavaRuntimeIndexDownloader
         if (!JavaRuntimeIndexDownloaderErr.Exists(configUrls))
             return false;
 
-        string downloadPath = JavaPathResolver.DownloadedJavaRuntimeIndexPath(launcherPath);
+        string filepath = JavaPathResolver.DownloadedJavaRuntimeIndexPath(launcherPath);
         string javaRuntimeIndex = await Request.GetJsonAsync<JavaRuntimeIndex>(
             configUrls.JavaRuntimeIndexUrl,
-            downloadPath,
+            filepath,
             Encoding.UTF8
         );
         if (string.IsNullOrWhiteSpace(javaRuntimeIndex))

@@ -9,7 +9,7 @@ public static class JavaRuntimeDownloaderErr
         if (javaRuntimeFiles?.Files == null)
             return false;
 
-        if (javaRuntimeFiles?.Files?.Count <= 0)
+        if (javaRuntimeFiles.Files?.Count <= 0)
             return false;
 
         return true;
@@ -20,7 +20,7 @@ public static class JavaRuntimeDownloaderErr
         if (string.IsNullOrWhiteSpace(javaRuntimeFile?.Downloads?.Raw?.URL))
             return false;
 
-        if (string.IsNullOrWhiteSpace(javaRuntimeFile?.Downloads?.Raw?.SHA1))
+        if (string.IsNullOrWhiteSpace(javaRuntimeFile.Downloads?.Raw?.SHA1))
             return false;
 
         return true;

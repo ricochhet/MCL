@@ -5,10 +5,11 @@ using MCL.Core.Logger.Enums;
 
 namespace MCL.Core.Logger;
 
-public class NativeLogger : ILogger
+public partial class NativeLogger : ILogger
 {
-    [DllImport("kernel32", SetLastError = true)]
-    private static extern bool AllocConsole();
+    [LibraryImport("kernel32", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static partial bool AllocConsole();
 
     public NativeLogger()
     {

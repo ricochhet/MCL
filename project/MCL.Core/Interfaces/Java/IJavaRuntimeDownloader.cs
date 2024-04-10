@@ -9,7 +9,7 @@ public interface IJavaRuntimeDownloader
 {
     public static abstract Task<bool> Download(
         MCLauncherPath launcherPath,
-        JavaRuntimeTypeEnum javaRuntimeType,
+        JavaRuntimeType javaRuntimeType,
         JavaRuntimeFiles javaRuntimeFiles
     );
 }

@@ -14,7 +14,7 @@ public class JavaRuntimeDownloader : IJavaRuntimeDownloader
 {
     public static async Task<bool> Download(
         MCLauncherPath launcherPath,
-        JavaRuntimeTypeEnum javaRuntimeType,
+        JavaRuntimeType javaRuntimeType,
         JavaRuntimeFiles javaRuntimeFiles
     )
     {
@@ -40,7 +40,7 @@ public class JavaRuntimeDownloader : IJavaRuntimeDownloader
                         VFS.Combine(
                             JavaPathResolver.DownloadedJavaRuntimePath(
                                 launcherPath,
-                                JavaRuntimeTypeEnumResolver.ToString(javaRuntimeType)
+                                JavaRuntimeTypeResolver.ToString(javaRuntimeType)
                             ),
                             path
                         ),

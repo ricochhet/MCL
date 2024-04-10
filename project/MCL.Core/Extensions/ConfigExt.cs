@@ -7,14 +7,14 @@ namespace MCL.Core.Extensions;
 
 public static class ConfigExt
 {
-    public static Config Save(this Config config, ClientTypeEnum clientType, JvmArguments jvmArguments)
+    public static Config Save(this Config config, ClientType clientType, JvmArguments jvmArguments)
     {
         switch (clientType)
         {
-            case ClientTypeEnum.VANILLA:
+            case ClientType.VANILLA:
                 config.MinecraftArgs = jvmArguments;
                 break;
-            case ClientTypeEnum.FABRIC:
+            case ClientType.FABRIC:
                 config.FabricArgs = jvmArguments;
                 break;
         }

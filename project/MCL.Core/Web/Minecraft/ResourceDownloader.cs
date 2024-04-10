@@ -27,9 +27,9 @@ public class ResourceDownloader : IMCResourceDownloader
             if (string.IsNullOrWhiteSpace(asset.Hash))
                 return false;
 
-            string url = $"{configUrls.MinecraftResources}/{asset.Hash[..2]}/{asset.Hash}";
-            string downloadPath = VFS.Combine(objectsPath, asset.Hash[..2], asset.Hash);
-            if (!await Request.Download(url, downloadPath, asset.Hash))
+            string request = $"{configUrls.MinecraftResources}/{asset.Hash[..2]}/{asset.Hash}";
+            string filepath = VFS.Combine(objectsPath, asset.Hash[..2], asset.Hash);
+            if (!await Request.Download(request, filepath, asset.Hash))
                 return false;
         }
 

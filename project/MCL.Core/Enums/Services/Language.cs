@@ -1,6 +1,6 @@
 namespace MCL.Core.Enums.Services;
 
-public enum LanguageEnum
+public enum Language
 {
     ENGLISH,
     CHINESE,

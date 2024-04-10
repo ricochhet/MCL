@@ -16,8 +16,8 @@ public class JavaRuntimeManifestDownloader : IJavaRuntimeManifestDownloader
 {
     public static async Task<bool> Download(
         MCLauncherPath launcherPath,
-        JavaRuntimePlatformEnum javaRuntimePlatformEnum,
-        JavaRuntimeTypeEnum javaRuntimeTypeEnum,
+        JavaRuntimePlatform javaRuntimePlatformEnum,
+        JavaRuntimeType javaRuntimeTypeEnum,
         JavaRuntimeIndex javaRuntimeIndex
     )
     {
@@ -27,17 +27,16 @@ public class JavaRuntimeManifestDownloader : IJavaRuntimeManifestDownloader
         if (!JavaRuntimeManifestDownloaderErr.Exists(javaRuntimeIndex))
             return false;
 
-        string url = javaRuntimePlatformEnum switch
+        string request = javaRuntimePlatformEnum switch
         {
-            JavaRuntimePlatformEnum.GAMECORE => GetJavaRuntimeUrl(javaRuntimeTypeEnum, javaRuntimeIndex.Gamecore),
-            JavaRuntimePlatformEnum.LINUX => GetJavaRuntimeUrl(javaRuntimeTypeEnum, javaRuntimeIndex.Linux),
-            JavaRuntimePlatformEnum.LINUXI386 => GetJavaRuntimeUrl(javaRuntimeTypeEnum, javaRuntimeIndex.LinuxI386),
-            JavaRuntimePlatformEnum.MACOS => GetJavaRuntimeUrl(javaRuntimeTypeEnum, javaRuntimeIndex.Macos),
-            JavaRuntimePlatformEnum.MACOSARM64 => GetJavaRuntimeUrl(javaRuntimeTypeEnum, javaRuntimeIndex.MacosArm64),
-            JavaRuntimePlatformEnum.WINDOWSARM64
-                => GetJavaRuntimeUrl(javaRuntimeTypeEnum, javaRuntimeIndex.WindowsArm64),
-            JavaRuntimePlatformEnum.WINDOWSX64 => GetJavaRuntimeUrl(javaRuntimeTypeEnum, javaRuntimeIndex.WindowsX64),
-            JavaRuntimePlatformEnum.WINDOWSX86 => GetJavaRuntimeUrl(javaRuntimeTypeEnum, javaRuntimeIndex.WindowsX86),
+            JavaRuntimePlatform.GAMECORE => GetJavaRuntimeUrl(javaRuntimeTypeEnum, javaRuntimeIndex.Gamecore),
+            JavaRuntimePlatform.LINUX => GetJavaRuntimeUrl(javaRuntimeTypeEnum, javaRuntimeIndex.Linux),
+            JavaRuntimePlatform.LINUXI386 => GetJavaRuntimeUrl(javaRuntimeTypeEnum, javaRuntimeIndex.LinuxI386),
+            JavaRuntimePlatform.MACOS => GetJavaRuntimeUrl(javaRuntimeTypeEnum, javaRuntimeIndex.Macos),
+            JavaRuntimePlatform.MACOSARM64 => GetJavaRuntimeUrl(javaRuntimeTypeEnum, javaRuntimeIndex.MacosArm64),
+            JavaRuntimePlatform.WINDOWSARM64 => GetJavaRuntimeUrl(javaRuntimeTypeEnum, javaRuntimeIndex.WindowsArm64),
+            JavaRuntimePlatform.WINDOWSX64 => GetJavaRuntimeUrl(javaRuntimeTypeEnum, javaRuntimeIndex.WindowsX64),
+            JavaRuntimePlatform.WINDOWSX86 => GetJavaRuntimeUrl(javaRuntimeTypeEnum, javaRuntimeIndex.WindowsX86),
             _
                 => throw new ArgumentOutOfRangeException(
                     nameof(javaRuntimePlatformEnum),
@@ -45,14 +44,14 @@ public class JavaRuntimeManifestDownloader : IJavaRuntimeManifestDownloader
                 ),
         };
 
-        if (string.IsNullOrWhiteSpace(url))
+        if (string.IsNullOrWhiteSpace(request))
             return false;
 
         string javaRuntimeFiles = await Request.GetJsonAsync<JavaRuntimeFiles>(
-            url,
+            request,
             JavaPathResolver.DownloadedJavaRuntimeManifestPath(
                 launcherPath,
-                JavaRuntimeTypeEnumResolver.ToString(javaRuntimeTypeEnum)
+                JavaRuntimeTypeResolver.ToString(javaRuntimeTypeEnum)
             ),
             Encoding.UTF8
         );
@@ -61,21 +60,21 @@ public class JavaRuntimeManifestDownloader : IJavaRuntimeManifestDownloader
         return true;
     }
 
-    public static string GetJavaRuntimeUrl(JavaRuntimeTypeEnum javaRuntimeTypeEnum, JavaRuntime javaRuntime)
+    public static string GetJavaRuntimeUrl(JavaRuntimeType javaRuntimeTypeEnum, JavaRuntime javaRuntime)
     {
         if (!JavaRuntimeManifestDownloaderErr.Exists(javaRuntime))
             return default;
 
         return javaRuntimeTypeEnum switch
         {
-            JavaRuntimeTypeEnum.JAVA_RUNTIME_ALPHA => javaRuntime.JavaRuntimeAlpha[0].JavaRuntimeManifest.Url,
-            JavaRuntimeTypeEnum.JAVA_RUNTIME_BETA => javaRuntime.JavaRuntimeBeta[0].JavaRuntimeManifest.Url,
-            JavaRuntimeTypeEnum.JAVA_RUNTIME_DELTA => javaRuntime.JavaRuntimeDelta[0].JavaRuntimeManifest.Url,
-            JavaRuntimeTypeEnum.JAVA_RUNTIME_GAMMA => javaRuntime.JavaRuntimeGamma[0].JavaRuntimeManifest.Url,
-            JavaRuntimeTypeEnum.JAVA_RUNTIME_GAMMA_SNAPSHOT
+            JavaRuntimeType.JAVA_RUNTIME_ALPHA => javaRuntime.JavaRuntimeAlpha[0].JavaRuntimeManifest.Url,
+            JavaRuntimeType.JAVA_RUNTIME_BETA => javaRuntime.JavaRuntimeBeta[0].JavaRuntimeManifest.Url,
+            JavaRuntimeType.JAVA_RUNTIME_DELTA => javaRuntime.JavaRuntimeDelta[0].JavaRuntimeManifest.Url,
+            JavaRuntimeType.JAVA_RUNTIME_GAMMA => javaRuntime.JavaRuntimeGamma[0].JavaRuntimeManifest.Url,
+            JavaRuntimeType.JAVA_RUNTIME_GAMMA_SNAPSHOT
                 => javaRuntime.JavaRuntimeGammaSnapshot[0].JavaRuntimeManifest.Url,
-            JavaRuntimeTypeEnum.JRE_LEGACY => javaRuntime.JreLegacy[0].JavaRuntimeManifest.Url,
-            JavaRuntimeTypeEnum.MINECRAFT_JAVA_EXE => javaRuntime.MinecraftJavaExe[0].JavaRuntimeManifest.Url,
+            JavaRuntimeType.JRE_LEGACY => javaRuntime.JreLegacy[0].JavaRuntimeManifest.Url,
+            JavaRuntimeType.MINECRAFT_JAVA_EXE => javaRuntime.MinecraftJavaExe[0].JavaRuntimeManifest.Url,
             _ => throw new ArgumentOutOfRangeException(nameof(javaRuntimeTypeEnum), "Invalid Java runtime type."),
         };
     }

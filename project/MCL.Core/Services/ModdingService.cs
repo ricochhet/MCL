@@ -41,7 +41,7 @@ public static class ModdingService
             return false;
 
         string[] filteredModFilePaths = modFilePaths
-            .Where(file => ModConfig.FileTypes.Any(file.ToLower().EndsWith))
+            .Where(file => Array.Exists(ModConfig.FileTypes, file.ToLower().EndsWith))
             .ToArray();
         if (filteredModFilePaths.Length <= 0)
             return false;
@@ -51,11 +51,11 @@ public static class ModdingService
         {
             if (ModConfig.CopyOnlyTypes.Contains(VFS.GetFileExtension(modFilePath)))
                 modFiles.Files.Add(
-                    new ModFile(modFilePath, CryptographyHelper.Sha1(modFilePath, true), ModRuleEnum.COPY_ONLY)
+                    new ModFile(modFilePath, CryptographyHelper.Sha1(modFilePath, true), ModRule.COPY_ONLY)
                 );
             else if (ModConfig.UnzipAndCopyTypes.Contains(VFS.GetFileExtension(modFilePath)))
                 modFiles.Files.Add(
-                    new ModFile(modFilePath, CryptographyHelper.Sha1(modFilePath, true), ModRuleEnum.UNZIP_AND_COPY)
+                    new ModFile(modFilePath, CryptographyHelper.Sha1(modFilePath, true), ModRule.UNZIP_AND_COPY)
                 );
         }
         string filepath = ModPathResolver.ModStorePath(LauncherPath, modStoreName);
@@ -109,6 +109,9 @@ public static class ModdingService
         if (!VFS.Exists(deployPath))
             VFS.CreateDirectory(deployPath);
 
+        if (modFiles == null)
+            return false;
+
         List<ModFile> sortedModFiles = [.. modFiles.Files.OrderBy(a => a.Priority)];
 
         foreach (ModFile modFile in sortedModFiles)
@@ -116,7 +119,7 @@ public static class ModdingService
             if (modFile == null)
                 return false;
 
-            if (!VFS.Exists(modFile?.ModPath))
+            if (!VFS.Exists(modFile.ModPath))
                 continue;
 
             if (VFS.Exists(VFS.Combine(deployPath, VFS.GetFileName(modFile.ModPath))) && !overwrite)
@@ -124,10 +127,10 @@ public static class ModdingService
 
             switch (modFile.ModRule)
             {
-                case ModRuleEnum.COPY_ONLY:
+                case ModRule.COPY_ONLY:
                     VFS.CopyFile(modFile.ModPath, VFS.Combine(deployPath, VFS.GetFileName(modFile.ModPath)));
                     break;
-                case ModRuleEnum.UNZIP_AND_COPY:
+                case ModRule.UNZIP_AND_COPY:
                     throw new NotImplementedException();
             }
         }

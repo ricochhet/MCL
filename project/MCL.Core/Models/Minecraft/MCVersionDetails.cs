@@ -48,37 +48,4 @@ public class MCVersionDetails
     public string Type { get; set; }
 
     public MCVersionDetails() { }
-
-    public MCVersionDetails(
-        MCArgument arguments,
-        MCAssetIndex assetIndex,
-        string assets,
-        int complianceLevel,
-        MCDownloads downloads,
-        string id,
-        JavaVersion javaVersion,
-        List<MCLibrary> libraries,
-        MCLogging logging,
-        string mainClass,
-        int minimumLauncherVersion,
-        string releaseTime,
-        string time,
-        string type
-    )
-    {
-        Arguments = arguments;
-        AssetIndex = assetIndex;
-        Assets = assets;
-        ComplianceLevel = complianceLevel;
-        Downloads = downloads;
-        ID = id;
-        JavaVersion = javaVersion;
-        Libraries = libraries;
-        Logging = logging;
-        MainClass = mainClass;
-        MinimumLauncherVersion = minimumLauncherVersion;
-        ReleaseTime = releaseTime;
-        Time = time;
-        Type = type;
-    }
 }

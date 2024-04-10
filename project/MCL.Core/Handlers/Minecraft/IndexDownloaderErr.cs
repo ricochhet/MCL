@@ -9,7 +9,7 @@ public static class IndexDownloaderErr
         if (string.IsNullOrWhiteSpace(versionDetails?.AssetIndex?.SHA1))
             return false;
 
-        if (string.IsNullOrWhiteSpace(versionDetails?.AssetIndex?.URL))
+        if (string.IsNullOrWhiteSpace(versionDetails.AssetIndex?.URL))
             return false;
 
         return true;

@@ -19,8 +19,8 @@ public class VersionDetailsDownloader : IMCVersionDetailsDownloader
         if (!VersionDetailsDownloaderErr.Exists(version))
             return false;
 
-        string downloadPath = MinecraftPathResolver.DownloadedVersionDetailsPath(launcherPath, version);
-        string versionDetails = await Request.GetJsonAsync<MCVersionDetails>(version.URL, downloadPath, Encoding.UTF8);
+        string filepath = MinecraftPathResolver.DownloadedVersionDetailsPath(launcherPath, version);
+        string versionDetails = await Request.GetJsonAsync<MCVersionDetails>(version.URL, filepath, Encoding.UTF8);
         if (string.IsNullOrWhiteSpace(versionDetails))
             return false;
         return true;

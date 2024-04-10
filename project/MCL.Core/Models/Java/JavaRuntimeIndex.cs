@@ -29,25 +29,4 @@ public class JavaRuntimeIndex
     public JavaRuntime WindowsX86 { get; set; }
 
     public JavaRuntimeIndex() { }
-
-    public JavaRuntimeIndex(
-        JavaRuntime gamecore,
-        JavaRuntime linux,
-        JavaRuntime linuxI386,
-        JavaRuntime macos,
-        JavaRuntime macosArm64,
-        JavaRuntime windowsArm64,
-        JavaRuntime windowsX64,
-        JavaRuntime windowsX86
-    )
-    {
-        Gamecore = gamecore;
-        Linux = linux;
-        LinuxI386 = linuxI386;
-        Macos = macos;
-        MacosArm64 = macosArm64;
-        WindowsArm64 = windowsArm64;
-        WindowsX64 = windowsX64;
-        WindowsX86 = windowsX86;
-    }
 }

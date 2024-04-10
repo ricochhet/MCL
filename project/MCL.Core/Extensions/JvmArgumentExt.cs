@@ -6,27 +6,27 @@ namespace MCL.Core.Extensions;
 
 public static class JvmArgumentExt
 {
-    public static void Add(this JvmArguments jvmArguments, ClientTypeEnum clientType, LaunchArg launchArg)
+    public static void Add(this JvmArguments jvmArguments, ClientType clientType, LaunchArg launchArg)
     {
         switch (clientType)
         {
-            case ClientTypeEnum.VANILLA:
+            case ClientType.VANILLA:
                 jvmArguments.Add(launchArg);
                 break;
-            case ClientTypeEnum.FABRIC:
+            case ClientType.FABRIC:
                 jvmArguments.Add(launchArg);
                 break;
         }
     }
 
-    public static void Add(this JvmArguments jvmArguments, LauncherTypeEnum launcherType, LaunchArg launchArg)
+    public static void Add(this JvmArguments jvmArguments, LauncherType launcherType, LaunchArg launchArg)
     {
         switch (launcherType)
         {
-            case LauncherTypeEnum.RELEASE:
+            case LauncherType.RELEASE:
                 jvmArguments.Add(launchArg);
                 break;
-            case LauncherTypeEnum.DEBUG:
+            case LauncherType.DEBUG:
                 jvmArguments.Add(launchArg);
                 break;
         }

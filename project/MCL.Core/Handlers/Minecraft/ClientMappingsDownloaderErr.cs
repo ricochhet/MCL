@@ -9,7 +9,7 @@ public static class ClientMappingsDownloaderErr
         if (string.IsNullOrWhiteSpace(versionDetails?.Downloads?.ClientMappings?.SHA1))
             return false;
 
-        if (string.IsNullOrWhiteSpace(versionDetails?.Downloads?.ClientMappings?.URL))
+        if (string.IsNullOrWhiteSpace(versionDetails.Downloads?.ClientMappings?.URL))
             return false;
 
         return true;

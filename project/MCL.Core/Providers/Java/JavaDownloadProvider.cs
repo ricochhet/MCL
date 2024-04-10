@@ -13,18 +13,18 @@ namespace MCL.Core.Providers.Java;
 
 public class JavaDownloadProvider
 {
-    public JavaRuntimeIndex javaRuntimeIndex;
-    public JavaRuntimeFiles javaRuntimeFiles;
-    private static MCLauncherPath launcherPath;
-    private static MCConfigUrls configUrls;
-    private static JavaRuntimeTypeEnum javaRuntimeType;
-    private static JavaRuntimePlatformEnum javaRuntimePlatform;
+    private JavaRuntimeIndex javaRuntimeIndex;
+    private JavaRuntimeFiles javaRuntimeFiles;
+    private readonly MCLauncherPath launcherPath;
+    private readonly MCConfigUrls configUrls;
+    private readonly JavaRuntimeType javaRuntimeType;
+    private readonly JavaRuntimePlatform javaRuntimePlatform;
 
     public JavaDownloadProvider(
         MCLauncherPath _launcherPath,
         MCConfigUrls _configUrls,
-        JavaRuntimeTypeEnum _javaRuntimeType,
-        JavaRuntimePlatformEnum _javaRuntimePlatform
+        JavaRuntimeType _javaRuntimeType,
+        JavaRuntimePlatform _javaRuntimePlatform
     )
     {
         launcherPath = _launcherPath;
@@ -83,7 +83,7 @@ public class JavaDownloadProvider
         javaRuntimeFiles = Json.Load<JavaRuntimeFiles>(
             JavaPathResolver.DownloadedJavaRuntimeManifestPath(
                 launcherPath,
-                JavaRuntimeTypeEnumResolver.ToString(javaRuntimeType)
+                JavaRuntimeTypeResolver.ToString(javaRuntimeType)
             )
         );
         if (javaRuntimeFiles == null)

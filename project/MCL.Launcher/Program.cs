@@ -18,7 +18,7 @@ using MCL.Core.Services;
 
 namespace MCL.Launcher;
 
-internal class Program
+internal static class Program
 {
     private static async Task Main(string[] args)
     {
@@ -60,13 +60,13 @@ internal class Program
                 launcherUsername,
                 launcherPath,
                 launcherVersion,
-                LauncherTypeEnum.RELEASE,
-                ClientTypeEnum.FABRIC,
-                JavaRuntimeTypeEnum.JAVA_RUNTIME_GAMMA,
-                JavaRuntimePlatformEnum.WINDOWSX64
+                LauncherType.RELEASE,
+                ClientType.FABRIC,
+                JavaRuntimeType.JAVA_RUNTIME_GAMMA,
+                JavaRuntimePlatform.WINDOWSX64
             );
 
-        LocalizationService.Init(launcherPath, LanguageEnum.ENGLISH, true);
+        LocalizationService.Init(launcherPath, Language.ENGLISH, true);
         ModdingService.Init(launcherPath, config.ModConfig);
         ModdingService.Save("fabric-mods");
         ModdingService.Deploy(ModdingService.Load("fabric-mods"), VFS.Combine(launcherPath.Path, "mods"));
@@ -88,7 +88,7 @@ internal class Program
                             launcher.MCLauncherVersion,
                             launcher.JavaRuntimeType
                         ),
-                        JavaRuntimePlatformEnum.WINDOWSX64
+                        JavaRuntimePlatform.WINDOWSX64
                     );
 
                 if (!await javaDownloadProvider.DownloadAll())
@@ -102,12 +102,7 @@ internal class Program
             async () =>
             {
                 MCDownloadProvider downloadProvider =
-                    new(
-                        launcher.MCLauncherPath,
-                        launcher.MCLauncherVersion,
-                        PlatformEnum.WINDOWS,
-                        config.MinecraftUrls
-                    );
+                    new(launcher.MCLauncherPath, launcher.MCLauncherVersion, Platform.WINDOWS, config.MinecraftUrls);
                 if (!await downloadProvider.DownloadAll())
                     return;
             }

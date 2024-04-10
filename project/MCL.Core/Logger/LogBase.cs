@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace MCL.Core.Logger;
 
@@ -22,6 +23,8 @@ public class LogBase
         }
     }
 
+#pragma warning disable IDE0079
+#pragma warning disable S3168
     public static async void Add(ILogger logger)
     {
         try
@@ -29,7 +32,6 @@ public class LogBase
             await _semaphore.WaitAsync();
             Instance._io.Add(logger);
         }
-        catch { }
         finally
         {
             _ = _semaphore.Release();
@@ -45,7 +47,6 @@ public class LogBase
             foreach (ILogger logger in Instance._io)
                 await logger.Debug(message);
         }
-        catch { }
         finally
         {
             _ = _semaphore.Release();
@@ -61,7 +62,6 @@ public class LogBase
             foreach (ILogger logger in Instance._io)
                 await logger.Debug(format, args);
         }
-        catch { }
         finally
         {
             _ = _semaphore.Release();
@@ -77,7 +77,6 @@ public class LogBase
             foreach (ILogger logger in Instance._io)
                 await logger.Native(message);
         }
-        catch { }
         finally
         {
             _ = _semaphore.Release();
@@ -93,7 +92,6 @@ public class LogBase
             foreach (ILogger logger in Instance._io)
                 await logger.Native(format, args);
         }
-        catch { }
         finally
         {
             _ = _semaphore.Release();
@@ -109,7 +107,6 @@ public class LogBase
             foreach (ILogger logger in Instance._io)
                 await logger.Info(message);
         }
-        catch { }
         finally
         {
             _ = _semaphore.Release();
@@ -125,7 +122,6 @@ public class LogBase
             foreach (ILogger logger in Instance._io)
                 await logger.Info(format, args);
         }
-        catch { }
         finally
         {
             _ = _semaphore.Release();
@@ -141,7 +137,6 @@ public class LogBase
             foreach (ILogger logger in Instance._io)
                 await logger.Warn(message);
         }
-        catch { }
         finally
         {
             _ = _semaphore.Release();
@@ -157,7 +152,6 @@ public class LogBase
             foreach (ILogger logger in Instance._io)
                 await logger.Warn(format, args);
         }
-        catch { }
         finally
         {
             _ = _semaphore.Release();
@@ -173,7 +167,6 @@ public class LogBase
             foreach (ILogger logger in Instance._io)
                 await logger.Error(message);
         }
-        catch { }
         finally
         {
             _ = _semaphore.Release();
@@ -189,7 +182,6 @@ public class LogBase
             foreach (ILogger logger in Instance._io)
                 await logger.Error(format, args);
         }
-        catch { }
         finally
         {
             _ = _semaphore.Release();
@@ -205,7 +197,6 @@ public class LogBase
             foreach (ILogger logger in Instance._io)
                 await logger.Benchmark(message);
         }
-        catch { }
         finally
         {
             _ = _semaphore.Release();
@@ -231,4 +222,5 @@ public class LogBase
         benchmarker.Stop();
         _ = Instance._benchmarkers.Remove(name);
     }
+#pragma warning restore
 }

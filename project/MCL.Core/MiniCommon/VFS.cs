@@ -5,16 +5,13 @@ using System.Text;
 
 namespace MCL.Core.MiniCommon;
 
+#pragma warning disable IDE0079
+#pragma warning disable S101
 public static class VFS
+#pragma warning restore
 {
-    public static string Cwd { get; set; }
-    private static readonly object mutex;
-
-    static VFS()
-    {
-        Cwd = Environment.CurrentDirectory;
-        mutex = new object();
-    }
+    public static string Cwd { get; set; } = Environment.CurrentDirectory;
+    private static readonly object mutex = new();
 
     /// <summary>
     /// Combine two filepaths.
@@ -54,24 +51,6 @@ public static class VFS
     public static string FromCwd(this string filepath)
     {
         return Combine(Cwd, filepath);
-    }
-
-    /// <summary>
-    /// Get directory path of a filepath.
-    /// </summary>
-    public static string GetDirectory(this string filepath)
-    {
-        string value = Path.GetDirectoryName(filepath);
-        return (!string.IsNullOrWhiteSpace(value)) ? value : "";
-    }
-
-    /// <summary>
-    /// Get file of a filepath
-    /// </summary>
-    public static string GetFile(this string filepath)
-    {
-        string value = Path.GetFileName(filepath);
-        return (!string.IsNullOrWhiteSpace(value)) ? value : "";
     }
 
     /// <summary>
@@ -130,7 +109,7 @@ public static class VFS
         {
             if (!Exists(b))
             {
-                CreateDirectory(b.GetDirectory());
+                CreateDirectory(b.GetDirectoryName());
             }
 
             File.Copy(a, b, overwrite);
@@ -173,7 +152,7 @@ public static class VFS
     /// <summary>
     /// Get file content as string.
     /// </summary>
-    public static string ReadFile(string filepath, Encoding encoding = null)
+    public static string ReadFile(string filepath, Encoding encoding)
     {
         return (encoding ?? Encoding.UTF8).GetString(ReadFile(filepath));
     }
@@ -195,7 +174,7 @@ public static class VFS
         {
             if (!Exists(filepath))
             {
-                CreateDirectory(filepath.GetDirectory());
+                CreateDirectory(filepath.GetDirectoryName());
             }
 
             File.WriteAllBytes(filepath, data);

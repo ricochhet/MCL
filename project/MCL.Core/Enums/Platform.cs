@@ -1,6 +1,6 @@
 namespace MCL.Core.Enums;
 
-public enum PlatformEnum
+public enum Platform
 {
     WINDOWS,
     LINUX,

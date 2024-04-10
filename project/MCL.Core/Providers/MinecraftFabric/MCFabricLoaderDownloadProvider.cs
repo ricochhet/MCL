@@ -11,12 +11,11 @@ namespace MCL.Core.Providers.MinecraftFabric;
 
 public class MCFabricLoaderDownloadProvider
 {
-    public MCFabricIndex fabricIndex;
-    private static MCLauncherPath launcherPath;
-    private static MCLauncherVersion launcherVersion;
-    private static MCFabricConfigUrls fabricConfigUrls;
+    private MCFabricIndex fabricIndex;
+    private readonly MCLauncherPath launcherPath;
+    private readonly MCLauncherVersion launcherVersion;
+    private readonly MCFabricConfigUrls fabricConfigUrls;
     private static MCFabricProfile fabricProfile;
-    private static MCFabricLoader fabricLoader;
 
     public MCFabricLoaderDownloadProvider(
         MCLauncherPath _launcherPath,
@@ -83,7 +82,7 @@ public class MCFabricLoaderDownloadProvider
 
     public async Task<bool> DownloadFabricLoader()
     {
-        fabricLoader = MCFabricVersionHelper.GetFabricLoaderVersion(launcherVersion, fabricIndex.Loader);
+        MCFabricLoader fabricLoader = MCFabricVersionHelper.GetFabricLoaderVersion(launcherVersion, fabricIndex.Loader);
         if (fabricLoader == null)
         {
             LogBase.Error($"Failed to get version: {launcherVersion}");

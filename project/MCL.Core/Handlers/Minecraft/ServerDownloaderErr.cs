@@ -9,7 +9,7 @@ public static class ServerDownloaderErr
         if (string.IsNullOrWhiteSpace(versionDetails?.Downloads?.Server?.SHA1))
             return false;
 
-        if (string.IsNullOrWhiteSpace(versionDetails?.Downloads?.Server?.URL))
+        if (string.IsNullOrWhiteSpace(versionDetails.Downloads?.Server?.URL))
             return false;
 
         return true;

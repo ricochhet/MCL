@@ -12,8 +12,8 @@ public static class JavaLaunchHelper
     public static void Launch(
         Config config,
         string workingDirectory,
-        ClientTypeEnum clientType,
-        JavaRuntimeTypeEnum javaRuntimeType
+        ClientType clientType,
+        JavaRuntimeType javaRuntimeType
     )
     {
         if (config == null)
@@ -22,13 +22,13 @@ public static class JavaLaunchHelper
         string javaBin = VFS.Combine(
             workingDirectory,
             "runtime",
-            JavaRuntimeTypeEnumResolver.ToString(javaRuntimeType),
+            JavaRuntimeTypeResolver.ToString(javaRuntimeType),
             "bin"
         );
 
         switch (clientType)
         {
-            case ClientTypeEnum.VANILLA:
+            case ClientType.VANILLA:
                 if (!JvmArgumentsExist(config, config.MinecraftArgs))
                     return;
                 ProcessHelper.RunProcess(
@@ -39,7 +39,7 @@ public static class JavaLaunchHelper
                     new() { { config.JavaConfig.JavaHomeEnvironmentVariable, javaBin } }
                 );
                 break;
-            case ClientTypeEnum.FABRIC:
+            case ClientType.FABRIC:
                 if (!JvmArgumentsExist(config, config.FabricArgs))
                     return;
                 ProcessHelper.RunProcess(

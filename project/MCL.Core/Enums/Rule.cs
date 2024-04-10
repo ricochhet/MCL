@@ -1,6 +1,6 @@
 namespace MCL.Core.Enums;
 
-public enum RuleEnum
+public enum Rule
 {
     ALLOW,
     DISALLOW

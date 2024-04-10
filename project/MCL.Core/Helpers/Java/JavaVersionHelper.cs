@@ -10,10 +10,10 @@ namespace MCL.Core.Helpers.Java;
 
 public static class JavaVersionHelper
 {
-    public static JavaRuntimeTypeEnum GetDownloadedMCVersionJava(
+    public static JavaRuntimeType GetDownloadedMCVersionJava(
         MCLauncherPath launcherPath,
         MCLauncherVersion launcherVersion,
-        JavaRuntimeTypeEnum fallback
+        JavaRuntimeType fallback
     )
     {
         if (!MCLauncherPath.Exists(launcherPath))
@@ -39,6 +39,6 @@ public static class JavaVersionHelper
 
         if (string.IsNullOrWhiteSpace(versionDetails?.JavaVersion?.Component))
             return fallback;
-        return GenericEnumParser.Parse(versionDetails.JavaVersion.Component, JavaRuntimeTypeEnum.JAVA_RUNTIME_GAMMA);
+        return GenericEnumParser.Parse(versionDetails.JavaVersion.Component, JavaRuntimeType.JAVA_RUNTIME_GAMMA);
     }
 }
