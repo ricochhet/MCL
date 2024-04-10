@@ -9,9 +9,4 @@ public class MCAssetsData
     public Dictionary<string, MCAsset> Objects { get; set; }
 
     public MCAssetsData() { }
-
-    public MCAssetsData(Dictionary<string, MCAsset> objects)
-    {
-        Objects = objects;
-    }
 }

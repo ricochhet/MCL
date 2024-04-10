@@ -15,21 +15,4 @@ public class Config
     public ModConfig ModConfig { get; set; }
 
     public Config() { }
-
-    public Config(
-        MCConfigUrls minecraftUrls,
-        MCFabricConfigUrls fabricUrls,
-        JvmArguments minecraftArgs,
-        JvmArguments fabricArgs,
-        JavaConfig javaConfig,
-        ModConfig modConfig
-    )
-    {
-        MinecraftUrls = minecraftUrls;
-        FabricUrls = fabricUrls;
-        MinecraftArgs = minecraftArgs;
-        FabricArgs = fabricArgs;
-        JavaConfig = javaConfig;
-        ModConfig = modConfig;
-    }
 }

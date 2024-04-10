@@ -9,9 +9,4 @@ public class JavaRuntimeFiles
     public Dictionary<string, JavaRuntimeFile> Files { get; set; }
 
     public JavaRuntimeFiles() { }
-
-    public JavaRuntimeFiles(Dictionary<string, JavaRuntimeFile> files)
-    {
-        Files = files;
-    }
 }

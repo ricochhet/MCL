@@ -12,10 +12,4 @@ public class MCVersionManifest
     public List<MCVersion> Versions { get; set; }
 
     public MCVersionManifest() { }
-
-    public MCVersionManifest(MCLatest latest, List<MCVersion> versions)
-    {
-        Latest = latest;
-        Versions = versions;
-    }
 }

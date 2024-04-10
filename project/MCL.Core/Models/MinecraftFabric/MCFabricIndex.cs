@@ -21,19 +21,4 @@ public class MCFabricIndex
     public List<MCFabricInstaller> Installer { get; set; }
 
     public MCFabricIndex() { }
-
-    public MCFabricIndex(
-        List<MCFabricGame> game,
-        List<MCFabricMappings> mappings,
-        List<MCFabricIntermediary> intermediary,
-        List<MCFabricLoader> loader,
-        List<MCFabricInstaller> installer
-    )
-    {
-        Game = game;
-        Mappings = mappings;
-        Intermediary = intermediary;
-        Loader = loader;
-        Installer = installer;
-    }
 }

@@ -12,19 +12,4 @@ public class MCFabricConfigUrls
     public string FabricApiIntermediaryName { get; set; } = "net.fabricmc:intermediary";
 
     public MCFabricConfigUrls() { }
-
-    public MCFabricConfigUrls(
-        string fabricVersionsIndex,
-        string fabricLoaderJarUrl,
-        string fabricLoaderProfileUrl,
-        string fabricApiLoaderName,
-        string fabricApiIntermediaryName
-    )
-    {
-        FabricVersionsIndex = fabricVersionsIndex;
-        FabricLoaderJarUrl = fabricLoaderJarUrl;
-        FabricLoaderProfileUrl = fabricLoaderProfileUrl;
-        FabricApiLoaderName = fabricApiLoaderName;
-        FabricApiIntermediaryName = fabricApiIntermediaryName;
-    }
 }

@@ -12,21 +12,6 @@ public class ModConfig
 
     public ModConfig() { }
 
-    public ModConfig(
-        string[] fileTypes,
-        string[] copyOnlyTypes,
-        string[] unzipAndCopyTypes,
-        List<string> registeredStores,
-        List<string> registeredDeplayPaths
-    )
-    {
-        FileTypes = fileTypes;
-        CopyOnlyTypes = copyOnlyTypes;
-        UnzipAndCopyTypes = unzipAndCopyTypes;
-        RegisteredStores = registeredStores;
-        RegisteredDeployPaths = registeredDeplayPaths;
-    }
-
     public bool IsStoreRegistered(string modStoreName) => RegisteredStores.Contains(modStoreName);
 
     public bool IsDeployPathRegistered(string deployPathName) => RegisteredDeployPaths.Contains(deployPathName);
