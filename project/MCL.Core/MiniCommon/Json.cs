@@ -35,7 +35,14 @@ public static class Json
             return default;
 
         string json = VFS.ReadAllText(filepath);
-        return Deserialize<T>(json);
+        try
+        {
+            return Deserialize<T>(json);
+        }
+        catch
+        {
+            return default;
+        }
     }
 
     public static T Load<T>(string filepath, JsonSerializerOptions options = null)
@@ -45,6 +52,13 @@ public static class Json
             return default;
 
         string json = VFS.ReadAllText(filepath);
-        return Deserialize<T>(json, options);
+        try
+        {
+            return Deserialize<T>(json, options);
+        }
+        catch
+        {
+            return default;
+        }
     }
 }

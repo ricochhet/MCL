@@ -72,6 +72,12 @@ public static class ModdingService
         );
     }
 
+    public static void Register(string modStoreName)
+    {
+        if (VFS.Exists(ModPathResolver.ModStorePath(LauncherPath, modStoreName)) && !ModConfig.IsStoreRegistered(modStoreName))
+            ModConfig.RegisteredStores.Add(modStoreName);
+    }
+
     public static ModFiles Load(string modStoreName)
     {
         if (
@@ -106,6 +112,12 @@ public static class ModdingService
 
         foreach (ModFile modFile in sortedModFiles)
         {
+            if (modFile == null)
+                return;
+
+            if (VFS.Exists(modFile?.ModPath))
+                continue;
+
             switch (modFile.ModRule)
             {
                 case ModRuleEnum.COPY_ONLY:
