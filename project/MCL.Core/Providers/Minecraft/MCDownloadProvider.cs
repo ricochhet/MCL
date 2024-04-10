@@ -10,28 +10,20 @@ using MCL.Core.Web.Minecraft;
 
 namespace MCL.Core.Providers.Minecraft;
 
-public class MCDownloadProvider
+public class MCDownloadProvider(
+    MCLauncherPath _launcherPath,
+    MCLauncherVersion _launcherVersion,
+    Platform _platform,
+    MCConfigUrls _configUrls
+)
 {
     private MCVersionDetails versionDetails;
     private MCVersion version;
     private MCAssetsData assets;
-    private readonly MCLauncherPath launcherPath;
-    private readonly MCLauncherVersion launcherVersion;
-    private readonly Platform platform;
-    private readonly MCConfigUrls configUrls;
-
-    public MCDownloadProvider(
-        MCLauncherPath _launcherPath,
-        MCLauncherVersion _launcherVersion,
-        Platform _platform,
-        MCConfigUrls _configUrls
-    )
-    {
-        launcherPath = _launcherPath;
-        launcherVersion = _launcherVersion;
-        platform = _platform;
-        configUrls = _configUrls;
-    }
+    private readonly MCLauncherPath launcherPath = _launcherPath;
+    private readonly MCLauncherVersion launcherVersion = _launcherVersion;
+    private readonly Platform platform = _platform;
+    private readonly MCConfigUrls configUrls = _configUrls;
 
     public async Task<bool> DownloadAll()
     {

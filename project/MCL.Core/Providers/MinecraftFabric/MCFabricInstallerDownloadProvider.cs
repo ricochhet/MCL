@@ -9,23 +9,16 @@ using MCL.Core.Web.Minecraft;
 
 namespace MCL.Core.Providers.MinecraftFabric;
 
-public class MCFabricInstallerDownloadProvider
+public class MCFabricInstallerDownloadProvider(
+    MCLauncherPath _launcherPath,
+    MCLauncherVersion _launcherVersion,
+    MCFabricConfigUrls _fabricConfigUrls
+)
 {
     private MCFabricIndex fabricIndex;
-    private readonly MCLauncherPath launcherPath;
-    private readonly MCLauncherVersion launcherVersion;
-    private readonly MCFabricConfigUrls fabricConfigUrls;
-
-    public MCFabricInstallerDownloadProvider(
-        MCLauncherPath _launcherPath,
-        MCLauncherVersion _launcherVersion,
-        MCFabricConfigUrls _fabricConfigUrls
-    )
-    {
-        launcherPath = _launcherPath;
-        launcherVersion = _launcherVersion;
-        fabricConfigUrls = _fabricConfigUrls;
-    }
+    private readonly MCLauncherPath launcherPath = _launcherPath;
+    private readonly MCLauncherVersion launcherVersion = _launcherVersion;
+    private readonly MCFabricConfigUrls fabricConfigUrls = _fabricConfigUrls;
 
     public async Task<bool> DownloadAll()
     {

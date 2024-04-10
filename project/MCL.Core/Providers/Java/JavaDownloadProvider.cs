@@ -11,27 +11,19 @@ using MCL.Core.Web.Java;
 
 namespace MCL.Core.Providers.Java;
 
-public class JavaDownloadProvider
+public class JavaDownloadProvider(
+    MCLauncherPath _launcherPath,
+    MCConfigUrls _configUrls,
+    JavaRuntimeType _javaRuntimeType,
+    JavaRuntimePlatform _javaRuntimePlatform
+)
 {
     private JavaRuntimeIndex javaRuntimeIndex;
     private JavaRuntimeFiles javaRuntimeFiles;
-    private readonly MCLauncherPath launcherPath;
-    private readonly MCConfigUrls configUrls;
-    private readonly JavaRuntimeType javaRuntimeType;
-    private readonly JavaRuntimePlatform javaRuntimePlatform;
-
-    public JavaDownloadProvider(
-        MCLauncherPath _launcherPath,
-        MCConfigUrls _configUrls,
-        JavaRuntimeType _javaRuntimeType,
-        JavaRuntimePlatform _javaRuntimePlatform
-    )
-    {
-        launcherPath = _launcherPath;
-        configUrls = _configUrls;
-        javaRuntimeType = _javaRuntimeType;
-        javaRuntimePlatform = _javaRuntimePlatform;
-    }
+    private readonly MCLauncherPath launcherPath = _launcherPath;
+    private readonly MCConfigUrls configUrls = _configUrls;
+    private readonly JavaRuntimeType javaRuntimeType = _javaRuntimeType;
+    private readonly JavaRuntimePlatform javaRuntimePlatform = _javaRuntimePlatform;
 
     public async Task<bool> DownloadAll()
     {
