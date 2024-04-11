@@ -31,7 +31,8 @@ public class FabricInstallerDownloader : IFabricInstallerDownloader
 
         return await Request.Download(
             fabricInstaller.URL,
-            MinecraftFabricPathResolver.DownloadedFabricInstallerPath(launcherPath, fabricInstaller)
+            MinecraftFabricPathResolver.DownloadedFabricInstallerPath(launcherPath, fabricInstaller),
+            string.Empty
         );
     }
 }

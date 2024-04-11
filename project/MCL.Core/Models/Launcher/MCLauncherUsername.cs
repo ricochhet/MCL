@@ -13,5 +13,5 @@ public class MCLauncherUsername(string username)
         return Username;
     }
 
-    public string UUID() => CryptographyHelper.UUID(ValidateUsername());
+    public string UUID() => CryptographyHelper.CreateUUID(ValidateUsername());
 }

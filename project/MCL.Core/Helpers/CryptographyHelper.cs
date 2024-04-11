@@ -8,7 +8,7 @@ namespace MCL.Core.Helpers;
 
 public static class CryptographyHelper
 {
-    public static string Sha1(string fileName, bool formatting)
+    public static string CreateSHA1(string fileName, bool formatting)
     {
         if (!VFS.Exists(fileName))
             return string.Empty;
@@ -22,7 +22,7 @@ public static class CryptographyHelper
         return BitConverter.ToString(hash);
     }
 
-    public static string Sha1(string value, Encoding enc)
+    public static string CreateSHA1(string value, Encoding enc)
     {
         StringBuilder stringBuilder = new();
         byte[] hash = SHA1.HashData(enc.GetBytes(value));
@@ -34,7 +34,7 @@ public static class CryptographyHelper
         return stringBuilder.ToString();
     }
 
-    public static string UUID(string value)
+    public static string CreateUUID(string value)
     {
         byte[] digestedHash = MD5.HashData(Encoding.UTF8.GetBytes(value));
         digestedHash[6] = (byte)((digestedHash[6] & 0x0f) | 0x30);

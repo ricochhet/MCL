@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using MCL.Core.Helpers;
 using MCL.Core.Logger.Enums;
 using MCL.Core.Models.Services;
+using MCL.Core.Models.Web;
 using MCL.Core.Services;
 
 namespace MCL.Core.MiniCommon;
@@ -32,7 +33,6 @@ public static class Request
     {
         try
         {
-            NotificationService.Add(new Notification(NativeLogLevel.Info, "request.get", [request]));
             return await httpClient.GetAsync(request);
         }
         catch (Exception ex)
@@ -62,13 +62,13 @@ public static class Request
         for (int retry = 0; retry < Math.Max(1, Retry); retry++)
         {
             string response;
+            string hash;
             try
             {
                 response = await GetStringAsync(request);
-                if (
-                    VFS.Exists(filepath)
-                    && CryptographyHelper.Sha1(filepath, true) == CryptographyHelper.Sha1(response, encoding)
-                )
+                hash = CryptographyHelper.CreateSHA1(response, encoding);
+                RequestDataService.Add(new RequestData(request, filepath, encoding.GetByteCount(response), hash));
+                if (VFS.Exists(filepath) && CryptographyHelper.CreateSHA1(filepath, true) == hash)
                 {
                     NotificationService.Add(
                         new Notification(NativeLogLevel.Info, "request.get.hash-exists", [request])
@@ -93,13 +93,13 @@ public static class Request
         for (int retry = 0; retry < Math.Max(1, Retry); retry++)
         {
             string response;
+            string hash;
             try
             {
                 response = await GetStringAsync(request);
-                if (
-                    VFS.Exists(filepath)
-                    && CryptographyHelper.Sha1(filepath, true) == CryptographyHelper.Sha1(response, encoding)
-                )
+                hash = CryptographyHelper.CreateSHA1(response, encoding);
+                RequestDataService.Add(new RequestData(request, filepath, encoding.GetByteCount(response), hash));
+                if (VFS.Exists(filepath) && CryptographyHelper.CreateSHA1(filepath, true) == hash)
                 {
                     NotificationService.Add(
                         new Notification(NativeLogLevel.Info, "request.get.hash-exists", [request])
@@ -124,7 +124,6 @@ public static class Request
     {
         try
         {
-            NotificationService.Add(new Notification(NativeLogLevel.Info, "request.get", [request]));
             return await httpClient.GetStringAsync(request);
         }
         catch (Exception ex)
@@ -138,7 +137,8 @@ public static class Request
 
     public static async Task<bool> Download(string request, string filepath, string hash)
     {
-        if (VFS.Exists(filepath) && CryptographyHelper.Sha1(filepath, true) == hash)
+        RequestDataService.Add(new RequestData(request, filepath, 0, hash));
+        if (VFS.Exists(filepath) && CryptographyHelper.CreateSHA1(filepath, true) == hash)
         {
             NotificationService.Add(new Notification(NativeLogLevel.Info, "request.get.hash-exists", [request]));
             return true;

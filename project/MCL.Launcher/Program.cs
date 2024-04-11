@@ -13,6 +13,7 @@ using MCL.Core.MiniCommon;
 using MCL.Core.Models;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Models.Services;
+using MCL.Core.Models.Web;
 using MCL.Core.Providers.MinecraftFabric;
 using MCL.Core.Services;
 using MCL.Core.Services.Java;
@@ -60,8 +61,14 @@ internal static class Program
                 LogBase.Base(notification.LogLevel, notification.Message);
             }
         );
-
         NotificationService.Add(new Notification(NativeLogLevel.Info, "log.initialized"));
+        RequestDataService.Init(
+            (RequestData requestData) =>
+            {
+                NotificationService.Add(new Notification(NativeLogLevel.Info, "request.get", [requestData.URL]));
+            }
+        );
+
         Request.JsonSerializerOptions = new()
         {
             WriteIndented = true,

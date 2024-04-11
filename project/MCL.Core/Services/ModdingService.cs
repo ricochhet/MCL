@@ -52,11 +52,11 @@ public static class ModdingService
         {
             if (ModConfig.CopyOnlyTypes.Contains(VFS.GetFileExtension(modFilePath)))
                 modFiles.Files.Add(
-                    new ModFile(modFilePath, CryptographyHelper.Sha1(modFilePath, true), ModRule.COPY_ONLY)
+                    new ModFile(modFilePath, CryptographyHelper.CreateSHA1(modFilePath, true), ModRule.COPY_ONLY)
                 );
             else if (ModConfig.UnzipAndCopyTypes.Contains(VFS.GetFileExtension(modFilePath)))
                 modFiles.Files.Add(
-                    new ModFile(modFilePath, CryptographyHelper.Sha1(modFilePath, true), ModRule.UNZIP_AND_COPY)
+                    new ModFile(modFilePath, CryptographyHelper.CreateSHA1(modFilePath, true), ModRule.UNZIP_AND_COPY)
                 );
         }
         string filepath = ModPathResolver.ModStorePath(LauncherPath, modStoreName);

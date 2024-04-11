@@ -19,7 +19,7 @@ Tasks marked with (*) are easier to do.
 - [x] (*) JVM arguments should be stored.
     - Stored arguments should be categorized by the loader.
     - As a byproduct; user-specific information is stored, e.g. username.
-- [ ] Implement DownloadStatistic object.
+- [x] ~~Implement DownloadStatistic object.~~ Implemented as RequestData.
     - Allows better implementation of logging and ui.
     - DownloadStatistic should include the size of the download if applicable.
     - DownloadStatistic should implement a DowloadStatistics parent.
