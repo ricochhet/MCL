@@ -1,6 +1,6 @@
 using MCL.Core.Enums;
-using MCL.Core.Models;
 using MCL.Core.Models.Java;
+using MCL.Core.Models.Launcher;
 using MCL.Core.Services.Modding;
 
 namespace MCL.Core.Extensions;

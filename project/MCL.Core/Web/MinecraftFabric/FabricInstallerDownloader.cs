@@ -6,7 +6,7 @@ using MCL.Core.Models.Launcher;
 using MCL.Core.Models.MinecraftFabric;
 using MCL.Core.Models.Services;
 using MCL.Core.Resolvers.MinecraftFabric;
-using MCL.Core.Services;
+using MCL.Core.Services.Launcher;
 
 namespace MCL.Core.Web.Minecraft;
 

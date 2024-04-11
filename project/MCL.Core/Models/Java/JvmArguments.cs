@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using MCL.Core.Models.Launcher;
 
 namespace MCL.Core.Models.Java;
 

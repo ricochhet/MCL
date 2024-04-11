@@ -9,6 +9,7 @@ using MCL.Core.Models.Launcher;
 using MCL.Core.Models.Minecraft;
 using MCL.Core.Models.Services;
 using MCL.Core.Resolvers.Minecraft;
+using MCL.Core.Services.Launcher;
 using MCL.Core.Web.Minecraft;
 
 namespace MCL.Core.Services.Minecraft;

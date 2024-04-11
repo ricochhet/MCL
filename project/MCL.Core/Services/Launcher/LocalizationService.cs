@@ -4,7 +4,7 @@ using MCL.Core.Models.Launcher;
 using MCL.Core.Models.Services;
 using MCL.Core.Resolvers.Services;
 
-namespace MCL.Core.Services;
+namespace MCL.Core.Services.Launcher;
 
 public static class LocalizationService
 {

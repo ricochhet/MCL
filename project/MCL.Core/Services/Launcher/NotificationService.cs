@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using MCL.Core.Models.Services;
 
-namespace MCL.Core.Services;
+namespace MCL.Core.Services.Launcher;
 
 public static class NotificationService
 {

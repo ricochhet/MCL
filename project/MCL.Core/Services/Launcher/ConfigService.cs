@@ -3,10 +3,10 @@ using System.Text.Encodings.Web;
 using System.Text.Json;
 using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon;
-using MCL.Core.Models;
+using MCL.Core.Models.Launcher;
 using MCL.Core.Models.Services;
 
-namespace MCL.Core.Services;
+namespace MCL.Core.Services.Launcher;
 
 public static class ConfigService
 {

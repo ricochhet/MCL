@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace MCL.Core.Models;
+namespace MCL.Core.Models.Launcher;
 
 public class LaunchArg(string arg, List<string> argParams = null, int priority = 0)
 {

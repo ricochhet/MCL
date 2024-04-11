@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using MCL.Core.Models.Web;
 
-namespace MCL.Core.Services;
+namespace MCL.Core.Services.Web;
 
 public static class RequestDataService
 {

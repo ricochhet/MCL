@@ -3,7 +3,7 @@ using MCL.Core.Models.Minecraft;
 using MCL.Core.Models.MinecraftFabric;
 using MCL.Core.Services.Modding;
 
-namespace MCL.Core.Models;
+namespace MCL.Core.Models.Launcher;
 
 public class Config
 {

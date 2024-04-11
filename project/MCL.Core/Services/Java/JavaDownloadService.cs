@@ -10,6 +10,7 @@ using MCL.Core.Models.Minecraft;
 using MCL.Core.Models.Services;
 using MCL.Core.Resolvers.Java;
 using MCL.Core.Resolvers.Minecraft;
+using MCL.Core.Services.Launcher;
 using MCL.Core.Web.Java;
 
 namespace MCL.Core.Services.Java;

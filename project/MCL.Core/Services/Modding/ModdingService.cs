@@ -8,9 +8,8 @@ using MCL.Core.Helpers;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Resolvers.Modding;
-using MCL.Core.Services.Modding;
 
-namespace MCL.Core.Services;
+namespace MCL.Core.Services.Modding;
 
 public static class ModdingService
 {

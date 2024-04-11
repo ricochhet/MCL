@@ -1,7 +1,6 @@
 using MCL.Core.Enums;
 using MCL.Core.Extensions;
 using MCL.Core.Helpers.Minecraft;
-using MCL.Core.Models;
 using MCL.Core.Models.Java;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Resolvers;
