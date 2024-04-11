@@ -7,9 +7,7 @@ namespace MCL.Core.Services;
 public static class NotificationService
 {
     private static List<Notification> Notifications { get; set; } = [];
-    private static int MaxSize { get; set; } = 100;
-
-    public static void SetMaxSize(int size) => MaxSize = size;
+    public static int MaxSize { get; set; } = 100;
 
     public static void Add(Notification item) => Notifications.Add(item);
 

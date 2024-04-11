@@ -23,6 +23,7 @@ public class MCDownloadService : IMCDownloadService, IDownloadService
     private static MCLauncherVersion launcherVersion;
     private static Platform platform;
     private static MCConfigUrls configUrls;
+    private static bool IsOffline { get; set; } = false;
 
     public static void Init(
         MCLauncherPath _launcherPath,
@@ -37,9 +38,12 @@ public class MCDownloadService : IMCDownloadService, IDownloadService
         configUrls = _configUrls;
     }
 
+#pragma warning disable IDE0079
+#pragma warning disable S3776 // (Reduce cognitive complexity) TODO: Evaluate refactor
     public static async Task<bool> Download()
+#pragma warning restore
     {
-        if (!await DownloadVersionManifest())
+        if (!await DownloadVersionManifest() && !IsOffline)
             return false;
 
         if (!LoadVersionManifest())
@@ -48,7 +52,7 @@ public class MCDownloadService : IMCDownloadService, IDownloadService
         if (!LoadVersion())
             return false;
 
-        if (!await DownloadVersionDetails())
+        if (!await DownloadVersionDetails() && !IsOffline)
             return false;
 
         if (!LoadVersionDetails())
@@ -69,7 +73,7 @@ public class MCDownloadService : IMCDownloadService, IDownloadService
         if (!await DownloadServerMappings())
             return false;
 
-        if (!await DownloadAssetIndex())
+        if (!await DownloadAssetIndex() && !IsOffline)
             return false;
 
         if (!LoadAssetIndex())

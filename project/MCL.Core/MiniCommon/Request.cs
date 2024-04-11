@@ -15,19 +15,16 @@ namespace MCL.Core.MiniCommon;
 public static class Request
 {
     private static readonly HttpClient httpClient = new();
-    private static JsonSerializerOptions JsonSerializerOptions = new();
+    public static JsonSerializerOptions JsonSerializerOptions { get; set; } = new();
 
     public static HttpClient GetHttpClient() => httpClient;
 
-    public static JsonSerializerOptions GetJsonSerializerOptions() => JsonSerializerOptions;
-
-    public static void SetJsonSerializerOptions(JsonSerializerOptions options) => JsonSerializerOptions = options;
-
     public static int Retry { get; set; } = 1;
 
-    public static void SetHttpClientTimeOut(TimeSpan timeout)
+    public static TimeSpan HttpClientTimeOut
     {
-        httpClient.Timeout = timeout;
+        get { return httpClient.Timeout; }
+        set { httpClient.Timeout = value; }
     }
 
 #nullable enable

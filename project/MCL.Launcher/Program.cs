@@ -1,4 +1,5 @@
 using System;
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using MCL.Core.Enums;
 using MCL.Core.Enums.Java;
@@ -61,8 +62,12 @@ internal static class Program
         );
 
         NotificationService.Add(new Notification(NativeLogLevel.Info, "log.initialized"));
-        Request.SetJsonSerializerOptions(new() { WriteIndented = true });
-        Request.SetHttpClientTimeOut(TimeSpan.FromMinutes(1));
+        Request.JsonSerializerOptions = new()
+        {
+            WriteIndented = true,
+            Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+        };
+        Request.HttpClientTimeOut = TimeSpan.FromMinutes(1);
         Watermark.Draw(ConfigService.WatermarkText);
 
         ConfigService.Save();

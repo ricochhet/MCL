@@ -22,6 +22,9 @@ public static class ConfigService
     private const string LogFileName = "MCL.log";
     private static readonly string ConfigFilePath = VFS.Combine(DataPath, ConfigFileName);
 
+    public static JsonSerializerOptions JsonSerializerOptions { get; set; } =
+        new() { WriteIndented = true, Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping };
+
     public static void Save()
     {
         if (!VFS.Exists(ConfigFilePath))
@@ -38,8 +41,7 @@ public static class ConfigService
                     ModConfig = new()
                 };
 
-            JsonSerializerOptions options = new() { WriteIndented = true };
-            Json.Save(ConfigFilePath, config, options);
+            Json.Save(ConfigFilePath, config, JsonSerializerOptions);
         }
     }
 
@@ -52,9 +54,7 @@ public static class ConfigService
         if (existingConfig == config)
             return;
 
-        JsonSerializerOptions options =
-            new() { WriteIndented = true, Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping };
-        Json.Save(ConfigFilePath, config, options);
+        Json.Save(ConfigFilePath, config, JsonSerializerOptions);
     }
 
     public static Config Load()

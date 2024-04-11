@@ -22,6 +22,7 @@ public class JavaDownloadService : IJavaDownloadService, IDownloadService
     private static MCConfigUrls configUrls;
     private static JavaRuntimeType javaRuntimeType;
     private static JavaRuntimePlatform javaRuntimePlatform;
+    public static bool IsOffline { get; set; }
 
     public static void Init(
         MCLauncherPath _launcherPath,
@@ -38,13 +39,13 @@ public class JavaDownloadService : IJavaDownloadService, IDownloadService
 
     public static async Task<bool> Download()
     {
-        if (!await DownloadJavaRuntimeIndex())
+        if (!await DownloadJavaRuntimeIndex() && !IsOffline)
             return false;
 
         if (!LoadJavaRuntimeIndex())
             return false;
 
-        if (!await DownloadJavaRuntimeManifest())
+        if (!await DownloadJavaRuntimeManifest() && !IsOffline)
             return false;
 
         if (!LoadJavaRuntimeManifest())
