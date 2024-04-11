@@ -12,11 +12,10 @@ using MCL.Core.MiniCommon;
 using MCL.Core.Models;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Models.Services;
-using MCL.Core.Providers;
-using MCL.Core.Providers.Java;
-using MCL.Core.Providers.Minecraft;
 using MCL.Core.Providers.MinecraftFabric;
 using MCL.Core.Services;
+using MCL.Core.Services.Java;
+using MCL.Core.Services.Minecraft;
 
 namespace MCL.Launcher;
 
@@ -93,20 +92,18 @@ internal static class Program
             "--dl-java",
             async () =>
             {
-                JavaDownloadProvider javaDownloadProvider =
-                    new(
+                JavaDownloadService.Init(
+                    launcher.MCLauncherPath,
+                    config.MinecraftUrls,
+                    JavaVersionHelper.GetDownloadedMCVersionJava(
                         launcher.MCLauncherPath,
-                        config.MinecraftUrls,
-                        JavaVersionHelper.GetDownloadedMCVersionJava(
-                            launcher.MCLauncherPath,
-                            launcher.MCLauncherVersion,
-                            launcher.JavaRuntimeType
-                        ),
-                        JavaRuntimePlatform.WINDOWSX64
-                    );
+                        launcher.MCLauncherVersion,
+                        launcher.JavaRuntimeType
+                    ),
+                    JavaRuntimePlatform.WINDOWSX64
+                );
 
-                if (!await javaDownloadProvider.DownloadAll())
-                    return;
+                await JavaDownloadService.Download();
             }
         );
 
@@ -115,10 +112,13 @@ internal static class Program
             "--dl-minecraft",
             async () =>
             {
-                MCDownloadProvider downloadProvider =
-                    new(launcher.MCLauncherPath, launcher.MCLauncherVersion, Platform.WINDOWS, config.MinecraftUrls);
-                if (!await downloadProvider.DownloadAll())
-                    return;
+                MCDownloadService.Init(
+                    launcher.MCLauncherPath,
+                    launcher.MCLauncherVersion,
+                    Platform.WINDOWS,
+                    config.MinecraftUrls
+                );
+                await MCDownloadService.Download();
             }
         );
 
@@ -127,10 +127,12 @@ internal static class Program
             "--dl-fabric-installer",
             async () =>
             {
-                MCFabricInstallerDownloadProvider downloadProvider =
-                    new(launcher.MCLauncherPath, launcher.MCLauncherVersion, config.FabricUrls);
-                if (!await downloadProvider.DownloadAll())
-                    return;
+                MCFabricInstallerDownloadService.Init(
+                    launcher.MCLauncherPath,
+                    launcher.MCLauncherVersion,
+                    config.FabricUrls
+                );
+                await MCFabricInstallerDownloadService.Download();
             }
         );
 
@@ -139,9 +141,8 @@ internal static class Program
             "--dl-fabric-loader",
             async () =>
             {
-                MCFabricLoaderDownloadProvider downloadProvider = new(launcherPath, launcherVersion, config.FabricUrls);
-                if (!await downloadProvider.DownloadAll())
-                    return;
+                MCFabricLoaderDownloadService.Init(launcherPath, launcherVersion, config.FabricUrls);
+                await MCFabricLoaderDownloadService.Download();
             }
         );
 

@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using MCL.Core.Helpers.MinecraftFabric;
+using MCL.Core.Interfaces.Minecraft;
 using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
@@ -11,19 +12,26 @@ using MCL.Core.Web.Minecraft;
 
 namespace MCL.Core.Providers.MinecraftFabric;
 
-public class MCFabricInstallerDownloadProvider(
-    MCLauncherPath _launcherPath,
-    MCLauncherVersion _launcherVersion,
-    MCFabricConfigUrls _fabricConfigUrls
-)
+public class MCFabricInstallerDownloadService : IDownloadService
 {
-    private MCFabricIndex fabricIndex;
-    private MCFabricInstaller fabricInstaller;
-    private readonly MCLauncherPath launcherPath = _launcherPath;
-    private readonly MCLauncherVersion launcherVersion = _launcherVersion;
-    private readonly MCFabricConfigUrls fabricConfigUrls = _fabricConfigUrls;
+    private static MCFabricIndex fabricIndex;
+    private static MCFabricInstaller fabricInstaller;
+    private static MCLauncherPath launcherPath;
+    private static MCLauncherVersion launcherVersion;
+    private static MCFabricConfigUrls fabricConfigUrls;
 
-    public async Task<bool> DownloadAll()
+    public static void Init(
+        MCLauncherPath _launcherPath,
+        MCLauncherVersion _launcherVersion,
+        MCFabricConfigUrls _fabricConfigUrls
+    )
+    {
+        launcherPath = _launcherPath;
+        launcherVersion = _launcherVersion;
+        fabricConfigUrls = _fabricConfigUrls;
+    }
+
+    public static async Task<bool> Download()
     {
         if (!await DownloadFabricIndex())
             return false;
@@ -40,7 +48,7 @@ public class MCFabricInstallerDownloadProvider(
         return true;
     }
 
-    public async Task<bool> DownloadFabricIndex()
+    public static async Task<bool> DownloadFabricIndex()
     {
         if (!await FabricIndexDownloader.Download(launcherPath, fabricConfigUrls))
         {
@@ -53,7 +61,7 @@ public class MCFabricInstallerDownloadProvider(
         return true;
     }
 
-    public bool LoadFabricIndex()
+    public static bool LoadFabricIndex()
     {
         fabricIndex = Json.Load<MCFabricIndex>(MinecraftFabricPathResolver.DownloadedFabricIndexPath(launcherPath));
         if (fabricIndex == null)
@@ -65,7 +73,7 @@ public class MCFabricInstallerDownloadProvider(
         return true;
     }
 
-    public bool LoadFabricInstallerVersion()
+    public static bool LoadFabricInstallerVersion()
     {
         fabricInstaller = MCFabricVersionHelper.GetFabricInstallerVersion(launcherVersion, fabricIndex);
         if (fabricInstaller == null)
@@ -83,7 +91,7 @@ public class MCFabricInstallerDownloadProvider(
         return true;
     }
 
-    public async Task<bool> DownloadFabricInstaller()
+    public static async Task<bool> DownloadFabricInstaller()
     {
         if (!await FabricInstallerDownloader.Download(launcherPath, fabricInstaller))
         {

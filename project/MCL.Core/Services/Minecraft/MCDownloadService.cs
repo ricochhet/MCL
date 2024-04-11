@@ -1,34 +1,42 @@
 using System.Threading.Tasks;
 using MCL.Core.Enums;
 using MCL.Core.Helpers.Minecraft;
+using MCL.Core.Interfaces.Minecraft;
 using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Models.Minecraft;
 using MCL.Core.Models.Services;
 using MCL.Core.Resolvers.Minecraft;
-using MCL.Core.Services;
 using MCL.Core.Web.Minecraft;
 
-namespace MCL.Core.Providers.Minecraft;
+namespace MCL.Core.Services.Minecraft;
 
-public class MCDownloadProvider(
-    MCLauncherPath _launcherPath,
-    MCLauncherVersion _launcherVersion,
-    Platform _platform,
-    MCConfigUrls _configUrls
-)
+public class MCDownloadService : IDownloadService
 {
-    private MCVersionDetails versionDetails;
-    private MCVersionManifest versionManifest;
-    private MCVersion version;
-    private MCAssetsData assets;
-    private readonly MCLauncherPath launcherPath = _launcherPath;
-    private readonly MCLauncherVersion launcherVersion = _launcherVersion;
-    private readonly Platform platform = _platform;
-    private readonly MCConfigUrls configUrls = _configUrls;
+    private static MCVersionDetails versionDetails;
+    private static MCVersionManifest versionManifest;
+    private static MCVersion version;
+    private static MCAssetsData assets;
+    private static MCLauncherPath launcherPath;
+    private static MCLauncherVersion launcherVersion;
+    private static Platform platform;
+    private static MCConfigUrls configUrls;
 
-    public async Task<bool> DownloadAll()
+    public static void Init(
+        MCLauncherPath _launcherPath,
+        MCLauncherVersion _launcherVersion,
+        Platform _platform,
+        MCConfigUrls _configUrls
+    )
+    {
+        launcherPath = _launcherPath;
+        launcherVersion = _launcherVersion;
+        platform = _platform;
+        configUrls = _configUrls;
+    }
+
+    public static async Task<bool> Download()
     {
         if (!await DownloadVersionManifest())
             return false;
@@ -75,7 +83,7 @@ public class MCDownloadProvider(
         return true;
     }
 
-    public async Task<bool> DownloadVersionManifest()
+    public static async Task<bool> DownloadVersionManifest()
     {
         if (!await VersionManifestDownloader.Download(launcherPath, configUrls))
         {
@@ -88,7 +96,7 @@ public class MCDownloadProvider(
         return true;
     }
 
-    public bool LoadVersionManifest()
+    public static bool LoadVersionManifest()
     {
         versionManifest = Json.Load<MCVersionManifest>(
             MinecraftPathResolver.DownloadedVersionManifestPath(launcherPath)
@@ -104,7 +112,7 @@ public class MCDownloadProvider(
         return true;
     }
 
-    public bool LoadVersion()
+    public static bool LoadVersion()
     {
         version = MCVersionHelper.GetVersion(launcherVersion, versionManifest);
         if (version == null)
@@ -118,7 +126,7 @@ public class MCDownloadProvider(
         return true;
     }
 
-    public async Task<bool> DownloadVersionDetails()
+    public static async Task<bool> DownloadVersionDetails()
     {
         if (!await VersionDetailsDownloader.Download(launcherPath, version))
         {
@@ -131,7 +139,7 @@ public class MCDownloadProvider(
         return true;
     }
 
-    public bool LoadVersionDetails()
+    public static bool LoadVersionDetails()
     {
         versionDetails = Json.Load<MCVersionDetails>(
             MinecraftPathResolver.DownloadedVersionDetailsPath(launcherPath, version)
@@ -147,7 +155,7 @@ public class MCDownloadProvider(
         return true;
     }
 
-    public async Task<bool> DownloadLibraries()
+    public static async Task<bool> DownloadLibraries()
     {
         if (!await LibraryDownloader.Download(launcherPath, platform, versionDetails))
         {
@@ -160,7 +168,7 @@ public class MCDownloadProvider(
         return true;
     }
 
-    public async Task<bool> DownloadClient()
+    public static async Task<bool> DownloadClient()
     {
         if (!await ClientDownloader.Download(launcherPath, versionDetails))
         {
@@ -173,7 +181,7 @@ public class MCDownloadProvider(
         return true;
     }
 
-    public async Task<bool> DownloadClientMappings()
+    public static async Task<bool> DownloadClientMappings()
     {
         if (!await ClientMappingsDownloader.Download(launcherPath, versionDetails))
         {
@@ -186,7 +194,7 @@ public class MCDownloadProvider(
         return true;
     }
 
-    public async Task<bool> DownloadServer()
+    public static async Task<bool> DownloadServer()
     {
         if (!await ServerDownloader.Download(launcherPath, versionDetails))
         {
@@ -199,7 +207,7 @@ public class MCDownloadProvider(
         return true;
     }
 
-    public async Task<bool> DownloadServerMappings()
+    public static async Task<bool> DownloadServerMappings()
     {
         if (!await ServerMappingsDownloader.Download(launcherPath, versionDetails))
         {
@@ -212,7 +220,7 @@ public class MCDownloadProvider(
         return true;
     }
 
-    public async Task<bool> DownloadAssetIndex()
+    public static async Task<bool> DownloadAssetIndex()
     {
         if (!await IndexDownloader.Download(launcherPath, versionDetails))
         {
@@ -225,7 +233,7 @@ public class MCDownloadProvider(
         return true;
     }
 
-    public bool LoadAssetIndex()
+    public static bool LoadAssetIndex()
     {
         assets = Json.Load<MCAssetsData>(MinecraftPathResolver.ClientIndexPath(launcherPath, versionDetails));
         if (assets == null)
@@ -237,7 +245,7 @@ public class MCDownloadProvider(
         return true;
     }
 
-    public async Task<bool> DownloadResources()
+    public static async Task<bool> DownloadResources()
     {
         if (!await ResourceDownloader.Download(launcherPath, configUrls, assets))
         {
@@ -250,7 +258,7 @@ public class MCDownloadProvider(
         return true;
     }
 
-    public async Task<bool> DownloadLogging()
+    public static async Task<bool> DownloadLogging()
     {
         if (!await LoggingDownloader.Download(launcherPath, versionDetails))
         {

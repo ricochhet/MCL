@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using MCL.Core.Enums.Java;
+using MCL.Core.Interfaces.Minecraft;
 using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Java;
@@ -8,26 +9,33 @@ using MCL.Core.Models.Minecraft;
 using MCL.Core.Models.Services;
 using MCL.Core.Resolvers.Java;
 using MCL.Core.Resolvers.Minecraft;
-using MCL.Core.Services;
 using MCL.Core.Web.Java;
 
-namespace MCL.Core.Providers.Java;
+namespace MCL.Core.Services.Java;
 
-public class JavaDownloadProvider(
-    MCLauncherPath _launcherPath,
-    MCConfigUrls _configUrls,
-    JavaRuntimeType _javaRuntimeType,
-    JavaRuntimePlatform _javaRuntimePlatform
-)
+public class JavaDownloadService : IDownloadService
 {
-    private JavaRuntimeIndex javaRuntimeIndex;
-    private JavaRuntimeFiles javaRuntimeFiles;
-    private readonly MCLauncherPath launcherPath = _launcherPath;
-    private readonly MCConfigUrls configUrls = _configUrls;
-    private readonly JavaRuntimeType javaRuntimeType = _javaRuntimeType;
-    private readonly JavaRuntimePlatform javaRuntimePlatform = _javaRuntimePlatform;
+    private static JavaRuntimeIndex javaRuntimeIndex;
+    private static JavaRuntimeFiles javaRuntimeFiles;
+    private static MCLauncherPath launcherPath;
+    private static MCConfigUrls configUrls;
+    private static JavaRuntimeType javaRuntimeType;
+    private static JavaRuntimePlatform javaRuntimePlatform;
 
-    public async Task<bool> DownloadAll()
+    public static void Init(
+        MCLauncherPath _launcherPath,
+        MCConfigUrls _configUrls,
+        JavaRuntimeType _javaRuntimeType,
+        JavaRuntimePlatform _javaRuntimePlatform
+    )
+    {
+        launcherPath = _launcherPath;
+        configUrls = _configUrls;
+        javaRuntimeType = _javaRuntimeType;
+        javaRuntimePlatform = _javaRuntimePlatform;
+    }
+
+    public static async Task<bool> Download()
     {
         if (!await DownloadJavaRuntimeIndex())
             return false;
@@ -47,7 +55,7 @@ public class JavaDownloadProvider(
         return true;
     }
 
-    public async Task<bool> DownloadJavaRuntimeIndex()
+    public static async Task<bool> DownloadJavaRuntimeIndex()
     {
         if (!await JavaRuntimeIndexDownloader.Download(launcherPath, configUrls))
         {
@@ -60,7 +68,7 @@ public class JavaDownloadProvider(
         return true;
     }
 
-    public bool LoadJavaRuntimeIndex()
+    public static bool LoadJavaRuntimeIndex()
     {
         javaRuntimeIndex = Json.Load<JavaRuntimeIndex>(JavaPathResolver.DownloadedJavaRuntimeIndexPath(launcherPath));
         if (javaRuntimeIndex == null)
@@ -74,7 +82,7 @@ public class JavaDownloadProvider(
         return true;
     }
 
-    public async Task<bool> DownloadJavaRuntimeManifest()
+    public static async Task<bool> DownloadJavaRuntimeManifest()
     {
         if (
             !await JavaRuntimeManifestDownloader.Download(
@@ -94,7 +102,7 @@ public class JavaDownloadProvider(
         return true;
     }
 
-    public bool LoadJavaRuntimeManifest()
+    public static bool LoadJavaRuntimeManifest()
     {
         javaRuntimeFiles = Json.Load<JavaRuntimeFiles>(
             JavaPathResolver.DownloadedJavaRuntimeManifestPath(
@@ -113,7 +121,7 @@ public class JavaDownloadProvider(
         return true;
     }
 
-    public async Task<bool> DownloadJavaRuntime()
+    public static async Task<bool> DownloadJavaRuntime()
     {
         if (!await JavaRuntimeDownloader.Download(launcherPath, javaRuntimeType, javaRuntimeFiles))
         {
