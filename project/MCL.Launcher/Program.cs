@@ -27,29 +27,13 @@ internal static class Program
         Console.Title = "MCL.Launcher";
         LogBase.Add(new NativeLogger());
         LogBase.Add(new FileStreamLogger());
-        LogBase.Info("Initialized logger");
-        Watermark.Draw(ConfigProvider.WatermarkText);
-
-        Request.SetJsonSerializerOptions(new() { WriteIndented = true });
-        Request.SetHttpClientTimeOut(TimeSpan.FromMinutes(1));
-        ConfigProvider.Save();
-        Config config = ConfigProvider.Load();
-        if (config == null)
-        {
-            LogBase.Error(
-                $"{ConfigProvider.ConfigFileName} could not be read, make sure it is located in \"{ConfigProvider.DataPath}\" and try again."
-            );
-            CommandLine.Pause();
-            return;
-        }
-
         MCLauncherUsername launcherUsername = new(username: "Player1337");
         MCLauncherPath launcherPath =
             new(
                 path: "./.minecraft",
                 modPath: "./.minecraft-mods",
                 fabricInstallerPath: "./.minecraft-fabric",
-                languageLocalizationPath: "./.language"
+                languageLocalizationPath: "./.localization"
             );
         MCLauncherVersion launcherVersion =
             new(
@@ -69,16 +53,37 @@ internal static class Program
                 JavaRuntimePlatform.WINDOWSX64
             );
 
-        LocalizationService.Init(launcherPath, Language.ENGLISH, true);
-        ModdingService.Init(launcherPath, config.ModConfig);
-        ModdingService.Save("fabric-mods");
-        ModdingService.Deploy(ModdingService.Load("fabric-mods"), VFS.Combine(launcherPath.Path, "mods"));
+        LocalizationService.Init(launcherPath, Language.ENGLISH);
         NotificationService.LogNotification(
             (Notification notification) =>
             {
                 LogBase.Base(notification.LogLevel, notification.Message);
             }
         );
+
+        NotificationService.Add(new Notification(NativeLogLevel.Info, "log.initialized"));
+        Request.SetJsonSerializerOptions(new() { WriteIndented = true });
+        Request.SetHttpClientTimeOut(TimeSpan.FromMinutes(1));
+        Watermark.Draw(ConfigProvider.WatermarkText);
+
+        ConfigProvider.Save();
+        Config config = ConfigProvider.Load();
+        if (config == null)
+        {
+            NotificationService.Add(
+                new Notification(
+                    NativeLogLevel.Error,
+                    "launcher.config.missing",
+                    [ConfigProvider.ConfigFileName, ConfigProvider.DataPath]
+                )
+            );
+            CommandLine.Pause();
+            return;
+        }
+
+        ModdingService.Init(launcherPath, config.ModConfig);
+        ModdingService.Save("fabric-mods");
+        ModdingService.Deploy(ModdingService.Load("fabric-mods"), VFS.Combine(launcherPath.Path, "mods"));
 
         if (args.Length <= 0)
             return;

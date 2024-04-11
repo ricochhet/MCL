@@ -1,0 +1,16 @@
+{
+    "Entries": {
+      "localization.service": "localization.service",
+      "log.initialized": "Intialized Logger",
+      "log": "{0}",
+      "request.get": "[GET] {0}",
+      "request.get.hash-exists": "[GET] File already exists: {0}",
+      "error.download": "An error occured attempting to request: '{0}'",
+      "error.readfile": "An error occured attempting to load: '{0}'",
+      "error.parse": "An error occured attempting to parse '{0}' as '{1}'",
+      "commandline.exit": "Press '{0}' to safely exit.",
+      "fabric.installer-exists": "Fabric Installer version: {0}, has already been downloaded.",
+      "launcher.config.setup": "Creating first-time configuration file.",
+      "launcher.config.missing": "'{0}' could not be read, make sure it is located in '{1}' and try again."
+    }
+  }

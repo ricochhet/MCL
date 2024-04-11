@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using MCL.Core.Logger;
+using MCL.Core.Logger.Enums;
+using MCL.Core.Models.Services;
+using MCL.Core.Services;
 
 namespace MCL.Core.Helpers;
 
@@ -43,7 +45,7 @@ public static class ProcessHelper
                 {
                     if (!string.IsNullOrWhiteSpace(e.Data))
                     {
-                        LogBase.Info(e.Data);
+                        NotificationService.Add(new Notification(NativeLogLevel.Info, "log", [e.Data]));
                     }
                 };
 
@@ -53,14 +55,16 @@ public static class ProcessHelper
             else
             {
                 process.Start();
-                LogBase.Info(process.StandardOutput.ReadToEnd());
+                NotificationService.Add(
+                    new Notification(NativeLogLevel.Info, "log", [process.StandardOutput.ReadToEnd()])
+                );
             }
 
             process.WaitForExit();
         }
         catch (Exception e)
         {
-            LogBase.Error(e.ToString());
+            NotificationService.Add(new Notification(NativeLogLevel.Error, "log", [e.ToString()]));
         }
     }
 }

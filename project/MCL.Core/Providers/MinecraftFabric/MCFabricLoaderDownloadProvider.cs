@@ -1,10 +1,12 @@
 using System.Threading.Tasks;
 using MCL.Core.Helpers.MinecraftFabric;
-using MCL.Core.Logger;
+using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Models.MinecraftFabric;
+using MCL.Core.Models.Services;
 using MCL.Core.Resolvers.MinecraftFabric;
+using MCL.Core.Services;
 using MCL.Core.Web.Minecraft;
 
 namespace MCL.Core.Providers.MinecraftFabric;
@@ -39,14 +41,16 @@ public class MCFabricLoaderDownloadProvider(
     {
         if (!await FabricIndexDownloader.Download(launcherPath, fabricConfigUrls))
         {
-            LogBase.Error("Failed to download fabric index");
+            NotificationService.Add(
+                new Notification(NativeLogLevel.Error, "error.download", [nameof(FabricIndexDownloader)])
+            );
             return false;
         }
 
         fabricIndex = Json.Load<MCFabricIndex>(MinecraftFabricPathResolver.DownloadedFabricIndexPath(launcherPath));
         if (fabricIndex == null)
         {
-            LogBase.Error($"Failed to get fabric index");
+            NotificationService.Add(new Notification(NativeLogLevel.Error, "error.readfile", [nameof(MCFabricIndex)]));
             return false;
         }
 
@@ -57,7 +61,9 @@ public class MCFabricLoaderDownloadProvider(
     {
         if (!await FabricProfileDownloader.Download(launcherPath, launcherVersion, fabricConfigUrls))
         {
-            LogBase.Error("Failed to download fabric profile");
+            NotificationService.Add(
+                new Notification(NativeLogLevel.Error, "error.download", [nameof(FabricProfileDownloader)])
+            );
             return false;
         }
 
@@ -66,7 +72,9 @@ public class MCFabricLoaderDownloadProvider(
         );
         if (fabricProfile == null)
         {
-            LogBase.Error($"Failed to get fabric profile");
+            NotificationService.Add(
+                new Notification(NativeLogLevel.Error, "error.download", [nameof(MCFabricProfile)])
+            );
             return false;
         }
 
@@ -75,16 +83,24 @@ public class MCFabricLoaderDownloadProvider(
 
     public async Task<bool> DownloadFabricLoader()
     {
-        MCFabricLoader fabricLoader = MCFabricVersionHelper.GetFabricLoaderVersion(launcherVersion, fabricIndex.Loader);
+        MCFabricLoader fabricLoader = MCFabricVersionHelper.GetFabricLoaderVersion(launcherVersion, fabricIndex);
         if (fabricLoader == null)
         {
-            LogBase.Error($"Failed to get version: {launcherVersion}");
+            NotificationService.Add(
+                new Notification(
+                    NativeLogLevel.Error,
+                    "error.parse",
+                    [launcherVersion?.FabricLoaderVersion, nameof(MCFabricLoader)]
+                )
+            );
             return false;
         }
 
         if (!await FabricLoaderDownloader.Download(launcherPath, launcherVersion, fabricProfile, fabricConfigUrls))
         {
-            LogBase.Error("Failed to download fabric loader");
+            NotificationService.Add(
+                new Notification(NativeLogLevel.Error, "error.download", [nameof(FabricLoaderDownloader)])
+            );
             return false;
         }
 

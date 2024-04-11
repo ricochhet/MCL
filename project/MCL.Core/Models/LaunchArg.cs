@@ -9,7 +9,6 @@ public class LaunchArg(string arg, List<string> argParams = null, int priority =
     public int Priority { get; set; } = priority;
 
     private string currentArg = arg;
-    private int currentParam = 0;
 
     public string Parse()
     {
@@ -18,8 +17,7 @@ public class LaunchArg(string arg, List<string> argParams = null, int priority =
 
         foreach (string param in ArgParams)
         {
-            currentArg = currentArg.Replace("{" + currentParam + "}", param);
-            currentParam++;
+            currentArg = string.Format(currentArg, param);
         }
 
         return currentArg;

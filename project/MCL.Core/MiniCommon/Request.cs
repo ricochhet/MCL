@@ -6,7 +6,9 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using MCL.Core.Helpers;
-using MCL.Core.Logger;
+using MCL.Core.Logger.Enums;
+using MCL.Core.Models.Services;
+using MCL.Core.Services;
 
 namespace MCL.Core.MiniCommon;
 
@@ -33,12 +35,12 @@ public static class Request
     {
         try
         {
-            LogBase.Debug($"GET: {request}");
+            NotificationService.Add(new Notification(NativeLogLevel.Info, "request.get", [request]));
             return await httpClient.GetAsync(request);
         }
         catch (Exception ex)
         {
-            LogBase.Error(ex.ToString());
+            NotificationService.Add(new Notification(NativeLogLevel.Error, "log", [ex.ToString()]));
             return null;
         }
     }
@@ -51,7 +53,7 @@ public static class Request
         }
         catch (Exception ex)
         {
-            LogBase.Error(ex.ToString());
+            NotificationService.Add(new Notification(NativeLogLevel.Error, "log", [ex.ToString()]));
             return default;
         }
     }
@@ -71,6 +73,9 @@ public static class Request
                     && CryptographyHelper.Sha1(filepath, true) == CryptographyHelper.Sha1(response, encoding)
                 )
                 {
+                    NotificationService.Add(
+                        new Notification(NativeLogLevel.Info, "request.get.hash-exists", [request])
+                    );
                     return response;
                 }
 
@@ -79,7 +84,7 @@ public static class Request
             }
             catch (Exception ex)
             {
-                LogBase.Error(ex.ToString());
+                NotificationService.Add(new Notification(NativeLogLevel.Error, "log", [ex.ToString()]));
             }
         }
 
@@ -99,6 +104,9 @@ public static class Request
                     && CryptographyHelper.Sha1(filepath, true) == CryptographyHelper.Sha1(response, encoding)
                 )
                 {
+                    NotificationService.Add(
+                        new Notification(NativeLogLevel.Info, "request.get.hash-exists", [request])
+                    );
                     return response;
                 }
 
@@ -107,7 +115,7 @@ public static class Request
             }
             catch (Exception ex)
             {
-                LogBase.Error(ex.ToString());
+                NotificationService.Add(new Notification(NativeLogLevel.Error, "log", [ex.ToString()]));
             }
         }
 
@@ -119,12 +127,12 @@ public static class Request
     {
         try
         {
-            LogBase.Debug($"GET: {request}");
+            NotificationService.Add(new Notification(NativeLogLevel.Info, "request.get", [request]));
             return await httpClient.GetStringAsync(request);
         }
         catch (Exception ex)
         {
-            LogBase.Error(ex.ToString());
+            NotificationService.Add(new Notification(NativeLogLevel.Error, "log", [ex.ToString()]));
             return null;
         }
     }
@@ -134,7 +142,10 @@ public static class Request
     public static async Task<bool> Download(string request, string filepath, string hash)
     {
         if (VFS.Exists(filepath) && CryptographyHelper.Sha1(filepath, true) == hash)
+        {
+            NotificationService.Add(new Notification(NativeLogLevel.Info, "request.get.hash-exists", [request]));
             return true;
+        }
         else if (!await Download(request, filepath))
             return false;
         return true;
@@ -167,7 +178,7 @@ public static class Request
             }
             catch (Exception ex)
             {
-                LogBase.Error(ex.ToString());
+                NotificationService.Add(new Notification(NativeLogLevel.Error, "log", [ex.ToString()]));
             }
         }
 

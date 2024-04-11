@@ -1,9 +1,7 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using MCL.Core.Enums;
 using MCL.Core.Handlers.Minecraft;
 using MCL.Core.Interfaces.Minecraft;
-using MCL.Core.Logger;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Models.Minecraft;
@@ -14,13 +12,20 @@ namespace MCL.Core.Web.Minecraft;
 
 public class LibraryDownloader : IMCLibraryDownloader
 {
-    public static async Task<bool> Download(MCLauncherPath launcherPath, Platform platform, List<MCLibrary> libraries)
+    public static async Task<bool> Download(
+        MCLauncherPath launcherPath,
+        Platform platform,
+        MCVersionDetails versionDetails
+    )
     {
         if (!MCLauncherPath.Exists(launcherPath))
             return false;
 
+        if (!LibraryDownloaderErr.Exists(versionDetails))
+            return false;
+
         string libPath = VFS.Combine(launcherPath.Path, "libraries");
-        foreach (MCLibrary lib in libraries)
+        foreach (MCLibrary lib in versionDetails.Libraries)
         {
             if (lib.Downloads == null)
                 return false;
@@ -55,7 +60,6 @@ public class LibraryDownloader : IMCLibraryDownloader
         {
             string action = rule.Action;
             string os = rule.Os?.Name;
-            LogBase.Info($"Library Rule:\nAction: {action}\nOS: {os}");
 
             if (os == null)
             {

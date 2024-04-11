@@ -1,9 +1,11 @@
 using System.Collections.Generic;
 using System.Text.Encodings.Web;
 using System.Text.Json;
-using MCL.Core.Logger;
+using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models;
+using MCL.Core.Models.Services;
+using MCL.Core.Services;
 
 namespace MCL.Core.Providers;
 
@@ -25,7 +27,7 @@ public static class ConfigProvider
     {
         if (!VFS.Exists(ConfigFilePath))
         {
-            LogBase.Info("Setup: Creating config...");
+            NotificationService.Add(new Notification(NativeLogLevel.Info, "launcher.config.setup"));
             Config config =
                 new()
                 {

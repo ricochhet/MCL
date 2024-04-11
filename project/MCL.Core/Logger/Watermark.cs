@@ -1,5 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
+using MCL.Core.Logger.Enums;
+using MCL.Core.Models.Services;
+using MCL.Core.Services;
 
 namespace MCL.Core.Logger;
 
@@ -22,7 +25,7 @@ public static class Watermark
         result.Add($"└─{line}─┘");
         foreach (string textItem in result)
         {
-            LogBase.Info(textItem);
+            NotificationService.Add(new Notification(NativeLogLevel.Info, "log", [textItem]));
         }
     }
 

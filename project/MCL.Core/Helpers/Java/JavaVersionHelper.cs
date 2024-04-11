@@ -29,7 +29,7 @@ public static class JavaVersionHelper
         if (versionManifest?.Versions == null)
             return fallback;
 
-        MCVersion version = MCVersionHelper.GetVersion(launcherVersion, versionManifest.Versions);
+        MCVersion version = MCVersionHelper.GetVersion(launcherVersion, versionManifest);
         if (version == null)
             return fallback;
 

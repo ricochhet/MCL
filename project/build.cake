@@ -9,7 +9,7 @@ var csprojPaths = GetFiles("./**/MCL.*(Launcher).csproj");
 var delPaths = GetDirectories("./**/*(obj|bin)");
 var licenseFile = "../LICENSE";
 var publishRuntime = "win-x64";
-var launcherDebugFolder = "../bin/MCL";
+var launcherDebugFolder = "./MCL.Resources/";
 
 // Clean build directory and remove obj / bin folder from projects
 Task("Clean")

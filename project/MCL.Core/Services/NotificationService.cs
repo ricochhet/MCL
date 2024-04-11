@@ -6,7 +6,7 @@ namespace MCL.Core.Services;
 
 public static class NotificationService
 {
-    public static List<Notification> Notifications { get; private set; }
+    private static List<Notification> Notifications { get; set; }
 
     static NotificationService()
     {
@@ -14,6 +14,8 @@ public static class NotificationService
     }
 
     public static void Add(Notification item) => Notifications.Add(item);
+
+    public static void Clear() => Notifications.Clear();
 
     public static void LogNotification(Action<Notification> func)
     {

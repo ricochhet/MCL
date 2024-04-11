@@ -1,11 +1,13 @@
 using System.Threading.Tasks;
 using MCL.Core.Enums;
 using MCL.Core.Helpers.Minecraft;
-using MCL.Core.Logger;
+using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Models.Minecraft;
+using MCL.Core.Models.Services;
 using MCL.Core.Resolvers.Minecraft;
+using MCL.Core.Services;
 using MCL.Core.Web.Minecraft;
 
 namespace MCL.Core.Providers.Minecraft;
@@ -64,7 +66,9 @@ public class MCDownloadProvider(
     {
         if (!await VersionManifestDownloader.Download(launcherPath, configUrls))
         {
-            LogBase.Error("Failed to download version manifest");
+            NotificationService.Add(
+                new Notification(NativeLogLevel.Error, "error.download", [nameof(MCVersionManifest)])
+            );
             return false;
         }
 
@@ -73,14 +77,18 @@ public class MCDownloadProvider(
         );
         if (versionManifest == null)
         {
-            LogBase.Info($"Failed to get version manifest");
+            NotificationService.Add(
+                new Notification(NativeLogLevel.Error, "error.readfile", [nameof(MCVersionManifest)])
+            );
             return false;
         }
 
-        version = MCVersionHelper.GetVersion(launcherVersion, versionManifest.Versions);
+        version = MCVersionHelper.GetVersion(launcherVersion, versionManifest);
         if (version == null)
         {
-            LogBase.Error($"Failed to get version: {version}");
+            NotificationService.Add(
+                new Notification(NativeLogLevel.Error, "error.parse", [launcherVersion?.Version, nameof(MCVersion)])
+            );
             return false;
         }
 
@@ -91,7 +99,9 @@ public class MCDownloadProvider(
     {
         if (!await VersionDetailsDownloader.Download(launcherPath, version))
         {
-            LogBase.Error("Failed to download version details");
+            NotificationService.Add(
+                new Notification(NativeLogLevel.Error, "error.download", [nameof(VersionDetailsDownloader)])
+            );
             return false;
         }
 
@@ -100,7 +110,9 @@ public class MCDownloadProvider(
         );
         if (versionDetails == null)
         {
-            LogBase.Error($"Failed to get version details");
+            NotificationService.Add(
+                new Notification(NativeLogLevel.Error, "error.readfile", [nameof(MCVersionDetails)])
+            );
             return false;
         }
 
@@ -109,9 +121,11 @@ public class MCDownloadProvider(
 
     public async Task<bool> DownloadLibraries()
     {
-        if (!await LibraryDownloader.Download(launcherPath, platform, versionDetails.Libraries))
+        if (!await LibraryDownloader.Download(launcherPath, platform, versionDetails))
         {
-            LogBase.Error("Failed to download libraries");
+            NotificationService.Add(
+                new Notification(NativeLogLevel.Error, "error.download", [nameof(LibraryDownloader)])
+            );
             return false;
         }
 
@@ -122,7 +136,9 @@ public class MCDownloadProvider(
     {
         if (!await ClientDownloader.Download(launcherPath, versionDetails))
         {
-            LogBase.Error("Failed to download client");
+            NotificationService.Add(
+                new Notification(NativeLogLevel.Error, "error.download", [nameof(ClientDownloader)])
+            );
             return false;
         }
 
@@ -133,7 +149,9 @@ public class MCDownloadProvider(
     {
         if (!await ClientMappingsDownloader.Download(launcherPath, versionDetails))
         {
-            LogBase.Error("Failed to download client mappings");
+            NotificationService.Add(
+                new Notification(NativeLogLevel.Error, "error.download", [nameof(ClientMappingsDownloader)])
+            );
             return false;
         }
 
@@ -144,7 +162,9 @@ public class MCDownloadProvider(
     {
         if (!await ServerDownloader.Download(launcherPath, versionDetails))
         {
-            LogBase.Error("Failed to download server");
+            NotificationService.Add(
+                new Notification(NativeLogLevel.Error, "error.download", [nameof(ServerDownloader)])
+            );
             return false;
         }
 
@@ -155,7 +175,9 @@ public class MCDownloadProvider(
     {
         if (!await ServerMappingsDownloader.Download(launcherPath, versionDetails))
         {
-            LogBase.Error("Failed to download server mappings");
+            NotificationService.Add(
+                new Notification(NativeLogLevel.Error, "error.download", [nameof(ServerMappingsDownloader)])
+            );
             return false;
         }
 
@@ -166,14 +188,16 @@ public class MCDownloadProvider(
     {
         if (!await IndexDownloader.Download(launcherPath, versionDetails))
         {
-            LogBase.Error("Failed to download assets index json");
+            NotificationService.Add(
+                new Notification(NativeLogLevel.Error, "error.download", [nameof(IndexDownloader)])
+            );
             return false;
         }
 
         assets = Json.Load<MCAssetsData>(MinecraftPathResolver.ClientIndexPath(launcherPath, versionDetails));
         if (assets == null)
         {
-            LogBase.Error($"Failed to get assets index json");
+            NotificationService.Add(new Notification(NativeLogLevel.Error, "error.readfile", [nameof(MCAssetsData)]));
             return false;
         }
 
@@ -184,7 +208,9 @@ public class MCDownloadProvider(
     {
         if (!await ResourceDownloader.Download(launcherPath, configUrls, assets))
         {
-            LogBase.Error("Failed to download resources");
+            NotificationService.Add(
+                new Notification(NativeLogLevel.Error, "error.download", [nameof(ResourceDownloader)])
+            );
             return false;
         }
 
@@ -195,7 +221,9 @@ public class MCDownloadProvider(
     {
         if (!await LoggingDownloader.Download(launcherPath, versionDetails))
         {
-            LogBase.Error("Failed to download logging");
+            NotificationService.Add(
+                new Notification(NativeLogLevel.Error, "error.download", [nameof(LoggingDownloader)])
+            );
             return false;
         }
 

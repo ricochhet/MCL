@@ -1,6 +1,8 @@
 using System;
 using System.Threading.Tasks;
-using MCL.Core.Logger;
+using MCL.Core.Logger.Enums;
+using MCL.Core.Models.Services;
+using MCL.Core.Services;
 
 namespace MCL.Core.MiniCommon;
 
@@ -46,7 +48,7 @@ public static class CommandLine
 
     public static void Pause()
     {
-        LogBase.Info("Press \"F\" to safely exit.");
+        NotificationService.Add(new Notification(NativeLogLevel.Info, "commandline.exit", ["F"]));
 
 #pragma warning disable IDE0079
 #pragma warning disable S108

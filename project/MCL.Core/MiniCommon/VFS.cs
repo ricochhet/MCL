@@ -194,6 +194,11 @@ public static class VFS
     /// </summary>
     public static FileStream OpenWrite(string filepath)
     {
+        if (!Exists(filepath))
+        {
+            WriteFile(filepath, string.Empty);
+        }
+
         return File.OpenWrite(filepath);
     }
 

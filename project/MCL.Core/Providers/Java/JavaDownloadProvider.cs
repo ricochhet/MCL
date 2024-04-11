@@ -1,12 +1,14 @@
 using System.Threading.Tasks;
 using MCL.Core.Enums.Java;
-using MCL.Core.Logger;
+using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Java;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Models.Minecraft;
+using MCL.Core.Models.Services;
 using MCL.Core.Resolvers.Java;
 using MCL.Core.Resolvers.Minecraft;
+using MCL.Core.Services;
 using MCL.Core.Web.Java;
 
 namespace MCL.Core.Providers.Java;
@@ -43,14 +45,18 @@ public class JavaDownloadProvider(
     {
         if (!await JavaRuntimeIndexDownloader.Download(launcherPath, configUrls))
         {
-            LogBase.Error("Failed to download java runtime index");
+            NotificationService.Add(
+                new Notification(NativeLogLevel.Error, "error.download", [nameof(JavaRuntimeIndexDownloader)])
+            );
             return false;
         }
 
         javaRuntimeIndex = Json.Load<JavaRuntimeIndex>(JavaPathResolver.DownloadedJavaRuntimeIndexPath(launcherPath));
         if (javaRuntimeIndex == null)
         {
-            LogBase.Error($"Failed to get java runtime index");
+            NotificationService.Add(
+                new Notification(NativeLogLevel.Error, "error.readfile", [nameof(JavaRuntimeIndex)])
+            );
             return false;
         }
 
@@ -68,7 +74,9 @@ public class JavaDownloadProvider(
             )
         )
         {
-            LogBase.Error("Failed to download java runtime manifest");
+            NotificationService.Add(
+                new Notification(NativeLogLevel.Error, "error.download", [nameof(JavaRuntimeManifestDownloader)])
+            );
             return false;
         }
 
@@ -80,7 +88,9 @@ public class JavaDownloadProvider(
         );
         if (javaRuntimeFiles == null)
         {
-            LogBase.Error($"Failed to get java runtime manifest");
+            NotificationService.Add(
+                new Notification(NativeLogLevel.Error, "error.readfile", [nameof(JavaRuntimeManifest)])
+            );
             return false;
         }
 
@@ -91,7 +101,9 @@ public class JavaDownloadProvider(
     {
         if (!await JavaRuntimeDownloader.Download(launcherPath, javaRuntimeType, javaRuntimeFiles))
         {
-            LogBase.Error("Failed to download java runtime");
+            NotificationService.Add(
+                new Notification(NativeLogLevel.Error, "error.download", [nameof(JavaRuntimeDownloader)])
+            );
             return false;
         }
 
