@@ -20,6 +20,7 @@ public class MCDownloadProvider(
 )
 {
     private MCVersionDetails versionDetails;
+    private MCVersionManifest versionManifest;
     private MCVersion version;
     private MCAssetsData assets;
     private readonly MCLauncherPath launcherPath = _launcherPath;
@@ -32,7 +33,16 @@ public class MCDownloadProvider(
         if (!await DownloadVersionManifest())
             return false;
 
+        if (!LoadVersionManifest())
+            return false;
+
+        if (!LoadVersion())
+            return false;
+
         if (!await DownloadVersionDetails())
+            return false;
+
+        if (!LoadVersionDetails())
             return false;
 
         if (!await DownloadLibraries())
@@ -51,6 +61,9 @@ public class MCDownloadProvider(
             return false;
 
         if (!await DownloadAssetIndex())
+            return false;
+
+        if (!LoadAssetIndex())
             return false;
 
         if (!await DownloadResources())
@@ -72,7 +85,12 @@ public class MCDownloadProvider(
             return false;
         }
 
-        MCVersionManifest versionManifest = Json.Load<MCVersionManifest>(
+        return true;
+    }
+
+    public bool LoadVersionManifest()
+    {
+        versionManifest = Json.Load<MCVersionManifest>(
             MinecraftPathResolver.DownloadedVersionManifestPath(launcherPath)
         );
         if (versionManifest == null)
@@ -83,6 +101,11 @@ public class MCDownloadProvider(
             return false;
         }
 
+        return true;
+    }
+
+    public bool LoadVersion()
+    {
         version = MCVersionHelper.GetVersion(launcherVersion, versionManifest);
         if (version == null)
         {
@@ -105,6 +128,11 @@ public class MCDownloadProvider(
             return false;
         }
 
+        return true;
+    }
+
+    public bool LoadVersionDetails()
+    {
         versionDetails = Json.Load<MCVersionDetails>(
             MinecraftPathResolver.DownloadedVersionDetailsPath(launcherPath, version)
         );
@@ -194,6 +222,11 @@ public class MCDownloadProvider(
             return false;
         }
 
+        return true;
+    }
+
+    public bool LoadAssetIndex()
+    {
         assets = Json.Load<MCAssetsData>(MinecraftPathResolver.ClientIndexPath(launcherPath, versionDetails));
         if (assets == null)
         {

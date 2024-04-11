@@ -28,7 +28,16 @@ public class MCFabricLoaderDownloadProvider(
         if (!await DownloadFabricIndex())
             return false;
 
+        if (!LoadFabricIndex())
+            return false;
+
         if (!await DownloadFabricProfile())
+            return false;
+
+        if (!LoadFabricProfile())
+            return false;
+
+        if (!LoadFabricLoaderVersion())
             return false;
 
         if (!await DownloadFabricLoader())
@@ -47,6 +56,11 @@ public class MCFabricLoaderDownloadProvider(
             return false;
         }
 
+        return true;
+    }
+
+    public bool LoadFabricIndex()
+    {
         fabricIndex = Json.Load<MCFabricIndex>(MinecraftFabricPathResolver.DownloadedFabricIndexPath(launcherPath));
         if (fabricIndex == null)
         {
@@ -67,6 +81,11 @@ public class MCFabricLoaderDownloadProvider(
             return false;
         }
 
+        return true;
+    }
+
+    public bool LoadFabricProfile()
+    {
         fabricProfile = Json.Load<MCFabricProfile>(
             MinecraftFabricPathResolver.DownloadedFabricProfilePath(launcherPath, launcherVersion)
         );
@@ -81,7 +100,7 @@ public class MCFabricLoaderDownloadProvider(
         return true;
     }
 
-    public async Task<bool> DownloadFabricLoader()
+    public bool LoadFabricLoaderVersion()
     {
         MCFabricLoader fabricLoader = MCFabricVersionHelper.GetFabricLoaderVersion(launcherVersion, fabricIndex);
         if (fabricLoader == null)
@@ -96,6 +115,11 @@ public class MCFabricLoaderDownloadProvider(
             return false;
         }
 
+        return true;
+    }
+
+    public async Task<bool> DownloadFabricLoader()
+    {
         if (!await FabricLoaderDownloader.Download(launcherPath, launcherVersion, fabricProfile, fabricConfigUrls))
         {
             NotificationService.Add(

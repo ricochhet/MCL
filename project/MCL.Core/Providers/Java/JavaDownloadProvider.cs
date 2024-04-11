@@ -32,7 +32,13 @@ public class JavaDownloadProvider(
         if (!await DownloadJavaRuntimeIndex())
             return false;
 
+        if (!LoadJavaRuntimeIndex())
+            return false;
+
         if (!await DownloadJavaRuntimeManifest())
+            return false;
+
+        if (!LoadJavaRuntimeManifest())
             return false;
 
         if (!await DownloadJavaRuntime())
@@ -51,6 +57,11 @@ public class JavaDownloadProvider(
             return false;
         }
 
+        return true;
+    }
+
+    public bool LoadJavaRuntimeIndex()
+    {
         javaRuntimeIndex = Json.Load<JavaRuntimeIndex>(JavaPathResolver.DownloadedJavaRuntimeIndexPath(launcherPath));
         if (javaRuntimeIndex == null)
         {
@@ -80,6 +91,11 @@ public class JavaDownloadProvider(
             return false;
         }
 
+        return true;
+    }
+
+    public bool LoadJavaRuntimeManifest()
+    {
         javaRuntimeFiles = Json.Load<JavaRuntimeFiles>(
             JavaPathResolver.DownloadedJavaRuntimeManifestPath(
                 launcherPath,
