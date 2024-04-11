@@ -22,7 +22,7 @@ The primary way to build is using [Cake](https://cakebuild.net/).
 
 If you want to build with an icon, you can place an icon in `{root}/bin/Assets/icon.ico`.
 
-Files placed in `{root}/bin/MCL` will be copied over to `project/Build`.
+Files placed in `{root}/project/MCL.Resources` will be copied over to `project/Build`.
 
 ### Developers
 If you intend to publish a build, use the above guide.
@@ -31,7 +31,7 @@ If you intend to publish a build, use the above guide.
     - If you make any changes to the code use `dotnet csharpier .` in the project root to format.
 2. Run `install.ps1 -build <project> -config <config>`
     - `<project>` options:
-        - `proxy`
+        - `launcher`
     - `<config>` options:
         - `Release` | `Release-Publish`
         - `Debug` | `Release-Debug`

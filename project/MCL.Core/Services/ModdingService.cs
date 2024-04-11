@@ -40,8 +40,9 @@ public static class ModdingService
         if (modFilePaths.Length <= 0)
             return false;
 
+        string[] fileTypes = [.. ModConfig.CopyOnlyTypes, .. ModConfig.UnzipAndCopyTypes];
         string[] filteredModFilePaths = modFilePaths
-            .Where(file => Array.Exists(ModConfig.FileTypes, file.ToLower().EndsWith))
+            .Where(file => Array.Exists(fileTypes, file.ToLower().EndsWith))
             .ToArray();
         if (filteredModFilePaths.Length <= 0)
             return false;

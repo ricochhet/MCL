@@ -3,10 +3,15 @@ TODO tasks are in order from top-to-bottom, most-to-least important.
 
 Tasks marked with (*) are easier to do.
 
+- [ ] Implement MCL.CodeAnalyzers
+    - This tool will analyze the project for project-specific rules and warn when the rule is not followed.
+    - [ ] Rule: Namespaces should match physical path, e.g. MCL.Core.Models == MCL/Core/Models/*
+    - [ ] Rule: Localization keys must exist.
+    - [ ] Enable/Disable/Restore rules.
 - [x] Evaluate for unnecessary constructors.
 - [x] Refactor code to utilize VFS common library with applicable functions.
 - [x] Evaluate error handling of objects and null-reference handling.
-    - [ ] Add logging to error handles.
+    - [x] Add logging to error handles.
 - [x] Implement log information object.
     - This provides more consistent logging and client frontend logging.
 - [x] Evaluate configuration properties and architecture.
@@ -20,7 +25,7 @@ Tasks marked with (*) are easier to do.
     - DownloadStatistic should implement a DowloadStatistics parent.
         - The parent object should store the amount of files to download.
         - The parent object should contain a list of DownloadStatistic objects.
-- [ ] Handling of missed file downloads due to an error.
+- [x] Handling of missed file downloads due to an error.
     - We should restart the download process if the download files.
         - The download process should not continue trying to download files after the first fail.
         - Continuous failures can indicate a connection problem and cause instability within the program.
@@ -42,6 +47,8 @@ Tasks marked with (*) are easier to do.
 - [ ] Implement player skin options on non-vanilla loaders.
     - Non-vanilla loaders can use modifications such as OfflineSkins to provide skins without in-depth networking systems.
     - Skins can still be supplied via an API or website to reduce the manual processes.
+- [ ] Implement configuration migration service.
+    - This is beneficial when the configuration model is refactored.
 - [x] Better handling of JVM arguments.
     - Every JVM argument should be an object that we can parse.
     - JVM argument objects should be added to a list.

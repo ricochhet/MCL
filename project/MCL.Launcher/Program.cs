@@ -54,7 +54,7 @@ internal static class Program
             );
 
         LocalizationService.Init(launcherPath, Language.ENGLISH);
-        NotificationService.LogNotification(
+        NotificationService.Init(
             (Notification notification) =>
             {
                 LogBase.Base(notification.LogLevel, notification.Message);
