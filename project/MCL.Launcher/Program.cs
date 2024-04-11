@@ -83,17 +83,7 @@ internal static class Program
         ConfigService.Save();
         Config config = ConfigService.Load();
         if (config == null)
-        {
-            NotificationService.Add(
-                new Notification(
-                    NativeLogLevel.Error,
-                    "launcher.config.missing",
-                    [ConfigService.ConfigFileName, ConfigService.DataPath]
-                )
-            );
-            CommandLine.Pause();
             return;
-        }
 
         ModdingService.Init(launcherPath, config.ModConfig);
         ModdingService.Save("fabric-mods");

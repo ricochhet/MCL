@@ -64,9 +64,16 @@ public static class ConfigService
             Config inputJson = Json.Load<Config>(ConfigFilePath);
             if (inputJson != null)
                 return inputJson;
+
+            NotificationService.Add(
+                new Notification(NativeLogLevel.Error, "launcher.config.missing", [ConfigFileName, DataPath])
+            );
             return null;
         }
 
+        NotificationService.Add(
+            new Notification(NativeLogLevel.Error, "launcher.config.missing", [ConfigFileName, DataPath])
+        );
         return null;
     }
 }
