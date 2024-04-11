@@ -16,7 +16,7 @@ public static class JavaLaunchHelper
         JavaRuntimeType javaRuntimeType
     )
     {
-        if (config == null)
+        if (config == null || string.IsNullOrWhiteSpace(workingDirectory))
             return;
 
         string javaBin = VFS.Combine(

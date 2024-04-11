@@ -73,9 +73,12 @@ internal static class Program
         ModdingService.Init(launcherPath, config.ModConfig);
         ModdingService.Save("fabric-mods");
         ModdingService.Deploy(ModdingService.Load("fabric-mods"), VFS.Combine(launcherPath.Path, "mods"));
-        NotificationService.LogNotification((Notification notification) => {
-            LogBase.Base(notification.LogLevel, notification.Message);
-        });
+        NotificationService.LogNotification(
+            (Notification notification) =>
+            {
+                LogBase.Base(notification.LogLevel, notification.Message);
+            }
+        );
 
         if (args.Length <= 0)
             return;
@@ -145,7 +148,12 @@ internal static class Program
                 config.Save(launcher.ClientType, LaunchArgsHelper.Default(launcher));
                 config.Save(ModdingService.ModConfig);
                 ConfigProvider.Save(config);
-                JavaLaunchHelper.Launch(config, "./.minecraft/", launcher.ClientType, launcher.JavaRuntimeType);
+                JavaLaunchHelper.Launch(
+                    config,
+                    launcher.MCLauncherPath.Path,
+                    launcher.ClientType,
+                    launcher.JavaRuntimeType
+                );
             }
         );
     }

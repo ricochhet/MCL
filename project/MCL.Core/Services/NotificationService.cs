@@ -14,6 +14,7 @@ public static class NotificationService
     }
 
     public static void Add(Notification item) => Notifications.Add(item);
+
     public static void LogNotification(Action<Notification> func)
     {
         Notification.OnNotificationAdded += func;
