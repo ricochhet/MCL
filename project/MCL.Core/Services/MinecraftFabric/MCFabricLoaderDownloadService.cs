@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using MCL.Core.Helpers.MinecraftFabric;
+using MCL.Core.Interfaces.Java;
 using MCL.Core.Interfaces.Minecraft;
 using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon;
@@ -12,7 +13,7 @@ using MCL.Core.Web.Minecraft;
 
 namespace MCL.Core.Providers.MinecraftFabric;
 
-public class MCFabricLoaderDownloadService : IDownloadService
+public class MCFabricLoaderDownloadService : IFabricLoaderDownloadService, IDownloadService
 {
     private static MCFabricIndex fabricIndex;
     private static MCFabricProfile fabricProfile;

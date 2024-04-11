@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using MCL.Core.Enums.Java;
+using MCL.Core.Interfaces.Java;
 using MCL.Core.Interfaces.Minecraft;
 using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon;
@@ -13,7 +14,7 @@ using MCL.Core.Web.Java;
 
 namespace MCL.Core.Services.Java;
 
-public class JavaDownloadService : IDownloadService
+public class JavaDownloadService : IJavaDownloadService, IDownloadService
 {
     private static JavaRuntimeIndex javaRuntimeIndex;
     private static JavaRuntimeFiles javaRuntimeFiles;
