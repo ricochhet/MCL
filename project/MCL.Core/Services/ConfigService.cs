@@ -5,11 +5,10 @@ using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models;
 using MCL.Core.Models.Services;
-using MCL.Core.Services;
 
-namespace MCL.Core.Providers;
+namespace MCL.Core.Services;
 
-public static class ConfigProvider
+public static class ConfigService
 {
     public const string DataPath = "./MCL_Data";
     public const string ConfigFileName = "Config.json";

@@ -64,17 +64,17 @@ internal static class Program
         NotificationService.Add(new Notification(NativeLogLevel.Info, "log.initialized"));
         Request.SetJsonSerializerOptions(new() { WriteIndented = true });
         Request.SetHttpClientTimeOut(TimeSpan.FromMinutes(1));
-        Watermark.Draw(ConfigProvider.WatermarkText);
+        Watermark.Draw(ConfigService.WatermarkText);
 
-        ConfigProvider.Save();
-        Config config = ConfigProvider.Load();
+        ConfigService.Save();
+        Config config = ConfigService.Load();
         if (config == null)
         {
             NotificationService.Add(
                 new Notification(
                     NativeLogLevel.Error,
                     "launcher.config.missing",
-                    [ConfigProvider.ConfigFileName, ConfigProvider.DataPath]
+                    [ConfigService.ConfigFileName, ConfigService.DataPath]
                 )
             );
             CommandLine.Pause();
@@ -152,7 +152,7 @@ internal static class Program
             {
                 config.Save(launcher.ClientType, LaunchArgsHelper.Default(launcher));
                 config.Save(ModdingService.ModConfig);
-                ConfigProvider.Save(config);
+                ConfigService.Save(config);
                 JavaLaunchHelper.Launch(
                     config,
                     launcher.MCLauncherPath.Path,
