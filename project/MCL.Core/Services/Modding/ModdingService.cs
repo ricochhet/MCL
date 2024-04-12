@@ -5,9 +5,12 @@ using System.Linq;
 using System.Text.Encodings.Web;
 using MCL.Core.Enums.Services;
 using MCL.Core.Helpers;
+using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
+using MCL.Core.Models.Services;
 using MCL.Core.Resolvers.Modding;
+using MCL.Core.Services.Launcher;
 
 namespace MCL.Core.Services.Modding;
 
@@ -29,7 +32,16 @@ public static class ModdingService
     public static bool Save(string modStoreName)
     {
         if (!VFS.Exists(ModPathResolver.ModPath(LauncherPath, modStoreName)))
+        {
+            NotificationService.Add(
+                new Notification(
+                    NativeLogLevel.Error,
+                    "modding.save.error-nodir",
+                    [ModPathResolver.ModPath(LauncherPath, modStoreName)]
+                )
+            );
             return false;
+        }
 
         string[] modFilePaths = VFS.GetFiles(
             ModPathResolver.ModPath(LauncherPath, modStoreName),
@@ -37,14 +49,32 @@ public static class ModdingService
             SearchOption.TopDirectoryOnly
         );
         if (modFilePaths.Length <= 0)
+        {
+            NotificationService.Add(
+                new Notification(
+                    NativeLogLevel.Error,
+                    "modding.save.error-nofile",
+                    [ModPathResolver.ModPath(LauncherPath, modStoreName)]
+                )
+            );
             return false;
+        }
 
         string[] fileTypes = [.. ModConfig.CopyOnlyTypes, .. ModConfig.UnzipAndCopyTypes];
         string[] filteredModFilePaths = modFilePaths
             .Where(file => Array.Exists(fileTypes, file.ToLower().EndsWith))
             .ToArray();
         if (filteredModFilePaths.Length <= 0)
+        {
+            NotificationService.Add(
+                new Notification(
+                    NativeLogLevel.Error,
+                    "modding.save.error-nofile",
+                    [ModPathResolver.ModPath(LauncherPath, modStoreName)]
+                )
+            );
             return false;
+        }
 
         ModFiles modFiles = new();
         foreach (string modFilePath in filteredModFilePaths)
@@ -103,21 +133,30 @@ public static class ModdingService
 
     public static bool Deploy(ModFiles modFiles, string deployPath, bool overwrite = false)
     {
-        if (modFiles?.Files?.Count <= 0)
+        if (modFiles == null)
+        {
+            NotificationService.Add(new Notification(NativeLogLevel.Error, "modding.deploy.error-nofile"));
             return false;
+        }
+
+        if (modFiles.Files?.Count <= 0)
+        {
+            NotificationService.Add(new Notification(NativeLogLevel.Error, "modding.deploy.error-nofile"));
+            return false;
+        }
 
         if (!VFS.Exists(deployPath))
             VFS.CreateDirectory(deployPath);
-
-        if (modFiles == null)
-            return false;
 
         List<ModFile> sortedModFiles = [.. modFiles.Files.OrderBy(a => a.Priority)];
 
         foreach (ModFile modFile in sortedModFiles)
         {
             if (modFile == null)
+            {
+                NotificationService.Add(new Notification(NativeLogLevel.Error, "modding.deploy.error-nodata"));
                 return false;
+            }
 
             if (!VFS.Exists(modFile.ModPath))
                 continue;

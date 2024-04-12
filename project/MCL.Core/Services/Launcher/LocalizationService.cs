@@ -1,4 +1,5 @@
 using MCL.Core.Enums.Services;
+using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Models.Services;
@@ -9,6 +10,7 @@ namespace MCL.Core.Services.Launcher;
 public static class LocalizationService
 {
     private static Localization translation = new();
+    private static bool Loaded = false;
 
     public static void Init(MCLauncherPath launcherPath, Language language, bool alwaysSaveNewTranslation = false)
     {
@@ -19,10 +21,23 @@ public static class LocalizationService
                 new() { WriteIndented = true }
             );
         translation = Json.Load<Localization>(LocalizationPathResolver.LanguageFilePath(launcherPath, language));
+        if (translation?.Entries != null)
+            Loaded = true;
+        else
+            NotificationService.Add(
+                new Notification(
+                    NativeLogLevel.Error,
+                    "error.readfile",
+                    [LocalizationPathResolver.LanguageFilePath(launcherPath, language)]
+                )
+            );
     }
 
     public static string Translate(string id)
     {
+        if (!Loaded)
+            return "LOCALIZATION_SERVICE_ERROR";
+
         if (translation.Entries.TryGetValue(id, out string value))
             return value;
         return "NO_LOCALIZATION";
