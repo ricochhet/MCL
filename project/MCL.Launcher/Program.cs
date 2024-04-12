@@ -6,6 +6,7 @@ using MCL.Core.Enums.Java;
 using MCL.Core.Enums.Services;
 using MCL.Core.Helpers.Java;
 using MCL.Core.Helpers.Launcher.MinecraftFabric;
+using MCL.Core.Helpers.Launcher.MinecraftQuilt;
 using MCL.Core.Helpers.Minecraft;
 using MCL.Core.Logger;
 using MCL.Core.Logger.Enums;
@@ -14,6 +15,7 @@ using MCL.Core.Models.Launcher;
 using MCL.Core.Models.Services;
 using MCL.Core.Models.Web;
 using MCL.Core.Providers.MinecraftFabric;
+using MCL.Core.Providers.MinecraftQuilt;
 using MCL.Core.Services.Java;
 using MCL.Core.Services.Launcher;
 using MCL.Core.Services.Minecraft;
@@ -145,6 +147,37 @@ internal static class Program
                 JavaLaunchHelper.Launch(
                     config,
                     FabricInstallerLaunchArgsHelper.Default(launcher),
+                    launcher.JavaRuntimeType
+                );
+            }
+        );
+
+        await CommandLine.ProcessArgumentAsync(
+            args,
+            "--dl-quilt-loader",
+            async () =>
+            {
+                MCQuiltLoaderDownloadService.Init(launcherPath, launcherVersion, config.QuiltUrls);
+                await MCQuiltLoaderDownloadService.Download();
+            }
+        );
+
+        await CommandLine.ProcessArgumentAsync(
+            args,
+            "--dl-quilt-installer",
+            async () =>
+            {
+                MCQuiltInstallerDownloadService.Init(
+                    launcher.MCLauncherPath,
+                    launcher.MCLauncherVersion,
+                    config.QuiltUrls
+                );
+                if (!await MCQuiltInstallerDownloadService.Download())
+                    return;
+
+                JavaLaunchHelper.Launch(
+                    config,
+                    QuiltInstallerLaunchArgsHelper.Default(launcher),
                     launcher.JavaRuntimeType
                 );
             }

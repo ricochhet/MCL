@@ -14,6 +14,7 @@
       "error.parse": "An error occured attempting to parse '{0}' as '{1}'",
       "commandline.exit": "Press '{0}' to safely exit.",
       "fabric.installer-exists": "Fabric Installer version: {0}, has already been downloaded.",
+      "quilt.installer-exists": "Quilt Installer version: {0}, has already been downloaded.",
       "launcher.config.setup": "Creating first-time configuration file.",
       "launcher.config.missing": "'{0}' could not be read, make sure it is located in '{1}' and try again."
     }

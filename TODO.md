@@ -25,7 +25,7 @@ Tasks marked with (*) are easier to do.
     - This provides more consistent logging and client frontend logging.
 - [x] Evaluate configuration properties and architecture.
     - This includes unifying property names.
-- [x] (*) JVM arguments should be stored.
+- [x] JVM arguments should be stored.
     - Stored arguments should be categorized by the loader.
     - As a byproduct; user-specific information is stored, e.g. username.
 - [x] ~~Implement DownloadStatistic object.~~ Implemented as RequestData.
@@ -42,12 +42,12 @@ Tasks marked with (*) are easier to do.
             - After the chances have been used, the user will have to manually continue downloads.
 - [ ] Implement downloading of Fabric/Forge/Quilt loaders.
     - [x] Fabric
-    - [ ] (*) Quilt
+    - [ ] (Done: Awaiting testing) Quilt
     - [ ] Forge
 - [ ] Automate installation of Fabric/Forge/Quilt loaders.
-    - [x] (*) Fabric
+    - [x] Fabric
         - [x] Implement installation of Fabric via installer.
-    - [ ] Quilt
+    - [ ] (Done: Awaiting testing) Quilt
     - [ ] Forge
 - [x] Implement simple management of Fabric / Quilt mods.
 - [ ] Implement frontend interface via Avalonia.
