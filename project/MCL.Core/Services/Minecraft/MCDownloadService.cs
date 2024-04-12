@@ -16,27 +16,27 @@ namespace MCL.Core.Services.Minecraft;
 
 public class MCDownloadService : IMCDownloadService, IDownloadService
 {
-    private static MCVersionDetails versionDetails;
-    private static MCVersionManifest versionManifest;
-    private static MCVersion version;
-    private static MCAssetsData assets;
-    private static MCLauncherPath launcherPath;
-    private static MCLauncherVersion launcherVersion;
-    private static Platform platform;
-    private static MCConfigUrls configUrls;
+    private static MCVersionDetails VersionDetails;
+    private static MCVersionManifest VersionManifest;
+    private static MCVersion Version;
+    private static MCAssetsData Assets;
+    private static MCLauncherPath LauncherPath;
+    private static MCLauncherVersion LauncherVersion;
+    private static Platform Platform;
+    private static MCConfigUrls ConfigUrls;
     public static bool IsOffline { get; set; } = false;
 
     public static void Init(
-        MCLauncherPath _launcherPath,
-        MCLauncherVersion _launcherVersion,
-        Platform _platform,
-        MCConfigUrls _configUrls
+        MCLauncherPath launcherPath,
+        MCLauncherVersion launcherVersion,
+        Platform platform,
+        MCConfigUrls configUrls
     )
     {
-        launcherPath = _launcherPath;
-        launcherVersion = _launcherVersion;
-        platform = _platform;
-        configUrls = _configUrls;
+        LauncherPath = launcherPath;
+        LauncherVersion = launcherVersion;
+        Platform = platform;
+        ConfigUrls = configUrls;
     }
 
 #pragma warning disable IDE0079
@@ -91,7 +91,7 @@ public class MCDownloadService : IMCDownloadService, IDownloadService
 
     public static async Task<bool> DownloadVersionManifest()
     {
-        if (!await VersionManifestDownloader.Download(launcherPath, configUrls))
+        if (!await VersionManifestDownloader.Download(LauncherPath, ConfigUrls))
         {
             NotificationService.Add(
                 new Notification(NativeLogLevel.Error, "error.download", [nameof(MCVersionManifest)])
@@ -104,10 +104,10 @@ public class MCDownloadService : IMCDownloadService, IDownloadService
 
     public static bool LoadVersionManifest()
     {
-        versionManifest = Json.Load<MCVersionManifest>(
-            MinecraftPathResolver.DownloadedVersionManifestPath(launcherPath)
+        VersionManifest = Json.Load<MCVersionManifest>(
+            MinecraftPathResolver.DownloadedVersionManifestPath(LauncherPath)
         );
-        if (versionManifest == null)
+        if (VersionManifest == null)
         {
             NotificationService.Add(
                 new Notification(NativeLogLevel.Error, "error.readfile", [nameof(MCVersionManifest)])
@@ -120,11 +120,11 @@ public class MCDownloadService : IMCDownloadService, IDownloadService
 
     public static bool LoadVersion()
     {
-        version = MCVersionHelper.GetVersion(launcherVersion, versionManifest);
-        if (version == null)
+        Version = MCVersionHelper.GetVersion(LauncherVersion, VersionManifest);
+        if (Version == null)
         {
             NotificationService.Add(
-                new Notification(NativeLogLevel.Error, "error.parse", [launcherVersion?.Version, nameof(MCVersion)])
+                new Notification(NativeLogLevel.Error, "error.parse", [LauncherVersion?.Version, nameof(MCVersion)])
             );
             return false;
         }
@@ -134,7 +134,7 @@ public class MCDownloadService : IMCDownloadService, IDownloadService
 
     public static async Task<bool> DownloadVersionDetails()
     {
-        if (!await VersionDetailsDownloader.Download(launcherPath, version))
+        if (!await VersionDetailsDownloader.Download(LauncherPath, Version))
         {
             NotificationService.Add(
                 new Notification(NativeLogLevel.Error, "error.download", [nameof(VersionDetailsDownloader)])
@@ -147,10 +147,10 @@ public class MCDownloadService : IMCDownloadService, IDownloadService
 
     public static bool LoadVersionDetails()
     {
-        versionDetails = Json.Load<MCVersionDetails>(
-            MinecraftPathResolver.DownloadedVersionDetailsPath(launcherPath, version)
+        VersionDetails = Json.Load<MCVersionDetails>(
+            MinecraftPathResolver.DownloadedVersionDetailsPath(LauncherPath, Version)
         );
-        if (versionDetails == null)
+        if (VersionDetails == null)
         {
             NotificationService.Add(
                 new Notification(NativeLogLevel.Error, "error.readfile", [nameof(MCVersionDetails)])
@@ -163,7 +163,7 @@ public class MCDownloadService : IMCDownloadService, IDownloadService
 
     public static async Task<bool> DownloadLibraries()
     {
-        if (!await LibraryDownloader.Download(launcherPath, platform, versionDetails))
+        if (!await LibraryDownloader.Download(LauncherPath, Platform, VersionDetails))
         {
             NotificationService.Add(
                 new Notification(NativeLogLevel.Error, "error.download", [nameof(LibraryDownloader)])
@@ -176,7 +176,7 @@ public class MCDownloadService : IMCDownloadService, IDownloadService
 
     public static async Task<bool> DownloadClient()
     {
-        if (!await ClientDownloader.Download(launcherPath, versionDetails))
+        if (!await ClientDownloader.Download(LauncherPath, VersionDetails))
         {
             NotificationService.Add(
                 new Notification(NativeLogLevel.Error, "error.download", [nameof(ClientDownloader)])
@@ -189,7 +189,7 @@ public class MCDownloadService : IMCDownloadService, IDownloadService
 
     public static async Task<bool> DownloadClientMappings()
     {
-        if (!await ClientMappingsDownloader.Download(launcherPath, versionDetails))
+        if (!await ClientMappingsDownloader.Download(LauncherPath, VersionDetails))
         {
             NotificationService.Add(
                 new Notification(NativeLogLevel.Error, "error.download", [nameof(ClientMappingsDownloader)])
@@ -202,7 +202,7 @@ public class MCDownloadService : IMCDownloadService, IDownloadService
 
     public static async Task<bool> DownloadServer()
     {
-        if (!await ServerDownloader.Download(launcherPath, versionDetails))
+        if (!await ServerDownloader.Download(LauncherPath, VersionDetails))
         {
             NotificationService.Add(
                 new Notification(NativeLogLevel.Error, "error.download", [nameof(ServerDownloader)])
@@ -215,7 +215,7 @@ public class MCDownloadService : IMCDownloadService, IDownloadService
 
     public static async Task<bool> DownloadServerMappings()
     {
-        if (!await ServerMappingsDownloader.Download(launcherPath, versionDetails))
+        if (!await ServerMappingsDownloader.Download(LauncherPath, VersionDetails))
         {
             NotificationService.Add(
                 new Notification(NativeLogLevel.Error, "error.download", [nameof(ServerMappingsDownloader)])
@@ -228,7 +228,7 @@ public class MCDownloadService : IMCDownloadService, IDownloadService
 
     public static async Task<bool> DownloadAssetIndex()
     {
-        if (!await IndexDownloader.Download(launcherPath, versionDetails))
+        if (!await IndexDownloader.Download(LauncherPath, VersionDetails))
         {
             NotificationService.Add(
                 new Notification(NativeLogLevel.Error, "error.download", [nameof(IndexDownloader)])
@@ -241,8 +241,8 @@ public class MCDownloadService : IMCDownloadService, IDownloadService
 
     public static bool LoadAssetIndex()
     {
-        assets = Json.Load<MCAssetsData>(MinecraftPathResolver.ClientIndexPath(launcherPath, versionDetails));
-        if (assets == null)
+        Assets = Json.Load<MCAssetsData>(MinecraftPathResolver.ClientIndexPath(LauncherPath, VersionDetails));
+        if (Assets == null)
         {
             NotificationService.Add(new Notification(NativeLogLevel.Error, "error.readfile", [nameof(MCAssetsData)]));
             return false;
@@ -253,7 +253,7 @@ public class MCDownloadService : IMCDownloadService, IDownloadService
 
     public static async Task<bool> DownloadResources()
     {
-        if (!await ResourceDownloader.Download(launcherPath, configUrls, assets))
+        if (!await ResourceDownloader.Download(LauncherPath, ConfigUrls, Assets))
         {
             NotificationService.Add(
                 new Notification(NativeLogLevel.Error, "error.download", [nameof(ResourceDownloader)])
@@ -266,7 +266,7 @@ public class MCDownloadService : IMCDownloadService, IDownloadService
 
     public static async Task<bool> DownloadLogging()
     {
-        if (!await LoggingDownloader.Download(launcherPath, versionDetails))
+        if (!await LoggingDownloader.Download(LauncherPath, VersionDetails))
         {
             NotificationService.Add(
                 new Notification(NativeLogLevel.Error, "error.download", [nameof(LoggingDownloader)])

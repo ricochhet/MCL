@@ -3,21 +3,26 @@ using MCL.Core.Enums.Java;
 
 namespace MCL.Core.Models.Launcher;
 
+#pragma warning disable IDE0079
+#pragma warning disable S107
 public class MCLauncher(
-    MCLauncherUsername _launcherUsername,
-    MCLauncherPath _launcherPath,
-    MCLauncherVersion _launcherVersion,
-    LauncherType _launcherType,
-    ClientType _clientType,
-    JavaRuntimeType _javaRuntimeType,
-    JavaRuntimePlatform _javaRuntimePlatform
+    MCLauncherUsername launcherUsername,
+    MCLauncherPath launcherPath,
+    MCLauncherVersion launcherVersion,
+    LauncherType launcherType,
+    ClientType clientType,
+    Platform platform,
+    JavaRuntimeType javaRuntimeType,
+    JavaRuntimePlatform javaRuntimePlatform
 )
 {
-    public MCLauncherUsername MCLauncherUsername { get; set; } = _launcherUsername;
-    public MCLauncherPath MCLauncherPath { get; set; } = _launcherPath;
-    public MCLauncherVersion MCLauncherVersion { get; set; } = _launcherVersion;
-    public LauncherType LauncherType { get; set; } = _launcherType;
-    public ClientType ClientType { get; set; } = _clientType;
-    public JavaRuntimeType JavaRuntimeType { get; set; } = _javaRuntimeType;
-    public JavaRuntimePlatform JavaRuntimePlatform { get; set; } = _javaRuntimePlatform;
+    public MCLauncherUsername MCLauncherUsername { get; set; } = launcherUsername;
+    public MCLauncherPath MCLauncherPath { get; set; } = launcherPath;
+    public MCLauncherVersion MCLauncherVersion { get; set; } = launcherVersion;
+    public LauncherType LauncherType { get; set; } = launcherType;
+    public ClientType ClientType { get; set; } = clientType;
+    public Platform Platform { get; set; } = platform;
+    public JavaRuntimeType JavaRuntimeType { get; set; } = javaRuntimeType;
+    public JavaRuntimePlatform JavaRuntimePlatform { get; set; } = javaRuntimePlatform;
 }
+#pragma warning restore

@@ -15,23 +15,23 @@ public class Notification
 #nullable enable
     public Exception? Exception { get; set; }
 
-    public Notification(NativeLogLevel _logLevel, string _ID, Exception? _exception = null)
+    public Notification(NativeLogLevel logLevel, string id, Exception? exception = null)
     {
-        LogLevel = _logLevel;
-        ID = _ID;
+        LogLevel = logLevel;
+        ID = id;
         Message = LocalizationService.Translate(ID);
-        Exception = _exception;
+        Exception = exception;
         OnNotificationAdded?.Invoke(this);
     }
 
-    public Notification(NativeLogLevel _logLevel, string _ID, string[] _params, Exception? _exception = null)
+    public Notification(NativeLogLevel logLevel, string id, string[] _params, Exception? exception = null)
 #nullable disable
     {
-        LogLevel = _logLevel;
-        ID = _ID;
+        LogLevel = logLevel;
+        ID = id;
         Params = _params;
         Message = string.Format(LocalizationService.Translate(ID), Params);
-        Exception = _exception;
+        Exception = exception;
         OnNotificationAdded?.Invoke(this);
     }
 }

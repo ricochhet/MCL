@@ -5,10 +5,10 @@ Tasks marked with (*) are easier to do.
 
 - [ ] Code cleanup
     - [x] Cleanup calls to path resolvers.
-    - [ ] Cleanup variable names for consistency.
+    - [x] Cleanup variable names for consistency.
     - [x] Cleanup LaunchHelper.
     - [ ] Add documentation.
-    - [ ] Update class path helper to use user-specified platform.
+    - [x] Update class path helper to use user-specified platform.
 - [ ] Implement UNZIP_AND_COPY file deployment.
     - [ ] Implement download and extraction of 7z for use.
     - [ ] Implement 7z arguments for processhelper.

@@ -15,22 +15,22 @@ namespace MCL.Core.Providers.MinecraftFabric;
 
 public class MCFabricLoaderDownloadService : IFabricLoaderDownloadService, IDownloadService
 {
-    private static MCFabricIndex fabricIndex;
-    private static MCFabricProfile fabricProfile;
-    private static MCLauncherPath launcherPath;
-    private static MCLauncherVersion launcherVersion;
-    private static MCFabricConfigUrls fabricConfigUrls;
+    private static MCFabricIndex FabricIndex;
+    private static MCFabricProfile FabricProfile;
+    private static MCLauncherPath LauncherPath;
+    private static MCLauncherVersion LauncherVersion;
+    private static MCFabricConfigUrls FabricConfigUrls;
     public static bool IsOffline { get; set; } = false;
 
     public static void Init(
-        MCLauncherPath _launcherPath,
-        MCLauncherVersion _launcherVersion,
-        MCFabricConfigUrls _fabricConfigUrls
+        MCLauncherPath launcherPath,
+        MCLauncherVersion launcherVersion,
+        MCFabricConfigUrls fabricConfigUrls
     )
     {
-        launcherPath = _launcherPath;
-        launcherVersion = _launcherVersion;
-        fabricConfigUrls = _fabricConfigUrls;
+        LauncherPath = launcherPath;
+        LauncherVersion = launcherVersion;
+        FabricConfigUrls = fabricConfigUrls;
     }
 
     public static async Task<bool> Download()
@@ -58,7 +58,7 @@ public class MCFabricLoaderDownloadService : IFabricLoaderDownloadService, IDown
 
     public static async Task<bool> DownloadFabricIndex()
     {
-        if (!await FabricIndexDownloader.Download(launcherPath, fabricConfigUrls))
+        if (!await FabricIndexDownloader.Download(LauncherPath, FabricConfigUrls))
         {
             NotificationService.Add(
                 new Notification(NativeLogLevel.Error, "error.download", [nameof(FabricIndexDownloader)])
@@ -71,8 +71,8 @@ public class MCFabricLoaderDownloadService : IFabricLoaderDownloadService, IDown
 
     public static bool LoadFabricIndex()
     {
-        fabricIndex = Json.Load<MCFabricIndex>(MinecraftFabricPathResolver.DownloadedFabricIndexPath(launcherPath));
-        if (fabricIndex == null)
+        FabricIndex = Json.Load<MCFabricIndex>(MinecraftFabricPathResolver.DownloadedFabricIndexPath(LauncherPath));
+        if (FabricIndex == null)
         {
             NotificationService.Add(new Notification(NativeLogLevel.Error, "error.readfile", [nameof(MCFabricIndex)]));
             return false;
@@ -83,7 +83,7 @@ public class MCFabricLoaderDownloadService : IFabricLoaderDownloadService, IDown
 
     public static async Task<bool> DownloadFabricProfile()
     {
-        if (!await FabricProfileDownloader.Download(launcherPath, launcherVersion, fabricConfigUrls))
+        if (!await FabricProfileDownloader.Download(LauncherPath, LauncherVersion, FabricConfigUrls))
         {
             NotificationService.Add(
                 new Notification(NativeLogLevel.Error, "error.download", [nameof(FabricProfileDownloader)])
@@ -96,10 +96,10 @@ public class MCFabricLoaderDownloadService : IFabricLoaderDownloadService, IDown
 
     public static bool LoadFabricProfile()
     {
-        fabricProfile = Json.Load<MCFabricProfile>(
-            MinecraftFabricPathResolver.DownloadedFabricProfilePath(launcherPath, launcherVersion)
+        FabricProfile = Json.Load<MCFabricProfile>(
+            MinecraftFabricPathResolver.DownloadedFabricProfilePath(LauncherPath, LauncherVersion)
         );
-        if (fabricProfile == null)
+        if (FabricProfile == null)
         {
             NotificationService.Add(
                 new Notification(NativeLogLevel.Error, "error.download", [nameof(MCFabricProfile)])
@@ -112,14 +112,14 @@ public class MCFabricLoaderDownloadService : IFabricLoaderDownloadService, IDown
 
     public static bool LoadFabricLoaderVersion()
     {
-        MCFabricLoader fabricLoader = MCFabricVersionHelper.GetFabricLoaderVersion(launcherVersion, fabricIndex);
+        MCFabricLoader fabricLoader = MCFabricVersionHelper.GetFabricLoaderVersion(LauncherVersion, FabricIndex);
         if (fabricLoader == null)
         {
             NotificationService.Add(
                 new Notification(
                     NativeLogLevel.Error,
                     "error.parse",
-                    [launcherVersion?.FabricLoaderVersion, nameof(MCFabricLoader)]
+                    [LauncherVersion?.FabricLoaderVersion, nameof(MCFabricLoader)]
                 )
             );
             return false;
@@ -130,7 +130,7 @@ public class MCFabricLoaderDownloadService : IFabricLoaderDownloadService, IDown
 
     public static async Task<bool> DownloadFabricLoader()
     {
-        if (!await FabricLoaderDownloader.Download(launcherPath, launcherVersion, fabricProfile, fabricConfigUrls))
+        if (!await FabricLoaderDownloader.Download(LauncherPath, LauncherVersion, FabricProfile, FabricConfigUrls))
         {
             NotificationService.Add(
                 new Notification(NativeLogLevel.Error, "error.download", [nameof(FabricLoaderDownloader)])

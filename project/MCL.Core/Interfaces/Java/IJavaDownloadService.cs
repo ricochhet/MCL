@@ -8,10 +8,10 @@ namespace MCL.Core.Interfaces.Java;
 public interface IJavaDownloadService
 {
     public static abstract void Init(
-        MCLauncherPath _launcherPath,
-        MCConfigUrls _configUrls,
-        JavaRuntimeType _javaRuntimeType,
-        JavaRuntimePlatform _javaRuntimePlatform
+        MCLauncherPath launcherPath,
+        MCConfigUrls configUrls,
+        JavaRuntimeType javaRuntimeType,
+        JavaRuntimePlatform javaRuntimePlatform
     );
 
     public static abstract Task<bool> DownloadJavaRuntimeIndex();

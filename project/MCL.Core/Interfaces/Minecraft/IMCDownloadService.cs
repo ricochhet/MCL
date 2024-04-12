@@ -8,10 +8,10 @@ namespace MCL.Core.Interfaces.Java;
 public interface IMCDownloadService
 {
     public static abstract void Init(
-        MCLauncherPath _launcherPath,
-        MCLauncherVersion _launcherVersion,
-        Platform _platform,
-        MCConfigUrls _configUrls
+        MCLauncherPath launcherPath,
+        MCLauncherVersion launcherVersion,
+        Platform platform,
+        MCConfigUrls configUrls
     );
 
     public static abstract Task<bool> DownloadVersionManifest();

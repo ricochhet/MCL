@@ -16,25 +16,25 @@ namespace MCL.Core.Services.Java;
 
 public class JavaDownloadService : IJavaDownloadService, IDownloadService
 {
-    private static JavaRuntimeIndex javaRuntimeIndex;
-    private static JavaRuntimeFiles javaRuntimeFiles;
-    private static MCLauncherPath launcherPath;
-    private static MCConfigUrls configUrls;
-    private static JavaRuntimeType javaRuntimeType;
-    private static JavaRuntimePlatform javaRuntimePlatform;
+    private static JavaRuntimeIndex JavaRuntimeIndex;
+    private static JavaRuntimeFiles JavaRuntimeFiles;
+    private static MCLauncherPath LauncherPath;
+    private static MCConfigUrls ConfigUrls;
+    private static JavaRuntimeType JavaRuntimeType;
+    private static JavaRuntimePlatform JavaRuntimePlatform;
     public static bool IsOffline { get; set; }
 
     public static void Init(
-        MCLauncherPath _launcherPath,
-        MCConfigUrls _configUrls,
-        JavaRuntimeType _javaRuntimeType,
-        JavaRuntimePlatform _javaRuntimePlatform
+        MCLauncherPath launcherPath,
+        MCConfigUrls configUrls,
+        JavaRuntimeType javaRuntimeType,
+        JavaRuntimePlatform javaRuntimePlatform
     )
     {
-        launcherPath = _launcherPath;
-        configUrls = _configUrls;
-        javaRuntimeType = _javaRuntimeType;
-        javaRuntimePlatform = _javaRuntimePlatform;
+        LauncherPath = launcherPath;
+        ConfigUrls = configUrls;
+        JavaRuntimeType = javaRuntimeType;
+        JavaRuntimePlatform = javaRuntimePlatform;
     }
 
     public static async Task<bool> Download()
@@ -59,7 +59,7 @@ public class JavaDownloadService : IJavaDownloadService, IDownloadService
 
     public static async Task<bool> DownloadJavaRuntimeIndex()
     {
-        if (!await JavaRuntimeIndexDownloader.Download(launcherPath, configUrls))
+        if (!await JavaRuntimeIndexDownloader.Download(LauncherPath, ConfigUrls))
         {
             NotificationService.Add(
                 new Notification(NativeLogLevel.Error, "error.download", [nameof(JavaRuntimeIndexDownloader)])
@@ -72,11 +72,11 @@ public class JavaDownloadService : IJavaDownloadService, IDownloadService
 
     public static bool LoadJavaRuntimeIndex()
     {
-        javaRuntimeIndex = Json.Load<JavaRuntimeIndex>(JavaPathResolver.DownloadedJavaRuntimeIndexPath(launcherPath));
-        if (javaRuntimeIndex == null)
+        JavaRuntimeIndex = Json.Load<JavaRuntimeIndex>(JavaPathResolver.DownloadedJavaRuntimeIndexPath(LauncherPath));
+        if (JavaRuntimeIndex == null)
         {
             NotificationService.Add(
-                new Notification(NativeLogLevel.Error, "error.readfile", [nameof(JavaRuntimeIndex)])
+                new Notification(NativeLogLevel.Error, "error.readfile", [nameof(Models.Java.JavaRuntimeIndex)])
             );
             return false;
         }
@@ -88,10 +88,10 @@ public class JavaDownloadService : IJavaDownloadService, IDownloadService
     {
         if (
             !await JavaRuntimeManifestDownloader.Download(
-                launcherPath,
-                javaRuntimePlatform,
-                javaRuntimeType,
-                javaRuntimeIndex
+                LauncherPath,
+                JavaRuntimePlatform,
+                JavaRuntimeType,
+                JavaRuntimeIndex
             )
         )
         {
@@ -106,13 +106,13 @@ public class JavaDownloadService : IJavaDownloadService, IDownloadService
 
     public static bool LoadJavaRuntimeManifest()
     {
-        javaRuntimeFiles = Json.Load<JavaRuntimeFiles>(
+        JavaRuntimeFiles = Json.Load<JavaRuntimeFiles>(
             JavaPathResolver.DownloadedJavaRuntimeManifestPath(
-                launcherPath,
-                JavaRuntimeTypeResolver.ToString(javaRuntimeType)
+                LauncherPath,
+                JavaRuntimeTypeResolver.ToString(JavaRuntimeType)
             )
         );
-        if (javaRuntimeFiles == null)
+        if (JavaRuntimeFiles == null)
         {
             NotificationService.Add(
                 new Notification(NativeLogLevel.Error, "error.readfile", [nameof(JavaRuntimeManifest)])
@@ -125,7 +125,7 @@ public class JavaDownloadService : IJavaDownloadService, IDownloadService
 
     public static async Task<bool> DownloadJavaRuntime()
     {
-        if (!await JavaRuntimeDownloader.Download(launcherPath, javaRuntimeType, javaRuntimeFiles))
+        if (!await JavaRuntimeDownloader.Download(LauncherPath, JavaRuntimeType, JavaRuntimeFiles))
         {
             NotificationService.Add(
                 new Notification(NativeLogLevel.Error, "error.download", [nameof(JavaRuntimeDownloader)])

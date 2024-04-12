@@ -51,6 +51,7 @@ internal static class Program
                 launcherVersion,
                 LauncherType.RELEASE,
                 ClientType.FABRIC,
+                Platform.WINDOWS,
                 JavaRuntimeType.JAVA_RUNTIME_GAMMA,
                 JavaRuntimePlatform.WINDOWSX64
             );
@@ -118,7 +119,7 @@ internal static class Program
                 MCDownloadService.Init(
                     launcher.MCLauncherPath,
                     launcher.MCLauncherVersion,
-                    Platform.WINDOWS,
+                    launcher.Platform,
                     config.MinecraftUrls
                 );
                 await MCDownloadService.Download();

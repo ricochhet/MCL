@@ -7,9 +7,9 @@ namespace MCL.Core.Interfaces.Java;
 public interface IFabricInstallerDownloadService
 {
     public static abstract void Init(
-        MCLauncherPath _launcherPath,
-        MCLauncherVersion _launcherVersion,
-        MCFabricConfigUrls _fabricConfigUrls
+        MCLauncherPath launcherPath,
+        MCLauncherVersion launcherVersion,
+        MCFabricConfigUrls fabricConfigUrls
     );
 
     public static abstract Task<bool> DownloadFabricIndex();
