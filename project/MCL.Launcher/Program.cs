@@ -170,7 +170,11 @@ internal static class Program
                     config,
                     launcher.MCLauncherPath.Path,
                     launcher.ClientType,
-                    launcher.JavaRuntimeType
+                    JavaVersionHelper.GetDownloadedMCVersionJava(
+                        launcher.MCLauncherPath,
+                        launcher.MCLauncherVersion,
+                        launcher.JavaRuntimeType
+                    )
                 );
             }
         );
