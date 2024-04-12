@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace MCL.Core.MiniCommon;
@@ -46,11 +47,19 @@ public static class VFS
     }
 
     /// <summary>
-    /// Combines the filepath with the current working directory.
+    /// Combines a filepath with the current working directory.
     /// </summary>
     public static string FromCwd(this string filepath)
     {
         return Combine(Cwd, filepath);
+    }
+
+    /// <summary>
+    /// Combines an array of filepaths with the current working directory.
+    /// </summary>
+    public static string FromCwd(params string[] paths)
+    {
+        return Combine(paths.Prepend(Cwd).ToArray());
     }
 
     /// <summary>
