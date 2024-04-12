@@ -17,8 +17,13 @@ public static class MinecraftFabricPathResolver
 
     public static string DownloadedFabricInstallerPath(
         MCLauncherPath launcherPath,
-        MCFabricInstaller fabricInstaller
-    ) => VFS.Combine(launcherPath.FabricInstallerPath, "installers", $"fabric-installer-{fabricInstaller.Version}.jar");
+        MCLauncherVersion launcherVersion
+    ) =>
+        VFS.Combine(
+            launcherPath.FabricInstallerPath,
+            "installers",
+            $"fabric-installer-{launcherVersion.FabricInstallerVersion}.jar"
+        );
 
     public static string DownloadedFabricIndexPath(MCLauncherPath launcherPath) =>
         VFS.Combine(launcherPath.FabricInstallerPath, "fabric_manifest.json");

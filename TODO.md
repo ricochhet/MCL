@@ -37,7 +37,7 @@ Tasks marked with (*) are easier to do.
     - [ ] Forge
 - [ ] Automate installation of Fabric/Forge/Quilt loaders.
     - [x] (*) Fabric
-        - [ ] Implement installation of Fabric via installer.
+        - [x] Implement installation of Fabric via installer.
     - [ ] Quilt
     - [ ] Forge
 - [x] Implement simple management of Fabric / Quilt mods.

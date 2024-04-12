@@ -6,18 +6,18 @@ using MCL.Core.Logger.Enums;
 
 namespace MCL.Core.Logger;
 
-public class LogBase
+public class Log
 {
     private readonly List<ILogger> _io = new();
-    private static LogBase _instance;
+    private static Log _instance;
     private static readonly SemaphoreSlim _semaphore = new(1, 1);
     private readonly Dictionary<string, Stopwatch> _benchmarkers = new();
 
-    public static LogBase Instance
+    public static Log Instance
     {
         get
         {
-            _instance ??= new LogBase();
+            _instance ??= new Log();
 
             return _instance;
         }

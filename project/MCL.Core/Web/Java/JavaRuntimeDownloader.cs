@@ -6,7 +6,6 @@ using MCL.Core.MiniCommon;
 using MCL.Core.Models.Java;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Resolvers.Java;
-using MCL.Core.Resolvers.Minecraft;
 
 namespace MCL.Core.Web.Java;
 

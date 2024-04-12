@@ -38,7 +38,7 @@ public static class Request
         }
         catch (Exception ex)
         {
-            NotificationService.Add(new Notification(NativeLogLevel.Error, "log", [ex.ToString()]));
+            NotificationService.Add(new Notification(NativeLogLevel.Error, "log", [ex.Message]));
             return null;
         }
     }
@@ -51,7 +51,7 @@ public static class Request
         }
         catch (Exception ex)
         {
-            NotificationService.Add(new Notification(NativeLogLevel.Error, "log", [ex.ToString()]));
+            NotificationService.Add(new Notification(NativeLogLevel.Error, "log", [ex.Message]));
             return default;
         }
     }
@@ -82,7 +82,7 @@ public static class Request
             }
             catch (Exception ex)
             {
-                NotificationService.Add(new Notification(NativeLogLevel.Error, "log", [ex.ToString()]));
+                NotificationService.Add(new Notification(NativeLogLevel.Error, "log", [ex.Message]));
             }
         }
 
@@ -113,7 +113,7 @@ public static class Request
             }
             catch (Exception ex)
             {
-                NotificationService.Add(new Notification(NativeLogLevel.Error, "log", [ex.ToString()]));
+                NotificationService.Add(new Notification(NativeLogLevel.Error, "log", [ex.Message]));
             }
         }
 
@@ -129,7 +129,7 @@ public static class Request
         }
         catch (Exception ex)
         {
-            NotificationService.Add(new Notification(NativeLogLevel.Error, "log", [ex.ToString()]));
+            NotificationService.Add(new Notification(NativeLogLevel.Error, "log", [ex.Message]));
             return null;
         }
     }
@@ -176,7 +176,7 @@ public static class Request
             }
             catch (Exception ex)
             {
-                NotificationService.Add(new Notification(NativeLogLevel.Error, "log", [ex.ToString()]));
+                NotificationService.Add(new Notification(NativeLogLevel.Error, "log", [ex.Message]));
             }
         }
 

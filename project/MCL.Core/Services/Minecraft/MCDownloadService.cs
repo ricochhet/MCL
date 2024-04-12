@@ -24,7 +24,7 @@ public class MCDownloadService : IMCDownloadService, IDownloadService
     private static MCLauncherVersion launcherVersion;
     private static Platform platform;
     private static MCConfigUrls configUrls;
-    private static bool IsOffline { get; set; } = false;
+    public static bool IsOffline { get; set; } = false;
 
     public static void Init(
         MCLauncherPath _launcherPath,
@@ -44,7 +44,7 @@ public class MCDownloadService : IMCDownloadService, IDownloadService
     public static async Task<bool> Download()
 #pragma warning restore
     {
-        if (!await DownloadVersionManifest() && !IsOffline)
+        if (!IsOffline && !await DownloadVersionManifest())
             return false;
 
         if (!LoadVersionManifest())
@@ -53,7 +53,7 @@ public class MCDownloadService : IMCDownloadService, IDownloadService
         if (!LoadVersion())
             return false;
 
-        if (!await DownloadVersionDetails() && !IsOffline)
+        if (!IsOffline && !await DownloadVersionDetails())
             return false;
 
         if (!LoadVersionDetails())
@@ -74,7 +74,7 @@ public class MCDownloadService : IMCDownloadService, IDownloadService
         if (!await DownloadServerMappings())
             return false;
 
-        if (!await DownloadAssetIndex() && !IsOffline)
+        if (!IsOffline && !await DownloadAssetIndex())
             return false;
 
         if (!LoadAssetIndex())

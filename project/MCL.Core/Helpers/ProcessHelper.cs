@@ -62,9 +62,9 @@ public static class ProcessHelper
 
             process.WaitForExit();
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            NotificationService.Add(new Notification(NativeLogLevel.Error, "log", [e.ToString()]));
+            NotificationService.Add(new Notification(NativeLogLevel.Error, "log", [ex.Message]));
         }
     }
 }

@@ -20,7 +20,7 @@ public class MCFabricInstallerDownloadService : IFabricInstallerDownloadService,
     private static MCLauncherPath launcherPath;
     private static MCLauncherVersion launcherVersion;
     private static MCFabricConfigUrls fabricConfigUrls;
-    private static bool IsOffline { get; set; } = false;
+    public static bool IsOffline { get; set; } = false;
 
     public static void Init(
         MCLauncherPath _launcherPath,
@@ -35,7 +35,7 @@ public class MCFabricInstallerDownloadService : IFabricInstallerDownloadService,
 
     public static async Task<bool> Download()
     {
-        if (!await DownloadFabricIndex() && !IsOffline)
+        if (!IsOffline && !await DownloadFabricIndex())
             return false;
 
         if (!LoadFabricIndex())
@@ -95,7 +95,7 @@ public class MCFabricInstallerDownloadService : IFabricInstallerDownloadService,
 
     public static async Task<bool> DownloadFabricInstaller()
     {
-        if (!await FabricInstallerDownloader.Download(launcherPath, fabricInstaller))
+        if (!await FabricInstallerDownloader.Download(launcherPath, launcherVersion, fabricInstaller))
         {
             NotificationService.Add(
                 new Notification(NativeLogLevel.Error, "error.download", [nameof(FabricInstallerDownloader)])

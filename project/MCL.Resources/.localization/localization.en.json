@@ -3,7 +3,7 @@
       "localization.service": "localization.service",
       "modding.save.error-nodir": "An error occured attempting to save mods: '{0}' does not exist.",
       "modding.save.error-nofile": "An error occured attempting to save mods: '{0}' does not contain compatible files.",
-      "modding.deploy.error-nofile": "An error occured attempting to deploy mods: There are no mods to deploy.",
+      "modding.deploy.error-nofile": "An error occured attempting to deploy mods: No mods to deploy.",
       "modding.deploy.error-nodata": "An error occured attempting to deploy mods: One or more mod is missing required data.",
       "log.initialized": "Intialized Logger",
       "log": "{0}",

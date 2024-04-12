@@ -9,7 +9,6 @@ using MCL.Core.Models.Launcher;
 using MCL.Core.Models.Minecraft;
 using MCL.Core.Models.Services;
 using MCL.Core.Resolvers.Java;
-using MCL.Core.Resolvers.Minecraft;
 using MCL.Core.Services.Launcher;
 using MCL.Core.Web.Java;
 
@@ -40,13 +39,13 @@ public class JavaDownloadService : IJavaDownloadService, IDownloadService
 
     public static async Task<bool> Download()
     {
-        if (!await DownloadJavaRuntimeIndex() && !IsOffline)
+        if (!IsOffline && !await DownloadJavaRuntimeIndex())
             return false;
 
         if (!LoadJavaRuntimeIndex())
             return false;
 
-        if (!await DownloadJavaRuntimeManifest() && !IsOffline)
+        if (!IsOffline && !await DownloadJavaRuntimeManifest())
             return false;
 
         if (!LoadJavaRuntimeManifest())

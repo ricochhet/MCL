@@ -20,7 +20,7 @@ public class MCFabricLoaderDownloadService : IFabricLoaderDownloadService, IDown
     private static MCLauncherPath launcherPath;
     private static MCLauncherVersion launcherVersion;
     private static MCFabricConfigUrls fabricConfigUrls;
-    private static bool IsOffline { get; set; } = false;
+    public static bool IsOffline { get; set; } = false;
 
     public static void Init(
         MCLauncherPath _launcherPath,
@@ -35,13 +35,13 @@ public class MCFabricLoaderDownloadService : IFabricLoaderDownloadService, IDown
 
     public static async Task<bool> Download()
     {
-        if (!await DownloadFabricIndex() && !IsOffline)
+        if (!IsOffline && !await DownloadFabricIndex())
             return false;
 
         if (!LoadFabricIndex())
             return false;
 
-        if (!await DownloadFabricProfile() && !IsOffline)
+        if (!IsOffline && !await DownloadFabricProfile())
             return false;
 
         if (!LoadFabricProfile())

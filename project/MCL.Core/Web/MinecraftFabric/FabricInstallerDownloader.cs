@@ -12,7 +12,11 @@ namespace MCL.Core.Web.Minecraft;
 
 public class FabricInstallerDownloader : IFabricInstallerDownloader
 {
-    public static async Task<bool> Download(MCLauncherPath launcherPath, MCFabricInstaller fabricInstaller)
+    public static async Task<bool> Download(
+        MCLauncherPath launcherPath,
+        MCLauncherVersion launcherVersion,
+        MCFabricInstaller fabricInstaller
+    )
     {
         if (!MCLauncherPath.Exists(launcherPath))
             return false;
@@ -21,7 +25,7 @@ public class FabricInstallerDownloader : IFabricInstallerDownloader
             return false;
 
         // Fabric does not provide a file hash through the current method. We do simple check of the version instead.
-        if (VFS.Exists(MinecraftFabricPathResolver.DownloadedFabricInstallerPath(launcherPath, fabricInstaller)))
+        if (VFS.Exists(MinecraftFabricPathResolver.DownloadedFabricInstallerPath(launcherPath, launcherVersion)))
         {
             NotificationService.Add(
                 new Notification(NativeLogLevel.Info, "fabric.installer-exists", [fabricInstaller?.Version])
@@ -31,7 +35,7 @@ public class FabricInstallerDownloader : IFabricInstallerDownloader
 
         return await Request.Download(
             fabricInstaller.URL,
-            MinecraftFabricPathResolver.DownloadedFabricInstallerPath(launcherPath, fabricInstaller),
+            MinecraftFabricPathResolver.DownloadedFabricInstallerPath(launcherPath, launcherVersion),
             string.Empty
         );
     }

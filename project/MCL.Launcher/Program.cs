@@ -29,8 +29,8 @@ internal static class Program
     private static async Task Main(string[] args)
     {
         Console.Title = "MCL.Launcher";
-        LogBase.Add(new NativeLogger());
-        LogBase.Add(new FileStreamLogger());
+        Log.Add(new NativeLogger());
+        Log.Add(new FileStreamLogger());
         MCLauncherUsername launcherUsername = new(username: "Player1337");
         MCLauncherPath launcherPath =
             new(
@@ -61,7 +61,7 @@ internal static class Program
         NotificationService.Init(
             (Notification notification) =>
             {
-                LogBase.Base(notification.LogLevel, notification.Message);
+                Log.Base(notification.LogLevel, notification.Message);
             }
         );
         NotificationService.Add(new Notification(NativeLogLevel.Info, "log.initialized"));
@@ -137,7 +137,14 @@ internal static class Program
                     launcher.MCLauncherVersion,
                     config.FabricUrls
                 );
-                await MCFabricInstallerDownloadService.Download();
+                if (!await MCFabricInstallerDownloadService.Download())
+                    return;
+
+                JavaLaunchHelper.Launch(
+                    config,
+                    FabricInstallerLaunchArgsHelper.Default(launcher),
+                    launcher.JavaRuntimeType
+                );
             }
         );
 
