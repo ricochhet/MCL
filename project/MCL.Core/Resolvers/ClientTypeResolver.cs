@@ -10,6 +10,7 @@ public static class ClientTypeResolver
         {
             ClientType.VANILLA => "net.minecraft.client.main.Main",
             ClientType.FABRIC => "net.fabricmc.loader.impl.launch.knot.KnotClient",
+            ClientType.QUILT => "org.quiltmc.loader.impl.launch.knot.KnotClient",
             _ => throw new NotImplementedException(),
         };
 }

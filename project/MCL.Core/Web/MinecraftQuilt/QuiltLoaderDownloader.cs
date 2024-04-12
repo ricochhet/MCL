@@ -30,23 +30,17 @@ public class QuiltLoaderDownloader : IQuiltLoaderDownloader
                 return false;
 
             string request;
-            string hash;
             if (library.Name.Contains(quiltConfigUrls.QuiltApiLoaderName))
             {
                 request = MinecraftQuiltPathResolver.QuiltLoaderJarUrlPath(quiltConfigUrls, launcherVersion);
-                hash = string.Empty;
             }
             else if (library.Name.Contains(quiltConfigUrls.QuiltApiIntermediaryName))
             {
                 request = MCQuiltLibrary.ParseURL(library.Name, library.URL);
-                hash = string.Empty;
             }
             else
             {
-                if (string.IsNullOrWhiteSpace(library.SHA1))
-                    return false;
                 request = MCQuiltLibrary.ParseURL(library.Name, library.URL);
-                hash = library.SHA1;
             }
 
             if (
@@ -56,7 +50,7 @@ public class QuiltLoaderDownloader : IQuiltLoaderDownloader
                         MinecraftPathResolver.LibraryPath(launcherPath),
                         MCQuiltLibrary.ParsePath(library.Name)
                     ),
-                    hash
+                    string.Empty
                 )
             )
                 return false;

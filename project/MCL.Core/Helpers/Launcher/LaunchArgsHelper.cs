@@ -56,6 +56,11 @@ public static class LaunchArgsHelper
             ClientType.FABRIC,
             new LaunchArg("-DFabricMcEmu={0}", [ClientTypeResolver.ToString(ClientType.VANILLA)])
         );
+        jvmArguments.Add(
+            launcher.ClientType,
+            ClientType.QUILT,
+            new LaunchArg("-DFabricMcEmu={0}", [ClientTypeResolver.ToString(ClientType.VANILLA)])
+        );
         jvmArguments.Add(new LaunchArg("-Dlog4j2.formatMsgNoLookups=true"));
         jvmArguments.Add(new LaunchArg("-Djava.rmi.server.useCodebaseOnly=true"));
         jvmArguments.Add(new LaunchArg("-Dcom.sun.jndi.rmi.object.trustURLCodebase=false"));

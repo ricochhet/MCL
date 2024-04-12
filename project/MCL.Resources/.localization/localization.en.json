@@ -10,6 +10,7 @@
       "request.get": "[GET] {0}",
       "request.get.hash-exists": "[GET] File already exists: {0}",
       "error.download": "An error occured attempting to request: '{0}'",
+      "error.request": "An error occured attempting to request: '{0}' - {0}",
       "error.readfile": "An error occured attempting to load: '{0}'",
       "error.parse": "An error occured attempting to parse '{0}' as '{1}'",
       "commandline.exit": "Press '{0}' to safely exit.",

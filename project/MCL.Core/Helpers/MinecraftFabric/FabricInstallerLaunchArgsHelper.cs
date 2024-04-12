@@ -11,7 +11,7 @@ public static class FabricInstallerLaunchArgsHelper
         JvmArguments jvmArguments = new();
         jvmArguments.Add(
             new LaunchArg(
-                "-jar {0} {1}",
+                "-jar \"{0}\" {1}",
                 [
                     MinecraftFabricPathResolver.DownloadedFabricInstallerPath(
                         launcher.MCLauncherPath,
@@ -21,7 +21,7 @@ public static class FabricInstallerLaunchArgsHelper
                 ]
             )
         );
-        jvmArguments.Add(new LaunchArg("-dir {0} {1}", [launcher.MCLauncherPath.Path, "client"]));
+        jvmArguments.Add(new LaunchArg("-dir \"{0}\" {1}", [launcher.MCLauncherPath.Path, "client"]));
         jvmArguments.Add(new LaunchArg("-mcversion {0}", [launcher.MCLauncherVersion.Version]));
         jvmArguments.Add(new LaunchArg("-loader {0}", [launcher.MCLauncherVersion.FabricLoaderVersion]));
         jvmArguments.Add(new LaunchArg("-noprofile"));

@@ -46,8 +46,8 @@ internal static class Program
                 versionType: "release",
                 fabricInstallerVersion: "1.0.0",
                 fabricLoaderVersion: "0.15.9",
-                quiltInstallerVersion: "1.0.0",
-                quiltLoaderVersion: "0.15.9"
+                quiltInstallerVersion: "0.9.1",
+                quiltLoaderVersion: "0.24.0"
             );
         MCLauncher launcher =
             new(
@@ -133,6 +133,16 @@ internal static class Program
 
         await CommandLine.ProcessArgumentAsync(
             args,
+            "--dl-fabric-loader",
+            async () =>
+            {
+                MCFabricLoaderDownloadService.Init(launcherPath, launcherVersion, config.FabricUrls);
+                await MCFabricLoaderDownloadService.Download();
+            }
+        );
+
+        await CommandLine.ProcessArgumentAsync(
+            args,
             "--dl-fabric-installer",
             async () =>
             {
@@ -180,16 +190,6 @@ internal static class Program
                     QuiltInstallerLaunchArgsHelper.Default(launcher),
                     launcher.JavaRuntimeType
                 );
-            }
-        );
-
-        await CommandLine.ProcessArgumentAsync(
-            args,
-            "--dl-fabric-loader",
-            async () =>
-            {
-                MCFabricLoaderDownloadService.Init(launcherPath, launcherVersion, config.FabricUrls);
-                await MCFabricLoaderDownloadService.Download();
             }
         );
 

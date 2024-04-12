@@ -17,6 +17,9 @@ public static class ConfigExt
             case ClientType.FABRIC:
                 config.FabricArgs = jvmArguments;
                 break;
+            case ClientType.QUILT:
+                config.QuiltArgs = jvmArguments;
+                break;
         }
 
         return config;

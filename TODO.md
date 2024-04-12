@@ -42,12 +42,12 @@ Tasks marked with (*) are easier to do.
             - After the chances have been used, the user will have to manually continue downloads.
 - [ ] Implement downloading of Fabric/Forge/Quilt loaders.
     - [x] Fabric
-    - [ ] (Done: Awaiting testing) Quilt
+    - [x] Quilt
     - [ ] Forge
 - [ ] Automate installation of Fabric/Forge/Quilt loaders.
     - [x] Fabric
         - [x] Implement installation of Fabric via installer.
-    - [ ] (Done: Awaiting testing) Quilt
+    - [x]  Quilt
     - [ ] Forge
 - [x] Implement simple management of Fabric / Quilt mods.
 - [ ] Implement frontend interface via Avalonia.

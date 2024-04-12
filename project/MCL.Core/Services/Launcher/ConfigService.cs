@@ -35,8 +35,10 @@ public static class ConfigService
                 {
                     MinecraftUrls = new(),
                     FabricUrls = new(),
+                    QuiltUrls = new(),
                     MinecraftArgs = new(),
                     FabricArgs = new(),
+                    QuiltArgs = new(),
                     JavaConfig = new(),
                     ModConfig = new()
                 };

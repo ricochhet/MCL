@@ -48,6 +48,11 @@ public static class JavaLaunchHelper
                     return;
                 RunJavaProcess(config, workingDirectory, config.FabricArgs, javaExe, javaHome);
                 break;
+            case ClientType.QUILT:
+                if (!JvmArgumentsExist(config, config.QuiltArgs))
+                    return;
+                RunJavaProcess(config, workingDirectory, config.QuiltArgs, javaExe, javaHome);
+                break;
         }
     }
 

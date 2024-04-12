@@ -11,20 +11,23 @@ public static class QuiltInstallerLaunchArgsHelper
         JvmArguments jvmArguments = new();
         jvmArguments.Add(
             new LaunchArg(
-                "-jar {0} {1}",
+                "-jar \"{0}\"",
                 [
                     MinecraftQuiltPathResolver.DownloadedQuiltInstallerPath(
                         launcher.MCLauncherPath,
                         launcher.MCLauncherVersion
                     ),
-                    "client"
                 ]
             )
         );
-        jvmArguments.Add(new LaunchArg("-dir {0} {1}", [launcher.MCLauncherPath.Path, "client"]));
-        jvmArguments.Add(new LaunchArg("-mcversion {0}", [launcher.MCLauncherVersion.Version]));
-        jvmArguments.Add(new LaunchArg("-loader {0}", [launcher.MCLauncherVersion.QuiltLoaderVersion]));
-        jvmArguments.Add(new LaunchArg("-noprofile"));
+        jvmArguments.Add(
+            new LaunchArg(
+                "install client {0} {1}",
+                [launcher.MCLauncherVersion.Version, launcher.MCLauncherVersion.QuiltLoaderVersion]
+            )
+        );
+        jvmArguments.Add(new LaunchArg("--install-dir=\"{0}\"", [launcher.MCLauncherPath.Path]));
+        jvmArguments.Add(new LaunchArg("--no-profile"));
 
         return jvmArguments;
     }

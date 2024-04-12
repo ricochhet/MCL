@@ -13,6 +13,7 @@ public class Config
     public MCQuiltConfigUrls QuiltUrls { get; set; }
     public JvmArguments MinecraftArgs { get; set; }
     public JvmArguments FabricArgs { get; set; }
+    public JvmArguments QuiltArgs { get; set; }
     public JavaConfig JavaConfig { get; set; }
     public ModConfig ModConfig { get; set; }
 
