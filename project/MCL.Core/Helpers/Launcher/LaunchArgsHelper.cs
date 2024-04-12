@@ -13,6 +13,7 @@ public static class LaunchArgsHelper
     public static JvmArguments Default(MCLauncher launcher)
     {
         JvmArguments jvmArguments = new();
+        string libraries = MinecraftPathResolver.Libraries(launcher.MCLauncherVersion);
         jvmArguments.Add(new LaunchArg("-Xms{0}m", ["4096"]));
         jvmArguments.Add(new LaunchArg("-Xmx{0}m", ["4096"]));
         jvmArguments.Add(new LaunchArg("-XX:+UnlockExperimentalVMOptions"));
@@ -24,30 +25,16 @@ public static class LaunchArgsHelper
         jvmArguments.Add(
             new LaunchArg("-XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump")
         );
-        jvmArguments.Add(
-            new LaunchArg("-Djava.library.path={0}", [MinecraftPathResolver.Libraries(launcher.MCLauncherVersion)])
-        );
+        jvmArguments.Add(new LaunchArg("-Djava.library.path={0}", [libraries]));
         jvmArguments.Add(
             new LaunchArg(
                 "-Dminecraft.client.jar={0}",
                 [MinecraftPathResolver.ClientLibrary(launcher.MCLauncherVersion)]
             )
         );
-        jvmArguments.Add(
-            new LaunchArg("-Djna.tmpdir={0}", [MinecraftPathResolver.Libraries(launcher.MCLauncherVersion)])
-        );
-        jvmArguments.Add(
-            new LaunchArg(
-                "-Dorg.lwjgl.system.SharedLibraryExtractPath={0}",
-                [MinecraftPathResolver.Libraries(launcher.MCLauncherVersion)]
-            )
-        );
-        jvmArguments.Add(
-            new LaunchArg(
-                "-Dio.netty.native.workdir={0}",
-                [MinecraftPathResolver.Libraries(launcher.MCLauncherVersion)]
-            )
-        );
+        jvmArguments.Add(new LaunchArg("-Djna.tmpdir={0}", [libraries]));
+        jvmArguments.Add(new LaunchArg("-Dorg.lwjgl.system.SharedLibraryExtractPath={0}", [libraries]));
+        jvmArguments.Add(new LaunchArg("-Dio.netty.native.workdir={0}", [libraries]));
         jvmArguments.Add(
             launcher.LauncherType,
             LauncherType.DEBUG,

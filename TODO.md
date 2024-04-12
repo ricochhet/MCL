@@ -4,7 +4,7 @@ TODO tasks are in order from top-to-bottom, most-to-least important.
 Tasks marked with (*) are easier to do.
 
 - [ ] Code cleanup
-    - [ ] Cleanup calls to path resolvers.
+    - [x] Cleanup calls to path resolvers.
     - [ ] Cleanup variable names for consistency.
     - [x] Cleanup LaunchHelper.
     - [ ] Add documentation.

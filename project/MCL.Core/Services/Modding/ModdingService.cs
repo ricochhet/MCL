@@ -31,32 +31,17 @@ public static class ModdingService
 
     public static bool Save(string modStoreName)
     {
-        if (!VFS.Exists(ModPathResolver.ModPath(LauncherPath, modStoreName)))
+        string modPath = ModPathResolver.ModPath(LauncherPath, modStoreName);
+        if (!VFS.Exists(modPath))
         {
-            NotificationService.Add(
-                new Notification(
-                    NativeLogLevel.Error,
-                    "modding.save.error-nodir",
-                    [ModPathResolver.ModPath(LauncherPath, modStoreName)]
-                )
-            );
+            NotificationService.Add(new Notification(NativeLogLevel.Error, "modding.save.error-nodir", [modPath]));
             return false;
         }
 
-        string[] modFilePaths = VFS.GetFiles(
-            ModPathResolver.ModPath(LauncherPath, modStoreName),
-            "*",
-            SearchOption.TopDirectoryOnly
-        );
+        string[] modFilePaths = VFS.GetFiles(modPath, "*", SearchOption.TopDirectoryOnly);
         if (modFilePaths.Length <= 0)
         {
-            NotificationService.Add(
-                new Notification(
-                    NativeLogLevel.Error,
-                    "modding.save.error-nofile",
-                    [ModPathResolver.ModPath(LauncherPath, modStoreName)]
-                )
-            );
+            NotificationService.Add(new Notification(NativeLogLevel.Error, "modding.save.error-nofile", [modPath]));
             return false;
         }
 
@@ -66,13 +51,7 @@ public static class ModdingService
             .ToArray();
         if (filteredModFilePaths.Length <= 0)
         {
-            NotificationService.Add(
-                new Notification(
-                    NativeLogLevel.Error,
-                    "modding.save.error-nofile",
-                    [ModPathResolver.ModPath(LauncherPath, modStoreName)]
-                )
-            );
+            NotificationService.Add(new Notification(NativeLogLevel.Error, "modding.save.error-nofile", [modPath]));
             return false;
         }
 
@@ -111,23 +90,22 @@ public static class ModdingService
 
     public static ModFiles Load(string modStoreName)
     {
-        if (
-            VFS.Exists(ModPathResolver.ModStorePath(LauncherPath, modStoreName))
-            && ModConfig.IsStoreRegistered(modStoreName)
-        )
-            return Json.Load<ModFiles>(ModPathResolver.ModStorePath(LauncherPath, modStoreName));
+        string modStorePath = ModPathResolver.ModStorePath(LauncherPath, modStoreName);
+        if (VFS.Exists(modStorePath) && ModConfig.IsStoreRegistered(modStoreName))
+            return Json.Load<ModFiles>(modStorePath);
         return default;
     }
 
     public static bool Delete(string modStoreName)
     {
-        if (!VFS.Exists(ModPathResolver.ModStorePath(LauncherPath, modStoreName)))
+        string modStorePath = ModPathResolver.ModStorePath(LauncherPath, modStoreName);
+        if (!VFS.Exists(modStorePath))
             return false;
 
         if (ModConfig.IsStoreRegistered(modStoreName))
             ModConfig.RegisteredStores.Remove(modStoreName);
 
-        VFS.DeleteFile(ModPathResolver.ModStorePath(LauncherPath, modStoreName));
+        VFS.DeleteFile(modStorePath);
         return true;
     }
 

@@ -84,6 +84,7 @@ public class LibraryDownloader : IMCLibraryDownloader
         string classifierFilePath = string.Empty;
         string classifierUrl = string.Empty;
         string classifierSha1 = string.Empty;
+        string libraryPath = MinecraftPathResolver.LibraryPath(launcherPath);
 
         switch (platform)
         {
@@ -91,10 +92,7 @@ public class LibraryDownloader : IMCLibraryDownloader
                 if (!LibraryNativesDownloaderErr.WindowsClassifierNativesExists(lib))
                     return false;
 
-                classifierFilePath = VFS.Combine(
-                    MinecraftPathResolver.LibraryPath(launcherPath),
-                    lib.Downloads.Classifiers.NativesWindows.Path
-                );
+                classifierFilePath = VFS.Combine(libraryPath, lib.Downloads.Classifiers.NativesWindows.Path);
                 classifierUrl = lib.Downloads.Classifiers.NativesWindows.URL;
                 classifierSha1 = lib.Downloads.Classifiers.NativesWindows.SHA1;
                 break;
@@ -102,10 +100,7 @@ public class LibraryDownloader : IMCLibraryDownloader
                 if (!LibraryNativesDownloaderErr.LinuxClassifierNativesExists(lib))
                     return false;
 
-                classifierFilePath = VFS.Combine(
-                    MinecraftPathResolver.LibraryPath(launcherPath),
-                    lib.Downloads.Classifiers.NativesLinux.Path
-                );
+                classifierFilePath = VFS.Combine(libraryPath, lib.Downloads.Classifiers.NativesLinux.Path);
                 classifierUrl = lib.Downloads.Classifiers.NativesLinux.URL;
                 classifierSha1 = lib.Downloads.Classifiers.NativesLinux.SHA1;
                 break;
@@ -113,10 +108,7 @@ public class LibraryDownloader : IMCLibraryDownloader
                 if (!LibraryNativesDownloaderErr.OSXClassifierNativesExists(lib))
                     return false;
 
-                classifierFilePath = VFS.Combine(
-                    MinecraftPathResolver.LibraryPath(launcherPath),
-                    lib.Downloads.Classifiers.NativesMacos.Path
-                );
+                classifierFilePath = VFS.Combine(libraryPath, lib.Downloads.Classifiers.NativesMacos.Path);
                 classifierUrl = lib.Downloads.Classifiers.NativesMacos.URL;
                 classifierSha1 = lib.Downloads.Classifiers.NativesMacos.SHA1;
                 break;
