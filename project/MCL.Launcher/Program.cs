@@ -7,6 +7,7 @@ using MCL.Core.Enums.Services;
 using MCL.Core.Extensions;
 using MCL.Core.Helpers.Java;
 using MCL.Core.Helpers.Launcher;
+using MCL.Core.Helpers.Minecraft;
 using MCL.Core.Logger;
 using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon;
@@ -163,19 +164,7 @@ internal static class Program
             "--launch",
             () =>
             {
-                config.Save(launcher.ClientType, LaunchArgsHelper.Default(launcher));
-                config.Save(ModdingService.ModConfig);
-                ConfigService.Save(config);
-                JavaLaunchHelper.Launch(
-                    config,
-                    launcher.MCLauncherPath.Path,
-                    launcher.ClientType,
-                    JavaVersionHelper.GetDownloadedMCVersionJava(
-                        launcher.MCLauncherPath,
-                        launcher.MCLauncherVersion,
-                        launcher.JavaRuntimeType
-                    )
-                );
+                MinecraftLaunchHelper.Launch(launcher, config);
             }
         );
     }
