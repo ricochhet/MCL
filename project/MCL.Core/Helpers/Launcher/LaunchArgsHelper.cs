@@ -14,6 +14,7 @@ public static class LaunchArgsHelper
     {
         JvmArguments jvmArguments = new();
         string libraries = MinecraftPathResolver.Libraries(launcher.MCLauncherVersion);
+
         jvmArguments.Add(new LaunchArg("-Xms{0}m", ["4096"]));
         jvmArguments.Add(new LaunchArg("-Xmx{0}m", ["4096"]));
         jvmArguments.Add(new LaunchArg("-XX:+UnlockExperimentalVMOptions"));

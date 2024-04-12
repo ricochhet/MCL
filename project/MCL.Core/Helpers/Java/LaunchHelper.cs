@@ -15,6 +15,8 @@ public static class JavaLaunchHelper
         string workingDirectory = Environment.CurrentDirectory;
         if (config == null || string.IsNullOrWhiteSpace(workingDirectory))
             return;
+        if (!VFS.Exists(workingDirectory))
+            return;
         string javaHome = JavaRuntimeHelper.FindJavaRuntimeEnvironment(config, workingDirectory, javaRuntimeType);
         string javaExe = VFS.Combine(JavaPathResolver.JavaRuntimeBin(javaHome), config.JavaConfig.JavaExecutable);
         RunJavaProcess(config, workingDirectory, jvmArguments, javaExe, javaHome);
@@ -28,6 +30,8 @@ public static class JavaLaunchHelper
     )
     {
         if (config == null || string.IsNullOrWhiteSpace(workingDirectory))
+            return;
+        if (!VFS.Exists(workingDirectory))
             return;
         string javaHome = JavaRuntimeHelper.FindJavaRuntimeEnvironment(config, workingDirectory, javaRuntimeType);
         string javaExe = VFS.Combine(JavaPathResolver.JavaRuntimeBin(javaHome), config.JavaConfig.JavaExecutable);
