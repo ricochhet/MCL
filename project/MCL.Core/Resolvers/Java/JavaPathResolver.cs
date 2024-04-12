@@ -8,8 +8,13 @@ public static class JavaPathResolver
 {
     public static string JavaRuntimePath(MCLauncherPath launcherPath) => VFS.Combine(launcherPath.Path, "runtime");
 
+    public static string JavaRuntimeHome(string workingDirectory, JavaRuntimeType javaRuntimeType) =>
+        VFS.Combine(workingDirectory, "runtime", JavaRuntimeTypeResolver.ToString(javaRuntimeType));
+
     public static string JavaRuntimeBin(string workingDirectory, JavaRuntimeType javaRuntimeType) =>
-        VFS.Combine(workingDirectory, "runtime", JavaRuntimeTypeResolver.ToString(javaRuntimeType), "bin");
+        VFS.Combine(JavaRuntimeHome(workingDirectory, javaRuntimeType), "bin");
+
+    public static string JavaRuntimeBin(string workingDirectory) => VFS.Combine(workingDirectory, "bin");
 
     public static string DownloadedJavaRuntimeIndexPath(MCLauncherPath launcherPath) =>
         VFS.Combine(JavaRuntimePath(launcherPath), "java_runtime_index.json");

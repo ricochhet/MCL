@@ -16,21 +16,32 @@ public static class JavaLaunchHelper
         if (config == null || string.IsNullOrWhiteSpace(workingDirectory))
             return;
 
-        ProcessHelper.RunProcess(
-            VFS.Combine(
-                JavaPathResolver.JavaRuntimeBin(workingDirectory, javaRuntimeType),
+        string javaHome = JavaPathResolver.JavaRuntimeHome(workingDirectory, javaRuntimeType);
+        string javaExe = VFS.Combine(
+            JavaPathResolver.JavaRuntimeBin(workingDirectory, javaRuntimeType),
+            config.JavaConfig.JavaExecutable
+        );
+
+        if (!VFS.Exists(javaHome) || !VFS.Exists(javaExe))
+        {
+            string javaHomeEnvironmentVariable = Environment.GetEnvironmentVariable(
+                config.JavaConfig.JavaHomeEnvironmentVariable
+            );
+            if (string.IsNullOrWhiteSpace(javaHomeEnvironmentVariable))
+                return;
+            javaHome = javaHomeEnvironmentVariable;
+            javaExe = VFS.Combine(
+                JavaPathResolver.JavaRuntimeBin(javaHomeEnvironmentVariable),
                 config.JavaConfig.JavaExecutable
-            ),
+            );
+        }
+
+        ProcessHelper.RunProcess(
+            javaExe,
             jvmArguments.Build(),
             workingDirectory,
             false,
-            new()
-            {
-                {
-                    config.JavaConfig.JavaHomeEnvironmentVariable,
-                    JavaPathResolver.JavaRuntimeBin(workingDirectory, javaRuntimeType)
-                }
-            }
+            new() { { config.JavaConfig.JavaHomeEnvironmentVariable, javaHome } }
         );
     }
 
@@ -44,46 +55,48 @@ public static class JavaLaunchHelper
         if (config == null || string.IsNullOrWhiteSpace(workingDirectory))
             return;
 
+        string javaHome = JavaPathResolver.JavaRuntimeHome(workingDirectory, javaRuntimeType);
+        string javaExe = VFS.Combine(
+            JavaPathResolver.JavaRuntimeBin(workingDirectory, javaRuntimeType),
+            config.JavaConfig.JavaExecutable
+        );
+
+        if (!VFS.Exists(javaHome) || !VFS.Exists(javaExe))
+        {
+            string javaHomeEnvironmentVariable = Environment.GetEnvironmentVariable(
+                config.JavaConfig.JavaHomeEnvironmentVariable
+            );
+            if (string.IsNullOrWhiteSpace(javaHomeEnvironmentVariable))
+                return;
+            javaHome = javaHomeEnvironmentVariable;
+            javaExe = VFS.Combine(
+                JavaPathResolver.JavaRuntimeBin(javaHomeEnvironmentVariable),
+                config.JavaConfig.JavaExecutable
+            );
+        }
+
         switch (clientType)
         {
             case ClientType.VANILLA:
                 if (!JvmArgumentsExist(config, config.MinecraftArgs))
                     return;
                 ProcessHelper.RunProcess(
-                    VFS.Combine(
-                        JavaPathResolver.JavaRuntimeBin(workingDirectory, javaRuntimeType),
-                        config.JavaConfig.JavaExecutable
-                    ),
+                    javaExe,
                     config.MinecraftArgs.Build(),
                     workingDirectory,
                     false,
-                    new()
-                    {
-                        {
-                            config.JavaConfig.JavaHomeEnvironmentVariable,
-                            JavaPathResolver.JavaRuntimeBin(workingDirectory, javaRuntimeType)
-                        }
-                    }
+                    new() { { config.JavaConfig.JavaHomeEnvironmentVariable, javaHome } }
                 );
                 break;
             case ClientType.FABRIC:
                 if (!JvmArgumentsExist(config, config.FabricArgs))
                     return;
                 ProcessHelper.RunProcess(
-                    VFS.Combine(
-                        JavaPathResolver.JavaRuntimeBin(workingDirectory, javaRuntimeType),
-                        config.JavaConfig.JavaExecutable
-                    ),
+                    javaExe,
                     config.FabricArgs.Build(),
                     workingDirectory,
                     false,
-                    new()
-                    {
-                        {
-                            config.JavaConfig.JavaHomeEnvironmentVariable,
-                            JavaPathResolver.JavaRuntimeBin(workingDirectory, javaRuntimeType)
-                        }
-                    }
+                    new() { { config.JavaConfig.JavaHomeEnvironmentVariable, javaHome } }
                 );
                 break;
         }
