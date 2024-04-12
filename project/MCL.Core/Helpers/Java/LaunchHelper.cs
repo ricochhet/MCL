@@ -15,34 +15,9 @@ public static class JavaLaunchHelper
         string workingDirectory = Environment.CurrentDirectory;
         if (config == null || string.IsNullOrWhiteSpace(workingDirectory))
             return;
-
-        string javaHome = JavaPathResolver.JavaRuntimeHome(workingDirectory, javaRuntimeType);
-        string javaExe = VFS.Combine(
-            JavaPathResolver.JavaRuntimeBin(workingDirectory, javaRuntimeType),
-            config.JavaConfig.JavaExecutable
-        );
-
-        if (!VFS.Exists(javaHome) || !VFS.Exists(javaExe))
-        {
-            string javaHomeEnvironmentVariable = Environment.GetEnvironmentVariable(
-                config.JavaConfig.JavaHomeEnvironmentVariable
-            );
-            if (string.IsNullOrWhiteSpace(javaHomeEnvironmentVariable))
-                return;
-            javaHome = javaHomeEnvironmentVariable;
-            javaExe = VFS.Combine(
-                JavaPathResolver.JavaRuntimeBin(javaHomeEnvironmentVariable),
-                config.JavaConfig.JavaExecutable
-            );
-        }
-
-        ProcessHelper.RunProcess(
-            javaExe,
-            jvmArguments.Build(),
-            workingDirectory,
-            false,
-            new() { { config.JavaConfig.JavaHomeEnvironmentVariable, javaHome } }
-        );
+        string javaHome = JavaRuntimeHelper.FindJavaRuntimeEnvironment(config, workingDirectory, javaRuntimeType);
+        string javaExe = VFS.Combine(JavaPathResolver.JavaRuntimeBin(javaHome), config.JavaConfig.JavaExecutable);
+        RunJavaProcess(config, workingDirectory, jvmArguments, javaExe, javaHome);
     }
 
     public static void Launch(
@@ -54,52 +29,39 @@ public static class JavaLaunchHelper
     {
         if (config == null || string.IsNullOrWhiteSpace(workingDirectory))
             return;
-
-        string javaHome = JavaPathResolver.JavaRuntimeHome(workingDirectory, javaRuntimeType);
-        string javaExe = VFS.Combine(
-            JavaPathResolver.JavaRuntimeBin(workingDirectory, javaRuntimeType),
-            config.JavaConfig.JavaExecutable
-        );
-
-        if (!VFS.Exists(javaHome) || !VFS.Exists(javaExe))
-        {
-            string javaHomeEnvironmentVariable = Environment.GetEnvironmentVariable(
-                config.JavaConfig.JavaHomeEnvironmentVariable
-            );
-            if (string.IsNullOrWhiteSpace(javaHomeEnvironmentVariable))
-                return;
-            javaHome = javaHomeEnvironmentVariable;
-            javaExe = VFS.Combine(
-                JavaPathResolver.JavaRuntimeBin(javaHomeEnvironmentVariable),
-                config.JavaConfig.JavaExecutable
-            );
-        }
+        string javaHome = JavaRuntimeHelper.FindJavaRuntimeEnvironment(config, workingDirectory, javaRuntimeType);
+        string javaExe = VFS.Combine(JavaPathResolver.JavaRuntimeBin(javaHome), config.JavaConfig.JavaExecutable);
 
         switch (clientType)
         {
             case ClientType.VANILLA:
                 if (!JvmArgumentsExist(config, config.MinecraftArgs))
                     return;
-                ProcessHelper.RunProcess(
-                    javaExe,
-                    config.MinecraftArgs.Build(),
-                    workingDirectory,
-                    false,
-                    new() { { config.JavaConfig.JavaHomeEnvironmentVariable, javaHome } }
-                );
+                RunJavaProcess(config, workingDirectory, config.MinecraftArgs, javaExe, javaHome);
                 break;
             case ClientType.FABRIC:
                 if (!JvmArgumentsExist(config, config.FabricArgs))
                     return;
-                ProcessHelper.RunProcess(
-                    javaExe,
-                    config.FabricArgs.Build(),
-                    workingDirectory,
-                    false,
-                    new() { { config.JavaConfig.JavaHomeEnvironmentVariable, javaHome } }
-                );
+                RunJavaProcess(config, workingDirectory, config.FabricArgs, javaExe, javaHome);
                 break;
         }
+    }
+
+    private static void RunJavaProcess(
+        Config config,
+        string workingDirectory,
+        JvmArguments jvmArguments,
+        string javaExe,
+        string javaHome
+    )
+    {
+        ProcessHelper.RunProcess(
+            javaExe,
+            jvmArguments.Build(),
+            workingDirectory,
+            false,
+            new() { { config.JavaConfig.JavaHomeEnvironmentVariable, javaHome } }
+        );
     }
 
     private static bool JvmArgumentsExist(Config config, JvmArguments jvmArguments)

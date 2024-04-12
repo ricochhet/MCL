@@ -6,7 +6,7 @@ Tasks marked with (*) are easier to do.
 - [ ] Code cleanup
     - [ ] Cleanup calls to path resolvers.
     - [ ] Cleanup variable names for consistency.
-    - [ ] Cleanup LaunchHelper.
+    - [x] Cleanup LaunchHelper.
     - [ ] Add documentation.
     - [ ] Update class path helper to use user-specified platform.
 - [ ] Implement UNZIP_AND_COPY file deployment.
