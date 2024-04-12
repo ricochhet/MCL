@@ -1,6 +1,6 @@
 using MCL.Core.Models.MinecraftFabric;
 
-namespace MCL.Core.Handlers.Minecraft;
+namespace MCL.Core.Handlers.MinecraftFabric;
 
 public static class MCFabricVersionHelperErr
 {

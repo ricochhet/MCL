@@ -63,7 +63,11 @@ public static class LaunchArgsHelper
             new LaunchArg(
                 "-cp {0} {1}",
                 [
-                    ClassPathHelper.CreateClassPath(launcher.MCLauncherPath, launcher.MCLauncherVersion),
+                    ClassPathHelper.CreateClassPath(
+                        launcher.MCLauncherPath,
+                        launcher.MCLauncherVersion,
+                        launcher.Platform
+                    ),
                     ClientTypeResolver.ToString(launcher.ClientType)
                 ]
             )

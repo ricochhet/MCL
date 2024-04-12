@@ -1,6 +1,6 @@
 using System.Text;
 using System.Threading.Tasks;
-using MCL.Core.Handlers.Minecraft;
+using MCL.Core.Handlers.MinecraftFabric;
 using MCL.Core.Interfaces.Minecraft;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;

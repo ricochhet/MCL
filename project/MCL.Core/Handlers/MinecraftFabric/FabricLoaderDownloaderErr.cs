@@ -1,6 +1,6 @@
 using MCL.Core.Models.MinecraftFabric;
 
-namespace MCL.Core.Web.Minecraft;
+namespace MCL.Core.Web.MinecraftFabric;
 
 public static class FabricLoaderDownloaderErr
 {

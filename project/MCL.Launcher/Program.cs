@@ -5,7 +5,7 @@ using MCL.Core.Enums;
 using MCL.Core.Enums.Java;
 using MCL.Core.Enums.Services;
 using MCL.Core.Helpers.Java;
-using MCL.Core.Helpers.Launcher;
+using MCL.Core.Helpers.Launcher.MinecraftFabric;
 using MCL.Core.Helpers.Minecraft;
 using MCL.Core.Logger;
 using MCL.Core.Logger.Enums;
@@ -35,6 +35,7 @@ internal static class Program
                 path: "./.minecraft",
                 modPath: "./.minecraft-mods",
                 fabricInstallerPath: "./.minecraft-fabric",
+                quiltInstallerPath: "./.minecraft-quilt",
                 languageLocalizationPath: "./.localization"
             );
         MCLauncherVersion launcherVersion =
@@ -42,7 +43,9 @@ internal static class Program
                 version: "1.20.4",
                 versionType: "release",
                 fabricInstallerVersion: "1.0.0",
-                fabricLoaderVersion: "0.15.9"
+                fabricLoaderVersion: "0.15.9",
+                quiltInstallerVersion: "1.0.0",
+                quiltLoaderVersion: "0.15.9"
             );
         MCLauncher launcher =
             new(

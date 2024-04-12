@@ -2,11 +2,18 @@ using MCL.Core.MiniCommon;
 
 namespace MCL.Core.Models.Launcher;
 
-public class MCLauncherPath(string path, string modPath, string fabricInstallerPath, string languageLocalizationPath)
+public class MCLauncherPath(
+    string path,
+    string modPath,
+    string fabricInstallerPath,
+    string quiltInstallerPath,
+    string languageLocalizationPath
+)
 {
     public string Path { get; set; } = VFS.FromCwd(path);
     public string ModPath { get; set; } = VFS.FromCwd(modPath);
     public string FabricInstallerPath { get; set; } = VFS.FromCwd(fabricInstallerPath);
+    public string QuiltInstallerPath { get; set; } = VFS.FromCwd(quiltInstallerPath);
     public string LanguageLocalizationPath { get; set; } = VFS.FromCwd(languageLocalizationPath);
 
     public static bool Exists(MCLauncherPath launcherPath)
