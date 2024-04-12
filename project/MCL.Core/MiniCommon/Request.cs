@@ -79,6 +79,11 @@ public static class Request
             try
             {
                 response = await GetStringAsync(request);
+                if (string.IsNullOrWhiteSpace(response))
+                {
+                    NotificationService.Add(new Notification(NativeLogLevel.Error, "error.download", [request]));
+                    return default;
+                }
                 hash = CryptographyHelper.CreateSHA1(response, encoding);
                 RequestDataService.Add(new RequestData(request, filepath, encoding.GetByteCount(response), hash));
                 if (VFS.Exists(filepath) && CryptographyHelper.CreateSHA1(filepath, true) == hash)
@@ -116,6 +121,11 @@ public static class Request
             try
             {
                 response = await GetStringAsync(request);
+                if (string.IsNullOrWhiteSpace(response))
+                {
+                    NotificationService.Add(new Notification(NativeLogLevel.Error, "error.download", [request]));
+                    return default;
+                }
                 hash = CryptographyHelper.CreateSHA1(response, encoding);
                 RequestDataService.Add(new RequestData(request, filepath, encoding.GetByteCount(response), hash));
                 if (VFS.Exists(filepath) && CryptographyHelper.CreateSHA1(filepath, true) == hash)
