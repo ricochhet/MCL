@@ -64,7 +64,13 @@ public static class ProcessHelper
         }
         catch (Exception ex)
         {
-            NotificationService.Add(new Notification(NativeLogLevel.Error, "log", [ex.Message]));
+            NotificationService.Add(
+                new Notification(
+                    NativeLogLevel.Error,
+                    "log.stack.trace",
+                    [ex.Message, ex.StackTrace ?? LocalizationService.Translate("stack.trace.null")]
+                )
+            );
         }
     }
 }

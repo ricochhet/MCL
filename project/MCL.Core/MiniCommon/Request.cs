@@ -38,7 +38,13 @@ public static class Request
         }
         catch (Exception ex)
         {
-            NotificationService.Add(new Notification(NativeLogLevel.Error, "error.request", [request, ex.Message]));
+            NotificationService.Add(
+                new Notification(
+                    NativeLogLevel.Error,
+                    "error.request",
+                    [request, ex.Message, ex.StackTrace ?? LocalizationService.Translate("stack.trace.null")]
+                )
+            );
             return null;
         }
     }
@@ -51,7 +57,13 @@ public static class Request
         }
         catch (Exception ex)
         {
-            NotificationService.Add(new Notification(NativeLogLevel.Error, "error.request", [request, ex.Message]));
+            NotificationService.Add(
+                new Notification(
+                    NativeLogLevel.Error,
+                    "error.request",
+                    [request, ex.Message, ex.StackTrace ?? LocalizationService.Translate("stack.trace.null")]
+                )
+            );
             return default;
         }
     }
@@ -82,7 +94,13 @@ public static class Request
             }
             catch (Exception ex)
             {
-                NotificationService.Add(new Notification(NativeLogLevel.Error, "error.request", [request, ex.Message]));
+                NotificationService.Add(
+                    new Notification(
+                        NativeLogLevel.Error,
+                        "error.request",
+                        [request, ex.Message, ex.StackTrace ?? LocalizationService.Translate("stack.trace.null")]
+                    )
+                );
             }
         }
 
@@ -113,7 +131,13 @@ public static class Request
             }
             catch (Exception ex)
             {
-                NotificationService.Add(new Notification(NativeLogLevel.Error, "error.request", [request, ex.Message]));
+                NotificationService.Add(
+                    new Notification(
+                        NativeLogLevel.Error,
+                        "error.request",
+                        [request, ex.Message, ex.StackTrace ?? LocalizationService.Translate("stack.trace.null")]
+                    )
+                );
             }
         }
 
@@ -129,7 +153,13 @@ public static class Request
         }
         catch (Exception ex)
         {
-            NotificationService.Add(new Notification(NativeLogLevel.Error, "error.request", [request, ex.Message]));
+            NotificationService.Add(
+                new Notification(
+                    NativeLogLevel.Error,
+                    "error.request",
+                    [request, ex.Message, ex.StackTrace ?? LocalizationService.Translate("stack.trace.null")]
+                )
+            );
             return null;
         }
     }
@@ -176,7 +206,13 @@ public static class Request
             }
             catch (Exception ex)
             {
-                NotificationService.Add(new Notification(NativeLogLevel.Error, "error.request", [request, ex.Message]));
+                NotificationService.Add(
+                    new Notification(
+                        NativeLogLevel.Error,
+                        "error.request",
+                        [request, ex.Message, ex.StackTrace ?? LocalizationService.Translate("stack.trace.null")]
+                    )
+                );
             }
         }
 

@@ -1,13 +1,13 @@
 using System.Text;
 using System.Threading.Tasks;
 using MCL.Core.Handlers.MinecraftQuilt;
-using MCL.Core.Interfaces.Minecraft;
+using MCL.Core.Interfaces.MinecraftQuilt;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Models.MinecraftQuilt;
 using MCL.Core.Resolvers.MinecraftQuilt;
 
-namespace MCL.Core.Web.Minecraft;
+namespace MCL.Core.Web.MinecraftQuilt;
 
 public class QuiltProfileDownloader : IQuiltProfileDownloader
 {

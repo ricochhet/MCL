@@ -1,13 +1,13 @@
 using System.Text;
 using System.Threading.Tasks;
 using MCL.Core.Handlers.MinecraftFabric;
-using MCL.Core.Interfaces.Minecraft;
+using MCL.Core.Interfaces.MinecraftFabric;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Models.MinecraftFabric;
 using MCL.Core.Resolvers.MinecraftFabric;
 
-namespace MCL.Core.Web.Minecraft;
+namespace MCL.Core.Web.MinecraftFabric;
 
 public class FabricProfileDownloader : IFabricProfileDownloader
 {

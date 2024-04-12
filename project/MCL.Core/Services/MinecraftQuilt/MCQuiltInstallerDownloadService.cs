@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using MCL.Core.Helpers.MinecraftQuilt;
-using MCL.Core.Interfaces.Java;
 using MCL.Core.Interfaces.Minecraft;
+using MCL.Core.Interfaces.MinecraftQuilt;
 using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
@@ -9,7 +9,7 @@ using MCL.Core.Models.MinecraftQuilt;
 using MCL.Core.Models.Services;
 using MCL.Core.Resolvers.MinecraftQuilt;
 using MCL.Core.Services.Launcher;
-using MCL.Core.Web.Minecraft;
+using MCL.Core.Web.MinecraftQuilt;
 
 namespace MCL.Core.Providers.MinecraftQuilt;
 

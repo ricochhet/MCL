@@ -2,7 +2,7 @@ using MCL.Core.Models.Java;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Resolvers.MinecraftFabric;
 
-namespace MCL.Core.Helpers.Launcher.MinecraftFabric;
+namespace MCL.Core.Helpers.MinecraftFabric;
 
 public static class FabricInstallerLaunchArgsHelper
 {

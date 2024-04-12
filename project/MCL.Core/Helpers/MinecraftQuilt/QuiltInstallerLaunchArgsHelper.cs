@@ -2,7 +2,7 @@ using MCL.Core.Models.Java;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Resolvers.MinecraftQuilt;
 
-namespace MCL.Core.Helpers.Launcher.MinecraftQuilt;
+namespace MCL.Core.Helpers.MinecraftQuilt;
 
 public static class QuiltInstallerLaunchArgsHelper
 {

@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using MCL.Core.Interfaces.Minecraft;
+using MCL.Core.Interfaces.MinecraftFabric;
 using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
@@ -7,9 +7,8 @@ using MCL.Core.Models.MinecraftFabric;
 using MCL.Core.Models.Services;
 using MCL.Core.Resolvers.MinecraftFabric;
 using MCL.Core.Services.Launcher;
-using MCL.Core.Web.MinecraftFabric;
 
-namespace MCL.Core.Web.Minecraft;
+namespace MCL.Core.Web.MinecraftFabric;
 
 public class FabricInstallerDownloader : IFabricInstallerDownloader
 {

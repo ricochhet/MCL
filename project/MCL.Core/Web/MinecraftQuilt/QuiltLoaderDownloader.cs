@@ -1,13 +1,12 @@
 using System.Threading.Tasks;
-using MCL.Core.Interfaces.Minecraft;
+using MCL.Core.Interfaces.MinecraftQuilt;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Models.MinecraftQuilt;
 using MCL.Core.Resolvers.Minecraft;
 using MCL.Core.Resolvers.MinecraftQuilt;
-using MCL.Core.Web.MinecraftQuilt;
 
-namespace MCL.Core.Web.Minecraft;
+namespace MCL.Core.Web.MinecraftQuilt;
 
 public class QuiltLoaderDownloader : IQuiltLoaderDownloader
 {
