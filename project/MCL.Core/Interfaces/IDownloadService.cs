@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-namespace MCL.Core.Interfaces.Minecraft;
+namespace MCL.Core.Interfaces;
 
 public interface IDownloadService
 {

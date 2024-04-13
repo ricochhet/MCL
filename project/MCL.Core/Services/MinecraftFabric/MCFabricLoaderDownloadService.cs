@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 using MCL.Core.Helpers.MinecraftFabric;
-using MCL.Core.Interfaces.Minecraft;
+using MCL.Core.Interfaces;
 using MCL.Core.Interfaces.Services.MinecraftFabric;
 using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon;

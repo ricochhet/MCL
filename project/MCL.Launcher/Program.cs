@@ -1,6 +1,7 @@
 using System;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using MCL.Core.Analyzers;
 using MCL.Core.Enums;
 using MCL.Core.Enums.Java;
 using MCL.Core.Enums.Services;
@@ -32,7 +33,6 @@ internal static class Program
     {
         Console.Title = "MCL.Launcher";
         Log.Add(new NativeLogger());
-        Log.Add(new FileStreamLogger());
         MCLauncherUsername launcherUsername = new(username: "Player1337");
         MCLauncherPath launcherPath =
             new(
@@ -93,12 +93,19 @@ internal static class Program
 
         SevenZipService.Init(config.SevenZipConfig);
         ModdingService.Init(launcherPath, config.ModConfig);
-        ModdingService.Save("fabric-mods");
-        ModdingService.Deploy(ModdingService.Load("fabric-mods"), VFS.FromCwd(launcherPath.Path, "mods"));
-        config.Save(ModdingService.ModConfig);
 
         if (args.Length <= 0)
             return;
+
+        CommandLine.ProcessArgument(
+            args,
+            "--analyze",
+            (string value) =>
+            {
+                NamespaceAnalyzer.Analyze(value);
+                LocalizationKeyAnalyzer.Analyze(value, LocalizationService.Localization);
+            }
+        );
 
         await CommandLine.ProcessArgumentAsync(
             args,
@@ -203,6 +210,17 @@ internal static class Program
             () =>
             {
                 MinecraftLaunchHelper.Launch(launcher, config);
+            }
+        );
+
+        CommandLine.ProcessArgument(
+            args,
+            "--mods",
+            () =>
+            {
+                ModdingService.Save("fabric-mods");
+                ModdingService.Deploy(ModdingService.Load("fabric-mods"), VFS.FromCwd(launcherPath.Path, "mods"));
+                config.Save(ModdingService.ModConfig);
             }
         );
     }

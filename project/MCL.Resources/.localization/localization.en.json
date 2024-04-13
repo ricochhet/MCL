@@ -19,6 +19,9 @@
       "fabric.installer-exists": "Fabric Installer version: {0}, has already been downloaded.",
       "quilt.installer-exists": "Quilt Installer version: {0}, has already been downloaded.",
       "launcher.config.setup": "Creating first-time configuration file.",
-      "launcher.config.missing": "'{0}' could not be read, make sure it is located in '{1}' and try again."
+      "launcher.config.missing": "'{0}' could not be read, make sure it is located in '{1}' and try again.",
+      "analyzer.error.namespace": "'{0}' does not contain a valid namespace: '{1}'",
+      "analyzer.error.localization": "'{0}' is not a valid localization key.",
+      "analyzer.output": "[{0}] Done: '{1}', Fail: '{2}', Total: '{3}'" 
     }
   }

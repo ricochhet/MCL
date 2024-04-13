@@ -87,7 +87,7 @@ public static class VFS
     public static string GetDirectoryName(this string filepath)
     {
         string value = Path.GetDirectoryName(filepath);
-        return (!string.IsNullOrWhiteSpace(value)) ? value : "";
+        return (!string.IsNullOrWhiteSpace(value)) ? value : string.Empty;
     }
 
     /// <summary>
@@ -96,7 +96,7 @@ public static class VFS
     public static string GetFileName(this string filepath)
     {
         string value = Path.GetFileName(filepath);
-        return (!string.IsNullOrWhiteSpace(value)) ? value : "";
+        return (!string.IsNullOrWhiteSpace(value)) ? value : string.Empty;
     }
 
     /// <summary>
@@ -105,7 +105,7 @@ public static class VFS
     public static string GetFileExtension(this string filepath)
     {
         string value = Path.GetExtension(filepath);
-        return (!string.IsNullOrWhiteSpace(value)) ? value : "";
+        return (!string.IsNullOrWhiteSpace(value)) ? value : string.Empty;
     }
 
     /// <summary>
@@ -114,7 +114,7 @@ public static class VFS
     public static string GetFileNameWithoutExtension(this string filepath)
     {
         string value = Path.GetFileNameWithoutExtension(filepath);
-        return (!string.IsNullOrWhiteSpace(value)) ? value : "";
+        return (!string.IsNullOrWhiteSpace(value)) ? value : string.Empty;
     }
 
     /// <summary>
@@ -185,11 +185,25 @@ public static class VFS
         return (encoding ?? Encoding.UTF8).GetString(ReadFile(filepath));
     }
 
+    /// <summary>
+    /// Get file content as string.
+    /// </summary>
     public static string ReadAllText(string filepath)
     {
         lock (mutex)
         {
             return File.ReadAllText(filepath);
+        }
+    }
+
+    /// <summary>
+    /// Get file content as an array of strings.
+    /// </summary>
+    public static string[] ReadAllLines(string filepath)
+    {
+        lock (mutex)
+        {
+            return File.ReadAllLines(filepath);
         }
     }
 
@@ -245,6 +259,9 @@ public static class VFS
     {
         lock (mutex)
         {
+            if (!Exists(filepath))
+                return Enumerable.Empty<string>().ToArray();
+
             DirectoryInfo di = new(filepath);
             List<string> paths = [];
 
@@ -264,6 +281,9 @@ public static class VFS
     {
         lock (mutex)
         {
+            if (!Exists(filepath))
+                return Enumerable.Empty<string>().ToArray();
+
             DirectoryInfo di = new(filepath);
             List<string> paths = [];
 
@@ -288,6 +308,9 @@ public static class VFS
     {
         lock (mutex)
         {
+            if (!Exists(filepath))
+                return Enumerable.Empty<string>().ToArray();
+
             List<string> paths = [];
             foreach (string file in Directory.EnumerateFiles(filepath, searchPattern, searchOption))
             {

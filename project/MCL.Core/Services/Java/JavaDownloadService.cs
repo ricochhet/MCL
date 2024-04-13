@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 using MCL.Core.Enums.Java;
-using MCL.Core.Interfaces.Minecraft;
+using MCL.Core.Interfaces;
 using MCL.Core.Interfaces.Services.Java;
 using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon;
