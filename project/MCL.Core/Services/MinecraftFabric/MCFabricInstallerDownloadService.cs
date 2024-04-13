@@ -20,6 +20,7 @@ public class MCFabricInstallerDownloadService : IFabricInstallerDownloadService,
     private static MCLauncherPath LauncherPath;
     private static MCLauncherVersion LauncherVersion;
     private static MCFabricConfigUrls FabricConfigUrls;
+    public static bool UseExistingIndex { get; set; } = false;
     public static bool IsOffline { get; set; } = false;
     private static bool Loaded = false;
 
@@ -40,7 +41,7 @@ public class MCFabricInstallerDownloadService : IFabricInstallerDownloadService,
         if (!Loaded)
             return false;
 
-        if (!IsOffline && !await DownloadFabricIndex())
+        if (!IsOffline && !UseExistingIndex && !await DownloadFabricIndex())
             return false;
 
         if (!LoadFabricIndex())

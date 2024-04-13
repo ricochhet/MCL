@@ -24,6 +24,7 @@ public class MCDownloadService : IMCDownloadService, IDownloadService
     private static MCLauncherVersion LauncherVersion;
     private static Platform Platform;
     private static MCConfigUrls ConfigUrls;
+    public static bool UseExistingIndex { get; set; } = false;
     public static bool IsOffline { get; set; } = false;
     private static bool Loaded = false;
 
@@ -49,7 +50,7 @@ public class MCDownloadService : IMCDownloadService, IDownloadService
         if (!Loaded)
             return false;
 
-        if (!IsOffline && !await DownloadVersionManifest())
+        if (!IsOffline && !UseExistingIndex && !await DownloadVersionManifest())
             return false;
 
         if (!LoadVersionManifest())

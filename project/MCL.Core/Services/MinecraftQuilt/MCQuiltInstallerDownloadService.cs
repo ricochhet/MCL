@@ -20,6 +20,7 @@ public class MCQuiltInstallerDownloadService : IQuiltInstallerDownloadService, I
     private static MCLauncherPath LauncherPath;
     private static MCLauncherVersion LauncherVersion;
     private static MCQuiltConfigUrls QuiltConfigUrls;
+    public static bool UseExistingIndex { get; set; } = false;
     public static bool IsOffline { get; set; } = false;
     private static bool Loaded = false;
 
@@ -40,7 +41,7 @@ public class MCQuiltInstallerDownloadService : IQuiltInstallerDownloadService, I
         if (!Loaded)
             return false;
 
-        if (!IsOffline && !await DownloadQuiltIndex())
+        if (!IsOffline && !UseExistingIndex && !await DownloadQuiltIndex())
             return false;
 
         if (!LoadQuiltIndex())
