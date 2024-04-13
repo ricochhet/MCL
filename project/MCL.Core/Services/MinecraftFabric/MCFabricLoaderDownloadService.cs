@@ -21,6 +21,7 @@ public class MCFabricLoaderDownloadService : IFabricLoaderDownloadService, IDown
     private static MCLauncherVersion LauncherVersion;
     private static MCFabricConfigUrls FabricConfigUrls;
     public static bool IsOffline { get; set; } = false;
+    private static bool Loaded = false;
 
     public static void Init(
         MCLauncherPath launcherPath,
@@ -31,10 +32,14 @@ public class MCFabricLoaderDownloadService : IFabricLoaderDownloadService, IDown
         LauncherPath = launcherPath;
         LauncherVersion = launcherVersion;
         FabricConfigUrls = fabricConfigUrls;
+        Loaded = true;
     }
 
     public static async Task<bool> Download()
     {
+        if (!Loaded)
+            return false;
+
         if (!IsOffline && !await DownloadFabricIndex())
             return false;
 
@@ -58,6 +63,9 @@ public class MCFabricLoaderDownloadService : IFabricLoaderDownloadService, IDown
 
     public static async Task<bool> DownloadFabricIndex()
     {
+        if (!Loaded)
+            return false;
+
         if (!await FabricIndexDownloader.Download(LauncherPath, FabricConfigUrls))
         {
             NotificationService.Add(
@@ -71,6 +79,9 @@ public class MCFabricLoaderDownloadService : IFabricLoaderDownloadService, IDown
 
     public static bool LoadFabricIndex()
     {
+        if (!Loaded)
+            return false;
+
         FabricIndex = Json.Load<MCFabricIndex>(MinecraftFabricPathResolver.DownloadedFabricIndexPath(LauncherPath));
         if (FabricIndex == null)
         {
@@ -83,6 +94,9 @@ public class MCFabricLoaderDownloadService : IFabricLoaderDownloadService, IDown
 
     public static async Task<bool> DownloadFabricProfile()
     {
+        if (!Loaded)
+            return false;
+
         if (!await FabricProfileDownloader.Download(LauncherPath, LauncherVersion, FabricConfigUrls))
         {
             NotificationService.Add(
@@ -96,6 +110,9 @@ public class MCFabricLoaderDownloadService : IFabricLoaderDownloadService, IDown
 
     public static bool LoadFabricProfile()
     {
+        if (!Loaded)
+            return false;
+
         FabricProfile = Json.Load<MCFabricProfile>(
             MinecraftFabricPathResolver.DownloadedFabricProfilePath(LauncherPath, LauncherVersion)
         );
@@ -112,6 +129,9 @@ public class MCFabricLoaderDownloadService : IFabricLoaderDownloadService, IDown
 
     public static bool LoadFabricLoaderVersion()
     {
+        if (!Loaded)
+            return false;
+
         MCFabricLoader fabricLoader = MCFabricVersionHelper.GetFabricLoaderVersion(LauncherVersion, FabricIndex);
         if (fabricLoader == null)
         {
@@ -130,6 +150,9 @@ public class MCFabricLoaderDownloadService : IFabricLoaderDownloadService, IDown
 
     public static async Task<bool> DownloadFabricLoader()
     {
+        if (!Loaded)
+            return false;
+
         if (!await FabricLoaderDownloader.Download(LauncherPath, LauncherVersion, FabricProfile, FabricConfigUrls))
         {
             NotificationService.Add(

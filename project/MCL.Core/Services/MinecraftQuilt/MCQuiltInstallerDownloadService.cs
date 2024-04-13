@@ -21,6 +21,7 @@ public class MCQuiltInstallerDownloadService : IQuiltInstallerDownloadService, I
     private static MCLauncherVersion LauncherVersion;
     private static MCQuiltConfigUrls QuiltConfigUrls;
     public static bool IsOffline { get; set; } = false;
+    private static bool Loaded = false;
 
     public static void Init(
         MCLauncherPath launcherPath,
@@ -31,10 +32,14 @@ public class MCQuiltInstallerDownloadService : IQuiltInstallerDownloadService, I
         LauncherPath = launcherPath;
         LauncherVersion = launcherVersion;
         QuiltConfigUrls = quiltConfigUrls;
+        Loaded = true;
     }
 
     public static async Task<bool> Download()
     {
+        if (!Loaded)
+            return false;
+
         if (!IsOffline && !await DownloadQuiltIndex())
             return false;
 
@@ -52,6 +57,9 @@ public class MCQuiltInstallerDownloadService : IQuiltInstallerDownloadService, I
 
     public static async Task<bool> DownloadQuiltIndex()
     {
+        if (!Loaded)
+            return false;
+
         if (!await QuiltIndexDownloader.Download(LauncherPath, QuiltConfigUrls))
         {
             NotificationService.Add(
@@ -65,6 +73,9 @@ public class MCQuiltInstallerDownloadService : IQuiltInstallerDownloadService, I
 
     public static bool LoadQuiltIndex()
     {
+        if (!Loaded)
+            return false;
+
         QuiltIndex = Json.Load<MCQuiltIndex>(MinecraftQuiltPathResolver.DownloadedQuiltIndexPath(LauncherPath));
         if (QuiltIndex == null)
         {
@@ -77,6 +88,9 @@ public class MCQuiltInstallerDownloadService : IQuiltInstallerDownloadService, I
 
     public static bool LoadQuiltInstallerVersion()
     {
+        if (!Loaded)
+            return false;
+
         QuiltInstaller = MCQuiltVersionHelper.GetQuiltInstallerVersion(LauncherVersion, QuiltIndex);
         if (QuiltInstaller == null)
         {
@@ -95,6 +109,9 @@ public class MCQuiltInstallerDownloadService : IQuiltInstallerDownloadService, I
 
     public static async Task<bool> DownloadQuiltInstaller()
     {
+        if (!Loaded)
+            return false;
+
         if (!await QuiltInstallerDownloader.Download(LauncherPath, LauncherVersion, QuiltInstaller))
         {
             NotificationService.Add(

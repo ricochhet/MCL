@@ -21,6 +21,7 @@ public class MCQuiltLoaderDownloadService : IQuiltLoaderDownloadService, IDownlo
     private static MCLauncherVersion LauncherVersion;
     private static MCQuiltConfigUrls QuiltConfigUrls;
     public static bool IsOffline { get; set; } = false;
+    private static bool Loaded = false;
 
     public static void Init(
         MCLauncherPath launcherPath,
@@ -31,10 +32,14 @@ public class MCQuiltLoaderDownloadService : IQuiltLoaderDownloadService, IDownlo
         LauncherPath = launcherPath;
         LauncherVersion = launcherVersion;
         QuiltConfigUrls = quiltConfigUrls;
+        Loaded = true;
     }
 
     public static async Task<bool> Download()
     {
+        if (!Loaded)
+            return false;
+
         if (!IsOffline && !await DownloadQuiltIndex())
             return false;
 
@@ -58,6 +63,9 @@ public class MCQuiltLoaderDownloadService : IQuiltLoaderDownloadService, IDownlo
 
     public static async Task<bool> DownloadQuiltIndex()
     {
+        if (!Loaded)
+            return false;
+
         if (!await QuiltIndexDownloader.Download(LauncherPath, QuiltConfigUrls))
         {
             NotificationService.Add(
@@ -71,6 +79,9 @@ public class MCQuiltLoaderDownloadService : IQuiltLoaderDownloadService, IDownlo
 
     public static bool LoadQuiltIndex()
     {
+        if (!Loaded)
+            return false;
+
         QuiltIndex = Json.Load<MCQuiltIndex>(MinecraftQuiltPathResolver.DownloadedQuiltIndexPath(LauncherPath));
         if (QuiltIndex == null)
         {
@@ -83,6 +94,9 @@ public class MCQuiltLoaderDownloadService : IQuiltLoaderDownloadService, IDownlo
 
     public static async Task<bool> DownloadQuiltProfile()
     {
+        if (!Loaded)
+            return false;
+
         if (!await QuiltProfileDownloader.Download(LauncherPath, LauncherVersion, QuiltConfigUrls))
         {
             NotificationService.Add(
@@ -96,6 +110,9 @@ public class MCQuiltLoaderDownloadService : IQuiltLoaderDownloadService, IDownlo
 
     public static bool LoadQuiltProfile()
     {
+        if (!Loaded)
+            return false;
+
         QuiltProfile = Json.Load<MCQuiltProfile>(
             MinecraftQuiltPathResolver.DownloadedQuiltProfilePath(LauncherPath, LauncherVersion)
         );
@@ -110,6 +127,9 @@ public class MCQuiltLoaderDownloadService : IQuiltLoaderDownloadService, IDownlo
 
     public static bool LoadQuiltLoaderVersion()
     {
+        if (!Loaded)
+            return false;
+
         MCQuiltLoader quiltLoader = MCQuiltVersionHelper.GetQuiltLoaderVersion(LauncherVersion, QuiltIndex);
         if (quiltLoader == null)
         {
@@ -128,6 +148,9 @@ public class MCQuiltLoaderDownloadService : IQuiltLoaderDownloadService, IDownlo
 
     public static async Task<bool> DownloadQuiltLoader()
     {
+        if (!Loaded)
+            return false;
+
         if (!await QuiltLoaderDownloader.Download(LauncherPath, LauncherVersion, QuiltProfile, QuiltConfigUrls))
         {
             NotificationService.Add(

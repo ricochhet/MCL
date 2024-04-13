@@ -21,6 +21,7 @@ public class MCFabricInstallerDownloadService : IFabricInstallerDownloadService,
     private static MCLauncherVersion LauncherVersion;
     private static MCFabricConfigUrls FabricConfigUrls;
     public static bool IsOffline { get; set; } = false;
+    private static bool Loaded = false;
 
     public static void Init(
         MCLauncherPath launcherPath,
@@ -31,10 +32,14 @@ public class MCFabricInstallerDownloadService : IFabricInstallerDownloadService,
         LauncherPath = launcherPath;
         LauncherVersion = launcherVersion;
         FabricConfigUrls = fabricConfigUrls;
+        Loaded = true;
     }
 
     public static async Task<bool> Download()
     {
+        if (!Loaded)
+            return false;
+
         if (!IsOffline && !await DownloadFabricIndex())
             return false;
 
@@ -52,6 +57,9 @@ public class MCFabricInstallerDownloadService : IFabricInstallerDownloadService,
 
     public static async Task<bool> DownloadFabricIndex()
     {
+        if (!Loaded)
+            return false;
+
         if (!await FabricIndexDownloader.Download(LauncherPath, FabricConfigUrls))
         {
             NotificationService.Add(
@@ -65,6 +73,9 @@ public class MCFabricInstallerDownloadService : IFabricInstallerDownloadService,
 
     public static bool LoadFabricIndex()
     {
+        if (!Loaded)
+            return false;
+
         FabricIndex = Json.Load<MCFabricIndex>(MinecraftFabricPathResolver.DownloadedFabricIndexPath(LauncherPath));
         if (FabricIndex == null)
         {
@@ -77,6 +88,9 @@ public class MCFabricInstallerDownloadService : IFabricInstallerDownloadService,
 
     public static bool LoadFabricInstallerVersion()
     {
+        if (!Loaded)
+            return false;
+
         FabricInstaller = MCFabricVersionHelper.GetFabricInstallerVersion(LauncherVersion, FabricIndex);
         if (FabricInstaller == null)
         {
@@ -95,6 +109,9 @@ public class MCFabricInstallerDownloadService : IFabricInstallerDownloadService,
 
     public static async Task<bool> DownloadFabricInstaller()
     {
+        if (!Loaded)
+            return false;
+
         if (!await FabricInstallerDownloader.Download(LauncherPath, LauncherVersion, FabricInstaller))
         {
             NotificationService.Add(

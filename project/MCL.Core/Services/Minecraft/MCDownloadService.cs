@@ -25,6 +25,7 @@ public class MCDownloadService : IMCDownloadService, IDownloadService
     private static Platform Platform;
     private static MCConfigUrls ConfigUrls;
     public static bool IsOffline { get; set; } = false;
+    private static bool Loaded = false;
 
     public static void Init(
         MCLauncherPath launcherPath,
@@ -37,6 +38,7 @@ public class MCDownloadService : IMCDownloadService, IDownloadService
         LauncherVersion = launcherVersion;
         Platform = platform;
         ConfigUrls = configUrls;
+        Loaded = true;
     }
 
 #pragma warning disable IDE0079
@@ -44,6 +46,9 @@ public class MCDownloadService : IMCDownloadService, IDownloadService
     public static async Task<bool> Download()
 #pragma warning restore
     {
+        if (!Loaded)
+            return false;
+
         if (!IsOffline && !await DownloadVersionManifest())
             return false;
 
@@ -91,6 +96,9 @@ public class MCDownloadService : IMCDownloadService, IDownloadService
 
     public static async Task<bool> DownloadVersionManifest()
     {
+        if (!Loaded)
+            return false;
+
         if (!await VersionManifestDownloader.Download(LauncherPath, ConfigUrls))
         {
             NotificationService.Add(
@@ -104,6 +112,9 @@ public class MCDownloadService : IMCDownloadService, IDownloadService
 
     public static bool LoadVersionManifest()
     {
+        if (!Loaded)
+            return false;
+
         VersionManifest = Json.Load<MCVersionManifest>(
             MinecraftPathResolver.DownloadedVersionManifestPath(LauncherPath)
         );
@@ -120,6 +131,9 @@ public class MCDownloadService : IMCDownloadService, IDownloadService
 
     public static bool LoadVersion()
     {
+        if (!Loaded)
+            return false;
+
         Version = MCVersionHelper.GetVersion(LauncherVersion, VersionManifest);
         if (Version == null)
         {
@@ -134,6 +148,9 @@ public class MCDownloadService : IMCDownloadService, IDownloadService
 
     public static async Task<bool> DownloadVersionDetails()
     {
+        if (!Loaded)
+            return false;
+
         if (!await VersionDetailsDownloader.Download(LauncherPath, Version))
         {
             NotificationService.Add(
@@ -147,6 +164,9 @@ public class MCDownloadService : IMCDownloadService, IDownloadService
 
     public static bool LoadVersionDetails()
     {
+        if (!Loaded)
+            return false;
+
         VersionDetails = Json.Load<MCVersionDetails>(
             MinecraftPathResolver.DownloadedVersionDetailsPath(LauncherPath, Version)
         );
@@ -163,6 +183,9 @@ public class MCDownloadService : IMCDownloadService, IDownloadService
 
     public static async Task<bool> DownloadLibraries()
     {
+        if (!Loaded)
+            return false;
+
         if (!await LibraryDownloader.Download(LauncherPath, Platform, VersionDetails))
         {
             NotificationService.Add(
@@ -176,6 +199,9 @@ public class MCDownloadService : IMCDownloadService, IDownloadService
 
     public static async Task<bool> DownloadClient()
     {
+        if (!Loaded)
+            return false;
+
         if (!await ClientDownloader.Download(LauncherPath, VersionDetails))
         {
             NotificationService.Add(
@@ -189,6 +215,9 @@ public class MCDownloadService : IMCDownloadService, IDownloadService
 
     public static async Task<bool> DownloadClientMappings()
     {
+        if (!Loaded)
+            return false;
+
         if (!await ClientMappingsDownloader.Download(LauncherPath, VersionDetails))
         {
             NotificationService.Add(
@@ -202,6 +231,9 @@ public class MCDownloadService : IMCDownloadService, IDownloadService
 
     public static async Task<bool> DownloadServer()
     {
+        if (!Loaded)
+            return false;
+
         if (!await ServerDownloader.Download(LauncherPath, VersionDetails))
         {
             NotificationService.Add(
@@ -215,6 +247,9 @@ public class MCDownloadService : IMCDownloadService, IDownloadService
 
     public static async Task<bool> DownloadServerMappings()
     {
+        if (!Loaded)
+            return false;
+
         if (!await ServerMappingsDownloader.Download(LauncherPath, VersionDetails))
         {
             NotificationService.Add(
@@ -228,6 +263,9 @@ public class MCDownloadService : IMCDownloadService, IDownloadService
 
     public static async Task<bool> DownloadAssetIndex()
     {
+        if (!Loaded)
+            return false;
+
         if (!await IndexDownloader.Download(LauncherPath, VersionDetails))
         {
             NotificationService.Add(
@@ -241,6 +279,9 @@ public class MCDownloadService : IMCDownloadService, IDownloadService
 
     public static bool LoadAssetIndex()
     {
+        if (!Loaded)
+            return false;
+
         Assets = Json.Load<MCAssetsData>(MinecraftPathResolver.ClientIndexPath(LauncherPath, VersionDetails));
         if (Assets == null)
         {
@@ -253,6 +294,9 @@ public class MCDownloadService : IMCDownloadService, IDownloadService
 
     public static async Task<bool> DownloadResources()
     {
+        if (!Loaded)
+            return false;
+
         if (!await ResourceDownloader.Download(LauncherPath, ConfigUrls, Assets))
         {
             NotificationService.Add(
@@ -266,6 +310,9 @@ public class MCDownloadService : IMCDownloadService, IDownloadService
 
     public static async Task<bool> DownloadLogging()
     {
+        if (!Loaded)
+            return false;
+
         if (!await LoggingDownloader.Download(LauncherPath, VersionDetails))
         {
             NotificationService.Add(
