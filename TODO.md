@@ -9,9 +9,9 @@ Tasks marked with (*) are easier to do.
     - [x] Cleanup LaunchHelper.
     - [ ] Add documentation.
     - [x] Update class path helper to use user-specified platform.
-- [ ] Implement UNZIP_AND_COPY file deployment.
-    - [ ] Implement download and extraction of 7z for use.
-    - [ ] Implement 7z arguments for processhelper.
+- [x] Implement UNZIP_AND_COPY file deployment.
+    - [x] Implement download and extraction of 7z for use.
+    - [x] Implement 7z arguments for processhelper.
 - [ ] Implement MCL.CodeAnalyzers
     - This tool will analyze the project for project-specific rules and warn when the rule is not followed.
     - [ ] Rule: Namespaces should match physical path, e.g. MCL.Core.Models == MCL/Core/Models/*
