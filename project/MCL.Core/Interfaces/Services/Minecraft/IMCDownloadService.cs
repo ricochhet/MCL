@@ -3,7 +3,7 @@ using MCL.Core.Enums;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Models.Minecraft;
 
-namespace MCL.Core.Interfaces.Miecraft;
+namespace MCL.Core.Interfaces.Services.Minecraft;
 
 public interface IMCDownloadService
 {

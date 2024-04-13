@@ -1,8 +1,9 @@
+using MCL.Core.Interfaces;
 using MCL.Core.Models.MinecraftQuilt;
 
 namespace MCL.Core.Web.MinecraftQuilt;
 
-public static class QuiltInstallerDownloaderErr
+public class QuiltInstallerDownloaderErr : IErrorHandleItem<MCQuiltInstaller>
 {
     public static bool Exists(MCQuiltInstaller quiltInstaller)
     {

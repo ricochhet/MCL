@@ -1,7 +1,7 @@
 using System.Text;
 using System.Threading.Tasks;
 using MCL.Core.Handlers.MinecraftFabric;
-using MCL.Core.Interfaces.MinecraftFabric;
+using MCL.Core.Interfaces.Web.MinecraftFabric;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Models.MinecraftFabric;
@@ -27,8 +27,8 @@ public class FabricProfileDownloader : IFabricProfileDownloader<MCFabricConfigUr
             return false;
 
         string fabricProfile = await Request.GetJsonAsync<MCFabricProfile>(
-            MinecraftFabricPathResolver.FabricLoaderProfileUrlPath(fabricConfigUrls, launcherVersion),
-            MinecraftFabricPathResolver.DownloadedFabricProfilePath(launcherPath, launcherVersion),
+            MinecraftFabricPathResolver.LoaderProfileUrlPath(fabricConfigUrls, launcherVersion),
+            MinecraftFabricPathResolver.DownloadedProfilePath(launcherPath, launcherVersion),
             Encoding.UTF8
         );
         if (string.IsNullOrWhiteSpace(fabricProfile))

@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using MCL.Core.Helpers.MinecraftFabric;
 using MCL.Core.Interfaces.Minecraft;
-using MCL.Core.Interfaces.MinecraftFabric;
+using MCL.Core.Interfaces.Services.MinecraftFabric;
 using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
@@ -77,7 +77,7 @@ public class MCFabricInstallerDownloadService : IFabricInstallerDownloadService<
         if (!Loaded)
             return false;
 
-        FabricIndex = Json.Load<MCFabricIndex>(MinecraftFabricPathResolver.DownloadedFabricIndexPath(LauncherPath));
+        FabricIndex = Json.Load<MCFabricIndex>(MinecraftFabricPathResolver.DownloadedIndexPath(LauncherPath));
         if (FabricIndex == null)
         {
             NotificationService.Add(new Notification(NativeLogLevel.Error, "error.readfile", [nameof(MCFabricIndex)]));
@@ -92,7 +92,7 @@ public class MCFabricInstallerDownloadService : IFabricInstallerDownloadService<
         if (!Loaded)
             return false;
 
-        FabricInstaller = MCFabricVersionHelper.GetFabricInstallerVersion(LauncherVersion, FabricIndex);
+        FabricInstaller = MCFabricVersionHelper.GetInstallerVersion(LauncherVersion, FabricIndex);
         if (FabricInstaller == null)
         {
             NotificationService.Add(

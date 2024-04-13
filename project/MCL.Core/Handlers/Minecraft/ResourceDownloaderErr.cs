@@ -1,8 +1,9 @@
+using MCL.Core.Interfaces;
 using MCL.Core.Models.Minecraft;
 
 namespace MCL.Core.Handlers.Minecraft;
 
-public static class ResourceDownloaderErr
+public class ResourceDownloaderErr : IErrorHandleItems<MCConfigUrls, MCAssetsData>
 {
     public static bool Exists(MCConfigUrls configUrls, MCAssetsData assets)
     {

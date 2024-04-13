@@ -1,8 +1,9 @@
+using MCL.Core.Interfaces;
 using MCL.Core.Models.Java;
 
 namespace MCL.Core.Handlers.Java;
 
-public static class JavaRuntimeDownloaderErr
+public class JavaRuntimeDownloaderErr : IErrorHandleItem<JavaRuntimeFiles>, IErrorHandleItem<JavaRuntimeFile>
 {
     public static bool Exists(JavaRuntimeFiles javaRuntimeFiles)
     {

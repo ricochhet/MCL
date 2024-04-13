@@ -1,8 +1,9 @@
+using MCL.Core.Interfaces;
 using MCL.Core.Models.Minecraft;
 
 namespace MCL.Core.Handlers.Minecraft;
 
-public static class VersionManifestDownloaderErr
+public class VersionManifestDownloaderErr : IErrorHandleItem<MCConfigUrls>
 {
     public static bool Exists(MCConfigUrls configUrls)
     {

@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using MCL.Core.Enums.Java;
 using MCL.Core.Handlers.Java;
-using MCL.Core.Interfaces.Java;
+using MCL.Core.Interfaces.Web.Java;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Java;
 using MCL.Core.Models.Launcher;

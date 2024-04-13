@@ -1,10 +1,11 @@
+using MCL.Core.Interfaces.Helpers.Minecraft;
 using MCL.Core.Models.Java;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Resolvers.MinecraftFabric;
 
 namespace MCL.Core.Helpers.MinecraftFabric;
 
-public static class FabricInstallerLaunchArgsHelper
+public class FabricInstallerLaunchArgsHelper : ILaunchArgsHelper
 {
     public static JvmArguments Default(MCLauncher launcher)
     {
@@ -13,7 +14,7 @@ public static class FabricInstallerLaunchArgsHelper
             new LaunchArg(
                 "-jar \"{0}\" {1}",
                 [
-                    MinecraftFabricPathResolver.DownloadedFabricInstallerPath(
+                    MinecraftFabricPathResolver.DownloadedInstallerPath(
                         launcher.MCLauncherPath,
                         launcher.MCLauncherVersion
                     ),

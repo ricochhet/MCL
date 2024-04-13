@@ -1,8 +1,9 @@
+using MCL.Core.Interfaces;
 using MCL.Core.Models.MinecraftFabric;
 
 namespace MCL.Core.Handlers.MinecraftFabric;
 
-public static class MCFabricVersionHelperErr
+public class MCFabricVersionHelperErr : IErrorHandleItem<MCFabricIndex>
 {
     public static bool Exists(MCFabricIndex fabricIndex)
     {

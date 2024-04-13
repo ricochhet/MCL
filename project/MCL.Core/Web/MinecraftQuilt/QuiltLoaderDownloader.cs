@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using MCL.Core.Interfaces.MinecraftFabric;
+using MCL.Core.Interfaces.Web.MinecraftFabric;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Models.MinecraftQuilt;
@@ -31,7 +31,7 @@ public class QuiltLoaderDownloader : IFabricLoaderDownloader<MCQuiltProfile, MCQ
             string request;
             if (library.Name.Contains(quiltConfigUrls.QuiltApiLoaderName))
             {
-                request = MinecraftQuiltPathResolver.QuiltLoaderJarUrlPath(quiltConfigUrls, launcherVersion);
+                request = MinecraftQuiltPathResolver.LoaderJarUrlPath(quiltConfigUrls, launcherVersion);
             }
             else if (library.Name.Contains(quiltConfigUrls.QuiltApiIntermediaryName))
             {

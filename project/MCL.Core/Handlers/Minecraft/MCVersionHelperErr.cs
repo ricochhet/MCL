@@ -1,8 +1,9 @@
+using MCL.Core.Interfaces;
 using MCL.Core.Models.Minecraft;
 
 namespace MCL.Core.Handlers.Minecraft;
 
-public static class MCVersionHelperErr
+public class MCVersionHelperErr : IErrorHandleItem<MCVersionManifest>
 {
     public static bool Exists(MCVersionManifest versionManifest)
     {

@@ -1,44 +1,39 @@
 using MCL.Core.Handlers.MinecraftFabric;
+using MCL.Core.Interfaces.Helpers.MinecraftFabric;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Models.MinecraftFabric;
 
 namespace MCL.Core.Helpers.MinecraftFabric;
 
-public static class MCFabricVersionHelper
+public class MCFabricVersionHelper : IMCFabricVersionHelper<MCFabricInstaller, MCFabricLoader, MCFabricIndex>
 {
-    public static MCFabricInstaller GetFabricInstallerVersion(
-        MCLauncherVersion fabricInstallerVersion,
-        MCFabricIndex fabricIndex
-    )
+    public static MCFabricInstaller GetInstallerVersion(MCLauncherVersion installerVersion, MCFabricIndex index)
     {
-        if (!MCLauncherVersion.Exists(fabricInstallerVersion))
+        if (!MCLauncherVersion.Exists(installerVersion))
             return null;
 
-        if (!MCFabricVersionHelperErr.Exists(fabricIndex))
+        if (!MCFabricVersionHelperErr.Exists(index))
             return null;
 
-        foreach (MCFabricInstaller item in fabricIndex.Installer)
+        foreach (MCFabricInstaller item in index.Installer)
         {
-            if (item.Version == fabricInstallerVersion.FabricInstallerVersion)
+            if (item.Version == installerVersion.FabricInstallerVersion)
                 return item;
         }
         return null;
     }
 
-    public static MCFabricLoader GetFabricLoaderVersion(
-        MCLauncherVersion fabricLoaderVersion,
-        MCFabricIndex fabricIndex
-    )
+    public static MCFabricLoader GetLoaderVersion(MCLauncherVersion loaderVersion, MCFabricIndex index)
     {
-        if (!MCLauncherVersion.Exists(fabricLoaderVersion))
+        if (!MCLauncherVersion.Exists(loaderVersion))
             return null;
 
-        if (!MCFabricVersionHelperErr.Exists(fabricIndex))
+        if (!MCFabricVersionHelperErr.Exists(index))
             return null;
 
-        foreach (MCFabricLoader item in fabricIndex.Loader)
+        foreach (MCFabricLoader item in index.Loader)
         {
-            if (item.Version == fabricLoaderVersion.FabricLoaderVersion)
+            if (item.Version == loaderVersion.FabricLoaderVersion)
                 return item;
         }
         return null;

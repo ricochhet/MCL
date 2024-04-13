@@ -1,10 +1,11 @@
+using MCL.Core.Interfaces.Helpers.Minecraft;
 using MCL.Core.Models.Java;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Resolvers.MinecraftQuilt;
 
 namespace MCL.Core.Helpers.MinecraftQuilt;
 
-public static class QuiltInstallerLaunchArgsHelper
+public class QuiltInstallerLaunchArgsHelper : ILaunchArgsHelper
 {
     public static JvmArguments Default(MCLauncher launcher)
     {
@@ -13,7 +14,7 @@ public static class QuiltInstallerLaunchArgsHelper
             new LaunchArg(
                 "-jar \"{0}\"",
                 [
-                    MinecraftQuiltPathResolver.DownloadedQuiltInstallerPath(
+                    MinecraftQuiltPathResolver.DownloadedInstallerPath(
                         launcher.MCLauncherPath,
                         launcher.MCLauncherVersion
                     ),

@@ -1,7 +1,7 @@
 using System.Text;
 using System.Threading.Tasks;
 using MCL.Core.Handlers.MinecraftQuilt;
-using MCL.Core.Interfaces.MinecraftFabric;
+using MCL.Core.Interfaces.Web.MinecraftFabric;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Models.MinecraftQuilt;
@@ -27,8 +27,8 @@ public class QuiltProfileDownloader : IFabricProfileDownloader<MCQuiltConfigUrls
             return false;
 
         string quiltProfile = await Request.GetJsonAsync<MCQuiltProfile>(
-            MinecraftQuiltPathResolver.QuiltLoaderProfileUrlPath(quiltConfigUrls, launcherVersion),
-            MinecraftQuiltPathResolver.DownloadedQuiltProfilePath(launcherPath, launcherVersion),
+            MinecraftQuiltPathResolver.LoaderProfileUrlPath(quiltConfigUrls, launcherVersion),
+            MinecraftQuiltPathResolver.DownloadedProfilePath(launcherPath, launcherVersion),
             Encoding.UTF8
         );
         if (string.IsNullOrWhiteSpace(quiltProfile))

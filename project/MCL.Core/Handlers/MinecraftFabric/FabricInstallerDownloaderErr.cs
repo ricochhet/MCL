@@ -1,8 +1,9 @@
+using MCL.Core.Interfaces;
 using MCL.Core.Models.MinecraftFabric;
 
 namespace MCL.Core.Web.MinecraftFabric;
 
-public static class FabricInstallerDownloaderErr
+public class FabricInstallerDownloaderErr : IErrorHandleItem<MCFabricInstaller>
 {
     public static bool Exists(MCFabricInstaller fabricInstaller)
     {

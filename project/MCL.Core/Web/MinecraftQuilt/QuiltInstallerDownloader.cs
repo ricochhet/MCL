@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using MCL.Core.Interfaces.MinecraftFabric;
+using MCL.Core.Interfaces.Web.MinecraftFabric;
 using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
@@ -24,10 +24,7 @@ public class QuiltInstallerDownloader : IFabricInstallerDownloader<MCQuiltInstal
         if (!QuiltInstallerDownloaderErr.Exists(quiltInstaller))
             return false;
 
-        string quiltInstallerPath = MinecraftQuiltPathResolver.DownloadedQuiltInstallerPath(
-            launcherPath,
-            launcherVersion
-        );
+        string quiltInstallerPath = MinecraftQuiltPathResolver.DownloadedInstallerPath(launcherPath, launcherVersion);
         // Quilt does not provide a file hash through the current method. We do simple check of the version instead.
         if (VFS.Exists(quiltInstallerPath))
         {

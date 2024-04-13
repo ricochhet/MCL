@@ -1,8 +1,9 @@
+using MCL.Core.Interfaces;
 using MCL.Core.Models.Minecraft;
 
 namespace MCL.Core.Handlers.Minecraft;
 
-public static class ServerMappingsDownloaderErr
+public class ServerMappingsDownloaderErr : IErrorHandleItem<MCVersionDetails>
 {
     public static bool Exists(MCVersionDetails versionDetails)
     {

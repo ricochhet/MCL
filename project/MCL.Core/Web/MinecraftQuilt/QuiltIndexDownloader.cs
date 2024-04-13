@@ -1,7 +1,7 @@
 using System.Text;
 using System.Threading.Tasks;
 using MCL.Core.Handlers.MinecraftQuilt;
-using MCL.Core.Interfaces.MinecraftFabric;
+using MCL.Core.Interfaces.Web.MinecraftFabric;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Models.MinecraftQuilt;
@@ -19,7 +19,7 @@ public class QuiltIndexDownloader : IFabricIndexDownloader<MCQuiltConfigUrls>
         if (!MCQuiltConfigUrlsErr.Exists(quiltConfigUrls))
             return false;
 
-        string filepath = MinecraftQuiltPathResolver.DownloadedQuiltIndexPath(launcherPath);
+        string filepath = MinecraftQuiltPathResolver.DownloadedIndexPath(launcherPath);
         string quiltIndex = await Request.GetJsonAsync<MCQuiltIndex>(
             quiltConfigUrls.QuiltVersionsIndex,
             filepath,

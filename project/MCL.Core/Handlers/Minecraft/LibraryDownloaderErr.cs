@@ -1,8 +1,9 @@
+using MCL.Core.Interfaces;
 using MCL.Core.Models.Minecraft;
 
 namespace MCL.Core.Handlers.Minecraft;
 
-public static class LibraryDownloaderErr
+public class LibraryDownloaderErr : IErrorHandleItem<MCVersionDetails>, IErrorHandleItem<MCLibrary>
 {
     public static bool Exists(MCVersionDetails versionDetails)
     {

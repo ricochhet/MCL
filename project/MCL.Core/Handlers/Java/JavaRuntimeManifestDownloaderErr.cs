@@ -1,9 +1,13 @@
 using System.Collections.Generic;
+using MCL.Core.Interfaces;
 using MCL.Core.Models.Java;
 
 namespace MCL.Core.Handlers.Java;
 
-public static class JavaRuntimeManifestDownloaderErr
+public class JavaRuntimeManifestDownloaderErr
+    : IErrorHandleItem<JavaRuntimeIndex>,
+        IErrorHandleItem<JavaRuntime>,
+        IErrorHandleItems<JavaRuntime, List<JavaRuntimeObject>>
 {
     public static bool Exists(JavaRuntimeIndex javaRuntimeIndex)
     {

@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using MCL.Core.Models.Launcher;
 
-namespace MCL.Core.Interfaces.MinecraftFabric;
+namespace MCL.Core.Interfaces.Web.MinecraftFabric;
 
 public interface IFabricLoaderDownloader<T1, T2>
 {

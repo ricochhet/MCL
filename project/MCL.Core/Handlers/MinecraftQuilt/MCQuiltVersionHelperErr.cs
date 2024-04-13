@@ -1,8 +1,9 @@
+using MCL.Core.Interfaces;
 using MCL.Core.Models.MinecraftQuilt;
 
 namespace MCL.Core.Handlers.MinecraftQuilt;
 
-public static class MCQuiltVersionHelperErr
+public class MCQuiltVersionHelperErr : IErrorHandleItem<MCQuiltIndex>
 {
     public static bool Exists(MCQuiltIndex quiltIndex)
     {

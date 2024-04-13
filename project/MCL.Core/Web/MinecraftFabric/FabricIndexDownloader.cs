@@ -1,7 +1,7 @@
 using System.Text;
 using System.Threading.Tasks;
 using MCL.Core.Handlers.MinecraftFabric;
-using MCL.Core.Interfaces.MinecraftFabric;
+using MCL.Core.Interfaces.Web.MinecraftFabric;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Models.MinecraftFabric;
@@ -19,7 +19,7 @@ public class FabricIndexDownloader : IFabricIndexDownloader<MCFabricConfigUrls>
         if (!MCFabricConfigUrlsErr.Exists(fabricConfigUrls))
             return false;
 
-        string filepath = MinecraftFabricPathResolver.DownloadedFabricIndexPath(launcherPath);
+        string filepath = MinecraftFabricPathResolver.DownloadedIndexPath(launcherPath);
         string fabricIndex = await Request.GetJsonAsync<MCFabricIndex>(
             fabricConfigUrls.FabricVersionsIndex,
             filepath,

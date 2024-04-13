@@ -1,6 +1,7 @@
 using MCL.Core.Enums;
 using MCL.Core.Extensions;
 using MCL.Core.Helpers.Minecraft;
+using MCL.Core.Interfaces.Helpers.Minecraft;
 using MCL.Core.Models.Java;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Resolvers;
@@ -8,7 +9,7 @@ using MCL.Core.Resolvers.Minecraft;
 
 namespace MCL.Core.Helpers.Launcher;
 
-public static class LaunchArgsHelper
+public class LaunchArgsHelper : ILaunchArgsHelper
 {
     public static JvmArguments Default(MCLauncher launcher)
     {

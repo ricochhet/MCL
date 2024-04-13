@@ -1,8 +1,9 @@
+using MCL.Core.Interfaces;
 using MCL.Core.Models.MinecraftQuilt;
 
 namespace MCL.Core.Handlers.MinecraftQuilt;
 
-public static class MCQuiltConfigUrlsErr
+public class MCQuiltConfigUrlsErr : IErrorHandleItem<MCQuiltConfigUrls>
 {
     public static bool Exists(MCQuiltConfigUrls quiltConfigUrls)
     {

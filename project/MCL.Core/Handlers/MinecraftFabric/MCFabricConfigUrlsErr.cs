@@ -1,8 +1,9 @@
+using MCL.Core.Interfaces;
 using MCL.Core.Models.MinecraftFabric;
 
 namespace MCL.Core.Handlers.MinecraftFabric;
 
-public static class MCFabricConfigUrlsErr
+public class MCFabricConfigUrlsErr : IErrorHandleItem<MCFabricConfigUrls>
 {
     public static bool Exists(MCFabricConfigUrls fabricConfigUrls)
     {

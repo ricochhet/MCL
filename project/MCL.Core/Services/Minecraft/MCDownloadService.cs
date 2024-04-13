@@ -1,8 +1,8 @@
 using System.Threading.Tasks;
 using MCL.Core.Enums;
 using MCL.Core.Helpers.Minecraft;
-using MCL.Core.Interfaces.Miecraft;
 using MCL.Core.Interfaces.Minecraft;
+using MCL.Core.Interfaces.Services.Minecraft;
 using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;

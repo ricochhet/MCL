@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using MCL.Core.Interfaces.MinecraftFabric;
+using MCL.Core.Interfaces.Web.MinecraftFabric;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Models.MinecraftFabric;
@@ -32,7 +32,7 @@ public class FabricLoaderDownloader : IFabricLoaderDownloader<MCFabricProfile, M
             string hash;
             if (library.Name.Contains(fabricConfigUrls.FabricApiLoaderName))
             {
-                request = MinecraftFabricPathResolver.FabricLoaderJarUrlPath(fabricConfigUrls, launcherVersion);
+                request = MinecraftFabricPathResolver.LoaderJarUrlPath(fabricConfigUrls, launcherVersion);
                 hash = string.Empty;
             }
             else if (library.Name.Contains(fabricConfigUrls.FabricApiIntermediaryName))

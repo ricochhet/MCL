@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using MCL.Core.Interfaces.MinecraftFabric;
+using MCL.Core.Interfaces.Web.MinecraftFabric;
 using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
@@ -24,10 +24,7 @@ public class FabricInstallerDownloader : IFabricInstallerDownloader<MCFabricInst
         if (!FabricInstallerDownloaderErr.Exists(fabricInstaller))
             return false;
 
-        string fabricInstallerPath = MinecraftFabricPathResolver.DownloadedFabricInstallerPath(
-            launcherPath,
-            launcherVersion
-        );
+        string fabricInstallerPath = MinecraftFabricPathResolver.DownloadedInstallerPath(launcherPath, launcherVersion);
         // Fabric does not provide a file hash through the current method. We do simple check of the version instead.
         if (VFS.Exists(fabricInstallerPath))
         {
