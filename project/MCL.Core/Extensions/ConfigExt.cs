@@ -1,6 +1,7 @@
 using MCL.Core.Enums;
 using MCL.Core.Models.Java;
 using MCL.Core.Models.Launcher;
+using MCL.Core.Services.Launcher;
 using MCL.Core.Services.Modding;
 
 namespace MCL.Core.Extensions;
@@ -22,12 +23,14 @@ public static class ConfigExt
                 break;
         }
 
+        ConfigService.Save(config);
         return config;
     }
 
     public static Config Save(this Config config, ModConfig modConfig)
     {
         config.ModConfig = modConfig;
+        ConfigService.Save(config);
         return config;
     }
 }

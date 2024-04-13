@@ -40,6 +40,7 @@ public static class ConfigService
                     FabricArgs = new(),
                     QuiltArgs = new(),
                     JavaConfig = new(),
+                    SevenZipConfig = new(),
                     ModConfig = new()
                 };
 

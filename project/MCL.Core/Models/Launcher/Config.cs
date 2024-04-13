@@ -15,6 +15,7 @@ public class Config
     public JvmArguments FabricArgs { get; set; }
     public JvmArguments QuiltArgs { get; set; }
     public JavaConfig JavaConfig { get; set; }
+    public SevenZipConfig SevenZipConfig { get; set; }
     public ModConfig ModConfig { get; set; }
 
     public Config() { }

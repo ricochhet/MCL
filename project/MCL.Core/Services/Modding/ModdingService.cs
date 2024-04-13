@@ -10,6 +10,7 @@ using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Models.Services;
 using MCL.Core.Resolvers.Modding;
+using MCL.Core.Service.SevenZip;
 using MCL.Core.Services.Launcher;
 
 namespace MCL.Core.Services.Modding;
@@ -109,6 +110,16 @@ public static class ModdingService
         return true;
     }
 
+    public static bool DeleteRegisteredDeployPath(string deployPath)
+    {
+        if (ModConfig.IsDeployPathRegistered(deployPath))
+            ModConfig.RegisteredDeployPaths.Remove(deployPath);
+        else
+            return false;
+
+        return true;
+    }
+
     public static bool Deploy(ModFiles modFiles, string deployPath, bool overwrite = false)
     {
         if (modFiles == null)
@@ -127,6 +138,7 @@ public static class ModdingService
             VFS.CreateDirectory(deployPath);
 
         List<ModFile> sortedModFiles = [.. modFiles.Files.OrderBy(a => a.Priority)];
+        ModConfig.RegisteredDeployPaths.Add(deployPath);
 
         foreach (ModFile modFile in sortedModFiles)
         {
@@ -148,7 +160,8 @@ public static class ModdingService
                     VFS.CopyFile(modFile.ModPath, VFS.Combine(deployPath, VFS.GetFileName(modFile.ModPath)));
                     break;
                 case ModRule.UNZIP_AND_COPY:
-                    throw new NotImplementedException();
+                    SevenZipService.Extract(modFile.ModPath, deployPath);
+                    break;
             }
         }
 

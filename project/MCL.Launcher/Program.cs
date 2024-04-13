@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using MCL.Core.Enums;
 using MCL.Core.Enums.Java;
 using MCL.Core.Enums.Services;
+using MCL.Core.Extensions;
 using MCL.Core.Helpers.Java;
 using MCL.Core.Helpers.Minecraft;
 using MCL.Core.Helpers.MinecraftFabric;
@@ -16,6 +17,7 @@ using MCL.Core.Models.Services;
 using MCL.Core.Models.Web;
 using MCL.Core.Providers.MinecraftFabric;
 using MCL.Core.Providers.MinecraftQuilt;
+using MCL.Core.Service.SevenZip;
 using MCL.Core.Services.Java;
 using MCL.Core.Services.Launcher;
 using MCL.Core.Services.Minecraft;
@@ -89,9 +91,11 @@ internal static class Program
         if (config == null)
             return;
 
+        SevenZipService.Init(config.SevenZipConfig);
         ModdingService.Init(launcherPath, config.ModConfig);
         ModdingService.Save("fabric-mods");
         ModdingService.Deploy(ModdingService.Load("fabric-mods"), VFS.Combine(launcherPath.Path, "mods"));
+        config.Save(ModdingService.ModConfig);
 
         if (args.Length <= 0)
             return;
