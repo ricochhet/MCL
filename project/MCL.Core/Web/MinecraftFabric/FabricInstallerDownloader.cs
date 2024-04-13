@@ -10,7 +10,7 @@ using MCL.Core.Services.Launcher;
 
 namespace MCL.Core.Web.MinecraftFabric;
 
-public class FabricInstallerDownloader : IFabricInstallerDownloader
+public class FabricInstallerDownloader : IFabricInstallerDownloader<MCFabricInstaller>
 {
     public static async Task<bool> Download(
         MCLauncherPath launcherPath,

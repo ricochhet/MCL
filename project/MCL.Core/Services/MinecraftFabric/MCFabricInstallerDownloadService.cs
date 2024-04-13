@@ -13,7 +13,7 @@ using MCL.Core.Web.MinecraftFabric;
 
 namespace MCL.Core.Providers.MinecraftFabric;
 
-public class MCFabricInstallerDownloadService : IFabricInstallerDownloadService, IDownloadService
+public class MCFabricInstallerDownloadService : IFabricInstallerDownloadService<MCFabricConfigUrls>, IDownloadService
 {
     private static MCFabricIndex FabricIndex;
     private static MCFabricInstaller FabricInstaller;
@@ -41,22 +41,22 @@ public class MCFabricInstallerDownloadService : IFabricInstallerDownloadService,
         if (!Loaded)
             return false;
 
-        if (!IsOffline && !UseExistingIndex && !await DownloadFabricIndex())
+        if (!IsOffline && !UseExistingIndex && !await DownloadIndex())
             return false;
 
-        if (!LoadFabricIndex())
+        if (!LoadIndex())
             return false;
 
-        if (!LoadFabricInstallerVersion())
+        if (!LoadInstallerVersion())
             return false;
 
-        if (!await DownloadFabricInstaller())
+        if (!await DownloadInstaller())
             return false;
 
         return true;
     }
 
-    public static async Task<bool> DownloadFabricIndex()
+    public static async Task<bool> DownloadIndex()
     {
         if (!Loaded)
             return false;
@@ -72,7 +72,7 @@ public class MCFabricInstallerDownloadService : IFabricInstallerDownloadService,
         return true;
     }
 
-    public static bool LoadFabricIndex()
+    public static bool LoadIndex()
     {
         if (!Loaded)
             return false;
@@ -87,7 +87,7 @@ public class MCFabricInstallerDownloadService : IFabricInstallerDownloadService,
         return true;
     }
 
-    public static bool LoadFabricInstallerVersion()
+    public static bool LoadInstallerVersion()
     {
         if (!Loaded)
             return false;
@@ -108,7 +108,7 @@ public class MCFabricInstallerDownloadService : IFabricInstallerDownloadService,
         return true;
     }
 
-    public static async Task<bool> DownloadFabricInstaller()
+    public static async Task<bool> DownloadInstaller()
     {
         if (!Loaded)
             return false;

@@ -1,15 +1,14 @@
 using System.Threading.Tasks;
 using MCL.Core.Models.Launcher;
-using MCL.Core.Models.MinecraftFabric;
 
 namespace MCL.Core.Interfaces.MinecraftFabric;
 
-public interface IFabricLoaderDownloader
+public interface IFabricLoaderDownloader<T1, T2>
 {
     public static abstract Task<bool> Download(
         MCLauncherPath launcherPath,
         MCLauncherVersion launcherVersion,
-        MCFabricProfile fabricProfile,
-        MCFabricConfigUrls fabricConfigUrls
+        T1 fabricProfile,
+        T2 fabricConfigUrls
     );
 }

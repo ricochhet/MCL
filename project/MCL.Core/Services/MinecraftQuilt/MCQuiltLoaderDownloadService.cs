@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using MCL.Core.Helpers.MinecraftQuilt;
 using MCL.Core.Interfaces.Minecraft;
-using MCL.Core.Interfaces.MinecraftQuilt;
+using MCL.Core.Interfaces.MinecraftFabric;
 using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
@@ -13,7 +13,7 @@ using MCL.Core.Web.MinecraftQuilt;
 
 namespace MCL.Core.Providers.MinecraftQuilt;
 
-public class MCQuiltLoaderDownloadService : IQuiltLoaderDownloadService, IDownloadService
+public class MCQuiltLoaderDownloadService : IFabricLoaderDownloadService<MCQuiltConfigUrls>, IDownloadService
 {
     private static MCQuiltIndex QuiltIndex;
     private static MCQuiltProfile QuiltProfile;
@@ -41,28 +41,28 @@ public class MCQuiltLoaderDownloadService : IQuiltLoaderDownloadService, IDownlo
         if (!Loaded)
             return false;
 
-        if (!IsOffline && !UseExistingIndex && !await DownloadQuiltIndex())
+        if (!IsOffline && !UseExistingIndex && !await DownloadIndex())
             return false;
 
-        if (!LoadQuiltIndex())
+        if (!LoadIndex())
             return false;
 
-        if (!IsOffline && !await DownloadQuiltProfile())
+        if (!IsOffline && !await DownloadProfile())
             return false;
 
-        if (!LoadQuiltProfile())
+        if (!LoadProfile())
             return false;
 
-        if (!LoadQuiltLoaderVersion())
+        if (!LoadLoaderVersion())
             return false;
 
-        if (!await DownloadQuiltLoader())
+        if (!await DownloadLoader())
             return false;
 
         return true;
     }
 
-    public static async Task<bool> DownloadQuiltIndex()
+    public static async Task<bool> DownloadIndex()
     {
         if (!Loaded)
             return false;
@@ -78,7 +78,7 @@ public class MCQuiltLoaderDownloadService : IQuiltLoaderDownloadService, IDownlo
         return true;
     }
 
-    public static bool LoadQuiltIndex()
+    public static bool LoadIndex()
     {
         if (!Loaded)
             return false;
@@ -93,7 +93,7 @@ public class MCQuiltLoaderDownloadService : IQuiltLoaderDownloadService, IDownlo
         return true;
     }
 
-    public static async Task<bool> DownloadQuiltProfile()
+    public static async Task<bool> DownloadProfile()
     {
         if (!Loaded)
             return false;
@@ -109,7 +109,7 @@ public class MCQuiltLoaderDownloadService : IQuiltLoaderDownloadService, IDownlo
         return true;
     }
 
-    public static bool LoadQuiltProfile()
+    public static bool LoadProfile()
     {
         if (!Loaded)
             return false;
@@ -126,7 +126,7 @@ public class MCQuiltLoaderDownloadService : IQuiltLoaderDownloadService, IDownlo
         return true;
     }
 
-    public static bool LoadQuiltLoaderVersion()
+    public static bool LoadLoaderVersion()
     {
         if (!Loaded)
             return false;
@@ -147,7 +147,7 @@ public class MCQuiltLoaderDownloadService : IQuiltLoaderDownloadService, IDownlo
         return true;
     }
 
-    public static async Task<bool> DownloadQuiltLoader()
+    public static async Task<bool> DownloadLoader()
     {
         if (!Loaded)
             return false;

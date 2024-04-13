@@ -4,18 +4,18 @@ using MCL.Core.Models.MinecraftFabric;
 
 namespace MCL.Core.Interfaces.MinecraftFabric;
 
-public interface IFabricLoaderDownloadService
+public interface IFabricLoaderDownloadService<T>
 {
     public static abstract void Init(
         MCLauncherPath launcherPath,
         MCLauncherVersion launcherVersion,
-        MCFabricConfigUrls fabricConfigUrls
+        T fabricConfigUrls
     );
 
-    public static abstract Task<bool> DownloadFabricIndex();
-    public static abstract bool LoadFabricIndex();
-    public static abstract Task<bool> DownloadFabricProfile();
-    public static abstract bool LoadFabricProfile();
-    public static abstract bool LoadFabricLoaderVersion();
-    public static abstract Task<bool> DownloadFabricLoader();
+    public static abstract Task<bool> DownloadIndex();
+    public static abstract bool LoadIndex();
+    public static abstract Task<bool> DownloadProfile();
+    public static abstract bool LoadProfile();
+    public static abstract bool LoadLoaderVersion();
+    public static abstract Task<bool> DownloadLoader();
 }

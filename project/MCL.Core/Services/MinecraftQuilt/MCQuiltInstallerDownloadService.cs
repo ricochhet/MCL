@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using MCL.Core.Helpers.MinecraftQuilt;
 using MCL.Core.Interfaces.Minecraft;
-using MCL.Core.Interfaces.MinecraftQuilt;
+using MCL.Core.Interfaces.MinecraftFabric;
 using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
@@ -13,7 +13,7 @@ using MCL.Core.Web.MinecraftQuilt;
 
 namespace MCL.Core.Providers.MinecraftQuilt;
 
-public class MCQuiltInstallerDownloadService : IQuiltInstallerDownloadService, IDownloadService
+public class MCQuiltInstallerDownloadService : IFabricInstallerDownloadService<MCQuiltConfigUrls>, IDownloadService
 {
     private static MCQuiltIndex QuiltIndex;
     private static MCQuiltInstaller QuiltInstaller;
@@ -41,22 +41,22 @@ public class MCQuiltInstallerDownloadService : IQuiltInstallerDownloadService, I
         if (!Loaded)
             return false;
 
-        if (!IsOffline && !UseExistingIndex && !await DownloadQuiltIndex())
+        if (!IsOffline && !UseExistingIndex && !await DownloadIndex())
             return false;
 
-        if (!LoadQuiltIndex())
+        if (!LoadIndex())
             return false;
 
-        if (!LoadQuiltInstallerVersion())
+        if (!LoadInstallerVersion())
             return false;
 
-        if (!await DownloadQuiltInstaller())
+        if (!await DownloadInstaller())
             return false;
 
         return true;
     }
 
-    public static async Task<bool> DownloadQuiltIndex()
+    public static async Task<bool> DownloadIndex()
     {
         if (!Loaded)
             return false;
@@ -72,7 +72,7 @@ public class MCQuiltInstallerDownloadService : IQuiltInstallerDownloadService, I
         return true;
     }
 
-    public static bool LoadQuiltIndex()
+    public static bool LoadIndex()
     {
         if (!Loaded)
             return false;
@@ -87,7 +87,7 @@ public class MCQuiltInstallerDownloadService : IQuiltInstallerDownloadService, I
         return true;
     }
 
-    public static bool LoadQuiltInstallerVersion()
+    public static bool LoadInstallerVersion()
     {
         if (!Loaded)
             return false;
@@ -108,7 +108,7 @@ public class MCQuiltInstallerDownloadService : IQuiltInstallerDownloadService, I
         return true;
     }
 
-    public static async Task<bool> DownloadQuiltInstaller()
+    public static async Task<bool> DownloadInstaller()
     {
         if (!Loaded)
             return false;

@@ -1,19 +1,18 @@
 using System.Threading.Tasks;
 using MCL.Core.Models.Launcher;
-using MCL.Core.Models.MinecraftFabric;
 
 namespace MCL.Core.Interfaces.MinecraftFabric;
 
-public interface IFabricInstallerDownloadService
+public interface IFabricInstallerDownloadService<T>
 {
     public static abstract void Init(
         MCLauncherPath launcherPath,
         MCLauncherVersion launcherVersion,
-        MCFabricConfigUrls fabricConfigUrls
+        T fabricConfigUrls
     );
 
-    public static abstract Task<bool> DownloadFabricIndex();
-    public static abstract bool LoadFabricIndex();
-    public static abstract bool LoadFabricInstallerVersion();
-    public static abstract Task<bool> DownloadFabricInstaller();
+    public static abstract Task<bool> DownloadIndex();
+    public static abstract bool LoadIndex();
+    public static abstract bool LoadInstallerVersion();
+    public static abstract Task<bool> DownloadInstaller();
 }

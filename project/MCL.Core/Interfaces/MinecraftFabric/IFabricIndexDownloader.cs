@@ -4,7 +4,7 @@ using MCL.Core.Models.MinecraftFabric;
 
 namespace MCL.Core.Interfaces.MinecraftFabric;
 
-public interface IFabricIndexDownloader
+public interface IFabricIndexDownloader<T>
 {
-    public static abstract Task<bool> Download(MCLauncherPath launcherPath, MCFabricConfigUrls fabricConfigUrls);
+    public static abstract Task<bool> Download(MCLauncherPath launcherPath, T fabricConfigUrls);
 }

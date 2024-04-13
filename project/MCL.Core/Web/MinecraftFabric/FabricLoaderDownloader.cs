@@ -8,7 +8,7 @@ using MCL.Core.Resolvers.MinecraftFabric;
 
 namespace MCL.Core.Web.MinecraftFabric;
 
-public class FabricLoaderDownloader : IFabricLoaderDownloader
+public class FabricLoaderDownloader : IFabricLoaderDownloader<MCFabricProfile, MCFabricConfigUrls>
 {
     public static async Task<bool> Download(
         MCLauncherPath launcherPath,

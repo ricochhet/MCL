@@ -4,11 +4,11 @@ using MCL.Core.Models.MinecraftFabric;
 
 namespace MCL.Core.Interfaces.MinecraftFabric;
 
-public interface IFabricInstallerDownloader
+public interface IFabricInstallerDownloader<T>
 {
     public static abstract Task<bool> Download(
         MCLauncherPath launcherPath,
         MCLauncherVersion launcherVersion,
-        MCFabricInstaller fabricInstaller
+        T fabricInstaller
     );
 }

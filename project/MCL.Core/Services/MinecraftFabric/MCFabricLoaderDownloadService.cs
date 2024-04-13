@@ -13,7 +13,7 @@ using MCL.Core.Web.MinecraftFabric;
 
 namespace MCL.Core.Providers.MinecraftFabric;
 
-public class MCFabricLoaderDownloadService : IFabricLoaderDownloadService, IDownloadService
+public class MCFabricLoaderDownloadService : IFabricLoaderDownloadService<MCFabricConfigUrls>, IDownloadService
 {
     private static MCFabricIndex FabricIndex;
     private static MCFabricProfile FabricProfile;
@@ -41,28 +41,28 @@ public class MCFabricLoaderDownloadService : IFabricLoaderDownloadService, IDown
         if (!Loaded)
             return false;
 
-        if (!IsOffline && !UseExistingIndex && !await DownloadFabricIndex())
+        if (!IsOffline && !UseExistingIndex && !await DownloadIndex())
             return false;
 
-        if (!LoadFabricIndex())
+        if (!LoadIndex())
             return false;
 
-        if (!IsOffline && !await DownloadFabricProfile())
+        if (!IsOffline && !await DownloadProfile())
             return false;
 
-        if (!LoadFabricProfile())
+        if (!LoadProfile())
             return false;
 
-        if (!LoadFabricLoaderVersion())
+        if (!LoadLoaderVersion())
             return false;
 
-        if (!await DownloadFabricLoader())
+        if (!await DownloadLoader())
             return false;
 
         return true;
     }
 
-    public static async Task<bool> DownloadFabricIndex()
+    public static async Task<bool> DownloadIndex()
     {
         if (!Loaded)
             return false;
@@ -78,7 +78,7 @@ public class MCFabricLoaderDownloadService : IFabricLoaderDownloadService, IDown
         return true;
     }
 
-    public static bool LoadFabricIndex()
+    public static bool LoadIndex()
     {
         if (!Loaded)
             return false;
@@ -93,7 +93,7 @@ public class MCFabricLoaderDownloadService : IFabricLoaderDownloadService, IDown
         return true;
     }
 
-    public static async Task<bool> DownloadFabricProfile()
+    public static async Task<bool> DownloadProfile()
     {
         if (!Loaded)
             return false;
@@ -109,7 +109,7 @@ public class MCFabricLoaderDownloadService : IFabricLoaderDownloadService, IDown
         return true;
     }
 
-    public static bool LoadFabricProfile()
+    public static bool LoadProfile()
     {
         if (!Loaded)
             return false;
@@ -128,7 +128,7 @@ public class MCFabricLoaderDownloadService : IFabricLoaderDownloadService, IDown
         return true;
     }
 
-    public static bool LoadFabricLoaderVersion()
+    public static bool LoadLoaderVersion()
     {
         if (!Loaded)
             return false;
@@ -149,7 +149,7 @@ public class MCFabricLoaderDownloadService : IFabricLoaderDownloadService, IDown
         return true;
     }
 
-    public static async Task<bool> DownloadFabricLoader()
+    public static async Task<bool> DownloadLoader()
     {
         if (!Loaded)
             return false;

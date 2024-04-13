@@ -9,7 +9,7 @@ using MCL.Core.Resolvers.MinecraftFabric;
 
 namespace MCL.Core.Web.MinecraftFabric;
 
-public class FabricProfileDownloader : IFabricProfileDownloader
+public class FabricProfileDownloader : IFabricProfileDownloader<MCFabricConfigUrls>
 {
     public static async Task<bool> Download(
         MCLauncherPath launcherPath,

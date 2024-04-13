@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using MCL.Core.Interfaces.MinecraftQuilt;
+using MCL.Core.Interfaces.MinecraftFabric;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Models.MinecraftQuilt;
@@ -8,7 +8,7 @@ using MCL.Core.Resolvers.MinecraftQuilt;
 
 namespace MCL.Core.Web.MinecraftQuilt;
 
-public class QuiltLoaderDownloader : IQuiltLoaderDownloader
+public class QuiltLoaderDownloader : IFabricLoaderDownloader<MCQuiltProfile, MCQuiltConfigUrls>
 {
     public static async Task<bool> Download(
         MCLauncherPath launcherPath,
