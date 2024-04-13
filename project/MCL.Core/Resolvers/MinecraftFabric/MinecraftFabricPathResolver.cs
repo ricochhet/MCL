@@ -7,10 +7,10 @@ namespace MCL.Core.Resolvers.MinecraftFabric;
 public static class MinecraftFabricPathResolver
 {
     public static string FabricInstallerPath(MCLauncherPath launcherPath) =>
-        VFS.Combine(launcherPath.FabricInstallerPath, "installers");
+        VFS.FromCwd(launcherPath.FabricInstallerPath, "installers");
 
     public static string FabricModPath(MCLauncherPath launcherPath) =>
-        VFS.Combine(launcherPath.FabricInstallerPath, "mods");
+        VFS.FromCwd(launcherPath.FabricInstallerPath, "mods");
 
     public static string FabricModCategoryPath(MCLauncherPath launcherPath, MCLauncherVersion launcherVersion) =>
         VFS.Combine(FabricModPath(launcherPath), launcherVersion.Version);
@@ -19,17 +19,17 @@ public static class MinecraftFabricPathResolver
         MCLauncherPath launcherPath,
         MCLauncherVersion launcherVersion
     ) =>
-        VFS.Combine(
+        VFS.FromCwd(
             launcherPath.FabricInstallerPath,
             "installers",
             $"fabric-installer-{launcherVersion.FabricInstallerVersion}.jar"
         );
 
     public static string DownloadedFabricIndexPath(MCLauncherPath launcherPath) =>
-        VFS.Combine(launcherPath.FabricInstallerPath, "fabric_manifest.json");
+        VFS.FromCwd(launcherPath.FabricInstallerPath, "fabric_manifest.json");
 
     public static string DownloadedFabricProfilePath(MCLauncherPath launcherPath, MCLauncherVersion launcherVersion) =>
-        VFS.Combine(
+        VFS.FromCwd(
             launcherPath.FabricInstallerPath,
             $"fabric_profile-{launcherVersion.Version}-{launcherVersion.FabricLoaderVersion}.json"
         );

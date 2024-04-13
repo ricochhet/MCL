@@ -7,10 +7,10 @@ namespace MCL.Core.Resolvers.MinecraftQuilt;
 public static class MinecraftQuiltPathResolver
 {
     public static string QuiltInstallerPath(MCLauncherPath launcherPath) =>
-        VFS.Combine(launcherPath.QuiltInstallerPath, "installers");
+        VFS.FromCwd(launcherPath.QuiltInstallerPath, "installers");
 
     public static string QuiltModPath(MCLauncherPath launcherPath) =>
-        VFS.Combine(launcherPath.QuiltInstallerPath, "mods");
+        VFS.FromCwd(launcherPath.QuiltInstallerPath, "mods");
 
     public static string QuiltModCategoryPath(MCLauncherPath launcherPath, MCLauncherVersion launcherVersion) =>
         VFS.Combine(QuiltModPath(launcherPath), launcherVersion.Version);
@@ -23,10 +23,10 @@ public static class MinecraftQuiltPathResolver
         );
 
     public static string DownloadedQuiltIndexPath(MCLauncherPath launcherPath) =>
-        VFS.Combine(launcherPath.QuiltInstallerPath, "quilt_manifest.json");
+        VFS.FromCwd(launcherPath.QuiltInstallerPath, "quilt_manifest.json");
 
     public static string DownloadedQuiltProfilePath(MCLauncherPath launcherPath, MCLauncherVersion launcherVersion) =>
-        VFS.Combine(
+        VFS.FromCwd(
             launcherPath.QuiltInstallerPath,
             $"quilt_profile-{launcherVersion.Version}-{launcherVersion.QuiltLoaderVersion}.json"
         );

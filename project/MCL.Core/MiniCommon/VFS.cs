@@ -49,10 +49,29 @@ public static class VFS
     /// <summary>
     /// Combines a filepath with the current working directory.
     /// </summary>
-    public static string FromCwd(this string filepath)
+    public static string FromCwd(string filepath)
     {
         return Combine(Cwd, filepath);
     }
+
+#pragma warning disable IDE0079
+#pragma warning disable S2234
+    /// <summary>
+    /// Combines two filepaths with the current working directory.
+    /// </summary>
+    public static string FromCwd(string path1, string path2)
+    {
+        return Combine(Cwd, path1, path2);
+    }
+
+    /// <summary>
+    /// Combines three filepaths with the current working directory.
+    /// </summary>
+    public static string FromCwd(string path1, string path2, string path3)
+    {
+        return Combine(Cwd, path1, path2, path3);
+    }
+#pragma warning restore
 
     /// <summary>
     /// Combines an array of filepaths with the current working directory.

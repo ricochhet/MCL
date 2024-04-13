@@ -27,7 +27,7 @@ public static class ClassPathHelper
             Platform.WINDOWS => ";",
             _ => throw new NotImplementedException("Unsupported OS."),
         };
-        string libPath = VFS.Combine(launcherPath.Path, "libraries");
+        string libPath = VFS.FromCwd(launcherPath.Path, "libraries");
         string[] libraries = VFS.GetFiles(libPath, "*");
         libraries = libraries.Prepend(MinecraftPathResolver.ClientLibrary(launcherVersion)).ToArray();
 

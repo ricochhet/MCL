@@ -94,7 +94,7 @@ internal static class Program
         SevenZipService.Init(config.SevenZipConfig);
         ModdingService.Init(launcherPath, config.ModConfig);
         ModdingService.Save("fabric-mods");
-        ModdingService.Deploy(ModdingService.Load("fabric-mods"), VFS.Combine(launcherPath.Path, "mods"));
+        ModdingService.Deploy(ModdingService.Load("fabric-mods"), VFS.FromCwd(launcherPath.Path, "mods"));
         config.Save(ModdingService.ModConfig);
 
         if (args.Length <= 0)
