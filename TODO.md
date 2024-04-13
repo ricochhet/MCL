@@ -3,6 +3,11 @@ TODO tasks are in order from top-to-bottom, most-to-least important.
 
 Tasks marked with (*) are easier to do.
 
+- [ ] Implement MCL.CodeAnalyzers
+    - This tool will analyze the project for project-specific rules and warn when the rule is not followed.
+    - [ ] Rule: Namespaces should match physical path, e.g. MCL.Core.Models == MCL/Core/Models/*
+    - [ ] Rule: Localization keys must exist.
+    - [ ] Enable/Disable/Restore rules.
 - [ ] Code cleanup
     - [x] Cleanup calls to path resolvers.
     - [x] Cleanup variable names for consistency.
@@ -12,11 +17,6 @@ Tasks marked with (*) are easier to do.
 - [x] Implement UNZIP_AND_COPY file deployment.
     - [x] Implement download and extraction of 7z for use.
     - [x] Implement 7z arguments for processhelper.
-- [ ] Implement MCL.CodeAnalyzers
-    - This tool will analyze the project for project-specific rules and warn when the rule is not followed.
-    - [ ] Rule: Namespaces should match physical path, e.g. MCL.Core.Models == MCL/Core/Models/*
-    - [ ] Rule: Localization keys must exist.
-    - [ ] Enable/Disable/Restore rules.
 - [x] Evaluate for unnecessary constructors.
 - [x] Refactor code to utilize VFS common library with applicable functions.
 - [x] Evaluate error handling of objects and null-reference handling.
