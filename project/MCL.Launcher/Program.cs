@@ -36,10 +36,10 @@ internal static class Program
         MCLauncherPath launcherPath =
             new(
                 path: "./.minecraft",
-                modPath: "./.minecraft-mods",
-                fabricInstallerPath: "./.minecraft-fabric",
-                quiltInstallerPath: "./.minecraft-quilt",
-                languageLocalizationPath: "./.localization"
+                modPath: "./mods",
+                fabricInstallerPath: "./fabric",
+                quiltInstallerPath: "./quilt",
+                languageLocalizationPath: "./localization"
             );
         MCLauncherVersion launcherVersion =
             new(

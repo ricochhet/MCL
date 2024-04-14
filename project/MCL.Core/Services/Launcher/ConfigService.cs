@@ -10,8 +10,8 @@ namespace MCL.Core.Services.Launcher;
 
 public static class ConfigService
 {
-    public const string DataPath = "./MCL_Data";
-    public const string ConfigFileName = "Config.json";
+    public const string DataPath = "./.mcl";
+    public const string ConfigFileName = "mcl.json";
     public static readonly string LogFilePath = VFS.FromCwd(DataPath, LogFileName);
     public static readonly List<string> WatermarkText =
     [
@@ -19,7 +19,7 @@ public static class ConfigService
         "This work is free of charge",
         "If you paid money, you were scammed"
     ];
-    private const string LogFileName = "MCL.log";
+    private const string LogFileName = "mcl.log";
     private static readonly string ConfigFilePath = VFS.FromCwd(DataPath, ConfigFileName);
 
     public static JsonSerializerOptions JsonSerializerOptions { get; set; } =
