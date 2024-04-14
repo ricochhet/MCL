@@ -15,7 +15,8 @@ public class MCLauncherPath(
     public string ModPath { get; set; } = VFS.FromCwd(ConfigService.DataPath, modPath);
     public string FabricInstallerPath { get; set; } = VFS.FromCwd(ConfigService.DataPath, fabricInstallerPath);
     public string QuiltInstallerPath { get; set; } = VFS.FromCwd(ConfigService.DataPath, quiltInstallerPath);
-    public string LanguageLocalizationPath { get; set; } = VFS.FromCwd(ConfigService.DataPath, languageLocalizationPath);
+    public string LanguageLocalizationPath { get; set; } =
+        VFS.FromCwd(ConfigService.DataPath, languageLocalizationPath);
 
     public static bool Exists(MCLauncherPath launcherPath)
     {

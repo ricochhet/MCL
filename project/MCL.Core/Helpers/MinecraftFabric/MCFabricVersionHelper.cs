@@ -15,12 +15,13 @@ public class MCFabricVersionHelper : IMCFabricVersionHelper<MCFabricInstaller, M
         if (!MCFabricVersionHelperErr.Exists(index))
             return null;
 
+        MCFabricInstaller fabricInstaller = index.Installer[0];
         foreach (MCFabricInstaller item in index.Installer)
         {
             if (item.Version == installerVersion.FabricInstallerVersion)
                 return item;
         }
-        return null;
+        return fabricInstaller;
     }
 
     public static MCFabricLoader GetLoaderVersion(MCLauncherVersion loaderVersion, MCFabricIndex index)
@@ -31,11 +32,12 @@ public class MCFabricVersionHelper : IMCFabricVersionHelper<MCFabricInstaller, M
         if (!MCFabricVersionHelperErr.Exists(index))
             return null;
 
+        MCFabricLoader fabricLoader = index.Loader[0];
         foreach (MCFabricLoader item in index.Loader)
         {
             if (item.Version == loaderVersion.FabricLoaderVersion)
                 return item;
         }
-        return null;
+        return fabricLoader;
     }
 }

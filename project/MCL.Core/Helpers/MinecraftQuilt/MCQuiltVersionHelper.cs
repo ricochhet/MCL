@@ -15,12 +15,19 @@ public class MCQuiltVersionHelper : IMCFabricVersionHelper<MCQuiltInstaller, MCQ
         if (!MCQuiltVersionHelperErr.Exists(index))
             return null;
 
+        MCQuiltInstaller quiltInstaller = index.Installer[0];
+        if (string.IsNullOrWhiteSpace(installerVersion.QuiltInstallerVersion))
+            return quiltInstaller;
+
         foreach (MCQuiltInstaller item in index.Installer)
         {
-            if (item.Version == installerVersion.QuiltInstallerVersion)
+            if (
+                (!string.IsNullOrWhiteSpace(installerVersion.QuiltInstallerVersion))
+                && item.Version == installerVersion.QuiltInstallerVersion
+            )
                 return item;
         }
-        return null;
+        return quiltInstaller;
     }
 
     public static MCQuiltLoader GetLoaderVersion(MCLauncherVersion loaderVersion, MCQuiltIndex index)
@@ -31,11 +38,18 @@ public class MCQuiltVersionHelper : IMCFabricVersionHelper<MCQuiltInstaller, MCQ
         if (!MCQuiltVersionHelperErr.Exists(index))
             return null;
 
+        MCQuiltLoader quiltLoader = index.Loader[0];
+        if (string.IsNullOrWhiteSpace(loaderVersion.QuiltLoaderVersion))
+            return quiltLoader;
+
         foreach (MCQuiltLoader item in index.Loader)
         {
-            if (item.Version == loaderVersion.QuiltLoaderVersion)
+            if (
+                (!string.IsNullOrWhiteSpace(loaderVersion.QuiltLoaderVersion))
+                && item.Version == loaderVersion.QuiltLoaderVersion
+            )
                 return item;
         }
-        return null;
+        return quiltLoader;
     }
 }

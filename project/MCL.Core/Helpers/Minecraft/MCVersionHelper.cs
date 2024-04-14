@@ -18,7 +18,10 @@ public static class MCVersionHelper
 
         foreach (MCVersion item in versionManifest.Versions)
         {
-            if (item.ID == launcherVersion.Version)
+            if (string.IsNullOrWhiteSpace(launcherVersion.Version) && item.ID == versionManifest.Latest.Release)
+                return item;
+
+            if ((!string.IsNullOrWhiteSpace(launcherVersion.Version)) && item.ID == launcherVersion.Version)
                 return item;
         }
         return null;
