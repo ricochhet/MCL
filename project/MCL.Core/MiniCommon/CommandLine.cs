@@ -1,7 +1,6 @@
 using System;
 using System.Threading.Tasks;
 using MCL.Core.Logger.Enums;
-using MCL.Core.Models.Services;
 using MCL.Core.Services.Launcher;
 
 namespace MCL.Core.MiniCommon;
@@ -22,7 +21,7 @@ public static class CommandLine
         catch (Exception ex)
         {
             NotificationService.Add(
-                new Notification(
+                new(
                     NativeLogLevel.Error,
                     "log.stack.trace",
                     [ex.Message, ex.StackTrace ?? LocalizationService.Translate("stack.trace.null")]
@@ -44,7 +43,7 @@ public static class CommandLine
         catch (Exception ex)
         {
             NotificationService.Add(
-                new Notification(
+                new(
                     NativeLogLevel.Error,
                     "log.stack.trace",
                     [ex.Message, ex.StackTrace ?? LocalizationService.Translate("stack.trace.null")]
@@ -67,7 +66,7 @@ public static class CommandLine
         catch (Exception ex)
         {
             NotificationService.Add(
-                new Notification(
+                new(
                     NativeLogLevel.Error,
                     "log.stack.trace",
                     [ex.Message, ex.StackTrace ?? LocalizationService.Translate("stack.trace.null")]
@@ -89,7 +88,7 @@ public static class CommandLine
         catch (Exception ex)
         {
             NotificationService.Add(
-                new Notification(
+                new(
                     NativeLogLevel.Error,
                     "log.stack.trace",
                     [ex.Message, ex.StackTrace ?? LocalizationService.Translate("stack.trace.null")]
@@ -100,7 +99,7 @@ public static class CommandLine
 
     public static void Pause()
     {
-        NotificationService.Add(new Notification(NativeLogLevel.Info, "commandline.exit", ["F"]));
+        NotificationService.Add(new(NativeLogLevel.Info, "commandline.exit", ["F"]));
 
 #pragma warning disable IDE0079
 #pragma warning disable S108

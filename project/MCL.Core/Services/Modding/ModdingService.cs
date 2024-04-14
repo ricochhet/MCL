@@ -9,7 +9,6 @@ using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Models.Modding;
-using MCL.Core.Models.Services;
 using MCL.Core.Resolvers.Modding;
 using MCL.Core.Services.Launcher;
 using MCL.Core.Services.SevenZip;
@@ -36,14 +35,14 @@ public static class ModdingService
         string modPath = ModPathResolver.ModPath(LauncherPath, modStoreName);
         if (!VFS.Exists(modPath))
         {
-            NotificationService.Add(new Notification(NativeLogLevel.Error, "modding.save.error-nodir", [modPath]));
+            NotificationService.Add(new(NativeLogLevel.Error, "modding.save.error-nodir", [modPath]));
             return false;
         }
 
         string[] modFilePaths = VFS.GetFiles(modPath, "*", SearchOption.TopDirectoryOnly);
         if (modFilePaths.Length <= 0)
         {
-            NotificationService.Add(new Notification(NativeLogLevel.Error, "modding.save.error-nofile", [modPath]));
+            NotificationService.Add(new(NativeLogLevel.Error, "modding.save.error-nofile", [modPath]));
             return false;
         }
 
@@ -53,7 +52,7 @@ public static class ModdingService
             .ToArray();
         if (filteredModFilePaths.Length <= 0)
         {
-            NotificationService.Add(new Notification(NativeLogLevel.Error, "modding.save.error-nofile", [modPath]));
+            NotificationService.Add(new(NativeLogLevel.Error, "modding.save.error-nofile", [modPath]));
             return false;
         }
 
@@ -125,13 +124,13 @@ public static class ModdingService
     {
         if (modFiles == null)
         {
-            NotificationService.Add(new Notification(NativeLogLevel.Error, "modding.deploy.error-nofile"));
+            NotificationService.Add(new(NativeLogLevel.Error, "modding.deploy.error-nofile"));
             return false;
         }
 
         if (modFiles.Files?.Count <= 0)
         {
-            NotificationService.Add(new Notification(NativeLogLevel.Error, "modding.deploy.error-nofile"));
+            NotificationService.Add(new(NativeLogLevel.Error, "modding.deploy.error-nofile"));
             return false;
         }
 
@@ -145,7 +144,7 @@ public static class ModdingService
         {
             if (modFile == null)
             {
-                NotificationService.Add(new Notification(NativeLogLevel.Error, "modding.deploy.error-nodata"));
+                NotificationService.Add(new(NativeLogLevel.Error, "modding.deploy.error-nodata"));
                 return false;
             }
 

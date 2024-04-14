@@ -6,7 +6,6 @@ using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Models.MinecraftFabric;
-using MCL.Core.Models.Services;
 using MCL.Core.Resolvers.MinecraftFabric;
 using MCL.Core.Services.Launcher;
 using MCL.Core.Web.MinecraftFabric;
@@ -69,9 +68,7 @@ public class MCFabricLoaderDownloadService : IFabricLoaderDownloadService<MCFabr
 
         if (!await FabricIndexDownloader.Download(LauncherPath, FabricConfigUrls))
         {
-            NotificationService.Add(
-                new Notification(NativeLogLevel.Error, "error.download", [nameof(FabricIndexDownloader)])
-            );
+            NotificationService.Add(new(NativeLogLevel.Error, "error.download", [nameof(FabricIndexDownloader)]));
             return false;
         }
 
@@ -86,7 +83,7 @@ public class MCFabricLoaderDownloadService : IFabricLoaderDownloadService<MCFabr
         FabricIndex = Json.Load<MCFabricIndex>(MinecraftFabricPathResolver.DownloadedIndexPath(LauncherPath));
         if (FabricIndex == null)
         {
-            NotificationService.Add(new Notification(NativeLogLevel.Error, "error.readfile", [nameof(MCFabricIndex)]));
+            NotificationService.Add(new(NativeLogLevel.Error, "error.readfile", [nameof(MCFabricIndex)]));
             return false;
         }
 
@@ -100,9 +97,7 @@ public class MCFabricLoaderDownloadService : IFabricLoaderDownloadService<MCFabr
 
         if (!await FabricProfileDownloader.Download(LauncherPath, LauncherVersion, FabricConfigUrls))
         {
-            NotificationService.Add(
-                new Notification(NativeLogLevel.Error, "error.download", [nameof(FabricProfileDownloader)])
-            );
+            NotificationService.Add(new(NativeLogLevel.Error, "error.download", [nameof(FabricProfileDownloader)]));
             return false;
         }
 
@@ -119,9 +114,7 @@ public class MCFabricLoaderDownloadService : IFabricLoaderDownloadService<MCFabr
         );
         if (FabricProfile == null)
         {
-            NotificationService.Add(
-                new Notification(NativeLogLevel.Error, "error.download", [nameof(MCFabricProfile)])
-            );
+            NotificationService.Add(new(NativeLogLevel.Error, "error.download", [nameof(MCFabricProfile)]));
             return false;
         }
 
@@ -137,11 +130,7 @@ public class MCFabricLoaderDownloadService : IFabricLoaderDownloadService<MCFabr
         if (fabricLoader == null)
         {
             NotificationService.Add(
-                new Notification(
-                    NativeLogLevel.Error,
-                    "error.parse",
-                    [LauncherVersion?.FabricLoaderVersion, nameof(MCFabricLoader)]
-                )
+                new(NativeLogLevel.Error, "error.parse", [LauncherVersion?.FabricLoaderVersion, nameof(MCFabricLoader)])
             );
             return false;
         }
@@ -156,9 +145,7 @@ public class MCFabricLoaderDownloadService : IFabricLoaderDownloadService<MCFabr
 
         if (!await FabricLoaderDownloader.Download(LauncherPath, LauncherVersion, FabricProfile, FabricConfigUrls))
         {
-            NotificationService.Add(
-                new Notification(NativeLogLevel.Error, "error.download", [nameof(FabricLoaderDownloader)])
-            );
+            NotificationService.Add(new(NativeLogLevel.Error, "error.download", [nameof(FabricLoaderDownloader)]));
             return false;
         }
 

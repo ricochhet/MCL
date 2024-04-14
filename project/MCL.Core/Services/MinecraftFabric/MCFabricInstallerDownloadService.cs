@@ -6,7 +6,6 @@ using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Models.MinecraftFabric;
-using MCL.Core.Models.Services;
 using MCL.Core.Resolvers.MinecraftFabric;
 using MCL.Core.Services.Launcher;
 using MCL.Core.Web.MinecraftFabric;
@@ -63,9 +62,7 @@ public class MCFabricInstallerDownloadService : IFabricInstallerDownloadService<
 
         if (!await FabricIndexDownloader.Download(LauncherPath, FabricConfigUrls))
         {
-            NotificationService.Add(
-                new Notification(NativeLogLevel.Error, "error.download", [nameof(FabricIndexDownloader)])
-            );
+            NotificationService.Add(new(NativeLogLevel.Error, "error.download", [nameof(FabricIndexDownloader)]));
             return false;
         }
 
@@ -80,7 +77,7 @@ public class MCFabricInstallerDownloadService : IFabricInstallerDownloadService<
         FabricIndex = Json.Load<MCFabricIndex>(MinecraftFabricPathResolver.DownloadedIndexPath(LauncherPath));
         if (FabricIndex == null)
         {
-            NotificationService.Add(new Notification(NativeLogLevel.Error, "error.readfile", [nameof(MCFabricIndex)]));
+            NotificationService.Add(new(NativeLogLevel.Error, "error.readfile", [nameof(MCFabricIndex)]));
             return false;
         }
 
@@ -96,7 +93,7 @@ public class MCFabricInstallerDownloadService : IFabricInstallerDownloadService<
         if (FabricInstaller == null)
         {
             NotificationService.Add(
-                new Notification(
+                new(
                     NativeLogLevel.Error,
                     "error.parse",
                     [LauncherVersion?.FabricInstallerVersion, nameof(MCFabricInstaller)]
@@ -115,9 +112,7 @@ public class MCFabricInstallerDownloadService : IFabricInstallerDownloadService<
 
         if (!await FabricInstallerDownloader.Download(LauncherPath, LauncherVersion, FabricInstaller))
         {
-            NotificationService.Add(
-                new Notification(NativeLogLevel.Error, "error.download", [nameof(FabricInstallerDownloader)])
-            );
+            NotificationService.Add(new(NativeLogLevel.Error, "error.download", [nameof(FabricInstallerDownloader)]));
             return false;
         }
 

@@ -71,11 +71,11 @@ internal static class Program
                 Log.Base(notification.LogLevel, notification.Message);
             }
         );
-        NotificationService.Add(new Notification(NativeLogLevel.Info, "log.initialized"));
+        NotificationService.Add(new(NativeLogLevel.Info, "log.initialized"));
         RequestDataService.Init(
             (RequestData requestData) =>
             {
-                NotificationService.Add(new Notification(NativeLogLevel.Info, "request.get", [requestData.URL]));
+                NotificationService.Add(new(NativeLogLevel.Info, "request.get", [requestData.URL]));
             }
         );
 

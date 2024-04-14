@@ -6,7 +6,6 @@ using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Models.MinecraftQuilt;
-using MCL.Core.Models.Services;
 using MCL.Core.Resolvers.MinecraftQuilt;
 using MCL.Core.Services.Launcher;
 using MCL.Core.Web.MinecraftQuilt;
@@ -63,9 +62,7 @@ public class MCQuiltInstallerDownloadService : IFabricInstallerDownloadService<M
 
         if (!await QuiltIndexDownloader.Download(LauncherPath, QuiltConfigUrls))
         {
-            NotificationService.Add(
-                new Notification(NativeLogLevel.Error, "error.download", [nameof(QuiltIndexDownloader)])
-            );
+            NotificationService.Add(new(NativeLogLevel.Error, "error.download", [nameof(QuiltIndexDownloader)]));
             return false;
         }
 
@@ -80,7 +77,7 @@ public class MCQuiltInstallerDownloadService : IFabricInstallerDownloadService<M
         QuiltIndex = Json.Load<MCQuiltIndex>(MinecraftQuiltPathResolver.DownloadedIndexPath(LauncherPath));
         if (QuiltIndex == null)
         {
-            NotificationService.Add(new Notification(NativeLogLevel.Error, "error.readfile", [nameof(MCQuiltIndex)]));
+            NotificationService.Add(new(NativeLogLevel.Error, "error.readfile", [nameof(MCQuiltIndex)]));
             return false;
         }
 
@@ -96,7 +93,7 @@ public class MCQuiltInstallerDownloadService : IFabricInstallerDownloadService<M
         if (QuiltInstaller == null)
         {
             NotificationService.Add(
-                new Notification(
+                new(
                     NativeLogLevel.Error,
                     "error.parse",
                     [LauncherVersion?.QuiltInstallerVersion, nameof(MCQuiltInstaller)]
@@ -115,9 +112,7 @@ public class MCQuiltInstallerDownloadService : IFabricInstallerDownloadService<M
 
         if (!await QuiltInstallerDownloader.Download(LauncherPath, LauncherVersion, QuiltInstaller))
         {
-            NotificationService.Add(
-                new Notification(NativeLogLevel.Error, "error.download", [nameof(QuiltInstallerDownloader)])
-            );
+            NotificationService.Add(new(NativeLogLevel.Error, "error.download", [nameof(QuiltInstallerDownloader)]));
             return false;
         }
 

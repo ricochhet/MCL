@@ -7,7 +7,6 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using MCL.Core.Helpers;
 using MCL.Core.Logger.Enums;
-using MCL.Core.Models.Services;
 using MCL.Core.Models.Web;
 using MCL.Core.Services.Launcher;
 using MCL.Core.Services.Web;
@@ -39,7 +38,7 @@ public static class Request
         catch (Exception ex)
         {
             NotificationService.Add(
-                new Notification(
+                new(
                     NativeLogLevel.Error,
                     "error.request",
                     [request, ex.Message, ex.StackTrace ?? LocalizationService.Translate("stack.trace.null")]
@@ -58,7 +57,7 @@ public static class Request
         catch (Exception ex)
         {
             NotificationService.Add(
-                new Notification(
+                new(
                     NativeLogLevel.Error,
                     "error.request",
                     [request, ex.Message, ex.StackTrace ?? LocalizationService.Translate("stack.trace.null")]
@@ -81,16 +80,14 @@ public static class Request
                 response = await GetStringAsync(request);
                 if (string.IsNullOrWhiteSpace(response))
                 {
-                    NotificationService.Add(new Notification(NativeLogLevel.Error, "error.download", [request]));
+                    NotificationService.Add(new(NativeLogLevel.Error, "error.download", [request]));
                     return default;
                 }
                 hash = CryptographyHelper.CreateSHA1(response, encoding);
                 RequestDataService.Add(new RequestData(request, filepath, encoding.GetByteCount(response), hash));
                 if (VFS.Exists(filepath) && CryptographyHelper.CreateSHA1(filepath, true) == hash)
                 {
-                    NotificationService.Add(
-                        new Notification(NativeLogLevel.Info, "request.get.hash-exists", [request])
-                    );
+                    NotificationService.Add(new(NativeLogLevel.Info, "request.get.hash-exists", [request]));
                     return response;
                 }
 
@@ -100,7 +97,7 @@ public static class Request
             catch (Exception ex)
             {
                 NotificationService.Add(
-                    new Notification(
+                    new(
                         NativeLogLevel.Error,
                         "error.request",
                         [request, ex.Message, ex.StackTrace ?? LocalizationService.Translate("stack.trace.null")]
@@ -123,16 +120,14 @@ public static class Request
                 response = await GetStringAsync(request);
                 if (string.IsNullOrWhiteSpace(response))
                 {
-                    NotificationService.Add(new Notification(NativeLogLevel.Error, "error.download", [request]));
+                    NotificationService.Add(new(NativeLogLevel.Error, "error.download", [request]));
                     return default;
                 }
                 hash = CryptographyHelper.CreateSHA1(response, encoding);
                 RequestDataService.Add(new RequestData(request, filepath, encoding.GetByteCount(response), hash));
                 if (VFS.Exists(filepath) && CryptographyHelper.CreateSHA1(filepath, true) == hash)
                 {
-                    NotificationService.Add(
-                        new Notification(NativeLogLevel.Info, "request.get.hash-exists", [request])
-                    );
+                    NotificationService.Add(new(NativeLogLevel.Info, "request.get.hash-exists", [request]));
                     return response;
                 }
 
@@ -142,7 +137,7 @@ public static class Request
             catch (Exception ex)
             {
                 NotificationService.Add(
-                    new Notification(
+                    new(
                         NativeLogLevel.Error,
                         "error.request",
                         [request, ex.Message, ex.StackTrace ?? LocalizationService.Translate("stack.trace.null")]
@@ -164,7 +159,7 @@ public static class Request
         catch (Exception ex)
         {
             NotificationService.Add(
-                new Notification(
+                new(
                     NativeLogLevel.Error,
                     "error.request",
                     [request, ex.Message, ex.StackTrace ?? LocalizationService.Translate("stack.trace.null")]
@@ -181,7 +176,7 @@ public static class Request
         RequestDataService.Add(new RequestData(request, filepath, 0, hash));
         if (VFS.Exists(filepath) && CryptographyHelper.CreateSHA1(filepath, true) == hash)
         {
-            NotificationService.Add(new Notification(NativeLogLevel.Info, "request.get.hash-exists", [request]));
+            NotificationService.Add(new(NativeLogLevel.Info, "request.get.hash-exists", [request]));
             return true;
         }
         else if (!await Download(request, filepath))
@@ -217,7 +212,7 @@ public static class Request
             catch (Exception ex)
             {
                 NotificationService.Add(
-                    new Notification(
+                    new(
                         NativeLogLevel.Error,
                         "error.request",
                         [request, ex.Message, ex.StackTrace ?? LocalizationService.Translate("stack.trace.null")]

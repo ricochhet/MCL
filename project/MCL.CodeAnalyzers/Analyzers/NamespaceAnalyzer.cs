@@ -1,13 +1,12 @@
 using System.IO;
-using MCL.Core.Helpers;
+using System.Text.RegularExpressions;
 using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon;
-using MCL.Core.Models.Services;
 using MCL.Core.Services.Launcher;
 
 namespace MCL.CodeAnalyzers.Analyzers;
 
-public static class NamespaceAnalyzer
+public static partial class NamespaceAnalyzer
 {
     public static void Analyze(string filepath)
     {
@@ -16,8 +15,9 @@ public static class NamespaceAnalyzer
         int fail = 0;
         foreach (string file in files)
         {
-            string[] lines = VFS.ReadAllLines(file);
-            string name = StringHelper.Search(lines, "namespace", ';', 1);
+            Regex matchNamespace = NamespaceRegex();
+            Match namespaceMatch = matchNamespace.Match(VFS.ReadAllText(file));
+            string name = namespaceMatch.Value;
 
             if (file.Contains("AssemblyInfo") || file.Contains("AssemblyAttributes"))
             {
@@ -28,33 +28,40 @@ public static class NamespaceAnalyzer
             if (string.IsNullOrWhiteSpace(name))
             {
                 NotificationService.Add(
-                    new Notification(NativeLogLevel.Error, "analyzer.error.namespace", [file, name ?? string.Empty])
+                    new(NativeLogLevel.Error, "analyzer.error.namespace", [file, name ?? string.Empty])
                 );
                 continue;
             }
 
-            string path = name.Replace("\\", "/").Replace(";", string.Empty).Replace(".", "/");
+            string path = name.Replace("\\", "/")
+                .Replace(";", string.Empty)
+                .Replace(".", "/")
+                .Replace(" ", string.Empty);
             string directory = VFS.GetDirectoryName(file)
                 .Replace("\\", "/")
                 .Replace("../", string.Empty)
-                .Replace(".", "/");
+                .Replace(".", "/")
+                .Replace(" ", string.Empty);
             if (path == directory)
                 success++;
             else
             {
                 fail++;
                 NotificationService.Add(
-                    new Notification(NativeLogLevel.Error, "analyzer.error.namespace", [VFS.GetFileName(file), name])
+                    new(NativeLogLevel.Error, "analyzer.error.namespace", [VFS.GetFileName(file), name])
                 );
             }
         }
 
         NotificationService.Add(
-            new Notification(
+            new(
                 NativeLogLevel.Info,
                 "analyzer.output",
                 [nameof(NamespaceAnalyzer), success.ToString(), fail.ToString(), files.Length.ToString()]
             )
         );
     }
+
+    [GeneratedRegex(@"(?<=namespace).*?;")]
+    private static partial Regex NamespaceRegex();
 }

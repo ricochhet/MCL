@@ -6,7 +6,6 @@ using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Models.MinecraftQuilt;
-using MCL.Core.Models.Services;
 using MCL.Core.Resolvers.MinecraftQuilt;
 using MCL.Core.Services.Launcher;
 using MCL.Core.Web.MinecraftQuilt;
@@ -69,9 +68,7 @@ public class MCQuiltLoaderDownloadService : IFabricLoaderDownloadService<MCQuilt
 
         if (!await QuiltIndexDownloader.Download(LauncherPath, QuiltConfigUrls))
         {
-            NotificationService.Add(
-                new Notification(NativeLogLevel.Error, "error.download", [nameof(QuiltIndexDownloader)])
-            );
+            NotificationService.Add(new(NativeLogLevel.Error, "error.download", [nameof(QuiltIndexDownloader)]));
             return false;
         }
 
@@ -86,7 +83,7 @@ public class MCQuiltLoaderDownloadService : IFabricLoaderDownloadService<MCQuilt
         QuiltIndex = Json.Load<MCQuiltIndex>(MinecraftQuiltPathResolver.DownloadedIndexPath(LauncherPath));
         if (QuiltIndex == null)
         {
-            NotificationService.Add(new Notification(NativeLogLevel.Error, "error.readfile", [nameof(MCQuiltIndex)]));
+            NotificationService.Add(new(NativeLogLevel.Error, "error.readfile", [nameof(MCQuiltIndex)]));
             return false;
         }
 
@@ -100,9 +97,7 @@ public class MCQuiltLoaderDownloadService : IFabricLoaderDownloadService<MCQuilt
 
         if (!await QuiltProfileDownloader.Download(LauncherPath, LauncherVersion, QuiltConfigUrls))
         {
-            NotificationService.Add(
-                new Notification(NativeLogLevel.Error, "error.download", [nameof(QuiltProfileDownloader)])
-            );
+            NotificationService.Add(new(NativeLogLevel.Error, "error.download", [nameof(QuiltProfileDownloader)]));
             return false;
         }
 
@@ -119,7 +114,7 @@ public class MCQuiltLoaderDownloadService : IFabricLoaderDownloadService<MCQuilt
         );
         if (QuiltProfile == null)
         {
-            NotificationService.Add(new Notification(NativeLogLevel.Error, "error.download", [nameof(MCQuiltProfile)]));
+            NotificationService.Add(new(NativeLogLevel.Error, "error.download", [nameof(MCQuiltProfile)]));
             return false;
         }
 
@@ -135,11 +130,7 @@ public class MCQuiltLoaderDownloadService : IFabricLoaderDownloadService<MCQuilt
         if (quiltLoader == null)
         {
             NotificationService.Add(
-                new Notification(
-                    NativeLogLevel.Error,
-                    "error.parse",
-                    [LauncherVersion?.QuiltLoaderVersion, nameof(MCQuiltLoader)]
-                )
+                new(NativeLogLevel.Error, "error.parse", [LauncherVersion?.QuiltLoaderVersion, nameof(MCQuiltLoader)])
             );
             return false;
         }
@@ -154,9 +145,7 @@ public class MCQuiltLoaderDownloadService : IFabricLoaderDownloadService<MCQuilt
 
         if (!await QuiltLoaderDownloader.Download(LauncherPath, LauncherVersion, QuiltProfile, QuiltConfigUrls))
         {
-            NotificationService.Add(
-                new Notification(NativeLogLevel.Error, "error.download", [nameof(QuiltLoaderDownloader)])
-            );
+            NotificationService.Add(new(NativeLogLevel.Error, "error.download", [nameof(QuiltLoaderDownloader)]));
             return false;
         }
 

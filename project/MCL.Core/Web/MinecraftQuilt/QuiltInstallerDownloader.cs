@@ -5,7 +5,6 @@ using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Models.MinecraftQuilt;
-using MCL.Core.Models.Services;
 using MCL.Core.Resolvers.MinecraftQuilt;
 using MCL.Core.Services.Launcher;
 
@@ -29,9 +28,7 @@ public class QuiltInstallerDownloader : IFabricInstallerDownloader<MCQuiltInstal
         // Quilt does not provide a file hash through the current method. We do simple check of the version instead.
         if (VFS.Exists(quiltInstallerPath))
         {
-            NotificationService.Add(
-                new Notification(NativeLogLevel.Info, "quilt.installer-exists", [quiltInstaller?.Version])
-            );
+            NotificationService.Add(new(NativeLogLevel.Info, "quilt.installer-exists", [quiltInstaller?.Version]));
             return true;
         }
 

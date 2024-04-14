@@ -7,7 +7,6 @@ using MCL.Core.MiniCommon;
 using MCL.Core.Models.Java;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Models.Minecraft;
-using MCL.Core.Models.Services;
 using MCL.Core.Resolvers.Java;
 using MCL.Core.Services.Launcher;
 using MCL.Core.Web.Java;
@@ -61,9 +60,7 @@ public class JavaDownloadService : IJavaDownloadService, IDownloadService
     {
         if (!await JavaRuntimeIndexDownloader.Download(LauncherPath, ConfigUrls))
         {
-            NotificationService.Add(
-                new Notification(NativeLogLevel.Error, "error.download", [nameof(JavaRuntimeIndexDownloader)])
-            );
+            NotificationService.Add(new(NativeLogLevel.Error, "error.download", [nameof(JavaRuntimeIndexDownloader)]));
             return false;
         }
 
@@ -76,7 +73,7 @@ public class JavaDownloadService : IJavaDownloadService, IDownloadService
         if (JavaRuntimeIndex == null)
         {
             NotificationService.Add(
-                new Notification(NativeLogLevel.Error, "error.readfile", [nameof(Models.Java.JavaRuntimeIndex)])
+                new(NativeLogLevel.Error, "error.readfile", [nameof(Models.Java.JavaRuntimeIndex)])
             );
             return false;
         }
@@ -96,7 +93,7 @@ public class JavaDownloadService : IJavaDownloadService, IDownloadService
         )
         {
             NotificationService.Add(
-                new Notification(NativeLogLevel.Error, "error.download", [nameof(JavaRuntimeManifestDownloader)])
+                new(NativeLogLevel.Error, "error.download", [nameof(JavaRuntimeManifestDownloader)])
             );
             return false;
         }
@@ -114,9 +111,7 @@ public class JavaDownloadService : IJavaDownloadService, IDownloadService
         );
         if (JavaRuntimeFiles == null)
         {
-            NotificationService.Add(
-                new Notification(NativeLogLevel.Error, "error.readfile", [nameof(JavaRuntimeManifest)])
-            );
+            NotificationService.Add(new(NativeLogLevel.Error, "error.readfile", [nameof(JavaRuntimeManifest)]));
             return false;
         }
 
@@ -127,9 +122,7 @@ public class JavaDownloadService : IJavaDownloadService, IDownloadService
     {
         if (!await JavaRuntimeDownloader.Download(LauncherPath, JavaRuntimeType, JavaRuntimeFiles))
         {
-            NotificationService.Add(
-                new Notification(NativeLogLevel.Error, "error.download", [nameof(JavaRuntimeDownloader)])
-            );
+            NotificationService.Add(new(NativeLogLevel.Error, "error.download", [nameof(JavaRuntimeDownloader)]));
             return false;
         }
 

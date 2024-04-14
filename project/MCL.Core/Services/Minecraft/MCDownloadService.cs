@@ -7,7 +7,6 @@ using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Models.Minecraft;
-using MCL.Core.Models.Services;
 using MCL.Core.Resolvers.Minecraft;
 using MCL.Core.Services.Launcher;
 using MCL.Core.Web.Minecraft;
@@ -102,9 +101,7 @@ public class MCDownloadService : IMCDownloadService, IDownloadService
 
         if (!await VersionManifestDownloader.Download(LauncherPath, ConfigUrls))
         {
-            NotificationService.Add(
-                new Notification(NativeLogLevel.Error, "error.download", [nameof(MCVersionManifest)])
-            );
+            NotificationService.Add(new(NativeLogLevel.Error, "error.download", [nameof(MCVersionManifest)]));
             return false;
         }
 
@@ -121,9 +118,7 @@ public class MCDownloadService : IMCDownloadService, IDownloadService
         );
         if (VersionManifest == null)
         {
-            NotificationService.Add(
-                new Notification(NativeLogLevel.Error, "error.readfile", [nameof(MCVersionManifest)])
-            );
+            NotificationService.Add(new(NativeLogLevel.Error, "error.readfile", [nameof(MCVersionManifest)]));
             return false;
         }
 
@@ -139,7 +134,7 @@ public class MCDownloadService : IMCDownloadService, IDownloadService
         if (Version == null)
         {
             NotificationService.Add(
-                new Notification(NativeLogLevel.Error, "error.parse", [LauncherVersion?.Version, nameof(MCVersion)])
+                new(NativeLogLevel.Error, "error.parse", [LauncherVersion?.Version, nameof(MCVersion)])
             );
             return false;
         }
@@ -154,9 +149,7 @@ public class MCDownloadService : IMCDownloadService, IDownloadService
 
         if (!await VersionDetailsDownloader.Download(LauncherPath, Version))
         {
-            NotificationService.Add(
-                new Notification(NativeLogLevel.Error, "error.download", [nameof(VersionDetailsDownloader)])
-            );
+            NotificationService.Add(new(NativeLogLevel.Error, "error.download", [nameof(VersionDetailsDownloader)]));
             return false;
         }
 
@@ -173,9 +166,7 @@ public class MCDownloadService : IMCDownloadService, IDownloadService
         );
         if (VersionDetails == null)
         {
-            NotificationService.Add(
-                new Notification(NativeLogLevel.Error, "error.readfile", [nameof(MCVersionDetails)])
-            );
+            NotificationService.Add(new(NativeLogLevel.Error, "error.readfile", [nameof(MCVersionDetails)]));
             return false;
         }
 
@@ -189,9 +180,7 @@ public class MCDownloadService : IMCDownloadService, IDownloadService
 
         if (!await LibraryDownloader.Download(LauncherPath, Platform, VersionDetails))
         {
-            NotificationService.Add(
-                new Notification(NativeLogLevel.Error, "error.download", [nameof(LibraryDownloader)])
-            );
+            NotificationService.Add(new(NativeLogLevel.Error, "error.download", [nameof(LibraryDownloader)]));
             return false;
         }
 
@@ -205,9 +194,7 @@ public class MCDownloadService : IMCDownloadService, IDownloadService
 
         if (!await ClientDownloader.Download(LauncherPath, VersionDetails))
         {
-            NotificationService.Add(
-                new Notification(NativeLogLevel.Error, "error.download", [nameof(ClientDownloader)])
-            );
+            NotificationService.Add(new(NativeLogLevel.Error, "error.download", [nameof(ClientDownloader)]));
             return false;
         }
 
@@ -221,9 +208,7 @@ public class MCDownloadService : IMCDownloadService, IDownloadService
 
         if (!await ClientMappingsDownloader.Download(LauncherPath, VersionDetails))
         {
-            NotificationService.Add(
-                new Notification(NativeLogLevel.Error, "error.download", [nameof(ClientMappingsDownloader)])
-            );
+            NotificationService.Add(new(NativeLogLevel.Error, "error.download", [nameof(ClientMappingsDownloader)]));
             return false;
         }
 
@@ -237,9 +222,7 @@ public class MCDownloadService : IMCDownloadService, IDownloadService
 
         if (!await ServerDownloader.Download(LauncherPath, VersionDetails))
         {
-            NotificationService.Add(
-                new Notification(NativeLogLevel.Error, "error.download", [nameof(ServerDownloader)])
-            );
+            NotificationService.Add(new(NativeLogLevel.Error, "error.download", [nameof(ServerDownloader)]));
             return false;
         }
 
@@ -253,9 +236,7 @@ public class MCDownloadService : IMCDownloadService, IDownloadService
 
         if (!await ServerMappingsDownloader.Download(LauncherPath, VersionDetails))
         {
-            NotificationService.Add(
-                new Notification(NativeLogLevel.Error, "error.download", [nameof(ServerMappingsDownloader)])
-            );
+            NotificationService.Add(new(NativeLogLevel.Error, "error.download", [nameof(ServerMappingsDownloader)]));
             return false;
         }
 
@@ -269,9 +250,7 @@ public class MCDownloadService : IMCDownloadService, IDownloadService
 
         if (!await IndexDownloader.Download(LauncherPath, VersionDetails))
         {
-            NotificationService.Add(
-                new Notification(NativeLogLevel.Error, "error.download", [nameof(IndexDownloader)])
-            );
+            NotificationService.Add(new(NativeLogLevel.Error, "error.download", [nameof(IndexDownloader)]));
             return false;
         }
 
@@ -286,7 +265,7 @@ public class MCDownloadService : IMCDownloadService, IDownloadService
         Assets = Json.Load<MCAssetsData>(MinecraftPathResolver.ClientIndexPath(LauncherPath, VersionDetails));
         if (Assets == null)
         {
-            NotificationService.Add(new Notification(NativeLogLevel.Error, "error.readfile", [nameof(MCAssetsData)]));
+            NotificationService.Add(new(NativeLogLevel.Error, "error.readfile", [nameof(MCAssetsData)]));
             return false;
         }
 
@@ -300,9 +279,7 @@ public class MCDownloadService : IMCDownloadService, IDownloadService
 
         if (!await ResourceDownloader.Download(LauncherPath, ConfigUrls, Assets))
         {
-            NotificationService.Add(
-                new Notification(NativeLogLevel.Error, "error.download", [nameof(ResourceDownloader)])
-            );
+            NotificationService.Add(new(NativeLogLevel.Error, "error.download", [nameof(ResourceDownloader)]));
             return false;
         }
 
@@ -316,9 +293,7 @@ public class MCDownloadService : IMCDownloadService, IDownloadService
 
         if (!await LoggingDownloader.Download(LauncherPath, VersionDetails))
         {
-            NotificationService.Add(
-                new Notification(NativeLogLevel.Error, "error.download", [nameof(LoggingDownloader)])
-            );
+            NotificationService.Add(new(NativeLogLevel.Error, "error.download", [nameof(LoggingDownloader)]));
             return false;
         }
 

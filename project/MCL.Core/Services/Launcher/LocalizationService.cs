@@ -25,7 +25,7 @@ public static class LocalizationService
             Loaded = true;
         else
             NotificationService.Add(
-                new Notification(
+                new(
                     NativeLogLevel.Error,
                     "error.readfile",
                     [LocalizationPathResolver.LanguageFilePath(launcherPath, language)]

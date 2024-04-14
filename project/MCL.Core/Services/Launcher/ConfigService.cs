@@ -4,7 +4,6 @@ using System.Text.Json;
 using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
-using MCL.Core.Models.Services;
 
 namespace MCL.Core.Services.Launcher;
 
@@ -29,7 +28,7 @@ public static class ConfigService
     {
         if (!VFS.Exists(ConfigFilePath))
         {
-            NotificationService.Add(new Notification(NativeLogLevel.Info, "launcher.config.setup"));
+            NotificationService.Add(new(NativeLogLevel.Info, "launcher.config.setup"));
             Config config =
                 new()
                 {
@@ -68,15 +67,11 @@ public static class ConfigService
             if (inputJson != null)
                 return inputJson;
 
-            NotificationService.Add(
-                new Notification(NativeLogLevel.Error, "launcher.config.missing", [ConfigFileName, DataPath])
-            );
+            NotificationService.Add(new(NativeLogLevel.Error, "launcher.config.missing", [ConfigFileName, DataPath]));
             return null;
         }
 
-        NotificationService.Add(
-            new Notification(NativeLogLevel.Error, "launcher.config.missing", [ConfigFileName, DataPath])
-        );
+        NotificationService.Add(new(NativeLogLevel.Error, "launcher.config.missing", [ConfigFileName, DataPath]));
         return null;
     }
 }
