@@ -6,6 +6,7 @@ using MCL.Core.Enums.Java;
 using MCL.Core.Enums.Services;
 using MCL.Core.Extensions;
 using MCL.Core.Helpers.Java;
+using MCL.Core.Helpers.Launcher;
 using MCL.Core.Helpers.Minecraft;
 using MCL.Core.Helpers.MinecraftFabric;
 using MCL.Core.Helpers.MinecraftQuilt;
@@ -35,11 +36,11 @@ internal static class Program
         MCLauncherUsername launcherUsername = new(username: "Player1337");
         MCLauncherPath launcherPath =
             new(
-                path: "./.minecraft",
-                modPath: "./mods",
-                fabricInstallerPath: "./fabric",
-                quiltInstallerPath: "./quilt",
-                languageLocalizationPath: "./localization"
+                path: LaunchPathHelper.Path,
+                modPath: LaunchPathHelper.ModPath,
+                fabricInstallerPath: LaunchPathHelper.FabricInstallerPath,
+                quiltInstallerPath: LaunchPathHelper.QuiltInstallerPath,
+                languageLocalizationPath: LaunchPathHelper.LanguageLocalizationPath
             );
         MCLauncherVersion launcherVersion =
             new(

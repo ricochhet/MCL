@@ -1,6 +1,7 @@
 using System;
 using MCL.CodeAnalyzers.Analyzers;
 using MCL.Core.Enums.Services;
+using MCL.Core.Helpers.Launcher;
 using MCL.Core.Logger;
 using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon;
@@ -22,7 +23,7 @@ internal static class Program
                 modPath: string.Empty,
                 fabricInstallerPath: string.Empty,
                 quiltInstallerPath: string.Empty,
-                languageLocalizationPath: "./.localization"
+                languageLocalizationPath: LaunchPathHelper.LanguageLocalizationPath
             );
         LocalizationService.Init(launcherPath, Language.ENGLISH);
         NotificationService.Init(
