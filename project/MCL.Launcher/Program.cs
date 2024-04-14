@@ -33,6 +33,7 @@ internal static class Program
     {
         Console.Title = "MCL.Launcher";
         Log.Add(new NativeLogger());
+        Log.Add(new FileStreamLogger(ConfigService.LogFilePath));
         MCLauncherUsername launcherUsername = new(username: "Player1337");
         MCLauncherPath launcherPath =
             new(
@@ -93,6 +94,11 @@ internal static class Program
 
         SevenZipService.Init(config.SevenZipConfig);
         ModdingService.Init(launcherPath, config.ModConfig);
+
+        for (int i = 0; i < 100; i++)
+        {
+            NotificationService.Add(new Notification(NativeLogLevel.Info, "log", [$"I: {i}"]));
+        }
 
         if (args.Length <= 0)
             return;
