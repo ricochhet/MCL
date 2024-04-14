@@ -12,7 +12,9 @@ public static class StringHelper
             if (trimmedLine.StartsWith(start))
             {
                 string[] parts = trimmedLine.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-                return parts[index].TrimEnd(end);
+                if (parts.Length >= index + 1)
+                    return parts[index].TrimEnd(end);
+                return string.Empty;
             }
         }
 

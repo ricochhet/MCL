@@ -10,39 +10,91 @@ public static class CommandLine
 {
     public static void ProcessArgument<T>(string[] args, string flag, Action<T> action)
     {
-        int index = Array.IndexOf(args, flag);
-        if (index != -1)
+        try
         {
-            T value = (T)Convert.ChangeType(args[index + 1], typeof(T));
-            action(value);
+            int index = Array.IndexOf(args, flag);
+            if (index != -1)
+            {
+                T value = (T)Convert.ChangeType(args[index + 1], typeof(T));
+                action(value);
+            }
+        }
+        catch (Exception ex)
+        {
+            NotificationService.Add(
+                new Notification(
+                    NativeLogLevel.Error,
+                    "log.stack.trace",
+                    [ex.Message, ex.StackTrace ?? LocalizationService.Translate("stack.trace.null")]
+                )
+            );
         }
     }
 
     public static void ProcessArgument(string[] args, string flag, Action action)
     {
-        int index = Array.IndexOf(args, flag);
-        if (index != -1)
+        try
         {
-            action();
+            int index = Array.IndexOf(args, flag);
+            if (index != -1)
+            {
+                action();
+            }
+        }
+        catch (Exception ex)
+        {
+            NotificationService.Add(
+                new Notification(
+                    NativeLogLevel.Error,
+                    "log.stack.trace",
+                    [ex.Message, ex.StackTrace ?? LocalizationService.Translate("stack.trace.null")]
+                )
+            );
         }
     }
 
     public static async Task ProcessArgumentAsync<T>(string[] args, string flag, Func<T, Task> action)
     {
-        int index = Array.IndexOf(args, flag);
-        if (index != -1)
+        try
         {
-            T value = (T)Convert.ChangeType(args[index + 1], typeof(T));
-            await action(value);
+            int index = Array.IndexOf(args, flag);
+            if (index != -1)
+            {
+                T value = (T)Convert.ChangeType(args[index + 1], typeof(T));
+                await action(value);
+            }
+        }
+        catch (Exception ex)
+        {
+            NotificationService.Add(
+                new Notification(
+                    NativeLogLevel.Error,
+                    "log.stack.trace",
+                    [ex.Message, ex.StackTrace ?? LocalizationService.Translate("stack.trace.null")]
+                )
+            );
         }
     }
 
     public static async Task ProcessArgumentAsync(string[] args, string flag, Func<Task> action)
     {
-        int index = Array.IndexOf(args, flag);
-        if (index != -1)
+        try
         {
-            await action();
+            int index = Array.IndexOf(args, flag);
+            if (index != -1)
+            {
+                await action();
+            }
+        }
+        catch (Exception ex)
+        {
+            NotificationService.Add(
+                new Notification(
+                    NativeLogLevel.Error,
+                    "log.stack.trace",
+                    [ex.Message, ex.StackTrace ?? LocalizationService.Translate("stack.trace.null")]
+                )
+            );
         }
     }
 
