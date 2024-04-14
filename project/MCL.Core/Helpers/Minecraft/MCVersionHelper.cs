@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using MCL.Core.Handlers.Minecraft;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
@@ -8,6 +10,20 @@ namespace MCL.Core.Helpers.Minecraft;
 
 public static class MCVersionHelper
 {
+    public static List<string> GetVersionIds(MCVersionManifest versionManifest)
+    {
+        if (!MCVersionHelperErr.Exists(versionManifest))
+            return [];
+
+        List<string> versions = [];
+        foreach (MCVersion item in versionManifest.Versions)
+        {
+            versions.Add(item.ID);
+        }
+
+        return versions;
+    }
+
     public static MCVersion GetVersion(MCLauncherVersion launcherVersion, MCVersionManifest versionManifest)
     {
         if (!MCLauncherVersion.Exists(launcherVersion))

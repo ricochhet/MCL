@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using MCL.Core.Handlers.MinecraftFabric;
 using MCL.Core.Interfaces.Helpers.MinecraftFabric;
 using MCL.Core.Models.Launcher;
@@ -7,6 +8,34 @@ namespace MCL.Core.Helpers.MinecraftFabric;
 
 public class MCFabricVersionHelper : IMCFabricVersionHelper<MCFabricInstaller, MCFabricLoader, MCFabricIndex>
 {
+    public static List<string> GetInstallerVersionIds(MCFabricIndex index)
+    {
+        if (!MCFabricVersionHelperErr.Exists(index))
+            return [];
+
+        List<string> versions = [];
+        foreach (MCFabricInstaller item in index.Installer)
+        {
+            versions.Add(item.Version);
+        }
+
+        return versions;
+    }
+
+    public static List<string> GetLoaderVersionIds(MCFabricIndex index)
+    {
+        if (!MCFabricVersionHelperErr.Exists(index))
+            return [];
+
+        List<string> versions = [];
+        foreach (MCFabricLoader item in index.Loader)
+        {
+            versions.Add(item.Version);
+        }
+
+        return versions;
+    }
+
     public static MCFabricInstaller GetInstallerVersion(MCLauncherVersion installerVersion, MCFabricIndex index)
     {
         if (!MCLauncherVersion.Exists(installerVersion))

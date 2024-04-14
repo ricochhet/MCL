@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using MCL.Core.Handlers.MinecraftQuilt;
 using MCL.Core.Interfaces.Helpers.MinecraftFabric;
 using MCL.Core.Models.Launcher;
@@ -7,6 +8,34 @@ namespace MCL.Core.Helpers.MinecraftQuilt;
 
 public class MCQuiltVersionHelper : IMCFabricVersionHelper<MCQuiltInstaller, MCQuiltLoader, MCQuiltIndex>
 {
+    public static List<string> GetInstallerVersionIds(MCQuiltIndex index)
+    {
+        if (!MCQuiltVersionHelperErr.Exists(index))
+            return [];
+
+        List<string> versions = [];
+        foreach (MCQuiltInstaller item in index.Installer)
+        {
+            versions.Add(item.Version);
+        }
+
+        return versions;
+    }
+
+    public static List<string> GetLoaderVersionIds(MCQuiltIndex index)
+    {
+        if (!MCQuiltVersionHelperErr.Exists(index))
+            return [];
+
+        List<string> versions = [];
+        foreach (MCQuiltLoader item in index.Loader)
+        {
+            versions.Add(item.Version);
+        }
+
+        return versions;
+    }
+
     public static MCQuiltInstaller GetInstallerVersion(MCLauncherVersion installerVersion, MCQuiltIndex index)
     {
         if (!MCLauncherVersion.Exists(installerVersion))
