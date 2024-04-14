@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using MCL.Core.Handlers.MinecraftFabric;
 using MCL.Core.Interfaces.Web.MinecraftFabric;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;

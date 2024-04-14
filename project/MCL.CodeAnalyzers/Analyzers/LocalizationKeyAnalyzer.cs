@@ -1,12 +1,11 @@
-using System;
-using System.Collections.Generic;
 using System.IO;
+using MCL.Core.Helpers;
 using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Services;
 using MCL.Core.Services.Launcher;
 
-namespace MCL.Core.Analyzers;
+namespace MCL.CodeAnalyzers.Analyzers;
 
 public static class LocalizationKeyAnalyzer
 {
@@ -22,7 +21,9 @@ public static class LocalizationKeyAnalyzer
         foreach (string file in files)
         {
             string[] lines = VFS.ReadAllLines(file);
-            string name = Search(lines).Replace("\"", string.Empty);
+            string name = StringHelper
+                .Search(lines, "new Notification(NativeLogLevel", ',', 2)
+                .Replace("\"", string.Empty);
 
             if (file.Contains("AssemblyInfo") || file.Contains("AssemblyAttributes"))
                 continue;
@@ -31,27 +32,20 @@ public static class LocalizationKeyAnalyzer
             if (!localization.Entries.ContainsKey(name))
             {
                 fail++;
-                NotificationService.Add(new Notification(NativeLogLevel.Error, "analyzer.error.localization", [file, name]));
+                NotificationService.Add(
+                    new Notification(NativeLogLevel.Error, "analyzer.error.localization", [file, name])
+                );
             }
             else
                 success++;
         }
 
-        NotificationService.Add(new Notification(NativeLogLevel.Info, "analyzer.output", [nameof(LocalizationKeyAnalyzer), success.ToString(), fail.ToString(), files.Length.ToString()]));
-    }
-
-    private static string Search(string[] lines)
-    {
-        foreach (string line in lines)
-        {
-            string trimmedLine = line.Trim();
-            if (trimmedLine.StartsWith("new Notification(NativeLogLevel"))
-            {
-                string[] parts = trimmedLine.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-                return parts[2].TrimEnd(',');
-            }
-        }
-
-        return string.Empty;
+        NotificationService.Add(
+            new Notification(
+                NativeLogLevel.Info,
+                "analyzer.output",
+                [nameof(LocalizationKeyAnalyzer), success.ToString(), fail.ToString(), files.Length.ToString()]
+            )
+        );
     }
 }

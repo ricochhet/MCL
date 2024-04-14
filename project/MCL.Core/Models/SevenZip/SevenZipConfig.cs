@@ -1,4 +1,4 @@
-namespace MCL.Core.Models.Java;
+namespace MCL.Core.Models.SevenZip;
 
 public class SevenZipConfig
 {

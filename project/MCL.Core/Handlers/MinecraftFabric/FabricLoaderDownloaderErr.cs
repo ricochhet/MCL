@@ -1,7 +1,7 @@
 using MCL.Core.Interfaces;
 using MCL.Core.Models.MinecraftFabric;
 
-namespace MCL.Core.Web.MinecraftFabric;
+namespace MCL.Core.Handlers.MinecraftFabric;
 
 public class FabricLoaderDownloaderErr
     : IErrorHandleItems<MCFabricProfile, MCFabricConfigUrls>,

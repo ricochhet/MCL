@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace MCL.Core.Services.Modding;
+namespace MCL.Core.Models.Modding;
 
 public class ModFiles
 {

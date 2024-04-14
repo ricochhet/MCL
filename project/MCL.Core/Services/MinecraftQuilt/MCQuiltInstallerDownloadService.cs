@@ -11,7 +11,7 @@ using MCL.Core.Resolvers.MinecraftQuilt;
 using MCL.Core.Services.Launcher;
 using MCL.Core.Web.MinecraftQuilt;
 
-namespace MCL.Core.Providers.MinecraftQuilt;
+namespace MCL.Core.Services.MinecraftQuilt;
 
 public class MCQuiltInstallerDownloadService : IFabricInstallerDownloadService<MCQuiltConfigUrls>, IDownloadService
 {

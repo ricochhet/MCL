@@ -1,7 +1,7 @@
 using MCL.Core.Interfaces;
 using MCL.Core.Models.MinecraftQuilt;
 
-namespace MCL.Core.Web.MinecraftQuilt;
+namespace MCL.Core.Handlers.MinecraftQuilt;
 
 public class QuiltLoaderDownloaderErr
     : IErrorHandleItems<MCQuiltProfile, MCQuiltConfigUrls>,

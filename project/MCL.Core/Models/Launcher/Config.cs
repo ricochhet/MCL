@@ -2,7 +2,8 @@ using MCL.Core.Models.Java;
 using MCL.Core.Models.Minecraft;
 using MCL.Core.Models.MinecraftFabric;
 using MCL.Core.Models.MinecraftQuilt;
-using MCL.Core.Services.Modding;
+using MCL.Core.Models.Modding;
+using MCL.Core.Models.SevenZip;
 
 namespace MCL.Core.Models.Launcher;
 

@@ -1,9 +1,9 @@
 using System;
 using MCL.Core.Helpers;
-using MCL.Core.Models.Java;
+using MCL.Core.Models.SevenZip;
 using MCL.Core.Resolvers.SevenZip;
 
-namespace MCL.Core.Service.SevenZip;
+namespace MCL.Core.Services.SevenZip;
 
 public static class SevenZipService
 {

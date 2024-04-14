@@ -1,7 +1,6 @@
 using System;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using MCL.Core.Analyzers;
 using MCL.Core.Enums;
 using MCL.Core.Enums.Java;
 using MCL.Core.Enums.Services;
@@ -16,13 +15,13 @@ using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Models.Services;
 using MCL.Core.Models.Web;
-using MCL.Core.Providers.MinecraftFabric;
-using MCL.Core.Providers.MinecraftQuilt;
-using MCL.Core.Service.SevenZip;
 using MCL.Core.Services.Java;
 using MCL.Core.Services.Launcher;
 using MCL.Core.Services.Minecraft;
+using MCL.Core.Services.MinecraftFabric;
+using MCL.Core.Services.MinecraftQuilt;
 using MCL.Core.Services.Modding;
+using MCL.Core.Services.SevenZip;
 using MCL.Core.Services.Web;
 
 namespace MCL.Launcher;
@@ -96,16 +95,6 @@ internal static class Program
 
         if (args.Length <= 0)
             return;
-
-        CommandLine.ProcessArgument(
-            args,
-            "--analyze",
-            (string value) =>
-            {
-                NamespaceAnalyzer.Analyze(value);
-                LocalizationKeyAnalyzer.Analyze(value, LocalizationService.Localization);
-            }
-        );
 
         await CommandLine.ProcessArgumentAsync(
             args,

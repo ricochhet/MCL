@@ -1,6 +1,6 @@
 using MCL.Core.Enums.Services;
 
-namespace MCL.Core.Services.Modding;
+namespace MCL.Core.Models.Modding;
 
 public class ModFile
 {

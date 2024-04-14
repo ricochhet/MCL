@@ -8,10 +8,11 @@ using MCL.Core.Helpers;
 using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
+using MCL.Core.Models.Modding;
 using MCL.Core.Models.Services;
 using MCL.Core.Resolvers.Modding;
-using MCL.Core.Service.SevenZip;
 using MCL.Core.Services.Launcher;
+using MCL.Core.Services.SevenZip;
 
 namespace MCL.Core.Services.Modding;
 

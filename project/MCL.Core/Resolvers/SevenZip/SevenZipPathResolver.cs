@@ -1,5 +1,5 @@
 using MCL.Core.MiniCommon;
-using MCL.Core.Models.Java;
+using MCL.Core.Models.SevenZip;
 using MCL.Core.Services.Launcher;
 
 namespace MCL.Core.Resolvers.SevenZip;

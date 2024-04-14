@@ -11,7 +11,7 @@ using MCL.Core.Resolvers.MinecraftFabric;
 using MCL.Core.Services.Launcher;
 using MCL.Core.Web.MinecraftFabric;
 
-namespace MCL.Core.Providers.MinecraftFabric;
+namespace MCL.Core.Services.MinecraftFabric;
 
 public class MCFabricInstallerDownloadService : IFabricInstallerDownloadService<MCFabricConfigUrls>, IDownloadService
 {
