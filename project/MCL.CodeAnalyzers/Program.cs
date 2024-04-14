@@ -8,7 +8,7 @@ using MCL.Core.Models.Launcher;
 using MCL.Core.Models.Services;
 using MCL.Core.Services.Launcher;
 
-namespace MCL.Launcher;
+namespace MCL.CodeAnalyzers;
 
 internal static class Program
 {
