@@ -9,9 +9,13 @@ public interface IMCLibraryDownloader
 {
     public static abstract Task<bool> Download(
         MCLauncherPath launcherPath,
-        Platform platform,
+        MCLauncherSettings launcherSettings,
         MCVersionDetails versionDetails
     );
-    public static abstract bool SkipLibrary(MCLibrary lib, Platform platform);
-    public static abstract Task<bool> DownloadNatives(MCLauncherPath launcherPath, MCLibrary lib, Platform platform);
+    public static abstract bool SkipLibrary(MCLibrary lib, MCLauncherSettings launcherSettings);
+    public static abstract Task<bool> DownloadNatives(
+        MCLauncherPath launcherPath,
+        MCLibrary lib,
+        MCLauncherSettings launcherSettings
+    );
 }

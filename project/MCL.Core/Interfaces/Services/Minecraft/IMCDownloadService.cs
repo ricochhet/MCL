@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using MCL.Core.Enums;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Models.Minecraft;
 
@@ -10,7 +9,7 @@ public interface IMCDownloadService
     public static abstract void Init(
         MCLauncherPath launcherPath,
         MCLauncherVersion launcherVersion,
-        Platform platform,
+        MCLauncherSettings launcherSettings,
         MCConfigUrls configUrls
     );
 

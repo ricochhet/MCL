@@ -10,28 +10,27 @@ namespace MCL.Core.Helpers.MinecraftQuilt;
 
 public class QuiltInstallerLaunchArgsHelper : IFabricLaunchArgsHelper
 {
-    public static JvmArguments Default(MCLauncher launcher, FabricInstallerType installerType)
+    public static JvmArguments Default(
+        MCLauncherPath launcherPath,
+        MCLauncherVersion launcherVersion,
+        FabricInstallerType installerType
+    )
     {
         JvmArguments jvmArguments = new();
         jvmArguments.Add(
             new LaunchArg(
                 "-jar \"{0}\"",
-                [
-                    MinecraftQuiltPathResolver.DownloadedInstallerPath(
-                        launcher.MCLauncherPath,
-                        launcher.MCLauncherVersion
-                    ),
-                ]
+                [MinecraftQuiltPathResolver.DownloadedInstallerPath(launcherPath, launcherVersion),]
             )
         );
         jvmArguments.Add(
             new LaunchArg(
                 $"install {FabricInstallerTypeResolver.ToString(installerType)} {0} {1}",
-                [launcher.MCLauncherVersion.Version, launcher.MCLauncherVersion.QuiltLoaderVersion]
+                [launcherVersion.Version, launcherVersion.QuiltLoaderVersion]
             )
         );
         jvmArguments.Add(installerType, FabricInstallerType.SERVER, new LaunchArg("--download-server"));
-        jvmArguments.Add(new LaunchArg("--install-dir=\"{0}\"", [launcher.MCLauncherPath.Path]));
+        jvmArguments.Add(new LaunchArg("--install-dir=\"{0}\"", [launcherPath.Path]));
         jvmArguments.Add(new LaunchArg("--no-profile"));
 
         return jvmArguments;

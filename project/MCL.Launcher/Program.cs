@@ -53,14 +53,12 @@ internal static class Program
                 quiltInstallerVersion: "0.9.1",
                 quiltLoaderVersion: "0.24.0"
             );
-        MCLauncher launcher =
+        MCLauncherSettings launcherSettings =
             new(
-                launcherUsername,
-                launcherPath,
-                launcherVersion,
                 LauncherType.RELEASE,
                 ClientType.FABRIC,
                 Platform.WINDOWS,
+                FabricInstallerType.CLIENT,
                 JavaRuntimeType.JAVA_RUNTIME_GAMMA,
                 JavaRuntimePlatform.WINDOWSX64
             );
@@ -105,13 +103,9 @@ internal static class Program
             async () =>
             {
                 JavaDownloadService.Init(
-                    launcher.MCLauncherPath,
+                    launcherPath,
                     config.MinecraftUrls,
-                    JavaVersionHelper.GetDownloadedMCVersionJava(
-                        launcher.MCLauncherPath,
-                        launcher.MCLauncherVersion,
-                        launcher.JavaRuntimeType
-                    ),
+                    JavaVersionHelper.GetDownloadedMCVersionJava(launcherPath, launcherVersion, launcherSettings),
                     JavaRuntimePlatform.WINDOWSX64
                 );
 
@@ -124,12 +118,7 @@ internal static class Program
             "--dl-minecraft",
             async () =>
             {
-                MCDownloadService.Init(
-                    launcher.MCLauncherPath,
-                    launcher.MCLauncherVersion,
-                    launcher.Platform,
-                    config.MinecraftUrls
-                );
+                MCDownloadService.Init(launcherPath, launcherVersion, launcherSettings, config.MinecraftUrls);
                 await MCDownloadService.Download();
             }
         );
@@ -149,18 +138,14 @@ internal static class Program
             "--dl-fabric-installer",
             async () =>
             {
-                MCFabricInstallerDownloadService.Init(
-                    launcher.MCLauncherPath,
-                    launcher.MCLauncherVersion,
-                    config.FabricUrls
-                );
+                MCFabricInstallerDownloadService.Init(launcherPath, launcherVersion, config.FabricUrls);
                 if (!await MCFabricInstallerDownloadService.Download())
                     return;
 
                 JavaLaunchHelper.Launch(
                     config,
-                    FabricInstallerLaunchArgsHelper.Default(launcher, FabricInstallerType.CLIENT),
-                    launcher.JavaRuntimeType
+                    FabricInstallerLaunchArgsHelper.Default(launcherPath, launcherVersion, FabricInstallerType.CLIENT),
+                    launcherSettings.JavaRuntimeType
                 );
             }
         );
@@ -180,18 +165,14 @@ internal static class Program
             "--dl-quilt-installer",
             async () =>
             {
-                MCQuiltInstallerDownloadService.Init(
-                    launcher.MCLauncherPath,
-                    launcher.MCLauncherVersion,
-                    config.QuiltUrls
-                );
+                MCQuiltInstallerDownloadService.Init(launcherPath, launcherVersion, config.QuiltUrls);
                 if (!await MCQuiltInstallerDownloadService.Download())
                     return;
 
                 JavaLaunchHelper.Launch(
                     config,
-                    QuiltInstallerLaunchArgsHelper.Default(launcher, FabricInstallerType.CLIENT),
-                    launcher.JavaRuntimeType
+                    QuiltInstallerLaunchArgsHelper.Default(launcherPath, launcherVersion, FabricInstallerType.CLIENT),
+                    launcherSettings.JavaRuntimeType
                 );
             }
         );
@@ -201,7 +182,7 @@ internal static class Program
             "--launch",
             () =>
             {
-                MinecraftLaunchHelper.Launch(launcher, config);
+                MinecraftLaunchHelper.Launch(launcherPath, launcherVersion, launcherSettings, launcherUsername, config);
             }
         );
 

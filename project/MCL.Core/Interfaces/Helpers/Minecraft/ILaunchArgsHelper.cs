@@ -5,5 +5,10 @@ namespace MCL.Core.Interfaces.Helpers.Minecraft;
 
 public interface ILaunchArgsHelper
 {
-    public static abstract JvmArguments Default(MCLauncher launcher);
+    public static abstract JvmArguments Default(
+        MCLauncherPath launcherPath,
+        MCLauncherVersion launcherVersion,
+        MCLauncherSettings launcherSettings,
+        MCLauncherUsername launcherUsername
+    );
 }

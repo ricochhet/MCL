@@ -6,5 +6,9 @@ namespace MCL.Core.Interfaces.Helpers.MinecraftFabric;
 
 public interface IFabricLaunchArgsHelper
 {
-    public static abstract JvmArguments Default(MCLauncher launcher, FabricInstallerType installerType);
+    public static abstract JvmArguments Default(
+        MCLauncherPath launcherPath,
+        MCLauncherVersion launcherVersion,
+        FabricInstallerType installerType
+    );
 }

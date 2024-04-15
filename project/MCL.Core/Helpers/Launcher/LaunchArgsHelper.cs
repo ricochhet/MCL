@@ -11,10 +11,15 @@ namespace MCL.Core.Helpers.Launcher;
 
 public class LaunchArgsHelper : ILaunchArgsHelper
 {
-    public static JvmArguments Default(MCLauncher launcher)
+    public static JvmArguments Default(
+        MCLauncherPath launcherPath,
+        MCLauncherVersion launcherVersion,
+        MCLauncherSettings launcherSettings,
+        MCLauncherUsername launcherUsername
+    )
     {
         JvmArguments jvmArguments = new();
-        string libraries = MinecraftPathResolver.Libraries(launcher.MCLauncherVersion);
+        string libraries = MinecraftPathResolver.Libraries(launcherVersion);
 
         jvmArguments.Add(new LaunchArg("-Xms{0}m", ["4096"]));
         jvmArguments.Add(new LaunchArg("-Xmx{0}m", ["4096"]));
@@ -29,36 +34,30 @@ public class LaunchArgsHelper : ILaunchArgsHelper
         );
         jvmArguments.Add(new LaunchArg("-Djava.library.path={0}", [libraries]));
         jvmArguments.Add(
-            new LaunchArg(
-                "-Dminecraft.client.jar={0}",
-                [MinecraftPathResolver.ClientLibrary(launcher.MCLauncherVersion)]
-            )
+            new LaunchArg("-Dminecraft.client.jar={0}", [MinecraftPathResolver.ClientLibrary(launcherVersion)])
         );
         jvmArguments.Add(new LaunchArg("-Djna.tmpdir={0}", [libraries]));
         jvmArguments.Add(new LaunchArg("-Dorg.lwjgl.system.SharedLibraryExtractPath={0}", [libraries]));
         jvmArguments.Add(new LaunchArg("-Dio.netty.native.workdir={0}", [libraries]));
         jvmArguments.Add(
-            launcher.LauncherType,
+            launcherSettings.LauncherType,
             LauncherType.DEBUG,
-            new LaunchArg(
-                "-Dlog4j2.configurationFile={0}",
-                [MinecraftPathResolver.LoggingPath(launcher.MCLauncherVersion)]
-            )
+            new LaunchArg("-Dlog4j2.configurationFile={0}", [MinecraftPathResolver.LoggingPath(launcherVersion)])
         );
         jvmArguments.Add(new LaunchArg("-Dminecraft.launcher.brand={0}", ["MCL"]));
         jvmArguments.Add(new LaunchArg("-Dminecraft.launcher.version={0}", ["1.0.0"]));
         jvmArguments.Add(
-            launcher.ClientType,
+            launcherSettings.ClientType,
             ClientType.VANILLA,
             new LaunchArg("-DMcEmu={0}", [ClientTypeResolver.ToString(ClientType.VANILLA)])
         );
         jvmArguments.Add(
-            launcher.ClientType,
+            launcherSettings.ClientType,
             ClientType.FABRIC,
             new LaunchArg("-DFabricMcEmu={0}", [ClientTypeResolver.ToString(ClientType.VANILLA)])
         );
         jvmArguments.Add(
-            launcher.ClientType,
+            launcherSettings.ClientType,
             ClientType.QUILT,
             new LaunchArg("-DFabricMcEmu={0}", [ClientTypeResolver.ToString(ClientType.VANILLA)])
         );
@@ -69,31 +68,22 @@ public class LaunchArgsHelper : ILaunchArgsHelper
             new LaunchArg(
                 "-cp {0} {1}",
                 [
-                    ClassPathHelper.CreateClassPath(
-                        launcher.MCLauncherPath,
-                        launcher.MCLauncherVersion,
-                        launcher.Platform
-                    ),
-                    ClientTypeResolver.ToString(launcher.ClientType)
+                    ClassPathHelper.CreateClassPath(launcherPath, launcherVersion, launcherSettings.Platform),
+                    ClientTypeResolver.ToString(launcherSettings.ClientType)
                 ]
             )
         );
-        jvmArguments.Add(new LaunchArg("--username {0}", [launcher.MCLauncherUsername.ValidateUsername()]));
+        jvmArguments.Add(new LaunchArg("--username {0}", [launcherUsername.ValidateUsername()]));
         jvmArguments.Add(new LaunchArg("--userType {0}", ["legacy"]));
         jvmArguments.Add(new LaunchArg("--gameDir {0}", ["."]));
-        jvmArguments.Add(
-            new LaunchArg(
-                "--assetIndex {0}",
-                [AssetHelper.GetAssetId(launcher.MCLauncherPath, launcher.MCLauncherVersion)]
-            )
-        );
+        jvmArguments.Add(new LaunchArg("--assetIndex {0}", [AssetHelper.GetAssetId(launcherPath, launcherVersion)]));
         jvmArguments.Add(new LaunchArg("--assetsDir {0}", ["assets"]));
         jvmArguments.Add(new LaunchArg("--accessToken {0}", ["1337535510N"]));
-        jvmArguments.Add(new LaunchArg("--uuid {0}", [launcher.MCLauncherUsername.UUID()]));
+        jvmArguments.Add(new LaunchArg("--uuid {0}", [launcherUsername.UUID()]));
         jvmArguments.Add(new LaunchArg("--clientId {0}", ["0"]));
         jvmArguments.Add(new LaunchArg("--xuid {0}", ["0"]));
-        jvmArguments.Add(new LaunchArg("--version {0}", [launcher.MCLauncherVersion.Version]));
-        jvmArguments.Add(new LaunchArg("--versionType {0}", [launcher.MCLauncherVersion.VersionType]));
+        jvmArguments.Add(new LaunchArg("--version {0}", [launcherVersion.Version]));
+        jvmArguments.Add(new LaunchArg("--versionType {0}", [launcherVersion.VersionType]));
 
         return jvmArguments;
     }

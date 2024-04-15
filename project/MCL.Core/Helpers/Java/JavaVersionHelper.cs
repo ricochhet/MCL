@@ -11,12 +11,12 @@ public static class JavaVersionHelper
     public static JavaRuntimeType GetDownloadedMCVersionJava(
         MCLauncherPath launcherPath,
         MCLauncherVersion launcherVersion,
-        JavaRuntimeType fallback
+        MCLauncherSettings launcherSettings
     )
     {
         MCVersionDetails versionDetails = MCVersionHelper.GetVersionDetails(launcherPath, launcherVersion);
         if (string.IsNullOrWhiteSpace(versionDetails?.JavaVersion?.Component))
-            return fallback;
+            return launcherSettings.JavaRuntimeType;
         return GenericEnumParser.Parse(versionDetails.JavaVersion.Component, JavaRuntimeType.JAVA_RUNTIME_GAMMA);
     }
 }

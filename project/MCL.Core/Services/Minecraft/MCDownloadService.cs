@@ -21,7 +21,7 @@ public class MCDownloadService : IMCDownloadService, IDownloadService
     private static MCAssetsData Assets;
     private static MCLauncherPath LauncherPath;
     private static MCLauncherVersion LauncherVersion;
-    private static Platform Platform;
+    private static MCLauncherSettings LauncherSettings;
     private static MCConfigUrls ConfigUrls;
     public static bool UseExistingIndex { get; set; } = false;
     public static bool IsOffline { get; set; } = false;
@@ -30,13 +30,13 @@ public class MCDownloadService : IMCDownloadService, IDownloadService
     public static void Init(
         MCLauncherPath launcherPath,
         MCLauncherVersion launcherVersion,
-        Platform platform,
+        MCLauncherSettings launcherSettings,
         MCConfigUrls configUrls
     )
     {
         LauncherPath = launcherPath;
         LauncherVersion = launcherVersion;
-        Platform = platform;
+        LauncherSettings = launcherSettings;
         ConfigUrls = configUrls;
         Loaded = true;
     }
@@ -178,7 +178,7 @@ public class MCDownloadService : IMCDownloadService, IDownloadService
         if (!Loaded)
             return false;
 
-        if (!await LibraryDownloader.Download(LauncherPath, Platform, VersionDetails))
+        if (!await LibraryDownloader.Download(LauncherPath, LauncherSettings, VersionDetails))
         {
             NotificationService.Add(new(NativeLogLevel.Error, "error.download", [nameof(LibraryDownloader)]));
             return false;

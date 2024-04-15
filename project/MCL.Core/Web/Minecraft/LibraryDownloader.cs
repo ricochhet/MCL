@@ -14,7 +14,7 @@ public class LibraryDownloader : IMCLibraryDownloader
 {
     public static async Task<bool> Download(
         MCLauncherPath launcherPath,
-        Platform platform,
+        MCLauncherSettings launcherSettings,
         MCVersionDetails versionDetails
     )
     {
@@ -30,10 +30,10 @@ public class LibraryDownloader : IMCLibraryDownloader
             if (lib.Downloads == null)
                 return false;
 
-            if (SkipLibrary(lib, platform))
+            if (SkipLibrary(lib, launcherSettings))
                 continue;
 
-            if (!await DownloadNatives(launcherPath, lib, platform))
+            if (!await DownloadNatives(launcherPath, lib, launcherSettings))
                 return false;
 
             if (!LibraryDownloaderErr.Exists(lib))
@@ -47,7 +47,7 @@ public class LibraryDownloader : IMCLibraryDownloader
         return true;
     }
 
-    public static bool SkipLibrary(MCLibrary lib, Platform platform)
+    public static bool SkipLibrary(MCLibrary lib, MCLauncherSettings launcherSettings)
     {
         if (lib.Rules == null)
             return false;
@@ -67,7 +67,7 @@ public class LibraryDownloader : IMCLibraryDownloader
                 continue;
             }
 
-            if (os == PlatformResolver.ToString(platform))
+            if (os == PlatformResolver.ToString(launcherSettings.Platform))
             {
                 allowLibrary = action == RuleResolver.ToString(Rule.ALLOW);
             }
@@ -76,7 +76,11 @@ public class LibraryDownloader : IMCLibraryDownloader
         return !allowLibrary;
     }
 
-    public static async Task<bool> DownloadNatives(MCLauncherPath launcherPath, MCLibrary lib, Platform platform)
+    public static async Task<bool> DownloadNatives(
+        MCLauncherPath launcherPath,
+        MCLibrary lib,
+        MCLauncherSettings launcherSettings
+    )
     {
         if (lib.Downloads.Classifiers == null)
             return true;
@@ -86,7 +90,7 @@ public class LibraryDownloader : IMCLibraryDownloader
         string classifierSha1 = string.Empty;
         string libraryPath = MinecraftPathResolver.LibraryPath(launcherPath);
 
-        switch (platform)
+        switch (launcherSettings.Platform)
         {
             case Platform.WINDOWS:
                 if (!LibraryNativesDownloaderErr.WindowsClassifierNativesExists(lib))
