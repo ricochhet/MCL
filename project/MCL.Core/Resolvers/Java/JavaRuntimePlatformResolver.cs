@@ -18,4 +18,17 @@ public static class JavaRuntimePlatformResolver
             JavaRuntimePlatform.WINDOWSX86 => "windows-x86",
             _ => throw new NotImplementedException(),
         };
+
+    public static string ToPlatformString(JavaRuntimePlatform type) =>
+        type switch
+        {
+            JavaRuntimePlatform.WINDOWSARM64 => "windows",
+            JavaRuntimePlatform.WINDOWSX64 => "windows",
+            JavaRuntimePlatform.WINDOWSX86 => "windows",
+            JavaRuntimePlatform.LINUX => "linux",
+            JavaRuntimePlatform.LINUXI386 => "linux",
+            JavaRuntimePlatform.MACOS => "osx",
+            JavaRuntimePlatform.MACOSARM64 => "osx",
+            _ => throw new NotImplementedException(),
+        };
 }

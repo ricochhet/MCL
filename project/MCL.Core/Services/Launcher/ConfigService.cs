@@ -57,7 +57,6 @@ public static class ConfigService
                     LauncherSettings = new(
                         LauncherType.RELEASE,
                         ClientType.FABRIC,
-                        Platform.WINDOWS,
                         FabricInstallerType.CLIENT,
                         JavaRuntimeType.JAVA_RUNTIME_GAMMA,
                         JavaRuntimePlatform.WINDOWSX64

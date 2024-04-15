@@ -68,7 +68,11 @@ public class LaunchArgsHelper : ILaunchArgsHelper
             new LaunchArg(
                 "-cp {0} {1}",
                 [
-                    ClassPathHelper.CreateClassPath(launcherPath, launcherVersion, launcherSettings.Platform),
+                    ClassPathHelper.CreateClassPath(
+                        launcherPath,
+                        launcherVersion,
+                        launcherSettings.JavaRuntimePlatform
+                    ),
                     ClientTypeResolver.ToString(launcherSettings.ClientType)
                 ]
             )

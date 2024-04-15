@@ -1,11 +1,13 @@
 using System.Threading.Tasks;
 using MCL.Core.Enums;
+using MCL.Core.Enums.Java;
 using MCL.Core.Handlers.Minecraft;
 using MCL.Core.Interfaces.Web.Minecraft;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Models.Minecraft;
 using MCL.Core.Resolvers;
+using MCL.Core.Resolvers.Java;
 using MCL.Core.Resolvers.Minecraft;
 
 namespace MCL.Core.Web.Minecraft;
@@ -67,7 +69,7 @@ public class LibraryDownloader : IMCLibraryDownloader
                 continue;
             }
 
-            if (os == PlatformResolver.ToString(launcherSettings.Platform))
+            if (os == JavaRuntimePlatformResolver.ToPlatformString(launcherSettings.JavaRuntimePlatform))
             {
                 allowLibrary = action == RuleResolver.ToString(Rule.ALLOW);
             }
@@ -90,9 +92,11 @@ public class LibraryDownloader : IMCLibraryDownloader
         string classifierSha1 = string.Empty;
         string libraryPath = MinecraftPathResolver.LibraryPath(launcherPath);
 
-        switch (launcherSettings.Platform)
+        switch (launcherSettings.JavaRuntimePlatform)
         {
-            case Platform.WINDOWS:
+            case JavaRuntimePlatform.WINDOWSX64
+            or JavaRuntimePlatform.WINDOWSX86
+            or JavaRuntimePlatform.WINDOWSARM64:
                 if (!LibraryNativesDownloaderErr.WindowsClassifierNativesExists(lib))
                     return false;
 
@@ -100,7 +104,8 @@ public class LibraryDownloader : IMCLibraryDownloader
                 classifierUrl = lib.Downloads.Classifiers.NativesWindows.URL;
                 classifierSha1 = lib.Downloads.Classifiers.NativesWindows.SHA1;
                 break;
-            case Platform.LINUX:
+            case JavaRuntimePlatform.LINUX
+            or JavaRuntimePlatform.LINUXI386:
                 if (!LibraryNativesDownloaderErr.LinuxClassifierNativesExists(lib))
                     return false;
 
@@ -108,7 +113,8 @@ public class LibraryDownloader : IMCLibraryDownloader
                 classifierUrl = lib.Downloads.Classifiers.NativesLinux.URL;
                 classifierSha1 = lib.Downloads.Classifiers.NativesLinux.SHA1;
                 break;
-            case Platform.OSX:
+            case JavaRuntimePlatform.MACOS
+            or JavaRuntimePlatform.MACOSARM64:
                 if (!LibraryNativesDownloaderErr.OSXClassifierNativesExists(lib))
                     return false;
 

@@ -1,6 +1,6 @@
 using System;
 using System.Linq;
-using MCL.Core.Enums;
+using MCL.Core.Enums.Java;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Resolvers.Minecraft;
@@ -12,7 +12,7 @@ public static class ClassPathHelper
     public static string CreateClassPath(
         MCLauncherPath launcherPath,
         MCLauncherVersion launcherVersion,
-        Platform platform
+        JavaRuntimePlatform platform
     )
     {
         if (!MCLauncherPath.Exists(launcherPath))
@@ -23,8 +23,12 @@ public static class ClassPathHelper
 
         string separator = platform switch
         {
-            Platform.LINUX or Platform.OSX => ":",
-            Platform.WINDOWS => ";",
+            JavaRuntimePlatform.LINUX
+            or JavaRuntimePlatform.LINUXI386
+            or JavaRuntimePlatform.MACOS
+            or JavaRuntimePlatform.MACOSARM64
+                => ":",
+            JavaRuntimePlatform.WINDOWSX64 or JavaRuntimePlatform.WINDOWSX86 or JavaRuntimePlatform.WINDOWSARM64 => ";",
             _ => throw new NotImplementedException("Unsupported OS."),
         };
         string libPath = VFS.FromCwd(launcherPath.Path, "libraries");
