@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using MCL.Core.Helpers.MinecraftFabric;
 using MCL.Core.Interfaces;
 using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon;
@@ -14,6 +15,7 @@ namespace MCL.Core.Services.Paper;
 public class PaperServerDownloadService : IDownloadService
 {
     private static PaperVersionManifest PaperVersionManifest;
+    private static PaperBuild PaperBuild;
     private static MCLauncherPath LauncherPath;
     private static MCLauncherVersion LauncherVersion;
     private static PaperConfigUrls PaperConfigUrls;
@@ -42,6 +44,9 @@ public class PaperServerDownloadService : IDownloadService
             return false;
 
         if (!LoadIndex())
+            return false;
+
+        if (!LoadServerVersion())
             return false;
 
         if (!await DownloadServer())
@@ -81,12 +86,29 @@ public class PaperServerDownloadService : IDownloadService
         return true;
     }
 
+    public static bool LoadServerVersion()
+    {
+        if (!Loaded)
+            return false;
+
+        PaperBuild = PaperVersionHelper.GetVersion(LauncherVersion, PaperVersionManifest);
+        if (PaperBuild == null)
+        {
+            NotificationService.Add(
+                new(NativeLogLevel.Error, "error.parse", [LauncherVersion?.FabricInstallerVersion, nameof(PaperBuild)])
+            );
+            return false;
+        }
+
+        return true;
+    }
+
     public static async Task<bool> DownloadServer()
     {
         if (!Loaded)
             return false;
 
-        if (!await PaperServerDownloader.Download(LauncherPath, LauncherVersion, PaperVersionManifest, PaperConfigUrls))
+        if (!await PaperServerDownloader.Download(LauncherPath, LauncherVersion, PaperBuild, PaperConfigUrls))
         {
             NotificationService.Add(new(NativeLogLevel.Error, "error.download", [nameof(PaperServerDownloader)]));
             return false;

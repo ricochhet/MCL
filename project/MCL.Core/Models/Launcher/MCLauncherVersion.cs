@@ -6,7 +6,8 @@ public class MCLauncherVersion(
     string fabricInstallerVersion,
     string fabricLoaderVersion,
     string quiltInstallerVersion,
-    string quiltLoaderVersion
+    string quiltLoaderVersion,
+    string paperServerVersion
 )
 {
     public string Version { get; set; } = version;
@@ -15,6 +16,7 @@ public class MCLauncherVersion(
     public string FabricLoaderVersion { get; set; } = fabricLoaderVersion;
     public string QuiltInstallerVersion { get; set; } = quiltInstallerVersion;
     public string QuiltLoaderVersion { get; set; } = quiltLoaderVersion;
+    public string PaperServerVersion { get; set; } = paperServerVersion;
 
     public static bool Exists(MCLauncherVersion launcherVersion)
     {

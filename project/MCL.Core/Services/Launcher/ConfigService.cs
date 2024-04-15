@@ -51,7 +51,8 @@ public static class ConfigService
                         fabricInstallerVersion: "1.0.0",
                         fabricLoaderVersion: "0.15.9",
                         quiltInstallerVersion: "0.9.1",
-                        quiltLoaderVersion: "0.24.0"
+                        quiltLoaderVersion: "0.24.0",
+                        paperServerVersion: "484"
                     ),
                     LauncherSettings = new(
                         LauncherType.RELEASE,

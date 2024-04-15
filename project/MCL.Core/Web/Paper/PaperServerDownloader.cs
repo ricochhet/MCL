@@ -8,12 +8,12 @@ using MCL.Core.Resolvers.Paper;
 
 namespace MCL.Core.Web.Paper;
 
-public class PaperServerDownloader : IPaperServerDownloader<PaperVersionManifest, PaperConfigUrls>
+public class PaperServerDownloader : IPaperServerDownloader<PaperBuild, PaperConfigUrls>
 {
     public static async Task<bool> Download(
         MCLauncherPath launcherPath,
         MCLauncherVersion launcherVersion,
-        PaperVersionManifest paperVersionManifest,
+        PaperBuild paperBuild,
         PaperConfigUrls paperConfigUrls
     )
     {
@@ -23,15 +23,10 @@ public class PaperServerDownloader : IPaperServerDownloader<PaperVersionManifest
         if (!PaperConfigUrlsErr.Exists(paperConfigUrls))
             return false;
 
-        if (!PaperServerDownloaderErr.Exists(paperVersionManifest))
+        if (!PaperServerDownloaderErr.Exists(paperBuild))
             return false;
 
-        PaperBuild paperBuild = paperVersionManifest.Builds[^1];
-        string filepath = PaperPathResolver.DownloadedJarPath(
-            launcherPath,
-            launcherVersion,
-            paperBuild.Downloads.Application
-        );
+        string filepath = PaperPathResolver.DownloadedJarPath(launcherPath, launcherVersion);
         if (
             !await Request.Download(
                 string.Format(
