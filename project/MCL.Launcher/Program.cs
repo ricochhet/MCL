@@ -23,6 +23,7 @@ using MCL.Core.Services.Minecraft;
 using MCL.Core.Services.MinecraftFabric;
 using MCL.Core.Services.MinecraftQuilt;
 using MCL.Core.Services.Modding;
+using MCL.Core.Services.Paper;
 using MCL.Core.Services.SevenZip;
 using MCL.Core.Services.Web;
 
@@ -42,6 +43,7 @@ internal static class Program
                 modPath: LaunchPathHelper.ModPath,
                 fabricInstallerPath: LaunchPathHelper.FabricInstallerPath,
                 quiltInstallerPath: LaunchPathHelper.QuiltInstallerPath,
+                paperInstallerPath: LaunchPathHelper.PaperInstallerPath,
                 languageLocalizationPath: LaunchPathHelper.LanguageLocalizationPath
             );
         MCLauncherVersion launcherVersion =
@@ -174,6 +176,16 @@ internal static class Program
                     QuiltInstallerLaunchArgsHelper.Default(launcherPath, launcherVersion, FabricInstallerType.CLIENT),
                     launcherSettings.JavaRuntimeType
                 );
+            }
+        );
+
+        await CommandLine.ProcessArgumentAsync(
+            args,
+            "--dl-paper-server",
+            async () =>
+            {
+                PaperServerDownloadService.Init(launcherPath, launcherVersion, config.PaperUrls);
+                await PaperServerDownloadService.Download();
             }
         );
 

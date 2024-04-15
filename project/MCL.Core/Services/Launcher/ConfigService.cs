@@ -35,6 +35,7 @@ public static class ConfigService
                     MinecraftUrls = new(),
                     FabricUrls = new(),
                     QuiltUrls = new(),
+                    PaperUrls = new(),
                     MinecraftArgs = new(),
                     FabricArgs = new(),
                     QuiltArgs = new(),

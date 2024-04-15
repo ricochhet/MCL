@@ -23,6 +23,7 @@ internal static class Program
                 modPath: string.Empty,
                 fabricInstallerPath: string.Empty,
                 quiltInstallerPath: string.Empty,
+                paperInstallerPath: string.Empty,
                 languageLocalizationPath: LaunchPathHelper.LanguageLocalizationPath
             );
         LocalizationService.Init(launcherPath, Language.ENGLISH);
