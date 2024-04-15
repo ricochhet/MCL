@@ -42,7 +42,7 @@ public class MCDownloadService : IMCDownloadService, IDownloadService
     }
 
 #pragma warning disable IDE0079
-#pragma warning disable S3776 // (Reduce cognitive complexity) TODO: Evaluate refactor
+#pragma warning disable S3776
     public static async Task<bool> Download()
 #pragma warning restore
     {

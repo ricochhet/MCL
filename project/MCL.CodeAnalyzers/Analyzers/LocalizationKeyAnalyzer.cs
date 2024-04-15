@@ -9,39 +9,42 @@ namespace MCL.CodeAnalyzers.Analyzers;
 
 public static partial class LocalizationKeyAnalyzer
 {
-#pragma warning disable IDE0079
-#pragma warning disable S3776 // (Reduce cognitive complexity) TODO: Evaluate refactor
     public static void Analyze(string filepath, Localization localization)
-#pragma warning restore
     {
         string[] files = VFS.GetFiles(filepath, "*.cs", SearchOption.AllDirectories);
         int success = 0;
         int fail = 0;
-        if (localization?.Entries == null)
+
+        if (localization?.Entries == null || localization.Entries?.Count <= 0)
             return;
-        if (localization.Entries?.Count <= 0)
-            return;
+
         foreach (string file in files)
         {
+            if (file.Contains("AssemblyInfo") || file.Contains("AssemblyAttributes"))
+                continue;
+
             Regex matchNotification = NotificationServiceRegex();
             MatchCollection notificationMatches = matchNotification.Matches(VFS.ReadAllText(file));
 
-            for (int count = 0; count < notificationMatches.Count; count++)
+            foreach (Match match in notificationMatches)
             {
                 Regex matchQuotes = QuoteRegex();
-                Match quoteMatch = matchQuotes.Match(notificationMatches[count].Value);
-                string name = quoteMatch.Value;
-                if (file.Contains("AssemblyInfo") || file.Contains("AssemblyAttributes"))
+                Match quoteMatch = matchQuotes.Match(match.Value);
+
+                if (string.IsNullOrWhiteSpace(quoteMatch.Value))
                     continue;
-                if (string.IsNullOrWhiteSpace(name))
-                    continue;
-                if (!localization.Entries.ContainsKey(name.Replace("\"", string.Empty)))
+
+                if (!localization.Entries.ContainsKey(quoteMatch.Value.Replace("\"", string.Empty)))
                 {
                     fail++;
-                    NotificationService.Add(new(NativeLogLevel.Error, "analyzer.error.localization", [file, name]));
+                    NotificationService.Add(
+                        new(NativeLogLevel.Error, "analyzer.error.localization", [file, quoteMatch.Value])
+                    );
                 }
                 else
+                {
                     success++;
+                }
             }
         }
 
