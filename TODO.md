@@ -42,12 +42,12 @@ Tasks marked with (*) are easier to do.
 - [ ] Implement downloading of Fabric/Forge/Quilt loaders.
     - [x] Fabric
     - [x] Quilt
-    - [ ] Forge
+    - ~~Forge~~ Won't Implement
 - [ ] Automate installation of Fabric/Forge/Quilt loaders.
     - [x] Fabric
         - [x] Implement installation of Fabric via installer.
     - [x]  Quilt
-    - [ ] Forge
+    - ~~Forge~~ Won't Implement
 - [x] Implement simple management of Fabric / Quilt mods.
 - [ ] Implement frontend interface via Avalonia.
 - [ ] Add support for downloading and installing third-party server clients.

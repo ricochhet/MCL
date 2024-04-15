@@ -3,6 +3,7 @@ using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using MCL.Core.Enums;
 using MCL.Core.Enums.Java;
+using MCL.Core.Enums.MinecraftFabric;
 using MCL.Core.Enums.Services;
 using MCL.Core.Extensions;
 using MCL.Core.Helpers.Java;
@@ -158,7 +159,7 @@ internal static class Program
 
                 JavaLaunchHelper.Launch(
                     config,
-                    FabricInstallerLaunchArgsHelper.Default(launcher),
+                    FabricInstallerLaunchArgsHelper.Default(launcher, FabricInstallerType.CLIENT),
                     launcher.JavaRuntimeType
                 );
             }
@@ -189,7 +190,7 @@ internal static class Program
 
                 JavaLaunchHelper.Launch(
                     config,
-                    QuiltInstallerLaunchArgsHelper.Default(launcher),
+                    QuiltInstallerLaunchArgsHelper.Default(launcher, FabricInstallerType.CLIENT),
                     launcher.JavaRuntimeType
                 );
             }
