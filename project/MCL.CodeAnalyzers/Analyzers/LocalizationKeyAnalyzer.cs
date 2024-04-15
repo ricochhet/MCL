@@ -52,7 +52,7 @@ public static partial class LocalizationKeyAnalyzer
             new(
                 NativeLogLevel.Info,
                 "analyzer.output",
-                [nameof(LocalizationKeyAnalyzer), success.ToString(), fail.ToString(), files.Length.ToString()]
+                [nameof(LocalizationKeyAnalyzer), success.ToString(), fail.ToString(), (success + fail).ToString()]
             )
         );
     }
