@@ -10,6 +10,10 @@ namespace MCL.Core.Models.Launcher;
 
 public class Config
 {
+    public MCLauncherUsername LauncherUsername { get; set; }
+    public MCLauncherPath LauncherPath { get; set; }
+    public MCLauncherVersion LauncherVersion { get; set; }
+    public MCLauncherSettings LauncherSettings { get; set; }
     public MCConfigUrls MinecraftUrls { get; set; }
     public MCFabricConfigUrls FabricUrls { get; set; }
     public MCQuiltConfigUrls QuiltUrls { get; set; }

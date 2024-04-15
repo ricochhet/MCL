@@ -1,6 +1,10 @@
 using System.Collections.Generic;
 using System.Text.Encodings.Web;
 using System.Text.Json;
+using MCL.Core.Enums;
+using MCL.Core.Enums.Java;
+using MCL.Core.Enums.MinecraftFabric;
+using MCL.Core.Helpers.Launcher;
 using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
@@ -32,6 +36,31 @@ public static class ConfigService
             Config config =
                 new()
                 {
+                    LauncherUsername = new(username: "Player1337"),
+                    LauncherPath = new(
+                        path: LaunchPathHelper.Path,
+                        modPath: LaunchPathHelper.ModPath,
+                        fabricInstallerPath: LaunchPathHelper.FabricInstallerPath,
+                        quiltInstallerPath: LaunchPathHelper.QuiltInstallerPath,
+                        paperInstallerPath: LaunchPathHelper.PaperInstallerPath,
+                        languageLocalizationPath: LaunchPathHelper.LanguageLocalizationPath
+                    ),
+                    LauncherVersion = new(
+                        version: "1.20.4",
+                        versionType: "release",
+                        fabricInstallerVersion: "1.0.0",
+                        fabricLoaderVersion: "0.15.9",
+                        quiltInstallerVersion: "0.9.1",
+                        quiltLoaderVersion: "0.24.0"
+                    ),
+                    LauncherSettings = new(
+                        LauncherType.RELEASE,
+                        ClientType.FABRIC,
+                        Platform.WINDOWS,
+                        FabricInstallerType.CLIENT,
+                        JavaRuntimeType.JAVA_RUNTIME_GAMMA,
+                        JavaRuntimePlatform.WINDOWSX64
+                    ),
                     MinecraftUrls = new(),
                     FabricUrls = new(),
                     QuiltUrls = new(),

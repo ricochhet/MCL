@@ -1,13 +1,10 @@
 using System;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using MCL.Core.Enums;
-using MCL.Core.Enums.Java;
 using MCL.Core.Enums.MinecraftFabric;
 using MCL.Core.Enums.Services;
 using MCL.Core.Extensions;
 using MCL.Core.Helpers.Java;
-using MCL.Core.Helpers.Launcher;
 using MCL.Core.Helpers.Minecraft;
 using MCL.Core.Helpers.MinecraftFabric;
 using MCL.Core.Helpers.MinecraftQuilt;
@@ -36,36 +33,12 @@ internal static class Program
         Console.Title = "MCL.Launcher";
         Log.Add(new NativeLogger());
         Log.Add(new FileStreamLogger(ConfigService.LogFilePath));
-        MCLauncherUsername launcherUsername = new(username: "Player1337");
-        MCLauncherPath launcherPath =
-            new(
-                path: LaunchPathHelper.Path,
-                modPath: LaunchPathHelper.ModPath,
-                fabricInstallerPath: LaunchPathHelper.FabricInstallerPath,
-                quiltInstallerPath: LaunchPathHelper.QuiltInstallerPath,
-                paperInstallerPath: LaunchPathHelper.PaperInstallerPath,
-                languageLocalizationPath: LaunchPathHelper.LanguageLocalizationPath
-            );
-        MCLauncherVersion launcherVersion =
-            new(
-                version: "1.20.4",
-                versionType: "release",
-                fabricInstallerVersion: "1.0.0",
-                fabricLoaderVersion: "0.15.9",
-                quiltInstallerVersion: "0.9.1",
-                quiltLoaderVersion: "0.24.0"
-            );
-        MCLauncherSettings launcherSettings =
-            new(
-                LauncherType.RELEASE,
-                ClientType.FABRIC,
-                Platform.WINDOWS,
-                FabricInstallerType.CLIENT,
-                JavaRuntimeType.JAVA_RUNTIME_GAMMA,
-                JavaRuntimePlatform.WINDOWSX64
-            );
+        ConfigService.Save();
+        Config config = ConfigService.Load();
+        if (config == null)
+            return;
 
-        LocalizationService.Init(launcherPath, Language.ENGLISH);
+        LocalizationService.Init(config.LauncherPath, Language.ENGLISH);
         NotificationService.Init(
             (Notification notification) =>
             {
@@ -88,13 +61,8 @@ internal static class Program
         Request.HttpClientTimeOut = TimeSpan.FromMinutes(1);
         Watermark.Draw(ConfigService.WatermarkText);
 
-        ConfigService.Save();
-        Config config = ConfigService.Load();
-        if (config == null)
-            return;
-
         SevenZipService.Init(config.SevenZipConfig);
-        ModdingService.Init(launcherPath, config.ModConfig);
+        ModdingService.Init(config.LauncherPath, config.ModConfig);
 
         if (args.Length <= 0)
             return;
@@ -105,10 +73,14 @@ internal static class Program
             async () =>
             {
                 JavaDownloadService.Init(
-                    launcherPath,
+                    config.LauncherPath,
                     config.MinecraftUrls,
-                    JavaVersionHelper.GetDownloadedMCVersionJava(launcherPath, launcherVersion, launcherSettings),
-                    launcherSettings.JavaRuntimePlatform
+                    JavaVersionHelper.GetDownloadedMCVersionJava(
+                        config.LauncherPath,
+                        config.LauncherVersion,
+                        config.LauncherSettings
+                    ),
+                    config.LauncherSettings.JavaRuntimePlatform
                 );
 
                 await JavaDownloadService.Download();
@@ -120,7 +92,12 @@ internal static class Program
             "--dl-minecraft",
             async () =>
             {
-                MCDownloadService.Init(launcherPath, launcherVersion, launcherSettings, config.MinecraftUrls);
+                MCDownloadService.Init(
+                    config.LauncherPath,
+                    config.LauncherVersion,
+                    config.LauncherSettings,
+                    config.MinecraftUrls
+                );
                 await MCDownloadService.Download();
             }
         );
@@ -130,7 +107,7 @@ internal static class Program
             "--dl-fabric-loader",
             async () =>
             {
-                MCFabricLoaderDownloadService.Init(launcherPath, launcherVersion, config.FabricUrls);
+                MCFabricLoaderDownloadService.Init(config.LauncherPath, config.LauncherVersion, config.FabricUrls);
                 await MCFabricLoaderDownloadService.Download();
             }
         );
@@ -140,14 +117,18 @@ internal static class Program
             "--dl-fabric-installer",
             async () =>
             {
-                MCFabricInstallerDownloadService.Init(launcherPath, launcherVersion, config.FabricUrls);
+                MCFabricInstallerDownloadService.Init(config.LauncherPath, config.LauncherVersion, config.FabricUrls);
                 if (!await MCFabricInstallerDownloadService.Download())
                     return;
 
                 JavaLaunchHelper.Launch(
                     config,
-                    FabricInstallerLaunchArgsHelper.Default(launcherPath, launcherVersion, FabricInstallerType.CLIENT),
-                    launcherSettings.JavaRuntimeType
+                    FabricInstallerLaunchArgsHelper.Default(
+                        config.LauncherPath,
+                        config.LauncherVersion,
+                        FabricInstallerType.CLIENT
+                    ),
+                    config.LauncherSettings.JavaRuntimeType
                 );
             }
         );
@@ -157,7 +138,7 @@ internal static class Program
             "--dl-quilt-loader",
             async () =>
             {
-                MCQuiltLoaderDownloadService.Init(launcherPath, launcherVersion, config.QuiltUrls);
+                MCQuiltLoaderDownloadService.Init(config.LauncherPath, config.LauncherVersion, config.QuiltUrls);
                 await MCQuiltLoaderDownloadService.Download();
             }
         );
@@ -167,14 +148,18 @@ internal static class Program
             "--dl-quilt-installer",
             async () =>
             {
-                MCQuiltInstallerDownloadService.Init(launcherPath, launcherVersion, config.QuiltUrls);
+                MCQuiltInstallerDownloadService.Init(config.LauncherPath, config.LauncherVersion, config.QuiltUrls);
                 if (!await MCQuiltInstallerDownloadService.Download())
                     return;
 
                 JavaLaunchHelper.Launch(
                     config,
-                    QuiltInstallerLaunchArgsHelper.Default(launcherPath, launcherVersion, FabricInstallerType.CLIENT),
-                    launcherSettings.JavaRuntimeType
+                    QuiltInstallerLaunchArgsHelper.Default(
+                        config.LauncherPath,
+                        config.LauncherVersion,
+                        FabricInstallerType.CLIENT
+                    ),
+                    config.LauncherSettings.JavaRuntimeType
                 );
             }
         );
@@ -184,7 +169,7 @@ internal static class Program
             "--dl-paper-server",
             async () =>
             {
-                PaperServerDownloadService.Init(launcherPath, launcherVersion, config.PaperUrls);
+                PaperServerDownloadService.Init(config.LauncherPath, config.LauncherVersion, config.PaperUrls);
                 await PaperServerDownloadService.Download();
             }
         );
@@ -194,7 +179,13 @@ internal static class Program
             "--launch",
             () =>
             {
-                MinecraftLaunchHelper.Launch(launcherPath, launcherVersion, launcherSettings, launcherUsername, config);
+                MinecraftLaunchHelper.Launch(
+                    config.LauncherPath,
+                    config.LauncherVersion,
+                    config.LauncherSettings,
+                    config.LauncherUsername,
+                    config
+                );
             }
         );
 
@@ -204,7 +195,10 @@ internal static class Program
             () =>
             {
                 ModdingService.Save("fabric-mods");
-                ModdingService.Deploy(ModdingService.Load("fabric-mods"), VFS.FromCwd(launcherPath.Path, "mods"));
+                ModdingService.Deploy(
+                    ModdingService.Load("fabric-mods"),
+                    VFS.FromCwd(config.LauncherPath.Path, "mods")
+                );
                 config.Save(ModdingService.ModConfig);
             }
         );
