@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using MCL.Core.Helpers.MinecraftFabric;
 using MCL.Core.Interfaces;
+using MCL.Core.Interfaces.Services.Paper;
 using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
@@ -12,7 +13,7 @@ using MCL.Core.Web.Paper;
 
 namespace MCL.Core.Services.Paper;
 
-public class PaperServerDownloadService : IDownloadService
+public class PaperServerDownloadService : IPaperServerDownloadService<PaperConfigUrls>, IDownloadService
 {
     private static PaperVersionManifest PaperVersionManifest;
     private static PaperBuild PaperBuild;

@@ -1,10 +1,11 @@
+using MCL.Core.Interfaces.Helpers.Minecraft;
 using MCL.Core.Models.Java;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Resolvers.Paper;
 
 namespace MCL.Core.Helpers.MinecraftFabric;
 
-public static class PaperLaunchArgsHelper
+public class PaperLaunchArgsHelper : IPaperLaunchArgsHelper
 {
     public static JvmArguments Default(MCLauncherPath launcherPath, MCLauncherVersion launcherVersion)
     {
