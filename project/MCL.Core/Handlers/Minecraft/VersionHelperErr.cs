@@ -3,7 +3,7 @@ using MCL.Core.Models.Minecraft;
 
 namespace MCL.Core.Handlers.Minecraft;
 
-public class MCVersionHelperErr : IErrorHandleItem<MCVersionManifest>
+public class VersionHelperErr : IErrorHandleItem<MCVersionManifest>
 {
     public static bool Exists(MCVersionManifest versionManifest)
     {

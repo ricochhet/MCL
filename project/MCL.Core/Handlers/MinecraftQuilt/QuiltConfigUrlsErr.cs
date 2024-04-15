@@ -3,7 +3,7 @@ using MCL.Core.Models.MinecraftQuilt;
 
 namespace MCL.Core.Handlers.MinecraftQuilt;
 
-public class MCQuiltConfigUrlsErr : IErrorHandleItem<MCQuiltConfigUrls>
+public class QuiltConfigUrlsErr : IErrorHandleItem<MCQuiltConfigUrls>
 {
     public static bool Exists(MCQuiltConfigUrls quiltConfigUrls)
     {

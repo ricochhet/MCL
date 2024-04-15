@@ -3,7 +3,7 @@ using MCL.Core.Models.MinecraftFabric;
 
 namespace MCL.Core.Handlers.MinecraftFabric;
 
-public class MCFabricVersionHelperErr : IErrorHandleItem<MCFabricIndex>
+public class FabricVersionHelperErr : IErrorHandleItem<MCFabricIndex>
 {
     public static bool Exists(MCFabricIndex fabricIndex)
     {

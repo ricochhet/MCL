@@ -12,7 +12,7 @@ using MCL.Core.Web.MinecraftQuilt;
 
 namespace MCL.Core.Services.MinecraftQuilt;
 
-public class MCQuiltInstallerDownloadService : IFabricInstallerDownloadService<MCQuiltConfigUrls>, IDownloadService
+public class QuiltInstallerDownloadService : IFabricInstallerDownloadService<MCQuiltConfigUrls>, IDownloadService
 {
     private static MCQuiltIndex QuiltIndex;
     private static MCQuiltInstaller QuiltInstaller;
@@ -74,7 +74,7 @@ public class MCQuiltInstallerDownloadService : IFabricInstallerDownloadService<M
         if (!Loaded)
             return false;
 
-        QuiltIndex = Json.Load<MCQuiltIndex>(MinecraftQuiltPathResolver.DownloadedIndexPath(LauncherPath));
+        QuiltIndex = Json.Load<MCQuiltIndex>(QuiltPathResolver.DownloadedIndexPath(LauncherPath));
         if (QuiltIndex == null)
         {
             NotificationService.Add(new(NativeLogLevel.Error, "error.readfile", [nameof(MCQuiltIndex)]));
@@ -89,7 +89,7 @@ public class MCQuiltInstallerDownloadService : IFabricInstallerDownloadService<M
         if (!Loaded)
             return false;
 
-        QuiltInstaller = MCQuiltVersionHelper.GetInstallerVersion(LauncherVersion, QuiltIndex);
+        QuiltInstaller = QuiltVersionHelper.GetInstallerVersion(LauncherVersion, QuiltIndex);
         if (QuiltInstaller == null)
         {
             NotificationService.Add(

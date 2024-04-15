@@ -40,18 +40,18 @@ Tasks marked with (*) are easier to do.
         - Continuous failures can indicate a connection problem and cause instability within the program.
         - The download process should indicate failures, and be given a number of chances to continue.
             - After the chances have been used, the user will have to manually continue downloads.
-- [ ] Implement downloading of Fabric/Forge/Quilt loaders.
+- [x] Implement downloading of Fabric/Forge/Quilt loaders.
     - [x] Fabric
     - [x] Quilt
     - ~~Forge~~ Won't Implement
-- [ ] Automate installation of Fabric/Forge/Quilt loaders.
+- [x] Automate installation of Fabric/Forge/Quilt loaders.
     - [x] Fabric
         - [x] Implement installation of Fabric via installer.
     - [x]  Quilt
     - ~~Forge~~ Won't Implement
 - [x] Implement simple management of Fabric / Quilt mods.
 - [ ] Implement frontend interface via Avalonia.
-- [ ] Add support for downloading and installing third-party server clients.
+- [x] Add support for downloading and installing third-party server clients.
     - This includes the functionality to run the clients.
 - [ ] Implement player skin options on non-vanilla loaders.
     - Non-vanilla loaders can use modifications such as OfflineSkins to provide skins without in-depth networking systems.

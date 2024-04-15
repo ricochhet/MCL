@@ -4,7 +4,7 @@ using MCL.Core.Models.Minecraft;
 
 namespace MCL.Core.Interfaces.Services.Minecraft;
 
-public interface IMCDownloadService
+public interface IMinecraftDownloadService
 {
     public static abstract void Init(
         MCLauncherPath launcherPath,

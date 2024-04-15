@@ -16,10 +16,10 @@ public class QuiltIndexDownloader : IFabricIndexDownloader<MCQuiltConfigUrls>
         if (!MCLauncherPath.Exists(launcherPath))
             return false;
 
-        if (!MCQuiltConfigUrlsErr.Exists(quiltConfigUrls))
+        if (!QuiltConfigUrlsErr.Exists(quiltConfigUrls))
             return false;
 
-        string filepath = MinecraftQuiltPathResolver.DownloadedIndexPath(launcherPath);
+        string filepath = QuiltPathResolver.DownloadedIndexPath(launcherPath);
         string quiltIndex = await Request.GetJsonAsync<MCQuiltIndex>(
             quiltConfigUrls.QuiltVersionsIndex,
             filepath,

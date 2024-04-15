@@ -9,13 +9,13 @@ public class VersionIndexService : IDownloadService
 {
     public static async Task<bool> Download()
     {
-        if (!await MCDownloadService.DownloadVersionManifest())
+        if (!await MinecraftDownloadService.DownloadVersionManifest())
             return false;
 
-        if (!await MCFabricInstallerDownloadService.DownloadIndex())
+        if (!await FabricInstallerDownloadService.DownloadIndex())
             return false;
 
-        if (!await MCQuiltInstallerDownloadService.DownloadIndex())
+        if (!await QuiltInstallerDownloadService.DownloadIndex())
             return false;
 
         return true;

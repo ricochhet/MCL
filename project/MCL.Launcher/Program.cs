@@ -92,13 +92,13 @@ internal static class Program
             "--dl-minecraft",
             async () =>
             {
-                MCDownloadService.Init(
+                MinecraftDownloadService.Init(
                     config.LauncherPath,
                     config.LauncherVersion,
                     config.LauncherSettings,
                     config.MinecraftUrls
                 );
-                await MCDownloadService.Download();
+                await MinecraftDownloadService.Download();
             }
         );
 
@@ -107,8 +107,8 @@ internal static class Program
             "--dl-fabric-loader",
             async () =>
             {
-                MCFabricLoaderDownloadService.Init(config.LauncherPath, config.LauncherVersion, config.FabricUrls);
-                await MCFabricLoaderDownloadService.Download();
+                FabricLoaderDownloadService.Init(config.LauncherPath, config.LauncherVersion, config.FabricUrls);
+                await FabricLoaderDownloadService.Download();
             }
         );
 
@@ -117,8 +117,8 @@ internal static class Program
             "--dl-fabric-installer",
             async () =>
             {
-                MCFabricInstallerDownloadService.Init(config.LauncherPath, config.LauncherVersion, config.FabricUrls);
-                if (!await MCFabricInstallerDownloadService.Download())
+                FabricInstallerDownloadService.Init(config.LauncherPath, config.LauncherVersion, config.FabricUrls);
+                if (!await FabricInstallerDownloadService.Download())
                     return;
 
                 JavaLaunchHelper.Launch(
@@ -138,8 +138,8 @@ internal static class Program
             "--dl-quilt-loader",
             async () =>
             {
-                MCQuiltLoaderDownloadService.Init(config.LauncherPath, config.LauncherVersion, config.QuiltUrls);
-                await MCQuiltLoaderDownloadService.Download();
+                QuiltLoaderDownloadService.Init(config.LauncherPath, config.LauncherVersion, config.QuiltUrls);
+                await QuiltLoaderDownloadService.Download();
             }
         );
 
@@ -148,8 +148,8 @@ internal static class Program
             "--dl-quilt-installer",
             async () =>
             {
-                MCQuiltInstallerDownloadService.Init(config.LauncherPath, config.LauncherVersion, config.QuiltUrls);
-                if (!await MCQuiltInstallerDownloadService.Download())
+                QuiltInstallerDownloadService.Init(config.LauncherPath, config.LauncherVersion, config.QuiltUrls);
+                if (!await QuiltInstallerDownloadService.Download())
                     return;
 
                 JavaLaunchHelper.Launch(

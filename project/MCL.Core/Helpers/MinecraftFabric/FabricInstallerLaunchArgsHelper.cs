@@ -18,7 +18,7 @@ public class FabricInstallerLaunchArgsHelper : IFabricLaunchArgsHelper
         jvmArguments.Add(
             new LaunchArg(
                 "-jar \"{0}\" {1}",
-                [MinecraftFabricPathResolver.DownloadedInstallerPath(launcherPath, launcherVersion), "client"]
+                [FabricPathResolver.DownloadedInstallerPath(launcherPath, launcherVersion), "client"]
             )
         );
         jvmArguments.Add(

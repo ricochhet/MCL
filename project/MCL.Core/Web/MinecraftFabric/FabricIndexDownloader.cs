@@ -16,10 +16,10 @@ public class FabricIndexDownloader : IFabricIndexDownloader<MCFabricConfigUrls>
         if (!MCLauncherPath.Exists(launcherPath))
             return false;
 
-        if (!MCFabricConfigUrlsErr.Exists(fabricConfigUrls))
+        if (!FabricConfigUrlsErr.Exists(fabricConfigUrls))
             return false;
 
-        string filepath = MinecraftFabricPathResolver.DownloadedIndexPath(launcherPath);
+        string filepath = FabricPathResolver.DownloadedIndexPath(launcherPath);
         string fabricIndex = await Request.GetJsonAsync<MCFabricIndex>(
             fabricConfigUrls.FabricVersionsIndex,
             filepath,

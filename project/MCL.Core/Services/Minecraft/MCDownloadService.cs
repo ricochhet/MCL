@@ -12,7 +12,7 @@ using MCL.Core.Web.Minecraft;
 
 namespace MCL.Core.Services.Minecraft;
 
-public class MCDownloadService : IMCDownloadService, IDownloadService
+public class MinecraftDownloadService : IMinecraftDownloadService, IDownloadService
 {
     private static MCVersionDetails VersionDetails;
     private static MCVersionManifest VersionManifest;
@@ -129,7 +129,7 @@ public class MCDownloadService : IMCDownloadService, IDownloadService
         if (!Loaded)
             return false;
 
-        Version = MCVersionHelper.GetVersion(LauncherVersion, VersionManifest);
+        Version = VersionHelper.GetVersion(LauncherVersion, VersionManifest);
         if (Version == null)
         {
             NotificationService.Add(

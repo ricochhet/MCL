@@ -23,12 +23,12 @@ public class QuiltProfileDownloader : IFabricProfileDownloader<MCQuiltConfigUrls
         if (!MCLauncherVersion.Exists(launcherVersion))
             return false;
 
-        if (!MCQuiltConfigUrlsErr.Exists(quiltConfigUrls))
+        if (!QuiltConfigUrlsErr.Exists(quiltConfigUrls))
             return false;
 
         string quiltProfile = await Request.GetJsonAsync<MCQuiltProfile>(
-            MinecraftQuiltPathResolver.LoaderProfileUrlPath(quiltConfigUrls, launcherVersion),
-            MinecraftQuiltPathResolver.DownloadedProfilePath(launcherPath, launcherVersion),
+            QuiltPathResolver.LoaderProfileUrlPath(quiltConfigUrls, launcherVersion),
+            QuiltPathResolver.DownloadedProfilePath(launcherPath, launcherVersion),
             Encoding.UTF8
         );
         if (string.IsNullOrWhiteSpace(quiltProfile))

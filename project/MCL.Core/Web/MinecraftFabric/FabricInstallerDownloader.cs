@@ -24,7 +24,7 @@ public class FabricInstallerDownloader : IFabricInstallerDownloader<MCFabricInst
         if (!FabricInstallerDownloaderErr.Exists(fabricInstaller))
             return false;
 
-        string fabricInstallerPath = MinecraftFabricPathResolver.DownloadedInstallerPath(launcherPath, launcherVersion);
+        string fabricInstallerPath = FabricPathResolver.DownloadedInstallerPath(launcherPath, launcherVersion);
         // Fabric does not provide a file hash through the current method. We do simple check of the version instead.
         if (VFS.Exists(fabricInstallerPath))
         {

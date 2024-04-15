@@ -21,7 +21,7 @@ public static class MinecraftLaunchHelper
             LaunchArgsHelper.Default(launcherPath, launcherVersion, launcherSettings, launcherUsername)
         );
         config.Save(ModdingService.ModConfig);
-        if (MCVersionHelper.GetVersionDetails(launcherPath, launcherVersion) == null)
+        if (VersionHelper.GetVersionDetails(launcherPath, launcherVersion) == null)
             return;
         JavaLaunchHelper.Launch(
             config,

@@ -2,7 +2,7 @@ using MCL.Core.Models.Launcher;
 
 namespace MCL.Core.Interfaces.Resolvers.MinecraftFabric;
 
-public interface IMinecraftFabricPathResolver<in T>
+public interface IFabricPathResolver<in T>
 {
     public static abstract string InstallerPath(MCLauncherPath launcherPath);
 

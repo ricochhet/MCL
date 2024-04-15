@@ -1,9 +1,9 @@
-using MCL.Core.Interfaces.Helpers.Minecraft;
+using MCL.Core.Interfaces.Helpers.Paper;
 using MCL.Core.Models.Java;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Resolvers.Paper;
 
-namespace MCL.Core.Helpers.MinecraftFabric;
+namespace MCL.Core.Helpers.Paper;
 
 public class PaperLaunchArgsHelper : IPaperLaunchArgsHelper
 {

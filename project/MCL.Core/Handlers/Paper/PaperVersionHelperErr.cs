@@ -1,7 +1,7 @@
 using MCL.Core.Interfaces;
 using MCL.Core.Models.Paper;
 
-namespace MCL.Core.Handlers.MinecraftFabric;
+namespace MCL.Core.Handlers.Paper;
 
 public class PaperVersionHelperErr : IErrorHandleItem<PaperVersionManifest>
 {

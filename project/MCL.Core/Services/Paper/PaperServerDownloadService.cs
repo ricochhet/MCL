@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using MCL.Core.Helpers.MinecraftFabric;
+using MCL.Core.Helpers.Paper;
 using MCL.Core.Interfaces;
 using MCL.Core.Interfaces.Services.Paper;
 using MCL.Core.Logger.Enums;

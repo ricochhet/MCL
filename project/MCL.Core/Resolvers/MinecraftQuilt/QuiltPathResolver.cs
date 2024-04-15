@@ -5,7 +5,7 @@ using MCL.Core.Models.MinecraftQuilt;
 
 namespace MCL.Core.Resolvers.MinecraftQuilt;
 
-public class MinecraftQuiltPathResolver : IMinecraftFabricPathResolver<MCQuiltConfigUrls>
+public class QuiltPathResolver : IFabricPathResolver<MCQuiltConfigUrls>
 {
     public static string InstallerPath(MCLauncherPath launcherPath) =>
         VFS.FromCwd(launcherPath.QuiltInstallerPath, "installers");

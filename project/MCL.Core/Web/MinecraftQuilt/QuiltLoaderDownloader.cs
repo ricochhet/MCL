@@ -32,7 +32,7 @@ public class QuiltLoaderDownloader : IFabricLoaderDownloader<MCQuiltProfile, MCQ
             string request;
             if (library.Name.Contains(quiltConfigUrls.QuiltApiLoaderName))
             {
-                request = MinecraftQuiltPathResolver.LoaderJarUrlPath(quiltConfigUrls, launcherVersion);
+                request = QuiltPathResolver.LoaderJarUrlPath(quiltConfigUrls, launcherVersion);
             }
             else if (library.Name.Contains(quiltConfigUrls.QuiltApiIntermediaryName))
             {

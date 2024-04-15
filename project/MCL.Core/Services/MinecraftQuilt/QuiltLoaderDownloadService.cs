@@ -12,7 +12,7 @@ using MCL.Core.Web.MinecraftQuilt;
 
 namespace MCL.Core.Services.MinecraftQuilt;
 
-public class MCQuiltLoaderDownloadService : IFabricLoaderDownloadService<MCQuiltConfigUrls>, IDownloadService
+public class QuiltLoaderDownloadService : IFabricLoaderDownloadService<MCQuiltConfigUrls>, IDownloadService
 {
     private static MCQuiltIndex QuiltIndex;
     private static MCQuiltProfile QuiltProfile;
@@ -80,7 +80,7 @@ public class MCQuiltLoaderDownloadService : IFabricLoaderDownloadService<MCQuilt
         if (!Loaded)
             return false;
 
-        QuiltIndex = Json.Load<MCQuiltIndex>(MinecraftQuiltPathResolver.DownloadedIndexPath(LauncherPath));
+        QuiltIndex = Json.Load<MCQuiltIndex>(QuiltPathResolver.DownloadedIndexPath(LauncherPath));
         if (QuiltIndex == null)
         {
             NotificationService.Add(new(NativeLogLevel.Error, "error.readfile", [nameof(MCQuiltIndex)]));
@@ -110,7 +110,7 @@ public class MCQuiltLoaderDownloadService : IFabricLoaderDownloadService<MCQuilt
             return false;
 
         QuiltProfile = Json.Load<MCQuiltProfile>(
-            MinecraftQuiltPathResolver.DownloadedProfilePath(LauncherPath, LauncherVersion)
+            QuiltPathResolver.DownloadedProfilePath(LauncherPath, LauncherVersion)
         );
         if (QuiltProfile == null)
         {
@@ -126,7 +126,7 @@ public class MCQuiltLoaderDownloadService : IFabricLoaderDownloadService<MCQuilt
         if (!Loaded)
             return false;
 
-        MCQuiltLoader quiltLoader = MCQuiltVersionHelper.GetLoaderVersion(LauncherVersion, QuiltIndex);
+        MCQuiltLoader quiltLoader = QuiltVersionHelper.GetLoaderVersion(LauncherVersion, QuiltIndex);
         if (quiltLoader == null)
         {
             NotificationService.Add(

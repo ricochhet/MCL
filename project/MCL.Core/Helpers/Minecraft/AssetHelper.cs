@@ -22,7 +22,7 @@ public static class AssetHelper
         if (versionManifest == null)
             return string.Empty;
 
-        MCVersion version = MCVersionHelper.GetVersion(launcherVersion, versionManifest);
+        MCVersion version = VersionHelper.GetVersion(launcherVersion, versionManifest);
         if (version == null)
             return string.Empty;
 

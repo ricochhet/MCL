@@ -3,7 +3,7 @@ using MCL.Core.Models.MinecraftFabric;
 
 namespace MCL.Core.Handlers.MinecraftFabric;
 
-public class MCFabricConfigUrlsErr : IErrorHandleItem<MCFabricConfigUrls>
+public class FabricConfigUrlsErr : IErrorHandleItem<MCFabricConfigUrls>
 {
     public static bool Exists(MCFabricConfigUrls fabricConfigUrls)
     {

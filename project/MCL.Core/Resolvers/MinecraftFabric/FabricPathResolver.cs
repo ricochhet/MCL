@@ -5,7 +5,7 @@ using MCL.Core.Models.MinecraftFabric;
 
 namespace MCL.Core.Resolvers.MinecraftFabric;
 
-public class MinecraftFabricPathResolver : IMinecraftFabricPathResolver<MCFabricConfigUrls>
+public class FabricPathResolver : IFabricPathResolver<MCFabricConfigUrls>
 {
     public static string InstallerPath(MCLauncherPath launcherPath) =>
         VFS.FromCwd(launcherPath.FabricInstallerPath, "installers");

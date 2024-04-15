@@ -18,10 +18,7 @@ public class QuiltInstallerLaunchArgsHelper : IFabricLaunchArgsHelper
     {
         JvmArguments jvmArguments = new();
         jvmArguments.Add(
-            new LaunchArg(
-                "-jar \"{0}\"",
-                [MinecraftQuiltPathResolver.DownloadedInstallerPath(launcherPath, launcherVersion),]
-            )
+            new LaunchArg("-jar \"{0}\"", [QuiltPathResolver.DownloadedInstallerPath(launcherPath, launcherVersion),])
         );
         jvmArguments.Add(
             new LaunchArg(

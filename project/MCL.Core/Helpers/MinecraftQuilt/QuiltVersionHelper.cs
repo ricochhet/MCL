@@ -6,11 +6,11 @@ using MCL.Core.Models.MinecraftQuilt;
 
 namespace MCL.Core.Helpers.MinecraftQuilt;
 
-public class MCQuiltVersionHelper : IMCFabricVersionHelper<MCQuiltInstaller, MCQuiltLoader, MCQuiltIndex>
+public class QuiltVersionHelper : IFabricVersionHelper<MCQuiltInstaller, MCQuiltLoader, MCQuiltIndex>
 {
     public static List<string> GetInstallerVersionIds(MCQuiltIndex index)
     {
-        if (!MCQuiltVersionHelperErr.Exists(index))
+        if (!QuiltVersionHelperErr.Exists(index))
             return [];
 
         List<string> versions = [];
@@ -24,7 +24,7 @@ public class MCQuiltVersionHelper : IMCFabricVersionHelper<MCQuiltInstaller, MCQ
 
     public static List<string> GetLoaderVersionIds(MCQuiltIndex index)
     {
-        if (!MCQuiltVersionHelperErr.Exists(index))
+        if (!QuiltVersionHelperErr.Exists(index))
             return [];
 
         List<string> versions = [];
@@ -41,7 +41,7 @@ public class MCQuiltVersionHelper : IMCFabricVersionHelper<MCQuiltInstaller, MCQ
         if (!MCLauncherVersion.Exists(installerVersion))
             return null;
 
-        if (!MCQuiltVersionHelperErr.Exists(index))
+        if (!QuiltVersionHelperErr.Exists(index))
             return null;
 
         MCQuiltInstaller quiltInstaller = index.Installer[0];
@@ -64,7 +64,7 @@ public class MCQuiltVersionHelper : IMCFabricVersionHelper<MCQuiltInstaller, MCQ
         if (!MCLauncherVersion.Exists(loaderVersion))
             return null;
 
-        if (!MCQuiltVersionHelperErr.Exists(index))
+        if (!QuiltVersionHelperErr.Exists(index))
             return null;
 
         MCQuiltLoader quiltLoader = index.Loader[0];

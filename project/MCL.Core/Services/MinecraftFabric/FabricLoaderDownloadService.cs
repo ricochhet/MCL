@@ -12,10 +12,10 @@ using MCL.Core.Web.MinecraftFabric;
 
 namespace MCL.Core.Services.MinecraftFabric;
 
-public class MCFabricInstallerDownloadService : IFabricInstallerDownloadService<MCFabricConfigUrls>, IDownloadService
+public class FabricLoaderDownloadService : IFabricLoaderDownloadService<MCFabricConfigUrls>, IDownloadService
 {
     private static MCFabricIndex FabricIndex;
-    private static MCFabricInstaller FabricInstaller;
+    private static MCFabricProfile FabricProfile;
     private static MCLauncherPath LauncherPath;
     private static MCLauncherVersion LauncherVersion;
     private static MCFabricConfigUrls FabricConfigUrls;
@@ -46,10 +46,16 @@ public class MCFabricInstallerDownloadService : IFabricInstallerDownloadService<
         if (!LoadIndex())
             return false;
 
-        if (!LoadInstallerVersion())
+        if (!IsOffline && !await DownloadProfile())
             return false;
 
-        if (!await DownloadInstaller())
+        if (!LoadProfile())
+            return false;
+
+        if (!LoadLoaderVersion())
+            return false;
+
+        if (!await DownloadLoader())
             return false;
 
         return true;
@@ -74,7 +80,7 @@ public class MCFabricInstallerDownloadService : IFabricInstallerDownloadService<
         if (!Loaded)
             return false;
 
-        FabricIndex = Json.Load<MCFabricIndex>(MinecraftFabricPathResolver.DownloadedIndexPath(LauncherPath));
+        FabricIndex = Json.Load<MCFabricIndex>(FabricPathResolver.DownloadedIndexPath(LauncherPath));
         if (FabricIndex == null)
         {
             NotificationService.Add(new(NativeLogLevel.Error, "error.readfile", [nameof(MCFabricIndex)]));
@@ -84,20 +90,47 @@ public class MCFabricInstallerDownloadService : IFabricInstallerDownloadService<
         return true;
     }
 
-    public static bool LoadInstallerVersion()
+    public static async Task<bool> DownloadProfile()
     {
         if (!Loaded)
             return false;
 
-        FabricInstaller = MCFabricVersionHelper.GetInstallerVersion(LauncherVersion, FabricIndex);
-        if (FabricInstaller == null)
+        if (!await FabricProfileDownloader.Download(LauncherPath, LauncherVersion, FabricConfigUrls))
+        {
+            NotificationService.Add(new(NativeLogLevel.Error, "error.download", [nameof(FabricProfileDownloader)]));
+            return false;
+        }
+
+        return true;
+    }
+
+    public static bool LoadProfile()
+    {
+        if (!Loaded)
+            return false;
+
+        FabricProfile = Json.Load<MCFabricProfile>(
+            FabricPathResolver.DownloadedProfilePath(LauncherPath, LauncherVersion)
+        );
+        if (FabricProfile == null)
+        {
+            NotificationService.Add(new(NativeLogLevel.Error, "error.download", [nameof(MCFabricProfile)]));
+            return false;
+        }
+
+        return true;
+    }
+
+    public static bool LoadLoaderVersion()
+    {
+        if (!Loaded)
+            return false;
+
+        MCFabricLoader fabricLoader = FabricVersionHelper.GetLoaderVersion(LauncherVersion, FabricIndex);
+        if (fabricLoader == null)
         {
             NotificationService.Add(
-                new(
-                    NativeLogLevel.Error,
-                    "error.parse",
-                    [LauncherVersion?.FabricInstallerVersion, nameof(MCFabricInstaller)]
-                )
+                new(NativeLogLevel.Error, "error.parse", [LauncherVersion?.FabricLoaderVersion, nameof(MCFabricLoader)])
             );
             return false;
         }
@@ -105,14 +138,14 @@ public class MCFabricInstallerDownloadService : IFabricInstallerDownloadService<
         return true;
     }
 
-    public static async Task<bool> DownloadInstaller()
+    public static async Task<bool> DownloadLoader()
     {
         if (!Loaded)
             return false;
 
-        if (!await FabricInstallerDownloader.Download(LauncherPath, LauncherVersion, FabricInstaller))
+        if (!await FabricLoaderDownloader.Download(LauncherPath, LauncherVersion, FabricProfile, FabricConfigUrls))
         {
-            NotificationService.Add(new(NativeLogLevel.Error, "error.download", [nameof(FabricInstallerDownloader)]));
+            NotificationService.Add(new(NativeLogLevel.Error, "error.download", [nameof(FabricLoaderDownloader)]));
             return false;
         }
 

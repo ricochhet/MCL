@@ -7,11 +7,11 @@ using MCL.Core.Resolvers.Minecraft;
 
 namespace MCL.Core.Helpers.Minecraft;
 
-public static class MCVersionHelper
+public static class VersionHelper
 {
     public static List<string> GetVersionIds(MCVersionManifest versionManifest)
     {
-        if (!MCVersionHelperErr.Exists(versionManifest))
+        if (!VersionHelperErr.Exists(versionManifest))
             return [];
 
         List<string> versions = [];
@@ -28,7 +28,7 @@ public static class MCVersionHelper
         if (!MCLauncherVersion.Exists(launcherVersion))
             return null;
 
-        if (!MCVersionHelperErr.Exists(versionManifest))
+        if (!VersionHelperErr.Exists(versionManifest))
             return null;
 
         foreach (MCVersion item in versionManifest.Versions)

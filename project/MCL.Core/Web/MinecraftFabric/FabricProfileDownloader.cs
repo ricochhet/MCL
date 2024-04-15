@@ -23,12 +23,12 @@ public class FabricProfileDownloader : IFabricProfileDownloader<MCFabricConfigUr
         if (!MCLauncherVersion.Exists(launcherVersion))
             return false;
 
-        if (!MCFabricConfigUrlsErr.Exists(fabricConfigUrls))
+        if (!FabricConfigUrlsErr.Exists(fabricConfigUrls))
             return false;
 
         string fabricProfile = await Request.GetJsonAsync<MCFabricProfile>(
-            MinecraftFabricPathResolver.LoaderProfileUrlPath(fabricConfigUrls, launcherVersion),
-            MinecraftFabricPathResolver.DownloadedProfilePath(launcherPath, launcherVersion),
+            FabricPathResolver.LoaderProfileUrlPath(fabricConfigUrls, launcherVersion),
+            FabricPathResolver.DownloadedProfilePath(launcherPath, launcherVersion),
             Encoding.UTF8
         );
         if (string.IsNullOrWhiteSpace(fabricProfile))

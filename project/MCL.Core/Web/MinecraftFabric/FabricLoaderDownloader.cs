@@ -33,7 +33,7 @@ public class FabricLoaderDownloader : IFabricLoaderDownloader<MCFabricProfile, M
             string hash;
             if (library.Name.Contains(fabricConfigUrls.FabricApiLoaderName))
             {
-                request = MinecraftFabricPathResolver.LoaderJarUrlPath(fabricConfigUrls, launcherVersion);
+                request = FabricPathResolver.LoaderJarUrlPath(fabricConfigUrls, launcherVersion);
                 hash = string.Empty;
             }
             else if (library.Name.Contains(fabricConfigUrls.FabricApiIntermediaryName))

@@ -1,9 +1,9 @@
 using System.Collections.Generic;
-using MCL.Core.Handlers.MinecraftFabric;
+using MCL.Core.Handlers.Paper;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Models.Paper;
 
-namespace MCL.Core.Helpers.MinecraftFabric;
+namespace MCL.Core.Helpers.Paper;
 
 public static class PaperVersionHelper
 {

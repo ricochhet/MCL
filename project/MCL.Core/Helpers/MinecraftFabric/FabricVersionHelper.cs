@@ -6,11 +6,11 @@ using MCL.Core.Models.MinecraftFabric;
 
 namespace MCL.Core.Helpers.MinecraftFabric;
 
-public class MCFabricVersionHelper : IMCFabricVersionHelper<MCFabricInstaller, MCFabricLoader, MCFabricIndex>
+public class FabricVersionHelper : IFabricVersionHelper<MCFabricInstaller, MCFabricLoader, MCFabricIndex>
 {
     public static List<string> GetInstallerVersionIds(MCFabricIndex index)
     {
-        if (!MCFabricVersionHelperErr.Exists(index))
+        if (!FabricVersionHelperErr.Exists(index))
             return [];
 
         List<string> versions = [];
@@ -24,7 +24,7 @@ public class MCFabricVersionHelper : IMCFabricVersionHelper<MCFabricInstaller, M
 
     public static List<string> GetLoaderVersionIds(MCFabricIndex index)
     {
-        if (!MCFabricVersionHelperErr.Exists(index))
+        if (!FabricVersionHelperErr.Exists(index))
             return [];
 
         List<string> versions = [];
@@ -41,7 +41,7 @@ public class MCFabricVersionHelper : IMCFabricVersionHelper<MCFabricInstaller, M
         if (!MCLauncherVersion.Exists(installerVersion))
             return null;
 
-        if (!MCFabricVersionHelperErr.Exists(index))
+        if (!FabricVersionHelperErr.Exists(index))
             return null;
 
         MCFabricInstaller fabricInstaller = index.Installer[0];
@@ -58,7 +58,7 @@ public class MCFabricVersionHelper : IMCFabricVersionHelper<MCFabricInstaller, M
         if (!MCLauncherVersion.Exists(loaderVersion))
             return null;
 
-        if (!MCFabricVersionHelperErr.Exists(index))
+        if (!FabricVersionHelperErr.Exists(index))
             return null;
 
         MCFabricLoader fabricLoader = index.Loader[0];
