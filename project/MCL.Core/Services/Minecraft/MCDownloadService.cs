@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using MCL.Core.Enums;
 using MCL.Core.Helpers.Minecraft;
 using MCL.Core.Interfaces;
 using MCL.Core.Interfaces.Services.Minecraft;

@@ -106,7 +106,7 @@ internal static class Program
                     launcherPath,
                     config.MinecraftUrls,
                     JavaVersionHelper.GetDownloadedMCVersionJava(launcherPath, launcherVersion, launcherSettings),
-                    JavaRuntimePlatform.WINDOWSX64
+                    launcherSettings.JavaRuntimePlatform
                 );
 
                 await JavaDownloadService.Download();
