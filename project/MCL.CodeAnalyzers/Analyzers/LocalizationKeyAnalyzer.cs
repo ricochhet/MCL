@@ -57,7 +57,7 @@ public static partial class LocalizationKeyAnalyzer
         );
     }
 
-    [GeneratedRegex(@"NotificationService\.Add.*?\);")]
+    [GeneratedRegex(@"NotificationService\.Add[^;]*\);(?=\s|$)")]
     private static partial Regex NotificationServiceRegex();
 
     [GeneratedRegex("\"([^\"]*)\"")]
