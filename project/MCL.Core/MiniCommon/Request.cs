@@ -48,6 +48,44 @@ public static class Request
         }
     }
 
+    public static async Task<byte[]?> GetByteArrayAsync(string request)
+    {
+        try
+        {
+            return await httpClient.GetByteArrayAsync(request);
+        }
+        catch (Exception ex)
+        {
+            NotificationService.Add(
+                new(
+                    NativeLogLevel.Error,
+                    "error.request",
+                    [request, ex.Message, ex.StackTrace ?? LocalizationService.Translate("stack.trace.null")]
+                )
+            );
+            return null;
+        }
+    }
+
+    public static async Task<Stream?> GetStreamAsync(string request)
+    {
+        try
+        {
+            return await httpClient.GetStreamAsync(request);
+        }
+        catch (Exception ex)
+        {
+            NotificationService.Add(
+                new(
+                    NativeLogLevel.Error,
+                    "error.request",
+                    [request, ex.Message, ex.StackTrace ?? LocalizationService.Translate("stack.trace.null")]
+                )
+            );
+            return null;
+        }
+    }
+
     public static async Task<T?> GetObjectFromJsonAsync<T>(string request)
     {
         try
