@@ -15,8 +15,8 @@ public class JavaRuntimeManifestDownloader : IJavaRuntimeManifestDownloader
 {
     public static async Task<bool> Download(
         MCLauncherPath launcherPath,
-        JavaRuntimePlatform javaRuntimePlatformEnum,
-        JavaRuntimeType javaRuntimeTypeEnum,
+        JavaRuntimePlatform javaRuntimePlatform,
+        JavaRuntimeType javaRuntimeType,
         JavaRuntimeIndex javaRuntimeIndex
     )
     {
@@ -26,21 +26,17 @@ public class JavaRuntimeManifestDownloader : IJavaRuntimeManifestDownloader
         if (!javaRuntimeIndex.JavaRuntimeExists())
             return false;
 
-        string request = javaRuntimePlatformEnum switch
+        string request = javaRuntimePlatform switch
         {
-            JavaRuntimePlatform.GAMECORE => GetJavaRuntimeUrl(javaRuntimeTypeEnum, javaRuntimeIndex.Gamecore),
-            JavaRuntimePlatform.LINUX => GetJavaRuntimeUrl(javaRuntimeTypeEnum, javaRuntimeIndex.Linux),
-            JavaRuntimePlatform.LINUXI386 => GetJavaRuntimeUrl(javaRuntimeTypeEnum, javaRuntimeIndex.LinuxI386),
-            JavaRuntimePlatform.MACOS => GetJavaRuntimeUrl(javaRuntimeTypeEnum, javaRuntimeIndex.Macos),
-            JavaRuntimePlatform.MACOSARM64 => GetJavaRuntimeUrl(javaRuntimeTypeEnum, javaRuntimeIndex.MacosArm64),
-            JavaRuntimePlatform.WINDOWSARM64 => GetJavaRuntimeUrl(javaRuntimeTypeEnum, javaRuntimeIndex.WindowsArm64),
-            JavaRuntimePlatform.WINDOWSX64 => GetJavaRuntimeUrl(javaRuntimeTypeEnum, javaRuntimeIndex.WindowsX64),
-            JavaRuntimePlatform.WINDOWSX86 => GetJavaRuntimeUrl(javaRuntimeTypeEnum, javaRuntimeIndex.WindowsX86),
-            _
-                => throw new ArgumentOutOfRangeException(
-                    nameof(javaRuntimePlatformEnum),
-                    "Invalid Java runtime platform."
-                ),
+            JavaRuntimePlatform.GAMECORE => GetJavaRuntimeUrl(javaRuntimeType, javaRuntimeIndex.Gamecore),
+            JavaRuntimePlatform.LINUX => GetJavaRuntimeUrl(javaRuntimeType, javaRuntimeIndex.Linux),
+            JavaRuntimePlatform.LINUXI386 => GetJavaRuntimeUrl(javaRuntimeType, javaRuntimeIndex.LinuxI386),
+            JavaRuntimePlatform.MACOS => GetJavaRuntimeUrl(javaRuntimeType, javaRuntimeIndex.Macos),
+            JavaRuntimePlatform.MACOSARM64 => GetJavaRuntimeUrl(javaRuntimeType, javaRuntimeIndex.MacosArm64),
+            JavaRuntimePlatform.WINDOWSARM64 => GetJavaRuntimeUrl(javaRuntimeType, javaRuntimeIndex.WindowsArm64),
+            JavaRuntimePlatform.WINDOWSX64 => GetJavaRuntimeUrl(javaRuntimeType, javaRuntimeIndex.WindowsX64),
+            JavaRuntimePlatform.WINDOWSX86 => GetJavaRuntimeUrl(javaRuntimeType, javaRuntimeIndex.WindowsX86),
+            _ => throw new ArgumentOutOfRangeException(nameof(javaRuntimePlatform), "Invalid Java runtime platform."),
         };
 
         if (string.IsNullOrWhiteSpace(request))
@@ -50,7 +46,7 @@ public class JavaRuntimeManifestDownloader : IJavaRuntimeManifestDownloader
             request,
             JavaPathResolver.DownloadedJavaRuntimeManifestPath(
                 launcherPath,
-                JavaRuntimeTypeResolver.ToString(javaRuntimeTypeEnum)
+                JavaRuntimeTypeResolver.ToString(javaRuntimeType)
             ),
             Encoding.UTF8
         );
@@ -59,12 +55,12 @@ public class JavaRuntimeManifestDownloader : IJavaRuntimeManifestDownloader
         return true;
     }
 
-    public static string GetJavaRuntimeUrl(JavaRuntimeType javaRuntimeTypeEnum, JavaRuntime javaRuntime)
+    public static string GetJavaRuntimeUrl(JavaRuntimeType javaRuntimeType, JavaRuntime javaRuntime)
     {
         if (!javaRuntime.JavaRuntimeExists())
             return default;
 
-        return javaRuntimeTypeEnum switch
+        return javaRuntimeType switch
         {
             JavaRuntimeType.JAVA_RUNTIME_ALPHA => javaRuntime.JavaRuntimeAlpha[0].JavaRuntimeManifest.Url,
             JavaRuntimeType.JAVA_RUNTIME_BETA => javaRuntime.JavaRuntimeBeta[0].JavaRuntimeManifest.Url,
@@ -74,7 +70,7 @@ public class JavaRuntimeManifestDownloader : IJavaRuntimeManifestDownloader
                 => javaRuntime.JavaRuntimeGammaSnapshot[0].JavaRuntimeManifest.Url,
             JavaRuntimeType.JRE_LEGACY => javaRuntime.JreLegacy[0].JavaRuntimeManifest.Url,
             JavaRuntimeType.MINECRAFT_JAVA_EXE => javaRuntime.MinecraftJavaExe[0].JavaRuntimeManifest.Url,
-            _ => throw new ArgumentOutOfRangeException(nameof(javaRuntimeTypeEnum), "Invalid Java runtime type."),
+            _ => throw new ArgumentOutOfRangeException(nameof(javaRuntimeType), "Invalid Java runtime type."),
         };
     }
 }

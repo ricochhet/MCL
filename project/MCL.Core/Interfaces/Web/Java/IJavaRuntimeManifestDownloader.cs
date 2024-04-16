@@ -9,9 +9,9 @@ public interface IJavaRuntimeManifestDownloader
 {
     public static abstract Task<bool> Download(
         MCLauncherPath launcherPath,
-        JavaRuntimePlatform javaRuntimePlatformEnum,
-        JavaRuntimeType javaRuntimeTypeEnum,
+        JavaRuntimePlatform javaRuntimePlatform,
+        JavaRuntimeType javaRuntimeType,
         JavaRuntimeIndex javaRuntimeIndex
     );
-    public static abstract string GetJavaRuntimeUrl(JavaRuntimeType javaRuntimeTypeEnum, JavaRuntime javaRuntime);
+    public static abstract string GetJavaRuntimeUrl(JavaRuntimeType javaRuntimeType, JavaRuntime javaRuntime);
 }
