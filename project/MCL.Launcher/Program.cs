@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using MCL.Core.Enums.MinecraftFabric;
@@ -8,6 +9,7 @@ using MCL.Core.Helpers.Java;
 using MCL.Core.Helpers.Minecraft;
 using MCL.Core.Helpers.MinecraftFabric;
 using MCL.Core.Helpers.MinecraftQuilt;
+using MCL.Core.Interfaces.MiniCommon;
 using MCL.Core.Logger;
 using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon;
@@ -23,6 +25,7 @@ using MCL.Core.Services.Modding;
 using MCL.Core.Services.Paper;
 using MCL.Core.Services.SevenZip;
 using MCL.Core.Services.Web;
+using MCL.Launcher.Commands;
 
 namespace MCL.Launcher;
 
@@ -67,140 +70,19 @@ internal static class Program
         if (args.Length <= 0)
             return;
 
-        await CommandLine.ProcessArgumentAsync(
-            args,
-            "--dl-java",
-            async () =>
-            {
-                JavaDownloadService.Init(
-                    config.LauncherPath,
-                    config.MinecraftUrls,
-                    JavaVersionHelper.GetDownloadedMCVersionJava(
-                        config.LauncherPath,
-                        config.LauncherVersion,
-                        config.LauncherSettings
-                    ),
-                    config.LauncherSettings.JavaRuntimePlatform
-                );
+        List<ILauncherCommand> commands = [];
 
-                await JavaDownloadService.Download();
-            }
-        );
+        commands.Add(new DownloadJava());
+        commands.Add(new DownloadMinecraft());
+        commands.Add(new DownloadFabricInstaller());
+        commands.Add(new DownloadFabricLoader());
+        commands.Add(new DownloadQuiltInstaller());
+        commands.Add(new DownloadQuiltLoader());
+        commands.Add(new DownloadPaperServer());
+        commands.Add(new LaunchMinecraft());
+        commands.Add(new DeployMods());
 
-        await CommandLine.ProcessArgumentAsync(
-            args,
-            "--dl-minecraft",
-            async () =>
-            {
-                MinecraftDownloadService.Init(
-                    config.LauncherPath,
-                    config.LauncherVersion,
-                    config.LauncherSettings,
-                    config.MinecraftUrls
-                );
-                await MinecraftDownloadService.Download();
-            }
-        );
-
-        await CommandLine.ProcessArgumentAsync(
-            args,
-            "--dl-fabric-loader",
-            async () =>
-            {
-                FabricLoaderDownloadService.Init(config.LauncherPath, config.LauncherVersion, config.FabricUrls);
-                await FabricLoaderDownloadService.Download();
-            }
-        );
-
-        await CommandLine.ProcessArgumentAsync(
-            args,
-            "--dl-fabric-installer",
-            async () =>
-            {
-                FabricInstallerDownloadService.Init(config.LauncherPath, config.LauncherVersion, config.FabricUrls);
-                if (!await FabricInstallerDownloadService.Download())
-                    return;
-
-                JavaLaunchHelper.Launch(
-                    config,
-                    FabricInstallerLaunchArgsHelper.Default(
-                        config.LauncherPath,
-                        config.LauncherVersion,
-                        FabricInstallerType.CLIENT
-                    ),
-                    config.LauncherSettings.JavaRuntimeType
-                );
-            }
-        );
-
-        await CommandLine.ProcessArgumentAsync(
-            args,
-            "--dl-quilt-loader",
-            async () =>
-            {
-                QuiltLoaderDownloadService.Init(config.LauncherPath, config.LauncherVersion, config.QuiltUrls);
-                await QuiltLoaderDownloadService.Download();
-            }
-        );
-
-        await CommandLine.ProcessArgumentAsync(
-            args,
-            "--dl-quilt-installer",
-            async () =>
-            {
-                QuiltInstallerDownloadService.Init(config.LauncherPath, config.LauncherVersion, config.QuiltUrls);
-                if (!await QuiltInstallerDownloadService.Download())
-                    return;
-
-                JavaLaunchHelper.Launch(
-                    config,
-                    QuiltInstallerLaunchArgsHelper.Default(
-                        config.LauncherPath,
-                        config.LauncherVersion,
-                        FabricInstallerType.CLIENT
-                    ),
-                    config.LauncherSettings.JavaRuntimeType
-                );
-            }
-        );
-
-        await CommandLine.ProcessArgumentAsync(
-            args,
-            "--dl-paper-server",
-            async () =>
-            {
-                PaperServerDownloadService.Init(config.LauncherPath, config.LauncherVersion, config.PaperUrls);
-                await PaperServerDownloadService.Download();
-            }
-        );
-
-        CommandLine.ProcessArgument(
-            args,
-            "--launch",
-            () =>
-            {
-                MinecraftLaunchHelper.Launch(
-                    config.LauncherPath,
-                    config.LauncherVersion,
-                    config.LauncherSettings,
-                    config.LauncherUsername,
-                    config
-                );
-            }
-        );
-
-        CommandLine.ProcessArgument(
-            args,
-            "--mods",
-            () =>
-            {
-                ModdingService.Save("fabric-mods");
-                ModdingService.Deploy(
-                    ModdingService.Load("fabric-mods"),
-                    VFS.FromCwd(config.LauncherPath.Path, "mods")
-                );
-                config.Save(ModdingService.ModConfig);
-            }
-        );
+        foreach (ILauncherCommand command in commands)
+            await command.Init(args, config);
     }
 }
