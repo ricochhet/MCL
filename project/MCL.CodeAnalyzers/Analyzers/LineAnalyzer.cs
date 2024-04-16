@@ -1,4 +1,6 @@
-using System.IO;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon;
@@ -8,24 +10,30 @@ namespace MCL.CodeAnalyzers.Analyzers;
 
 public static partial class LineAnalyzer
 {
-    public static void Analyze(string filepath)
+    public static void Analyze(string[] files)
     {
-        string[] files = VFS.GetFiles(filepath, "*.cs", SearchOption.AllDirectories);
-        int total = 0;
+        List<int> fileLines = [];
         foreach (string file in files)
         {
             if (file.Contains("AssemblyInfo") || file.Contains("AssemblyAttributes"))
                 continue;
             string[] lines = VFS.ReadAllLines(file);
+            int fileLineCount = 0;
             foreach (string line in lines)
             {
                 if (!string.IsNullOrWhiteSpace(line))
-                    total++;
+                    fileLineCount++;
             }
+
+            fileLines.Add(fileLineCount);
         }
 
         NotificationService.Add(
-            new(NativeLogLevel.Info, "analyzer.line.output", [nameof(LineAnalyzer), total.ToString()])
+            new(
+                NativeLogLevel.Info,
+                "analyzer.line.output",
+                [nameof(LineAnalyzer), fileLines.Sum().ToString(), Math.Round(fileLines.Average()).ToString()]
+            )
         );
     }
 

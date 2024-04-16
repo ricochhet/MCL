@@ -23,6 +23,6 @@
       "analyzer.error.namespace": "'{0}' does not contain a valid namespace: '{1}'",
       "analyzer.error.localization": "'{0}' - '{1}' is not a valid localization key.",
       "analyzer.output": "[{0}] Done: '{1}', Fail: '{2}', Total: '{3}'",
-      "analyzer.line.output": "[{0}] Total: '{1}'"
+      "analyzer.line.output": "[{0}] Total: '{1}', Average (Per File): '{2}'"
     }
   }

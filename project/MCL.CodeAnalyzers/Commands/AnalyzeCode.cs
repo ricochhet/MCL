@@ -1,3 +1,4 @@
+using System.IO;
 using System.Threading.Tasks;
 using MCL.CodeAnalyzers.Analyzers;
 using MCL.Core.Interfaces.MiniCommon;
@@ -16,9 +17,11 @@ public class AnalyzeCode : ILauncherCommand
             "--analyze",
             (string value) =>
             {
-                LineAnalyzer.Analyze(value);
-                NamespaceAnalyzer.Analyze(value);
-                LocalizationKeyAnalyzer.Analyze(value, LocalizationService.Localization);
+                string[] files = VFS.GetFiles(value, "*.cs", SearchOption.AllDirectories);
+
+                LineAnalyzer.Analyze(files);
+                NamespaceAnalyzer.Analyze(files);
+                LocalizationKeyAnalyzer.Analyze(files, LocalizationService.Localization);
             }
         );
 

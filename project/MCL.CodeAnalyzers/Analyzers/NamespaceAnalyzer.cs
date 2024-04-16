@@ -1,4 +1,3 @@
-using System.IO;
 using System.Text.RegularExpressions;
 using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon;
@@ -8,9 +7,8 @@ namespace MCL.CodeAnalyzers.Analyzers;
 
 public static partial class NamespaceAnalyzer
 {
-    public static void Analyze(string filepath)
+    public static void Analyze(string[] files)
     {
-        string[] files = VFS.GetFiles(filepath, "*.cs", SearchOption.AllDirectories);
         int success = 0;
         int fail = 0;
         foreach (string file in files)
