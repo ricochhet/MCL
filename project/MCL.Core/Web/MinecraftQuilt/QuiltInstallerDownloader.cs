@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using MCL.Core.Handlers.MinecraftQuilt;
+using MCL.Core.Extensions.MinecraftQuilt;
 using MCL.Core.Interfaces.Web.MinecraftFabric;
 using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon;

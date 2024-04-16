@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using MCL.Core.Handlers.MinecraftFabric;
+using MCL.Core.Extensions.MinecraftFabric;
 using MCL.Core.Interfaces.Helpers.MinecraftFabric;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Models.MinecraftFabric;

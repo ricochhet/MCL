@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using MCL.Core.Extensions.Java;
+using MCL.Core.Extensions.Minecraft;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Models.Minecraft;

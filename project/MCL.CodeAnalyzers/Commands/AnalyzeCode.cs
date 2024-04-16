@@ -16,6 +16,7 @@ public class AnalyzeCode : ILauncherCommand
             "--analyze",
             (string value) =>
             {
+                LineAnalyzer.Analyze(value);
                 NamespaceAnalyzer.Analyze(value);
                 LocalizationKeyAnalyzer.Analyze(value, LocalizationService.Localization);
             }

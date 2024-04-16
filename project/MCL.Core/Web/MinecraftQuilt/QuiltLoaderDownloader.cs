@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 using MCL.Core.Extensions.MinecraftQuilt;
-using MCL.Core.Handlers.MinecraftQuilt;
 using MCL.Core.Interfaces.Web.MinecraftFabric;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
