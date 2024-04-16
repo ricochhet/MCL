@@ -1,10 +1,11 @@
 using System;
-using MCL.CodeAnalyzers.Analyzers;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using MCL.CodeAnalyzers.Commands;
 using MCL.Core.Enums.Services;
-using MCL.Core.Helpers.Launcher;
+using MCL.Core.Interfaces.MiniCommon;
 using MCL.Core.Logger;
 using MCL.Core.Logger.Enums;
-using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Models.Services;
 using MCL.Core.Services.Launcher;
@@ -13,20 +14,17 @@ namespace MCL.CodeAnalyzers;
 
 internal static class Program
 {
-    private static void Main(string[] args)
+    private static async Task Main(string[] args)
     {
         Console.Title = "MCL.CodeAnalyzers";
         Log.Add(new NativeLogger());
-        MCLauncherPath launcherPath =
-            new(
-                path: string.Empty,
-                modPath: string.Empty,
-                fabricInstallerPath: string.Empty,
-                quiltInstallerPath: string.Empty,
-                paperInstallerPath: string.Empty,
-                languageLocalizationPath: LaunchPathHelper.LanguageLocalizationPath
-            );
-        LocalizationService.Init(launcherPath, Language.ENGLISH);
+        Log.Add(new FileStreamLogger(ConfigService.LogFilePath));
+        ConfigService.Save();
+        Config config = ConfigService.Load();
+        if (config == null)
+            return;
+
+        LocalizationService.Init(config.LauncherPath, Language.ENGLISH);
         NotificationService.Init(
             (Notification notification) =>
             {
@@ -39,14 +37,10 @@ internal static class Program
         if (args.Length <= 0)
             return;
 
-        CommandLine.ProcessArgument(
-            args,
-            "--analyze",
-            (string value) =>
-            {
-                NamespaceAnalyzer.Analyze(value);
-                LocalizationKeyAnalyzer.Analyze(value, LocalizationService.Localization);
-            }
-        );
+        List<ILauncherCommand> commands = [];
+        commands.Add(new AnalyzeCode());
+
+        foreach (ILauncherCommand command in commands)
+            await command.Init(args, config);
     }
 }
