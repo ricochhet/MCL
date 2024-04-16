@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using MCL.Core.Extensions.MinecraftFabric;
 using MCL.Core.Handlers.MinecraftFabric;
 using MCL.Core.Interfaces.Web.MinecraftFabric;
 using MCL.Core.MiniCommon;
@@ -21,12 +22,16 @@ public class FabricLoaderDownloader : IFabricLoaderDownloader<MCFabricProfile, M
         if (!MCLauncherPath.Exists(launcherPath))
             return false;
 
-        if (!FabricLoaderDownloaderErr.Exists(fabricProfile, fabricConfigUrls))
+        if (
+            !fabricProfile.LibraryExists()
+            || !fabricConfigUrls.ApiLoaderNameExists()
+            || !fabricConfigUrls.ApiIntermediaryNameExists()
+        )
             return false;
 
         foreach (MCFabricLibrary library in fabricProfile.Libraries)
         {
-            if (!FabricLoaderDownloaderErr.Exists(library))
+            if (!library.LibraryExists())
                 return false;
 
             string request;

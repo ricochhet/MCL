@@ -23,7 +23,7 @@ public class QuiltProfileDownloader : IFabricProfileDownloader<MCQuiltConfigUrls
         if (!MCLauncherVersion.Exists(launcherVersion))
             return false;
 
-        if (!QuiltConfigUrlsErr.Exists(quiltConfigUrls))
+        if (!quiltConfigUrls.LoaderProfileUrlExists())
             return false;
 
         string quiltProfile = await Request.GetJsonAsync<MCQuiltProfile>(

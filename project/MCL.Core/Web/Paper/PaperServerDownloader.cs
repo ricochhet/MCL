@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using MCL.Core.Handlers.Paper;
+using MCL.Core.Extensions.Paper;
 using MCL.Core.Interfaces.Web.Paper;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
@@ -20,10 +20,10 @@ public class PaperServerDownloader : IPaperServerDownloader<PaperBuild, PaperCon
         if (!MCLauncherPath.Exists(launcherPath))
             return false;
 
-        if (!PaperConfigUrlsErr.Exists(paperConfigUrls))
+        if (!paperConfigUrls.JarUrlExists())
             return false;
 
-        if (!PaperServerDownloaderErr.Exists(paperBuild))
+        if (!paperBuild.BuildExists())
             return false;
 
         string filepath = PaperPathResolver.DownloadedJarPath(launcherPath, launcherVersion);

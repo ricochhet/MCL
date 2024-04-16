@@ -21,7 +21,7 @@ public class QuiltInstallerDownloader : IFabricInstallerDownloader<MCQuiltInstal
         if (!MCLauncherPath.Exists(launcherPath))
             return false;
 
-        if (!QuiltInstallerDownloaderErr.Exists(quiltInstaller))
+        if (!quiltInstaller.UrlExists() || !quiltInstaller.VersionExists())
             return false;
 
         string quiltInstallerPath = QuiltPathResolver.DownloadedInstallerPath(launcherPath, launcherVersion);

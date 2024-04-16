@@ -2,6 +2,7 @@ using System;
 using System.Text;
 using System.Threading.Tasks;
 using MCL.Core.Enums.Java;
+using MCL.Core.Extensions.Java;
 using MCL.Core.Handlers.Java;
 using MCL.Core.Interfaces.Web.Java;
 using MCL.Core.MiniCommon;
@@ -23,7 +24,7 @@ public class JavaRuntimeManifestDownloader : IJavaRuntimeManifestDownloader
         if (!MCLauncherPath.Exists(launcherPath))
             return false;
 
-        if (!JavaRuntimeManifestDownloaderErr.Exists(javaRuntimeIndex))
+        if (!javaRuntimeIndex.JavaRuntimeExists())
             return false;
 
         string request = javaRuntimePlatformEnum switch
@@ -61,7 +62,7 @@ public class JavaRuntimeManifestDownloader : IJavaRuntimeManifestDownloader
 
     public static string GetJavaRuntimeUrl(JavaRuntimeType javaRuntimeTypeEnum, JavaRuntime javaRuntime)
     {
-        if (!JavaRuntimeManifestDownloaderErr.Exists(javaRuntime))
+        if (!javaRuntime.JavaRuntimeExists())
             return default;
 
         return javaRuntimeTypeEnum switch

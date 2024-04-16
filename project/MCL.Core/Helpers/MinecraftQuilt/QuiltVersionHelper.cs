@@ -10,7 +10,7 @@ public class QuiltVersionHelper : IFabricVersionHelper<MCQuiltInstaller, MCQuilt
 {
     public static List<string> GetInstallerVersionIds(MCQuiltIndex index)
     {
-        if (!QuiltVersionHelperErr.Exists(index))
+        if (!index.InstallerExists())
             return [];
 
         List<string> versions = [];
@@ -24,7 +24,7 @@ public class QuiltVersionHelper : IFabricVersionHelper<MCQuiltInstaller, MCQuilt
 
     public static List<string> GetLoaderVersionIds(MCQuiltIndex index)
     {
-        if (!QuiltVersionHelperErr.Exists(index))
+        if (!index.LoaderExists())
             return [];
 
         List<string> versions = [];
@@ -41,7 +41,7 @@ public class QuiltVersionHelper : IFabricVersionHelper<MCQuiltInstaller, MCQuilt
         if (!MCLauncherVersion.Exists(installerVersion))
             return null;
 
-        if (!QuiltVersionHelperErr.Exists(index))
+        if (!index.InstallerExists())
             return null;
 
         MCQuiltInstaller quiltInstaller = index.Installer[0];
@@ -64,7 +64,7 @@ public class QuiltVersionHelper : IFabricVersionHelper<MCQuiltInstaller, MCQuilt
         if (!MCLauncherVersion.Exists(loaderVersion))
             return null;
 
-        if (!QuiltVersionHelperErr.Exists(index))
+        if (!index.LoaderExists())
             return null;
 
         MCQuiltLoader quiltLoader = index.Loader[0];

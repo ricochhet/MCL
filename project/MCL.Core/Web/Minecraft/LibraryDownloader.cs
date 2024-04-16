@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using MCL.Core.Enums;
 using MCL.Core.Enums.Java;
-using MCL.Core.Handlers.Minecraft;
+using MCL.Core.Extensions.Minecraft;
 using MCL.Core.Interfaces.Web.Minecraft;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
@@ -12,7 +12,7 @@ using MCL.Core.Resolvers.Minecraft;
 
 namespace MCL.Core.Web.Minecraft;
 
-public class LibraryDownloader : IMCLibraryDownloader
+public class LibraryDownloader : ILibraryDownloader
 {
     public static async Task<bool> Download(
         MCLauncherPath launcherPath,
@@ -23,7 +23,7 @@ public class LibraryDownloader : IMCLibraryDownloader
         if (!MCLauncherPath.Exists(launcherPath))
             return false;
 
-        if (!LibraryDownloaderErr.Exists(versionDetails))
+        if (!versionDetails.LibrariesExists())
             return false;
 
         string libPath = VFS.FromCwd(launcherPath.Path, "libraries");
@@ -38,7 +38,7 @@ public class LibraryDownloader : IMCLibraryDownloader
             if (!await DownloadNatives(launcherPath, lib, launcherSettings))
                 return false;
 
-            if (!LibraryDownloaderErr.Exists(lib))
+            if (!lib.ArtifactExists())
                 return false;
 
             string filepath = VFS.Combine(libPath, lib.Downloads.Artifact.Path);
@@ -97,7 +97,7 @@ public class LibraryDownloader : IMCLibraryDownloader
             case JavaRuntimePlatform.WINDOWSX64
             or JavaRuntimePlatform.WINDOWSX86
             or JavaRuntimePlatform.WINDOWSARM64:
-                if (!LibraryNativesDownloaderErr.WindowsClassifierNativesExists(lib))
+                if (!lib.WindowsClassifierNativesExists())
                     return false;
 
                 classifierFilePath = VFS.Combine(libraryPath, lib.Downloads.Classifiers.NativesWindows.Path);
@@ -106,7 +106,7 @@ public class LibraryDownloader : IMCLibraryDownloader
                 break;
             case JavaRuntimePlatform.LINUX
             or JavaRuntimePlatform.LINUXI386:
-                if (!LibraryNativesDownloaderErr.LinuxClassifierNativesExists(lib))
+                if (!lib.LinuxClassifierNativesExists())
                     return false;
 
                 classifierFilePath = VFS.Combine(libraryPath, lib.Downloads.Classifiers.NativesLinux.Path);
@@ -115,7 +115,7 @@ public class LibraryDownloader : IMCLibraryDownloader
                 break;
             case JavaRuntimePlatform.MACOS
             or JavaRuntimePlatform.MACOSARM64:
-                if (!LibraryNativesDownloaderErr.OSXClassifierNativesExists(lib))
+                if (!lib.OSXClassifierNativesExists())
                     return false;
 
                 classifierFilePath = VFS.Combine(libraryPath, lib.Downloads.Classifiers.NativesMacos.Path);

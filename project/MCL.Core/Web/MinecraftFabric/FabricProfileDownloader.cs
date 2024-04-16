@@ -23,7 +23,7 @@ public class FabricProfileDownloader : IFabricProfileDownloader<MCFabricConfigUr
         if (!MCLauncherVersion.Exists(launcherVersion))
             return false;
 
-        if (!FabricConfigUrlsErr.Exists(fabricConfigUrls))
+        if (!fabricConfigUrls.LoaderProfileUrlExists())
             return false;
 
         string fabricProfile = await Request.GetJsonAsync<MCFabricProfile>(

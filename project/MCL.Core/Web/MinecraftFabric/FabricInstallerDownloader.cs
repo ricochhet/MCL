@@ -21,7 +21,7 @@ public class FabricInstallerDownloader : IFabricInstallerDownloader<MCFabricInst
         if (!MCLauncherPath.Exists(launcherPath))
             return false;
 
-        if (!FabricInstallerDownloaderErr.Exists(fabricInstaller))
+        if (!fabricInstaller.UrlExists() || !fabricInstaller.VersionExists())
             return false;
 
         string fabricInstallerPath = FabricPathResolver.DownloadedInstallerPath(launcherPath, launcherVersion);

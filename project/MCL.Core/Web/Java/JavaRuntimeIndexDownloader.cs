@@ -1,6 +1,6 @@
 using System.Text;
 using System.Threading.Tasks;
-using MCL.Core.Handlers.Java;
+using MCL.Core.Extensions.Java;
 using MCL.Core.Interfaces.Web.Java;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Java;
@@ -17,7 +17,7 @@ public class JavaRuntimeIndexDownloader : IJavaRuntimeIndexDownloader
         if (!MCLauncherPath.Exists(launcherPath))
             return false;
 
-        if (!JavaRuntimeIndexDownloaderErr.Exists(configUrls))
+        if (!configUrls.JavaRuntimeIndexUrlExists())
             return false;
 
         string filepath = JavaPathResolver.DownloadedJavaRuntimeIndexPath(launcherPath);

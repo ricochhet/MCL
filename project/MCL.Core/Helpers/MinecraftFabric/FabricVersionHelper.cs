@@ -10,7 +10,7 @@ public class FabricVersionHelper : IFabricVersionHelper<MCFabricInstaller, MCFab
 {
     public static List<string> GetInstallerVersionIds(MCFabricIndex index)
     {
-        if (!FabricVersionHelperErr.Exists(index))
+        if (!index.InstallerExists())
             return [];
 
         List<string> versions = [];
@@ -24,7 +24,7 @@ public class FabricVersionHelper : IFabricVersionHelper<MCFabricInstaller, MCFab
 
     public static List<string> GetLoaderVersionIds(MCFabricIndex index)
     {
-        if (!FabricVersionHelperErr.Exists(index))
+        if (!index.LoaderExists())
             return [];
 
         List<string> versions = [];
@@ -41,7 +41,7 @@ public class FabricVersionHelper : IFabricVersionHelper<MCFabricInstaller, MCFab
         if (!MCLauncherVersion.Exists(installerVersion))
             return null;
 
-        if (!FabricVersionHelperErr.Exists(index))
+        if (!index.InstallerExists())
             return null;
 
         MCFabricInstaller fabricInstaller = index.Installer[0];
@@ -58,7 +58,7 @@ public class FabricVersionHelper : IFabricVersionHelper<MCFabricInstaller, MCFab
         if (!MCLauncherVersion.Exists(loaderVersion))
             return null;
 
-        if (!FabricVersionHelperErr.Exists(index))
+        if (!index.LoaderExists())
             return null;
 
         MCFabricLoader fabricLoader = index.Loader[0];

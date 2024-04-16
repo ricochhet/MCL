@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using MCL.Core.Extensions.MinecraftQuilt;
 using MCL.Core.Handlers.MinecraftQuilt;
 using MCL.Core.Interfaces.Web.MinecraftFabric;
 using MCL.Core.MiniCommon;
@@ -21,12 +22,16 @@ public class QuiltLoaderDownloader : IFabricLoaderDownloader<MCQuiltProfile, MCQ
         if (!MCLauncherPath.Exists(launcherPath))
             return false;
 
-        if (!QuiltLoaderDownloaderErr.Exists(quiltProfile, quiltConfigUrls))
+        if (
+            !quiltProfile.LibraryExists()
+            || !quiltConfigUrls.ApiLoaderNameExists()
+            || !quiltConfigUrls.ApiIntermediaryNameExists()
+        )
             return false;
 
         foreach (MCQuiltLibrary library in quiltProfile.Libraries)
         {
-            if (!QuiltLoaderDownloaderErr.Exists(library))
+            if (!library.LibraryExists())
                 return false;
 
             string request;

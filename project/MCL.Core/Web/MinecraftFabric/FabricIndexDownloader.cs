@@ -16,7 +16,7 @@ public class FabricIndexDownloader : IFabricIndexDownloader<MCFabricConfigUrls>
         if (!MCLauncherPath.Exists(launcherPath))
             return false;
 
-        if (!FabricConfigUrlsErr.Exists(fabricConfigUrls))
+        if (!fabricConfigUrls.VersionsIndexExists())
             return false;
 
         string filepath = FabricPathResolver.DownloadedIndexPath(launcherPath);

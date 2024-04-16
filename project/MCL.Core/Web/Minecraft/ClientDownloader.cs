@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using MCL.Core.Handlers.Minecraft;
+using MCL.Core.Extensions.Minecraft;
 using MCL.Core.Interfaces.Web.Minecraft;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
@@ -8,14 +8,14 @@ using MCL.Core.Resolvers.Minecraft;
 
 namespace MCL.Core.Web.Minecraft;
 
-public class ClientDownloader : IMCGenericDownloader
+public class ClientDownloader : IGenericDownloader
 {
     public static async Task<bool> Download(MCLauncherPath launcherPath, MCVersionDetails versionDetails)
     {
         if (!MCLauncherPath.Exists(launcherPath))
             return false;
 
-        if (!ClientDownloaderErr.Exists(versionDetails))
+        if (!versionDetails.ClientExists())
             return false;
 
         return await Request.Download(

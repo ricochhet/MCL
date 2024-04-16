@@ -1,6 +1,6 @@
 using System.Text;
 using System.Threading.Tasks;
-using MCL.Core.Handlers.Minecraft;
+using MCL.Core.Extensions.Java;
 using MCL.Core.Interfaces.Web.Minecraft;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
@@ -9,14 +9,14 @@ using MCL.Core.Resolvers.Minecraft;
 
 namespace MCL.Core.Web.Minecraft;
 
-public class VersionManifestDownloader : IMCVersionManifestDownloader
+public class VersionManifestDownloader : IVersionManifestDownloader
 {
     public static async Task<bool> Download(MCLauncherPath launcherPath, MCConfigUrls configUrls)
     {
         if (!MCLauncherPath.Exists(launcherPath))
             return false;
 
-        if (!VersionManifestDownloaderErr.Exists(configUrls))
+        if (!configUrls.VersionManifestExists())
             return false;
 
         string filepath = MinecraftPathResolver.DownloadedVersionManifestPath(launcherPath);

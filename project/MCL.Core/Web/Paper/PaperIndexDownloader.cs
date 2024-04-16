@@ -1,6 +1,6 @@
 using System.Text;
 using System.Threading.Tasks;
-using MCL.Core.Handlers.Paper;
+using MCL.Core.Extensions.Paper;
 using MCL.Core.Interfaces.Web.Paper;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
@@ -20,7 +20,7 @@ public class PaperIndexDownloader : IPaperIndexDownloader<PaperConfigUrls>
         if (!MCLauncherPath.Exists(launcherPath))
             return false;
 
-        if (!PaperConfigUrlsErr.Exists(paperConfigUrls))
+        if (!paperConfigUrls.VersionManifestExists())
             return false;
 
         string filepath = PaperPathResolver.DownloadedIndexPath(launcherPath, launcherVersion);

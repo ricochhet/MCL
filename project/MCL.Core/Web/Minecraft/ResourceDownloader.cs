@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using MCL.Core.Handlers.Minecraft;
+using MCL.Core.Extensions.Java;
 using MCL.Core.Interfaces.Web.Minecraft;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
@@ -8,14 +8,14 @@ using MCL.Core.Resolvers.Minecraft;
 
 namespace MCL.Core.Web.Minecraft;
 
-public class ResourceDownloader : IMCResourceDownloader
+public class ResourceDownloader : IResourceDownloader
 {
     public static async Task<bool> Download(MCLauncherPath launcherPath, MCConfigUrls configUrls, MCAssetsData assets)
     {
         if (!MCLauncherPath.Exists(launcherPath))
             return false;
 
-        if (!ResourceDownloaderErr.Exists(configUrls, assets))
+        if (!configUrls.MinecraftResourcesExists() || !assets.ObjectsExists())
             return false;
 
         string objectsPath = VFS.Combine(MinecraftPathResolver.AssetsPath(launcherPath), "objects");

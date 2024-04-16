@@ -16,7 +16,7 @@ public class QuiltIndexDownloader : IFabricIndexDownloader<MCQuiltConfigUrls>
         if (!MCLauncherPath.Exists(launcherPath))
             return false;
 
-        if (!QuiltConfigUrlsErr.Exists(quiltConfigUrls))
+        if (!quiltConfigUrls.VersionsIndexExists())
             return false;
 
         string filepath = QuiltPathResolver.DownloadedIndexPath(launcherPath);

@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using MCL.Core.Handlers.Paper;
+using MCL.Core.Extensions.Paper;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Models.Paper;
 
@@ -9,7 +9,7 @@ public static class PaperVersionHelper
 {
     public static List<string> GetVersionIds(PaperVersionManifest paperVersionManifest)
     {
-        if (!PaperVersionHelperErr.Exists(paperVersionManifest))
+        if (!paperVersionManifest.BuildsExists())
             return [];
 
         List<string> versions = [];
@@ -26,7 +26,7 @@ public static class PaperVersionHelper
         if (!MCLauncherVersion.Exists(paperServerVersion))
             return null;
 
-        if (!PaperVersionHelperErr.Exists(paperVersionManifest))
+        if (!paperVersionManifest.BuildsExists())
             return null;
 
         PaperBuild paperBuild = paperVersionManifest.Builds[^1];
