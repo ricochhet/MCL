@@ -1,5 +1,5 @@
 using MCL.Core.Enums.MinecraftFabric;
-using MCL.Core.Extensions;
+using MCL.Core.Extensions.Java;
 using MCL.Core.Interfaces.Helpers.MinecraftFabric;
 using MCL.Core.Models.Java;
 using MCL.Core.Models.Launcher;

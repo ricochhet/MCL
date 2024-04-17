@@ -1,5 +1,5 @@
 using MCL.Core.Enums;
-using MCL.Core.Extensions;
+using MCL.Core.Extensions.Java;
 using MCL.Core.Helpers.Minecraft;
 using MCL.Core.Interfaces.Helpers.Minecraft;
 using MCL.Core.Models.Java;

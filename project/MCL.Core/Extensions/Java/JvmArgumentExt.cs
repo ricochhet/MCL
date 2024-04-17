@@ -3,7 +3,7 @@ using MCL.Core.Enums.MinecraftFabric;
 using MCL.Core.Models.Java;
 using MCL.Core.Models.Launcher;
 
-namespace MCL.Core.Extensions;
+namespace MCL.Core.Extensions.Java;
 
 public static class JvmArgumentExt
 {

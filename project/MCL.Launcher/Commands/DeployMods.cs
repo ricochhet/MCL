@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using MCL.Core.Extensions;
+using MCL.Core.Extensions.Launcher;
 using MCL.Core.Interfaces.MiniCommon;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;

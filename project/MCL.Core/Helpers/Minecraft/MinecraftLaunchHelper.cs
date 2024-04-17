@@ -1,4 +1,4 @@
-using MCL.Core.Extensions;
+using MCL.Core.Extensions.Launcher;
 using MCL.Core.Helpers.Java;
 using MCL.Core.Helpers.Launcher;
 using MCL.Core.Models.Launcher;

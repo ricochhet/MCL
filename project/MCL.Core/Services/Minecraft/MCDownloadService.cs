@@ -57,7 +57,7 @@ public class MinecraftDownloadService : IMinecraftDownloadService, IDownloadServ
         if (!LoadVersion())
             return false;
 
-        if (!IsOffline && !await DownloadVersionDetails())
+        if (!IsOffline && !UseExistingIndex && !await DownloadVersionDetails())
             return false;
 
         if (!LoadVersionDetails())

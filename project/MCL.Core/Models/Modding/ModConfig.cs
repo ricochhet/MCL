@@ -6,12 +6,12 @@ public class ModConfig
 {
     public string[] CopyOnlyTypes { get; set; } = [".jar"];
     public string[] UnzipAndCopyTypes { get; set; } = [".zip", ".rar", ".7z"];
-    public List<string> RegisteredStores { get; set; } = [];
-    public List<string> RegisteredDeployPaths { get; set; } = [];
+    public List<string> ModStores { get; set; } = [];
+    public List<string> DeployPaths { get; set; } = [];
 
     public ModConfig() { }
 
-    public bool IsStoreRegistered(string modStoreName) => RegisteredStores.Contains(modStoreName);
+    public bool IsStoreSaved(string modStoreName) => ModStores.Contains(modStoreName);
 
-    public bool IsDeployPathRegistered(string deployPathName) => RegisteredDeployPaths.Contains(deployPathName);
+    public bool IsDeployPathSaved(string deployPathName) => DeployPaths.Contains(deployPathName);
 }

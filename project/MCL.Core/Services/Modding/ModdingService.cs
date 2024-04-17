@@ -69,8 +69,8 @@ public static class ModdingService
                 );
         }
         string filepath = ModPathResolver.ModStorePath(LauncherPath, modStoreName);
-        if (!ModConfig.IsStoreRegistered(modStoreName))
-            ModConfig.RegisteredStores.Add(modStoreName);
+        if (!ModConfig.IsStoreSaved(modStoreName))
+            ModConfig.ModStores.Add(modStoreName);
         Json.Save(
             filepath,
             modFiles,
@@ -84,15 +84,15 @@ public static class ModdingService
     {
         if (
             VFS.Exists(ModPathResolver.ModStorePath(LauncherPath, modStoreName))
-            && !ModConfig.IsStoreRegistered(modStoreName)
+            && !ModConfig.IsStoreSaved(modStoreName)
         )
-            ModConfig.RegisteredStores.Add(modStoreName);
+            ModConfig.ModStores.Add(modStoreName);
     }
 
     public static ModFiles Load(string modStoreName)
     {
         string modStorePath = ModPathResolver.ModStorePath(LauncherPath, modStoreName);
-        if (VFS.Exists(modStorePath) && ModConfig.IsStoreRegistered(modStoreName))
+        if (VFS.Exists(modStorePath) && ModConfig.IsStoreSaved(modStoreName))
             return Json.Load<ModFiles>(modStorePath);
         return default;
     }
@@ -103,17 +103,17 @@ public static class ModdingService
         if (!VFS.Exists(modStorePath))
             return false;
 
-        if (ModConfig.IsStoreRegistered(modStoreName))
-            ModConfig.RegisteredStores.Remove(modStoreName);
+        if (ModConfig.IsStoreSaved(modStoreName))
+            ModConfig.ModStores.Remove(modStoreName);
 
         VFS.DeleteFile(modStorePath);
         return true;
     }
 
-    public static bool DeleteRegisteredDeployPath(string deployPath)
+    public static bool DeleteSavedDeployPath(string deployPath)
     {
-        if (ModConfig.IsDeployPathRegistered(deployPath))
-            ModConfig.RegisteredDeployPaths.Remove(deployPath);
+        if (ModConfig.IsDeployPathSaved(deployPath))
+            ModConfig.DeployPaths.Remove(deployPath);
         else
             return false;
 
@@ -138,7 +138,7 @@ public static class ModdingService
             VFS.CreateDirectory(deployPath);
 
         List<ModFile> sortedModFiles = [.. modFiles.Files.OrderBy(a => a.Priority)];
-        ModConfig.RegisteredDeployPaths.Add(deployPath);
+        ModConfig.DeployPaths.Add(deployPath);
 
         foreach (ModFile modFile in sortedModFiles)
         {

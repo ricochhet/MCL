@@ -4,7 +4,7 @@ using MCL.Core.Models.Launcher;
 using MCL.Core.Models.Modding;
 using MCL.Core.Services.Launcher;
 
-namespace MCL.Core.Extensions;
+namespace MCL.Core.Extensions.Launcher;
 
 public static class ConfigExt
 {
