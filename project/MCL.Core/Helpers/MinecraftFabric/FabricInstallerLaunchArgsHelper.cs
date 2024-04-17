@@ -6,7 +6,7 @@ using MCL.Core.Resolvers.MinecraftFabric;
 
 namespace MCL.Core.Helpers.MinecraftFabric;
 
-public class FabricInstallerLaunchArgsHelper : IFabricLaunchArgsHelper
+public class FabricInstallerLaunchArgsHelper : IFabricLaunchArgsHelper<FabricInstallerType>
 {
     public static JvmArguments Default(
         MCLauncherPath launcherPath,
@@ -14,6 +14,9 @@ public class FabricInstallerLaunchArgsHelper : IFabricLaunchArgsHelper
         FabricInstallerType installerType
     )
     {
+        if (!MCLauncherVersion.Exists(launcherVersion))
+            return default;
+
         JvmArguments jvmArguments = new();
         jvmArguments.Add(
             new LaunchArg(

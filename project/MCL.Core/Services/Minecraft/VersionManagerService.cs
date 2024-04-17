@@ -1,91 +1,40 @@
+using System;
 using System.Threading.Tasks;
-using MCL.Core.Interfaces.Web;
-using MCL.Core.MiniCommon;
+using MCL.Core.Enums;
+using MCL.Core.Helpers.Minecraft;
+using MCL.Core.Helpers.MinecraftFabric;
+using MCL.Core.Helpers.MinecraftQuilt;
+using MCL.Core.Helpers.Paper;
 using MCL.Core.Models.Launcher;
-using MCL.Core.Models.Minecraft;
-using MCL.Core.Models.MinecraftFabric;
-using MCL.Core.Models.MinecraftQuilt;
-using MCL.Core.Models.Paper;
-using MCL.Core.Resolvers.Minecraft;
-using MCL.Core.Resolvers.MinecraftFabric;
-using MCL.Core.Resolvers.MinecraftQuilt;
-using MCL.Core.Resolvers.Paper;
-using MCL.Core.Services.MinecraftFabric;
-using MCL.Core.Services.MinecraftQuilt;
-using MCL.Core.Services.Paper;
 
 namespace MCL.Core.Services.Minecraft;
 
-public class VersionManagerService : IDownloadService
+public static class VersionManagerService
 {
-    private static MCLauncherPath LauncherPath;
-    private static MCLauncherVersion LauncherVersion;
-    private static bool Loaded = false;
+    private static string[] args = [];
+    private static Config Config;
 
-    private static MCVersionManifest versionManifest;
-    private static MCFabricIndex fabricIndex;
-    private static MCQuiltIndex quiltIndex;
-    private static PaperVersionManifest paperVersionManifest;
-
-    public static void Init(MCLauncherPath launcherPath, MCLauncherVersion launcherVersion)
+    public static async Task<bool> Init(Config config, string value)
     {
-        LauncherPath = launcherPath;
-        LauncherVersion = launcherVersion;
-        Loaded = true;
-    }
-
-    public static async Task<bool> Setup()
-    {
-        if (!Loaded)
+        Config = config;
+        args = value.Split(";");
+        if (args.Length != Enum.GetNames(typeof(VersionArgs)).Length)
             return false;
-
-        if (VersionManifestsExists())
-            return true;
-
-        if (!await Download())
+        if (!await TryParse())
             return false;
-
         return true;
     }
 
-    public static async Task<bool> Download()
+    private static async Task<bool> TryParse()
     {
-        if (!Loaded)
+        if (!await VersionHelper.SetVersions(Config, args))
             return false;
-
-        if (!await MinecraftDownloadService.DownloadVersionManifest())
+        if (!await FabricVersionHelper.SetVersions(Config, args))
             return false;
-
-        if (MinecraftDownloadService.LoadVersion() && !await MinecraftDownloadService.DownloadVersionDetails())
+        if (!await QuiltVersionHelper.SetVersions(Config, args))
             return false;
-
-        if (!await FabricInstallerDownloadService.DownloadIndex())
+        if (!await PaperVersionHelper.SetVersions(Config, args))
             return false;
-
-        if (!await QuiltInstallerDownloadService.DownloadIndex())
-            return false;
-
-        if (!await PaperServerDownloadService.DownloadIndex())
-            return false;
-
         return true;
-    }
-
-    public static bool VersionManifestsExists()
-    {
-        if (!Loaded)
-            return false;
-
-        versionManifest = Json.Load<MCVersionManifest>(
-            MinecraftPathResolver.DownloadedVersionManifestPath(LauncherPath)
-        );
-
-        fabricIndex = Json.Load<MCFabricIndex>(FabricPathResolver.DownloadedIndexPath(LauncherPath));
-        quiltIndex = Json.Load<MCQuiltIndex>(QuiltPathResolver.DownloadedIndexPath(LauncherPath));
-        paperVersionManifest = Json.Load<PaperVersionManifest>(
-            PaperPathResolver.DownloadedIndexPath(LauncherPath, LauncherVersion)
-        );
-
-        return versionManifest != null && fabricIndex != null && quiltIndex != null && paperVersionManifest != null;
     }
 }

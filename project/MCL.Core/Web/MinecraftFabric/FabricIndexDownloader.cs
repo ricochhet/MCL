@@ -13,9 +13,6 @@ public class FabricIndexDownloader : IFabricIndexDownloader<MCFabricConfigUrls>
 {
     public static async Task<bool> Download(MCLauncherPath launcherPath, MCFabricConfigUrls fabricConfigUrls)
     {
-        if (!MCLauncherPath.Exists(launcherPath))
-            return false;
-
         if (!fabricConfigUrls.VersionsIndexExists())
             return false;
 

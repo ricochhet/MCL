@@ -18,6 +18,9 @@ public class LaunchArgsHelper : ILaunchArgsHelper
         MCLauncherUsername launcherUsername
     )
     {
+        if (!MCLauncherVersion.Exists(launcherVersion))
+            return default;
+
         JvmArguments jvmArguments = new();
         string libraries = MinecraftPathResolver.Libraries(launcherVersion);
 

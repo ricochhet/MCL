@@ -18,7 +18,7 @@ public class QuiltLoaderDownloader : IFabricLoaderDownloader<MCQuiltProfile, MCQ
         MCQuiltConfigUrls quiltConfigUrls
     )
     {
-        if (!MCLauncherPath.Exists(launcherPath))
+        if (!MCLauncherVersion.Exists(launcherVersion))
             return false;
 
         if (

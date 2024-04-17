@@ -4,7 +4,7 @@ using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Services.Paper;
 
-namespace MCL.Launcher.Commands;
+namespace MCL.Launcher.Commands.Downloaders;
 
 public class DownloadPaperServer : ILauncherCommand
 {
@@ -16,6 +16,7 @@ public class DownloadPaperServer : ILauncherCommand
             async () =>
             {
                 PaperServerDownloadService.Init(config.LauncherPath, config.LauncherVersion, config.PaperUrls);
+                PaperServerDownloadService.UseExistingIndex = true;
                 await PaperServerDownloadService.Download();
             }
         );

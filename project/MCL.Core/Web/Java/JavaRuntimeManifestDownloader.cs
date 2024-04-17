@@ -20,9 +20,6 @@ public class JavaRuntimeManifestDownloader : IJavaRuntimeManifestDownloader
         JavaRuntimeIndex javaRuntimeIndex
     )
     {
-        if (!MCLauncherPath.Exists(launcherPath))
-            return false;
-
         if (!javaRuntimeIndex.JavaRuntimeExists())
             return false;
 

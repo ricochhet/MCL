@@ -1,5 +1,6 @@
 using MCL.Core.Enums;
 using MCL.Core.Enums.MinecraftFabric;
+using MCL.Core.Enums.MinecraftQuilt;
 using MCL.Core.Models.Java;
 using MCL.Core.Models.Launcher;
 
@@ -23,6 +24,17 @@ public static class JvmArgumentExt
         this JvmArguments jvmArguments,
         FabricInstallerType a,
         FabricInstallerType b,
+        LaunchArg launchArg
+    )
+    {
+        if (a == b)
+            jvmArguments.Add(launchArg);
+    }
+
+    public static void Add(
+        this JvmArguments jvmArguments,
+        QuiltInstallerType a,
+        QuiltInstallerType b,
         LaunchArg launchArg
     )
     {

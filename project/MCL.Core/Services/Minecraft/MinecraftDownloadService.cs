@@ -14,9 +14,9 @@ namespace MCL.Core.Services.Minecraft;
 
 public class MinecraftDownloadService : IMinecraftDownloadService, IDownloadService
 {
-    private static MCVersionDetails VersionDetails;
-    private static MCVersionManifest VersionManifest;
-    private static MCVersion Version;
+    public static MCVersionManifest VersionManifest { get; private set; }
+    public static MCVersionDetails VersionDetails { get; private set; }
+    public static MCVersion Version { get; private set; }
     private static MCAssetsData Assets;
     private static MCLauncherPath LauncherPath;
     private static MCLauncherVersion LauncherVersion;

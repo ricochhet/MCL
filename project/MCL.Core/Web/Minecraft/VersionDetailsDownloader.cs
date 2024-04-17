@@ -13,9 +13,6 @@ public class VersionDetailsDownloader : IVersionDetailsDownloader
 {
     public static async Task<bool> Download(MCLauncherPath launcherPath, MCVersion version)
     {
-        if (!MCLauncherPath.Exists(launcherPath))
-            return false;
-
         if (!version.UrlExists() || !version.IdExists())
             return false;
 

@@ -9,9 +9,6 @@ public static class AssetHelper
 {
     public static string GetAssetId(MCLauncherPath launcherPath, MCLauncherVersion launcherVersion)
     {
-        if (!MCLauncherPath.Exists(launcherPath))
-            return string.Empty;
-
         if (!MCLauncherVersion.Exists(launcherVersion))
             return string.Empty;
 

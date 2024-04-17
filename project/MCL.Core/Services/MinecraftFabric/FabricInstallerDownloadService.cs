@@ -14,8 +14,8 @@ namespace MCL.Core.Services.MinecraftFabric;
 
 public class FabricInstallerDownloadService : IFabricInstallerDownloadService<MCFabricConfigUrls>, IDownloadService
 {
-    private static MCFabricIndex FabricIndex;
-    private static MCFabricInstaller FabricInstaller;
+    public static MCFabricIndex FabricIndex { get; private set; }
+    public static MCFabricInstaller FabricInstaller { get; private set; }
     private static MCLauncherPath LauncherPath;
     private static MCLauncherVersion LauncherVersion;
     private static MCFabricConfigUrls FabricConfigUrls;

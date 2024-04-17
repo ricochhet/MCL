@@ -1,13 +1,49 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using MCL.Core.Enums;
 using MCL.Core.Extensions.MinecraftFabric;
 using MCL.Core.Interfaces.Helpers.MinecraftFabric;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Models.MinecraftFabric;
+using MCL.Core.Services.Launcher;
+using MCL.Core.Services.MinecraftFabric;
 
 namespace MCL.Core.Helpers.MinecraftFabric;
 
 public class FabricVersionHelper : IFabricVersionHelper<MCFabricInstaller, MCFabricLoader, MCFabricIndex>
 {
+    public static async Task<bool> SetVersions(Config config, string[] args)
+    {
+        FabricInstallerDownloadService.Init(config.LauncherPath, config.LauncherVersion, config.FabricUrls);
+        if (!FabricInstallerDownloadService.LoadIndex())
+        {
+            await FabricInstallerDownloadService.DownloadIndex();
+            FabricInstallerDownloadService.LoadIndex();
+        }
+
+        if (FabricInstallerDownloadService.FabricIndex == null)
+            return false;
+
+        List<string> installerVersions = GetInstallerVersionIds(FabricInstallerDownloadService.FabricIndex);
+        List<string> loaderVersions = GetLoaderVersionIds(FabricInstallerDownloadService.FabricIndex);
+        string installerVersion = args[(int)VersionArgs.FABRIC_INSTALLER];
+        string loaderVersion = args[(int)VersionArgs.FABRIC_LOADER];
+
+        if (installerVersion == "latest")
+            installerVersion = installerVersions[0];
+
+        if (loaderVersion == "latest")
+            loaderVersion = loaderVersions[0];
+
+        if (!installerVersions.Contains(installerVersion) || !loaderVersions.Contains(loaderVersion))
+            return false;
+
+        config.LauncherVersion.FabricInstallerVersion = installerVersion;
+        config.LauncherVersion.FabricLoaderVersion = loaderVersion;
+        ConfigService.Save(config);
+        return true;
+    }
+
     public static List<string> GetInstallerVersionIds(MCFabricIndex index)
     {
         if (!index.InstallerExists())

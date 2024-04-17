@@ -17,9 +17,6 @@ public class PaperServerDownloader : IPaperServerDownloader<PaperBuild, PaperCon
         PaperConfigUrls paperConfigUrls
     )
     {
-        if (!MCLauncherPath.Exists(launcherPath))
-            return false;
-
         if (!paperConfigUrls.JarUrlExists())
             return false;
 

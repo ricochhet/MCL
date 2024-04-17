@@ -12,9 +12,6 @@ public class LoggingDownloader : IGenericDownloader
 {
     public static async Task<bool> Download(MCLauncherPath launcherPath, MCVersionDetails versionDetails)
     {
-        if (!MCLauncherPath.Exists(launcherPath))
-            return false;
-
         if (!versionDetails.LoggingExists())
             return false;
 

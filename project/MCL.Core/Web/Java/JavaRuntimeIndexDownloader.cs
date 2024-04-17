@@ -14,9 +14,6 @@ public class JavaRuntimeIndexDownloader : IJavaRuntimeIndexDownloader
 {
     public static async Task<bool> Download(MCLauncherPath launcherPath, MCConfigUrls configUrls)
     {
-        if (!MCLauncherPath.Exists(launcherPath))
-            return false;
-
         if (!configUrls.JavaRuntimeIndexUrlExists())
             return false;
 

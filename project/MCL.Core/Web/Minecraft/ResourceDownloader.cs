@@ -12,9 +12,6 @@ public class ResourceDownloader : IResourceDownloader
 {
     public static async Task<bool> Download(MCLauncherPath launcherPath, MCConfigUrls configUrls, MCAssetsData assets)
     {
-        if (!MCLauncherPath.Exists(launcherPath))
-            return false;
-
         if (!configUrls.MinecraftResourcesExists() || !assets.ObjectsExists())
             return false;
 

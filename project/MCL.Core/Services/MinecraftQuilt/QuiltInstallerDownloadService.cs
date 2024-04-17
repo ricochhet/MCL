@@ -14,8 +14,8 @@ namespace MCL.Core.Services.MinecraftQuilt;
 
 public class QuiltInstallerDownloadService : IFabricInstallerDownloadService<MCQuiltConfigUrls>, IDownloadService
 {
-    private static MCQuiltIndex QuiltIndex;
-    private static MCQuiltInstaller QuiltInstaller;
+    public static MCQuiltIndex QuiltIndex { get; private set; }
+    public static MCQuiltInstaller QuiltInstaller { get; private set; }
     private static MCLauncherPath LauncherPath;
     private static MCLauncherVersion LauncherVersion;
     private static MCQuiltConfigUrls QuiltConfigUrls;

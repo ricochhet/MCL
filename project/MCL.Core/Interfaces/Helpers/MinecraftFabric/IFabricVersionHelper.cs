@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using MCL.Core.Models.Launcher;
 
 namespace MCL.Core.Interfaces.Helpers.MinecraftFabric;
@@ -7,6 +8,8 @@ namespace MCL.Core.Interfaces.Helpers.MinecraftFabric;
 #pragma warning disable S2436
 public interface IFabricVersionHelper<out T1, out T2, in T3>
 {
+    public static abstract Task<bool> SetVersions(Config config, string[] args);
+
     public static abstract List<string> GetInstallerVersionIds(T3 index);
     public static abstract List<string> GetLoaderVersionIds(T3 index);
 

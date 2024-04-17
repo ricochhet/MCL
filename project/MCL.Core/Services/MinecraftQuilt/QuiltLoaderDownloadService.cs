@@ -14,8 +14,8 @@ namespace MCL.Core.Services.MinecraftQuilt;
 
 public class QuiltLoaderDownloadService : IFabricLoaderDownloadService<MCQuiltConfigUrls>, IDownloadService
 {
-    private static MCQuiltIndex QuiltIndex;
-    private static MCQuiltProfile QuiltProfile;
+    public static MCQuiltIndex QuiltIndex { get; private set; }
+    public static MCQuiltProfile QuiltProfile { get; private set; }
     private static MCLauncherPath LauncherPath;
     private static MCLauncherVersion LauncherVersion;
     private static MCQuiltConfigUrls QuiltConfigUrls;
@@ -107,6 +107,9 @@ public class QuiltLoaderDownloadService : IFabricLoaderDownloadService<MCQuiltCo
     public static bool LoadProfile()
     {
         if (!Loaded)
+            return false;
+
+        if (!MCLauncherVersion.Exists(LauncherVersion))
             return false;
 
         QuiltProfile = Json.Load<MCQuiltProfile>(

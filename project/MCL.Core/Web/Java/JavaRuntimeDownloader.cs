@@ -17,9 +17,6 @@ public class JavaRuntimeDownloader : IJavaRuntimeDownloader
         JavaRuntimeFiles javaRuntimeFiles
     )
     {
-        if (!MCLauncherPath.Exists(launcherPath))
-            return false;
-
         if (!javaRuntimeFiles.FilesExists())
             return false;
 

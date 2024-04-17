@@ -9,6 +9,9 @@ public class PaperLaunchArgsHelper : IPaperLaunchArgsHelper
 {
     public static JvmArguments Default(MCLauncherPath launcherPath, MCLauncherVersion launcherVersion)
     {
+        if (!MCLauncherVersion.Exists(launcherVersion))
+            return default;
+
         JvmArguments jvmArguments = new();
         jvmArguments.Add(new LaunchArg("-Xms{0}m", ["4096"]));
         jvmArguments.Add(new LaunchArg("-Xmx{0}m", ["4096"]));

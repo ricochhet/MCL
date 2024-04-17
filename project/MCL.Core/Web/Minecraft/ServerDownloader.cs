@@ -13,9 +13,6 @@ public class ServerDownloader : IGenericDownloader
 {
     public static async Task<bool> Download(MCLauncherPath launcherPath, MCVersionDetails versionDetails)
     {
-        if (!MCLauncherPath.Exists(launcherPath))
-            return false;
-
         if (!versionDetails.ServerExists())
             return false;
 

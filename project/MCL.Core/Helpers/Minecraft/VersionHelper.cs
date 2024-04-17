@@ -1,14 +1,49 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using MCL.Core.Enums;
 using MCL.Core.Extensions.Minecraft;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Models.Minecraft;
 using MCL.Core.Resolvers.Minecraft;
+using MCL.Core.Services.Launcher;
+using MCL.Core.Services.Minecraft;
 
 namespace MCL.Core.Helpers.Minecraft;
 
 public static class VersionHelper
 {
+    public static async Task<bool> SetVersions(Config config, string[] args)
+    {
+        MinecraftDownloadService.Init(
+            config.LauncherPath,
+            config.LauncherVersion,
+            config.LauncherSettings,
+            config.MinecraftUrls
+        );
+        if (!MinecraftDownloadService.LoadVersionManifest())
+        {
+            await MinecraftDownloadService.DownloadVersionManifest();
+            MinecraftDownloadService.LoadVersionManifest();
+        }
+
+        if (MinecraftDownloadService.VersionManifest == null)
+            return false;
+
+        List<string> versions = GetVersionIds(MinecraftDownloadService.VersionManifest);
+        string version = args[(int)VersionArgs.MINECRAFT];
+
+        if (version == "latest")
+            version = versions[0];
+
+        if (!versions.Contains(version))
+            return false;
+
+        config.LauncherVersion.Version = version;
+        ConfigService.Save(config);
+        return true;
+    }
+
     public static List<string> GetVersionIds(MCVersionManifest versionManifest)
     {
         if (!versionManifest.VersionsExists())
@@ -44,9 +79,6 @@ public static class VersionHelper
 
     public static MCVersionDetails GetVersionDetails(MCLauncherPath launcherPath, MCLauncherVersion launcherVersion)
     {
-        if (!MCLauncherPath.Exists(launcherPath))
-            return null;
-
         if (!MCLauncherVersion.Exists(launcherVersion))
             return null;
 

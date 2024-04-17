@@ -17,9 +17,6 @@ public class QuiltProfileDownloader : IFabricProfileDownloader<MCQuiltConfigUrls
         MCQuiltConfigUrls quiltConfigUrls
     )
     {
-        if (!MCLauncherPath.Exists(launcherPath))
-            return false;
-
         if (!MCLauncherVersion.Exists(launcherVersion))
             return false;
 

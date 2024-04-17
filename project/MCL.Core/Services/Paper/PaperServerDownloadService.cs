@@ -15,8 +15,8 @@ namespace MCL.Core.Services.Paper;
 
 public class PaperServerDownloadService : IPaperServerDownloadService<PaperConfigUrls>, IDownloadService
 {
-    private static PaperVersionManifest PaperVersionManifest;
-    private static PaperBuild PaperBuild;
+    public static PaperVersionManifest PaperVersionManifest { get; private set; }
+    public static PaperBuild PaperBuild { get; private set; }
     private static MCLauncherPath LauncherPath;
     private static MCLauncherVersion LauncherVersion;
     private static PaperConfigUrls PaperConfigUrls;
@@ -73,6 +73,9 @@ public class PaperServerDownloadService : IPaperServerDownloadService<PaperConfi
     public static bool LoadIndex()
     {
         if (!Loaded)
+            return false;
+
+        if (!MCLauncherVersion.Exists(LauncherVersion))
             return false;
 
         PaperVersionManifest = Json.Load<PaperVersionManifest>(

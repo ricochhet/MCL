@@ -15,9 +15,6 @@ public static class ClassPathHelper
         JavaRuntimePlatform platform
     )
     {
-        if (!MCLauncherPath.Exists(launcherPath))
-            return default;
-
         if (!MCLauncherVersion.Exists(launcherVersion))
             return default;
 

@@ -5,7 +5,7 @@ using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Services.Java;
 
-namespace MCL.Launcher.Commands;
+namespace MCL.Launcher.Commands.Downloaders;
 
 public class DownloadJava : ILauncherCommand
 {

@@ -20,9 +20,6 @@ public class LibraryDownloader : ILibraryDownloader
         MCVersionDetails versionDetails
     )
     {
-        if (!MCLauncherPath.Exists(launcherPath))
-            return false;
-
         if (!versionDetails.LibrariesExists())
             return false;
 

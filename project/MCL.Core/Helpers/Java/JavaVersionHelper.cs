@@ -14,9 +14,11 @@ public static class JavaVersionHelper
         MCLauncherSettings launcherSettings
     )
     {
+        if (!MCLauncherVersion.Exists(launcherVersion))
+            return launcherSettings.JavaRuntimeType;
         MCVersionDetails versionDetails = VersionHelper.GetVersionDetails(launcherPath, launcherVersion);
         if (string.IsNullOrWhiteSpace(versionDetails?.JavaVersion?.Component))
             return launcherSettings.JavaRuntimeType;
-        return GenericEnumParser.Parse(versionDetails.JavaVersion.Component, JavaRuntimeType.JAVA_RUNTIME_GAMMA);
+        return GenericEnumParser.Parse(versionDetails.JavaVersion.Component, launcherSettings.JavaRuntimeType);
     }
 }

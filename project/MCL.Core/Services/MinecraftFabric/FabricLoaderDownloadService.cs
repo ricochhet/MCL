@@ -14,8 +14,8 @@ namespace MCL.Core.Services.MinecraftFabric;
 
 public class FabricLoaderDownloadService : IFabricLoaderDownloadService<MCFabricConfigUrls>, IDownloadService
 {
-    private static MCFabricIndex FabricIndex;
-    private static MCFabricProfile FabricProfile;
+    public static MCFabricIndex FabricIndex { get; private set; }
+    public static MCFabricProfile FabricProfile { get; private set; }
     private static MCLauncherPath LauncherPath;
     private static MCLauncherVersion LauncherVersion;
     private static MCFabricConfigUrls FabricConfigUrls;
@@ -107,6 +107,9 @@ public class FabricLoaderDownloadService : IFabricLoaderDownloadService<MCFabric
     public static bool LoadProfile()
     {
         if (!Loaded)
+            return false;
+
+        if (!MCLauncherVersion.Exists(LauncherVersion))
             return false;
 
         FabricProfile = Json.Load<MCFabricProfile>(

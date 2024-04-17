@@ -1,13 +1,49 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using MCL.Core.Enums;
 using MCL.Core.Extensions.MinecraftQuilt;
 using MCL.Core.Interfaces.Helpers.MinecraftFabric;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Models.MinecraftQuilt;
+using MCL.Core.Services.Launcher;
+using MCL.Core.Services.MinecraftQuilt;
 
 namespace MCL.Core.Helpers.MinecraftQuilt;
 
 public class QuiltVersionHelper : IFabricVersionHelper<MCQuiltInstaller, MCQuiltLoader, MCQuiltIndex>
 {
+    public static async Task<bool> SetVersions(Config config, string[] args)
+    {
+        QuiltInstallerDownloadService.Init(config.LauncherPath, config.LauncherVersion, config.QuiltUrls);
+        if (!QuiltInstallerDownloadService.LoadIndex())
+        {
+            await QuiltInstallerDownloadService.DownloadIndex();
+            QuiltInstallerDownloadService.LoadIndex();
+        }
+
+        if (QuiltInstallerDownloadService.QuiltIndex == null)
+            return false;
+
+        List<string> installerVersions = GetInstallerVersionIds(QuiltInstallerDownloadService.QuiltIndex);
+        List<string> loaderVersions = GetLoaderVersionIds(QuiltInstallerDownloadService.QuiltIndex);
+        string installerVersion = args[(int)VersionArgs.QUILT_INSTALLER];
+        string loaderVersion = args[(int)VersionArgs.QUILT_LOADER];
+
+        if (installerVersion == "latest")
+            installerVersion = installerVersions[0];
+
+        if (loaderVersion == "latest")
+            loaderVersion = loaderVersions[0];
+
+        if (!installerVersions.Contains(installerVersion) || !loaderVersions.Contains(loaderVersion))
+            return false;
+
+        config.LauncherVersion.QuiltInstallerVersion = installerVersion;
+        config.LauncherVersion.QuiltLoaderVersion = loaderVersion;
+        ConfigService.Save(config);
+        return true;
+    }
+
     public static List<string> GetInstallerVersionIds(MCQuiltIndex index)
     {
         if (!index.InstallerExists())

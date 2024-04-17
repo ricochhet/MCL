@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using MCL.Core.Enums.MinecraftFabric;
+using MCL.Core.Enums.MinecraftQuilt;
 using MCL.Core.Helpers.Java;
 using MCL.Core.Helpers.MinecraftQuilt;
 using MCL.Core.Interfaces.MiniCommon;
@@ -7,7 +7,7 @@ using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Services.MinecraftQuilt;
 
-namespace MCL.Launcher.Commands;
+namespace MCL.Launcher.Commands.Downloaders;
 
 public class DownloadQuiltInstaller : ILauncherCommand
 {
@@ -19,6 +19,7 @@ public class DownloadQuiltInstaller : ILauncherCommand
             async () =>
             {
                 QuiltInstallerDownloadService.Init(config.LauncherPath, config.LauncherVersion, config.QuiltUrls);
+                QuiltInstallerDownloadService.UseExistingIndex = true;
                 if (!await QuiltInstallerDownloadService.Download())
                     return;
 
@@ -27,7 +28,7 @@ public class DownloadQuiltInstaller : ILauncherCommand
                     QuiltInstallerLaunchArgsHelper.Default(
                         config.LauncherPath,
                         config.LauncherVersion,
-                        FabricInstallerType.CLIENT
+                        QuiltInstallerType.CLIENT
                     ),
                     config.LauncherSettings.JavaRuntimeType
                 );

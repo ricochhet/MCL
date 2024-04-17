@@ -13,9 +13,6 @@ public class QuiltIndexDownloader : IFabricIndexDownloader<MCQuiltConfigUrls>
 {
     public static async Task<bool> Download(MCLauncherPath launcherPath, MCQuiltConfigUrls quiltConfigUrls)
     {
-        if (!MCLauncherPath.Exists(launcherPath))
-            return false;
-
         if (!quiltConfigUrls.VersionsIndexExists())
             return false;
 

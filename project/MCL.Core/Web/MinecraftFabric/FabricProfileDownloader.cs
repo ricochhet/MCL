@@ -17,9 +17,6 @@ public class FabricProfileDownloader : IFabricProfileDownloader<MCFabricConfigUr
         MCFabricConfigUrls fabricConfigUrls
     )
     {
-        if (!MCLauncherPath.Exists(launcherPath))
-            return false;
-
         if (!MCLauncherVersion.Exists(launcherVersion))
             return false;
 

@@ -4,7 +4,7 @@ using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Services.Minecraft;
 
-namespace MCL.Launcher.Commands;
+namespace MCL.Launcher.Commands.Downloaders;
 
 public class DownloadMinecraft : ILauncherCommand
 {
@@ -21,6 +21,7 @@ public class DownloadMinecraft : ILauncherCommand
                     config.LauncherSettings,
                     config.MinecraftUrls
                 );
+                MinecraftDownloadService.UseExistingIndex = true;
                 await MinecraftDownloadService.Download();
             }
         );

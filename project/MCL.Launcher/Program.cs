@@ -14,7 +14,9 @@ using MCL.Core.Services.Launcher;
 using MCL.Core.Services.Modding;
 using MCL.Core.Services.SevenZip;
 using MCL.Core.Services.Web;
-using MCL.Launcher.Commands;
+using MCL.Launcher.Commands.Downloaders;
+using MCL.Launcher.Commands.Launcher;
+using MCL.Launcher.Commands.Modding;
 
 namespace MCL.Launcher;
 
@@ -68,6 +70,7 @@ internal static class Program
         commands.Add(new DownloadQuiltInstaller());
         commands.Add(new DownloadQuiltLoader());
         commands.Add(new DownloadPaperServer());
+        commands.Add(new SetVersions());
         commands.Add(new LaunchMinecraft());
         commands.Add(new DeployMods());
 

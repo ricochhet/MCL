@@ -13,9 +13,6 @@ public class VersionManifestDownloader : IVersionManifestDownloader
 {
     public static async Task<bool> Download(MCLauncherPath launcherPath, MCConfigUrls configUrls)
     {
-        if (!MCLauncherPath.Exists(launcherPath))
-            return false;
-
         if (!configUrls.VersionManifestExists())
             return false;
 

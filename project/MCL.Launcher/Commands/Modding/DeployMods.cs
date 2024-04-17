@@ -5,7 +5,7 @@ using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Services.Modding;
 
-namespace MCL.Launcher.Commands;
+namespace MCL.Launcher.Commands.Modding;
 
 public class DeployMods : ILauncherCommand
 {

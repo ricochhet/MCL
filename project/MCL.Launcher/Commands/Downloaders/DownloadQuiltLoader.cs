@@ -4,7 +4,7 @@ using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Services.MinecraftQuilt;
 
-namespace MCL.Launcher.Commands;
+namespace MCL.Launcher.Commands.Downloaders;
 
 public class DownloadQuiltLoader : ILauncherCommand
 {
@@ -16,6 +16,7 @@ public class DownloadQuiltLoader : ILauncherCommand
             async () =>
             {
                 QuiltLoaderDownloadService.Init(config.LauncherPath, config.LauncherVersion, config.QuiltUrls);
+                QuiltLoaderDownloadService.UseExistingIndex = true;
                 await QuiltLoaderDownloadService.Download();
             }
         );

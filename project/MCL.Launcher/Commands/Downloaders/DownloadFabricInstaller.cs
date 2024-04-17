@@ -7,7 +7,7 @@ using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Services.MinecraftFabric;
 
-namespace MCL.Launcher.Commands;
+namespace MCL.Launcher.Commands.Downloaders;
 
 public class DownloadFabricInstaller : ILauncherCommand
 {
@@ -19,6 +19,7 @@ public class DownloadFabricInstaller : ILauncherCommand
             async () =>
             {
                 FabricInstallerDownloadService.Init(config.LauncherPath, config.LauncherVersion, config.FabricUrls);
+                FabricInstallerDownloadService.UseExistingIndex = true;
                 if (!await FabricInstallerDownloadService.Download())
                     return;
 
