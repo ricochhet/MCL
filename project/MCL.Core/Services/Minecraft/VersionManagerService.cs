@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using MCL.Core.Interfaces;
+using MCL.Core.Interfaces.Web;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Models.Minecraft;

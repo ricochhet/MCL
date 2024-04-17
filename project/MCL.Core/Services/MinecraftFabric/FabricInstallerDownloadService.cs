@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using MCL.Core.Helpers.MinecraftFabric;
-using MCL.Core.Interfaces;
 using MCL.Core.Interfaces.Services.MinecraftFabric;
+using MCL.Core.Interfaces.Web;
 using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
