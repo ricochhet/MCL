@@ -5,9 +5,11 @@ using MCL.Core.Models.Launcher;
 using MCL.Core.Models.Minecraft;
 using MCL.Core.Models.MinecraftFabric;
 using MCL.Core.Models.MinecraftQuilt;
+using MCL.Core.Models.Paper;
 using MCL.Core.Resolvers.Minecraft;
 using MCL.Core.Resolvers.MinecraftFabric;
 using MCL.Core.Resolvers.MinecraftQuilt;
+using MCL.Core.Resolvers.Paper;
 using MCL.Core.Services.MinecraftFabric;
 using MCL.Core.Services.MinecraftQuilt;
 using MCL.Core.Services.Paper;
@@ -17,11 +19,18 @@ namespace MCL.Core.Services.Minecraft;
 public class VersionManagerService : IDownloadService
 {
     private static MCLauncherPath LauncherPath;
+    private static MCLauncherVersion LauncherVersion;
     private static bool Loaded = false;
 
-    public static void Init(MCLauncherPath launcherPath)
+    private static MCVersionManifest versionManifest;
+    private static MCFabricIndex fabricIndex;
+    private static MCQuiltIndex quiltIndex;
+    private static PaperVersionManifest paperVersionManifest;
+
+    public static void Init(MCLauncherPath launcherPath, MCLauncherVersion launcherVersion)
     {
         LauncherPath = launcherPath;
+        LauncherVersion = launcherVersion;
         Loaded = true;
     }
 
@@ -30,7 +39,7 @@ public class VersionManagerService : IDownloadService
         if (!Loaded)
             return false;
 
-        if (ValidVersions())
+        if (VersionManifestsExists())
             return true;
 
         if (!await Download())
@@ -62,18 +71,21 @@ public class VersionManagerService : IDownloadService
         return true;
     }
 
-    public static bool ValidVersions()
+    public static bool VersionManifestsExists()
     {
         if (!Loaded)
             return false;
 
-        MCVersionManifest versionManifest = Json.Load<MCVersionManifest>(
+        versionManifest = Json.Load<MCVersionManifest>(
             MinecraftPathResolver.DownloadedVersionManifestPath(LauncherPath)
         );
 
-        MCFabricIndex fabricIndex = Json.Load<MCFabricIndex>(FabricPathResolver.DownloadedIndexPath(LauncherPath));
-        MCQuiltIndex quiltIndex = Json.Load<MCQuiltIndex>(QuiltPathResolver.DownloadedIndexPath(LauncherPath));
+        fabricIndex = Json.Load<MCFabricIndex>(FabricPathResolver.DownloadedIndexPath(LauncherPath));
+        quiltIndex = Json.Load<MCQuiltIndex>(QuiltPathResolver.DownloadedIndexPath(LauncherPath));
+        paperVersionManifest = Json.Load<PaperVersionManifest>(
+            PaperPathResolver.DownloadedIndexPath(LauncherPath, LauncherVersion)
+        );
 
-        return versionManifest != null && fabricIndex != null && quiltIndex != null;
+        return versionManifest != null && fabricIndex != null && quiltIndex != null && paperVersionManifest != null;
     }
 }
