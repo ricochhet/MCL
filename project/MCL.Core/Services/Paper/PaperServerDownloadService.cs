@@ -41,10 +41,10 @@ public class PaperServerDownloadService : IPaperServerDownloadService<PaperConfi
         if (!Loaded)
             return false;
 
-        if (!IsOffline && !UseExistingIndex && !await DownloadIndex())
+        if (!IsOffline && !UseExistingIndex && !await DownloadVersionManifest())
             return false;
 
-        if (!LoadIndex())
+        if (!LoadVersionManifest(false))
             return false;
 
         if (!LoadServerVersion())
@@ -56,7 +56,7 @@ public class PaperServerDownloadService : IPaperServerDownloadService<PaperConfi
         return true;
     }
 
-    public static async Task<bool> DownloadIndex()
+    public static async Task<bool> DownloadVersionManifest()
     {
         if (!Loaded)
             return false;
@@ -70,7 +70,7 @@ public class PaperServerDownloadService : IPaperServerDownloadService<PaperConfi
         return true;
     }
 
-    public static bool LoadIndex()
+    public static bool LoadVersionManifest(bool silent)
     {
         if (!Loaded)
             return false;
@@ -83,7 +83,8 @@ public class PaperServerDownloadService : IPaperServerDownloadService<PaperConfi
         );
         if (PaperVersionManifest == null)
         {
-            NotificationService.Add(new(NativeLogLevel.Error, "error.readfile", [nameof(MCQuiltIndex)]));
+            if (!silent)
+                NotificationService.Add(new(NativeLogLevel.Error, "error.readfile", [nameof(MCQuiltIndex)]));
             return false;
         }
 

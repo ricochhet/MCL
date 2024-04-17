@@ -21,10 +21,10 @@ public static class VersionHelper
             config.LauncherSettings,
             config.MinecraftUrls
         );
-        if (!MinecraftDownloadService.LoadVersionManifest())
+        if (!MinecraftDownloadService.LoadVersionManifest(true))
         {
             await MinecraftDownloadService.DownloadVersionManifest();
-            MinecraftDownloadService.LoadVersionManifest();
+            MinecraftDownloadService.LoadVersionManifest(false);
         }
 
         if (MinecraftDownloadService.VersionManifest == null)

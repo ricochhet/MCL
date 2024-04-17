@@ -51,7 +51,7 @@ public class MinecraftDownloadService : IMinecraftDownloadService, IDownloadServ
         if (!IsOffline && !UseExistingIndex && !await DownloadVersionManifest())
             return false;
 
-        if (!LoadVersionManifest())
+        if (!LoadVersionManifest(false))
             return false;
 
         if (!LoadVersion())
@@ -107,7 +107,7 @@ public class MinecraftDownloadService : IMinecraftDownloadService, IDownloadServ
         return true;
     }
 
-    public static bool LoadVersionManifest()
+    public static bool LoadVersionManifest(bool silent)
     {
         if (!Loaded)
             return false;
@@ -117,7 +117,8 @@ public class MinecraftDownloadService : IMinecraftDownloadService, IDownloadServ
         );
         if (VersionManifest == null)
         {
-            NotificationService.Add(new(NativeLogLevel.Error, "error.readfile", [nameof(MCVersionManifest)]));
+            if (!silent)
+                NotificationService.Add(new(NativeLogLevel.Error, "error.readfile", [nameof(MCVersionManifest)]));
             return false;
         }
 

@@ -15,10 +15,10 @@ public class QuiltVersionHelper : IFabricVersionHelper<MCQuiltInstaller, MCQuilt
     public static async Task<bool> SetVersions(Config config, string[] args)
     {
         QuiltInstallerDownloadService.Init(config.LauncherPath, config.LauncherVersion, config.QuiltUrls);
-        if (!QuiltInstallerDownloadService.LoadIndex())
+        if (!QuiltInstallerDownloadService.LoadIndex(true))
         {
             await QuiltInstallerDownloadService.DownloadIndex();
-            QuiltInstallerDownloadService.LoadIndex();
+            QuiltInstallerDownloadService.LoadIndex(false);
         }
 
         if (QuiltInstallerDownloadService.QuiltIndex == null)
