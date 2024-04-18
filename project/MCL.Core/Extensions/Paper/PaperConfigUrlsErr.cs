@@ -11,6 +11,6 @@ public static class PaperConfigUrlsExt
 
     public static bool JarUrlExists(this PaperConfigUrls paperConfigUrls)
     {
-        return string.IsNullOrWhiteSpace(paperConfigUrls?.PaperJarUrl);
+        return !string.IsNullOrWhiteSpace(paperConfigUrls?.PaperJarUrl);
     }
 }

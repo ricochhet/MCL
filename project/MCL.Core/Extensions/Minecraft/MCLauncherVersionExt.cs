@@ -6,30 +6,24 @@ public static class MCLauncherVersionExt
 {
     public static bool VersionsExists(this MCLauncherVersion launcherVersion)
     {
-        if (launcherVersion == null)
+        if (
+            string.IsNullOrWhiteSpace(launcherVersion?.Version)
+            || string.IsNullOrWhiteSpace(launcherVersion.VersionType)
+        )
             return false;
 
-        if (string.IsNullOrWhiteSpace(launcherVersion.Version))
+        if (
+            string.IsNullOrWhiteSpace(launcherVersion.FabricInstallerVersion)
+            || string.IsNullOrWhiteSpace(launcherVersion.FabricLoaderVersion)
+        )
             return false;
 
-        if (string.IsNullOrWhiteSpace(launcherVersion.VersionType))
+        if (
+            string.IsNullOrWhiteSpace(launcherVersion.QuiltInstallerVersion)
+            || string.IsNullOrWhiteSpace(launcherVersion.QuiltLoaderVersion)
+        )
             return false;
 
-        if (string.IsNullOrWhiteSpace(launcherVersion.FabricInstallerVersion))
-            return false;
-
-        if (string.IsNullOrWhiteSpace(launcherVersion.FabricLoaderVersion))
-            return false;
-
-        if (string.IsNullOrWhiteSpace(launcherVersion.QuiltInstallerVersion))
-            return false;
-
-        if (string.IsNullOrWhiteSpace(launcherVersion.QuiltLoaderVersion))
-            return false;
-
-        if (string.IsNullOrWhiteSpace(launcherVersion.PaperServerVersion))
-            return false;
-
-        return true;
+        return !string.IsNullOrWhiteSpace(launcherVersion.PaperServerVersion);
     }
 }
