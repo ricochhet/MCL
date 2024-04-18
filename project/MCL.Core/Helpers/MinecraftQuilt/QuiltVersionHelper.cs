@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MCL.Core.Enums;
+using MCL.Core.Extensions.Minecraft;
 using MCL.Core.Extensions.MinecraftQuilt;
 using MCL.Core.Interfaces.Helpers.MinecraftFabric;
 using MCL.Core.Models.Launcher;
@@ -74,7 +75,7 @@ public class QuiltVersionHelper : IFabricVersionHelper<MCQuiltInstaller, MCQuilt
 
     public static MCQuiltInstaller GetInstallerVersion(MCLauncherVersion installerVersion, MCQuiltIndex index)
     {
-        if (!MCLauncherVersion.Exists(installerVersion))
+        if (!installerVersion.VersionsExists())
             return null;
 
         if (!index.InstallerExists())
@@ -97,7 +98,7 @@ public class QuiltVersionHelper : IFabricVersionHelper<MCQuiltInstaller, MCQuilt
 
     public static MCQuiltLoader GetLoaderVersion(MCLauncherVersion loaderVersion, MCQuiltIndex index)
     {
-        if (!MCLauncherVersion.Exists(loaderVersion))
+        if (!loaderVersion.VersionsExists())
             return null;
 
         if (!index.LoaderExists())

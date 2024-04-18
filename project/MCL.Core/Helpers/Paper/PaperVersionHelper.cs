@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MCL.Core.Enums;
+using MCL.Core.Extensions.Minecraft;
 using MCL.Core.Extensions.Paper;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Models.Paper;
@@ -53,7 +54,7 @@ public static class PaperVersionHelper
 
     public static PaperBuild GetVersion(MCLauncherVersion paperServerVersion, PaperVersionManifest paperVersionManifest)
     {
-        if (!MCLauncherVersion.Exists(paperServerVersion))
+        if (!paperServerVersion.VersionsExists())
             return null;
 
         if (!paperVersionManifest.BuildsExists())

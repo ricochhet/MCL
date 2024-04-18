@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using MCL.Core.Enums.Java;
+using MCL.Core.Extensions.Minecraft;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Resolvers.Minecraft;
@@ -15,7 +16,7 @@ public static class ClassPathHelper
         JavaRuntimePlatform platform
     )
     {
-        if (!MCLauncherVersion.Exists(launcherVersion))
+        if (!launcherVersion.VersionsExists())
             return default;
 
         string separator = platform switch

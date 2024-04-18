@@ -30,33 +30,4 @@ public class MCLauncherVersion
         QuiltLoaderVersion = quiltLoaderVersion;
         PaperServerVersion = paperServerVersion;
     }
-
-    public static bool Exists(MCLauncherVersion launcherVersion)
-    {
-        if (launcherVersion == null)
-            return false;
-
-        if (string.IsNullOrWhiteSpace(launcherVersion.Version))
-            return false;
-
-        if (string.IsNullOrWhiteSpace(launcherVersion.VersionType))
-            return false;
-
-        if (string.IsNullOrWhiteSpace(launcherVersion.FabricInstallerVersion))
-            return false;
-
-        if (string.IsNullOrWhiteSpace(launcherVersion.FabricLoaderVersion))
-            return false;
-
-        if (string.IsNullOrWhiteSpace(launcherVersion.QuiltInstallerVersion))
-            return false;
-
-        if (string.IsNullOrWhiteSpace(launcherVersion.QuiltLoaderVersion))
-            return false;
-
-        if (string.IsNullOrWhiteSpace(launcherVersion.PaperServerVersion))
-            return false;
-
-        return true;
-    }
 }

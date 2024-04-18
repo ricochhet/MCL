@@ -1,4 +1,5 @@
 using MCL.Core.Enums.Java;
+using MCL.Core.Extensions.Minecraft;
 using MCL.Core.Helpers.Minecraft;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Models.Minecraft;
@@ -14,7 +15,7 @@ public static class JavaVersionHelper
         MCLauncherSettings launcherSettings
     )
     {
-        if (!MCLauncherVersion.Exists(launcherVersion))
+        if (!launcherVersion.VersionsExists())
             return launcherSettings.JavaRuntimeType;
         MCVersionDetails versionDetails = VersionHelper.GetVersionDetails(launcherPath, launcherVersion);
         if (string.IsNullOrWhiteSpace(versionDetails?.JavaVersion?.Component))

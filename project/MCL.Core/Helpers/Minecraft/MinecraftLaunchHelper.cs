@@ -1,4 +1,5 @@
 using MCL.Core.Extensions.Launcher;
+using MCL.Core.Extensions.Minecraft;
 using MCL.Core.Helpers.Java;
 using MCL.Core.Helpers.Launcher;
 using MCL.Core.Models.Launcher;
@@ -17,7 +18,7 @@ public static class MinecraftLaunchHelper
         Config config
     )
     {
-        if (!MCLauncherVersion.Exists(launcherVersion))
+        if (!launcherVersion.VersionsExists())
             return;
 
         config.Save(

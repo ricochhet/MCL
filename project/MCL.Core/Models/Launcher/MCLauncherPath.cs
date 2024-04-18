@@ -35,24 +35,4 @@ public class MCLauncherPath
         PaperInstallerPath = VFS.FromCwd(ConfigService.DataPath, paperInstallerPath);
         LanguageLocalizationPath = VFS.FromCwd(ConfigService.DataPath, languageLocalizationPath);
     }
-
-    public static bool Exists(MCLauncherPath launcherPath)
-    {
-        if (launcherPath == null)
-            return false;
-
-        if (string.IsNullOrWhiteSpace(launcherPath.Path))
-            return false;
-
-        if (string.IsNullOrWhiteSpace(launcherPath.FabricInstallerPath))
-            return false;
-
-        if (string.IsNullOrWhiteSpace(launcherPath.QuiltInstallerPath))
-            return false;
-
-        if (string.IsNullOrWhiteSpace(launcherPath.PaperInstallerPath))
-            return false;
-
-        return true;
-    }
 }

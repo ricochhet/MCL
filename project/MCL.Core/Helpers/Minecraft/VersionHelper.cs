@@ -60,7 +60,7 @@ public static class VersionHelper
 
     public static MCVersion GetVersion(MCLauncherVersion launcherVersion, MCVersionManifest versionManifest)
     {
-        if (!MCLauncherVersion.Exists(launcherVersion))
+        if (!launcherVersion.VersionsExists())
             return null;
 
         if (!versionManifest.VersionsExists())
@@ -79,7 +79,7 @@ public static class VersionHelper
 
     public static MCVersionDetails GetVersionDetails(MCLauncherPath launcherPath, MCLauncherVersion launcherVersion)
     {
-        if (!MCLauncherVersion.Exists(launcherVersion))
+        if (!launcherVersion.VersionsExists())
             return null;
 
         MCVersionManifest versionManifest = Json.Load<MCVersionManifest>(

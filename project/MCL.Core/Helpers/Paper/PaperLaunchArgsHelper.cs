@@ -1,3 +1,4 @@
+using MCL.Core.Extensions.Minecraft;
 using MCL.Core.Interfaces.Helpers.Paper;
 using MCL.Core.Models.Java;
 using MCL.Core.Models.Launcher;
@@ -9,7 +10,7 @@ public class PaperLaunchArgsHelper : IPaperLaunchArgsHelper
 {
     public static JvmArguments Default(MCLauncherPath launcherPath, MCLauncherVersion launcherVersion)
     {
-        if (!MCLauncherVersion.Exists(launcherVersion))
+        if (!launcherVersion.VersionsExists())
             return default;
 
         JvmArguments jvmArguments = new();

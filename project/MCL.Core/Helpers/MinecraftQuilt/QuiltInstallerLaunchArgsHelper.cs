@@ -1,5 +1,6 @@
 using MCL.Core.Enums.MinecraftQuilt;
 using MCL.Core.Extensions.Java;
+using MCL.Core.Extensions.Minecraft;
 using MCL.Core.Interfaces.Helpers.MinecraftFabric;
 using MCL.Core.Models.Java;
 using MCL.Core.Models.Launcher;
@@ -15,7 +16,7 @@ public class QuiltInstallerLaunchArgsHelper : IFabricLaunchArgsHelper<QuiltInsta
         QuiltInstallerType installerType
     )
     {
-        if (!MCLauncherVersion.Exists(launcherVersion))
+        if (!launcherVersion.VersionsExists())
             return default;
 
         JvmArguments jvmArguments = new();

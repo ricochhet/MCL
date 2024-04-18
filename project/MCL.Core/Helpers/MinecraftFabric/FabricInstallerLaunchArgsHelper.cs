@@ -1,4 +1,5 @@
 using MCL.Core.Enums.MinecraftFabric;
+using MCL.Core.Extensions.Minecraft;
 using MCL.Core.Interfaces.Helpers.MinecraftFabric;
 using MCL.Core.Models.Java;
 using MCL.Core.Models.Launcher;
@@ -14,7 +15,7 @@ public class FabricInstallerLaunchArgsHelper : IFabricLaunchArgsHelper<FabricIns
         FabricInstallerType installerType
     )
     {
-        if (!MCLauncherVersion.Exists(launcherVersion))
+        if (!launcherVersion.VersionsExists())
             return default;
 
         JvmArguments jvmArguments = new();

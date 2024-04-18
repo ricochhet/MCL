@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using MCL.Core.Extensions.Minecraft;
 using MCL.Core.Helpers.MinecraftQuilt;
 using MCL.Core.Interfaces.Services.MinecraftFabric;
 using MCL.Core.Interfaces.Web;
@@ -107,7 +108,7 @@ public class QuiltLoaderDownloadService : IFabricLoaderDownloadService<MCQuiltCo
         if (!Loaded)
             return false;
 
-        if (!MCLauncherVersion.Exists(LauncherVersion))
+        if (!LauncherVersion.VersionsExists())
             return false;
 
         QuiltProfile = Json.Load<MCQuiltProfile>(

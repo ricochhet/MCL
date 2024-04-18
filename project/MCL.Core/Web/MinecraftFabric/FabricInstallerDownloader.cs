@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using MCL.Core.Extensions.Minecraft;
 using MCL.Core.Extensions.MinecraftFabric;
 using MCL.Core.Interfaces.Web.MinecraftFabric;
 using MCL.Core.Logger.Enums;
@@ -18,7 +19,7 @@ public class FabricInstallerDownloader : IFabricInstallerDownloader<MCFabricInst
         MCFabricInstaller fabricInstaller
     )
     {
-        if (!MCLauncherVersion.Exists(launcherVersion))
+        if (!launcherVersion.VersionsExists())
             return false;
 
         if (!fabricInstaller.UrlExists() || !fabricInstaller.VersionExists())

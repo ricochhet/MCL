@@ -1,5 +1,6 @@
 using MCL.Core.Enums;
 using MCL.Core.Extensions.Java;
+using MCL.Core.Extensions.Minecraft;
 using MCL.Core.Helpers.Minecraft;
 using MCL.Core.Interfaces.Helpers.Minecraft;
 using MCL.Core.Models.Java;
@@ -18,7 +19,7 @@ public class LaunchArgsHelper : ILaunchArgsHelper
         MCLauncherUsername launcherUsername
     )
     {
-        if (!MCLauncherVersion.Exists(launcherVersion))
+        if (!launcherVersion.VersionsExists())
             return default;
 
         JvmArguments jvmArguments = new();
