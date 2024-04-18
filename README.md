@@ -24,19 +24,6 @@ If you want to build with an icon, you can place an icon in `{root}/bin/Assets/i
 
 Files placed in `{root}/project/MCL.Resources` will be copied over to `project/Build`.
 
-### Developers
-If you intend to publish a build, use the above guide.
-
-1. Install tools via `dotnet tool restore`.
-    - If you make any changes to the code use `dotnet csharpier .` in the project root to format.
-2. Run `install.ps1 -build <project> -config <config>`
-    - `<project>` options:
-        - `launcher`
-    - `<config>` options:
-        - `Release` | `Release-Publish`
-        - `Debug` | `Release-Debug`
-3. Output will be located in `project/MCL.Launcher/bin/{Release/Debug/publish}/net8.0/win-x64`
-
 ### Suggestions & PRs
 Suggestions and pull requests are welcome, just keep in mind to follow the project architecture to keep it consistent.
 
