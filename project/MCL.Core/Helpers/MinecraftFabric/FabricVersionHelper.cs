@@ -15,10 +15,10 @@ public class FabricVersionHelper : IFabricVersionHelper<MCFabricInstaller, MCFab
     public static async Task<bool> SetVersions(Config config, string[] args)
     {
         FabricInstallerDownloadService.Init(config.LauncherPath, config.LauncherVersion, config.FabricUrls);
-        if (!FabricInstallerDownloadService.LoadIndex(true))
+        if (!FabricInstallerDownloadService.LoadIndex())
         {
             await FabricInstallerDownloadService.DownloadIndex();
-            FabricInstallerDownloadService.LoadIndex(false);
+            FabricInstallerDownloadService.LoadIndex();
         }
 
         if (FabricInstallerDownloadService.FabricIndex == null)

@@ -43,7 +43,7 @@ public class QuiltInstallerDownloadService : IFabricInstallerDownloadService<MCQ
         if (!IsOffline && !UseExistingIndex && !await DownloadIndex())
             return false;
 
-        if (!LoadIndex(false))
+        if (!LoadIndex())
             return false;
 
         if (!LoadInstallerVersion())
@@ -69,7 +69,7 @@ public class QuiltInstallerDownloadService : IFabricInstallerDownloadService<MCQ
         return true;
     }
 
-    public static bool LoadIndex(bool silent)
+    public static bool LoadIndex()
     {
         if (!Loaded)
             return false;
@@ -77,8 +77,7 @@ public class QuiltInstallerDownloadService : IFabricInstallerDownloadService<MCQ
         QuiltIndex = Json.Load<MCQuiltIndex>(QuiltPathResolver.DownloadedIndexPath(LauncherPath));
         if (QuiltIndex == null)
         {
-            if (!silent)
-                NotificationService.Log(NativeLogLevel.Error, "error.readfile", [nameof(MCQuiltIndex)]);
+            NotificationService.Log(NativeLogLevel.Error, "error.readfile", [nameof(MCQuiltIndex)]);
             return false;
         }
 

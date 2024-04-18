@@ -43,7 +43,7 @@ public class FabricInstallerDownloadService : IFabricInstallerDownloadService<MC
         if (!IsOffline && !UseExistingIndex && !await DownloadIndex())
             return false;
 
-        if (!LoadIndex(false))
+        if (!LoadIndex())
             return false;
 
         if (!LoadInstallerVersion())
@@ -69,7 +69,7 @@ public class FabricInstallerDownloadService : IFabricInstallerDownloadService<MC
         return true;
     }
 
-    public static bool LoadIndex(bool silent)
+    public static bool LoadIndex()
     {
         if (!Loaded)
             return false;
@@ -77,8 +77,7 @@ public class FabricInstallerDownloadService : IFabricInstallerDownloadService<MC
         FabricIndex = Json.Load<MCFabricIndex>(FabricPathResolver.DownloadedIndexPath(LauncherPath));
         if (FabricIndex == null)
         {
-            if (!silent)
-                NotificationService.Log(NativeLogLevel.Error, "error.readfile", [nameof(MCFabricIndex)]);
+            NotificationService.Log(NativeLogLevel.Error, "error.readfile", [nameof(MCFabricIndex)]);
             return false;
         }
 

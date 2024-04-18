@@ -8,7 +8,7 @@ public interface IFabricInstallerDownloadService<T>
     public static abstract void Init(MCLauncherPath launcherPath, MCLauncherVersion launcherVersion, T configUrls);
 
     public static abstract Task<bool> DownloadIndex();
-    public static abstract bool LoadIndex(bool silent);
+    public static abstract bool LoadIndex();
     public static abstract bool LoadInstallerVersion();
     public static abstract Task<bool> DownloadInstaller();
 }

@@ -14,7 +14,7 @@ public interface IMinecraftDownloadService
     );
 
     public static abstract Task<bool> DownloadVersionManifest();
-    public static abstract bool LoadVersionManifest(bool silent);
+    public static abstract bool LoadVersionManifest();
     public static abstract bool LoadVersion();
     public static abstract Task<bool> DownloadVersionDetails();
     public static abstract bool LoadVersionDetails();

@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using MCL.Core.Enums;
 using MCL.Core.Extensions.Paper;
-using MCL.Core.Logger.Enums;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Models.Paper;
 using MCL.Core.Services.Launcher;
@@ -15,10 +14,10 @@ public static class PaperVersionHelper
     public static async Task<bool> SetVersions(Config config, string[] args)
     {
         PaperServerDownloadService.Init(config.LauncherPath, config.LauncherVersion, config.PaperUrls);
-        if (!PaperServerDownloadService.LoadVersionManifest(true))
+        if (!PaperServerDownloadService.LoadVersionManifest())
         {
             await PaperServerDownloadService.DownloadVersionManifest();
-            PaperServerDownloadService.LoadVersionManifest(false);
+            PaperServerDownloadService.LoadVersionManifest();
         }
 
         if (PaperServerDownloadService.PaperVersionManifest == null)
