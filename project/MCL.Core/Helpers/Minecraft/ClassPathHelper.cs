@@ -11,8 +11,8 @@ namespace MCL.Core.Helpers.Minecraft;
 public static class ClassPathHelper
 {
     public static string CreateClassPath(
-        MCLauncherPath launcherPath,
-        MCLauncherVersion launcherVersion,
+        LauncherPath launcherPath,
+        LauncherVersion launcherVersion,
         JavaRuntimePlatform platform
     )
     {

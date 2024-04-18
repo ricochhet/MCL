@@ -12,13 +12,13 @@ namespace MCL.Core.Helpers.Paper;
 
 public static class PaperVersionHelper
 {
-    public static async Task<bool> SetVersions(Config config, string[] args)
+    public static async Task<bool> SetVersions(Settings settings, string[] args)
     {
-        PaperServerDownloadService.Init(config.LauncherPath, config.LauncherVersion, config.PaperUrls);
-        if (!PaperServerDownloadService.LoadVersionManifest())
+        PaperServerDownloadService.Init(settings.LauncherPath, settings.LauncherVersion, settings.PaperUrls);
+        if (!PaperServerDownloadService.LoadIndex())
         {
-            await PaperServerDownloadService.DownloadVersionManifest();
-            PaperServerDownloadService.LoadVersionManifest();
+            await PaperServerDownloadService.DownloadIndex();
+            PaperServerDownloadService.LoadIndex();
         }
 
         if (PaperServerDownloadService.PaperVersionManifest == null)
@@ -33,8 +33,8 @@ public static class PaperVersionHelper
         if (!versions.Contains(version))
             return false;
 
-        config.LauncherVersion.PaperServerVersion = version;
-        ConfigService.Save(config);
+        settings.LauncherVersion.PaperServerVersion = version;
+        SettingsService.Save(settings);
         return true;
     }
 
@@ -52,7 +52,7 @@ public static class PaperVersionHelper
         return versions;
     }
 
-    public static PaperBuild GetVersion(MCLauncherVersion paperServerVersion, PaperVersionManifest paperVersionManifest)
+    public static PaperBuild GetVersion(LauncherVersion paperServerVersion, PaperVersionManifest paperVersionManifest)
     {
         if (!paperServerVersion.VersionsExists())
             return null;

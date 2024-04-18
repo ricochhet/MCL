@@ -1,35 +1,39 @@
 using System.Threading.Tasks;
 using MCL.Core.Enums.MinecraftFabric;
 using MCL.Core.Helpers.Java;
-using MCL.Core.Helpers.MinecraftFabric;
-using MCL.Core.Interfaces.MiniCommon;
+using MCL.Core.Helpers.ModLoaders.Fabric;
 using MCL.Core.MiniCommon;
+using MCL.Core.MiniCommon.Interfaces;
 using MCL.Core.Models.Launcher;
-using MCL.Core.Services.MinecraftFabric;
+using MCL.Core.Services.ModLoaders.Fabric;
 
 namespace MCL.Launcher.Commands.Downloaders;
 
 public class DownloadFabricInstaller : ILauncherCommand
 {
-    public async Task Init(string[] args, Config config)
+    public async Task Init(string[] args, Settings settings)
     {
         await CommandLine.ProcessArgumentAsync(
             args,
             "--dl-fabric-installer",
             async () =>
             {
-                FabricInstallerDownloadService.Init(config.LauncherPath, config.LauncherVersion, config.FabricUrls);
+                FabricInstallerDownloadService.Init(
+                    settings.LauncherPath,
+                    settings.LauncherVersion,
+                    settings.FabricUrls
+                );
                 if (!await FabricInstallerDownloadService.Download(useLocalVersionManifest: true))
                     return;
 
-                JavaLaunchHelper.Launch(
-                    config,
-                    FabricInstallerLaunchArgsHelper.Default(
-                        config.LauncherPath,
-                        config.LauncherVersion,
+                JavaLauncher.Launch(
+                    settings,
+                    FabricInstallerArgs.DefaultJvmArguments(
+                        settings.LauncherPath,
+                        settings.LauncherVersion,
                         FabricInstallerType.CLIENT
                     ),
-                    config.LauncherSettings.JavaRuntimeType
+                    settings.LauncherSettings.JavaRuntimeType
                 );
             }
         );

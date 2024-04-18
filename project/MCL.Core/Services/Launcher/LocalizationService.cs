@@ -12,7 +12,7 @@ public static class LocalizationService
     public static Localization Localization { get; private set; } = new();
     private static bool Loaded = false;
 
-    public static void Init(MCLauncherPath launcherPath, Language language, bool alwaysSaveNewTranslation = false)
+    public static void Init(LauncherPath launcherPath, Language language, bool alwaysSaveNewTranslation = false)
     {
         if (!VFS.Exists(LocalizationPathResolver.LanguageFilePath(launcherPath, language)) || alwaysSaveNewTranslation)
             Json.Save(

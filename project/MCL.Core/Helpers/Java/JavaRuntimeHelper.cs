@@ -9,7 +9,7 @@ namespace MCL.Core.Helpers.Java;
 public static class JavaRuntimeHelper
 {
     public static string FindJavaRuntimeEnvironment(
-        Config config,
+        Settings settings,
         string workingDirectory,
         JavaRuntimeType javaRuntimeType
     )
@@ -19,7 +19,7 @@ public static class JavaRuntimeHelper
         if (!VFS.Exists(javaHome))
         {
             string javaHomeEnvironmentVariable = Environment.GetEnvironmentVariable(
-                config.JavaConfig.JavaHomeEnvironmentVariable
+                settings.JavaSettings.JavaHomeEnvironmentVariable
             );
             if (string.IsNullOrWhiteSpace(javaHomeEnvironmentVariable))
                 return javaHome;

@@ -24,14 +24,13 @@ public static class ProcessHelper
                 WorkingDirectory = workingDirectory,
                 UseShellExecute = useShellExecute,
                 RedirectStandardOutput = !useShellExecute,
+                RedirectStandardError = !useShellExecute,
             };
 
         if (environmentalVariables != null && environmentalVariables.Count > 0)
         {
             foreach ((string name, string item) in environmentalVariables)
-            {
                 startInfo.EnvironmentVariables[name] = item;
-            }
         }
 
         try
@@ -43,9 +42,13 @@ public static class ProcessHelper
                 process.OutputDataReceived += (sender, e) =>
                 {
                     if (!string.IsNullOrWhiteSpace(e.Data))
-                    {
-                        NotificationService.Log(NativeLogLevel.Info, "log", [e.Data]);
-                    }
+                        NotificationService.Log(NativeLogLevel.Info, "log", [e.Data ?? string.Empty]);
+                };
+
+                process.ErrorDataReceived += (sender, e) =>
+                {
+                    if (!string.IsNullOrWhiteSpace(e.Data))
+                        NotificationService.Log(NativeLogLevel.Error, "log", [e.Data ?? string.Empty]);
                 };
 
                 process.Start();

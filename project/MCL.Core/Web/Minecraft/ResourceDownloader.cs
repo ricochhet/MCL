@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 using MCL.Core.Extensions.Minecraft;
-using MCL.Core.Interfaces.Web.Minecraft;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Models.Minecraft;
@@ -8,15 +7,19 @@ using MCL.Core.Resolvers.Minecraft;
 
 namespace MCL.Core.Web.Minecraft;
 
-public class ResourceDownloader : IResourceDownloader
+public static class ResourceDownloader
 {
-    public static async Task<bool> Download(MCLauncherPath launcherPath, MCConfigUrls configUrls, MCAssetsData assets)
+    public static async Task<bool> Download(
+        LauncherPath launcherPath,
+        MinecraftUrls minecraftUrls,
+        MinecraftAssetsData assets
+    )
     {
-        if (!configUrls.MinecraftResourcesExists() || !assets.ObjectsExists())
+        if (!minecraftUrls.MinecraftResourcesExists() || !assets.ObjectsExists())
             return false;
 
         string objectsPath = VFS.Combine(MinecraftPathResolver.AssetsPath(launcherPath), "objects");
-        foreach ((_, MCAsset asset) in assets.Objects)
+        foreach ((_, MinecraftAsset asset) in assets.Objects)
         {
             if (asset == null)
                 continue;
@@ -24,7 +27,7 @@ public class ResourceDownloader : IResourceDownloader
             if (string.IsNullOrWhiteSpace(asset.Hash))
                 return false;
 
-            string request = $"{configUrls.MinecraftResources}/{asset.Hash[..2]}/{asset.Hash}";
+            string request = $"{minecraftUrls.MinecraftResources}/{asset.Hash[..2]}/{asset.Hash}";
             string filepath = VFS.Combine(objectsPath, asset.Hash[..2], asset.Hash);
             if (!await Request.Download(request, filepath, asset.Hash))
                 return false;

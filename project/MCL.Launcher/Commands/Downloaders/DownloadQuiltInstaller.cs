@@ -1,35 +1,35 @@
 using System.Threading.Tasks;
 using MCL.Core.Enums.MinecraftQuilt;
 using MCL.Core.Helpers.Java;
-using MCL.Core.Helpers.MinecraftQuilt;
-using MCL.Core.Interfaces.MiniCommon;
+using MCL.Core.Helpers.ModLoaders.Quilt;
 using MCL.Core.MiniCommon;
+using MCL.Core.MiniCommon.Interfaces;
 using MCL.Core.Models.Launcher;
-using MCL.Core.Services.MinecraftQuilt;
+using MCL.Core.Services.ModLoaders.Quilt;
 
 namespace MCL.Launcher.Commands.Downloaders;
 
 public class DownloadQuiltInstaller : ILauncherCommand
 {
-    public async Task Init(string[] args, Config config)
+    public async Task Init(string[] args, Settings settings)
     {
         await CommandLine.ProcessArgumentAsync(
             args,
             "--dl-quilt-installer",
             async () =>
             {
-                QuiltInstallerDownloadService.Init(config.LauncherPath, config.LauncherVersion, config.QuiltUrls);
+                QuiltInstallerDownloadService.Init(settings.LauncherPath, settings.LauncherVersion, settings.QuiltUrls);
                 if (!await QuiltInstallerDownloadService.Download(useLocalVersionManifest: true))
                     return;
 
-                JavaLaunchHelper.Launch(
-                    config,
-                    QuiltInstallerLaunchArgsHelper.Default(
-                        config.LauncherPath,
-                        config.LauncherVersion,
+                JavaLauncher.Launch(
+                    settings,
+                    QuiltInstallerArgs.DefaultJvmArguments(
+                        settings.LauncherPath,
+                        settings.LauncherVersion,
                         QuiltInstallerType.CLIENT
                     ),
-                    config.LauncherSettings.JavaRuntimeType
+                    settings.LauncherSettings.JavaRuntimeType
                 );
             }
         );

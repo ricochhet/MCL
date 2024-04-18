@@ -17,15 +17,15 @@ namespace MCL.Core.Services.Modding;
 
 public static class ModdingService
 {
-    public static MCLauncherPath LauncherPath { get; private set; }
-    public static ModConfig ModConfig { get; private set; }
+    public static LauncherPath LauncherPath { get; private set; }
+    public static ModSettings ModSettings { get; private set; }
 
     static ModdingService() { }
 
-    public static void Init(MCLauncherPath launcherPath, ModConfig modConfig)
+    public static void Init(LauncherPath launcherPath, ModSettings modSettings)
     {
         LauncherPath = launcherPath;
-        ModConfig = modConfig;
+        ModSettings = modSettings;
         if (!VFS.Exists(LauncherPath.ModPath))
             VFS.CreateDirectory(launcherPath.ModPath);
     }
@@ -46,7 +46,7 @@ public static class ModdingService
             return false;
         }
 
-        string[] fileTypes = [.. ModConfig.CopyOnlyTypes, .. ModConfig.UnzipAndCopyTypes];
+        string[] fileTypes = [.. ModSettings.CopyOnlyTypes, .. ModSettings.UnzipAndCopyTypes];
         string[] filteredModFilePaths = modFilePaths
             .Where(file => Array.Exists(fileTypes, file.ToLower().EndsWith))
             .ToArray();
@@ -59,18 +59,18 @@ public static class ModdingService
         ModFiles modFiles = new();
         foreach (string modFilePath in filteredModFilePaths)
         {
-            if (ModConfig.CopyOnlyTypes.Contains(VFS.GetFileExtension(modFilePath)))
+            if (ModSettings.CopyOnlyTypes.Contains(VFS.GetFileExtension(modFilePath)))
                 modFiles.Files.Add(
                     new ModFile(modFilePath, CryptographyHelper.CreateSHA1(modFilePath, true), ModRule.COPY_ONLY)
                 );
-            else if (ModConfig.UnzipAndCopyTypes.Contains(VFS.GetFileExtension(modFilePath)))
+            else if (ModSettings.UnzipAndCopyTypes.Contains(VFS.GetFileExtension(modFilePath)))
                 modFiles.Files.Add(
                     new ModFile(modFilePath, CryptographyHelper.CreateSHA1(modFilePath, true), ModRule.UNZIP_AND_COPY)
                 );
         }
         string filepath = ModPathResolver.ModStorePath(LauncherPath, modStoreName);
-        if (!ModConfig.IsStoreSaved(modStoreName))
-            ModConfig.ModStores.Add(modStoreName);
+        if (!ModSettings.IsStoreSaved(modStoreName))
+            ModSettings.ModStores.Add(modStoreName);
         Json.Save(
             filepath,
             modFiles,
@@ -84,15 +84,15 @@ public static class ModdingService
     {
         if (
             VFS.Exists(ModPathResolver.ModStorePath(LauncherPath, modStoreName))
-            && !ModConfig.IsStoreSaved(modStoreName)
+            && !ModSettings.IsStoreSaved(modStoreName)
         )
-            ModConfig.ModStores.Add(modStoreName);
+            ModSettings.ModStores.Add(modStoreName);
     }
 
     public static ModFiles Load(string modStoreName)
     {
         string modStorePath = ModPathResolver.ModStorePath(LauncherPath, modStoreName);
-        if (VFS.Exists(modStorePath) && ModConfig.IsStoreSaved(modStoreName))
+        if (VFS.Exists(modStorePath) && ModSettings.IsStoreSaved(modStoreName))
             return Json.Load<ModFiles>(modStorePath);
         return default;
     }
@@ -103,8 +103,8 @@ public static class ModdingService
         if (!VFS.Exists(modStorePath))
             return false;
 
-        if (ModConfig.IsStoreSaved(modStoreName))
-            ModConfig.ModStores.Remove(modStoreName);
+        if (ModSettings.IsStoreSaved(modStoreName))
+            ModSettings.ModStores.Remove(modStoreName);
 
         VFS.DeleteFile(modStorePath);
         return true;
@@ -112,8 +112,8 @@ public static class ModdingService
 
     public static bool DeleteSavedDeployPath(string deployPath)
     {
-        if (ModConfig.IsDeployPathSaved(deployPath))
-            ModConfig.DeployPaths.Remove(deployPath);
+        if (ModSettings.IsDeployPathSaved(deployPath))
+            ModSettings.DeployPaths.Remove(deployPath);
         else
             return false;
 
@@ -138,7 +138,7 @@ public static class ModdingService
             VFS.CreateDirectory(deployPath);
 
         List<ModFile> sortedModFiles = [.. modFiles.Files.OrderBy(a => a.Priority)];
-        ModConfig.DeployPaths.Add(deployPath);
+        ModSettings.DeployPaths.Add(deployPath);
 
         foreach (ModFile modFile in sortedModFiles)
         {

@@ -13,13 +13,13 @@ namespace MCL.Core.Helpers.Minecraft;
 
 public static class VersionHelper
 {
-    public static async Task<bool> SetVersions(Config config, string[] args)
+    public static async Task<bool> SetVersions(Settings settings, string[] args)
     {
         MinecraftDownloadService.Init(
-            config.LauncherPath,
-            config.LauncherVersion,
-            config.LauncherSettings,
-            config.MinecraftUrls
+            settings.LauncherPath,
+            settings.LauncherVersion,
+            settings.LauncherSettings,
+            settings.MinecraftUrls
         );
         if (!MinecraftDownloadService.LoadVersionManifest())
         {
@@ -39,18 +39,18 @@ public static class VersionHelper
         if (!versions.Contains(version))
             return false;
 
-        config.LauncherVersion.Version = version;
-        ConfigService.Save(config);
+        settings.LauncherVersion.Version = version;
+        SettingsService.Save(settings);
         return true;
     }
 
-    public static List<string> GetVersionIds(MCVersionManifest versionManifest)
+    public static List<string> GetVersionIds(MinecraftVersionManifest versionManifest)
     {
         if (!versionManifest.VersionsExists())
             return [];
 
         List<string> versions = [];
-        foreach (MCVersion item in versionManifest.Versions)
+        foreach (MinecraftVersion item in versionManifest.Versions)
         {
             versions.Add(item.ID);
         }
@@ -58,7 +58,7 @@ public static class VersionHelper
         return versions;
     }
 
-    public static MCVersion GetVersion(MCLauncherVersion launcherVersion, MCVersionManifest versionManifest)
+    public static MinecraftVersion GetVersion(LauncherVersion launcherVersion, MinecraftVersionManifest versionManifest)
     {
         if (!launcherVersion.VersionsExists())
             return null;
@@ -66,7 +66,7 @@ public static class VersionHelper
         if (!versionManifest.VersionsExists())
             return null;
 
-        foreach (MCVersion item in versionManifest.Versions)
+        foreach (MinecraftVersion item in versionManifest.Versions)
         {
             if (string.IsNullOrWhiteSpace(launcherVersion.Version) && item.ID == versionManifest.Latest.Release)
                 return item;
@@ -77,23 +77,23 @@ public static class VersionHelper
         return null;
     }
 
-    public static MCVersionDetails GetVersionDetails(MCLauncherPath launcherPath, MCLauncherVersion launcherVersion)
+    public static MinecraftVersionDetails GetVersionDetails(LauncherPath launcherPath, LauncherVersion launcherVersion)
     {
         if (!launcherVersion.VersionsExists())
             return null;
 
-        MCVersionManifest versionManifest = Json.Load<MCVersionManifest>(
+        MinecraftVersionManifest versionManifest = Json.Load<MinecraftVersionManifest>(
             MinecraftPathResolver.DownloadedVersionManifestPath(launcherPath)
         );
 
         if (versionManifest?.Versions == null)
             return null;
 
-        MCVersion version = GetVersion(launcherVersion, versionManifest);
+        MinecraftVersion version = GetVersion(launcherVersion, versionManifest);
         if (version == null)
             return null;
 
-        MCVersionDetails versionDetails = Json.Load<MCVersionDetails>(
+        MinecraftVersionDetails versionDetails = Json.Load<MinecraftVersionDetails>(
             MinecraftPathResolver.DownloadedVersionDetailsPath(launcherPath, version)
         );
         if (versionDetails == null)

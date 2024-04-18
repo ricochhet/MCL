@@ -9,10 +9,8 @@ public class JvmArguments
     public List<LaunchArg> Arguments { get; set; } = [];
     private readonly List<string> parsedLaunchArgs = [];
 
-    public void Add(LaunchArg launchArg)
-    {
-        Arguments.Add(launchArg);
-    }
+    public void Add(string arg, string[] argParams = null, int priority = 0) =>
+        Arguments.Add(new(arg, argParams, priority));
 
     public string Build()
     {

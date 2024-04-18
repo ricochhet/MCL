@@ -6,15 +6,15 @@ namespace MCL.Core.Resolvers.SevenZip;
 
 public static class SevenZipPathResolver
 {
-    public static string SevenZipPath(SevenZipConfig sevenZipConfig)
+    public static string SevenZipPath(SevenZipSettings sevenZipSettings)
     {
         string windowsExecutable = VFS.Combine(
-            ConfigService.DataPath,
+            SettingsService.DataPath,
             "SevenZip",
-            sevenZipConfig.SevenZipExecutable + ".exe"
+            sevenZipSettings.SevenZipExecutable + ".exe"
         );
         if (VFS.Exists(windowsExecutable))
             return windowsExecutable;
-        return sevenZipConfig.SevenZipExecutable;
+        return sevenZipSettings.SevenZipExecutable;
     }
 }

@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using MCL.Core.Extensions.Launcher;
-using MCL.Core.Interfaces.MiniCommon;
 using MCL.Core.MiniCommon;
+using MCL.Core.MiniCommon.Interfaces;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Resolvers.Modding;
 using MCL.Core.Services.Modding;
@@ -10,7 +10,7 @@ namespace MCL.Launcher.Commands.Modding;
 
 public class DeployMods : ILauncherCommand
 {
-    public Task Init(string[] args, Config config)
+    public Task Init(string[] args, Settings settings)
     {
         CommandLine.ProcessArgument(
             args,
@@ -18,8 +18,8 @@ public class DeployMods : ILauncherCommand
             (string value) =>
             {
                 ModdingService.Save(value);
-                ModdingService.Deploy(ModdingService.Load(value), ModPathResolver.ModDeployPath(config.LauncherPath));
-                config.Save(ModdingService.ModConfig);
+                ModdingService.Deploy(ModdingService.Load(value), ModPathResolver.ModDeployPath(settings.LauncherPath));
+                settings.Save(ModdingService.ModSettings);
             }
         );
 

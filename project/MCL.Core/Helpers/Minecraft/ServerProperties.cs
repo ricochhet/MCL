@@ -6,12 +6,12 @@ namespace MCL.Core.Helpers.Minecraft;
 
 public static class ServerProperties
 {
-    public static void NewEula(MCLauncherPath launcherPath)
+    public static void NewEula(LauncherPath launcherPath)
     {
         VFS.WriteFile(VFS.Combine(MinecraftPathResolver.ServerPath(launcherPath), "eula.txt"), "eula=true\n");
     }
 
-    public static void NewProperties(MCLauncherPath launcherPath)
+    public static void NewProperties(LauncherPath launcherPath)
     {
         VFS.WriteFile(
             VFS.Combine(MinecraftPathResolver.ServerPath(launcherPath), "server.properties"),

@@ -1,36 +1,31 @@
 using System.Threading.Tasks;
 using MCL.Core.Helpers.Paper;
-using MCL.Core.Interfaces.Services.Paper;
-using MCL.Core.Interfaces.Web;
 using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
-using MCL.Core.Models.MinecraftQuilt;
+using MCL.Core.Models.ModLoaders.Quilt;
 using MCL.Core.Models.Paper;
 using MCL.Core.Resolvers.Paper;
+using MCL.Core.Services.Interfaces;
 using MCL.Core.Services.Launcher;
 using MCL.Core.Web.Paper;
 
 namespace MCL.Core.Services.Paper;
 
-public class PaperServerDownloadService : IPaperServerDownloadService<PaperConfigUrls>, IDownloadService
+public class PaperServerDownloadService : IJarDownloadService<PaperUrls>, IDownloadService
 {
     public static PaperVersionManifest PaperVersionManifest { get; private set; }
     public static PaperBuild PaperBuild { get; private set; }
-    private static MCLauncherPath LauncherPath;
-    private static MCLauncherVersion LauncherVersion;
-    private static PaperConfigUrls PaperConfigUrls;
+    private static LauncherPath LauncherPath;
+    private static LauncherVersion LauncherVersion;
+    private static PaperUrls PaperUrls;
     private static bool Loaded = false;
 
-    public static void Init(
-        MCLauncherPath launcherPath,
-        MCLauncherVersion launcherVersion,
-        PaperConfigUrls paperConfigUrls
-    )
+    public static void Init(LauncherPath launcherPath, LauncherVersion launcherVersion, PaperUrls paperUrls)
     {
         LauncherPath = launcherPath;
         LauncherVersion = launcherVersion;
-        PaperConfigUrls = paperConfigUrls;
+        PaperUrls = paperUrls;
         Loaded = true;
     }
 
@@ -39,27 +34,27 @@ public class PaperServerDownloadService : IPaperServerDownloadService<PaperConfi
         if (!Loaded)
             return false;
 
-        if (!useLocalVersionManifest && !await DownloadVersionManifest())
+        if (!useLocalVersionManifest && !await DownloadIndex())
             return false;
 
-        if (!LoadVersionManifest())
+        if (!LoadIndex())
             return false;
 
-        if (!LoadServerVersion())
+        if (!LoadVersion())
             return false;
 
-        if (!await DownloadServer())
+        if (!await DownloadJar())
             return false;
 
         return true;
     }
 
-    public static async Task<bool> DownloadVersionManifest()
+    public static async Task<bool> DownloadIndex()
     {
         if (!Loaded)
             return false;
 
-        if (!await PaperIndexDownloader.Download(LauncherPath, LauncherVersion, PaperConfigUrls))
+        if (!await PaperIndexDownloader.Download(LauncherPath, LauncherVersion, PaperUrls))
         {
             NotificationService.Log(NativeLogLevel.Error, "error.download", [nameof(PaperIndexDownloader)]);
             return false;
@@ -68,7 +63,7 @@ public class PaperServerDownloadService : IPaperServerDownloadService<PaperConfi
         return true;
     }
 
-    public static bool LoadVersionManifest()
+    public static bool LoadIndex()
     {
         if (!Loaded)
             return false;
@@ -78,14 +73,14 @@ public class PaperServerDownloadService : IPaperServerDownloadService<PaperConfi
         );
         if (PaperVersionManifest == null)
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.readfile", [nameof(MCQuiltIndex)]);
+            NotificationService.Log(NativeLogLevel.Error, "error.readfile", [nameof(QuiltIndex)]);
             return false;
         }
 
         return true;
     }
 
-    public static bool LoadServerVersion()
+    public static bool LoadVersion()
     {
         if (!Loaded)
             return false;
@@ -104,12 +99,12 @@ public class PaperServerDownloadService : IPaperServerDownloadService<PaperConfi
         return true;
     }
 
-    public static async Task<bool> DownloadServer()
+    public static async Task<bool> DownloadJar()
     {
         if (!Loaded)
             return false;
 
-        if (!await PaperServerDownloader.Download(LauncherPath, LauncherVersion, PaperBuild, PaperConfigUrls))
+        if (!await PaperServerDownloader.Download(LauncherPath, LauncherVersion, PaperBuild, PaperUrls))
         {
             NotificationService.Log(NativeLogLevel.Error, "error.download", [nameof(PaperServerDownloader)]);
             return false;

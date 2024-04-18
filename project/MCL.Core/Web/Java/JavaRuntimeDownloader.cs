@@ -1,7 +1,6 @@
 using System.Threading.Tasks;
 using MCL.Core.Enums.Java;
 using MCL.Core.Extensions.Java;
-using MCL.Core.Interfaces.Web.Java;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Java;
 using MCL.Core.Models.Launcher;
@@ -9,10 +8,10 @@ using MCL.Core.Resolvers.Java;
 
 namespace MCL.Core.Web.Java;
 
-public class JavaRuntimeDownloader : IJavaRuntimeDownloader
+public static class JavaRuntimeDownloader
 {
     public static async Task<bool> Download(
-        MCLauncherPath launcherPath,
+        LauncherPath launcherPath,
         JavaRuntimeType javaRuntimeType,
         JavaRuntimeFiles javaRuntimeFiles
     )

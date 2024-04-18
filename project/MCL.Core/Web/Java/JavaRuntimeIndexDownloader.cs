@@ -1,7 +1,6 @@
 using System.Text;
 using System.Threading.Tasks;
 using MCL.Core.Extensions.Minecraft;
-using MCL.Core.Interfaces.Web.Java;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Java;
 using MCL.Core.Models.Launcher;
@@ -10,16 +9,16 @@ using MCL.Core.Resolvers.Java;
 
 namespace MCL.Core.Web.Java;
 
-public class JavaRuntimeIndexDownloader : IJavaRuntimeIndexDownloader
+public static class JavaRuntimeIndexDownloader
 {
-    public static async Task<bool> Download(MCLauncherPath launcherPath, MCConfigUrls configUrls)
+    public static async Task<bool> Download(LauncherPath launcherPath, MinecraftUrls minecraftUrls)
     {
-        if (!configUrls.JavaRuntimeIndexUrlExists())
+        if (!minecraftUrls.JavaRuntimeIndexUrlExists())
             return false;
 
         string filepath = JavaPathResolver.DownloadedJavaRuntimeIndexPath(launcherPath);
         string javaRuntimeIndex = await Request.GetJsonAsync<JavaRuntimeIndex>(
-            configUrls.JavaRuntimeIndexUrl,
+            minecraftUrls.JavaRuntimeIndexUrl,
             filepath,
             Encoding.UTF8
         );

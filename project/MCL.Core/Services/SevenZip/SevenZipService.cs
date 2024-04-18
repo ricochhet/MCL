@@ -7,18 +7,18 @@ namespace MCL.Core.Services.SevenZip;
 
 public static class SevenZipService
 {
-    private static SevenZipConfig SevenZipConfig { get; set; }
+    private static SevenZipSettings SevenZipSettings { get; set; }
 
-    public static void Init(SevenZipConfig sevenZipConfig)
+    public static void Init(SevenZipSettings sevenZipSettings)
     {
-        SevenZipConfig = sevenZipConfig;
+        SevenZipSettings = sevenZipSettings;
     }
 
     public static void Extract(string source, string destination)
     {
         ProcessHelper.RunProcess(
-            SevenZipPathResolver.SevenZipPath(SevenZipConfig),
-            string.Format(SevenZipConfig.SevenZipExtractArgs, source, destination),
+            SevenZipPathResolver.SevenZipPath(SevenZipSettings),
+            string.Format(SevenZipSettings.SevenZipExtractArgs, source, destination),
             Environment.CurrentDirectory,
             false
         );

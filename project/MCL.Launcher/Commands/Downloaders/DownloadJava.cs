@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using MCL.Core.Helpers.Java;
-using MCL.Core.Interfaces.MiniCommon;
 using MCL.Core.MiniCommon;
+using MCL.Core.MiniCommon.Interfaces;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Services.Java;
 
@@ -9,7 +9,7 @@ namespace MCL.Launcher.Commands.Downloaders;
 
 public class DownloadJava : ILauncherCommand
 {
-    public async Task Init(string[] args, Config config)
+    public async Task Init(string[] args, Settings settings)
     {
         await CommandLine.ProcessArgumentAsync(
             args,
@@ -17,14 +17,14 @@ public class DownloadJava : ILauncherCommand
             async () =>
             {
                 JavaDownloadService.Init(
-                    config.LauncherPath,
-                    config.MinecraftUrls,
+                    settings.LauncherPath,
+                    settings.MinecraftUrls,
                     JavaVersionHelper.GetDownloadedMCVersionJava(
-                        config.LauncherPath,
-                        config.LauncherVersion,
-                        config.LauncherSettings
+                        settings.LauncherPath,
+                        settings.LauncherVersion,
+                        settings.LauncherSettings
                     ),
-                    config.LauncherSettings.JavaRuntimePlatform
+                    settings.LauncherSettings.JavaRuntimePlatform
                 );
 
                 await JavaDownloadService.Download();

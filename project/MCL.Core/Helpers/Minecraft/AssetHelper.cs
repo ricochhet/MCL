@@ -8,23 +8,23 @@ namespace MCL.Core.Helpers.Minecraft;
 
 public static class AssetHelper
 {
-    public static string GetAssetId(MCLauncherPath launcherPath, MCLauncherVersion launcherVersion)
+    public static string GetAssetId(LauncherPath launcherPath, LauncherVersion launcherVersion)
     {
         if (!launcherVersion.VersionsExists())
             return string.Empty;
 
-        MCVersionManifest versionManifest = Json.Load<MCVersionManifest>(
+        MinecraftVersionManifest versionManifest = Json.Load<MinecraftVersionManifest>(
             MinecraftPathResolver.DownloadedVersionManifestPath(launcherPath)
         );
 
         if (versionManifest == null)
             return string.Empty;
 
-        MCVersion version = VersionHelper.GetVersion(launcherVersion, versionManifest);
+        MinecraftVersion version = VersionHelper.GetVersion(launcherVersion, versionManifest);
         if (version == null)
             return string.Empty;
 
-        MCVersionDetails versionDetails = Json.Load<MCVersionDetails>(
+        MinecraftVersionDetails versionDetails = Json.Load<MinecraftVersionDetails>(
             MinecraftPathResolver.DownloadedVersionDetailsPath(launcherPath, version)
         );
 

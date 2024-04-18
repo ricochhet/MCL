@@ -1,40 +1,39 @@
 using System.Threading.Tasks;
 using MCL.Core.Helpers.Minecraft;
-using MCL.Core.Interfaces.Services.Minecraft;
-using MCL.Core.Interfaces.Web;
 using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Models.Minecraft;
 using MCL.Core.Resolvers.Minecraft;
+using MCL.Core.Services.Interfaces;
 using MCL.Core.Services.Launcher;
 using MCL.Core.Web.Minecraft;
 
 namespace MCL.Core.Services.Minecraft;
 
-public class MinecraftDownloadService : IMinecraftDownloadService, IDownloadService
+public class MinecraftDownloadService : IDownloadService
 {
-    public static MCVersionManifest VersionManifest { get; private set; }
-    public static MCVersionDetails VersionDetails { get; private set; }
-    public static MCVersion Version { get; private set; }
-    private static MCAssetsData Assets;
-    private static MCLauncherPath LauncherPath;
-    private static MCLauncherVersion LauncherVersion;
-    private static MCLauncherSettings LauncherSettings;
-    private static MCConfigUrls ConfigUrls;
+    public static MinecraftVersionManifest VersionManifest { get; private set; }
+    public static MinecraftVersionDetails VersionDetails { get; private set; }
+    public static MinecraftVersion Version { get; private set; }
+    private static MinecraftAssetsData Assets;
+    private static LauncherPath LauncherPath;
+    private static LauncherVersion LauncherVersion;
+    private static LauncherSettings LauncherSettings;
+    private static MinecraftUrls MinecraftUrls;
     private static bool Loaded = false;
 
     public static void Init(
-        MCLauncherPath launcherPath,
-        MCLauncherVersion launcherVersion,
-        MCLauncherSettings launcherSettings,
-        MCConfigUrls configUrls
+        LauncherPath launcherPath,
+        LauncherVersion launcherVersion,
+        LauncherSettings launcherSettings,
+        MinecraftUrls minecraftUrls
     )
     {
         LauncherPath = launcherPath;
         LauncherVersion = launcherVersion;
         LauncherSettings = launcherSettings;
-        ConfigUrls = configUrls;
+        MinecraftUrls = minecraftUrls;
         Loaded = true;
     }
 
@@ -96,9 +95,9 @@ public class MinecraftDownloadService : IMinecraftDownloadService, IDownloadServ
         if (!Loaded)
             return false;
 
-        if (!await VersionManifestDownloader.Download(LauncherPath, ConfigUrls))
+        if (!await VersionManifestDownloader.Download(LauncherPath, MinecraftUrls))
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.download", [nameof(MCVersionManifest)]);
+            NotificationService.Log(NativeLogLevel.Error, "error.download", [nameof(MinecraftVersionManifest)]);
             return false;
         }
 
@@ -110,12 +109,12 @@ public class MinecraftDownloadService : IMinecraftDownloadService, IDownloadServ
         if (!Loaded)
             return false;
 
-        VersionManifest = Json.Load<MCVersionManifest>(
+        VersionManifest = Json.Load<MinecraftVersionManifest>(
             MinecraftPathResolver.DownloadedVersionManifestPath(LauncherPath)
         );
         if (VersionManifest == null)
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.readfile", [nameof(MCVersionManifest)]);
+            NotificationService.Log(NativeLogLevel.Error, "error.readfile", [nameof(MinecraftVersionManifest)]);
             return false;
         }
 
@@ -130,7 +129,11 @@ public class MinecraftDownloadService : IMinecraftDownloadService, IDownloadServ
         Version = VersionHelper.GetVersion(LauncherVersion, VersionManifest);
         if (Version == null)
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.parse", [LauncherVersion?.Version, nameof(MCVersion)]);
+            NotificationService.Log(
+                NativeLogLevel.Error,
+                "error.parse",
+                [LauncherVersion?.Version, nameof(MinecraftVersion)]
+            );
             return false;
         }
 
@@ -156,12 +159,12 @@ public class MinecraftDownloadService : IMinecraftDownloadService, IDownloadServ
         if (!Loaded)
             return false;
 
-        VersionDetails = Json.Load<MCVersionDetails>(
+        VersionDetails = Json.Load<MinecraftVersionDetails>(
             MinecraftPathResolver.DownloadedVersionDetailsPath(LauncherPath, Version)
         );
         if (VersionDetails == null)
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.readfile", [nameof(MCVersionDetails)]);
+            NotificationService.Log(NativeLogLevel.Error, "error.readfile", [nameof(MinecraftVersionDetails)]);
             return false;
         }
 
@@ -257,10 +260,10 @@ public class MinecraftDownloadService : IMinecraftDownloadService, IDownloadServ
         if (!Loaded)
             return false;
 
-        Assets = Json.Load<MCAssetsData>(MinecraftPathResolver.ClientIndexPath(LauncherPath, VersionDetails));
+        Assets = Json.Load<MinecraftAssetsData>(MinecraftPathResolver.ClientIndexPath(LauncherPath, VersionDetails));
         if (Assets == null)
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.readfile", [nameof(MCAssetsData)]);
+            NotificationService.Log(NativeLogLevel.Error, "error.readfile", [nameof(MinecraftAssetsData)]);
             return false;
         }
 
@@ -272,7 +275,7 @@ public class MinecraftDownloadService : IMinecraftDownloadService, IDownloadServ
         if (!Loaded)
             return false;
 
-        if (!await ResourceDownloader.Download(LauncherPath, ConfigUrls, Assets))
+        if (!await ResourceDownloader.Download(LauncherPath, MinecraftUrls, Assets))
         {
             NotificationService.Log(NativeLogLevel.Error, "error.download", [nameof(ResourceDownloader)]);
             return false;

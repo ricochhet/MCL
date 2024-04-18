@@ -1,37 +1,36 @@
 using System.Threading.Tasks;
 using MCL.Core.Enums.Java;
-using MCL.Core.Interfaces.Services.Java;
-using MCL.Core.Interfaces.Web;
 using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Java;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Models.Minecraft;
 using MCL.Core.Resolvers.Java;
+using MCL.Core.Services.Interfaces;
 using MCL.Core.Services.Launcher;
 using MCL.Core.Web.Java;
 
 namespace MCL.Core.Services.Java;
 
-public class JavaDownloadService : IJavaDownloadService, IDownloadService
+public class JavaDownloadService : IDownloadService
 {
     private static JavaRuntimeIndex JavaRuntimeIndex;
     private static JavaRuntimeFiles JavaRuntimeFiles;
-    private static MCLauncherPath LauncherPath;
-    private static MCConfigUrls ConfigUrls;
+    private static LauncherPath LauncherPath;
+    private static MinecraftUrls MinecraftUrls;
     private static JavaRuntimeType JavaRuntimeType;
     private static JavaRuntimePlatform JavaRuntimePlatform;
     public static bool IsOffline { get; set; }
 
     public static void Init(
-        MCLauncherPath launcherPath,
-        MCConfigUrls configUrls,
+        LauncherPath launcherPath,
+        MinecraftUrls minecraftUrls,
         JavaRuntimeType javaRuntimeType,
         JavaRuntimePlatform javaRuntimePlatform
     )
     {
         LauncherPath = launcherPath;
-        ConfigUrls = configUrls;
+        MinecraftUrls = minecraftUrls;
         JavaRuntimeType = javaRuntimeType;
         JavaRuntimePlatform = javaRuntimePlatform;
     }
@@ -58,7 +57,7 @@ public class JavaDownloadService : IJavaDownloadService, IDownloadService
 
     public static async Task<bool> DownloadJavaRuntimeIndex()
     {
-        if (!await JavaRuntimeIndexDownloader.Download(LauncherPath, ConfigUrls))
+        if (!await JavaRuntimeIndexDownloader.Download(LauncherPath, MinecraftUrls))
         {
             NotificationService.Log(NativeLogLevel.Error, "error.download", [nameof(JavaRuntimeIndexDownloader)]);
             return false;

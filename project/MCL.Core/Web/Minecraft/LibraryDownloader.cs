@@ -2,7 +2,6 @@ using System.Threading.Tasks;
 using MCL.Core.Enums;
 using MCL.Core.Enums.Java;
 using MCL.Core.Extensions.Minecraft;
-using MCL.Core.Interfaces.Web.Minecraft;
 using MCL.Core.MiniCommon;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Models.Minecraft;
@@ -12,19 +11,19 @@ using MCL.Core.Resolvers.Minecraft;
 
 namespace MCL.Core.Web.Minecraft;
 
-public class LibraryDownloader : ILibraryDownloader
+public static class LibraryDownloader
 {
     public static async Task<bool> Download(
-        MCLauncherPath launcherPath,
-        MCLauncherSettings launcherSettings,
-        MCVersionDetails versionDetails
+        LauncherPath launcherPath,
+        LauncherSettings launcherSettings,
+        MinecraftVersionDetails versionDetails
     )
     {
         if (!versionDetails.LibrariesExists())
             return false;
 
         string libPath = VFS.Combine(launcherPath.Path, "libraries");
-        foreach (MCLibrary lib in versionDetails.Libraries)
+        foreach (MinecraftLibrary lib in versionDetails.Libraries)
         {
             if (lib.Downloads == null)
                 return false;
@@ -46,7 +45,7 @@ public class LibraryDownloader : ILibraryDownloader
         return true;
     }
 
-    public static bool SkipLibrary(MCLibrary lib, MCLauncherSettings launcherSettings)
+    public static bool SkipLibrary(MinecraftLibrary lib, LauncherSettings launcherSettings)
     {
         if (lib.Rules == null)
             return false;
@@ -55,7 +54,7 @@ public class LibraryDownloader : ILibraryDownloader
             return false;
 
         bool allowLibrary = false;
-        foreach (MCLibraryRule rule in lib.Rules)
+        foreach (MinecraftLibraryRule rule in lib.Rules)
         {
             string action = rule.Action;
             string os = rule.Os?.Name;
@@ -76,9 +75,9 @@ public class LibraryDownloader : ILibraryDownloader
     }
 
     public static async Task<bool> DownloadNatives(
-        MCLauncherPath launcherPath,
-        MCLibrary lib,
-        MCLauncherSettings launcherSettings
+        LauncherPath launcherPath,
+        MinecraftLibrary lib,
+        LauncherSettings launcherSettings
     )
     {
         if (lib.Downloads.Classifiers == null)
