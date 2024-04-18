@@ -31,7 +31,7 @@ public class DownloadFabricInstaller : ILauncherCommand
                     FabricInstallerArgs.DefaultJvmArguments(
                         settings.LauncherPath,
                         settings.LauncherVersion,
-                        FabricInstallerType.CLIENT
+                        FabricInstallerType.INSTALL_CLIENT
                     ),
                     settings.LauncherSettings.JavaRuntimeType
                 );

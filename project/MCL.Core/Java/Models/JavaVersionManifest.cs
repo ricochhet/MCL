@@ -2,7 +2,7 @@ using System.Text.Json.Serialization;
 
 namespace MCL.Core.Java.Models;
 
-public class JavaRuntimeIndex
+public class JavaVersionManifest
 {
     [JsonPropertyName("gamecore")]
     public JavaRuntime Gamecore { get; set; }
@@ -28,5 +28,5 @@ public class JavaRuntimeIndex
     [JsonPropertyName("windows-x86")]
     public JavaRuntime WindowsX86 { get; set; }
 
-    public JavaRuntimeIndex() { }
+    public JavaVersionManifest() { }
 }

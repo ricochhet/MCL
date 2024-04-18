@@ -19,7 +19,7 @@ public static class VersionHelper
             settings.LauncherPath,
             settings.LauncherVersion,
             settings.LauncherSettings,
-            settings.MinecraftUrls
+            settings.MUrls
         );
         if (!MDownloadService.LoadVersionManifest())
         {
@@ -82,9 +82,7 @@ public static class VersionHelper
         if (!launcherVersion.VersionsExists())
             return null;
 
-        MVersionManifest versionManifest = Json.Load<MVersionManifest>(
-            MPathResolver.DownloadedVersionManifestPath(launcherPath)
-        );
+        MVersionManifest versionManifest = Json.Load<MVersionManifest>(MPathResolver.VersionManifestPath(launcherPath));
 
         if (versionManifest?.Versions == null)
             return null;
@@ -94,7 +92,7 @@ public static class VersionHelper
             return null;
 
         MVersionDetails versionDetails = Json.Load<MVersionDetails>(
-            MPathResolver.DownloadedVersionDetailsPath(launcherPath, version)
+            MPathResolver.VersionDetailsPath(launcherPath, version)
         );
         if (versionDetails == null)
             return null;

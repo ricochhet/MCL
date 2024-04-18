@@ -24,7 +24,7 @@ public static class FabricInstallerDownloader
         if (!fabricInstaller.UrlExists() || !fabricInstaller.VersionExists())
             return false;
 
-        string fabricInstallerPath = FabricPathResolver.DownloadedInstallerPath(launcherPath, launcherVersion);
+        string fabricInstallerPath = FabricPathResolver.InstallerPath(launcherPath, launcherVersion);
         // Fabric does not provide a file hash through the current method. We do simple check of the version instead.
         if (VFS.Exists(fabricInstallerPath))
         {

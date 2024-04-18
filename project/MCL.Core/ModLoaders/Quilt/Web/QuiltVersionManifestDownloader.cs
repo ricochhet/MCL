@@ -8,20 +8,20 @@ using MCL.Core.ModLoaders.Quilt.Resolvers;
 
 namespace MCL.Core.ModLoaders.Quilt.Web;
 
-public static class QuiltIndexDownloader
+public static class QuiltVersionManifestDownloader
 {
     public static async Task<bool> Download(LauncherPath launcherPath, QuiltUrls quiltUrls)
     {
-        if (!quiltUrls.VersionsIndexExists())
+        if (!quiltUrls.VersionManifestExists())
             return false;
 
-        string filepath = QuiltPathResolver.DownloadedIndexPath(launcherPath);
-        string quiltIndex = await Request.GetJsonAsync<QuiltIndex>(
-            quiltUrls.QuiltVersionsIndex,
+        string filepath = QuiltPathResolver.VersionManifestPath(launcherPath);
+        string quiltVersionManifest = await Request.GetJsonAsync<QuiltVersionManifest>(
+            quiltUrls.VersionManifest,
             filepath,
             Encoding.UTF8
         );
-        if (string.IsNullOrWhiteSpace(quiltIndex))
+        if (string.IsNullOrWhiteSpace(quiltVersionManifest))
             return false;
         return true;
     }

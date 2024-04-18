@@ -30,11 +30,11 @@ public static class QuiltLoaderDownloader
                 return false;
 
             string request;
-            if (library.Name.Contains(quiltUrls.QuiltApiLoaderName))
+            if (library.Name.Contains(quiltUrls.ApiLoaderName))
             {
-                request = QuiltPathResolver.LoaderJarUrlPath(quiltUrls, launcherVersion);
+                request = QuiltPathResolver.LoaderJarPath(quiltUrls, launcherVersion);
             }
-            else if (library.Name.Contains(quiltUrls.QuiltApiIntermediaryName))
+            else if (library.Name.Contains(quiltUrls.ApiIntermediaryName))
             {
                 request = QuiltLibrary.ParseURL(library.Name, library.URL);
             }

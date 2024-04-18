@@ -9,7 +9,7 @@ namespace MCL.Core.Launcher.Services;
 public static class LocalizationService
 {
     public static Localization Localization { get; private set; } = new();
-    private static bool Loaded = false;
+    private static bool _loaded = false;
 
     public static void Init(LauncherPath launcherPath, Language language, bool alwaysSaveNewTranslation = false)
     {
@@ -21,7 +21,7 @@ public static class LocalizationService
             );
         Localization = Json.Load<Localization>(LocalizationPathResolver.LanguageFilePath(launcherPath, language));
         if (Localization?.Entries != null)
-            Loaded = true;
+            _loaded = true;
         else
             NotificationService.Log(
                 NativeLogLevel.Error,
@@ -32,7 +32,7 @@ public static class LocalizationService
 
     public static string Translate(string id)
     {
-        if (!Loaded)
+        if (!_loaded)
             return $"{id}:LOCALIZATION_SERVICE_ERROR";
 
         if (Localization.Entries.TryGetValue(id, out string value))

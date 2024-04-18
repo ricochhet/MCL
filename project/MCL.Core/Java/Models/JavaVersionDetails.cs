@@ -3,10 +3,10 @@ using System.Text.Json.Serialization;
 
 namespace MCL.Core.Java.Models;
 
-public class JavaRuntimeFiles
+public class JavaVersionDetails
 {
     [JsonPropertyName("files")]
     public Dictionary<string, JavaRuntimeFile> Files { get; set; }
 
-    public JavaRuntimeFiles() { }
+    public JavaVersionDetails() { }
 }

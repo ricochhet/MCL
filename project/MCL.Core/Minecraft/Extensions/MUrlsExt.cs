@@ -4,18 +4,18 @@ namespace MCL.Core.Minecraft.Extensions;
 
 public static class MUrlsExt
 {
-    public static bool JavaRuntimeIndexUrlExists(this MUrls minecraftUrls)
+    public static bool JavaVersionManifestExists(this MUrls mUrls)
     {
-        return !string.IsNullOrWhiteSpace(minecraftUrls?.JavaRuntimeIndexUrl);
+        return !string.IsNullOrWhiteSpace(mUrls?.JavaVersionManifest);
     }
 
-    public static bool MinecraftResourcesExists(this MUrls minecraftUrls)
+    public static bool MinecraftResourcesExists(this MUrls mUrls)
     {
-        return !string.IsNullOrWhiteSpace(minecraftUrls?.MinecraftResources);
+        return !string.IsNullOrWhiteSpace(mUrls?.MinecraftResources);
     }
 
-    public static bool VersionManifestExists(this MUrls minecraftUrls)
+    public static bool VersionManifestExists(this MUrls mUrls)
     {
-        return !string.IsNullOrWhiteSpace(minecraftUrls?.VersionManifest);
+        return !string.IsNullOrWhiteSpace(mUrls?.VersionManifest);
     }
 }

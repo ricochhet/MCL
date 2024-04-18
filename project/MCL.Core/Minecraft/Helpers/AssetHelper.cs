@@ -13,9 +13,7 @@ public static class AssetHelper
         if (!launcherVersion.VersionsExists())
             return string.Empty;
 
-        MVersionManifest versionManifest = Json.Load<MVersionManifest>(
-            MPathResolver.DownloadedVersionManifestPath(launcherPath)
-        );
+        MVersionManifest versionManifest = Json.Load<MVersionManifest>(MPathResolver.VersionManifestPath(launcherPath));
 
         if (versionManifest == null)
             return string.Empty;
@@ -25,7 +23,7 @@ public static class AssetHelper
             return string.Empty;
 
         MVersionDetails versionDetails = Json.Load<MVersionDetails>(
-            MPathResolver.DownloadedVersionDetailsPath(launcherPath, version)
+            MPathResolver.VersionDetailsPath(launcherPath, version)
         );
 
         if (versionDetails == null)

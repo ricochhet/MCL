@@ -10,14 +10,14 @@ namespace MCL.Core.Minecraft.Web;
 
 public static class VersionManifestDownloader
 {
-    public static async Task<bool> Download(LauncherPath launcherPath, MUrls minecraftUrls)
+    public static async Task<bool> Download(LauncherPath launcherPath, MUrls mUrls)
     {
-        if (!minecraftUrls.VersionManifestExists())
+        if (!mUrls.VersionManifestExists())
             return false;
 
-        string filepath = MPathResolver.DownloadedVersionManifestPath(launcherPath);
+        string filepath = MPathResolver.VersionManifestPath(launcherPath);
         string versionManifest = await Request.GetJsonAsync<MVersionManifest>(
-            minecraftUrls.VersionManifest,
+            mUrls.VersionManifest,
             filepath,
             Encoding.UTF8
         );

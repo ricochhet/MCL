@@ -8,8 +8,8 @@ public static class QuiltInstallerTypeResolver
     public static string ToString(QuiltInstallerType type) =>
         type switch
         {
-            QuiltInstallerType.CLIENT => "client",
-            QuiltInstallerType.SERVER => "server",
+            QuiltInstallerType.INSTALL_CLIENT => "client",
+            QuiltInstallerType.INSTALL_SERVER => "server",
             _ => throw new ArgumentOutOfRangeException(nameof(type)),
         };
 }

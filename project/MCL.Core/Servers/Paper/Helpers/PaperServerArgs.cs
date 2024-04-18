@@ -35,7 +35,7 @@ public static class PaperServerArgs
         jvmArguments.Add("-XX:SurvivorRatio=32");
         jvmArguments.Add("-Dusing.aikars.flags=https://mcflags.emc.gs");
         jvmArguments.Add("-Daikars.new.flags=true");
-        jvmArguments.Add("-jar {0} {1}", [PaperPathResolver.DownloadedJarPath(launcherPath, launcherVersion), "nogui"]);
+        jvmArguments.Add("-jar {0} {1}", [PaperPathResolver.JarPath(launcherPath, launcherVersion), "nogui"]);
 
         return jvmArguments;
     }

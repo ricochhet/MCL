@@ -48,9 +48,9 @@ public static class MPathResolver
     public static string ServerPropertiesPath(LauncherPath launcherPath) =>
         VFS.Combine(ServerPath(launcherPath), "server.properties");
 
-    public static string DownloadedVersionManifestPath(LauncherPath launcherPath) =>
+    public static string VersionManifestPath(LauncherPath launcherPath) =>
         VFS.Combine(launcherPath.Path, "version_manifest.json");
 
-    public static string DownloadedVersionDetailsPath(LauncherPath launcherPath, MVersion version) =>
+    public static string VersionDetailsPath(LauncherPath launcherPath, MVersion version) =>
         VFS.Combine(launcherPath.Path, "versions", version.ID + ".json");
 }

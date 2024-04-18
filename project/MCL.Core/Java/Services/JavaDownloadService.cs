@@ -14,39 +14,38 @@ namespace MCL.Core.Java.Services;
 
 public class JavaDownloadService : IDownloadService
 {
-    private static JavaRuntimeIndex JavaRuntimeIndex;
-    private static JavaRuntimeFiles JavaRuntimeFiles;
-    private static LauncherPath LauncherPath;
-    private static MUrls MinecraftUrls;
-    private static JavaRuntimeType JavaRuntimeType;
-    private static JavaRuntimePlatform JavaRuntimePlatform;
-    public static bool IsOffline { get; set; }
+    private static JavaVersionManifest _javaVersionManifest;
+    private static JavaVersionDetails _javaVersionDetails;
+    private static LauncherPath _launcherPath;
+    private static MUrls _mUrls;
+    private static JavaRuntimeType _javaRuntimeType;
+    private static JavaRuntimePlatform _javaRuntimePlatform;
 
     public static void Init(
         LauncherPath launcherPath,
-        MUrls minecraftUrls,
+        MUrls mUrls,
         JavaRuntimeType javaRuntimeType,
         JavaRuntimePlatform javaRuntimePlatform
     )
     {
-        LauncherPath = launcherPath;
-        MinecraftUrls = minecraftUrls;
-        JavaRuntimeType = javaRuntimeType;
-        JavaRuntimePlatform = javaRuntimePlatform;
+        _launcherPath = launcherPath;
+        _mUrls = mUrls;
+        _javaRuntimeType = javaRuntimeType;
+        _javaRuntimePlatform = javaRuntimePlatform;
     }
 
     public static async Task<bool> Download(bool useLocalVersionManifest = false)
     {
-        if (!useLocalVersionManifest && !await DownloadJavaRuntimeIndex())
+        if (!useLocalVersionManifest && !await DownloadJavaVersionManifest())
             return false;
 
-        if (!LoadJavaRuntimeIndex())
+        if (!LoadJavaVersionManifest())
             return false;
 
-        if (!await DownloadJavaRuntimeManifest())
+        if (!await DownloadJavaVersionDetails())
             return false;
 
-        if (!LoadJavaRuntimeManifest())
+        if (!LoadJavaVersionDetails())
             return false;
 
         if (!await DownloadJavaRuntime())
@@ -55,58 +54,60 @@ public class JavaDownloadService : IDownloadService
         return true;
     }
 
-    public static async Task<bool> DownloadJavaRuntimeIndex()
+    public static async Task<bool> DownloadJavaVersionManifest()
     {
-        if (!await JavaRuntimeIndexDownloader.Download(LauncherPath, MinecraftUrls))
+        if (!await JavaVersionManifestDownloader.Download(_launcherPath, _mUrls))
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.download", [nameof(JavaRuntimeIndexDownloader)]);
+            NotificationService.Log(NativeLogLevel.Error, "error.download", [nameof(JavaVersionManifestDownloader)]);
             return false;
         }
 
         return true;
     }
 
-    public static bool LoadJavaRuntimeIndex()
+    public static bool LoadJavaVersionManifest()
     {
-        JavaRuntimeIndex = Json.Load<JavaRuntimeIndex>(JavaPathResolver.DownloadedJavaRuntimeIndexPath(LauncherPath));
-        if (JavaRuntimeIndex == null)
+        _javaVersionManifest = Json.Load<JavaVersionManifest>(
+            JavaPathResolver.DownloadedJavaVersionManifestPath(_launcherPath)
+        );
+        if (_javaVersionManifest == null)
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.readfile", [nameof(JavaRuntimeIndex)]);
+            NotificationService.Log(NativeLogLevel.Error, "error.readfile", [nameof(_javaVersionManifest)]);
             return false;
         }
 
         return true;
     }
 
-    public static async Task<bool> DownloadJavaRuntimeManifest()
+    public static async Task<bool> DownloadJavaVersionDetails()
     {
         if (
-            !await JavaRuntimeManifestDownloader.Download(
-                LauncherPath,
-                JavaRuntimePlatform,
-                JavaRuntimeType,
-                JavaRuntimeIndex
+            !await JavaVersionDetailsDownloader.Download(
+                _launcherPath,
+                _javaRuntimePlatform,
+                _javaRuntimeType,
+                _javaVersionManifest
             )
         )
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.download", [nameof(JavaRuntimeManifestDownloader)]);
+            NotificationService.Log(NativeLogLevel.Error, "error.download", [nameof(JavaVersionDetailsDownloader)]);
             return false;
         }
 
         return true;
     }
 
-    public static bool LoadJavaRuntimeManifest()
+    public static bool LoadJavaVersionDetails()
     {
-        JavaRuntimeFiles = Json.Load<JavaRuntimeFiles>(
-            JavaPathResolver.DownloadedJavaRuntimeManifestPath(
-                LauncherPath,
-                JavaRuntimeTypeResolver.ToString(JavaRuntimeType)
+        _javaVersionDetails = Json.Load<JavaVersionDetails>(
+            JavaPathResolver.DownloadedJavaVersionDetailsPath(
+                _launcherPath,
+                JavaRuntimeTypeResolver.ToString(_javaRuntimeType)
             )
         );
-        if (JavaRuntimeFiles == null)
+        if (_javaVersionDetails == null)
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.readfile", [nameof(JavaRuntimeFiles)]);
+            NotificationService.Log(NativeLogLevel.Error, "error.readfile", [nameof(_javaVersionDetails)]);
             return false;
         }
 
@@ -115,7 +116,7 @@ public class JavaDownloadService : IDownloadService
 
     public static async Task<bool> DownloadJavaRuntime()
     {
-        if (!await JavaRuntimeDownloader.Download(LauncherPath, JavaRuntimeType, JavaRuntimeFiles))
+        if (!await JavaRuntimeDownloader.Download(_launcherPath, _javaRuntimeType, _javaVersionDetails))
         {
             NotificationService.Log(NativeLogLevel.Error, "error.download", [nameof(JavaRuntimeDownloader)]);
             return false;

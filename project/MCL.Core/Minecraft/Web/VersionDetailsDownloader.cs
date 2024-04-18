@@ -15,7 +15,7 @@ public static class VersionDetailsDownloader
         if (!version.UrlExists() || !version.IdExists())
             return false;
 
-        string filepath = MPathResolver.DownloadedVersionDetailsPath(launcherPath, version);
+        string filepath = MPathResolver.VersionDetailsPath(launcherPath, version);
         string versionDetails = await Request.GetJsonAsync<MVersionDetails>(version.URL, filepath, Encoding.UTF8);
         if (string.IsNullOrWhiteSpace(versionDetails))
             return false;

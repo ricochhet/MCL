@@ -19,12 +19,12 @@ public static class QuiltInstallerArgs
             return default;
 
         JvmArguments jvmArguments = new();
-        jvmArguments.Add("-jar \"{0}\"", [QuiltPathResolver.DownloadedInstallerPath(launcherPath, launcherVersion)]);
+        jvmArguments.Add("-jar \"{0}\"", [QuiltPathResolver.InstallerPath(launcherPath, launcherVersion)]);
         jvmArguments.Add(
             $"install {QuiltInstallerTypeResolver.ToString(installerType)} {0} {1}",
             [launcherVersion.Version, launcherVersion.QuiltLoaderVersion]
         );
-        jvmArguments.Add(installerType, QuiltInstallerType.SERVER, "--download-server");
+        jvmArguments.Add(installerType, QuiltInstallerType.INSTALL_SERVER, "--download-server");
         jvmArguments.Add("--install-dir=\"{0}\"", [launcherPath.Path]);
         jvmArguments.Add("--no-profile");
 

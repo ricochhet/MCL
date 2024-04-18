@@ -10,37 +10,37 @@ using MCL.Core.MiniCommon;
 
 namespace MCL.Core.Java.Web;
 
-public static class JavaRuntimeManifestDownloader
+public static class JavaVersionDetailsDownloader
 {
     public static async Task<bool> Download(
         LauncherPath launcherPath,
         JavaRuntimePlatform javaRuntimePlatform,
         JavaRuntimeType javaRuntimeType,
-        JavaRuntimeIndex javaRuntimeIndex
+        JavaVersionManifest javaVersionManifest
     )
     {
-        if (!javaRuntimeIndex.JavaRuntimeExists())
+        if (!javaVersionManifest.JavaRuntimeExists())
             return false;
 
         string request = javaRuntimePlatform switch
         {
-            JavaRuntimePlatform.GAMECORE => GetJavaRuntimeUrl(javaRuntimeType, javaRuntimeIndex.Gamecore),
-            JavaRuntimePlatform.LINUX => GetJavaRuntimeUrl(javaRuntimeType, javaRuntimeIndex.Linux),
-            JavaRuntimePlatform.LINUXI386 => GetJavaRuntimeUrl(javaRuntimeType, javaRuntimeIndex.LinuxI386),
-            JavaRuntimePlatform.MACOS => GetJavaRuntimeUrl(javaRuntimeType, javaRuntimeIndex.Macos),
-            JavaRuntimePlatform.MACOSARM64 => GetJavaRuntimeUrl(javaRuntimeType, javaRuntimeIndex.MacosArm64),
-            JavaRuntimePlatform.WINDOWSARM64 => GetJavaRuntimeUrl(javaRuntimeType, javaRuntimeIndex.WindowsArm64),
-            JavaRuntimePlatform.WINDOWSX64 => GetJavaRuntimeUrl(javaRuntimeType, javaRuntimeIndex.WindowsX64),
-            JavaRuntimePlatform.WINDOWSX86 => GetJavaRuntimeUrl(javaRuntimeType, javaRuntimeIndex.WindowsX86),
+            JavaRuntimePlatform.GAMECORE => GetJavaRuntimeUrl(javaRuntimeType, javaVersionManifest.Gamecore),
+            JavaRuntimePlatform.LINUX => GetJavaRuntimeUrl(javaRuntimeType, javaVersionManifest.Linux),
+            JavaRuntimePlatform.LINUXI386 => GetJavaRuntimeUrl(javaRuntimeType, javaVersionManifest.LinuxI386),
+            JavaRuntimePlatform.MACOS => GetJavaRuntimeUrl(javaRuntimeType, javaVersionManifest.Macos),
+            JavaRuntimePlatform.MACOSARM64 => GetJavaRuntimeUrl(javaRuntimeType, javaVersionManifest.MacosArm64),
+            JavaRuntimePlatform.WINDOWSARM64 => GetJavaRuntimeUrl(javaRuntimeType, javaVersionManifest.WindowsArm64),
+            JavaRuntimePlatform.WINDOWSX64 => GetJavaRuntimeUrl(javaRuntimeType, javaVersionManifest.WindowsX64),
+            JavaRuntimePlatform.WINDOWSX86 => GetJavaRuntimeUrl(javaRuntimeType, javaVersionManifest.WindowsX86),
             _ => throw new ArgumentOutOfRangeException(nameof(javaRuntimePlatform), "Invalid Java runtime platform."),
         };
 
         if (string.IsNullOrWhiteSpace(request))
             return false;
 
-        string javaRuntimeFiles = await Request.GetJsonAsync<JavaRuntimeFiles>(
+        string javaRuntimeFiles = await Request.GetJsonAsync<JavaVersionDetails>(
             request,
-            JavaPathResolver.DownloadedJavaRuntimeManifestPath(
+            JavaPathResolver.DownloadedJavaVersionDetailsPath(
                 launcherPath,
                 JavaRuntimeTypeResolver.ToString(javaRuntimeType)
             ),

@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace MCL.Core.ModLoaders.Fabric.Models;
 
-public class FabricIndex
+public class FabricVersionManifest
 {
     [JsonPropertyName("game")]
     public List<FabricGame> Game { get; set; }
@@ -20,5 +20,5 @@ public class FabricIndex
     [JsonPropertyName("installer")]
     public List<FabricInstaller> Installer { get; set; }
 
-    public FabricIndex() { }
+    public FabricVersionManifest() { }
 }

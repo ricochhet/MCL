@@ -2,15 +2,15 @@ using MCL.Core.ModLoaders.Fabric.Models;
 
 namespace MCL.Core.ModLoaders.Fabric.Extensions;
 
-public static class FabricIndexExt
+public static class FabricVersionManifestExt
 {
-    public static bool InstallerExists(this FabricIndex fabricIndex)
+    public static bool InstallerExists(this FabricVersionManifest fabricVersionManifest)
     {
-        return fabricIndex?.Installer != null && fabricIndex.Installer?.Count > 0;
+        return fabricVersionManifest?.Installer != null && fabricVersionManifest.Installer?.Count > 0;
     }
 
-    public static bool LoaderExists(this FabricIndex fabricIndex)
+    public static bool LoaderExists(this FabricVersionManifest fabricVersionManifest)
     {
-        return fabricIndex?.Loader != null && fabricIndex.Loader?.Count > 0;
+        return fabricVersionManifest?.Loader != null && fabricVersionManifest.Loader?.Count > 0;
     }
 }

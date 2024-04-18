@@ -8,20 +8,20 @@ using MCL.Core.ModLoaders.Fabric.Resolvers;
 
 namespace MCL.Core.ModLoaders.Fabric.Web;
 
-public static class FabricIndexDownloader
+public static class FabricVersionManifestDownloader
 {
     public static async Task<bool> Download(LauncherPath launcherPath, FabricUrls fabricUrls)
     {
-        if (!fabricUrls.VersionsIndexExists())
+        if (!fabricUrls.VersionManifestExists())
             return false;
 
-        string filepath = FabricPathResolver.DownloadedIndexPath(launcherPath);
-        string fabricIndex = await Request.GetJsonAsync<FabricIndex>(
-            fabricUrls.FabricVersionsIndex,
+        string filepath = FabricPathResolver.VersionManifestPath(launcherPath);
+        string fabricVersionManifest = await Request.GetJsonAsync<FabricVersionManifest>(
+            fabricUrls.VersionManifest,
             filepath,
             Encoding.UTF8
         );
-        if (string.IsNullOrWhiteSpace(fabricIndex))
+        if (string.IsNullOrWhiteSpace(fabricVersionManifest))
             return false;
         return true;
     }

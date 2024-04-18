@@ -15,17 +15,17 @@ public static class FabricVersionHelper
     public static async Task<bool> SetVersions(Settings settings, string[] args)
     {
         FabricInstallerDownloadService.Init(settings.LauncherPath, settings.LauncherVersion, settings.FabricUrls);
-        if (!FabricInstallerDownloadService.LoadIndex())
+        if (!FabricInstallerDownloadService.LoadVersionManifest())
         {
-            await FabricInstallerDownloadService.DownloadIndex();
-            FabricInstallerDownloadService.LoadIndex();
+            await FabricInstallerDownloadService.DownloadVersionManifest();
+            FabricInstallerDownloadService.LoadVersionManifest();
         }
 
-        if (FabricInstallerDownloadService.FabricIndex == null)
+        if (FabricInstallerDownloadService.FabricVersionManifest == null)
             return false;
 
-        List<string> installerVersions = GetInstallerVersionIds(FabricInstallerDownloadService.FabricIndex);
-        List<string> loaderVersions = GetLoaderVersionIds(FabricInstallerDownloadService.FabricIndex);
+        List<string> installerVersions = GetInstallerVersionIds(FabricInstallerDownloadService.FabricVersionManifest);
+        List<string> loaderVersions = GetLoaderVersionIds(FabricInstallerDownloadService.FabricVersionManifest);
         string installerVersion = args[(int)VersionArgs.FABRIC_INSTALLER];
         string loaderVersion = args[(int)VersionArgs.FABRIC_LOADER];
 
@@ -44,13 +44,13 @@ public static class FabricVersionHelper
         return true;
     }
 
-    public static List<string> GetInstallerVersionIds(FabricIndex index)
+    public static List<string> GetInstallerVersionIds(FabricVersionManifest fabricVersionManifest)
     {
-        if (!index.InstallerExists())
+        if (!fabricVersionManifest.InstallerExists())
             return [];
 
         List<string> versions = [];
-        foreach (FabricInstaller item in index.Installer)
+        foreach (FabricInstaller item in fabricVersionManifest.Installer)
         {
             versions.Add(item.Version);
         }
@@ -58,13 +58,13 @@ public static class FabricVersionHelper
         return versions;
     }
 
-    public static List<string> GetLoaderVersionIds(FabricIndex index)
+    public static List<string> GetLoaderVersionIds(FabricVersionManifest fabricVersionManifest)
     {
-        if (!index.LoaderExists())
+        if (!fabricVersionManifest.LoaderExists())
             return [];
 
         List<string> versions = [];
-        foreach (FabricLoader item in index.Loader)
+        foreach (FabricLoader item in fabricVersionManifest.Loader)
         {
             versions.Add(item.Version);
         }
@@ -72,16 +72,19 @@ public static class FabricVersionHelper
         return versions;
     }
 
-    public static FabricInstaller GetInstallerVersion(LauncherVersion installerVersion, FabricIndex index)
+    public static FabricInstaller GetInstallerVersion(
+        LauncherVersion installerVersion,
+        FabricVersionManifest fabricVersionManifest
+    )
     {
         if (!installerVersion.VersionsExists())
             return null;
 
-        if (!index.InstallerExists())
+        if (!fabricVersionManifest.InstallerExists())
             return null;
 
-        FabricInstaller fabricInstaller = index.Installer[0];
-        foreach (FabricInstaller item in index.Installer)
+        FabricInstaller fabricInstaller = fabricVersionManifest.Installer[0];
+        foreach (FabricInstaller item in fabricVersionManifest.Installer)
         {
             if (item.Version == installerVersion.FabricInstallerVersion)
                 return item;
@@ -89,16 +92,19 @@ public static class FabricVersionHelper
         return fabricInstaller;
     }
 
-    public static FabricLoader GetLoaderVersion(LauncherVersion loaderVersion, FabricIndex index)
+    public static FabricLoader GetLoaderVersion(
+        LauncherVersion loaderVersion,
+        FabricVersionManifest fabricVersionManifest
+    )
     {
         if (!loaderVersion.VersionsExists())
             return null;
 
-        if (!index.LoaderExists())
+        if (!fabricVersionManifest.LoaderExists())
             return null;
 
-        FabricLoader fabricLoader = index.Loader[0];
-        foreach (FabricLoader item in index.Loader)
+        FabricLoader fabricLoader = fabricVersionManifest.Loader[0];
+        foreach (FabricLoader item in fabricVersionManifest.Loader)
         {
             if (item.Version == loaderVersion.FabricLoaderVersion)
                 return item;

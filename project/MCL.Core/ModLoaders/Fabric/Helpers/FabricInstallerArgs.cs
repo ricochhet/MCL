@@ -20,7 +20,7 @@ public static class FabricInstallerArgs
         JvmArguments jvmArguments = new();
         jvmArguments.Add(
             "-jar \"{0}\" {1}",
-            [FabricPathResolver.DownloadedInstallerPath(launcherPath, launcherVersion), "client"]
+            [FabricPathResolver.InstallerPath(launcherPath, launcherVersion), "client"]
         );
         jvmArguments.Add("-dir \"{0}\" {1}", [launcherPath.Path, FabricInstallerTypeResolver.ToString(installerType)]);
         jvmArguments.Add("-mcversion {0}", [launcherVersion.Version]);

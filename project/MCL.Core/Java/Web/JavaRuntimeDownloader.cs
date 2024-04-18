@@ -13,7 +13,7 @@ public static class JavaRuntimeDownloader
     public static async Task<bool> Download(
         LauncherPath launcherPath,
         JavaRuntimeType javaRuntimeType,
-        JavaRuntimeFiles javaRuntimeFiles
+        JavaVersionDetails javaRuntimeFiles
     )
     {
         if (!javaRuntimeFiles.FilesExists())

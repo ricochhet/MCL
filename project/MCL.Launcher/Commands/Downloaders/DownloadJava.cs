@@ -18,7 +18,7 @@ public class DownloadJava : ILauncherCommand
             {
                 JavaDownloadService.Init(
                     settings.LauncherPath,
-                    settings.MinecraftUrls,
+                    settings.MUrls,
                     JavaVersionHelper.GetDownloadedMCVersionJava(
                         settings.LauncherPath,
                         settings.LauncherVersion,

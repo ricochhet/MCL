@@ -6,11 +6,11 @@ public static class PaperUrlsExt
 {
     public static bool VersionManifestExists(this PaperUrls paperUrls)
     {
-        return !string.IsNullOrWhiteSpace(paperUrls?.PaperVersionManifest);
+        return !string.IsNullOrWhiteSpace(paperUrls?.VersionManifest);
     }
 
     public static bool JarUrlExists(this PaperUrls paperUrls)
     {
-        return !string.IsNullOrWhiteSpace(paperUrls?.PaperJarUrl);
+        return !string.IsNullOrWhiteSpace(paperUrls?.PaperJar);
     }
 }

@@ -2,21 +2,21 @@ using MCL.Core.Java.Models;
 
 namespace MCL.Core.Java.Extensions;
 
-public static class JavaRuntimeIndexExt
+public static class JavaVersionManifestExt
 {
-    public static bool JavaRuntimeExists(this JavaRuntimeIndex javaRuntimeIndex)
+    public static bool JavaRuntimeExists(this JavaVersionManifest javaVersionManifest)
     {
-        if (javaRuntimeIndex?.Gamecore == null)
+        if (javaVersionManifest?.Gamecore == null)
             return false;
 
-        if (javaRuntimeIndex.Linux == null || javaRuntimeIndex.LinuxI386 == null)
+        if (javaVersionManifest.Linux == null || javaVersionManifest.LinuxI386 == null)
             return false;
 
-        if (javaRuntimeIndex.Macos == null || javaRuntimeIndex.MacosArm64 == null)
+        if (javaVersionManifest.Macos == null || javaVersionManifest.MacosArm64 == null)
             return false;
 
-        return javaRuntimeIndex.WindowsArm64 != null
-            && javaRuntimeIndex.WindowsX64 != null
-            && javaRuntimeIndex.WindowsX86 != null;
+        return javaVersionManifest.WindowsArm64 != null
+            && javaVersionManifest.WindowsX64 != null
+            && javaVersionManifest.WindowsX86 != null;
     }
 }

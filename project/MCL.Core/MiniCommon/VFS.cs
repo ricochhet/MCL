@@ -12,7 +12,7 @@ public static class VFS
 #pragma warning restore
 {
     public static string Cwd { get; set; } = Environment.CurrentDirectory;
-    private static readonly object mutex = new();
+    private static readonly object _mutex = new();
 
     /// <summary>
     /// Combine two filepaths.
@@ -122,7 +122,7 @@ public static class VFS
     /// </summary>
     public static void MoveFile(string a, string b)
     {
-        lock (mutex)
+        lock (_mutex)
         {
             new FileInfo(a).MoveTo(b);
         }
@@ -133,7 +133,7 @@ public static class VFS
     /// </summary>
     public static void CopyFile(string a, string b, bool overwrite = true)
     {
-        lock (mutex)
+        lock (_mutex)
         {
             if (!Exists(b))
             {
@@ -149,7 +149,7 @@ public static class VFS
     /// </summary>
     public static bool Exists(string filepath)
     {
-        lock (mutex)
+        lock (_mutex)
         {
             return Directory.Exists(filepath) || File.Exists(filepath);
         }
@@ -160,7 +160,7 @@ public static class VFS
     /// </summary>
     public static void CreateDirectory(string filepath)
     {
-        lock (mutex)
+        lock (_mutex)
         {
             Directory.CreateDirectory(filepath);
         }
@@ -171,7 +171,7 @@ public static class VFS
     /// </summary>
     public static byte[] ReadFile(string filepath)
     {
-        lock (mutex)
+        lock (_mutex)
         {
             return File.ReadAllBytes(filepath);
         }
@@ -190,7 +190,7 @@ public static class VFS
     /// </summary>
     public static string ReadAllText(string filepath)
     {
-        lock (mutex)
+        lock (_mutex)
         {
             return File.ReadAllText(filepath);
         }
@@ -201,7 +201,7 @@ public static class VFS
     /// </summary>
     public static string[] ReadAllLines(string filepath)
     {
-        lock (mutex)
+        lock (_mutex)
         {
             return File.ReadAllLines(filepath);
         }
@@ -212,7 +212,7 @@ public static class VFS
     /// </summary>
     public static void WriteFile(string filepath, byte[] data)
     {
-        lock (mutex)
+        lock (_mutex)
         {
             if (!Exists(filepath))
             {
@@ -257,7 +257,7 @@ public static class VFS
     /// </summary>
     public static string[] GetDirectories(string filepath)
     {
-        lock (mutex)
+        lock (_mutex)
         {
             if (!Exists(filepath))
                 return Enumerable.Empty<string>().ToArray();
@@ -279,7 +279,7 @@ public static class VFS
     /// </summary>
     public static string[] GetFiles(string filepath)
     {
-        lock (mutex)
+        lock (_mutex)
         {
             if (!Exists(filepath))
                 return Enumerable.Empty<string>().ToArray();
@@ -306,7 +306,7 @@ public static class VFS
         bool includeExtension = true
     )
     {
-        lock (mutex)
+        lock (_mutex)
         {
             if (!Exists(filepath))
                 return Enumerable.Empty<string>().ToArray();
@@ -329,7 +329,7 @@ public static class VFS
     /// </summary>
     public static void DeleteDirectory(string filepath, bool recursive = false)
     {
-        lock (mutex)
+        lock (_mutex)
         {
             DirectoryInfo di = new(filepath);
 
@@ -353,7 +353,7 @@ public static class VFS
     /// </summary>
     public static void DeleteFile(string filepath)
     {
-        lock (mutex)
+        lock (_mutex)
         {
             FileInfo file = new(filepath) { IsReadOnly = false };
             file.Delete();
@@ -365,7 +365,7 @@ public static class VFS
     /// </summary>
     public static int GetFilesCount(string filepath)
     {
-        lock (mutex)
+        lock (_mutex)
         {
             DirectoryInfo di = new(filepath);
             int count = 0;

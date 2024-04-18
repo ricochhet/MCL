@@ -2,6 +2,6 @@ namespace MCL.Core.ModLoaders.Quilt.Enums;
 
 public enum QuiltInstallerType
 {
-    CLIENT,
-    SERVER
+    INSTALL_CLIENT,
+    INSTALL_SERVER
 }

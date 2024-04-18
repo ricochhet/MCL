@@ -14,13 +14,13 @@ public class Settings
     public LauncherPath LauncherPath { get; set; }
     public LauncherVersion LauncherVersion { get; set; }
     public LauncherSettings LauncherSettings { get; set; }
-    public MUrls MinecraftUrls { get; set; }
+    public MUrls MUrls { get; set; }
     public FabricUrls FabricUrls { get; set; }
     public QuiltUrls QuiltUrls { get; set; }
     public PaperUrls PaperUrls { get; set; }
-    public JvmArguments MinecraftArgs { get; set; }
-    public JvmArguments FabricArgs { get; set; }
-    public JvmArguments QuiltArgs { get; set; }
+    public JvmArguments MJvmArguments { get; set; }
+    public JvmArguments FabricJvmArguments { get; set; }
+    public JvmArguments QuiltJvmArguments { get; set; }
     public JavaSettings JavaSettings { get; set; }
     public SevenZipSettings SevenZipSettings { get; set; }
     public ModSettings ModSettings { get; set; }

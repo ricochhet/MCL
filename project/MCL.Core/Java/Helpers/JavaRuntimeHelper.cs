@@ -19,7 +19,7 @@ public static class JavaRuntimeHelper
         if (!VFS.Exists(javaHome))
         {
             string javaHomeEnvironmentVariable = Environment.GetEnvironmentVariable(
-                settings.JavaSettings.JavaHomeEnvironmentVariable
+                settings.JavaSettings.HomeEnvironmentVariable
             );
             if (string.IsNullOrWhiteSpace(javaHomeEnvironmentVariable))
                 return javaHome;

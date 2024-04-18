@@ -35,12 +35,12 @@ public static class FabricLoaderDownloader
 
             string request;
             string hash;
-            if (library.Name.Contains(fabricUrls.FabricApiLoaderName))
+            if (library.Name.Contains(fabricUrls.ApiLoaderName))
             {
-                request = FabricPathResolver.LoaderJarUrlPath(fabricUrls, launcherVersion);
+                request = FabricPathResolver.LoaderJarPath(fabricUrls, launcherVersion);
                 hash = string.Empty;
             }
-            else if (library.Name.Contains(fabricUrls.FabricApiIntermediaryName))
+            else if (library.Name.Contains(fabricUrls.ApiIntermediaryName))
             {
                 request = FabricLibrary.ParseURL(library.Name, library.URL);
                 hash = string.Empty;

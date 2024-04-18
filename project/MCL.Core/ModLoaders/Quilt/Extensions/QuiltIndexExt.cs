@@ -2,15 +2,15 @@ using MCL.Core.ModLoaders.Quilt.Models;
 
 namespace MCL.Core.ModLoaders.Quilt.Extensions;
 
-public static class QuiltIndexExt
+public static class QuiltVersionManifestExt
 {
-    public static bool InstallerExists(this QuiltIndex quiltIndex)
+    public static bool InstallerExists(this QuiltVersionManifest quiltVersionManifest)
     {
-        return quiltIndex?.Installer != null && quiltIndex.Installer?.Count > 0;
+        return quiltVersionManifest?.Installer != null && quiltVersionManifest.Installer?.Count > 0;
     }
 
-    public static bool LoaderExists(this QuiltIndex quiltIndex)
+    public static bool LoaderExists(this QuiltVersionManifest quiltVersionManifest)
     {
-        return quiltIndex?.Loader != null && quiltIndex.Loader?.Count > 0;
+        return quiltVersionManifest?.Loader != null && quiltVersionManifest.Loader?.Count > 0;
     }
 }

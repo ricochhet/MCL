@@ -13,30 +13,30 @@ namespace MCL.Core.ModLoaders.Quilt.Services;
 
 public class QuiltInstallerDownloadService : IJarDownloadService<QuiltUrls>, IDownloadService
 {
-    public static QuiltIndex QuiltIndex { get; private set; }
+    public static QuiltVersionManifest QuiltVersionManifest { get; private set; }
     public static QuiltInstaller QuiltInstaller { get; private set; }
-    private static LauncherPath LauncherPath;
-    private static LauncherVersion LauncherVersion;
-    private static QuiltUrls QuiltUrls;
-    private static bool Loaded = false;
+    private static LauncherPath _launcherPath;
+    private static LauncherVersion _launcherVersion;
+    private static QuiltUrls _quiltUrls;
+    private static bool _loaded = false;
 
     public static void Init(LauncherPath launcherPath, LauncherVersion launcherVersion, QuiltUrls quiltUrls)
     {
-        LauncherPath = launcherPath;
-        LauncherVersion = launcherVersion;
-        QuiltUrls = quiltUrls;
-        Loaded = true;
+        _launcherPath = launcherPath;
+        _launcherVersion = launcherVersion;
+        _quiltUrls = quiltUrls;
+        _loaded = true;
     }
 
     public static async Task<bool> Download(bool useLocalVersionManifest = false)
     {
-        if (!Loaded)
+        if (!_loaded)
             return false;
 
-        if (!useLocalVersionManifest && !await DownloadIndex())
+        if (!useLocalVersionManifest && !await DownloadVersionManifest())
             return false;
 
-        if (!LoadIndex())
+        if (!LoadVersionManifest())
             return false;
 
         if (!LoadVersion())
@@ -48,29 +48,29 @@ public class QuiltInstallerDownloadService : IJarDownloadService<QuiltUrls>, IDo
         return true;
     }
 
-    public static async Task<bool> DownloadIndex()
+    public static async Task<bool> DownloadVersionManifest()
     {
-        if (!Loaded)
+        if (!_loaded)
             return false;
 
-        if (!await QuiltIndexDownloader.Download(LauncherPath, QuiltUrls))
+        if (!await QuiltVersionManifestDownloader.Download(_launcherPath, _quiltUrls))
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.download", [nameof(QuiltIndexDownloader)]);
+            NotificationService.Log(NativeLogLevel.Error, "error.download", [nameof(QuiltVersionManifestDownloader)]);
             return false;
         }
 
         return true;
     }
 
-    public static bool LoadIndex()
+    public static bool LoadVersionManifest()
     {
-        if (!Loaded)
+        if (!_loaded)
             return false;
 
-        QuiltIndex = Json.Load<QuiltIndex>(QuiltPathResolver.DownloadedIndexPath(LauncherPath));
-        if (QuiltIndex == null)
+        QuiltVersionManifest = Json.Load<QuiltVersionManifest>(QuiltPathResolver.VersionManifestPath(_launcherPath));
+        if (QuiltVersionManifest == null)
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.readfile", [nameof(QuiltIndex)]);
+            NotificationService.Log(NativeLogLevel.Error, "error.readfile", [nameof(QuiltVersionManifest)]);
             return false;
         }
 
@@ -79,16 +79,16 @@ public class QuiltInstallerDownloadService : IJarDownloadService<QuiltUrls>, IDo
 
     public static bool LoadVersion()
     {
-        if (!Loaded)
+        if (!_loaded)
             return false;
 
-        QuiltInstaller = QuiltVersionHelper.GetInstallerVersion(LauncherVersion, QuiltIndex);
+        QuiltInstaller = QuiltVersionHelper.GetInstallerVersion(_launcherVersion, QuiltVersionManifest);
         if (QuiltInstaller == null)
         {
             NotificationService.Log(
                 NativeLogLevel.Error,
                 "error.parse",
-                [LauncherVersion?.QuiltInstallerVersion, nameof(QuiltInstaller)]
+                [_launcherVersion?.QuiltInstallerVersion, nameof(QuiltInstaller)]
             );
             return false;
         }
@@ -98,10 +98,10 @@ public class QuiltInstallerDownloadService : IJarDownloadService<QuiltUrls>, IDo
 
     public static async Task<bool> DownloadJar()
     {
-        if (!Loaded)
+        if (!_loaded)
             return false;
 
-        if (!await QuiltInstallerDownloader.Download(LauncherPath, LauncherVersion, QuiltInstaller))
+        if (!await QuiltInstallerDownloader.Download(_launcherPath, _launcherVersion, QuiltInstaller))
         {
             NotificationService.Log(NativeLogLevel.Error, "error.download", [nameof(QuiltInstallerDownloader)]);
             return false;

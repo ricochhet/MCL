@@ -51,7 +51,7 @@ public partial class NativeLogger : ILogger
     public Task Native(string format, params object[] args) =>
         WriteToStdout(NativeLogLevel.Native, string.Format(format, args));
 
-    private static Task WriteToStdout(NativeLogLevel level, string message)
+    private static Task<bool> WriteToStdout(NativeLogLevel level, string message)
     {
         Console.ForegroundColor = ConsoleColor.DarkMagenta;
         Console.Write($"[{DateTime.Now.ToLongTimeString()}]");

@@ -20,12 +20,12 @@ public static class QuiltProfileDownloader
         if (!launcherVersion.VersionsExists())
             return false;
 
-        if (!quiltUrls.LoaderProfileUrlExists())
+        if (!quiltUrls.LoaderProfileExists())
             return false;
 
         string quiltProfile = await Request.GetJsonAsync<QuiltProfile>(
-            QuiltPathResolver.LoaderProfileUrlPath(quiltUrls, launcherVersion),
-            QuiltPathResolver.DownloadedProfilePath(launcherPath, launcherVersion),
+            QuiltPathResolver.LoaderProfilePath(quiltUrls, launcherVersion),
+            QuiltPathResolver.ProfilePath(launcherPath, launcherVersion),
             Encoding.UTF8
         );
         if (string.IsNullOrWhiteSpace(quiltProfile))

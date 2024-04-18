@@ -24,7 +24,7 @@ public static class QuiltInstallerDownloader
         if (!quiltInstaller.UrlExists() || !quiltInstaller.VersionExists())
             return false;
 
-        string quiltInstallerPath = QuiltPathResolver.DownloadedInstallerPath(launcherPath, launcherVersion);
+        string quiltInstallerPath = QuiltPathResolver.InstallerPath(launcherPath, launcherVersion);
         // Quilt does not provide a file hash through the current method. We do simple check of the version instead.
         if (VFS.Exists(quiltInstallerPath))
         {

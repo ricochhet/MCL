@@ -14,30 +14,30 @@ namespace MCL.Core.ModLoaders.Fabric.Services;
 
 public class FabricLoaderDownloadService : ILoaderDownloadService<FabricUrls>, IDownloadService
 {
-    public static FabricIndex FabricIndex { get; private set; }
+    public static FabricVersionManifest FabricVersionManifest { get; private set; }
     public static FabricProfile FabricProfile { get; private set; }
-    private static LauncherPath LauncherPath;
-    private static LauncherVersion LauncherVersion;
-    private static FabricUrls FabricUrls;
-    private static bool Loaded = false;
+    private static LauncherPath _launcherPath;
+    private static LauncherVersion _launcherVersion;
+    private static FabricUrls _fabricUrls;
+    private static bool _loaded = false;
 
     public static void Init(LauncherPath launcherPath, LauncherVersion launcherVersion, FabricUrls fabricUrls)
     {
-        LauncherPath = launcherPath;
-        LauncherVersion = launcherVersion;
-        FabricUrls = fabricUrls;
-        Loaded = true;
+        _launcherPath = launcherPath;
+        _launcherVersion = launcherVersion;
+        _fabricUrls = fabricUrls;
+        _loaded = true;
     }
 
     public static async Task<bool> Download(bool useLocalVersionManifest = false)
     {
-        if (!Loaded)
+        if (!_loaded)
             return false;
 
-        if (!useLocalVersionManifest && !await DownloadIndex())
+        if (!useLocalVersionManifest && !await DownloadVersionManifest())
             return false;
 
-        if (!LoadIndex())
+        if (!LoadVersionManifest())
             return false;
 
         if (!await DownloadProfile())
@@ -55,29 +55,29 @@ public class FabricLoaderDownloadService : ILoaderDownloadService<FabricUrls>, I
         return true;
     }
 
-    public static async Task<bool> DownloadIndex()
+    public static async Task<bool> DownloadVersionManifest()
     {
-        if (!Loaded)
+        if (!_loaded)
             return false;
 
-        if (!await FabricIndexDownloader.Download(LauncherPath, FabricUrls))
+        if (!await FabricVersionManifestDownloader.Download(_launcherPath, _fabricUrls))
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.download", [nameof(FabricIndexDownloader)]);
+            NotificationService.Log(NativeLogLevel.Error, "error.download", [nameof(FabricVersionManifestDownloader)]);
             return false;
         }
 
         return true;
     }
 
-    public static bool LoadIndex()
+    public static bool LoadVersionManifest()
     {
-        if (!Loaded)
+        if (!_loaded)
             return false;
 
-        FabricIndex = Json.Load<FabricIndex>(FabricPathResolver.DownloadedIndexPath(LauncherPath));
-        if (FabricIndex == null)
+        FabricVersionManifest = Json.Load<FabricVersionManifest>(FabricPathResolver.VersionManifestPath(_launcherPath));
+        if (FabricVersionManifest == null)
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.readfile", [nameof(FabricIndex)]);
+            NotificationService.Log(NativeLogLevel.Error, "error.readfile", [nameof(FabricVersionManifest)]);
             return false;
         }
 
@@ -86,10 +86,10 @@ public class FabricLoaderDownloadService : ILoaderDownloadService<FabricUrls>, I
 
     public static async Task<bool> DownloadProfile()
     {
-        if (!Loaded)
+        if (!_loaded)
             return false;
 
-        if (!await FabricProfileDownloader.Download(LauncherPath, LauncherVersion, FabricUrls))
+        if (!await FabricProfileDownloader.Download(_launcherPath, _launcherVersion, _fabricUrls))
         {
             NotificationService.Log(NativeLogLevel.Error, "error.download", [nameof(FabricProfileDownloader)]);
             return false;
@@ -100,15 +100,13 @@ public class FabricLoaderDownloadService : ILoaderDownloadService<FabricUrls>, I
 
     public static bool LoadProfile()
     {
-        if (!Loaded)
+        if (!_loaded)
             return false;
 
-        if (!LauncherVersion.VersionsExists())
+        if (!_launcherVersion.VersionsExists())
             return false;
 
-        FabricProfile = Json.Load<FabricProfile>(
-            FabricPathResolver.DownloadedProfilePath(LauncherPath, LauncherVersion)
-        );
+        FabricProfile = Json.Load<FabricProfile>(FabricPathResolver.ProfilePath(_launcherPath, _launcherVersion));
         if (FabricProfile == null)
         {
             NotificationService.Log(NativeLogLevel.Error, "error.download", [nameof(FabricProfile)]);
@@ -120,16 +118,16 @@ public class FabricLoaderDownloadService : ILoaderDownloadService<FabricUrls>, I
 
     public static bool LoadLoaderVersion()
     {
-        if (!Loaded)
+        if (!_loaded)
             return false;
 
-        FabricLoader fabricLoader = FabricVersionHelper.GetLoaderVersion(LauncherVersion, FabricIndex);
+        FabricLoader fabricLoader = FabricVersionHelper.GetLoaderVersion(_launcherVersion, FabricVersionManifest);
         if (fabricLoader == null)
         {
             NotificationService.Log(
                 NativeLogLevel.Error,
                 "error.parse",
-                [LauncherVersion?.FabricLoaderVersion, nameof(FabricLoader)]
+                [_launcherVersion?.FabricLoaderVersion, nameof(FabricLoader)]
             );
             return false;
         }
@@ -139,10 +137,10 @@ public class FabricLoaderDownloadService : ILoaderDownloadService<FabricUrls>, I
 
     public static async Task<bool> DownloadLoader()
     {
-        if (!Loaded)
+        if (!_loaded)
             return false;
 
-        if (!await FabricLoaderDownloader.Download(LauncherPath, LauncherVersion, FabricProfile, FabricUrls))
+        if (!await FabricLoaderDownloader.Download(_launcherPath, _launcherVersion, FabricProfile, _fabricUrls))
         {
             NotificationService.Log(NativeLogLevel.Error, "error.download", [nameof(FabricLoaderDownloader)]);
             return false;

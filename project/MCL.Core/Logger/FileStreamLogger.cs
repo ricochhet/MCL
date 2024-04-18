@@ -10,16 +10,16 @@ namespace MCL.Core.Logger;
 
 public class FileStreamLogger : ILogger, IDisposable
 {
-    private readonly Queue<FileStreamLog> queue;
-    private readonly StreamWriter stream;
-    private readonly object mutex = new();
-    private readonly bool flush = true;
-    private bool disposed = false;
+    private readonly Queue<FileStreamLog> _queue;
+    private readonly StreamWriter _stream;
+    private readonly object _mutex = new();
+    private readonly bool _flush = true;
+    private bool _disposed = false;
 
     public FileStreamLogger(string filePath)
     {
-        queue = new Queue<FileStreamLog>();
-        stream = new StreamWriter(filePath, append: true);
+        _queue = new Queue<FileStreamLog>();
+        _stream = new StreamWriter(filePath, append: true);
         Task.Run(Flush);
     }
 
@@ -60,30 +60,30 @@ public class FileStreamLogger : ILogger, IDisposable
 
     private Task<bool> WriteToBuffer(NativeLogLevel level, string message)
     {
-        lock (mutex)
+        lock (_mutex)
         {
-            queue.Enqueue(new FileStreamLog(level, message));
-            Monitor.Pulse(mutex);
+            _queue.Enqueue(new FileStreamLog(level, message));
+            Monitor.Pulse(_mutex);
         }
         return Task.FromResult(true);
     }
 
     private async Task Flush()
     {
-        while (flush)
+        while (_flush)
         {
             FileStreamLog[] messages;
-            lock (mutex)
+            lock (_mutex)
             {
-                messages = [.. queue];
-                queue.Clear();
+                messages = [.. _queue];
+                _queue.Clear();
             }
 
             await WriteToStream(messages);
 
-            lock (mutex)
+            lock (_mutex)
             {
-                Monitor.Wait(mutex, TimeSpan.FromSeconds(1));
+                Monitor.Wait(_mutex, TimeSpan.FromSeconds(1));
             }
         }
     }
@@ -94,11 +94,11 @@ public class FileStreamLogger : ILogger, IDisposable
         {
             foreach (FileStreamLog message in messages)
             {
-                await stream.WriteLineAsync(
+                await _stream.WriteLineAsync(
                     $"[{DateTime.Now.ToLongTimeString()}][{message.Level}] {message.Message}\n"
                 );
             }
-            await stream.FlushAsync();
+            await _stream.FlushAsync();
         }
         catch (Exception ex)
         {
@@ -114,11 +114,11 @@ public class FileStreamLogger : ILogger, IDisposable
 
     protected virtual void Dispose(bool disposing)
     {
-        if (!disposed)
+        if (!_disposed)
         {
             if (disposing)
-                stream.Dispose();
-            disposed = true;
+                _stream.Dispose();
+            _disposed = true;
         }
     }
 

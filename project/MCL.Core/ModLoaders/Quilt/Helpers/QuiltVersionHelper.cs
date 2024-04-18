@@ -15,17 +15,17 @@ public static class QuiltVersionHelper
     public static async Task<bool> SetVersions(Settings settings, string[] args)
     {
         QuiltInstallerDownloadService.Init(settings.LauncherPath, settings.LauncherVersion, settings.QuiltUrls);
-        if (!QuiltInstallerDownloadService.LoadIndex())
+        if (!QuiltInstallerDownloadService.LoadVersionManifest())
         {
-            await QuiltInstallerDownloadService.DownloadIndex();
-            QuiltInstallerDownloadService.LoadIndex();
+            await QuiltInstallerDownloadService.DownloadVersionManifest();
+            QuiltInstallerDownloadService.LoadVersionManifest();
         }
 
-        if (QuiltInstallerDownloadService.QuiltIndex == null)
+        if (QuiltInstallerDownloadService.QuiltVersionManifest == null)
             return false;
 
-        List<string> installerVersions = GetInstallerVersionIds(QuiltInstallerDownloadService.QuiltIndex);
-        List<string> loaderVersions = GetLoaderVersionIds(QuiltInstallerDownloadService.QuiltIndex);
+        List<string> installerVersions = GetInstallerVersionIds(QuiltInstallerDownloadService.QuiltVersionManifest);
+        List<string> loaderVersions = GetLoaderVersionIds(QuiltInstallerDownloadService.QuiltVersionManifest);
         string installerVersion = args[(int)VersionArgs.QUILT_INSTALLER];
         string loaderVersion = args[(int)VersionArgs.QUILT_LOADER];
 
@@ -44,13 +44,13 @@ public static class QuiltVersionHelper
         return true;
     }
 
-    public static List<string> GetInstallerVersionIds(QuiltIndex index)
+    public static List<string> GetInstallerVersionIds(QuiltVersionManifest quiltVersionManifest)
     {
-        if (!index.InstallerExists())
+        if (!quiltVersionManifest.InstallerExists())
             return [];
 
         List<string> versions = [];
-        foreach (QuiltInstaller item in index.Installer)
+        foreach (QuiltInstaller item in quiltVersionManifest.Installer)
         {
             versions.Add(item.Version);
         }
@@ -58,13 +58,13 @@ public static class QuiltVersionHelper
         return versions;
     }
 
-    public static List<string> GetLoaderVersionIds(QuiltIndex index)
+    public static List<string> GetLoaderVersionIds(QuiltVersionManifest quiltVersionManifest)
     {
-        if (!index.LoaderExists())
+        if (!quiltVersionManifest.LoaderExists())
             return [];
 
         List<string> versions = [];
-        foreach (QuiltLoader item in index.Loader)
+        foreach (QuiltLoader item in quiltVersionManifest.Loader)
         {
             versions.Add(item.Version);
         }
@@ -72,19 +72,22 @@ public static class QuiltVersionHelper
         return versions;
     }
 
-    public static QuiltInstaller GetInstallerVersion(LauncherVersion installerVersion, QuiltIndex index)
+    public static QuiltInstaller GetInstallerVersion(
+        LauncherVersion installerVersion,
+        QuiltVersionManifest quiltVersionManifest
+    )
     {
         if (!installerVersion.VersionsExists())
             return null;
 
-        if (!index.InstallerExists())
+        if (!quiltVersionManifest.InstallerExists())
             return null;
 
-        QuiltInstaller quiltInstaller = index.Installer[0];
+        QuiltInstaller quiltInstaller = quiltVersionManifest.Installer[0];
         if (string.IsNullOrWhiteSpace(installerVersion.QuiltInstallerVersion))
             return quiltInstaller;
 
-        foreach (QuiltInstaller item in index.Installer)
+        foreach (QuiltInstaller item in quiltVersionManifest.Installer)
         {
             if (
                 (!string.IsNullOrWhiteSpace(installerVersion.QuiltInstallerVersion))
@@ -95,19 +98,19 @@ public static class QuiltVersionHelper
         return quiltInstaller;
     }
 
-    public static QuiltLoader GetLoaderVersion(LauncherVersion loaderVersion, QuiltIndex index)
+    public static QuiltLoader GetLoaderVersion(LauncherVersion loaderVersion, QuiltVersionManifest quiltVersionManifest)
     {
         if (!loaderVersion.VersionsExists())
             return null;
 
-        if (!index.LoaderExists())
+        if (!quiltVersionManifest.LoaderExists())
             return null;
 
-        QuiltLoader quiltLoader = index.Loader[0];
+        QuiltLoader quiltLoader = quiltVersionManifest.Loader[0];
         if (string.IsNullOrWhiteSpace(loaderVersion.QuiltLoaderVersion))
             return quiltLoader;
 
-        foreach (QuiltLoader item in index.Loader)
+        foreach (QuiltLoader item in quiltVersionManifest.Loader)
         {
             if (
                 (!string.IsNullOrWhiteSpace(loaderVersion.QuiltLoaderVersion))

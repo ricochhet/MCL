@@ -15,17 +15,17 @@ namespace MCL.Core.MiniCommon;
 
 public static class Request
 {
-    private static readonly HttpClient httpClient = new();
+    private static readonly HttpClient _httpClient = new();
     public static JsonSerializerOptions JsonSerializerOptions { get; set; } = new();
 
-    public static HttpClient GetHttpClient() => httpClient;
+    public static HttpClient GetHttpClient() => _httpClient;
 
     public static int Retry { get; set; } = 1;
 
     public static TimeSpan HttpClientTimeOut
     {
-        get { return httpClient.Timeout; }
-        set { httpClient.Timeout = value; }
+        get { return _httpClient.Timeout; }
+        set { _httpClient.Timeout = value; }
     }
 
 #nullable enable
@@ -33,7 +33,7 @@ public static class Request
     {
         try
         {
-            return await httpClient.GetAsync(request);
+            return await _httpClient.GetAsync(request);
         }
         catch (Exception ex)
         {
@@ -50,7 +50,7 @@ public static class Request
     {
         try
         {
-            return await httpClient.GetByteArrayAsync(request);
+            return await _httpClient.GetByteArrayAsync(request);
         }
         catch (Exception ex)
         {
@@ -67,7 +67,7 @@ public static class Request
     {
         try
         {
-            return await httpClient.GetStreamAsync(request);
+            return await _httpClient.GetStreamAsync(request);
         }
         catch (Exception ex)
         {
@@ -84,7 +84,7 @@ public static class Request
     {
         try
         {
-            return await httpClient.GetFromJsonAsync<T>(request);
+            return await _httpClient.GetFromJsonAsync<T>(request);
         }
         catch (Exception ex)
         {
@@ -180,7 +180,7 @@ public static class Request
     {
         try
         {
-            return await httpClient.GetStringAsync(request);
+            return await _httpClient.GetStringAsync(request);
         }
         catch (Exception ex)
         {

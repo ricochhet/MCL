@@ -22,11 +22,11 @@ public static class PaperServerDownloader
         if (!paperBuild.BuildExists())
             return false;
 
-        string filepath = PaperPathResolver.DownloadedJarPath(launcherPath, launcherVersion);
+        string filepath = PaperPathResolver.JarPath(launcherPath, launcherVersion);
         if (
             !await Request.Download(
                 string.Format(
-                    paperUrls.PaperJarUrl,
+                    paperUrls.PaperJar,
                     "paper",
                     launcherVersion.Version,
                     paperBuild.Build.ToString(),

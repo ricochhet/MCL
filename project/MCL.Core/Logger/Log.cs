@@ -8,10 +8,10 @@ namespace MCL.Core.Logger;
 
 public class Log
 {
-    private readonly List<ILogger> _io = new();
+    private readonly List<ILogger> _io = [];
     private static Log _instance;
     private static readonly SemaphoreSlim _semaphore = new(1, 1);
-    private readonly Dictionary<string, Stopwatch> _benchmarkers = new();
+    private readonly Dictionary<string, Stopwatch> _benchmarkers = [];
 
     public static Log Instance
     {

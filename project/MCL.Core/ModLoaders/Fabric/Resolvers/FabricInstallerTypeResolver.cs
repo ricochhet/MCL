@@ -8,8 +8,8 @@ public static class FabricInstallerTypeResolver
     public static string ToString(FabricInstallerType type) =>
         type switch
         {
-            FabricInstallerType.CLIENT => "client",
-            FabricInstallerType.SERVER => "server",
+            FabricInstallerType.INSTALL_CLIENT => "client",
+            FabricInstallerType.INSTALL_SERVER => "server",
             _ => throw new ArgumentOutOfRangeException(nameof(type)),
         };
 }

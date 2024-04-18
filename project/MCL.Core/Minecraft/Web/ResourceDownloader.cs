@@ -9,9 +9,9 @@ namespace MCL.Core.Minecraft.Web;
 
 public static class ResourceDownloader
 {
-    public static async Task<bool> Download(LauncherPath launcherPath, MUrls minecraftUrls, MAssetsData assets)
+    public static async Task<bool> Download(LauncherPath launcherPath, MUrls mUrls, MAssetsData assets)
     {
-        if (!minecraftUrls.MinecraftResourcesExists() || !assets.ObjectsExists())
+        if (!mUrls.MinecraftResourcesExists() || !assets.ObjectsExists())
             return false;
 
         string objectsPath = VFS.Combine(MPathResolver.AssetsPath(launcherPath), "objects");
@@ -23,7 +23,7 @@ public static class ResourceDownloader
             if (string.IsNullOrWhiteSpace(asset.Hash))
                 return false;
 
-            string request = $"{minecraftUrls.MinecraftResources}/{asset.Hash[..2]}/{asset.Hash}";
+            string request = $"{mUrls.MinecraftResources}/{asset.Hash[..2]}/{asset.Hash}";
             string filepath = VFS.Combine(objectsPath, asset.Hash[..2], asset.Hash);
             if (!await Request.Download(request, filepath, asset.Hash))
                 return false;

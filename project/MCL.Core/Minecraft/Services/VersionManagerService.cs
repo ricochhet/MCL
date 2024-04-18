@@ -11,14 +11,14 @@ namespace MCL.Core.Minecraft.Services;
 
 public static class VersionManagerService
 {
-    private static string[] args = [];
-    private static Settings Settings;
+    private static string[] _args = [];
+    private static Settings _settings;
 
     public static async Task<bool> Init(Settings settings, string value)
     {
-        Settings = settings;
-        args = value.Split(";");
-        if (args.Length != Enum.GetNames(typeof(VersionArgs)).Length)
+        _settings = settings;
+        _args = value.Split(";");
+        if (_args.Length != Enum.GetNames(typeof(VersionArgs)).Length)
             return false;
         if (!await TryParse())
             return false;
@@ -27,13 +27,13 @@ public static class VersionManagerService
 
     private static async Task<bool> TryParse()
     {
-        if (!await VersionHelper.SetVersions(Settings, args))
+        if (!await VersionHelper.SetVersions(_settings, _args))
             return false;
-        if (!await FabricVersionHelper.SetVersions(Settings, args))
+        if (!await FabricVersionHelper.SetVersions(_settings, _args))
             return false;
-        if (!await QuiltVersionHelper.SetVersions(Settings, args))
+        if (!await QuiltVersionHelper.SetVersions(_settings, _args))
             return false;
-        if (!await PaperVersionHelper.SetVersions(Settings, args))
+        if (!await PaperVersionHelper.SetVersions(_settings, _args))
             return false;
         return true;
     }

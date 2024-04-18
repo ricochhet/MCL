@@ -19,7 +19,7 @@ public class DownloadMinecraft : ILauncherCommand
                     settings.LauncherPath,
                     settings.LauncherVersion,
                     settings.LauncherSettings,
-                    settings.MinecraftUrls
+                    settings.MUrls
                 );
                 await MDownloadService.Download(useLocalVersionManifest: true);
             }

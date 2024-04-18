@@ -24,8 +24,8 @@ public static class FabricProfileDownloader
             return false;
 
         string fabricProfile = await Request.GetJsonAsync<FabricProfile>(
-            FabricPathResolver.LoaderProfileUrlPath(fabricUrls, launcherVersion),
-            FabricPathResolver.DownloadedProfilePath(launcherPath, launcherVersion),
+            FabricPathResolver.LoaderProfilePath(fabricUrls, launcherVersion),
+            FabricPathResolver.ProfilePath(launcherPath, launcherVersion),
             Encoding.UTF8
         );
         if (string.IsNullOrWhiteSpace(fabricProfile))

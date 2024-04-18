@@ -8,7 +8,7 @@ using MCL.Core.Servers.Paper.Resolvers;
 
 namespace MCL.Core.Servers.Paper.Web;
 
-public static class PaperIndexDownloader
+public static class PaperVersionManifestDownloader
 {
     public static async Task<bool> Download(
         LauncherPath launcherPath,
@@ -19,9 +19,9 @@ public static class PaperIndexDownloader
         if (!paperUrls.VersionManifestExists())
             return false;
 
-        string filepath = PaperPathResolver.DownloadedIndexPath(launcherPath, launcherVersion);
+        string filepath = PaperPathResolver.VersionManifestPath(launcherPath, launcherVersion);
         string paperIndex = await Request.GetJsonAsync<PaperVersionManifest>(
-            string.Format(paperUrls.PaperVersionManifest, "paper", launcherVersion.Version),
+            string.Format(paperUrls.VersionManifest, "paper", launcherVersion.Version),
             filepath,
             Encoding.UTF8
         );

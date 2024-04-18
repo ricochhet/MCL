@@ -9,8 +9,8 @@ public class LauncherSettings
 {
     public LauncherType LauncherType { get; set; } = LauncherType.RELEASE;
     public ClientType ClientType { get; set; } = ClientType.FABRIC;
-    public FabricInstallerType FabricInstallerType { get; set; } = FabricInstallerType.CLIENT;
-    public QuiltInstallerType QuiltInstallerType { get; set; } = QuiltInstallerType.CLIENT;
+    public FabricInstallerType FabricInstallerType { get; set; } = FabricInstallerType.INSTALL_CLIENT;
+    public QuiltInstallerType QuiltInstallerType { get; set; } = QuiltInstallerType.INSTALL_CLIENT;
     public JavaRuntimeType JavaRuntimeType { get; set; } = JavaRuntimeType.JAVA_RUNTIME_GAMMA;
     public JavaRuntimePlatform JavaRuntimePlatform { get; set; } = JavaRuntimePlatform.WINDOWSX64;
 

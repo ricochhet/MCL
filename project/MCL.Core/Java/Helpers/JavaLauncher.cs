@@ -19,7 +19,7 @@ public static class JavaLauncher
         if (!VFS.Exists(workingDirectory))
             return;
         string javaHome = JavaRuntimeHelper.FindJavaRuntimeEnvironment(settings, workingDirectory, javaRuntimeType);
-        string javaExe = VFS.Combine(JavaPathResolver.JavaRuntimeBin(javaHome), settings.JavaSettings.JavaExecutable);
+        string javaExe = VFS.Combine(JavaPathResolver.JavaRuntimeBin(javaHome), settings.JavaSettings.Executable);
         RunJavaProcess(settings, workingDirectory, jvmArguments, javaExe, javaHome);
     }
 
@@ -35,24 +35,24 @@ public static class JavaLauncher
         if (!VFS.Exists(workingDirectory))
             return;
         string javaHome = JavaRuntimeHelper.FindJavaRuntimeEnvironment(settings, workingDirectory, javaRuntimeType);
-        string javaExe = VFS.Combine(JavaPathResolver.JavaRuntimeBin(javaHome), settings.JavaSettings.JavaExecutable);
+        string javaExe = VFS.Combine(JavaPathResolver.JavaRuntimeBin(javaHome), settings.JavaSettings.Executable);
 
         switch (clientType)
         {
             case ClientType.VANILLA:
-                if (!JvmArgumentsExist(settings, settings.MinecraftArgs))
+                if (!JvmArgumentsExist(settings, settings.MJvmArguments))
                     return;
-                RunJavaProcess(settings, workingDirectory, settings.MinecraftArgs, javaExe, javaHome);
+                RunJavaProcess(settings, workingDirectory, settings.MJvmArguments, javaExe, javaHome);
                 break;
             case ClientType.FABRIC:
-                if (!JvmArgumentsExist(settings, settings.FabricArgs))
+                if (!JvmArgumentsExist(settings, settings.FabricJvmArguments))
                     return;
-                RunJavaProcess(settings, workingDirectory, settings.FabricArgs, javaExe, javaHome);
+                RunJavaProcess(settings, workingDirectory, settings.FabricJvmArguments, javaExe, javaHome);
                 break;
             case ClientType.QUILT:
-                if (!JvmArgumentsExist(settings, settings.QuiltArgs))
+                if (!JvmArgumentsExist(settings, settings.QuiltJvmArguments))
                     return;
-                RunJavaProcess(settings, workingDirectory, settings.QuiltArgs, javaExe, javaHome);
+                RunJavaProcess(settings, workingDirectory, settings.QuiltJvmArguments, javaExe, javaHome);
                 break;
         }
     }
@@ -70,7 +70,7 @@ public static class JavaLauncher
             jvmArguments.Build(),
             workingDirectory,
             false,
-            new() { { settings.JavaSettings.JavaHomeEnvironmentVariable, javaHome } }
+            new() { { settings.JavaSettings.HomeEnvironmentVariable, javaHome } }
         );
     }
 

@@ -18,7 +18,7 @@ public static class SevenZipService
     {
         ProcessHelper.RunProcess(
             SevenZipPathResolver.SevenZipPath(SevenZipSettings),
-            string.Format(SevenZipSettings.SevenZipExtractArgs, source, destination),
+            string.Format(SevenZipSettings.ExtractArguments, source, destination),
             Environment.CurrentDirectory,
             false
         );

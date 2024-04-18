@@ -4,8 +4,8 @@ public static class LaunchPathHelper
 {
     public const string Path = "./.minecraft";
     public const string ModPath = "./mods";
-    public const string FabricInstallerPath = "./fabric";
-    public const string QuiltInstallerPath = "./quilt";
-    public const string PaperInstallerPath = "./paper";
-    public const string LanguageLocalizationPath = "./localization";
+    public const string FabricPath = "./fabric";
+    public const string QuiltPath = "./quilt";
+    public const string PaperPath = "./paper";
+    public const string LocalizationPath = "./localization";
 }

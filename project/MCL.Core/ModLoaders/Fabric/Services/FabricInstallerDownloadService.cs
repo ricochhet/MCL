@@ -13,30 +13,30 @@ namespace MCL.Core.ModLoaders.Fabric.Services;
 
 public class FabricInstallerDownloadService : IJarDownloadService<FabricUrls>, IDownloadService
 {
-    public static FabricIndex FabricIndex { get; private set; }
+    public static FabricVersionManifest FabricVersionManifest { get; private set; }
     public static FabricInstaller FabricInstaller { get; private set; }
-    private static LauncherPath LauncherPath;
-    private static LauncherVersion LauncherVersion;
-    private static FabricUrls FabricUrls;
-    private static bool Loaded = false;
+    private static LauncherPath _launcherPath;
+    private static LauncherVersion _launcherVersion;
+    private static FabricUrls _fabricUrls;
+    private static bool _loaded = false;
 
     public static void Init(LauncherPath launcherPath, LauncherVersion launcherVersion, FabricUrls fabricUrls)
     {
-        LauncherPath = launcherPath;
-        LauncherVersion = launcherVersion;
-        FabricUrls = fabricUrls;
-        Loaded = true;
+        _launcherPath = launcherPath;
+        _launcherVersion = launcherVersion;
+        _fabricUrls = fabricUrls;
+        _loaded = true;
     }
 
     public static async Task<bool> Download(bool useLocalVersionManifest = false)
     {
-        if (!Loaded)
+        if (!_loaded)
             return false;
 
-        if (!useLocalVersionManifest && !await DownloadIndex())
+        if (!useLocalVersionManifest && !await DownloadVersionManifest())
             return false;
 
-        if (!LoadIndex())
+        if (!LoadVersionManifest())
             return false;
 
         if (!LoadVersion())
@@ -48,29 +48,29 @@ public class FabricInstallerDownloadService : IJarDownloadService<FabricUrls>, I
         return true;
     }
 
-    public static async Task<bool> DownloadIndex()
+    public static async Task<bool> DownloadVersionManifest()
     {
-        if (!Loaded)
+        if (!_loaded)
             return false;
 
-        if (!await FabricIndexDownloader.Download(LauncherPath, FabricUrls))
+        if (!await FabricVersionManifestDownloader.Download(_launcherPath, _fabricUrls))
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.download", [nameof(FabricIndexDownloader)]);
+            NotificationService.Log(NativeLogLevel.Error, "error.download", [nameof(FabricVersionManifestDownloader)]);
             return false;
         }
 
         return true;
     }
 
-    public static bool LoadIndex()
+    public static bool LoadVersionManifest()
     {
-        if (!Loaded)
+        if (!_loaded)
             return false;
 
-        FabricIndex = Json.Load<FabricIndex>(FabricPathResolver.DownloadedIndexPath(LauncherPath));
-        if (FabricIndex == null)
+        FabricVersionManifest = Json.Load<FabricVersionManifest>(FabricPathResolver.VersionManifestPath(_launcherPath));
+        if (FabricVersionManifest == null)
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.readfile", [nameof(FabricIndex)]);
+            NotificationService.Log(NativeLogLevel.Error, "error.readfile", [nameof(FabricVersionManifest)]);
             return false;
         }
 
@@ -79,16 +79,16 @@ public class FabricInstallerDownloadService : IJarDownloadService<FabricUrls>, I
 
     public static bool LoadVersion()
     {
-        if (!Loaded)
+        if (!_loaded)
             return false;
 
-        FabricInstaller = FabricVersionHelper.GetInstallerVersion(LauncherVersion, FabricIndex);
+        FabricInstaller = FabricVersionHelper.GetInstallerVersion(_launcherVersion, FabricVersionManifest);
         if (FabricInstaller == null)
         {
             NotificationService.Log(
                 NativeLogLevel.Error,
                 "error.parse",
-                [LauncherVersion?.FabricInstallerVersion, nameof(FabricInstaller)]
+                [_launcherVersion?.FabricInstallerVersion, nameof(FabricInstaller)]
             );
             return false;
         }
@@ -98,10 +98,10 @@ public class FabricInstallerDownloadService : IJarDownloadService<FabricUrls>, I
 
     public static async Task<bool> DownloadJar()
     {
-        if (!Loaded)
+        if (!_loaded)
             return false;
 
-        if (!await FabricInstallerDownloader.Download(LauncherPath, LauncherVersion, FabricInstaller))
+        if (!await FabricInstallerDownloader.Download(_launcherPath, _launcherVersion, FabricInstaller))
         {
             NotificationService.Log(NativeLogLevel.Error, "error.download", [nameof(FabricInstallerDownloader)]);
             return false;

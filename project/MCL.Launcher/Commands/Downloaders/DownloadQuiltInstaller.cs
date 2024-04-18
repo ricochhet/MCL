@@ -27,7 +27,7 @@ public class DownloadQuiltInstaller : ILauncherCommand
                     QuiltInstallerArgs.DefaultJvmArguments(
                         settings.LauncherPath,
                         settings.LauncherVersion,
-                        QuiltInstallerType.CLIENT
+                        QuiltInstallerType.INSTALL_CLIENT
                     ),
                     settings.LauncherSettings.JavaRuntimeType
                 );

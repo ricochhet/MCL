@@ -11,10 +11,10 @@ public static class SevenZipPathResolver
         string windowsExecutable = VFS.Combine(
             SettingsService.DataPath,
             "SevenZip",
-            sevenZipSettings.SevenZipExecutable + ".exe"
+            sevenZipSettings.Executable + ".exe"
         );
         if (VFS.Exists(windowsExecutable))
             return windowsExecutable;
-        return sevenZipSettings.SevenZipExecutable;
+        return sevenZipSettings.Executable;
     }
 }

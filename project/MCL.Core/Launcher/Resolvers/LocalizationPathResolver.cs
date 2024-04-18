@@ -7,5 +7,5 @@ namespace MCL.Core.Launcher.Resolvers;
 public static class LocalizationPathResolver
 {
     public static string LanguageFilePath(LauncherPath launcherPath, Language language) =>
-        VFS.FromCwd(launcherPath.LanguageLocalizationPath, $"localization.{LanguageResolver.ToString(language)}.json");
+        VFS.FromCwd(launcherPath.LocalizationPath, $"localization.{LanguageResolver.ToString(language)}.json");
 }

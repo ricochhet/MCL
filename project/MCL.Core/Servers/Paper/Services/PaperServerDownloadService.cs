@@ -16,28 +16,28 @@ public class PaperServerDownloadService : IJarDownloadService<PaperUrls>, IDownl
 {
     public static PaperVersionManifest PaperVersionManifest { get; private set; }
     public static PaperBuild PaperBuild { get; private set; }
-    private static LauncherPath LauncherPath;
-    private static LauncherVersion LauncherVersion;
-    private static PaperUrls PaperUrls;
-    private static bool Loaded = false;
+    private static LauncherPath _launcherPath;
+    private static LauncherVersion _launcherVersion;
+    private static PaperUrls _paperUrls;
+    private static bool _loaded = false;
 
     public static void Init(LauncherPath launcherPath, LauncherVersion launcherVersion, PaperUrls paperUrls)
     {
-        LauncherPath = launcherPath;
-        LauncherVersion = launcherVersion;
-        PaperUrls = paperUrls;
-        Loaded = true;
+        _launcherPath = launcherPath;
+        _launcherVersion = launcherVersion;
+        _paperUrls = paperUrls;
+        _loaded = true;
     }
 
     public static async Task<bool> Download(bool useLocalVersionManifest = false)
     {
-        if (!Loaded)
+        if (!_loaded)
             return false;
 
-        if (!useLocalVersionManifest && !await DownloadIndex())
+        if (!useLocalVersionManifest && !await DownloadVersionManifest())
             return false;
 
-        if (!LoadIndex())
+        if (!LoadVersionManifest())
             return false;
 
         if (!LoadVersion())
@@ -49,31 +49,31 @@ public class PaperServerDownloadService : IJarDownloadService<PaperUrls>, IDownl
         return true;
     }
 
-    public static async Task<bool> DownloadIndex()
+    public static async Task<bool> DownloadVersionManifest()
     {
-        if (!Loaded)
+        if (!_loaded)
             return false;
 
-        if (!await PaperIndexDownloader.Download(LauncherPath, LauncherVersion, PaperUrls))
+        if (!await PaperVersionManifestDownloader.Download(_launcherPath, _launcherVersion, _paperUrls))
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.download", [nameof(PaperIndexDownloader)]);
+            NotificationService.Log(NativeLogLevel.Error, "error.download", [nameof(PaperVersionManifestDownloader)]);
             return false;
         }
 
         return true;
     }
 
-    public static bool LoadIndex()
+    public static bool LoadVersionManifest()
     {
-        if (!Loaded)
+        if (!_loaded)
             return false;
 
         PaperVersionManifest = Json.Load<PaperVersionManifest>(
-            PaperPathResolver.DownloadedIndexPath(LauncherPath, LauncherVersion)
+            PaperPathResolver.VersionManifestPath(_launcherPath, _launcherVersion)
         );
         if (PaperVersionManifest == null)
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.readfile", [nameof(QuiltIndex)]);
+            NotificationService.Log(NativeLogLevel.Error, "error.readfile", [nameof(QuiltVersionManifest)]);
             return false;
         }
 
@@ -82,16 +82,16 @@ public class PaperServerDownloadService : IJarDownloadService<PaperUrls>, IDownl
 
     public static bool LoadVersion()
     {
-        if (!Loaded)
+        if (!_loaded)
             return false;
 
-        PaperBuild = PaperVersionHelper.GetVersion(LauncherVersion, PaperVersionManifest);
+        PaperBuild = PaperVersionHelper.GetVersion(_launcherVersion, PaperVersionManifest);
         if (PaperBuild == null)
         {
             NotificationService.Log(
                 NativeLogLevel.Error,
                 "error.parse",
-                [LauncherVersion?.FabricInstallerVersion, nameof(PaperBuild)]
+                [_launcherVersion?.FabricInstallerVersion, nameof(PaperBuild)]
             );
             return false;
         }
@@ -101,10 +101,10 @@ public class PaperServerDownloadService : IJarDownloadService<PaperUrls>, IDownl
 
     public static async Task<bool> DownloadJar()
     {
-        if (!Loaded)
+        if (!_loaded)
             return false;
 
-        if (!await PaperServerDownloader.Download(LauncherPath, LauncherVersion, PaperBuild, PaperUrls))
+        if (!await PaperServerDownloader.Download(_launcherPath, _launcherVersion, PaperBuild, _paperUrls))
         {
             NotificationService.Log(NativeLogLevel.Error, "error.download", [nameof(PaperServerDownloader)]);
             return false;

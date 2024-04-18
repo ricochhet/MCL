@@ -11,22 +11,22 @@ public static class SettingsService
 {
     public const string DataPath = "./.mcl";
     public const string SettingsFileName = "mcl.json";
-    public static readonly string LogFilePath = VFS.FromCwd(DataPath, LogFileName);
+    public static readonly string LogFilePath = VFS.FromCwd(DataPath, _logFileName);
     public static readonly List<string> WatermarkText =
     [
         "MCL.Launcher",
         "This work is free of charge",
         "If you paid money, you were scammed"
     ];
-    private const string LogFileName = "mcl.log";
-    private static readonly string SettingsFilePath = VFS.FromCwd(DataPath, SettingsFileName);
+    private const string _logFileName = "mcl.log";
+    private static readonly string _settingsFilePath = VFS.FromCwd(DataPath, SettingsFileName);
 
     public static JsonSerializerOptions JsonSerializerOptions { get; set; } =
         new() { WriteIndented = true, Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping };
 
     public static void Save()
     {
-        if (!VFS.Exists(SettingsFilePath))
+        if (!VFS.Exists(_settingsFilePath))
         {
             NotificationService.Log(NativeLogLevel.Info, "launcher.settings.setup");
             Settings settings =
@@ -36,39 +36,39 @@ public static class SettingsService
                     LauncherPath = new(),
                     LauncherVersion = new(),
                     LauncherSettings = new(),
-                    MinecraftUrls = new(),
+                    MUrls = new(),
                     FabricUrls = new(),
                     QuiltUrls = new(),
                     PaperUrls = new(),
-                    MinecraftArgs = new(),
-                    FabricArgs = new(),
-                    QuiltArgs = new(),
+                    MJvmArguments = new(),
+                    FabricJvmArguments = new(),
+                    QuiltJvmArguments = new(),
                     JavaSettings = new(),
                     SevenZipSettings = new(),
                     ModSettings = new()
                 };
 
-            Json.Save(SettingsFilePath, settings, JsonSerializerOptions);
+            Json.Save(_settingsFilePath, settings, JsonSerializerOptions);
         }
     }
 
     public static void Save(Settings settings)
     {
-        if (!VFS.Exists(SettingsFilePath))
+        if (!VFS.Exists(_settingsFilePath))
             return;
 
         Settings existingSettings = Load();
         if (existingSettings == settings)
             return;
 
-        Json.Save(SettingsFilePath, settings, JsonSerializerOptions);
+        Json.Save(_settingsFilePath, settings, JsonSerializerOptions);
     }
 
     public static Settings Load()
     {
-        if (VFS.Exists(SettingsFilePath))
+        if (VFS.Exists(_settingsFilePath))
         {
-            Settings inputJson = Json.Load<Settings>(SettingsFilePath);
+            Settings inputJson = Json.Load<Settings>(_settingsFilePath);
             if (inputJson != null)
                 return inputJson;
 

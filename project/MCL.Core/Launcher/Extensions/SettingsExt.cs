@@ -13,13 +13,13 @@ public static class SettingsExt
         switch (clientType)
         {
             case ClientType.VANILLA:
-                settings.MinecraftArgs = jvmArguments;
+                settings.MJvmArguments = jvmArguments;
                 break;
             case ClientType.FABRIC:
-                settings.FabricArgs = jvmArguments;
+                settings.FabricJvmArguments = jvmArguments;
                 break;
             case ClientType.QUILT:
-                settings.QuiltArgs = jvmArguments;
+                settings.QuiltJvmArguments = jvmArguments;
                 break;
         }
 

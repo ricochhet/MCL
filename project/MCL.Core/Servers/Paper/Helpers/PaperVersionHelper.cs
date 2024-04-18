@@ -15,10 +15,10 @@ public static class PaperVersionHelper
     public static async Task<bool> SetVersions(Settings settings, string[] args)
     {
         PaperServerDownloadService.Init(settings.LauncherPath, settings.LauncherVersion, settings.PaperUrls);
-        if (!PaperServerDownloadService.LoadIndex())
+        if (!PaperServerDownloadService.LoadVersionManifest())
         {
-            await PaperServerDownloadService.DownloadIndex();
-            PaperServerDownloadService.LoadIndex();
+            await PaperServerDownloadService.DownloadVersionManifest();
+            PaperServerDownloadService.LoadVersionManifest();
         }
 
         if (PaperServerDownloadService.PaperVersionManifest == null)

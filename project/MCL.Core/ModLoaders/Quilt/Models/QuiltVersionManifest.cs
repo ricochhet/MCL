@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace MCL.Core.ModLoaders.Quilt.Models;
 
-public class QuiltIndex
+public class QuiltVersionManifest
 {
     [JsonPropertyName("game")]
     public List<QuiltGame> Game { get; set; }
@@ -20,5 +20,5 @@ public class QuiltIndex
     [JsonPropertyName("installer")]
     public List<QuiltInstaller> Installer { get; set; }
 
-    public QuiltIndex() { }
+    public QuiltVersionManifest() { }
 }

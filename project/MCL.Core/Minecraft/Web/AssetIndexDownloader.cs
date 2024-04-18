@@ -7,7 +7,7 @@ using MCL.Core.MiniCommon;
 
 namespace MCL.Core.Minecraft.Web;
 
-public static class IndexDownloader
+public static class AssetIndexDownloader
 {
     public static async Task<bool> Download(LauncherPath launcherPath, MVersionDetails versionDetails)
     {

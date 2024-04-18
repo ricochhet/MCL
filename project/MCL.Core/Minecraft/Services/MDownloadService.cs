@@ -16,25 +16,25 @@ public class MDownloadService : IDownloadService
     public static MVersionManifest VersionManifest { get; private set; }
     public static MVersionDetails VersionDetails { get; private set; }
     public static MVersion Version { get; private set; }
-    private static MAssetsData Assets;
-    private static LauncherPath LauncherPath;
-    private static LauncherVersion LauncherVersion;
-    private static LauncherSettings LauncherSettings;
-    private static MUrls MinecraftUrls;
-    private static bool Loaded = false;
+    private static MAssetsData _assets;
+    private static LauncherPath _launcherPath;
+    private static LauncherVersion _launcherVersion;
+    private static LauncherSettings _launcherSettings;
+    private static MUrls _mUrls;
+    private static bool _loaded = false;
 
     public static void Init(
         LauncherPath launcherPath,
         LauncherVersion launcherVersion,
         LauncherSettings launcherSettings,
-        MUrls minecraftUrls
+        MUrls mUrls
     )
     {
-        LauncherPath = launcherPath;
-        LauncherVersion = launcherVersion;
-        LauncherSettings = launcherSettings;
-        MinecraftUrls = minecraftUrls;
-        Loaded = true;
+        _launcherPath = launcherPath;
+        _launcherVersion = launcherVersion;
+        _launcherSettings = launcherSettings;
+        _mUrls = mUrls;
+        _loaded = true;
     }
 
 #pragma warning disable IDE0079
@@ -42,7 +42,7 @@ public class MDownloadService : IDownloadService
     public static async Task<bool> Download(bool useLocalVersionManifest = false)
 #pragma warning restore
     {
-        if (!Loaded)
+        if (!_loaded)
             return false;
 
         if (!useLocalVersionManifest && !await DownloadVersionManifest())
@@ -92,10 +92,10 @@ public class MDownloadService : IDownloadService
 
     public static async Task<bool> DownloadVersionManifest()
     {
-        if (!Loaded)
+        if (!_loaded)
             return false;
 
-        if (!await VersionManifestDownloader.Download(LauncherPath, MinecraftUrls))
+        if (!await VersionManifestDownloader.Download(_launcherPath, _mUrls))
         {
             NotificationService.Log(NativeLogLevel.Error, "error.download", [nameof(MVersionManifest)]);
             return false;
@@ -106,10 +106,10 @@ public class MDownloadService : IDownloadService
 
     public static bool LoadVersionManifest()
     {
-        if (!Loaded)
+        if (!_loaded)
             return false;
 
-        VersionManifest = Json.Load<MVersionManifest>(MPathResolver.DownloadedVersionManifestPath(LauncherPath));
+        VersionManifest = Json.Load<MVersionManifest>(MPathResolver.VersionManifestPath(_launcherPath));
         if (VersionManifest == null)
         {
             NotificationService.Log(NativeLogLevel.Error, "error.readfile", [nameof(MVersionManifest)]);
@@ -121,13 +121,13 @@ public class MDownloadService : IDownloadService
 
     public static bool LoadVersion()
     {
-        if (!Loaded)
+        if (!_loaded)
             return false;
 
-        Version = VersionHelper.GetVersion(LauncherVersion, VersionManifest);
+        Version = VersionHelper.GetVersion(_launcherVersion, VersionManifest);
         if (Version == null)
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.parse", [LauncherVersion?.Version, nameof(MVersion)]);
+            NotificationService.Log(NativeLogLevel.Error, "error.parse", [_launcherVersion?.Version, nameof(MVersion)]);
             return false;
         }
 
@@ -136,10 +136,10 @@ public class MDownloadService : IDownloadService
 
     public static async Task<bool> DownloadVersionDetails()
     {
-        if (!Loaded)
+        if (!_loaded)
             return false;
 
-        if (!await VersionDetailsDownloader.Download(LauncherPath, Version))
+        if (!await VersionDetailsDownloader.Download(_launcherPath, Version))
         {
             NotificationService.Log(NativeLogLevel.Error, "error.download", [nameof(VersionDetailsDownloader)]);
             return false;
@@ -150,10 +150,10 @@ public class MDownloadService : IDownloadService
 
     public static bool LoadVersionDetails()
     {
-        if (!Loaded)
+        if (!_loaded)
             return false;
 
-        VersionDetails = Json.Load<MVersionDetails>(MPathResolver.DownloadedVersionDetailsPath(LauncherPath, Version));
+        VersionDetails = Json.Load<MVersionDetails>(MPathResolver.VersionDetailsPath(_launcherPath, Version));
         if (VersionDetails == null)
         {
             NotificationService.Log(NativeLogLevel.Error, "error.readfile", [nameof(MVersionDetails)]);
@@ -165,10 +165,10 @@ public class MDownloadService : IDownloadService
 
     public static async Task<bool> DownloadLibraries()
     {
-        if (!Loaded)
+        if (!_loaded)
             return false;
 
-        if (!await LibraryDownloader.Download(LauncherPath, LauncherSettings, VersionDetails))
+        if (!await LibraryDownloader.Download(_launcherPath, _launcherSettings, VersionDetails))
         {
             NotificationService.Log(NativeLogLevel.Error, "error.download", [nameof(LibraryDownloader)]);
             return false;
@@ -179,10 +179,10 @@ public class MDownloadService : IDownloadService
 
     public static async Task<bool> DownloadClient()
     {
-        if (!Loaded)
+        if (!_loaded)
             return false;
 
-        if (!await ClientDownloader.Download(LauncherPath, VersionDetails))
+        if (!await ClientDownloader.Download(_launcherPath, VersionDetails))
         {
             NotificationService.Log(NativeLogLevel.Error, "error.download", [nameof(ClientDownloader)]);
             return false;
@@ -193,10 +193,10 @@ public class MDownloadService : IDownloadService
 
     public static async Task<bool> DownloadClientMappings()
     {
-        if (!Loaded)
+        if (!_loaded)
             return false;
 
-        if (!await ClientMappingsDownloader.Download(LauncherPath, VersionDetails))
+        if (!await ClientMappingsDownloader.Download(_launcherPath, VersionDetails))
         {
             NotificationService.Log(NativeLogLevel.Error, "error.download", [nameof(ClientMappingsDownloader)]);
             return false;
@@ -207,10 +207,10 @@ public class MDownloadService : IDownloadService
 
     public static async Task<bool> DownloadServer()
     {
-        if (!Loaded)
+        if (!_loaded)
             return false;
 
-        if (!await ServerDownloader.Download(LauncherPath, VersionDetails))
+        if (!await ServerDownloader.Download(_launcherPath, VersionDetails))
         {
             NotificationService.Log(NativeLogLevel.Error, "error.download", [nameof(ServerDownloader)]);
             return false;
@@ -221,10 +221,10 @@ public class MDownloadService : IDownloadService
 
     public static async Task<bool> DownloadServerMappings()
     {
-        if (!Loaded)
+        if (!_loaded)
             return false;
 
-        if (!await ServerMappingsDownloader.Download(LauncherPath, VersionDetails))
+        if (!await ServerMappingsDownloader.Download(_launcherPath, VersionDetails))
         {
             NotificationService.Log(NativeLogLevel.Error, "error.download", [nameof(ServerMappingsDownloader)]);
             return false;
@@ -235,12 +235,12 @@ public class MDownloadService : IDownloadService
 
     public static async Task<bool> DownloadAssetIndex()
     {
-        if (!Loaded)
+        if (!_loaded)
             return false;
 
-        if (!await IndexDownloader.Download(LauncherPath, VersionDetails))
+        if (!await AssetIndexDownloader.Download(_launcherPath, VersionDetails))
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.download", [nameof(IndexDownloader)]);
+            NotificationService.Log(NativeLogLevel.Error, "error.download", [nameof(AssetIndexDownloader)]);
             return false;
         }
 
@@ -249,11 +249,11 @@ public class MDownloadService : IDownloadService
 
     public static bool LoadAssetIndex()
     {
-        if (!Loaded)
+        if (!_loaded)
             return false;
 
-        Assets = Json.Load<MAssetsData>(MPathResolver.ClientIndexPath(LauncherPath, VersionDetails));
-        if (Assets == null)
+        _assets = Json.Load<MAssetsData>(MPathResolver.ClientIndexPath(_launcherPath, VersionDetails));
+        if (_assets == null)
         {
             NotificationService.Log(NativeLogLevel.Error, "error.readfile", [nameof(MAssetsData)]);
             return false;
@@ -264,10 +264,10 @@ public class MDownloadService : IDownloadService
 
     public static async Task<bool> DownloadResources()
     {
-        if (!Loaded)
+        if (!_loaded)
             return false;
 
-        if (!await ResourceDownloader.Download(LauncherPath, MinecraftUrls, Assets))
+        if (!await ResourceDownloader.Download(_launcherPath, _mUrls, _assets))
         {
             NotificationService.Log(NativeLogLevel.Error, "error.download", [nameof(ResourceDownloader)]);
             return false;
@@ -278,10 +278,10 @@ public class MDownloadService : IDownloadService
 
     public static async Task<bool> DownloadLogging()
     {
-        if (!Loaded)
+        if (!_loaded)
             return false;
 
-        if (!await LoggingDownloader.Download(LauncherPath, VersionDetails))
+        if (!await LoggingDownloader.Download(_launcherPath, VersionDetails))
         {
             NotificationService.Log(NativeLogLevel.Error, "error.download", [nameof(LoggingDownloader)]);
             return false;
