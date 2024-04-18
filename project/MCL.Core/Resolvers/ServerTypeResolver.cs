@@ -11,6 +11,6 @@ public static class ServerTypeResolver
             ServerType.VANILLA => "net.minecraft.server.main.Main",
             ServerType.FABRIC => "net.fabricmc.loader.impl.launch.knot.KnotServer",
             ServerType.QUILT => "org.quiltmc.loader.impl.launch.knot.KnotServer",
-            _ => throw new NotImplementedException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(type)),
         };
 }

@@ -10,6 +10,6 @@ public static class QuiltInstallerTypeResolver
         {
             QuiltInstallerType.CLIENT => "client",
             QuiltInstallerType.SERVER => "server",
-            _ => throw new NotImplementedException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(type)),
         };
 }

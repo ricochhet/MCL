@@ -26,7 +26,7 @@ public static class ClassPathHelper
             or JavaRuntimePlatform.MACOSARM64
                 => ":",
             JavaRuntimePlatform.WINDOWSX64 or JavaRuntimePlatform.WINDOWSX86 or JavaRuntimePlatform.WINDOWSARM64 => ";",
-            _ => throw new NotImplementedException("Unsupported OS."),
+            _ => throw new ArgumentOutOfRangeException(nameof(platform), "Unsupported OS."),
         };
         string libPath = VFS.Combine(launcherPath.Path, "libraries");
         string[] libraries = VFS.GetFiles(libPath, "*");

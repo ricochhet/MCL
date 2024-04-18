@@ -10,6 +10,6 @@ public static class LanguageResolver
         {
             Language.ENGLISH => "en",
             Language.CHINESE => "cn",
-            _ => throw new NotImplementedException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(type)),
         };
 }

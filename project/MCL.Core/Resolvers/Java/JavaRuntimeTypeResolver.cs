@@ -15,6 +15,6 @@ public static class JavaRuntimeTypeResolver
             JavaRuntimeType.JAVA_RUNTIME_GAMMA_SNAPSHOT => "java-runtime-gamma-snapshot",
             JavaRuntimeType.JRE_LEGACY => "jre-legacy",
             JavaRuntimeType.MINECRAFT_JAVA_EXE => "minecraft-java-exe",
-            _ => throw new NotImplementedException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(type)),
         };
 }

@@ -10,6 +10,6 @@ public static class RuleResolver
         {
             Rule.ALLOW => "allow",
             Rule.DISALLOW => "disallow",
-            _ => throw new NotImplementedException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(type)),
         };
 }

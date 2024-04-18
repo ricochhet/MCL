@@ -16,7 +16,7 @@ public static class JavaRuntimePlatformResolver
             JavaRuntimePlatform.WINDOWSARM64 => "windows-arm64",
             JavaRuntimePlatform.WINDOWSX64 => "windows-x64",
             JavaRuntimePlatform.WINDOWSX86 => "windows-x86",
-            _ => throw new NotImplementedException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(type)),
         };
 
     public static string ToPlatformString(JavaRuntimePlatform type) =>
@@ -29,6 +29,6 @@ public static class JavaRuntimePlatformResolver
             JavaRuntimePlatform.LINUXI386 => "linux",
             JavaRuntimePlatform.MACOS => "osx",
             JavaRuntimePlatform.MACOSARM64 => "osx",
-            _ => throw new NotImplementedException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(type)),
         };
 }

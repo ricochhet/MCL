@@ -10,6 +10,6 @@ public static class FabricInstallerTypeResolver
         {
             FabricInstallerType.CLIENT => "client",
             FabricInstallerType.SERVER => "server",
-            _ => throw new NotImplementedException(),
+            _ => throw new ArgumentOutOfRangeException(nameof(type)),
         };
 }
