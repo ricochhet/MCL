@@ -1,9 +1,9 @@
 using System.Threading.Tasks;
-using MCL.Core.Helpers.Java;
+using MCL.Core.Java.Helpers;
+using MCL.Core.Java.Services;
+using MCL.Core.Launcher.Models;
 using MCL.Core.MiniCommon;
 using MCL.Core.MiniCommon.Interfaces;
-using MCL.Core.Models.Launcher;
-using MCL.Core.Services.Java;
 
 namespace MCL.Launcher.Commands.Downloaders;
 

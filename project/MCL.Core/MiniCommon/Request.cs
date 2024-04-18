@@ -5,11 +5,11 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using MCL.Core.Helpers;
+using MCL.Core.Launcher.Services;
 using MCL.Core.Logger.Enums;
-using MCL.Core.Models.Web;
-using MCL.Core.Services.Launcher;
-using MCL.Core.Services.Web;
+using MCL.Core.MiniCommon.Helpers;
+using MCL.Core.MiniCommon.Models;
+using MCL.Core.MiniCommon.Services;
 
 namespace MCL.Core.MiniCommon;
 
@@ -197,7 +197,7 @@ public static class Request
 
     public static async Task<bool> Download(string request, string filepath, string hash)
     {
-        RequestDataService.Add(new RequestData(request, filepath, 0, hash));
+        RequestDataService.Add(new(request, filepath, 0, hash));
         if (VFS.Exists(filepath) && CryptographyHelper.CreateSHA1(filepath, true) == hash)
         {
             NotificationService.Log(NativeLogLevel.Info, "request.get.hash-exists", [request]);

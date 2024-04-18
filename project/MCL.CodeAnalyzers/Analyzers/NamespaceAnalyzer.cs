@@ -1,7 +1,7 @@
 using System.Text.RegularExpressions;
+using MCL.Core.Launcher.Services;
 using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon;
-using MCL.Core.Services.Launcher;
 
 namespace MCL.CodeAnalyzers.Analyzers;
 
@@ -38,6 +38,13 @@ public static partial class NamespaceAnalyzer
                 .Replace("../", string.Empty)
                 .Replace(".", "/")
                 .Replace(" ", string.Empty);
+
+            string oldNamespace = "namespace " + path.Replace("/", ".") + ";";
+            string newNamespace = "namespace " + directory.Replace("/", ".") + ";";
+            string fileData = VFS.ReadAllText(file).Replace(oldNamespace, newNamespace);
+            VFS.WriteFile(file, fileData);
+            NotificationService.Log(NativeLogLevel.Warn, "log", [oldNamespace]);
+            NotificationService.Log(NativeLogLevel.Warn, "log", [newNamespace]);
             if (path == directory)
                 success++;
             else

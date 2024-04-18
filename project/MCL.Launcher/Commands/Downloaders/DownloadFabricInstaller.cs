@@ -1,11 +1,11 @@
 using System.Threading.Tasks;
-using MCL.Core.Enums.MinecraftFabric;
-using MCL.Core.Helpers.Java;
-using MCL.Core.Helpers.ModLoaders.Fabric;
+using MCL.Core.Java.Helpers;
+using MCL.Core.Launcher.Models;
 using MCL.Core.MiniCommon;
 using MCL.Core.MiniCommon.Interfaces;
-using MCL.Core.Models.Launcher;
-using MCL.Core.Services.ModLoaders.Fabric;
+using MCL.Core.ModLoaders.Fabric.Enums;
+using MCL.Core.ModLoaders.Fabric.Helpers;
+using MCL.Core.ModLoaders.Fabric.Services;
 
 namespace MCL.Launcher.Commands.Downloaders;
 

@@ -1,8 +1,8 @@
 using System.Threading.Tasks;
+using MCL.Core.Launcher.Models;
 using MCL.Core.MiniCommon;
 using MCL.Core.MiniCommon.Interfaces;
-using MCL.Core.Models.Launcher;
-using MCL.Core.Services.ModLoaders.Fabric;
+using MCL.Core.ModLoaders.Fabric.Services;
 
 namespace MCL.Launcher.Commands.Downloaders;
 

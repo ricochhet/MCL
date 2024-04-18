@@ -1,8 +1,8 @@
 using System.Threading.Tasks;
+using MCL.Core.Launcher.Models;
+using MCL.Core.Minecraft.Services;
 using MCL.Core.MiniCommon;
 using MCL.Core.MiniCommon.Interfaces;
-using MCL.Core.Models.Launcher;
-using MCL.Core.Services.Minecraft;
 
 namespace MCL.Launcher.Commands.Downloaders;
 
@@ -15,13 +15,13 @@ public class DownloadMinecraft : ILauncherCommand
             "--dl-minecraft",
             async () =>
             {
-                MinecraftDownloadService.Init(
+                MDownloadService.Init(
                     settings.LauncherPath,
                     settings.LauncherVersion,
                     settings.LauncherSettings,
                     settings.MinecraftUrls
                 );
-                await MinecraftDownloadService.Download(useLocalVersionManifest: true);
+                await MDownloadService.Download(useLocalVersionManifest: true);
             }
         );
     }

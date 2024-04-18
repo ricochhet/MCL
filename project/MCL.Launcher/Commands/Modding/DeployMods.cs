@@ -1,10 +1,10 @@
 using System.Threading.Tasks;
-using MCL.Core.Extensions.Launcher;
+using MCL.Core.Launcher.Extensions;
+using MCL.Core.Launcher.Models;
 using MCL.Core.MiniCommon;
 using MCL.Core.MiniCommon.Interfaces;
-using MCL.Core.Models.Launcher;
-using MCL.Core.Resolvers.Modding;
-using MCL.Core.Services.Modding;
+using MCL.Core.Modding.Resolvers;
+using MCL.Core.Modding.Services;
 
 namespace MCL.Launcher.Commands.Modding;
 

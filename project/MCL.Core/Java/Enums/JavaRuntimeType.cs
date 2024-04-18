@@ -1,0 +1,12 @@
+namespace MCL.Core.Java.Enums;
+
+public enum JavaRuntimeType
+{
+    JAVA_RUNTIME_ALPHA,
+    JAVA_RUNTIME_BETA,
+    JAVA_RUNTIME_DELTA,
+    JAVA_RUNTIME_GAMMA,
+    JAVA_RUNTIME_GAMMA_SNAPSHOT,
+    JRE_LEGACY,
+    MINECRAFT_JAVA_EXE,
+}

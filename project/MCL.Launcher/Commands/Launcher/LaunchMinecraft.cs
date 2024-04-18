@@ -1,8 +1,8 @@
 using System.Threading.Tasks;
-using MCL.Core.Helpers.Minecraft;
+using MCL.Core.Launcher.Models;
+using MCL.Core.Minecraft.Helpers;
 using MCL.Core.MiniCommon;
 using MCL.Core.MiniCommon.Interfaces;
-using MCL.Core.Models.Launcher;
 
 namespace MCL.Launcher.Commands.Launcher;
 
