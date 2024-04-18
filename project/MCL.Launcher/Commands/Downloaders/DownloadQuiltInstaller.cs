@@ -19,8 +19,7 @@ public class DownloadQuiltInstaller : ILauncherCommand
             async () =>
             {
                 QuiltInstallerDownloadService.Init(config.LauncherPath, config.LauncherVersion, config.QuiltUrls);
-                QuiltInstallerDownloadService.UseExistingIndex = true;
-                if (!await QuiltInstallerDownloadService.Download())
+                if (!await QuiltInstallerDownloadService.Download(useLocalVersionManifest: true))
                     return;
 
                 JavaLaunchHelper.Launch(

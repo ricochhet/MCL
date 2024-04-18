@@ -12,14 +12,14 @@ public static class MinecraftPathResolver
     public static string Libraries(MCLauncherVersion launcherVersion) =>
         VFS.Combine("versions", launcherVersion.Version, $"{launcherVersion.Version}-natives").Replace("\\", "/");
 
-    public static string AssetsPath(MCLauncherPath launcherPath) => VFS.FromCwd(launcherPath.Path, "assets");
+    public static string AssetsPath(MCLauncherPath launcherPath) => VFS.Combine(launcherPath.Path, "assets");
 
-    public static string LibraryPath(MCLauncherPath launcherPath) => VFS.FromCwd(launcherPath.Path, "libraries");
+    public static string LibraryPath(MCLauncherPath launcherPath) => VFS.Combine(launcherPath.Path, "libraries");
 
-    public static string ServerPath(MCLauncherPath launcherPath) => VFS.FromCwd(launcherPath.Path, "server");
+    public static string ServerPath(MCLauncherPath launcherPath) => VFS.Combine(launcherPath.Path, "server");
 
     public static string VersionPath(MCLauncherPath launcherPath, MCVersionDetails versionDetails) =>
-        VFS.FromCwd(launcherPath.Path, "versions", versionDetails.ID);
+        VFS.Combine(launcherPath.Path, "versions", versionDetails.ID);
 
     public static string ClientJarPath(MCLauncherPath launcherPath, MCVersionDetails versionDetails) =>
         VFS.Combine(VersionPath(launcherPath, versionDetails), versionDetails.ID + ".jar");
@@ -49,8 +49,8 @@ public static class MinecraftPathResolver
         VFS.Combine(ServerPath(launcherPath), "server.properties");
 
     public static string DownloadedVersionManifestPath(MCLauncherPath launcherPath) =>
-        VFS.FromCwd(launcherPath.Path, "version_manifest.json");
+        VFS.Combine(launcherPath.Path, "version_manifest.json");
 
     public static string DownloadedVersionDetailsPath(MCLauncherPath launcherPath, MCVersion version) =>
-        VFS.FromCwd(launcherPath.Path, "versions", version.ID + ".json");
+        VFS.Combine(launcherPath.Path, "versions", version.ID + ".json");
 }

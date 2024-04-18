@@ -23,7 +23,7 @@ public class LibraryDownloader : ILibraryDownloader
         if (!versionDetails.LibrariesExists())
             return false;
 
-        string libPath = VFS.FromCwd(launcherPath.Path, "libraries");
+        string libPath = VFS.Combine(launcherPath.Path, "libraries");
         foreach (MCLibrary lib in versionDetails.Libraries)
         {
             if (lib.Downloads == null)

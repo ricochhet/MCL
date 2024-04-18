@@ -10,4 +10,6 @@ public static class ModPathResolver
 
     public static string ModStorePath(MCLauncherPath launcherPath, string modStoreName) =>
         VFS.FromCwd(launcherPath.ModPath, $"{modStoreName}.modstore.json");
+
+    public static string ModDeployPath(MCLauncherPath launcherPath) => VFS.Combine(launcherPath.Path, "mods");
 }

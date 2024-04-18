@@ -21,8 +21,7 @@ public class DownloadMinecraft : ILauncherCommand
                     config.LauncherSettings,
                     config.MinecraftUrls
                 );
-                MinecraftDownloadService.UseExistingIndex = true;
-                await MinecraftDownloadService.Download();
+                await MinecraftDownloadService.Download(useLocalVersionManifest: true);
             }
         );
     }

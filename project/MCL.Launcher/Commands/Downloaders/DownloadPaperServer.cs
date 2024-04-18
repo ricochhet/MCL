@@ -16,8 +16,7 @@ public class DownloadPaperServer : ILauncherCommand
             async () =>
             {
                 PaperServerDownloadService.Init(config.LauncherPath, config.LauncherVersion, config.PaperUrls);
-                PaperServerDownloadService.UseExistingIndex = true;
-                await PaperServerDownloadService.Download();
+                await PaperServerDownloadService.Download(useLocalVersionManifest: true);
             }
         );
     }

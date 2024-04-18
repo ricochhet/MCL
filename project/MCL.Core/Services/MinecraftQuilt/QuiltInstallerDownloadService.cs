@@ -19,8 +19,6 @@ public class QuiltInstallerDownloadService : IFabricInstallerDownloadService<MCQ
     private static MCLauncherPath LauncherPath;
     private static MCLauncherVersion LauncherVersion;
     private static MCQuiltConfigUrls QuiltConfigUrls;
-    public static bool UseExistingIndex { get; set; } = false;
-    public static bool IsOffline { get; set; } = false;
     private static bool Loaded = false;
 
     public static void Init(
@@ -35,12 +33,12 @@ public class QuiltInstallerDownloadService : IFabricInstallerDownloadService<MCQ
         Loaded = true;
     }
 
-    public static async Task<bool> Download()
+    public static async Task<bool> Download(bool useLocalVersionManifest = false)
     {
         if (!Loaded)
             return false;
 
-        if (!IsOffline && !UseExistingIndex && !await DownloadIndex())
+        if (!useLocalVersionManifest && !await DownloadIndex())
             return false;
 
         if (!LoadIndex())

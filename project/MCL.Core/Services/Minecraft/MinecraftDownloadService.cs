@@ -22,8 +22,6 @@ public class MinecraftDownloadService : IMinecraftDownloadService, IDownloadServ
     private static MCLauncherVersion LauncherVersion;
     private static MCLauncherSettings LauncherSettings;
     private static MCConfigUrls ConfigUrls;
-    public static bool UseExistingIndex { get; set; } = false;
-    public static bool IsOffline { get; set; } = false;
     private static bool Loaded = false;
 
     public static void Init(
@@ -42,13 +40,13 @@ public class MinecraftDownloadService : IMinecraftDownloadService, IDownloadServ
 
 #pragma warning disable IDE0079
 #pragma warning disable S3776
-    public static async Task<bool> Download()
+    public static async Task<bool> Download(bool useLocalVersionManifest = false)
 #pragma warning restore
     {
         if (!Loaded)
             return false;
 
-        if (!IsOffline && !UseExistingIndex && !await DownloadVersionManifest())
+        if (!useLocalVersionManifest && !await DownloadVersionManifest())
             return false;
 
         if (!LoadVersionManifest())
@@ -57,7 +55,7 @@ public class MinecraftDownloadService : IMinecraftDownloadService, IDownloadServ
         if (!LoadVersion())
             return false;
 
-        if (!IsOffline && !UseExistingIndex && !await DownloadVersionDetails())
+        if (!await DownloadVersionDetails())
             return false;
 
         if (!LoadVersionDetails())
@@ -78,7 +76,7 @@ public class MinecraftDownloadService : IMinecraftDownloadService, IDownloadServ
         if (!await DownloadServerMappings())
             return false;
 
-        if (!IsOffline && !await DownloadAssetIndex())
+        if (!await DownloadAssetIndex())
             return false;
 
         if (!LoadAssetIndex())

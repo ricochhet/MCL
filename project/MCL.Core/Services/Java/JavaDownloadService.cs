@@ -36,15 +36,15 @@ public class JavaDownloadService : IJavaDownloadService, IDownloadService
         JavaRuntimePlatform = javaRuntimePlatform;
     }
 
-    public static async Task<bool> Download()
+    public static async Task<bool> Download(bool useLocalVersionManifest = false)
     {
-        if (!IsOffline && !await DownloadJavaRuntimeIndex())
+        if (!useLocalVersionManifest && !await DownloadJavaRuntimeIndex())
             return false;
 
         if (!LoadJavaRuntimeIndex())
             return false;
 
-        if (!IsOffline && !await DownloadJavaRuntimeManifest())
+        if (!await DownloadJavaRuntimeManifest())
             return false;
 
         if (!LoadJavaRuntimeManifest())

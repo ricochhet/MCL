@@ -19,8 +19,6 @@ public class FabricLoaderDownloadService : IFabricLoaderDownloadService<MCFabric
     private static MCLauncherPath LauncherPath;
     private static MCLauncherVersion LauncherVersion;
     private static MCFabricConfigUrls FabricConfigUrls;
-    public static bool UseExistingIndex { get; set; } = false;
-    public static bool IsOffline { get; set; } = false;
     private static bool Loaded = false;
 
     public static void Init(
@@ -35,18 +33,18 @@ public class FabricLoaderDownloadService : IFabricLoaderDownloadService<MCFabric
         Loaded = true;
     }
 
-    public static async Task<bool> Download()
+    public static async Task<bool> Download(bool useLocalVersionManifest = false)
     {
         if (!Loaded)
             return false;
 
-        if (!IsOffline && !UseExistingIndex && !await DownloadIndex())
+        if (!useLocalVersionManifest && !await DownloadIndex())
             return false;
 
         if (!LoadIndex())
             return false;
 
-        if (!IsOffline && !await DownloadProfile())
+        if (!await DownloadProfile())
             return false;
 
         if (!LoadProfile())

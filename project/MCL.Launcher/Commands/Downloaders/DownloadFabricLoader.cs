@@ -16,8 +16,7 @@ public class DownloadFabricLoader : ILauncherCommand
             async () =>
             {
                 FabricLoaderDownloadService.Init(config.LauncherPath, config.LauncherVersion, config.FabricUrls);
-                FabricLoaderDownloadService.UseExistingIndex = true;
-                await FabricLoaderDownloadService.Download();
+                await FabricLoaderDownloadService.Download(useLocalVersionManifest: true);
             }
         );
     }

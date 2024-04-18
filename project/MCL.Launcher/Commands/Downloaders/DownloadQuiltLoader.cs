@@ -16,8 +16,7 @@ public class DownloadQuiltLoader : ILauncherCommand
             async () =>
             {
                 QuiltLoaderDownloadService.Init(config.LauncherPath, config.LauncherVersion, config.QuiltUrls);
-                QuiltLoaderDownloadService.UseExistingIndex = true;
-                await QuiltLoaderDownloadService.Download();
+                await QuiltLoaderDownloadService.Download(useLocalVersionManifest: true);
             }
         );
     }

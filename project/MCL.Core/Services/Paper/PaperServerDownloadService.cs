@@ -20,8 +20,6 @@ public class PaperServerDownloadService : IPaperServerDownloadService<PaperConfi
     private static MCLauncherPath LauncherPath;
     private static MCLauncherVersion LauncherVersion;
     private static PaperConfigUrls PaperConfigUrls;
-    public static bool UseExistingIndex { get; set; } = false;
-    public static bool IsOffline { get; set; } = false;
     private static bool Loaded = false;
 
     public static void Init(
@@ -36,12 +34,12 @@ public class PaperServerDownloadService : IPaperServerDownloadService<PaperConfi
         Loaded = true;
     }
 
-    public static async Task<bool> Download()
+    public static async Task<bool> Download(bool useLocalVersionManifest = false)
     {
         if (!Loaded)
             return false;
 
-        if (!IsOffline && !UseExistingIndex && !await DownloadVersionManifest())
+        if (!useLocalVersionManifest && !await DownloadVersionManifest())
             return false;
 
         if (!LoadVersionManifest())

@@ -19,8 +19,7 @@ public class DownloadFabricInstaller : ILauncherCommand
             async () =>
             {
                 FabricInstallerDownloadService.Init(config.LauncherPath, config.LauncherVersion, config.FabricUrls);
-                FabricInstallerDownloadService.UseExistingIndex = true;
-                if (!await FabricInstallerDownloadService.Download())
+                if (!await FabricInstallerDownloadService.Download(useLocalVersionManifest: true))
                     return;
 
                 JavaLaunchHelper.Launch(
