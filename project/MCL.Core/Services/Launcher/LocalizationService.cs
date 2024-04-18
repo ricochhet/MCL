@@ -24,12 +24,10 @@ public static class LocalizationService
         if (Localization?.Entries != null)
             Loaded = true;
         else
-            NotificationService.Add(
-                new(
-                    NativeLogLevel.Error,
-                    "error.readfile",
-                    [LocalizationPathResolver.LanguageFilePath(launcherPath, language)]
-                )
+            NotificationService.Log(
+                NativeLogLevel.Error,
+                "error.readfile",
+                [LocalizationPathResolver.LanguageFilePath(launcherPath, language)]
             );
     }
 

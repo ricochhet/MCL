@@ -35,14 +35,14 @@ public static class ModdingService
         string modPath = ModPathResolver.ModPath(LauncherPath, modStoreName);
         if (!VFS.Exists(modPath))
         {
-            NotificationService.Add(new(NativeLogLevel.Error, "modding.save.error-nodir", [modPath]));
+            NotificationService.Log(NativeLogLevel.Error, "modding.save.error-nodir", [modPath]);
             return false;
         }
 
         string[] modFilePaths = VFS.GetFiles(modPath, "*", SearchOption.TopDirectoryOnly);
         if (modFilePaths.Length <= 0)
         {
-            NotificationService.Add(new(NativeLogLevel.Error, "modding.save.error-nofile", [modPath]));
+            NotificationService.Log(NativeLogLevel.Error, "modding.save.error-nofile", [modPath]);
             return false;
         }
 
@@ -52,7 +52,7 @@ public static class ModdingService
             .ToArray();
         if (filteredModFilePaths.Length <= 0)
         {
-            NotificationService.Add(new(NativeLogLevel.Error, "modding.save.error-nofile", [modPath]));
+            NotificationService.Log(NativeLogLevel.Error, "modding.save.error-nofile", [modPath]);
             return false;
         }
 
@@ -124,13 +124,13 @@ public static class ModdingService
     {
         if (modFiles == null)
         {
-            NotificationService.Add(new(NativeLogLevel.Error, "modding.deploy.error-nofile"));
+            NotificationService.Log(NativeLogLevel.Error, "modding.deploy.error-nofile");
             return false;
         }
 
         if (modFiles.Files?.Count <= 0)
         {
-            NotificationService.Add(new(NativeLogLevel.Error, "modding.deploy.error-nofile"));
+            NotificationService.Log(NativeLogLevel.Error, "modding.deploy.error-nofile");
             return false;
         }
 
@@ -144,7 +144,7 @@ public static class ModdingService
         {
             if (modFile == null)
             {
-                NotificationService.Add(new(NativeLogLevel.Error, "modding.deploy.error-nodata"));
+                NotificationService.Log(NativeLogLevel.Error, "modding.deploy.error-nodata");
                 return false;
             }
 

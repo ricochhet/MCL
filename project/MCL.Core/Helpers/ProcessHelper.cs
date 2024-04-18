@@ -44,7 +44,7 @@ public static class ProcessHelper
                 {
                     if (!string.IsNullOrWhiteSpace(e.Data))
                     {
-                        NotificationService.Add(new(NativeLogLevel.Info, "log", [e.Data]));
+                        NotificationService.Log(NativeLogLevel.Info, "log", [e.Data]);
                     }
                 };
 
@@ -54,19 +54,17 @@ public static class ProcessHelper
             else
             {
                 process.Start();
-                NotificationService.Add(new(NativeLogLevel.Info, "log", [process.StandardOutput.ReadToEnd()]));
+                NotificationService.Log(NativeLogLevel.Info, "log", [process.StandardOutput.ReadToEnd()]);
             }
 
             process.WaitForExit();
         }
         catch (Exception ex)
         {
-            NotificationService.Add(
-                new(
-                    NativeLogLevel.Error,
-                    "log.stack.trace",
-                    [ex.Message, ex.StackTrace ?? LocalizationService.Translate("stack.trace.null")]
-                )
+            NotificationService.Log(
+                NativeLogLevel.Error,
+                "log.stack.trace",
+                [ex.Message, ex.StackTrace ?? LocalizationService.Translate("stack.trace.null")]
             );
         }
     }

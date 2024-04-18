@@ -35,8 +35,10 @@ public static partial class LocalizationKeyAnalyzer
                 if (!localization.Entries.ContainsKey(quoteMatch.Value.Replace("\"", string.Empty)))
                 {
                     fail++;
-                    NotificationService.Add(
-                        new(NativeLogLevel.Error, "analyzer.error.localization", [file, quoteMatch.Value])
+                    NotificationService.Log(
+                        NativeLogLevel.Error,
+                        "analyzer.error.localization",
+                        [file, quoteMatch.Value]
                     );
                 }
                 else
@@ -46,16 +48,14 @@ public static partial class LocalizationKeyAnalyzer
             }
         }
 
-        NotificationService.Add(
-            new(
-                NativeLogLevel.Info,
-                "analyzer.output",
-                [nameof(LocalizationKeyAnalyzer), success.ToString(), fail.ToString(), (success + fail).ToString()]
-            )
+        NotificationService.Log(
+            NativeLogLevel.Info,
+            "analyzer.output",
+            [nameof(LocalizationKeyAnalyzer), success.ToString(), fail.ToString(), (success + fail).ToString()]
         );
     }
 
-    [GeneratedRegex(@"NotificationService\.Add[^;]*\);(?=\s|$)")]
+    [GeneratedRegex(@"NotificationService\.Log[^;]*\);(?=\s|$)")]
     private static partial Regex NotificationServiceRegex();
 
     [GeneratedRegex("\"([^\"]*)\"")]

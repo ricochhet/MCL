@@ -62,7 +62,7 @@ public class FabricInstallerDownloadService : IFabricInstallerDownloadService<MC
 
         if (!await FabricIndexDownloader.Download(LauncherPath, FabricConfigUrls))
         {
-            NotificationService.Add(new(NativeLogLevel.Error, "error.download", [nameof(FabricIndexDownloader)]));
+            NotificationService.Log(NativeLogLevel.Error, "error.download", [nameof(FabricIndexDownloader)]);
             return false;
         }
 
@@ -78,7 +78,7 @@ public class FabricInstallerDownloadService : IFabricInstallerDownloadService<MC
         if (FabricIndex == null)
         {
             if (!silent)
-                NotificationService.Add(new(NativeLogLevel.Error, "error.readfile", [nameof(MCFabricIndex)]));
+                NotificationService.Log(NativeLogLevel.Error, "error.readfile", [nameof(MCFabricIndex)]);
             return false;
         }
 
@@ -93,12 +93,10 @@ public class FabricInstallerDownloadService : IFabricInstallerDownloadService<MC
         FabricInstaller = FabricVersionHelper.GetInstallerVersion(LauncherVersion, FabricIndex);
         if (FabricInstaller == null)
         {
-            NotificationService.Add(
-                new(
-                    NativeLogLevel.Error,
-                    "error.parse",
-                    [LauncherVersion?.FabricInstallerVersion, nameof(MCFabricInstaller)]
-                )
+            NotificationService.Log(
+                NativeLogLevel.Error,
+                "error.parse",
+                [LauncherVersion?.FabricInstallerVersion, nameof(MCFabricInstaller)]
             );
             return false;
         }
@@ -113,7 +111,7 @@ public class FabricInstallerDownloadService : IFabricInstallerDownloadService<MC
 
         if (!await FabricInstallerDownloader.Download(LauncherPath, LauncherVersion, FabricInstaller))
         {
-            NotificationService.Add(new(NativeLogLevel.Error, "error.download", [nameof(FabricInstallerDownloader)]));
+            NotificationService.Log(NativeLogLevel.Error, "error.download", [nameof(FabricInstallerDownloader)]);
             return false;
         }
 

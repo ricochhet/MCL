@@ -17,9 +17,6 @@ public class PaperIndexDownloader : IPaperIndexDownloader<PaperConfigUrls>
         PaperConfigUrls paperConfigUrls
     )
     {
-        if (!MCLauncherVersion.Exists(launcherVersion))
-            return false;
-
         if (!paperConfigUrls.VersionManifestExists())
             return false;
 

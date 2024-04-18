@@ -62,7 +62,7 @@ public class QuiltInstallerDownloadService : IFabricInstallerDownloadService<MCQ
 
         if (!await QuiltIndexDownloader.Download(LauncherPath, QuiltConfigUrls))
         {
-            NotificationService.Add(new(NativeLogLevel.Error, "error.download", [nameof(QuiltIndexDownloader)]));
+            NotificationService.Log(NativeLogLevel.Error, "error.download", [nameof(QuiltIndexDownloader)]);
             return false;
         }
 
@@ -78,7 +78,7 @@ public class QuiltInstallerDownloadService : IFabricInstallerDownloadService<MCQ
         if (QuiltIndex == null)
         {
             if (!silent)
-                NotificationService.Add(new(NativeLogLevel.Error, "error.readfile", [nameof(MCQuiltIndex)]));
+                NotificationService.Log(NativeLogLevel.Error, "error.readfile", [nameof(MCQuiltIndex)]);
             return false;
         }
 
@@ -93,12 +93,10 @@ public class QuiltInstallerDownloadService : IFabricInstallerDownloadService<MCQ
         QuiltInstaller = QuiltVersionHelper.GetInstallerVersion(LauncherVersion, QuiltIndex);
         if (QuiltInstaller == null)
         {
-            NotificationService.Add(
-                new(
-                    NativeLogLevel.Error,
-                    "error.parse",
-                    [LauncherVersion?.QuiltInstallerVersion, nameof(MCQuiltInstaller)]
-                )
+            NotificationService.Log(
+                NativeLogLevel.Error,
+                "error.parse",
+                [LauncherVersion?.QuiltInstallerVersion, nameof(MCQuiltInstaller)]
             );
             return false;
         }
@@ -113,7 +111,7 @@ public class QuiltInstallerDownloadService : IFabricInstallerDownloadService<MCQ
 
         if (!await QuiltInstallerDownloader.Download(LauncherPath, LauncherVersion, QuiltInstaller))
         {
-            NotificationService.Add(new(NativeLogLevel.Error, "error.download", [nameof(QuiltInstallerDownloader)]));
+            NotificationService.Log(NativeLogLevel.Error, "error.download", [nameof(QuiltInstallerDownloader)]);
             return false;
         }
 

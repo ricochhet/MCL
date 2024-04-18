@@ -63,7 +63,7 @@ public class PaperServerDownloadService : IPaperServerDownloadService<PaperConfi
 
         if (!await PaperIndexDownloader.Download(LauncherPath, LauncherVersion, PaperConfigUrls))
         {
-            NotificationService.Add(new(NativeLogLevel.Error, "error.download", [nameof(PaperIndexDownloader)]));
+            NotificationService.Log(NativeLogLevel.Error, "error.download", [nameof(PaperIndexDownloader)]);
             return false;
         }
 
@@ -75,16 +75,13 @@ public class PaperServerDownloadService : IPaperServerDownloadService<PaperConfi
         if (!Loaded)
             return false;
 
-        if (!MCLauncherVersion.Exists(LauncherVersion))
-            return false;
-
         PaperVersionManifest = Json.Load<PaperVersionManifest>(
             PaperPathResolver.DownloadedIndexPath(LauncherPath, LauncherVersion)
         );
         if (PaperVersionManifest == null)
         {
             if (!silent)
-                NotificationService.Add(new(NativeLogLevel.Error, "error.readfile", [nameof(MCQuiltIndex)]));
+                NotificationService.Log(NativeLogLevel.Error, "error.readfile", [nameof(MCQuiltIndex)]);
             return false;
         }
 
@@ -99,8 +96,10 @@ public class PaperServerDownloadService : IPaperServerDownloadService<PaperConfi
         PaperBuild = PaperVersionHelper.GetVersion(LauncherVersion, PaperVersionManifest);
         if (PaperBuild == null)
         {
-            NotificationService.Add(
-                new(NativeLogLevel.Error, "error.parse", [LauncherVersion?.FabricInstallerVersion, nameof(PaperBuild)])
+            NotificationService.Log(
+                NativeLogLevel.Error,
+                "error.parse",
+                [LauncherVersion?.FabricInstallerVersion, nameof(PaperBuild)]
             );
             return false;
         }
@@ -115,7 +114,7 @@ public class PaperServerDownloadService : IPaperServerDownloadService<PaperConfi
 
         if (!await PaperServerDownloader.Download(LauncherPath, LauncherVersion, PaperBuild, PaperConfigUrls))
         {
-            NotificationService.Add(new(NativeLogLevel.Error, "error.download", [nameof(PaperServerDownloader)]));
+            NotificationService.Log(NativeLogLevel.Error, "error.download", [nameof(PaperServerDownloader)]);
             return false;
         }
 

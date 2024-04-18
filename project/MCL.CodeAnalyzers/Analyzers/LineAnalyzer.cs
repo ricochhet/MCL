@@ -28,12 +28,10 @@ public static partial class LineAnalyzer
             fileLines.Add(fileLineCount);
         }
 
-        NotificationService.Add(
-            new(
-                NativeLogLevel.Info,
-                "analyzer.line.output",
-                [nameof(LineAnalyzer), fileLines.Sum().ToString(), Math.Round(fileLines.Average()).ToString()]
-            )
+        NotificationService.Log(
+            NativeLogLevel.Info,
+            "analyzer.line.output",
+            [nameof(LineAnalyzer), fileLines.Sum().ToString(), Math.Round(fileLines.Average()).ToString()]
         );
     }
 

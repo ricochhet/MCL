@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using MCL.Core.Enums;
 using MCL.Core.Extensions.Paper;
+using MCL.Core.Logger.Enums;
 using MCL.Core.Models.Launcher;
 using MCL.Core.Models.Paper;
 using MCL.Core.Services.Launcher;

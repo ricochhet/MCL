@@ -28,7 +28,7 @@ public static class ConfigService
     {
         if (!VFS.Exists(ConfigFilePath))
         {
-            NotificationService.Add(new(NativeLogLevel.Info, "launcher.config.setup"));
+            NotificationService.Log(NativeLogLevel.Info, "launcher.config.setup");
             Config config =
                 new()
                 {
@@ -72,11 +72,11 @@ public static class ConfigService
             if (inputJson != null)
                 return inputJson;
 
-            NotificationService.Add(new(NativeLogLevel.Error, "launcher.config.missing", [ConfigFileName, DataPath]));
+            NotificationService.Log(NativeLogLevel.Error, "launcher.config.missing", [ConfigFileName, DataPath]);
             return null;
         }
 
-        NotificationService.Add(new(NativeLogLevel.Error, "launcher.config.missing", [ConfigFileName, DataPath]));
+        NotificationService.Log(NativeLogLevel.Error, "launcher.config.missing", [ConfigFileName, DataPath]);
         return null;
     }
 }

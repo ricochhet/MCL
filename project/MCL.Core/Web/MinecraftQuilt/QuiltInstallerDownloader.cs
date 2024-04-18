@@ -28,7 +28,7 @@ public class QuiltInstallerDownloader : IFabricInstallerDownloader<MCQuiltInstal
         // Quilt does not provide a file hash through the current method. We do simple check of the version instead.
         if (VFS.Exists(quiltInstallerPath))
         {
-            NotificationService.Add(new(NativeLogLevel.Info, "quilt.installer-exists", [quiltInstaller?.Version]));
+            NotificationService.Log(NativeLogLevel.Info, "quilt.installer-exists", [quiltInstaller?.Version]);
             return true;
         }
 

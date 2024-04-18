@@ -60,7 +60,7 @@ public class JavaDownloadService : IJavaDownloadService, IDownloadService
     {
         if (!await JavaRuntimeIndexDownloader.Download(LauncherPath, ConfigUrls))
         {
-            NotificationService.Add(new(NativeLogLevel.Error, "error.download", [nameof(JavaRuntimeIndexDownloader)]));
+            NotificationService.Log(NativeLogLevel.Error, "error.download", [nameof(JavaRuntimeIndexDownloader)]);
             return false;
         }
 
@@ -72,9 +72,7 @@ public class JavaDownloadService : IJavaDownloadService, IDownloadService
         JavaRuntimeIndex = Json.Load<JavaRuntimeIndex>(JavaPathResolver.DownloadedJavaRuntimeIndexPath(LauncherPath));
         if (JavaRuntimeIndex == null)
         {
-            NotificationService.Add(
-                new(NativeLogLevel.Error, "error.readfile", [nameof(Models.Java.JavaRuntimeIndex)])
-            );
+            NotificationService.Log(NativeLogLevel.Error, "error.readfile", [nameof(Models.Java.JavaRuntimeIndex)]);
             return false;
         }
 
@@ -92,9 +90,7 @@ public class JavaDownloadService : IJavaDownloadService, IDownloadService
             )
         )
         {
-            NotificationService.Add(
-                new(NativeLogLevel.Error, "error.download", [nameof(JavaRuntimeManifestDownloader)])
-            );
+            NotificationService.Log(NativeLogLevel.Error, "error.download", [nameof(JavaRuntimeManifestDownloader)]);
             return false;
         }
 
@@ -111,7 +107,7 @@ public class JavaDownloadService : IJavaDownloadService, IDownloadService
         );
         if (JavaRuntimeFiles == null)
         {
-            NotificationService.Add(new(NativeLogLevel.Error, "error.readfile", [nameof(JavaRuntimeManifest)]));
+            NotificationService.Log(NativeLogLevel.Error, "error.readfile", [nameof(JavaRuntimeManifest)]);
             return false;
         }
 
@@ -122,7 +118,7 @@ public class JavaDownloadService : IJavaDownloadService, IDownloadService
     {
         if (!await JavaRuntimeDownloader.Download(LauncherPath, JavaRuntimeType, JavaRuntimeFiles))
         {
-            NotificationService.Add(new(NativeLogLevel.Error, "error.download", [nameof(JavaRuntimeDownloader)]));
+            NotificationService.Log(NativeLogLevel.Error, "error.download", [nameof(JavaRuntimeDownloader)]);
             return false;
         }
 

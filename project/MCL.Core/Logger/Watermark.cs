@@ -24,7 +24,7 @@ public static class Watermark
         result.Add($"└─{line}─┘");
         foreach (string textItem in result)
         {
-            NotificationService.Add(new(NativeLogLevel.Info, "log", [textItem]));
+            NotificationService.Log(NativeLogLevel.Info, "log", [textItem]);
         }
     }
 

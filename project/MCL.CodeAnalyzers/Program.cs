@@ -31,7 +31,7 @@ internal static class Program
                 Log.Base(notification.LogLevel, notification.Message);
             }
         );
-        NotificationService.Add(new(NativeLogLevel.Info, "log.initialized"));
+        NotificationService.Log(NativeLogLevel.Info, "log.initialized");
         Watermark.Draw(ConfigService.WatermarkText);
 
         if (args.Length <= 0)

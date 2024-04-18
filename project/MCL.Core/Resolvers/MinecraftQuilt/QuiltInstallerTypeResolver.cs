@@ -1,7 +1,7 @@
 using System;
 using MCL.Core.Enums.MinecraftQuilt;
 
-namespace MCL.Core.Resolvers.MinecraftFabric;
+namespace MCL.Core.Resolvers.MinecraftQuilt;
 
 public static class QuiltInstallerTypeResolver
 {

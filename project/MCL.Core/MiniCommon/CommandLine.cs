@@ -20,12 +20,10 @@ public static class CommandLine
         }
         catch (Exception ex)
         {
-            NotificationService.Add(
-                new(
-                    NativeLogLevel.Error,
-                    "log.stack.trace",
-                    [ex.Message, ex.StackTrace ?? LocalizationService.Translate("stack.trace.null")]
-                )
+            NotificationService.Log(
+                NativeLogLevel.Error,
+                "log.stack.trace",
+                [ex.Message, ex.StackTrace ?? LocalizationService.Translate("stack.trace.null")]
             );
         }
     }
@@ -42,12 +40,10 @@ public static class CommandLine
         }
         catch (Exception ex)
         {
-            NotificationService.Add(
-                new(
-                    NativeLogLevel.Error,
-                    "log.stack.trace",
-                    [ex.Message, ex.StackTrace ?? LocalizationService.Translate("stack.trace.null")]
-                )
+            NotificationService.Log(
+                NativeLogLevel.Error,
+                "log.stack.trace",
+                [ex.Message, ex.StackTrace ?? LocalizationService.Translate("stack.trace.null")]
             );
         }
     }
@@ -65,12 +61,10 @@ public static class CommandLine
         }
         catch (Exception ex)
         {
-            NotificationService.Add(
-                new(
-                    NativeLogLevel.Error,
-                    "log.stack.trace",
-                    [ex.Message, ex.StackTrace ?? LocalizationService.Translate("stack.trace.null")]
-                )
+            NotificationService.Log(
+                NativeLogLevel.Error,
+                "log.stack.trace",
+                [ex.Message, ex.StackTrace ?? LocalizationService.Translate("stack.trace.null")]
             );
         }
     }
@@ -87,19 +81,17 @@ public static class CommandLine
         }
         catch (Exception ex)
         {
-            NotificationService.Add(
-                new(
-                    NativeLogLevel.Error,
-                    "log.stack.trace",
-                    [ex.Message, ex.StackTrace ?? LocalizationService.Translate("stack.trace.null")]
-                )
+            NotificationService.Log(
+                NativeLogLevel.Error,
+                "log.stack.trace",
+                [ex.Message, ex.StackTrace ?? LocalizationService.Translate("stack.trace.null")]
             );
         }
     }
 
     public static void Pause()
     {
-        NotificationService.Add(new(NativeLogLevel.Info, "commandline.exit", ["F"]));
+        NotificationService.Log(NativeLogLevel.Info, "commandline.exit", ["F"]);
 
 #pragma warning disable IDE0079
 #pragma warning disable S108

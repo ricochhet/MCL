@@ -3,7 +3,6 @@ using MCL.Core.Extensions.Java;
 using MCL.Core.Interfaces.Helpers.MinecraftFabric;
 using MCL.Core.Models.Java;
 using MCL.Core.Models.Launcher;
-using MCL.Core.Resolvers.MinecraftFabric;
 using MCL.Core.Resolvers.MinecraftQuilt;
 
 namespace MCL.Core.Helpers.MinecraftQuilt;

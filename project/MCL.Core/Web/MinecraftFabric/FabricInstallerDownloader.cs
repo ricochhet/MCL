@@ -28,7 +28,7 @@ public class FabricInstallerDownloader : IFabricInstallerDownloader<MCFabricInst
         // Fabric does not provide a file hash through the current method. We do simple check of the version instead.
         if (VFS.Exists(fabricInstallerPath))
         {
-            NotificationService.Add(new(NativeLogLevel.Info, "fabric.installer-exists", [fabricInstaller?.Version]));
+            NotificationService.Log(NativeLogLevel.Info, "fabric.installer-exists", [fabricInstaller?.Version]);
             return true;
         }
 
