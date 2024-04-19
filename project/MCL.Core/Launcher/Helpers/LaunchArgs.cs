@@ -12,6 +12,7 @@ namespace MCL.Core.Launcher.Helpers;
 public static class LaunchArgs
 {
     public static JvmArguments DefaultJvmArguments(
+        Instance instance,
         LauncherPath launcherPath,
         LauncherVersion launcherVersion,
         LauncherSettings launcherSettings,
@@ -70,7 +71,7 @@ public static class LaunchArgs
         jvmArguments.Add(
             "-cp {0} {1}",
             [
-                ClassPathHelper.CreateClassPath(launcherPath, launcherVersion, launcherSettings.JavaRuntimePlatform),
+                ClassPathHelper.CreateClassPath(instance, launcherPath, launcherVersion, launcherSettings),
                 ClientTypeResolver.ToString(launcherSettings.ClientType)
             ]
         );

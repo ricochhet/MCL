@@ -23,7 +23,11 @@ public class LaunchMinecraft : ILauncherCommand
                     ClientType.VANILLA
                 );
 
+                if (options.TryGetValue("gameversion", out string version) && instance.Versions.Contains(version))
+                    settings.LauncherVersion.Version = version;
+
                 MinecraftLauncher.Launch(
+                    instance,
                     settings.LauncherPath,
                     settings.LauncherVersion,
                     settings.LauncherSettings,

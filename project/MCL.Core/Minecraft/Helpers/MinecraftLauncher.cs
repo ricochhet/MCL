@@ -10,6 +10,7 @@ namespace MCL.Core.Minecraft.Helpers;
 public static class MinecraftLauncher
 {
     public static void Launch(
+        Instance instance,
         LauncherPath launcherPath,
         LauncherVersion launcherVersion,
         LauncherSettings launcherSettings,
@@ -22,7 +23,7 @@ public static class MinecraftLauncher
 
         settings.Save(
             launcherSettings.ClientType,
-            LaunchArgs.DefaultJvmArguments(launcherPath, launcherVersion, launcherSettings, launcherUsername)
+            LaunchArgs.DefaultJvmArguments(instance, launcherPath, launcherVersion, launcherSettings, launcherUsername)
         );
         SettingsService.Save(settings);
         settings.Save(ModdingService.ModSettings);

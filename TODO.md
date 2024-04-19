@@ -4,7 +4,7 @@ TODO tasks are in order from top-to-bottom, most-to-least important.
 Tasks marked with (*) are easier to do.
 
 - [x] Download commands should require a version flag.
-- [ ] Implement instance data to assist in managing game and mod loader versions.
+- [x] Implement instance data to assist in managing game and mod loader versions.
 - [x] Refactor file naming conventions for downloaded JSON data. 
 - [x] Implement MCL.CodeAnalyzers
     - This tool will analyze the project for project-specific rules and warn when the rule is not followed.
