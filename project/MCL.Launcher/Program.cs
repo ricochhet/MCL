@@ -78,6 +78,6 @@ internal static class Program
         commands.Add(new DeployMods());
 
         foreach (ILauncherCommand command in commands)
-            await command.Init(args, settings);
+            await command.Init(args, settings, instance);
     }
 }
