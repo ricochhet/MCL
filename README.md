@@ -13,6 +13,9 @@ git config --local user.email "USERNAME@SOMETHING.com"
 - .NET 8 SDK
 - Visual Studio Code
 
+### Recommended
+- SonarLint
+
 ## Build
 The primary way to build is using [Cake](https://cakebuild.net/).
 
@@ -20,9 +23,9 @@ The primary way to build is using [Cake](https://cakebuild.net/).
 2. Run `dotnet-cake build.cake` (from `/project/` root).
 3. Output will be located in `project/Build/*`.
 
-If you want to build with an icon, you can place an icon in `{root}/bin/Assets/icon.ico`.
+If you want to build with an icon, you can place an icon in `{root}/project/MCL.Resources.Local/icon.ico`.
 
-Files placed in `{root}/project/MCL.Resources` will be copied over to `project/Build`.
+Files placed in `{root}/project/MCL.Resources` or `{root}/project/MCL.Resources.Local` will be copied over to `project/Build`.
 
 ### Suggestions & PRs
 Suggestions and pull requests are welcome, just keep in mind to follow the project architecture to keep it consistent.
