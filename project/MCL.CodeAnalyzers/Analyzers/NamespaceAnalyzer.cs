@@ -13,8 +13,9 @@ public static partial class NamespaceAnalyzer
         int fail = 0;
         foreach (string file in files)
         {
+            string fileData = VFS.ReadAllText(file);
             Regex matchNamespace = NamespaceRegex();
-            Match namespaceMatch = matchNamespace.Match(VFS.ReadAllText(file));
+            Match namespaceMatch = matchNamespace.Match(fileData);
             string name = namespaceMatch.Value;
 
             if (file.Contains("AssemblyInfo") || file.Contains("AssemblyAttributes"))
@@ -39,16 +40,14 @@ public static partial class NamespaceAnalyzer
                 .Replace(".", "/")
                 .Replace(" ", string.Empty);
 
-            string oldNamespace = "namespace " + path.Replace("/", ".") + ";";
-            string newNamespace = "namespace " + directory.Replace("/", ".") + ";";
-            string fileData = VFS.ReadAllText(file).Replace(oldNamespace, newNamespace);
-            VFS.WriteFile(file, fileData);
-            NotificationService.Log(NativeLogLevel.Warn, "log", [oldNamespace]);
-            NotificationService.Log(NativeLogLevel.Warn, "log", [newNamespace]);
             if (path == directory)
                 success++;
             else
             {
+                string oldNamespace = "namespace " + path.Replace("/", ".") + ";";
+                string newNamespace = "namespace " + directory.Replace("/", ".") + ";";
+                VFS.WriteFile(file, fileData.Replace(oldNamespace, newNamespace));
+
                 fail++;
                 NotificationService.Log(
                     NativeLogLevel.Error,
