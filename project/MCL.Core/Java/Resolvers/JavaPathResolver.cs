@@ -17,10 +17,10 @@ public static class JavaPathResolver
     public static string JavaRuntimeBin(string workingDirectory) => VFS.Combine(workingDirectory, "bin");
 
     public static string DownloadedJavaVersionManifestPath(LauncherPath launcherPath) =>
-        VFS.Combine(JavaRuntimePath(launcherPath), "runtime_manifest.json");
+        VFS.Combine(JavaRuntimePath(launcherPath), "version_details.json");
 
     public static string DownloadedJavaVersionDetailsPath(LauncherPath launcherPath, string javaRuntimeVersion) =>
-        VFS.Combine(JavaRuntimePath(launcherPath), javaRuntimeVersion, $"runtime_mainfest-{javaRuntimeVersion}.json");
+        VFS.Combine(JavaRuntimePath(launcherPath), javaRuntimeVersion, $"{javaRuntimeVersion}.json");
 
     public static string DownloadedJavaRuntimePath(LauncherPath launcherPath, string javaRuntimeVersion) =>
         VFS.Combine(JavaRuntimePath(launcherPath), javaRuntimeVersion);

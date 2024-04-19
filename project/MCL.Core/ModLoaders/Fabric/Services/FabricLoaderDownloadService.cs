@@ -84,6 +84,18 @@ public class FabricLoaderDownloadService : ILoaderDownloadService<FabricUrls>, I
         return true;
     }
 
+    public static bool LoadVersionManifestWithoutLogging()
+    {
+        if (!_loaded)
+            return false;
+
+        FabricVersionManifest = Json.Load<FabricVersionManifest>(FabricPathResolver.VersionManifestPath(_launcherPath));
+        if (FabricVersionManifest == null)
+            return false;
+
+        return true;
+    }
+
     public static async Task<bool> DownloadProfile()
     {
         if (!_loaded)

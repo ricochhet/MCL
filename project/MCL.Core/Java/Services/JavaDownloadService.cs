@@ -79,6 +79,17 @@ public class JavaDownloadService : IDownloadService
         return true;
     }
 
+    public static bool LoadJavaVersionManifestWithoutLogging()
+    {
+        _javaVersionManifest = Json.Load<JavaVersionManifest>(
+            JavaPathResolver.DownloadedJavaVersionManifestPath(_launcherPath)
+        );
+        if (_javaVersionManifest == null)
+            return false;
+
+        return true;
+    }
+
     public static async Task<bool> DownloadJavaVersionDetails()
     {
         if (

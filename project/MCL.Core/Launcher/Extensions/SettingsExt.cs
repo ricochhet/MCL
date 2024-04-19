@@ -13,24 +13,38 @@ public static class SettingsExt
         switch (clientType)
         {
             case ClientType.VANILLA:
-                settings.MJvmArguments = jvmArguments;
+                if (settings.MJvmArguments == new JvmArguments())
+                {
+                    settings.MJvmArguments = jvmArguments;
+                    SettingsService.Save(settings);
+                }
                 break;
             case ClientType.FABRIC:
-                settings.FabricJvmArguments = jvmArguments;
+                if (settings.FabricJvmArguments == new JvmArguments())
+                {
+                    settings.FabricJvmArguments = jvmArguments;
+                    SettingsService.Save(settings);
+                }
                 break;
             case ClientType.QUILT:
-                settings.QuiltJvmArguments = jvmArguments;
+                if (settings.QuiltJvmArguments == new JvmArguments())
+                {
+                    settings.QuiltJvmArguments = jvmArguments;
+                    SettingsService.Save(settings);
+                }
                 break;
         }
 
-        SettingsService.Save(settings);
         return settings;
     }
 
     public static Settings Save(this Settings settings, ModSettings modSettings)
     {
-        settings.ModSettings = modSettings;
-        SettingsService.Save(settings);
+        if (settings.ModSettings == new ModSettings())
+        {
+            settings.ModSettings = modSettings;
+            SettingsService.Save(settings);
+        }
         return settings;
     }
 }

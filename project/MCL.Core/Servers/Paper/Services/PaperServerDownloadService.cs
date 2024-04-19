@@ -4,7 +4,6 @@ using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Services;
 using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon;
-using MCL.Core.ModLoaders.Quilt.Models;
 using MCL.Core.Servers.Paper.Helpers;
 using MCL.Core.Servers.Paper.Models;
 using MCL.Core.Servers.Paper.Resolvers;
@@ -76,6 +75,20 @@ public class PaperServerDownloadService : IJarDownloadService<PaperUrls>, IDownl
             NotificationService.Log(NativeLogLevel.Error, "error.readfile", [nameof(PaperVersionManifest)]);
             return false;
         }
+
+        return true;
+    }
+
+    public static bool LoadVersionManifestWithoutLogging()
+    {
+        if (!_loaded)
+            return false;
+
+        PaperVersionManifest = Json.Load<PaperVersionManifest>(
+            PaperPathResolver.VersionManifestPath(_launcherPath, _launcherVersion)
+        );
+        if (PaperVersionManifest == null)
+            return false;
 
         return true;
     }

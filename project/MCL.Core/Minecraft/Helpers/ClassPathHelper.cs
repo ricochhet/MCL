@@ -17,7 +17,7 @@ public static class ClassPathHelper
     )
     {
         if (!launcherVersion.VersionsExists())
-            return default;
+            return string.Empty;
 
         string separator = platform switch
         {

@@ -84,6 +84,18 @@ public class QuiltLoaderDownloadService : ILoaderDownloadService<QuiltUrls>, IDo
         return true;
     }
 
+    public static bool LoadVersionManifestWithoutLogging()
+    {
+        if (!_loaded)
+            return false;
+
+        QuiltVersionManifest = Json.Load<QuiltVersionManifest>(QuiltPathResolver.VersionManifestPath(_launcherPath));
+        if (QuiltVersionManifest == null)
+            return false;
+
+        return true;
+    }
+
     public static async Task<bool> DownloadProfile()
     {
         if (!_loaded)

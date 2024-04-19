@@ -357,4 +357,7 @@ MigrationBackup/
 # Jetbrains IDEs database
 .idea/
 
+# MCL
 project/user/launcher
+project/MCL.Resources.Local/*
+!project/MCL.Resources.Local/.gitkeep

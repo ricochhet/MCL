@@ -9,6 +9,7 @@ public interface ILoaderDownloadService<T>
 
     public static abstract Task<bool> DownloadVersionManifest();
     public static abstract bool LoadVersionManifest();
+    public static abstract bool LoadVersionManifestWithoutLogging();
     public static abstract Task<bool> DownloadProfile();
     public static abstract bool LoadProfile();
     public static abstract bool LoadLoaderVersion();

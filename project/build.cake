@@ -6,10 +6,11 @@ bool VSBuilt = Argument<bool>("vsbuilt", false);
 // setup variables
 var buildDir = "./Build";
 var csprojPaths = GetFiles("./**/MCL.*(Launcher|CodeAnalyzers).csproj");
-var delPaths = GetDirectories("./**/*(obj|bin)");
+var delPaths = GetDirectories("./*(!MCL.Resources)/*(obj|bin)");
 var licenseFile = "../LICENSE";
 var publishRuntime = "win-x64";
-var launcherDebugFolder = "./MCL.Resources/";
+// var launcherDebugFolders = GetDirectories("./MCL.Resources/*(.mcl|development)");
+var launcherDebugFolders = GetDirectories("./*(MCL.Resources|MCL.Resources.Local)");
 
 // Clean build directory and remove obj / bin folder from projects
 Task("Clean")
@@ -46,14 +47,13 @@ Task("Publish")
 // Copy license to build directory
 Task("CopyBuildData")
     .IsDependentOn("Publish")
-    .Does(() => 
+    .DoesForEach(launcherDebugFolders, (launcherDebugFolder) => 
     {
         if (DirectoryExists(launcherDebugFolder))
         {
+            Information(launcherDebugFolder);
             CopyDirectory(launcherDebugFolder, buildDir);
         }
-
-        CopyFile(licenseFile, $"{buildDir}/LICENSE.txt");
     });
 
 // Remove pdb files from build if running in release configuration
@@ -65,10 +65,17 @@ Task("RemovePDBs")
         DeleteFiles($"{buildDir}/*.pdb");
     });
 
+Task("CopyLicense")
+    .IsDependentOn("RemovePDBs")
+    .Does(() => 
+    {
+        CopyFile(licenseFile, $"{buildDir}/LICENSE.txt");
+    });
+
 // Runs all build tasks based on dependency and configuration
 Task("ExecuteBuild")
     .IsDependentOn("CopyBuildData")
-    .IsDependentOn("RemovePDBs");
+    .IsDependentOn("CopyLicense");
 
 // Runs target task
 RunTarget(target);

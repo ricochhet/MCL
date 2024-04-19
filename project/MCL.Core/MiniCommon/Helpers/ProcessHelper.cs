@@ -53,6 +53,7 @@ public static class ProcessHelper
 
                 process.Start();
                 process.BeginOutputReadLine();
+                process.BeginErrorReadLine();
             }
             else
             {

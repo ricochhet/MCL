@@ -15,7 +15,7 @@ public static class FabricVersionHelper
     public static async Task<bool> SetVersions(Settings settings, string[] args)
     {
         FabricInstallerDownloadService.Init(settings.LauncherPath, settings.LauncherVersion, settings.FabricUrls);
-        if (!FabricInstallerDownloadService.LoadVersionManifest())
+        if (!FabricInstallerDownloadService.LoadVersionManifestWithoutLogging())
         {
             await FabricInstallerDownloadService.DownloadVersionManifest();
             FabricInstallerDownloadService.LoadVersionManifest();

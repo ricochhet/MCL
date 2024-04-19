@@ -21,7 +21,7 @@ public static class VersionHelper
             settings.LauncherSettings,
             settings.MUrls
         );
-        if (!MDownloadService.LoadVersionManifest())
+        if (!MDownloadService.LoadVersionManifestWithoutLogging())
         {
             await MDownloadService.DownloadVersionManifest();
             MDownloadService.LoadVersionManifest();

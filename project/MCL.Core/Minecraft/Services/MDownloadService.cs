@@ -119,6 +119,18 @@ public class MDownloadService : IDownloadService
         return true;
     }
 
+    public static bool LoadVersionManifestWithoutLogging()
+    {
+        if (!_loaded)
+            return false;
+
+        VersionManifest = Json.Load<MVersionManifest>(MPathResolver.VersionManifestPath(_launcherPath));
+        if (VersionManifest == null)
+            return false;
+
+        return true;
+    }
+
     public static bool LoadVersion()
     {
         if (!_loaded)

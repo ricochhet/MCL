@@ -32,17 +32,17 @@ internal static class Program
             return;
 
         LocalizationService.Init(settings.LauncherPath, Language.ENGLISH);
-        NotificationService.Init(
+        NotificationService.OnNotificationAdded(
             (Notification notification) =>
             {
                 Log.Base(notification.LogLevel, notification.Message);
             }
         );
         NotificationService.Log(NativeLogLevel.Info, "log.initialized");
-        RequestDataService.Init(
+        RequestDataService.OnRequestCompleted(
             (RequestData requestData) =>
             {
-                NotificationService.Log(NativeLogLevel.Info, "request.get", [requestData.URL]);
+                NotificationService.Log(NativeLogLevel.Info, "request.get.success", [requestData.URL]);
             }
         );
 

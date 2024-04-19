@@ -15,7 +15,7 @@ public static class QuiltVersionHelper
     public static async Task<bool> SetVersions(Settings settings, string[] args)
     {
         QuiltInstallerDownloadService.Init(settings.LauncherPath, settings.LauncherVersion, settings.QuiltUrls);
-        if (!QuiltInstallerDownloadService.LoadVersionManifest())
+        if (!QuiltInstallerDownloadService.LoadVersionManifestWithoutLogging())
         {
             await QuiltInstallerDownloadService.DownloadVersionManifest();
             QuiltInstallerDownloadService.LoadVersionManifest();

@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using MCL.Core.Launcher.Enums;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Minecraft.Helpers;
 using MCL.Core.MiniCommon;
@@ -13,8 +14,24 @@ public class LaunchMinecraft : ILauncherCommand
         CommandLine.ProcessArgument(
             args,
             "--launch",
-            () =>
+            (string value) =>
             {
+                if (!string.IsNullOrWhiteSpace(value))
+                {
+                    switch (value)
+                    {
+                        case "vanilla":
+                            settings.LauncherSettings.ClientType = ClientType.VANILLA;
+                            break;
+                        case "fabric":
+                            settings.LauncherSettings.ClientType = ClientType.FABRIC;
+                            break;
+                        case "quilt":
+                            settings.LauncherSettings.ClientType = ClientType.QUILT;
+                            break;
+                    }
+                }
+
                 MinecraftLauncher.Launch(
                     settings.LauncherPath,
                     settings.LauncherVersion,

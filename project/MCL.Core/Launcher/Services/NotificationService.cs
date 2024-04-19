@@ -24,7 +24,7 @@ public static class NotificationService
 
     public static void Clear() => _notifications.Clear();
 
-    public static void Init(Action<Notification> func)
+    public static void OnNotificationAdded(Action<Notification> func)
     {
         Notification.OnNotificationAdded += func;
         Notification.OnNotificationAdded += Manage;

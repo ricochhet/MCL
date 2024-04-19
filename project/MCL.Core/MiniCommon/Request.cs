@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using MCL.Core.Launcher.Services;
 using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon.Helpers;
-using MCL.Core.MiniCommon.Models;
 using MCL.Core.MiniCommon.Services;
 
 namespace MCL.Core.MiniCommon;
@@ -103,6 +102,7 @@ public static class Request
     {
         for (int retry = 0; retry < Math.Max(1, Retry); retry++)
         {
+            NotificationService.Log(NativeLogLevel.Info, "request.get.start", [request]);
             string response;
             string hash;
             try
@@ -114,10 +114,10 @@ public static class Request
                     return default;
                 }
                 hash = CryptographyHelper.CreateSHA1(response, encoding);
-                RequestDataService.Add(new RequestData(request, filepath, encoding.GetByteCount(response), hash));
+                RequestDataService.Add(request, filepath, encoding.GetByteCount(response), hash);
                 if (VFS.Exists(filepath) && CryptographyHelper.CreateSHA1(filepath, true) == hash)
                 {
-                    NotificationService.Log(NativeLogLevel.Info, "request.get.hash-exists", [request]);
+                    NotificationService.Log(NativeLogLevel.Info, "request.get.exists", [request]);
                     return response;
                 }
 
@@ -141,6 +141,7 @@ public static class Request
     {
         for (int retry = 0; retry < Math.Max(1, Retry); retry++)
         {
+            NotificationService.Log(NativeLogLevel.Info, "request.get.start", [request]);
             string response;
             string hash;
             try
@@ -152,10 +153,10 @@ public static class Request
                     return default;
                 }
                 hash = CryptographyHelper.CreateSHA1(response, encoding);
-                RequestDataService.Add(new RequestData(request, filepath, encoding.GetByteCount(response), hash));
+                RequestDataService.Add(request, filepath, encoding.GetByteCount(response), hash);
                 if (VFS.Exists(filepath) && CryptographyHelper.CreateSHA1(filepath, true) == hash)
                 {
-                    NotificationService.Log(NativeLogLevel.Info, "request.get.hash-exists", [request]);
+                    NotificationService.Log(NativeLogLevel.Info, "request.get.exists", [request]);
                     return response;
                 }
 
@@ -197,10 +198,10 @@ public static class Request
 
     public static async Task<bool> Download(string request, string filepath, string hash)
     {
-        RequestDataService.Add(new(request, filepath, 0, hash));
         if (VFS.Exists(filepath) && CryptographyHelper.CreateSHA1(filepath, true) == hash)
         {
-            NotificationService.Log(NativeLogLevel.Info, "request.get.hash-exists", [request]);
+            RequestDataService.Add(request, filepath, 0, hash);
+            NotificationService.Log(NativeLogLevel.Info, "request.get.exists", [request]);
             return true;
         }
         else if (!await Download(request, filepath))
@@ -212,6 +213,7 @@ public static class Request
     {
         for (int retry = 0; retry < Math.Max(1, Retry); retry++)
         {
+            NotificationService.Log(NativeLogLevel.Info, "request.get.start", [request]);
 #nullable enable
             HttpResponseMessage? response;
 #nullable disable
@@ -228,6 +230,7 @@ public static class Request
                 if (!VFS.Exists(filepath))
                     VFS.CreateDirectory(VFS.GetDirectoryName(filepath));
 
+                RequestDataService.Add(request, filepath, 0, string.Empty);
                 using Stream contentStream = await response.Content.ReadAsStreamAsync();
                 using FileStream fileStream = new(filepath, FileMode.Create, FileAccess.Write, FileShare.None);
                 await contentStream.CopyToAsync(fileStream);
