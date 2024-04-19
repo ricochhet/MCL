@@ -73,7 +73,7 @@ public class PaperServerDownloadService : IJarDownloadService<PaperUrls>, IDownl
         );
         if (PaperVersionManifest == null)
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.readfile", [nameof(QuiltVersionManifest)]);
+            NotificationService.Log(NativeLogLevel.Error, "error.readfile", [nameof(PaperVersionManifest)]);
             return false;
         }
 
