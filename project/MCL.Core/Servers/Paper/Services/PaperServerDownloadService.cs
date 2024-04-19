@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using MCL.Core.Interfaces.Web;
+using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Services;
 using MCL.Core.Logger.Enums;
@@ -67,6 +68,9 @@ public class PaperServerDownloadService : IJarDownloadService<PaperUrls>, IDownl
         if (!_loaded)
             return false;
 
+        if (!_launcherVersion.VersionExists())
+            return false;
+
         PaperVersionManifest = Json.Load<PaperVersionManifest>(
             PaperPathResolver.VersionManifestPath(_launcherPath, _launcherVersion)
         );
@@ -82,6 +86,9 @@ public class PaperServerDownloadService : IJarDownloadService<PaperUrls>, IDownl
     public static bool LoadVersionManifestWithoutLogging()
     {
         if (!_loaded)
+            return false;
+
+        if (!_launcherVersion.VersionExists())
             return false;
 
         PaperVersionManifest = Json.Load<PaperVersionManifest>(
@@ -104,7 +111,7 @@ public class PaperServerDownloadService : IJarDownloadService<PaperUrls>, IDownl
             NotificationService.Log(
                 NativeLogLevel.Error,
                 "error.parse",
-                [_launcherVersion?.FabricInstallerVersion, nameof(PaperBuild)]
+                [_launcherVersion?.PaperServerVersion, nameof(PaperBuild)]
             );
             return false;
         }

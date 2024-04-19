@@ -30,4 +30,16 @@ public class LauncherVersion
         QuiltLoaderVersion = quiltLoaderVersion;
         PaperServerVersion = paperServerVersion;
     }
+
+    public static LauncherVersion Latest() =>
+        new()
+        {
+            Version = "latest",
+            VersionType = "release",
+            FabricInstallerVersion = "latest",
+            FabricLoaderVersion = "latest",
+            QuiltInstallerVersion = "latest",
+            QuiltLoaderVersion = "latest",
+            PaperServerVersion = "latest"
+        };
 }

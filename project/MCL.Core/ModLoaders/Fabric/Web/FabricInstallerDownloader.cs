@@ -19,7 +19,7 @@ public static class FabricInstallerDownloader
         FabricInstaller fabricInstaller
     )
     {
-        if (!launcherVersion.VersionsExists())
+        if (!launcherVersion.FabricInstallerVersionExists())
             return false;
 
         if (!fabricInstaller.UrlExists() || !fabricInstaller.VersionExists())

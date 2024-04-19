@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Services;
-using MCL.Core.Minecraft.Extensions;
 using MCL.Core.ModLoaders.Quilt.Extensions;
 using MCL.Core.ModLoaders.Quilt.Models;
 using MCL.Core.ModLoaders.Quilt.Services;
@@ -12,7 +11,7 @@ namespace MCL.Core.ModLoaders.Quilt.Helpers;
 
 public static class QuiltVersionHelper
 {
-    public static async Task<bool> SetVersions(
+    public static async Task<bool> SetInstallerVersion(
         Settings settings,
         LauncherVersion launcherVersion,
         bool updateVersionManifest = false
@@ -29,20 +28,44 @@ public static class QuiltVersionHelper
             return false;
 
         List<string> installerVersions = GetInstallerVersionIds(QuiltInstallerDownloadService.QuiltVersionManifest);
-        List<string> loaderVersions = GetLoaderVersionIds(QuiltInstallerDownloadService.QuiltVersionManifest);
         string installerVersion = launcherVersion.QuiltInstallerVersion;
-        string loaderVersion = launcherVersion.QuiltLoaderVersion;
 
         if (installerVersion == "latest" || string.IsNullOrWhiteSpace(installerVersion))
             installerVersion = installerVersions[0];
 
-        if (loaderVersion == "latest" || string.IsNullOrWhiteSpace(loaderVersion))
-            loaderVersion = loaderVersions[0];
-
-        if (!installerVersions.Contains(installerVersion) || !loaderVersions.Contains(loaderVersion))
+        if (!installerVersions.Contains(installerVersion))
             return false;
 
         settings.LauncherVersion.QuiltInstallerVersion = installerVersion;
+        SettingsService.Save(settings);
+        return true;
+    }
+
+    public static async Task<bool> SetLoaderVersion(
+        Settings settings,
+        LauncherVersion launcherVersion,
+        bool updateVersionManifest = false
+    )
+    {
+        QuiltLoaderDownloadService.Init(settings.LauncherPath, settings.LauncherVersion, settings.QuiltUrls);
+        if (!QuiltLoaderDownloadService.LoadVersionManifestWithoutLogging() || updateVersionManifest)
+        {
+            await QuiltLoaderDownloadService.DownloadVersionManifest();
+            QuiltLoaderDownloadService.LoadVersionManifest();
+        }
+
+        if (QuiltLoaderDownloadService.QuiltVersionManifest == null)
+            return false;
+
+        List<string> loaderVersions = GetLoaderVersionIds(QuiltLoaderDownloadService.QuiltVersionManifest);
+        string loaderVersion = launcherVersion.QuiltLoaderVersion;
+
+        if (loaderVersion == "latest" || string.IsNullOrWhiteSpace(loaderVersion))
+            loaderVersion = loaderVersions[0];
+
+        if (!loaderVersions.Contains(loaderVersion))
+            return false;
+
         settings.LauncherVersion.QuiltLoaderVersion = loaderVersion;
         SettingsService.Save(settings);
         return true;
@@ -81,7 +104,7 @@ public static class QuiltVersionHelper
         QuiltVersionManifest quiltVersionManifest
     )
     {
-        if (!installerVersion.VersionsExists())
+        if (!installerVersion.QuiltInstallerVersionExists())
             return null;
 
         if (!quiltVersionManifest.InstallerExists())
@@ -104,7 +127,7 @@ public static class QuiltVersionHelper
 
     public static QuiltLoader GetLoaderVersion(LauncherVersion loaderVersion, QuiltVersionManifest quiltVersionManifest)
     {
-        if (!loaderVersion.VersionsExists())
+        if (!loaderVersion.QuiltLoaderVersionExists())
             return null;
 
         if (!quiltVersionManifest.LoaderExists())

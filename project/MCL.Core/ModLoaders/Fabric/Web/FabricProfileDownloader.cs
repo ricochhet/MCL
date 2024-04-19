@@ -2,7 +2,6 @@ using System.Text;
 using System.Threading.Tasks;
 using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
-using MCL.Core.Minecraft.Extensions;
 using MCL.Core.MiniCommon;
 using MCL.Core.ModLoaders.Fabric.Extensions;
 using MCL.Core.ModLoaders.Fabric.Models;
@@ -18,7 +17,7 @@ public static class FabricProfileDownloader
         FabricUrls fabricUrls
     )
     {
-        if (!launcherVersion.VersionsExists())
+        if (!launcherVersion.VersionExists() || !launcherVersion.FabricLoaderVersionExists())
             return false;
 
         if (!fabricUrls.LoaderProfileUrlExists())

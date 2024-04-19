@@ -1,7 +1,6 @@
 using System.Threading.Tasks;
 using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
-using MCL.Core.Minecraft.Extensions;
 using MCL.Core.Minecraft.Resolvers;
 using MCL.Core.MiniCommon;
 using MCL.Core.ModLoaders.Quilt.Extensions;
@@ -19,7 +18,7 @@ public static class QuiltLoaderDownloader
         QuiltUrls quiltUrls
     )
     {
-        if (!launcherVersion.VersionsExists())
+        if (!launcherVersion.QuiltLoaderVersionExists())
             return false;
 
         if (!quiltProfile.LibraryExists() || !quiltUrls.ApiLoaderNameExists() || !quiltUrls.ApiIntermediaryNameExists())

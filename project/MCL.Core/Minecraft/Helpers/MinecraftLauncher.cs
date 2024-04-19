@@ -3,7 +3,6 @@ using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Helpers;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Services;
-using MCL.Core.Minecraft.Extensions;
 using MCL.Core.Modding.Services;
 
 namespace MCL.Core.Minecraft.Helpers;
@@ -18,7 +17,7 @@ public static class MinecraftLauncher
         Settings settings
     )
     {
-        if (!launcherVersion.VersionsExists())
+        if (!launcherVersion.VersionExists())
             return;
 
         settings.Save(

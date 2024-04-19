@@ -1,7 +1,6 @@
 using MCL.Core.Java.Models;
 using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
-using MCL.Core.Minecraft.Extensions;
 using MCL.Core.ModLoaders.Fabric.Enums;
 using MCL.Core.ModLoaders.Fabric.Resolvers;
 
@@ -15,7 +14,11 @@ public static class FabricInstallerArgs
         FabricInstallerType installerType
     )
     {
-        if (!launcherVersion.VersionsExists())
+        if (
+            !launcherVersion.VersionExists()
+            || !launcherVersion.FabricInstallerVersionExists()
+            || !launcherVersion.FabricLoaderVersionExists()
+        )
             return default;
 
         JvmArguments jvmArguments = new();

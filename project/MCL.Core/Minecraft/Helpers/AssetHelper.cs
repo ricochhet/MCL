@@ -1,6 +1,5 @@
 using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
-using MCL.Core.Minecraft.Extensions;
 using MCL.Core.Minecraft.Models;
 using MCL.Core.Minecraft.Resolvers;
 using MCL.Core.MiniCommon;
@@ -11,7 +10,7 @@ public static class AssetHelper
 {
     public static string GetAssetId(LauncherPath launcherPath, LauncherVersion launcherVersion)
     {
-        if (!launcherVersion.VersionsExists())
+        if (!launcherVersion.VersionExists())
             return string.Empty;
 
         MVersionManifest versionManifest = Json.Load<MVersionManifest>(MPathResolver.VersionManifestPath(launcherPath));

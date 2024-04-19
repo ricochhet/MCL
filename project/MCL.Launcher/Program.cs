@@ -69,7 +69,6 @@ internal static class Program
         commands.Add(new DownloadQuiltInstaller());
         commands.Add(new DownloadQuiltLoader());
         commands.Add(new DownloadPaperServer());
-        commands.Add(new SetVersions());
         commands.Add(new LaunchMinecraft());
         commands.Add(new DeployMods());
 

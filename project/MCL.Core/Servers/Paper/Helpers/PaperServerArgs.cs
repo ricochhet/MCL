@@ -1,7 +1,6 @@
 using MCL.Core.Java.Models;
 using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
-using MCL.Core.Minecraft.Extensions;
 using MCL.Core.Servers.Paper.Resolvers;
 
 namespace MCL.Core.Servers.Paper.Helpers;
@@ -10,7 +9,7 @@ public static class PaperServerArgs
 {
     public static JvmArguments DefaultJvmArguments(LauncherPath launcherPath, LauncherVersion launcherVersion)
     {
-        if (!launcherVersion.VersionsExists())
+        if (!launcherVersion.VersionExists() || !launcherVersion.PaperServerVersionExists())
             return default;
 
         JvmArguments jvmArguments = new();

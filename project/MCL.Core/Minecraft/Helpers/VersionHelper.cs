@@ -13,7 +13,7 @@ namespace MCL.Core.Minecraft.Helpers;
 
 public static class VersionHelper
 {
-    public static async Task<bool> SetVersions(
+    public static async Task<bool> SetVersion(
         Settings settings,
         LauncherVersion launcherVersion,
         bool updateVersionManifest = false
@@ -64,7 +64,7 @@ public static class VersionHelper
 
     public static MVersion GetVersion(LauncherVersion launcherVersion, MVersionManifest versionManifest)
     {
-        if (!launcherVersion.VersionsExists())
+        if (!launcherVersion.VersionExists())
             return null;
 
         if (!versionManifest.VersionsExists())
@@ -83,7 +83,7 @@ public static class VersionHelper
 
     public static MVersionDetails GetVersionDetails(LauncherPath launcherPath, LauncherVersion launcherVersion)
     {
-        if (!launcherVersion.VersionsExists())
+        if (!launcherVersion.VersionExists())
             return null;
 
         MVersionManifest versionManifest = Json.Load<MVersionManifest>(MPathResolver.VersionManifestPath(launcherPath));

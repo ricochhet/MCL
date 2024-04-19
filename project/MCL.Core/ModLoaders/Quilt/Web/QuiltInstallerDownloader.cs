@@ -19,7 +19,7 @@ public static class QuiltInstallerDownloader
         QuiltInstaller quiltInstaller
     )
     {
-        if (!launcherVersion.VersionsExists())
+        if (!launcherVersion.QuiltInstallerVersionExists())
             return false;
 
         if (!quiltInstaller.UrlExists() || !quiltInstaller.VersionExists())

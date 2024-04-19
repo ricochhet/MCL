@@ -4,7 +4,6 @@ using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Services;
 using MCL.Core.Logger.Enums;
-using MCL.Core.Minecraft.Extensions;
 using MCL.Core.MiniCommon;
 using MCL.Core.ModLoaders.Quilt.Helpers;
 using MCL.Core.ModLoaders.Quilt.Models;
@@ -116,7 +115,7 @@ public class QuiltLoaderDownloadService : ILoaderDownloadService<QuiltUrls>, IDo
         if (!_loaded)
             return false;
 
-        if (!_launcherVersion.VersionsExists())
+        if (!_launcherVersion.VersionExists() || !_launcherVersion.QuiltLoaderVersionExists())
             return false;
 
         QuiltProfile = Json.Load<QuiltProfile>(QuiltPathResolver.ProfilePath(_launcherPath, _launcherVersion));

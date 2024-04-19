@@ -4,7 +4,6 @@ using MCL.Core.Launcher.Enums;
 using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Resolvers;
-using MCL.Core.Minecraft.Extensions;
 using MCL.Core.Minecraft.Helpers;
 using MCL.Core.Minecraft.Resolvers;
 
@@ -19,7 +18,7 @@ public static class LaunchArgs
         LauncherUsername launcherUsername
     )
     {
-        if (!launcherVersion.VersionsExists())
+        if (!launcherVersion.VersionExists())
             return default;
 
         JvmArguments jvmArguments = new();

@@ -2,7 +2,6 @@ using MCL.Core.Java.Extensions;
 using MCL.Core.Java.Models;
 using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
-using MCL.Core.Minecraft.Extensions;
 using MCL.Core.ModLoaders.Quilt.Enums;
 using MCL.Core.ModLoaders.Quilt.Resolvers;
 
@@ -16,7 +15,11 @@ public static class QuiltInstallerArgs
         QuiltInstallerType installerType
     )
     {
-        if (!launcherVersion.VersionsExists())
+        if (
+            !launcherVersion.VersionExists()
+            || !launcherVersion.QuiltInstallerVersionExists()
+            || !launcherVersion.QuiltLoaderVersionExists()
+        )
             return default;
 
         JvmArguments jvmArguments = new();

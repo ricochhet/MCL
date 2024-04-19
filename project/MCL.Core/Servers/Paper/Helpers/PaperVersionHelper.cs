@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Services;
-using MCL.Core.Minecraft.Extensions;
 using MCL.Core.Servers.Paper.Extensions;
 using MCL.Core.Servers.Paper.Models;
 using MCL.Core.Servers.Paper.Services;
@@ -12,7 +11,7 @@ namespace MCL.Core.Servers.Paper.Helpers;
 
 public static class PaperVersionHelper
 {
-    public static async Task<bool> SetVersions(
+    public static async Task<bool> SetVersion(
         Settings settings,
         LauncherVersion launcherVersion,
         bool updateVersionManifest = false
@@ -58,7 +57,7 @@ public static class PaperVersionHelper
 
     public static PaperBuild GetVersion(LauncherVersion paperServerVersion, PaperVersionManifest paperVersionManifest)
     {
-        if (!paperServerVersion.VersionsExists())
+        if (!paperServerVersion.PaperServerVersionExists())
             return null;
 
         if (!paperVersionManifest.BuildsExists())

@@ -4,26 +4,38 @@ namespace MCL.Core.Launcher.Extensions;
 
 public static class LauncherVersionExt
 {
-    public static bool VersionsExists(this LauncherVersion launcherVersion)
+    public static bool VersionExists(this LauncherVersion launcherVersion)
     {
-        if (
-            string.IsNullOrWhiteSpace(launcherVersion?.Version)
-            || string.IsNullOrWhiteSpace(launcherVersion.VersionType)
-        )
-            return false;
+        return string.IsNullOrWhiteSpace(launcherVersion?.Version);
+    }
 
-        if (
-            string.IsNullOrWhiteSpace(launcherVersion.FabricInstallerVersion)
-            || string.IsNullOrWhiteSpace(launcherVersion.FabricLoaderVersion)
-        )
-            return false;
+    public static bool VersionTypeExists(this LauncherVersion launcherVersion)
+    {
+        return string.IsNullOrWhiteSpace(launcherVersion?.VersionType);
+    }
 
-        if (
-            string.IsNullOrWhiteSpace(launcherVersion.QuiltInstallerVersion)
-            || string.IsNullOrWhiteSpace(launcherVersion.QuiltLoaderVersion)
-        )
-            return false;
+    public static bool FabricInstallerVersionExists(this LauncherVersion launcherVersion)
+    {
+        return string.IsNullOrWhiteSpace(launcherVersion?.FabricInstallerVersion);
+    }
 
-        return !string.IsNullOrWhiteSpace(launcherVersion.PaperServerVersion);
+    public static bool FabricLoaderVersionExists(this LauncherVersion launcherVersion)
+    {
+        return string.IsNullOrWhiteSpace(launcherVersion?.FabricLoaderVersion);
+    }
+
+    public static bool QuiltInstallerVersionExists(this LauncherVersion launcherVersion)
+    {
+        return string.IsNullOrWhiteSpace(launcherVersion?.QuiltInstallerVersion);
+    }
+
+    public static bool QuiltLoaderVersionExists(this LauncherVersion launcherVersion)
+    {
+        return string.IsNullOrWhiteSpace(launcherVersion?.QuiltLoaderVersion);
+    }
+
+    public static bool PaperServerVersionExists(this LauncherVersion launcherVersion)
+    {
+        return string.IsNullOrWhiteSpace(launcherVersion?.PaperServerVersion);
     }
 }

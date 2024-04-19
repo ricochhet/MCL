@@ -4,7 +4,6 @@ using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Services;
 using MCL.Core.Logger.Enums;
-using MCL.Core.Minecraft.Extensions;
 using MCL.Core.MiniCommon;
 using MCL.Core.ModLoaders.Fabric.Helpers;
 using MCL.Core.ModLoaders.Fabric.Models;
@@ -116,7 +115,7 @@ public class FabricLoaderDownloadService : ILoaderDownloadService<FabricUrls>, I
         if (!_loaded)
             return false;
 
-        if (!_launcherVersion.VersionsExists())
+        if (!_launcherVersion.VersionExists() || !_launcherVersion.FabricLoaderVersionExists())
             return false;
 
         FabricProfile = Json.Load<FabricProfile>(FabricPathResolver.ProfilePath(_launcherPath, _launcherVersion));

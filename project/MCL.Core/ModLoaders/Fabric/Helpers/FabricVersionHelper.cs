@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Services;
-using MCL.Core.Minecraft.Extensions;
 using MCL.Core.ModLoaders.Fabric.Extensions;
 using MCL.Core.ModLoaders.Fabric.Models;
 using MCL.Core.ModLoaders.Fabric.Services;
@@ -12,7 +11,7 @@ namespace MCL.Core.ModLoaders.Fabric.Helpers;
 
 public static class FabricVersionHelper
 {
-    public static async Task<bool> SetVersions(
+    public static async Task<bool> SetInstallerVersion(
         Settings settings,
         LauncherVersion launcherVersion,
         bool updateVersionManifest = false
@@ -29,20 +28,44 @@ public static class FabricVersionHelper
             return false;
 
         List<string> installerVersions = GetInstallerVersionIds(FabricInstallerDownloadService.FabricVersionManifest);
-        List<string> loaderVersions = GetLoaderVersionIds(FabricInstallerDownloadService.FabricVersionManifest);
         string installerVersion = launcherVersion.FabricInstallerVersion;
-        string loaderVersion = launcherVersion.FabricLoaderVersion;
 
         if (installerVersion == "latest" || string.IsNullOrWhiteSpace(installerVersion))
             installerVersion = installerVersions[0];
 
-        if (loaderVersion == "latest" || string.IsNullOrWhiteSpace(loaderVersion))
-            loaderVersion = loaderVersions[0];
-
-        if (!installerVersions.Contains(installerVersion) || !loaderVersions.Contains(loaderVersion))
+        if (!installerVersions.Contains(installerVersion))
             return false;
 
         settings.LauncherVersion.FabricInstallerVersion = installerVersion;
+        SettingsService.Save(settings);
+        return true;
+    }
+
+    public static async Task<bool> SetLoaderVersion(
+        Settings settings,
+        LauncherVersion launcherVersion,
+        bool updateVersionManifest = false
+    )
+    {
+        FabricLoaderDownloadService.Init(settings.LauncherPath, settings.LauncherVersion, settings.FabricUrls);
+        if (!FabricLoaderDownloadService.LoadVersionManifestWithoutLogging() || updateVersionManifest)
+        {
+            await FabricLoaderDownloadService.DownloadVersionManifest();
+            FabricLoaderDownloadService.LoadVersionManifest();
+        }
+
+        if (FabricLoaderDownloadService.FabricVersionManifest == null)
+            return false;
+
+        List<string> loaderVersions = GetLoaderVersionIds(FabricLoaderDownloadService.FabricVersionManifest);
+        string loaderVersion = launcherVersion.FabricLoaderVersion;
+
+        if (loaderVersion == "latest" || string.IsNullOrWhiteSpace(loaderVersion))
+            loaderVersion = loaderVersions[0];
+
+        if (!loaderVersions.Contains(loaderVersion))
+            return false;
+
         settings.LauncherVersion.FabricLoaderVersion = loaderVersion;
         SettingsService.Save(settings);
         return true;
@@ -81,7 +104,7 @@ public static class FabricVersionHelper
         FabricVersionManifest fabricVersionManifest
     )
     {
-        if (!installerVersion.VersionsExists())
+        if (!installerVersion.FabricInstallerVersionExists())
             return null;
 
         if (!fabricVersionManifest.InstallerExists())
@@ -101,7 +124,7 @@ public static class FabricVersionHelper
         FabricVersionManifest fabricVersionManifest
     )
     {
-        if (!loaderVersion.VersionsExists())
+        if (!loaderVersion.FabricLoaderVersionExists())
             return null;
 
         if (!fabricVersionManifest.LoaderExists())
