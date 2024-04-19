@@ -26,7 +26,7 @@ public class DownloadQuiltLoader : ILauncherCommand
                     return;
                 if (!_launcherVersion.VersionExists() || !_launcherVersion.QuiltLoaderVersionExists())
                     return;
-                if (!await QuiltVersionHelper.SetLoaderVersion(settings, _launcherVersion, update))
+                if (!await QuiltVersionHelper.SetLoaderVersion(instance, settings, _launcherVersion, update))
                     return;
 
                 QuiltLoaderDownloadService.Init(

@@ -26,7 +26,7 @@ public class DownloadFabricLoader : ILauncherCommand
                     return;
                 if (!_launcherVersion.VersionExists() || !_launcherVersion.FabricLoaderVersionExists())
                     return;
-                if (!await FabricVersionHelper.SetLoaderVersion(settings, _launcherVersion, update))
+                if (!await FabricVersionHelper.SetLoaderVersion(instance, settings, _launcherVersion, update))
                     return;
 
                 FabricLoaderDownloadService.Init(

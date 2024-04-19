@@ -14,12 +14,14 @@ namespace MCL.Core.Minecraft.Helpers;
 public static class VersionHelper
 {
     public static async Task<bool> SetVersion(
+        Instance instance,
         Settings settings,
         LauncherVersion launcherVersion,
         bool updateVersionManifest = false
     )
     {
         MDownloadService.Init(
+            instance,
             settings.LauncherPath,
             settings.LauncherVersion,
             settings.LauncherSettings,

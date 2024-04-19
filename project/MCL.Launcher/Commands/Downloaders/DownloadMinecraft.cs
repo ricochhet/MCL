@@ -25,7 +25,7 @@ public class DownloadMinecraft : ILauncherCommand
                     return;
                 if (!_launcherVersion.VersionExists())
                     return;
-                if (!await VersionHelper.SetVersion(settings, _launcherVersion, update))
+                if (!await VersionHelper.SetVersion(instance, settings, _launcherVersion, update))
                     return;
 
                 MDownloadService.Init(

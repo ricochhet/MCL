@@ -40,6 +40,6 @@ internal static class Program
         commands.Add(new AnalyzeCode());
 
         foreach (ILauncherCommand command in commands)
-            await command.Init(args, settings);
+            await command.Init(args, settings, null);
     }
 }

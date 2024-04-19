@@ -11,7 +11,7 @@ namespace MCL.Launcher.Commands.Launcher;
 
 public class LaunchMinecraft : ILauncherCommand
 {
-    public Task Init(string[] args, Settings settings)
+    public Task Init(string[] args, Settings settings, Instance instance)
     {
         CommandLine.ProcessArgument(
             args,

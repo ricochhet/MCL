@@ -10,7 +10,7 @@ namespace MCL.Launcher.Commands.Modding;
 
 public class DeployMods : ILauncherCommand
 {
-    public Task Init(string[] args, Settings settings)
+    public Task Init(string[] args, Settings settings, Instance instance)
     {
         CommandLine.ProcessArgument(
             args,
