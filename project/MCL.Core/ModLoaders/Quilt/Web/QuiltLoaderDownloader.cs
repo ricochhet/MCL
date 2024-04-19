@@ -12,6 +12,8 @@ namespace MCL.Core.ModLoaders.Quilt.Web;
 
 public static class QuiltLoaderDownloader
 {
+#pragma warning disable IDE0079
+#pragma warning disable S3776
     public static async Task<bool> Download(
         LauncherPath launcherPath,
         LauncherVersion launcherVersion,
@@ -19,6 +21,7 @@ public static class QuiltLoaderDownloader
         QuiltProfile quiltProfile,
         QuiltUrls quiltUrls
     )
+#pragma warning restore
     {
         if (!launcherVersion.QuiltLoaderVersionExists())
             return false;
@@ -26,7 +29,7 @@ public static class QuiltLoaderDownloader
         if (!quiltProfile.LibraryExists() || !quiltUrls.ApiLoaderNameExists() || !quiltUrls.ApiIntermediaryNameExists())
             return false;
 
-        LauncherModLoader loader = new() { LoaderVersion = launcherVersion.QuiltLoaderVersion };
+        LauncherModLoader loader = new() { Version = launcherVersion.QuiltLoaderVersion };
 
         foreach (QuiltLibrary library in quiltProfile.Libraries)
         {
@@ -55,6 +58,12 @@ public static class QuiltLoaderDownloader
 
             if (!await Request.Download(request, filepath, string.Empty))
                 return false;
+        }
+
+        foreach (LauncherModLoader existingLoader in launcherInstance.QuiltLoaders)
+        {
+            if (existingLoader.Version == loader.Version)
+                launcherInstance.QuiltLoaders.Remove(existingLoader);
         }
 
         launcherInstance.QuiltLoaders.Add(loader);

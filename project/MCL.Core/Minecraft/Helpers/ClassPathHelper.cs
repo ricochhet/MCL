@@ -4,7 +4,6 @@ using MCL.Core.Java.Enums;
 using MCL.Core.Launcher.Enums;
 using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
-using MCL.Core.Logger;
 using MCL.Core.Minecraft.Resolvers;
 using MCL.Core.MiniCommon;
 
@@ -79,8 +78,6 @@ public static class ClassPathHelper
     )
     {
         string[] managedLibraries = libraries;
-        Log.Warn(managedLibraries[1]);
-        Log.Warn(launcherInstance.FabricLoaders[0].Libraries[0]);
 
         // Remove all quilt specific libraries.
         foreach (LauncherModLoader loader in launcherInstance.QuiltLoaders)
@@ -91,10 +88,10 @@ public static class ClassPathHelper
         // Remove all fabric specific libraries that don't belong to the current version.
         foreach (LauncherModLoader loader in launcherInstance.FabricLoaders)
         {
-            if (loader.LoaderVersion != launcherVersion.FabricLoaderVersion)
+            if (loader.Version != launcherVersion.FabricLoaderVersion)
                 managedLibraries = managedLibraries.Except(loader.Libraries).ToArray();
             else
-                managedLibraries = managedLibraries.Concat(loader.Libraries).ToArray();
+                managedLibraries = [.. managedLibraries, .. loader.Libraries];
         }
 
         return managedLibraries;
@@ -117,10 +114,10 @@ public static class ClassPathHelper
         // Remove all quilt specific libraries that don't belong to the current version.
         foreach (LauncherModLoader loader in launcherInstance.QuiltLoaders)
         {
-            if (loader.LoaderVersion != launcherVersion.QuiltLoaderVersion)
+            if (loader.Version != launcherVersion.QuiltLoaderVersion)
                 managedLibraries = managedLibraries.Except(loader.Libraries).ToArray();
             else
-                managedLibraries = managedLibraries.Concat(loader.Libraries).ToArray();
+                managedLibraries = [.. managedLibraries, .. loader.Libraries];
         }
 
         return managedLibraries;

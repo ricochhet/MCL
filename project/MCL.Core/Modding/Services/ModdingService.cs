@@ -136,6 +136,11 @@ public static class ModdingService
 
         if (!VFS.Exists(deployPath))
             VFS.CreateDirectory(deployPath);
+        else
+        {
+            VFS.DeleteDirectory(deployPath);
+            VFS.CreateDirectory(deployPath);
+        }
 
         List<ModFile> sortedModFiles = [.. modFiles.Files.OrderBy(a => a.Priority)];
         ModSettings.DeployPaths.Add(deployPath);

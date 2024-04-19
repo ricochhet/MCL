@@ -12,6 +12,8 @@ namespace MCL.Core.ModLoaders.Fabric.Web;
 
 public static class FabricLoaderDownloader
 {
+#pragma warning disable IDE0079
+#pragma warning disable S3776
     public static async Task<bool> Download(
         LauncherPath launcherPath,
         LauncherVersion launcherVersion,
@@ -19,6 +21,7 @@ public static class FabricLoaderDownloader
         FabricProfile fabricProfile,
         FabricUrls fabricUrls
     )
+#pragma warning restore
     {
         if (!launcherVersion.FabricLoaderVersionExists())
             return false;
@@ -30,7 +33,7 @@ public static class FabricLoaderDownloader
         )
             return false;
 
-        LauncherModLoader loader = new() { LoaderVersion = launcherVersion.FabricLoaderVersion };
+        LauncherModLoader loader = new() { Version = launcherVersion.FabricLoaderVersion };
 
         foreach (FabricLibrary library in fabricProfile.Libraries)
         {
@@ -65,6 +68,12 @@ public static class FabricLoaderDownloader
 
             if (!await Request.Download(request, filepath, hash))
                 return false;
+        }
+
+        foreach (LauncherModLoader existingLoader in launcherInstance.FabricLoaders)
+        {
+            if (existingLoader.Version == loader.Version)
+                launcherInstance.FabricLoaders.Remove(existingLoader);
         }
 
         launcherInstance.FabricLoaders.Add(loader);
