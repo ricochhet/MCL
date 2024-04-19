@@ -13,7 +13,7 @@ public class DownloadPaperServer : ILauncherCommand
         await CommandLine.ProcessArgumentAsync(
             args,
             "--dl-paper-server",
-            async () =>
+            async _ =>
             {
                 PaperServerDownloadService.Init(settings.LauncherPath, settings.LauncherVersion, settings.PaperUrls);
                 await PaperServerDownloadService.Download(useLocalVersionManifest: true);

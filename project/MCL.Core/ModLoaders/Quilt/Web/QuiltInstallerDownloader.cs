@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Services;
 using MCL.Core.Logger.Enums;

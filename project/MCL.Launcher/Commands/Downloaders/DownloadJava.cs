@@ -14,7 +14,7 @@ public class DownloadJava : ILauncherCommand
         await CommandLine.ProcessArgumentAsync(
             args,
             "--dl-java",
-            async () =>
+            async _ =>
             {
                 JavaDownloadService.Init(
                     settings.LauncherPath,

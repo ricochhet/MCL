@@ -13,7 +13,7 @@ public class DownloadFabricLoader : ILauncherCommand
         await CommandLine.ProcessArgumentAsync(
             args,
             "--dl-fabric-loader",
-            async () =>
+            async _ =>
             {
                 FabricLoaderDownloadService.Init(settings.LauncherPath, settings.LauncherVersion, settings.FabricUrls);
                 await FabricLoaderDownloadService.Download(useLocalVersionManifest: true);

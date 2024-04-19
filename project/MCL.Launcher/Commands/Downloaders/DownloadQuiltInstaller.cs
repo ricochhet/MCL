@@ -16,7 +16,7 @@ public class DownloadQuiltInstaller : ILauncherCommand
         await CommandLine.ProcessArgumentAsync(
             args,
             "--dl-quilt-installer",
-            async () =>
+            async _ =>
             {
                 QuiltInstallerDownloadService.Init(settings.LauncherPath, settings.LauncherVersion, settings.QuiltUrls);
                 if (!await QuiltInstallerDownloadService.Download(useLocalVersionManifest: true))

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MCL.Core.Launcher.Enums;
+using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Services;
 using MCL.Core.Minecraft.Extensions;
@@ -12,10 +12,14 @@ namespace MCL.Core.Servers.Paper.Helpers;
 
 public static class PaperVersionHelper
 {
-    public static async Task<bool> SetVersions(Settings settings, string[] args)
+    public static async Task<bool> SetVersions(
+        Settings settings,
+        LauncherVersion launcherVersion,
+        bool updateVersionManifest = false
+    )
     {
         PaperServerDownloadService.Init(settings.LauncherPath, settings.LauncherVersion, settings.PaperUrls);
-        if (!PaperServerDownloadService.LoadVersionManifestWithoutLogging())
+        if (!PaperServerDownloadService.LoadVersionManifestWithoutLogging() || updateVersionManifest)
         {
             await PaperServerDownloadService.DownloadVersionManifest();
             PaperServerDownloadService.LoadVersionManifest();
@@ -25,9 +29,9 @@ public static class PaperVersionHelper
             return false;
 
         List<string> versions = GetVersionIds(PaperServerDownloadService.PaperVersionManifest);
-        string version = args[(int)VersionArgs.PAPER_SERVER];
+        string version = launcherVersion.PaperServerVersion;
 
-        if (version == "latest")
+        if (version == "latest" || string.IsNullOrWhiteSpace(version))
             version = versions[^1]; // Latest is the last version of the array.
 
         if (!versions.Contains(version))

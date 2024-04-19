@@ -1,6 +1,5 @@
-using System;
 using System.Threading.Tasks;
-using MCL.Core.Launcher.Enums;
+using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Minecraft.Helpers;
 using MCL.Core.ModLoaders.Fabric.Helpers;
@@ -11,30 +10,19 @@ namespace MCL.Core.Minecraft.Services;
 
 public static class VersionManagerService
 {
-    private static string[] _args = [];
-    private static Settings _settings;
-
-    public static async Task<bool> Init(Settings settings, string value)
+    public static async Task<bool> SetVersions(
+        Settings settings,
+        LauncherVersion launcherVersion,
+        bool updateVersionManifest
+    )
     {
-        _settings = settings;
-        _args = value.Split(";");
-        if (_args.Length != Enum.GetNames(typeof(VersionArgs)).Length)
+        if (!launcherVersion.VersionsExists())
             return false;
-        if (!await TryParse())
+        if (!await VersionHelper.SetVersions(settings, launcherVersion, updateVersionManifest))
             return false;
-        return true;
-    }
-
-    private static async Task<bool> TryParse()
-    {
-        if (!await VersionHelper.SetVersions(_settings, _args))
-            return false;
-        if (!await FabricVersionHelper.SetVersions(_settings, _args))
-            return false;
-        if (!await QuiltVersionHelper.SetVersions(_settings, _args))
-            return false;
-        if (!await PaperVersionHelper.SetVersions(_settings, _args))
-            return false;
+        await FabricVersionHelper.SetVersions(settings, launcherVersion, updateVersionManifest);
+        await QuiltVersionHelper.SetVersions(settings, launcherVersion, updateVersionManifest);
+        await PaperVersionHelper.SetVersions(settings, launcherVersion, updateVersionManifest);
         return true;
     }
 }

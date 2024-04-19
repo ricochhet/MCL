@@ -1,8 +1,8 @@
 using MCL.Core.Launcher.Models;
 
-namespace MCL.Core.Minecraft.Extensions;
+namespace MCL.Core.Launcher.Extensions;
 
-public static class MLauncherVersionExt
+public static class LauncherVersionExt
 {
     public static bool VersionsExists(this LauncherVersion launcherVersion)
     {

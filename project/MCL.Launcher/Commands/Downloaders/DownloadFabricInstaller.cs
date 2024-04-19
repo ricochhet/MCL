@@ -16,7 +16,7 @@ public class DownloadFabricInstaller : ILauncherCommand
         await CommandLine.ProcessArgumentAsync(
             args,
             "--dl-fabric-installer",
-            async () =>
+            async _ =>
             {
                 FabricInstallerDownloadService.Init(
                     settings.LauncherPath,

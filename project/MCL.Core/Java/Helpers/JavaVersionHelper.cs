@@ -1,4 +1,5 @@
 using MCL.Core.Java.Enums;
+using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Resolvers;
 using MCL.Core.Minecraft.Extensions;

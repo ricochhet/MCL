@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MCL.Core.Launcher.Enums;
+using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Services;
 using MCL.Core.Minecraft.Extensions;
@@ -13,7 +13,11 @@ namespace MCL.Core.Minecraft.Helpers;
 
 public static class VersionHelper
 {
-    public static async Task<bool> SetVersions(Settings settings, string[] args)
+    public static async Task<bool> SetVersions(
+        Settings settings,
+        LauncherVersion launcherVersion,
+        bool updateVersionManifest = false
+    )
     {
         MDownloadService.Init(
             settings.LauncherPath,
@@ -21,7 +25,7 @@ public static class VersionHelper
             settings.LauncherSettings,
             settings.MUrls
         );
-        if (!MDownloadService.LoadVersionManifestWithoutLogging())
+        if (!MDownloadService.LoadVersionManifestWithoutLogging() || updateVersionManifest)
         {
             await MDownloadService.DownloadVersionManifest();
             MDownloadService.LoadVersionManifest();
@@ -31,9 +35,9 @@ public static class VersionHelper
             return false;
 
         List<string> versions = GetVersionIds(MDownloadService.VersionManifest);
-        string version = args[(int)VersionArgs.MINECRAFT];
+        string version = launcherVersion.Version;
 
-        if (version == "latest")
+        if (version == "latest" || string.IsNullOrWhiteSpace(version))
             version = versions[0];
 
         if (!versions.Contains(version))

@@ -13,7 +13,7 @@ public class DownloadMinecraft : ILauncherCommand
         await CommandLine.ProcessArgumentAsync(
             args,
             "--dl-minecraft",
-            async () =>
+            async _ =>
             {
                 MDownloadService.Init(
                     settings.LauncherPath,

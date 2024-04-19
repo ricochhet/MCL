@@ -13,7 +13,7 @@ public class DownloadQuiltLoader : ILauncherCommand
         await CommandLine.ProcessArgumentAsync(
             args,
             "--dl-quilt-loader",
-            async () =>
+            async _ =>
             {
                 QuiltLoaderDownloadService.Init(settings.LauncherPath, settings.LauncherVersion, settings.QuiltUrls);
                 await QuiltLoaderDownloadService.Download(useLocalVersionManifest: true);

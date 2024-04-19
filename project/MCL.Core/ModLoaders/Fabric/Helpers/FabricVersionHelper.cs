@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MCL.Core.Launcher.Enums;
+using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Services;
 using MCL.Core.Minecraft.Extensions;
@@ -12,10 +12,14 @@ namespace MCL.Core.ModLoaders.Fabric.Helpers;
 
 public static class FabricVersionHelper
 {
-    public static async Task<bool> SetVersions(Settings settings, string[] args)
+    public static async Task<bool> SetVersions(
+        Settings settings,
+        LauncherVersion launcherVersion,
+        bool updateVersionManifest = false
+    )
     {
         FabricInstallerDownloadService.Init(settings.LauncherPath, settings.LauncherVersion, settings.FabricUrls);
-        if (!FabricInstallerDownloadService.LoadVersionManifestWithoutLogging())
+        if (!FabricInstallerDownloadService.LoadVersionManifestWithoutLogging() || updateVersionManifest)
         {
             await FabricInstallerDownloadService.DownloadVersionManifest();
             FabricInstallerDownloadService.LoadVersionManifest();
@@ -26,13 +30,13 @@ public static class FabricVersionHelper
 
         List<string> installerVersions = GetInstallerVersionIds(FabricInstallerDownloadService.FabricVersionManifest);
         List<string> loaderVersions = GetLoaderVersionIds(FabricInstallerDownloadService.FabricVersionManifest);
-        string installerVersion = args[(int)VersionArgs.FABRIC_INSTALLER];
-        string loaderVersion = args[(int)VersionArgs.FABRIC_LOADER];
+        string installerVersion = launcherVersion.FabricInstallerVersion;
+        string loaderVersion = launcherVersion.FabricLoaderVersion;
 
-        if (installerVersion == "latest")
+        if (installerVersion == "latest" || string.IsNullOrWhiteSpace(installerVersion))
             installerVersion = installerVersions[0];
 
-        if (loaderVersion == "latest")
+        if (loaderVersion == "latest" || string.IsNullOrWhiteSpace(loaderVersion))
             loaderVersion = loaderVersions[0];
 
         if (!installerVersions.Contains(installerVersion) || !loaderVersions.Contains(loaderVersion))

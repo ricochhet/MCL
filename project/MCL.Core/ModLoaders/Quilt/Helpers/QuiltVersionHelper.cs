@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MCL.Core.Launcher.Enums;
+using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Services;
 using MCL.Core.Minecraft.Extensions;
@@ -12,10 +12,14 @@ namespace MCL.Core.ModLoaders.Quilt.Helpers;
 
 public static class QuiltVersionHelper
 {
-    public static async Task<bool> SetVersions(Settings settings, string[] args)
+    public static async Task<bool> SetVersions(
+        Settings settings,
+        LauncherVersion launcherVersion,
+        bool updateVersionManifest = false
+    )
     {
         QuiltInstallerDownloadService.Init(settings.LauncherPath, settings.LauncherVersion, settings.QuiltUrls);
-        if (!QuiltInstallerDownloadService.LoadVersionManifestWithoutLogging())
+        if (!QuiltInstallerDownloadService.LoadVersionManifestWithoutLogging() || updateVersionManifest)
         {
             await QuiltInstallerDownloadService.DownloadVersionManifest();
             QuiltInstallerDownloadService.LoadVersionManifest();
@@ -26,13 +30,13 @@ public static class QuiltVersionHelper
 
         List<string> installerVersions = GetInstallerVersionIds(QuiltInstallerDownloadService.QuiltVersionManifest);
         List<string> loaderVersions = GetLoaderVersionIds(QuiltInstallerDownloadService.QuiltVersionManifest);
-        string installerVersion = args[(int)VersionArgs.QUILT_INSTALLER];
-        string loaderVersion = args[(int)VersionArgs.QUILT_LOADER];
+        string installerVersion = launcherVersion.QuiltInstallerVersion;
+        string loaderVersion = launcherVersion.QuiltLoaderVersion;
 
-        if (installerVersion == "latest")
+        if (installerVersion == "latest" || string.IsNullOrWhiteSpace(installerVersion))
             installerVersion = installerVersions[0];
 
-        if (loaderVersion == "latest")
+        if (loaderVersion == "latest" || string.IsNullOrWhiteSpace(loaderVersion))
             loaderVersion = loaderVersions[0];
 
         if (!installerVersions.Contains(installerVersion) || !loaderVersions.Contains(loaderVersion))

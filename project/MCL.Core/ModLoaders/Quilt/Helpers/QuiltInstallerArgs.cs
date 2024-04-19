@@ -1,5 +1,6 @@
 using MCL.Core.Java.Extensions;
 using MCL.Core.Java.Models;
+using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Minecraft.Extensions;
 using MCL.Core.ModLoaders.Quilt.Enums;
