@@ -20,7 +20,7 @@ public static class FabricProfileDownloader
         if (!launcherVersion.VersionExists() || !launcherVersion.FabricLoaderVersionExists())
             return false;
 
-        if (!fabricUrls.LoaderProfileUrlExists())
+        if (!fabricUrls.LoaderProfileExists())
             return false;
 
         string fabricProfile = await Request.GetJsonAsync<FabricProfile>(

@@ -13,9 +13,9 @@ namespace MCL.Core.ModLoaders.Fabric.Web;
 public static class FabricLoaderDownloader
 {
     public static async Task<bool> Download(
-        Instance instance,
         LauncherPath launcherPath,
         LauncherVersion launcherVersion,
+        LauncherInstance launcherInstance,
         FabricProfile fabricProfile,
         FabricUrls fabricUrls
     )
@@ -30,7 +30,7 @@ public static class FabricLoaderDownloader
         )
             return false;
 
-        InstanceModLoader loader = new() { LoaderVersion = launcherVersion.FabricLoaderVersion };
+        LauncherModLoader loader = new() { LoaderVersion = launcherVersion.FabricLoaderVersion };
 
         foreach (FabricLibrary library in fabricProfile.Libraries)
         {
@@ -57,20 +57,18 @@ public static class FabricLoaderDownloader
                 hash = library.SHA1;
             }
 
-            loader.Libraries.Add(VFS.GetFileName(library.Name));
+            string filepath = VFS.Combine(
+                MPathResolver.LibraryPath(launcherPath),
+                FabricLibrary.ParsePath(library.Name)
+            );
+            loader.Libraries.Add(filepath.Replace("\\", "/"));
 
-            if (
-                !await Request.Download(
-                    request,
-                    VFS.Combine(MPathResolver.LibraryPath(launcherPath), FabricLibrary.ParsePath(library.Name)),
-                    hash
-                )
-            )
+            if (!await Request.Download(request, filepath, hash))
                 return false;
         }
 
-        instance.FabricLoaders.Add(loader);
-        InstanceService.Save(instance);
+        launcherInstance.FabricLoaders.Add(loader);
+        SettingsService.Load().Save(launcherInstance);
         return true;
     }
 }

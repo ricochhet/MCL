@@ -9,12 +9,12 @@ public static class FabricUrlsExt
         return !string.IsNullOrWhiteSpace(fabricUrls?.VersionManifest);
     }
 
-    public static bool LoaderProfileUrlExists(this FabricUrls fabricUrls)
+    public static bool LoaderProfileExists(this FabricUrls fabricUrls)
     {
         return !string.IsNullOrWhiteSpace(fabricUrls?.LoaderProfile);
     }
 
-    public static bool LoaderJarUrlExists(this FabricUrls fabricUrls)
+    public static bool LoaderJarExists(this FabricUrls fabricUrls)
     {
         return !string.IsNullOrWhiteSpace(fabricUrls?.LoaderJar);
     }

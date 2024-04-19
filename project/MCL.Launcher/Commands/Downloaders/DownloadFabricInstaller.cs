@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using MCL.Core.Java.Helpers;
 using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
+using MCL.Core.Minecraft.Helpers;
 using MCL.Core.MiniCommon;
 using MCL.Core.MiniCommon.Interfaces;
 using MCL.Core.ModLoaders.Fabric.Enums;
@@ -15,7 +16,7 @@ public class DownloadFabricInstaller : ILauncherCommand
 {
     private static readonly LauncherVersion _launcherVersion = LauncherVersion.Latest();
 
-    public async Task Init(string[] args, Settings settings, Instance instance)
+    public async Task Init(string[] args, Settings settings)
     {
         await CommandLine.ProcessArgumentAsync(
             args,
@@ -26,6 +27,8 @@ public class DownloadFabricInstaller : ILauncherCommand
                 if (!bool.TryParse(options.GetValueOrDefault("update") ?? "false", out bool update))
                     return;
                 if (!_launcherVersion.FabricInstallerVersionExists())
+                    return;
+                if (!await VersionHelper.SetVersion(settings, _launcherVersion, update))
                     return;
                 if (!await FabricVersionHelper.SetInstallerVersion(settings, _launcherVersion, update))
                     return;

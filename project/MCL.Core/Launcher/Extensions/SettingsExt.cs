@@ -13,25 +13,16 @@ public static class SettingsExt
         switch (clientType)
         {
             case ClientType.VANILLA:
-                if (settings.MJvmArguments == new JvmArguments())
-                {
-                    settings.MJvmArguments = jvmArguments;
-                    SettingsService.Save(settings);
-                }
+                settings.MJvmArguments = jvmArguments;
+                SettingsService.Save(settings);
                 break;
             case ClientType.FABRIC:
-                if (settings.FabricJvmArguments == new JvmArguments())
-                {
-                    settings.FabricJvmArguments = jvmArguments;
-                    SettingsService.Save(settings);
-                }
+                settings.FabricJvmArguments = jvmArguments;
+                SettingsService.Save(settings);
                 break;
             case ClientType.QUILT:
-                if (settings.QuiltJvmArguments == new JvmArguments())
-                {
-                    settings.QuiltJvmArguments = jvmArguments;
-                    SettingsService.Save(settings);
-                }
+                settings.QuiltJvmArguments = jvmArguments;
+                SettingsService.Save(settings);
                 break;
         }
 
@@ -40,11 +31,15 @@ public static class SettingsExt
 
     public static Settings Save(this Settings settings, ModSettings modSettings)
     {
-        if (settings.ModSettings == new ModSettings())
-        {
-            settings.ModSettings = modSettings;
-            SettingsService.Save(settings);
-        }
+        settings.ModSettings = modSettings;
+        SettingsService.Save(settings);
+        return settings;
+    }
+
+    public static Settings Save(this Settings settings, LauncherInstance launcherInstance)
+    {
+        settings.LauncherInstance = launcherInstance;
+        SettingsService.Save(settings);
         return settings;
     }
 }

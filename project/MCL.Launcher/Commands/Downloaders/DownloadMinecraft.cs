@@ -13,7 +13,7 @@ public class DownloadMinecraft : ILauncherCommand
 {
     private static readonly LauncherVersion _launcherVersion = LauncherVersion.Latest();
 
-    public async Task Init(string[] args, Settings settings, Instance instance)
+    public async Task Init(string[] args, Settings settings)
     {
         await CommandLine.ProcessArgumentAsync(
             args,
@@ -25,14 +25,14 @@ public class DownloadMinecraft : ILauncherCommand
                     return;
                 if (!_launcherVersion.VersionExists())
                     return;
-                if (!await VersionHelper.SetVersion(instance, settings, _launcherVersion, update))
+                if (!await VersionHelper.SetVersion(settings, _launcherVersion, update))
                     return;
 
                 MDownloadService.Init(
-                    instance,
                     settings.LauncherPath,
                     settings.LauncherVersion,
                     settings.LauncherSettings,
+                    settings.LauncherInstance,
                     settings.MUrls
                 );
                 await MDownloadService.Download(useLocalVersionManifest: true);

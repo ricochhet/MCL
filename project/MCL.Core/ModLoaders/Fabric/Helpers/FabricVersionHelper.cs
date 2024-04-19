@@ -42,16 +42,15 @@ public static class FabricVersionHelper
     }
 
     public static async Task<bool> SetLoaderVersion(
-        Instance instance,
         Settings settings,
         LauncherVersion launcherVersion,
         bool updateVersionManifest = false
     )
     {
         FabricLoaderDownloadService.Init(
-            instance,
             settings.LauncherPath,
             settings.LauncherVersion,
+            settings.LauncherInstance,
             settings.FabricUrls
         );
         if (!FabricLoaderDownloadService.LoadVersionManifestWithoutLogging() || updateVersionManifest)

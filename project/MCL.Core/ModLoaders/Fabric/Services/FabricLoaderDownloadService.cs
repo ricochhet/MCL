@@ -18,21 +18,21 @@ public class FabricLoaderDownloadService : ILoaderDownloadService<FabricUrls>, I
     public static FabricProfile FabricProfile { get; private set; }
     private static LauncherPath _launcherPath;
     private static LauncherVersion _launcherVersion;
+    private static LauncherInstance _launcherInstance;
     private static FabricUrls _fabricUrls;
     private static bool _loaded = false;
-    private static Instance _instance;
 
     public static void Init(
-        Instance instance,
         LauncherPath launcherPath,
         LauncherVersion launcherVersion,
+        LauncherInstance launcherInstance,
         FabricUrls fabricUrls
     )
     {
-        if (instance == null)
+        if (launcherInstance == null)
             return;
 
-        _instance = instance;
+        _launcherInstance = launcherInstance;
         _launcherPath = launcherPath;
         _launcherVersion = launcherVersion;
         _fabricUrls = fabricUrls;
@@ -164,9 +164,9 @@ public class FabricLoaderDownloadService : ILoaderDownloadService<FabricUrls>, I
 
         if (
             !await FabricLoaderDownloader.Download(
-                _instance,
                 _launcherPath,
                 _launcherVersion,
+                _launcherInstance,
                 FabricProfile,
                 _fabricUrls
             )

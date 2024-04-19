@@ -11,7 +11,7 @@ namespace MCL.Launcher.Commands.Launcher;
 
 public class LaunchMinecraft : ILauncherCommand
 {
-    public Task Init(string[] args, Settings settings, Instance instance)
+    public Task Init(string[] args, Settings settings)
     {
         CommandLine.ProcessArgument(
             args,
@@ -23,17 +23,13 @@ public class LaunchMinecraft : ILauncherCommand
                     ClientType.VANILLA
                 );
 
-                if (options.TryGetValue("gameversion", out string version) && instance.Versions.Contains(version))
+                if (
+                    options.TryGetValue("gameversion", out string version)
+                    && settings.LauncherInstance.Versions.Contains(version)
+                )
                     settings.LauncherVersion.Version = version;
 
-                MinecraftLauncher.Launch(
-                    instance,
-                    settings.LauncherPath,
-                    settings.LauncherVersion,
-                    settings.LauncherSettings,
-                    settings.LauncherUsername,
-                    settings
-                );
+                MinecraftLauncher.Launch(settings);
             }
         );
 

@@ -10,6 +10,7 @@ namespace MCL.Core.Launcher.Models;
 
 public class Settings
 {
+    public LauncherInstance LauncherInstance { get; set; }
     public LauncherUsername LauncherUsername { get; set; }
     public LauncherPath LauncherPath { get; set; }
     public LauncherVersion LauncherVersion { get; set; }

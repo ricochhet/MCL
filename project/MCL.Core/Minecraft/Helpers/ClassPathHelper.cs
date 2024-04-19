@@ -4,6 +4,7 @@ using MCL.Core.Java.Enums;
 using MCL.Core.Launcher.Enums;
 using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
+using MCL.Core.Logger;
 using MCL.Core.Minecraft.Resolvers;
 using MCL.Core.MiniCommon;
 
@@ -12,9 +13,9 @@ namespace MCL.Core.Minecraft.Helpers;
 public static class ClassPathHelper
 {
     public static string CreateClassPath(
-        Instance instance,
         LauncherPath launcherPath,
         LauncherVersion launcherVersion,
+        LauncherInstance launcherInstance,
         LauncherSettings launcherSettings
     )
     {
@@ -34,32 +35,36 @@ public static class ClassPathHelper
 
         string libPath = VFS.Combine(launcherPath.Path, "libraries");
         string[] libraries = VFS.GetFiles(libPath, "*");
-        libraries = libraries.Prepend(MPathResolver.ClientLibrary(launcherVersion)).ToArray();
+        libraries = libraries
+            .Prepend(MPathResolver.ClientLibrary(launcherVersion))
+            .Select(lib => lib.Replace("\\", "/"))
+            .ToArray();
 
         switch (launcherSettings.ClientType)
         {
             case ClientType.VANILLA:
-                libraries = ManageVanillaLibraries(libraries, instance);
+                libraries = ManageVanillaLibraries(libraries, launcherInstance);
                 break;
             case ClientType.FABRIC:
-                libraries = ManageFabricLibraries(libraries, instance, launcherVersion);
+                libraries = ManageFabricLibraries(libraries, launcherVersion, launcherInstance);
                 break;
             case ClientType.QUILT:
-                libraries = ManageQuiltLibraries(libraries, instance, launcherVersion);
+                libraries = ManageQuiltLibraries(libraries, launcherVersion, launcherInstance);
                 break;
         }
 
+        string filepath = launcherPath.Path.Replace("\\", "/");
         return string.Join(
             separator,
-            libraries.Select(lib => lib.Replace("\\", "/").Replace(launcherPath.Path + "/", string.Empty))
+            libraries.Select(lib => lib.Replace("\\", "/").Replace(filepath + "/", string.Empty))
         );
     }
 
-    private static string[] ManageVanillaLibraries(string[] libraries, Instance instance)
+    private static string[] ManageVanillaLibraries(string[] libraries, LauncherInstance launcherInstance)
     {
         string[] managedLibraries = libraries;
 
-        foreach (var loader in instance.FabricLoaders.Concat(instance.QuiltLoaders))
+        foreach (LauncherModLoader loader in launcherInstance.FabricLoaders.Concat(launcherInstance.QuiltLoaders))
         {
             libraries = libraries.Except(loader.Libraries).ToArray();
         }
@@ -69,47 +74,53 @@ public static class ClassPathHelper
 
     private static string[] ManageFabricLibraries(
         string[] libraries,
-        Instance instance,
-        LauncherVersion launcherVersion
+        LauncherVersion launcherVersion,
+        LauncherInstance launcherInstance
     )
     {
         string[] managedLibraries = libraries;
-
-        // Remove all fabric specific libraries that don't belong to the current version.
-        foreach (InstanceModLoader loader in instance.FabricLoaders)
-        {
-            if (loader.LoaderVersion != launcherVersion.FabricLoaderVersion)
-            {
-                managedLibraries = libraries.Except(loader.Libraries).ToArray();
-            }
-        }
+        Log.Warn(managedLibraries[1]);
+        Log.Warn(launcherInstance.FabricLoaders[0].Libraries[0]);
 
         // Remove all quilt specific libraries.
-        foreach (InstanceModLoader loader in instance.QuiltLoaders)
+        foreach (LauncherModLoader loader in launcherInstance.QuiltLoaders)
         {
-            managedLibraries = libraries.Except(loader.Libraries).ToArray();
+            managedLibraries = managedLibraries.Except(loader.Libraries).ToArray();
+        }
+
+        // Remove all fabric specific libraries that don't belong to the current version.
+        foreach (LauncherModLoader loader in launcherInstance.FabricLoaders)
+        {
+            if (loader.LoaderVersion != launcherVersion.FabricLoaderVersion)
+                managedLibraries = managedLibraries.Except(loader.Libraries).ToArray();
+            else
+                managedLibraries = managedLibraries.Concat(loader.Libraries).ToArray();
         }
 
         return managedLibraries;
     }
 
-    private static string[] ManageQuiltLibraries(string[] libraries, Instance instance, LauncherVersion launcherVersion)
+    private static string[] ManageQuiltLibraries(
+        string[] libraries,
+        LauncherVersion launcherVersion,
+        LauncherInstance launcherInstance
+    )
     {
         string[] managedLibraries = libraries;
 
-        // Remove all quilt specific libraries that don't belong to the current version.
-        foreach (InstanceModLoader loader in instance.QuiltLoaders)
+        // Remove all fabric specific libraries.
+        foreach (LauncherModLoader loader in launcherInstance.FabricLoaders)
         {
-            if (loader.LoaderVersion != launcherVersion.QuiltLoaderVersion)
-            {
-                managedLibraries = libraries.Except(loader.Libraries).ToArray();
-            }
+            managedLibraries = managedLibraries.Except(loader.Libraries).ToArray();
         }
 
-        // Remove all fabric specific libraries.
-        foreach (InstanceModLoader loader in instance.FabricLoaders)
+        // Remove all quilt specific libraries that don't belong to the current version.
+        foreach (LauncherModLoader loader in launcherInstance.QuiltLoaders)
         {
-            managedLibraries = libraries.Except(loader.Libraries).ToArray();
+            if (loader.LoaderVersion != launcherVersion.QuiltLoaderVersion)
+                managedLibraries = managedLibraries.Except(loader.Libraries).ToArray();
+            else
+                managedLibraries = managedLibraries.Concat(loader.Libraries).ToArray();
         }
 
         return managedLibraries;

@@ -32,6 +32,7 @@ public static class SettingsService
             Settings settings =
                 new()
                 {
+                    LauncherInstance = new(),
                     LauncherUsername = new(username: "Player1337"),
                     LauncherPath = new(),
                     LauncherVersion = new(),

@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using MCL.Core.Interfaces.Web;
+using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Services;
 using MCL.Core.Logger.Enums;
@@ -20,22 +21,22 @@ public class MDownloadService : IDownloadService
     private static LauncherPath _launcherPath;
     private static LauncherVersion _launcherVersion;
     private static LauncherSettings _launcherSettings;
+    private static LauncherInstance _launcherInstance;
     private static MUrls _mUrls;
     private static bool _loaded = false;
-    private static Instance _instance;
 
     public static void Init(
-        Instance instance,
         LauncherPath launcherPath,
         LauncherVersion launcherVersion,
         LauncherSettings launcherSettings,
+        LauncherInstance launcherInstance,
         MUrls mUrls
     )
     {
-        _instance = instance;
         _launcherPath = launcherPath;
         _launcherVersion = launcherVersion;
         _launcherSettings = launcherSettings;
+        _launcherInstance = launcherInstance;
         _mUrls = mUrls;
         _loaded = true;
     }
@@ -90,8 +91,8 @@ public class MDownloadService : IDownloadService
         if (!await DownloadLogging())
             return false;
 
-        _instance.Versions.Add(_launcherVersion.Version);
-        InstanceService.Save(_instance);
+        _launcherInstance.Versions.Add(_launcherVersion.Version);
+        SettingsService.Load().Save(_launcherInstance);
 
         return true;
     }

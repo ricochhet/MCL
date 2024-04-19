@@ -9,31 +9,25 @@ namespace MCL.Core.Minecraft.Helpers;
 
 public static class MinecraftLauncher
 {
-    public static void Launch(
-        Instance instance,
-        LauncherPath launcherPath,
-        LauncherVersion launcherVersion,
-        LauncherSettings launcherSettings,
-        LauncherUsername launcherUsername,
-        Settings settings
-    )
+    public static void Launch(Settings settings)
     {
-        if (!launcherVersion.VersionExists())
+        if (!settings.LauncherVersion.VersionExists())
             return;
 
-        settings.Save(
-            launcherSettings.ClientType,
-            LaunchArgs.DefaultJvmArguments(instance, launcherPath, launcherVersion, launcherSettings, launcherUsername)
-        );
+        settings.Save(settings.LauncherSettings.ClientType, LaunchArgs.DefaultJvmArguments(settings));
         SettingsService.Save(settings);
         settings.Save(ModdingService.ModSettings);
-        if (VersionHelper.GetVersionDetails(launcherPath, launcherVersion) == null)
+        if (VersionHelper.GetVersionDetails(settings.LauncherPath, settings.LauncherVersion) == null)
             return;
         JavaLauncher.Launch(
             settings,
-            launcherPath.Path,
-            launcherSettings.ClientType,
-            JavaVersionHelper.GetDownloadedMCVersionJava(launcherPath, launcherVersion, launcherSettings)
+            settings.LauncherPath.Path,
+            settings.LauncherSettings.ClientType,
+            JavaVersionHelper.GetDownloadedMCVersionJava(
+                settings.LauncherPath,
+                settings.LauncherVersion,
+                settings.LauncherSettings
+            )
         );
     }
 }

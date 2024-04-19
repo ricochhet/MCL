@@ -42,13 +42,17 @@ public static class QuiltVersionHelper
     }
 
     public static async Task<bool> SetLoaderVersion(
-        Instance instance,
         Settings settings,
         LauncherVersion launcherVersion,
         bool updateVersionManifest = false
     )
     {
-        QuiltLoaderDownloadService.Init(instance, settings.LauncherPath, settings.LauncherVersion, settings.QuiltUrls);
+        QuiltLoaderDownloadService.Init(
+            settings.LauncherPath,
+            settings.LauncherVersion,
+            settings.LauncherInstance,
+            settings.QuiltUrls
+        );
         if (!QuiltLoaderDownloadService.LoadVersionManifestWithoutLogging() || updateVersionManifest)
         {
             await QuiltLoaderDownloadService.DownloadVersionManifest();

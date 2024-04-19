@@ -13,9 +13,9 @@ namespace MCL.Core.ModLoaders.Quilt.Web;
 public static class QuiltLoaderDownloader
 {
     public static async Task<bool> Download(
-        Instance instance,
         LauncherPath launcherPath,
         LauncherVersion launcherVersion,
+        LauncherInstance launcherInstance,
         QuiltProfile quiltProfile,
         QuiltUrls quiltUrls
     )
@@ -26,7 +26,7 @@ public static class QuiltLoaderDownloader
         if (!quiltProfile.LibraryExists() || !quiltUrls.ApiLoaderNameExists() || !quiltUrls.ApiIntermediaryNameExists())
             return false;
 
-        InstanceModLoader loader = new() { LoaderVersion = launcherVersion.QuiltLoaderVersion };
+        LauncherModLoader loader = new() { LoaderVersion = launcherVersion.QuiltLoaderVersion };
 
         foreach (QuiltLibrary library in quiltProfile.Libraries)
         {
@@ -47,20 +47,18 @@ public static class QuiltLoaderDownloader
                 request = QuiltLibrary.ParseURL(library.Name, library.URL);
             }
 
-            loader.Libraries.Add(VFS.GetFileName(library.Name));
+            string filepath = VFS.Combine(
+                MPathResolver.LibraryPath(launcherPath),
+                QuiltLibrary.ParsePath(library.Name)
+            );
+            loader.Libraries.Add(filepath.Replace("\\", "/"));
 
-            if (
-                !await Request.Download(
-                    request,
-                    VFS.Combine(MPathResolver.LibraryPath(launcherPath), QuiltLibrary.ParsePath(library.Name)),
-                    string.Empty
-                )
-            )
+            if (!await Request.Download(request, filepath, string.Empty))
                 return false;
         }
 
-        instance.FabricLoaders.Add(loader);
-        InstanceService.Save(instance);
+        launcherInstance.QuiltLoaders.Add(loader);
+        SettingsService.Load().Save(launcherInstance);
         return true;
     }
 }

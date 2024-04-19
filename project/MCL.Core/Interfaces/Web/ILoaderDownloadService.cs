@@ -6,9 +6,9 @@ namespace MCL.Core.Interfaces.Web;
 public interface ILoaderDownloadService<T>
 {
     public static abstract void Init(
-        Instance instance,
         LauncherPath launcherPath,
         LauncherVersion launcherVersion,
+        LauncherInstance launcherInstance,
         T mUrls
     );
 

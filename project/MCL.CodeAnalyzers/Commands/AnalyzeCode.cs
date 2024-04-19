@@ -10,7 +10,7 @@ namespace MCL.CodeAnalyzers.Commands;
 
 public class AnalyzeCode : ILauncherCommand
 {
-    public Task Init(string[] args, Settings settings, Instance instance)
+    public Task Init(string[] args, Settings settings)
     {
         CommandLine.ProcessArgument(
             args,
