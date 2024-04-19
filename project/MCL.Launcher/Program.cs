@@ -54,6 +54,11 @@ internal static class Program
         Request.HttpClientTimeOut = TimeSpan.FromMinutes(1);
         Watermark.Draw(SettingsService.WatermarkText);
 
+        InstanceService.Init(settings.LauncherPath);
+        InstanceService.Save();
+        Instance instance = InstanceService.Load();
+        if (instance == null)
+            return;
         SevenZipService.Init(settings.SevenZipSettings);
         ModdingService.Init(settings.LauncherPath, settings.ModSettings);
 

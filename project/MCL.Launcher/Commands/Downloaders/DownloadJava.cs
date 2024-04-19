@@ -9,7 +9,7 @@ namespace MCL.Launcher.Commands.Downloaders;
 
 public class DownloadJava : ILauncherCommand
 {
-    public async Task Init(string[] args, Settings settings)
+    public async Task Init(string[] args, Settings settings, Instance instance)
     {
         await CommandLine.ProcessArgumentAsync(
             args,

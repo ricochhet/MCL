@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
+using MCL.Core.Launcher.Services;
 using MCL.Core.Minecraft.Resolvers;
 using MCL.Core.MiniCommon;
 using MCL.Core.ModLoaders.Fabric.Extensions;
@@ -12,6 +13,7 @@ namespace MCL.Core.ModLoaders.Fabric.Web;
 public static class FabricLoaderDownloader
 {
     public static async Task<bool> Download(
+        Instance instance,
         LauncherPath launcherPath,
         LauncherVersion launcherVersion,
         FabricProfile fabricProfile,
@@ -27,6 +29,8 @@ public static class FabricLoaderDownloader
             || !fabricUrls.ApiIntermediaryNameExists()
         )
             return false;
+
+        InstanceModLoader loader = new() { LoaderVersion = launcherVersion.FabricLoaderVersion };
 
         foreach (FabricLibrary library in fabricProfile.Libraries)
         {
@@ -53,6 +57,8 @@ public static class FabricLoaderDownloader
                 hash = library.SHA1;
             }
 
+            loader.Libraries.Add(VFS.GetFileName(library.Name));
+
             if (
                 !await Request.Download(
                     request,
@@ -63,6 +69,8 @@ public static class FabricLoaderDownloader
                 return false;
         }
 
+        instance.FabricLoaders.Add(loader);
+        InstanceService.Save(instance);
         return true;
     }
 }

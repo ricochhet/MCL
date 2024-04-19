@@ -22,14 +22,17 @@ public class MDownloadService : IDownloadService
     private static LauncherSettings _launcherSettings;
     private static MUrls _mUrls;
     private static bool _loaded = false;
+    private static Instance _instance;
 
     public static void Init(
+        Instance instance,
         LauncherPath launcherPath,
         LauncherVersion launcherVersion,
         LauncherSettings launcherSettings,
         MUrls mUrls
     )
     {
+        _instance = instance;
         _launcherPath = launcherPath;
         _launcherVersion = launcherVersion;
         _launcherSettings = launcherSettings;
@@ -86,6 +89,9 @@ public class MDownloadService : IDownloadService
 
         if (!await DownloadLogging())
             return false;
+
+        _instance.Versions.Add(_launcherVersion.Version);
+        InstanceService.Save(_instance);
 
         return true;
     }

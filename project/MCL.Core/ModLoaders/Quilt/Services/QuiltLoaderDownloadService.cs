@@ -20,9 +20,19 @@ public class QuiltLoaderDownloadService : ILoaderDownloadService<QuiltUrls>, IDo
     private static LauncherVersion _launcherVersion;
     private static QuiltUrls _quiltUrls;
     private static bool _loaded = false;
+    private static Instance _instance;
 
-    public static void Init(LauncherPath launcherPath, LauncherVersion launcherVersion, QuiltUrls quiltUrls)
+    public static void Init(
+        Instance instance,
+        LauncherPath launcherPath,
+        LauncherVersion launcherVersion,
+        QuiltUrls quiltUrls
+    )
     {
+        if (instance == null)
+            return;
+
+        _instance = instance;
         _launcherPath = launcherPath;
         _launcherVersion = launcherVersion;
         _quiltUrls = quiltUrls;
@@ -152,7 +162,7 @@ public class QuiltLoaderDownloadService : ILoaderDownloadService<QuiltUrls>, IDo
         if (!_loaded)
             return false;
 
-        if (!await QuiltLoaderDownloader.Download(_launcherPath, _launcherVersion, QuiltProfile, _quiltUrls))
+        if (!await QuiltLoaderDownloader.Download(_instance, _launcherPath, _launcherVersion, QuiltProfile, _quiltUrls))
         {
             NotificationService.Log(NativeLogLevel.Error, "error.download", [nameof(QuiltLoaderDownloader)]);
             return false;

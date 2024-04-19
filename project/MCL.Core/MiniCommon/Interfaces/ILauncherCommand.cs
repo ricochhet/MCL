@@ -5,5 +5,5 @@ namespace MCL.Core.MiniCommon.Interfaces;
 
 public interface ILauncherCommand
 {
-    public abstract Task Init(string[] args, Settings settings);
+    public abstract Task Init(string[] args, Settings settings, Instance instance);
 }

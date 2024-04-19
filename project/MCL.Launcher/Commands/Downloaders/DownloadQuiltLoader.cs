@@ -13,7 +13,7 @@ public class DownloadQuiltLoader : ILauncherCommand
 {
     private static readonly LauncherVersion _launcherVersion = LauncherVersion.Latest();
 
-    public async Task Init(string[] args, Settings settings)
+    public async Task Init(string[] args, Settings settings, Instance instance)
     {
         await CommandLine.ProcessArgumentAsync(
             args,
@@ -29,7 +29,12 @@ public class DownloadQuiltLoader : ILauncherCommand
                 if (!await QuiltVersionHelper.SetLoaderVersion(settings, _launcherVersion, update))
                     return;
 
-                QuiltLoaderDownloadService.Init(settings.LauncherPath, settings.LauncherVersion, settings.QuiltUrls);
+                QuiltLoaderDownloadService.Init(
+                    instance,
+                    settings.LauncherPath,
+                    settings.LauncherVersion,
+                    settings.QuiltUrls
+                );
                 await QuiltLoaderDownloadService.Download(useLocalVersionManifest: true);
             }
         );

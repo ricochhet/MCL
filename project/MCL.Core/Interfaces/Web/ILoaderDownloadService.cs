@@ -5,7 +5,12 @@ namespace MCL.Core.Interfaces.Web;
 
 public interface ILoaderDownloadService<T>
 {
-    public static abstract void Init(LauncherPath launcherPath, LauncherVersion launcherVersion, T mUrls);
+    public static abstract void Init(
+        Instance instance,
+        LauncherPath launcherPath,
+        LauncherVersion launcherVersion,
+        T mUrls
+    );
 
     public static abstract Task<bool> DownloadVersionManifest();
     public static abstract bool LoadVersionManifest();

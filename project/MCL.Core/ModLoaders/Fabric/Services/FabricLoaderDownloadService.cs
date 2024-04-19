@@ -20,9 +20,19 @@ public class FabricLoaderDownloadService : ILoaderDownloadService<FabricUrls>, I
     private static LauncherVersion _launcherVersion;
     private static FabricUrls _fabricUrls;
     private static bool _loaded = false;
+    private static Instance _instance;
 
-    public static void Init(LauncherPath launcherPath, LauncherVersion launcherVersion, FabricUrls fabricUrls)
+    public static void Init(
+        Instance instance,
+        LauncherPath launcherPath,
+        LauncherVersion launcherVersion,
+        FabricUrls fabricUrls
+    )
     {
+        if (instance == null)
+            return;
+
+        _instance = instance;
         _launcherPath = launcherPath;
         _launcherVersion = launcherVersion;
         _fabricUrls = fabricUrls;
@@ -152,7 +162,15 @@ public class FabricLoaderDownloadService : ILoaderDownloadService<FabricUrls>, I
         if (!_loaded)
             return false;
 
-        if (!await FabricLoaderDownloader.Download(_launcherPath, _launcherVersion, FabricProfile, _fabricUrls))
+        if (
+            !await FabricLoaderDownloader.Download(
+                _instance,
+                _launcherPath,
+                _launcherVersion,
+                FabricProfile,
+                _fabricUrls
+            )
+        )
         {
             NotificationService.Log(NativeLogLevel.Error, "error.download", [nameof(FabricLoaderDownloader)]);
             return false;
