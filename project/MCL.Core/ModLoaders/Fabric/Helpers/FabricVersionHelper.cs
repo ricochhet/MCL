@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Services;
-using MCL.Core.ModLoaders.Fabric.Extensions;
+using MCL.Core.MiniCommon;
 using MCL.Core.ModLoaders.Fabric.Models;
 using MCL.Core.ModLoaders.Fabric.Services;
 
@@ -78,7 +77,7 @@ public static class FabricVersionHelper
 
     public static List<string> GetInstallerVersionIds(FabricVersionManifest fabricVersionManifest)
     {
-        if (!fabricVersionManifest.InstallerExists())
+        if (ObjectValidator<List<FabricInstaller>>.IsNullOrEmpty(fabricVersionManifest?.Installer))
             return [];
 
         List<string> versions = [];
@@ -92,7 +91,7 @@ public static class FabricVersionHelper
 
     public static List<string> GetLoaderVersionIds(FabricVersionManifest fabricVersionManifest)
     {
-        if (!fabricVersionManifest.LoaderExists())
+        if (ObjectValidator<List<FabricLoader>>.IsNullOrEmpty(fabricVersionManifest?.Loader))
             return [];
 
         List<string> versions = [];
@@ -109,10 +108,10 @@ public static class FabricVersionHelper
         FabricVersionManifest fabricVersionManifest
     )
     {
-        if (!installerVersion.FabricInstallerVersionExists())
-            return null;
-
-        if (!fabricVersionManifest.InstallerExists())
+        if (
+            ObjectValidator<string>.IsNullOrWhitespace(installerVersion?.FabricInstallerVersion)
+            || ObjectValidator<List<FabricInstaller>>.IsNullOrEmpty(fabricVersionManifest?.Installer)
+        )
             return null;
 
         FabricInstaller fabricInstaller = fabricVersionManifest.Installer[0];
@@ -129,10 +128,10 @@ public static class FabricVersionHelper
         FabricVersionManifest fabricVersionManifest
     )
     {
-        if (!loaderVersion.FabricLoaderVersionExists())
-            return null;
-
-        if (!fabricVersionManifest.LoaderExists())
+        if (
+            ObjectValidator<string>.IsNullOrWhitespace(loaderVersion?.FabricLoaderVersion)
+            || ObjectValidator<List<FabricLoader>>.IsNullOrEmpty(fabricVersionManifest?.Loader)
+        )
             return null;
 
         FabricLoader fabricLoader = fabricVersionManifest.Loader[0];

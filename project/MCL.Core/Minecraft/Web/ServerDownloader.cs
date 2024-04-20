@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 using MCL.Core.Launcher.Models;
-using MCL.Core.Minecraft.Extensions;
 using MCL.Core.Minecraft.Helpers;
 using MCL.Core.Minecraft.Models;
 using MCL.Core.Minecraft.Resolvers;
@@ -12,7 +11,13 @@ public static class ServerDownloader
 {
     public static async Task<bool> Download(LauncherPath launcherPath, MVersionDetails versionDetails)
     {
-        if (!versionDetails.ServerExists())
+        if (
+            ObjectValidator<string>.IsNullOrWhitespace(
+                versionDetails?.Downloads?.Server?.SHA1,
+                versionDetails?.Downloads?.Server?.URL,
+                versionDetails?.ID
+            )
+        )
             return false;
 
         ServerProperties.NewEula(launcherPath);

@@ -1,11 +1,8 @@
 using System.Threading.Tasks;
-using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Services;
 using MCL.Core.Logger.Enums;
-using MCL.Core.Minecraft.Extensions;
 using MCL.Core.MiniCommon;
-using MCL.Core.ModLoaders.Fabric.Extensions;
 using MCL.Core.ModLoaders.Fabric.Models;
 using MCL.Core.ModLoaders.Fabric.Resolvers;
 
@@ -19,17 +16,20 @@ public static class FabricInstallerDownloader
         FabricInstaller fabricInstaller
     )
     {
-        if (!launcherVersion.FabricInstallerVersionExists())
-            return false;
-
-        if (!fabricInstaller.UrlExists() || !fabricInstaller.VersionExists())
+        if (
+            ObjectValidator<string>.IsNullOrWhitespace(
+                launcherVersion?.FabricInstallerVersion,
+                fabricInstaller?.URL,
+                fabricInstaller?.Version
+            )
+        )
             return false;
 
         string fabricInstallerPath = FabricPathResolver.InstallerPath(launcherPath, launcherVersion);
         // Fabric does not provide a file hash through the current method. We do simple check of the version instead.
         if (VFS.Exists(fabricInstallerPath))
         {
-            NotificationService.Log(NativeLogLevel.Info, "fabric.installer-exists", [fabricInstaller?.Version]);
+            NotificationService.Log(NativeLogLevel.Info, "fabric.installer-exists", fabricInstaller?.Version);
             return true;
         }
 

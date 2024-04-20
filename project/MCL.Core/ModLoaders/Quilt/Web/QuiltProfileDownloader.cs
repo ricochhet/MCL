@@ -1,9 +1,7 @@
 using System.Text;
 using System.Threading.Tasks;
-using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
 using MCL.Core.MiniCommon;
-using MCL.Core.ModLoaders.Quilt.Extensions;
 using MCL.Core.ModLoaders.Quilt.Models;
 using MCL.Core.ModLoaders.Quilt.Resolvers;
 
@@ -17,10 +15,13 @@ public static class QuiltProfileDownloader
         QuiltUrls quiltUrls
     )
     {
-        if (!launcherVersion.VersionExists() || !launcherVersion.QuiltLoaderVersionExists())
-            return false;
-
-        if (!quiltUrls.LoaderProfileExists())
+        if (
+            ObjectValidator<string>.IsNullOrWhitespace(
+                launcherVersion?.Version,
+                launcherVersion?.QuiltLoaderVersion,
+                quiltUrls?.LoaderProfile
+            )
+        )
             return false;
 
         string quiltProfile = await Request.GetJsonAsync<QuiltProfile>(

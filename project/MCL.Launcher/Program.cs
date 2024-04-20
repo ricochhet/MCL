@@ -42,7 +42,7 @@ internal static class Program
         RequestDataService.OnRequestCompleted(
             (RequestData requestData) =>
             {
-                NotificationService.Log(NativeLogLevel.Info, "request.get.success", [requestData.URL]);
+                NotificationService.Log(NativeLogLevel.Info, "request.get.success", requestData.URL);
             }
         );
 

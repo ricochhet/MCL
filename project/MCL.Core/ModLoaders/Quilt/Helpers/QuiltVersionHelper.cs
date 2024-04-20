@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Services;
-using MCL.Core.ModLoaders.Quilt.Extensions;
+using MCL.Core.MiniCommon;
 using MCL.Core.ModLoaders.Quilt.Models;
 using MCL.Core.ModLoaders.Quilt.Services;
 
@@ -78,7 +77,7 @@ public static class QuiltVersionHelper
 
     public static List<string> GetInstallerVersionIds(QuiltVersionManifest quiltVersionManifest)
     {
-        if (!quiltVersionManifest.InstallerExists())
+        if (ObjectValidator<List<QuiltInstaller>>.IsNullOrEmpty(quiltVersionManifest?.Installer))
             return [];
 
         List<string> versions = [];
@@ -92,7 +91,7 @@ public static class QuiltVersionHelper
 
     public static List<string> GetLoaderVersionIds(QuiltVersionManifest quiltVersionManifest)
     {
-        if (!quiltVersionManifest.LoaderExists())
+        if (ObjectValidator<List<QuiltLoader>>.IsNullOrEmpty(quiltVersionManifest?.Loader))
             return [];
 
         List<string> versions = [];
@@ -109,10 +108,10 @@ public static class QuiltVersionHelper
         QuiltVersionManifest quiltVersionManifest
     )
     {
-        if (!installerVersion.QuiltInstallerVersionExists())
-            return null;
-
-        if (!quiltVersionManifest.InstallerExists())
+        if (
+            ObjectValidator<string>.IsNullOrWhitespace(installerVersion?.QuiltInstallerVersion)
+            || ObjectValidator<List<QuiltInstaller>>.IsNullOrEmpty(quiltVersionManifest?.Installer)
+        )
             return null;
 
         QuiltInstaller quiltInstaller = quiltVersionManifest.Installer[0];
@@ -132,10 +131,10 @@ public static class QuiltVersionHelper
 
     public static QuiltLoader GetLoaderVersion(LauncherVersion loaderVersion, QuiltVersionManifest quiltVersionManifest)
     {
-        if (!loaderVersion.QuiltLoaderVersionExists())
-            return null;
-
-        if (!quiltVersionManifest.LoaderExists())
+        if (
+            ObjectValidator<string>.IsNullOrWhitespace(loaderVersion?.QuiltLoaderVersion)
+            || ObjectValidator<List<QuiltLoader>>.IsNullOrEmpty(quiltVersionManifest?.Loader)
+        )
             return null;
 
         QuiltLoader quiltLoader = quiltVersionManifest.Loader[0];

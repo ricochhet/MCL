@@ -1,11 +1,11 @@
 using MCL.Core.Java.Extensions;
 using MCL.Core.Java.Models;
 using MCL.Core.Launcher.Enums;
-using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Resolvers;
 using MCL.Core.Minecraft.Helpers;
 using MCL.Core.Minecraft.Resolvers;
+using MCL.Core.MiniCommon;
 
 namespace MCL.Core.Launcher.Helpers;
 
@@ -13,8 +13,13 @@ public static class LaunchArgs
 {
     public static JvmArguments DefaultJvmArguments(Settings settings)
     {
-        if (!settings.LauncherVersion.VersionExists())
-            return default;
+        if (
+            ObjectValidator<string>.IsNullOrWhitespace(
+                settings?.LauncherVersion?.Version,
+                settings?.LauncherVersion?.VersionType
+            )
+        )
+            return null;
 
         JvmArguments jvmArguments = new();
         string libraries = MPathResolver.Libraries(settings.LauncherVersion);

@@ -1,7 +1,6 @@
 using System.Threading.Tasks;
 using MCL.Core.Launcher.Models;
 using MCL.Core.MiniCommon;
-using MCL.Core.Servers.Paper.Extensions;
 using MCL.Core.Servers.Paper.Helpers;
 using MCL.Core.Servers.Paper.Models;
 using MCL.Core.Servers.Paper.Resolvers;
@@ -17,10 +16,14 @@ public static class PaperServerDownloader
         PaperUrls paperUrls
     )
     {
-        if (!paperUrls.JarUrlExists())
-            return false;
-
-        if (!paperBuild.BuildExists())
+        if (
+            ObjectValidator<string>.IsNullOrWhitespace(
+                paperUrls?.PaperJar,
+                paperBuild?.Build.ToString(),
+                paperBuild?.Downloads?.Application?.Name,
+                paperBuild?.Downloads?.Application?.SHA256
+            )
+        )
             return false;
 
         PaperServerProperties.NewEula(launcherPath, launcherVersion);

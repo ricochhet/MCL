@@ -1,6 +1,6 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using MCL.Core.Java.Enums;
-using MCL.Core.Java.Extensions;
 using MCL.Core.Java.Models;
 using MCL.Core.Java.Resolvers;
 using MCL.Core.Launcher.Models;
@@ -16,17 +16,22 @@ public static class JavaRuntimeDownloader
         JavaVersionDetails javaRuntimeFiles
     )
     {
-        if (!javaRuntimeFiles.FilesExists())
+        if (ObjectValidator<Dictionary<string, JavaRuntimeFile>>.IsNullOrEmpty(javaRuntimeFiles?.Files))
             return false;
 
-        foreach ((string path, JavaRuntimeFile javaRuntimeFile) in javaRuntimeFiles.Files)
+        foreach ((string path, JavaRuntimeFile javaRuntimeFile) in javaRuntimeFiles?.Files ?? [])
         {
-            if (javaRuntimeFile.Downloads == null)
+            if (ObjectValidator<JavaRuntimeFileDownloads>.IsNull(javaRuntimeFile?.Downloads))
                 continue;
 
             if (javaRuntimeFile.Type == "file")
             {
-                if (!javaRuntimeFile.FileExists())
+                if (
+                    ObjectValidator<string>.IsNullOrWhitespace(
+                        javaRuntimeFile.Downloads?.Raw?.URL,
+                        javaRuntimeFile.Downloads?.Raw?.SHA1
+                    )
+                )
                     return false;
 
                 if (

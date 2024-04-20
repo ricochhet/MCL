@@ -1,7 +1,7 @@
+using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using MCL.Core.Java.Enums;
-using MCL.Core.Java.Extensions;
 using MCL.Core.Java.Models;
 using MCL.Core.Java.Resolvers;
 using MCL.Core.Launcher.Models;
@@ -50,33 +50,44 @@ public static class JavaVersionDetailsDownloader
         javaRuntimeType switch
         {
             JavaRuntimeType.JAVA_RUNTIME_ALPHA
-                => javaRuntime.ObjectsExists(javaRuntime.JavaRuntimeAlpha)
-                    ? javaRuntime.JavaRuntimeAlpha[0].JavaRuntimeManifest.Url
+                => ObjectsValidate(javaRuntime, javaRuntime?.JavaRuntimeAlpha)
+                    ? javaRuntime?.JavaRuntimeAlpha[0].JavaRuntimeManifest.Url
                     : string.Empty,
             JavaRuntimeType.JAVA_RUNTIME_BETA
-                => javaRuntime.ObjectsExists(javaRuntime.JavaRuntimeBeta)
-                    ? javaRuntime.JavaRuntimeBeta[0].JavaRuntimeManifest.Url
+                => ObjectsValidate(javaRuntime, javaRuntime?.JavaRuntimeBeta)
+                    ? javaRuntime?.JavaRuntimeBeta[0].JavaRuntimeManifest.Url
                     : string.Empty,
             JavaRuntimeType.JAVA_RUNTIME_DELTA
-                => javaRuntime.ObjectsExists(javaRuntime.JavaRuntimeDelta)
-                    ? javaRuntime.JavaRuntimeDelta[0].JavaRuntimeManifest.Url
+                => ObjectsValidate(javaRuntime, javaRuntime?.JavaRuntimeDelta)
+                    ? javaRuntime?.JavaRuntimeDelta[0].JavaRuntimeManifest.Url
                     : string.Empty,
             JavaRuntimeType.JAVA_RUNTIME_GAMMA
-                => javaRuntime.ObjectsExists(javaRuntime.JavaRuntimeGamma)
-                    ? javaRuntime.JavaRuntimeGamma[0].JavaRuntimeManifest.Url
+                => ObjectsValidate(javaRuntime, javaRuntime?.JavaRuntimeGamma)
+                    ? javaRuntime?.JavaRuntimeGamma[0].JavaRuntimeManifest.Url
                     : string.Empty,
             JavaRuntimeType.JAVA_RUNTIME_GAMMA_SNAPSHOT
-                => javaRuntime.ObjectsExists(javaRuntime.JavaRuntimeGammaSnapshot)
-                    ? javaRuntime.JavaRuntimeGammaSnapshot[0].JavaRuntimeManifest.Url
+                => ObjectsValidate(javaRuntime, javaRuntime?.JavaRuntimeGammaSnapshot)
+                    ? javaRuntime?.JavaRuntimeGammaSnapshot[0].JavaRuntimeManifest.Url
                     : string.Empty,
             JavaRuntimeType.JRE_LEGACY
-                => javaRuntime.ObjectsExists(javaRuntime.JreLegacy)
-                    ? javaRuntime.JreLegacy[0].JavaRuntimeManifest.Url
+                => ObjectsValidate(javaRuntime, javaRuntime?.JreLegacy)
+                    ? javaRuntime?.JreLegacy[0].JavaRuntimeManifest.Url
                     : string.Empty,
             JavaRuntimeType.MINECRAFT_JAVA_EXE
-                => javaRuntime.ObjectsExists(javaRuntime.MinecraftJavaExe)
-                    ? javaRuntime.MinecraftJavaExe[0].JavaRuntimeManifest.Url
+                => ObjectsValidate(javaRuntime, javaRuntime?.MinecraftJavaExe)
+                    ? javaRuntime?.MinecraftJavaExe[0].JavaRuntimeManifest.Url
                     : string.Empty,
             _ => string.Empty
         };
+
+    private static bool ObjectsValidate(JavaRuntime javaRuntime, List<JavaRuntimeObject> javaRuntimeObjects)
+    {
+        if (
+            ObjectValidator<JavaRuntime>.IsNull(javaRuntime)
+            || ObjectValidator<List<JavaRuntimeObject>>.IsNullOrEmpty(javaRuntimeObjects)
+            || ObjectValidator<string>.IsNullOrWhitespace(javaRuntimeObjects[0]?.JavaRuntimeManifest?.Url)
+        )
+            return false;
+        return true;
+    }
 }

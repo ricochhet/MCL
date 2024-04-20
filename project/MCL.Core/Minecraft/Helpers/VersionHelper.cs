@@ -1,9 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Services;
-using MCL.Core.Minecraft.Extensions;
 using MCL.Core.Minecraft.Models;
 using MCL.Core.Minecraft.Resolvers;
 using MCL.Core.Minecraft.Services;
@@ -51,24 +49,22 @@ public static class VersionHelper
 
     public static List<string> GetVersionIds(MVersionManifest versionManifest)
     {
-        if (!versionManifest.VersionsExists())
+        if (ObjectValidator<List<MVersion>>.IsNullOrEmpty(versionManifest?.Versions))
             return [];
 
         List<string> versions = [];
         foreach (MVersion item in versionManifest.Versions)
-        {
             versions.Add(item.ID);
-        }
 
         return versions;
     }
 
     public static MVersion GetVersion(LauncherVersion launcherVersion, MVersionManifest versionManifest)
     {
-        if (!launcherVersion.VersionExists())
-            return null;
-
-        if (!versionManifest.VersionsExists())
+        if (
+            ObjectValidator<string>.IsNullOrWhitespace(launcherVersion?.Version)
+            || ObjectValidator<List<MVersion>>.IsNullOrEmpty(versionManifest?.Versions)
+        )
             return null;
 
         foreach (MVersion item in versionManifest.Versions)
@@ -84,7 +80,7 @@ public static class VersionHelper
 
     public static MVersionDetails GetVersionDetails(LauncherPath launcherPath, LauncherVersion launcherVersion)
     {
-        if (!launcherVersion.VersionExists())
+        if (ObjectValidator<string>.IsNullOrWhitespace(launcherVersion.Version))
             return null;
 
         MVersionManifest versionManifest = Json.Load<MVersionManifest>(MPathResolver.VersionManifestPath(launcherPath));
@@ -93,13 +89,13 @@ public static class VersionHelper
             return null;
 
         MVersion version = GetVersion(launcherVersion, versionManifest);
-        if (version == null)
+        if (ObjectValidator<MVersion>.IsNull(version))
             return null;
 
         MVersionDetails versionDetails = Json.Load<MVersionDetails>(
             MPathResolver.VersionDetailsPath(launcherPath, version)
         );
-        if (versionDetails == null)
+        if (ObjectValidator<MVersionDetails>.IsNull(versionDetails))
             return null;
         return versionDetails;
     }

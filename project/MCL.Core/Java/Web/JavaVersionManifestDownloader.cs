@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using MCL.Core.Java.Models;
 using MCL.Core.Java.Resolvers;
 using MCL.Core.Launcher.Models;
-using MCL.Core.Minecraft.Extensions;
 using MCL.Core.Minecraft.Models;
 using MCL.Core.MiniCommon;
 
@@ -13,7 +12,7 @@ public static class JavaVersionManifestDownloader
 {
     public static async Task<bool> Download(LauncherPath launcherPath, MUrls mUrls)
     {
-        if (!mUrls.JavaVersionManifestExists())
+        if (ObjectValidator<string>.IsNullOrWhitespace(mUrls?.JavaVersionManifest))
             return false;
 
         string filepath = JavaPathResolver.DownloadedJavaVersionManifestPath(launcherPath);

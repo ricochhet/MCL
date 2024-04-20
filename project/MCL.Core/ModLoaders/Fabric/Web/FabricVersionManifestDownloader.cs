@@ -2,7 +2,6 @@ using System.Text;
 using System.Threading.Tasks;
 using MCL.Core.Launcher.Models;
 using MCL.Core.MiniCommon;
-using MCL.Core.ModLoaders.Fabric.Extensions;
 using MCL.Core.ModLoaders.Fabric.Models;
 using MCL.Core.ModLoaders.Fabric.Resolvers;
 
@@ -12,7 +11,7 @@ public static class FabricVersionManifestDownloader
 {
     public static async Task<bool> Download(LauncherPath launcherPath, FabricUrls fabricUrls)
     {
-        if (!fabricUrls.VersionManifestExists())
+        if (ObjectValidator<string>.IsNullOrWhitespace(fabricUrls?.VersionManifest))
             return false;
 
         string filepath = FabricPathResolver.VersionManifestPath(launcherPath);

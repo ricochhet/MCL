@@ -1,9 +1,7 @@
 using System.Text;
 using System.Threading.Tasks;
-using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
 using MCL.Core.MiniCommon;
-using MCL.Core.ModLoaders.Fabric.Extensions;
 using MCL.Core.ModLoaders.Fabric.Models;
 using MCL.Core.ModLoaders.Fabric.Resolvers;
 
@@ -17,10 +15,13 @@ public static class FabricProfileDownloader
         FabricUrls fabricUrls
     )
     {
-        if (!launcherVersion.VersionExists() || !launcherVersion.FabricLoaderVersionExists())
-            return false;
-
-        if (!fabricUrls.LoaderProfileExists())
+        if (
+            ObjectValidator<string>.IsNullOrWhitespace(
+                launcherVersion?.Version,
+                launcherVersion?.FabricLoaderVersion,
+                fabricUrls?.LoaderProfile
+            )
+        )
             return false;
 
         string fabricProfile = await Request.GetJsonAsync<FabricProfile>(

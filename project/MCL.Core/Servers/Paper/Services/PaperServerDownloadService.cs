@@ -72,7 +72,7 @@ public class PaperServerDownloadService : IDownloadService
 
         if (!await PaperVersionManifestDownloader.Download(_launcherPath, _launcherVersion, _paperUrls))
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.download", [nameof(PaperVersionManifestDownloader)]);
+            NotificationService.Log(NativeLogLevel.Error, "error.download", nameof(PaperVersionManifestDownloader));
             return false;
         }
 
@@ -84,7 +84,7 @@ public class PaperServerDownloadService : IDownloadService
         if (!_loaded)
             return false;
 
-        if (!_launcherVersion.VersionExists())
+        if (ObjectValidator<string>.IsNullOrWhitespace(_launcherVersion?.Version))
             return false;
 
         PaperVersionManifest = Json.Load<PaperVersionManifest>(
@@ -92,7 +92,7 @@ public class PaperServerDownloadService : IDownloadService
         );
         if (PaperVersionManifest == null)
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.readfile", [nameof(PaperVersionManifest)]);
+            NotificationService.Log(NativeLogLevel.Error, "error.readfile", nameof(PaperVersionManifest));
             return false;
         }
 
@@ -104,7 +104,7 @@ public class PaperServerDownloadService : IDownloadService
         if (!_loaded)
             return false;
 
-        if (!_launcherVersion.VersionExists())
+        if (ObjectValidator<string>.IsNullOrWhitespace(_launcherVersion?.Version))
             return false;
 
         PaperVersionManifest = Json.Load<PaperVersionManifest>(
@@ -127,7 +127,8 @@ public class PaperServerDownloadService : IDownloadService
             NotificationService.Log(
                 NativeLogLevel.Error,
                 "error.parse",
-                [_launcherVersion?.PaperServerVersion, nameof(PaperBuild)]
+                _launcherVersion?.PaperServerVersion,
+                nameof(PaperBuild)
             );
             return false;
         }
@@ -142,7 +143,7 @@ public class PaperServerDownloadService : IDownloadService
 
         if (!await PaperServerDownloader.Download(_launcherPath, _launcherVersion, PaperBuild, _paperUrls))
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.download", [nameof(PaperServerDownloader)]);
+            NotificationService.Log(NativeLogLevel.Error, "error.download", nameof(PaperServerDownloader));
             return false;
         }
 

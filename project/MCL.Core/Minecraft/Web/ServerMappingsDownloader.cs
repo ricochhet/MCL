@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 using MCL.Core.Launcher.Models;
-using MCL.Core.Minecraft.Extensions;
 using MCL.Core.Minecraft.Models;
 using MCL.Core.Minecraft.Resolvers;
 using MCL.Core.MiniCommon;
@@ -11,7 +10,13 @@ public static class ServerMappingsDownloader
 {
     public static async Task<bool> Download(LauncherPath launcherPath, MVersionDetails versionDetails)
     {
-        if (!versionDetails.ServerMappingsExists())
+        if (
+            ObjectValidator<string>.IsNullOrWhitespace(
+                versionDetails?.Downloads?.ServerMappings?.SHA1,
+                versionDetails?.Downloads?.ServerMappings?.URL,
+                versionDetails?.ID
+            )
+        )
             return false;
 
         return await Request.DownloadSHA1(

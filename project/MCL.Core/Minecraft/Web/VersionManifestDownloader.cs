@@ -1,7 +1,6 @@
 using System.Text;
 using System.Threading.Tasks;
 using MCL.Core.Launcher.Models;
-using MCL.Core.Minecraft.Extensions;
 using MCL.Core.Minecraft.Models;
 using MCL.Core.Minecraft.Resolvers;
 using MCL.Core.MiniCommon;
@@ -12,7 +11,7 @@ public static class VersionManifestDownloader
 {
     public static async Task<bool> Download(LauncherPath launcherPath, MUrls mUrls)
     {
-        if (!mUrls.VersionManifestExists())
+        if (ObjectValidator<string>.IsNullOrWhitespace(mUrls?.VersionManifest))
             return false;
 
         string filepath = MPathResolver.VersionManifestPath(launcherPath);

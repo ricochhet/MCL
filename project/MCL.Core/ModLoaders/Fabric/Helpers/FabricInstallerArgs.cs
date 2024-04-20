@@ -1,6 +1,6 @@
 using MCL.Core.Java.Models;
-using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
+using MCL.Core.MiniCommon;
 using MCL.Core.ModLoaders.Fabric.Enums;
 using MCL.Core.ModLoaders.Fabric.Resolvers;
 
@@ -15,11 +15,13 @@ public static class FabricInstallerArgs
     )
     {
         if (
-            !launcherVersion.VersionExists()
-            || !launcherVersion.FabricInstallerVersionExists()
-            || !launcherVersion.FabricLoaderVersionExists()
+            ObjectValidator<string>.IsNullOrWhitespace(
+                launcherVersion?.Version,
+                launcherVersion?.FabricInstallerVersion,
+                launcherVersion?.FabricLoaderVersion
+            )
         )
-            return default;
+            return null;
 
         JvmArguments jvmArguments = new();
         jvmArguments.Add(

@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 using MCL.Core.Interfaces.Web;
-using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Services;
 using MCL.Core.Logger.Enums;
@@ -72,7 +71,7 @@ public class QuiltLoaderDownloadService : ILoaderDownloadService<QuiltUrls>, IDo
 
         if (!await QuiltVersionManifestDownloader.Download(_launcherPath, _quiltUrls))
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.download", [nameof(QuiltVersionManifestDownloader)]);
+            NotificationService.Log(NativeLogLevel.Error, "error.download", nameof(QuiltVersionManifestDownloader));
             return false;
         }
 
@@ -87,7 +86,7 @@ public class QuiltLoaderDownloadService : ILoaderDownloadService<QuiltUrls>, IDo
         QuiltVersionManifest = Json.Load<QuiltVersionManifest>(QuiltPathResolver.VersionManifestPath(_launcherPath));
         if (QuiltVersionManifest == null)
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.readfile", [nameof(QuiltVersionManifest)]);
+            NotificationService.Log(NativeLogLevel.Error, "error.readfile", nameof(QuiltVersionManifest));
             return false;
         }
 
@@ -113,7 +112,7 @@ public class QuiltLoaderDownloadService : ILoaderDownloadService<QuiltUrls>, IDo
 
         if (!await QuiltProfileDownloader.Download(_launcherPath, _launcherVersion, _quiltUrls))
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.download", [nameof(QuiltProfileDownloader)]);
+            NotificationService.Log(NativeLogLevel.Error, "error.download", nameof(QuiltProfileDownloader));
             return false;
         }
 
@@ -125,13 +124,13 @@ public class QuiltLoaderDownloadService : ILoaderDownloadService<QuiltUrls>, IDo
         if (!_loaded)
             return false;
 
-        if (!_launcherVersion.VersionExists() || !_launcherVersion.QuiltLoaderVersionExists())
+        if (ObjectValidator<string>.IsNullOrWhitespace(_launcherVersion?.Version, _launcherVersion?.QuiltLoaderVersion))
             return false;
 
         QuiltProfile = Json.Load<QuiltProfile>(QuiltPathResolver.ProfilePath(_launcherPath, _launcherVersion));
         if (QuiltProfile == null)
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.download", [nameof(QuiltProfile)]);
+            NotificationService.Log(NativeLogLevel.Error, "error.download", nameof(QuiltProfile));
             return false;
         }
 
@@ -149,7 +148,8 @@ public class QuiltLoaderDownloadService : ILoaderDownloadService<QuiltUrls>, IDo
             NotificationService.Log(
                 NativeLogLevel.Error,
                 "error.parse",
-                [_launcherVersion?.QuiltLoaderVersion, nameof(QuiltLoader)]
+                _launcherVersion?.QuiltLoaderVersion,
+                nameof(QuiltLoader)
             );
             return false;
         }
@@ -172,7 +172,7 @@ public class QuiltLoaderDownloadService : ILoaderDownloadService<QuiltUrls>, IDo
             )
         )
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.download", [nameof(QuiltLoaderDownloader)]);
+            NotificationService.Log(NativeLogLevel.Error, "error.download", nameof(QuiltLoaderDownloader));
             return false;
         }
 

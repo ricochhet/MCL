@@ -1,10 +1,10 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Services;
 using MCL.Core.Minecraft.Resolvers;
 using MCL.Core.MiniCommon;
-using MCL.Core.ModLoaders.Fabric.Extensions;
 using MCL.Core.ModLoaders.Fabric.Models;
 using MCL.Core.ModLoaders.Fabric.Resolvers;
 
@@ -23,13 +23,12 @@ public static class FabricLoaderDownloader
     )
 #pragma warning restore
     {
-        if (!launcherVersion.FabricLoaderVersionExists())
-            return false;
-
         if (
-            !fabricProfile.LibraryExists()
-            || !fabricUrls.ApiLoaderNameExists()
-            || !fabricUrls.ApiIntermediaryNameExists()
+            ObjectValidator<string>.IsNullOrWhitespace(
+                launcherVersion?.FabricLoaderVersion,
+                fabricUrls?.ApiLoaderName,
+                fabricUrls?.ApiIntermediaryName
+            ) || ObjectValidator<List<FabricLibrary>>.IsNullOrEmpty(fabricProfile?.Libraries)
         )
             return false;
 
@@ -37,7 +36,7 @@ public static class FabricLoaderDownloader
 
         foreach (FabricLibrary library in fabricProfile.Libraries)
         {
-            if (!library.LibraryExists())
+            if (ObjectValidator<string>.IsNullOrWhitespace(library?.Name, library?.URL))
                 return false;
 
             string request;

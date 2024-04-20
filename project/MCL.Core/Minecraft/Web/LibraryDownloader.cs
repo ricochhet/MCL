@@ -1,9 +1,9 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using MCL.Core.Java.Enums;
 using MCL.Core.Java.Resolvers;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Minecraft.Enums;
-using MCL.Core.Minecraft.Extensions;
 using MCL.Core.Minecraft.Models;
 using MCL.Core.Minecraft.Resolvers;
 using MCL.Core.MiniCommon;
@@ -18,7 +18,7 @@ public static class LibraryDownloader
         MVersionDetails versionDetails
     )
     {
-        if (!versionDetails.LibrariesExists())
+        if (ObjectValidator<List<MLibrary>>.IsNullOrEmpty(versionDetails?.Libraries))
             return false;
 
         string libPath = VFS.Combine(launcherPath.Path, "libraries");
@@ -33,7 +33,13 @@ public static class LibraryDownloader
             if (!await DownloadNatives(launcherPath, lib, launcherSettings))
                 return false;
 
-            if (!lib.ArtifactExists())
+            if (
+                ObjectValidator<string>.IsNullOrWhitespace(
+                    lib.Downloads?.Artifact?.Path,
+                    lib.Downloads?.Artifact?.URL,
+                    lib.Downloads?.Artifact?.SHA1
+                )
+            )
                 return false;
 
             string filepath = VFS.Combine(libPath, lib.Downloads.Artifact.Path);
@@ -92,7 +98,13 @@ public static class LibraryDownloader
             case JavaRuntimePlatform.WINDOWSX64
             or JavaRuntimePlatform.WINDOWSX86
             or JavaRuntimePlatform.WINDOWSARM64:
-                if (!lib.WindowsClassifierNativesExists())
+                if (
+                    ObjectValidator<string>.IsNullOrWhitespace(
+                        lib.Downloads?.Classifiers?.NativesWindows?.URL,
+                        lib.Downloads?.Classifiers?.NativesWindows?.SHA1,
+                        lib.Downloads?.Classifiers?.NativesWindows?.Path
+                    )
+                )
                     return false;
 
                 classifierFilePath = VFS.Combine(libraryPath, lib.Downloads.Classifiers.NativesWindows.Path);
@@ -101,7 +113,13 @@ public static class LibraryDownloader
                 break;
             case JavaRuntimePlatform.LINUX
             or JavaRuntimePlatform.LINUXI386:
-                if (!lib.LinuxClassifierNativesExists())
+                if (
+                    ObjectValidator<string>.IsNullOrWhitespace(
+                        lib.Downloads?.Classifiers?.NativesLinux?.URL,
+                        lib.Downloads?.Classifiers?.NativesLinux?.SHA1,
+                        lib.Downloads?.Classifiers?.NativesLinux?.Path
+                    )
+                )
                     return false;
 
                 classifierFilePath = VFS.Combine(libraryPath, lib.Downloads.Classifiers.NativesLinux.Path);
@@ -110,7 +128,13 @@ public static class LibraryDownloader
                 break;
             case JavaRuntimePlatform.MACOS
             or JavaRuntimePlatform.MACOSARM64:
-                if (!lib.OSXClassifierNativesExists())
+                if (
+                    ObjectValidator<string>.IsNullOrWhitespace(
+                        lib.Downloads?.Classifiers?.NativesMacos?.URL,
+                        lib.Downloads?.Classifiers?.NativesMacos?.SHA1,
+                        lib.Downloads?.Classifiers?.NativesMacos?.Path
+                    )
+                )
                     return false;
 
                 classifierFilePath = VFS.Combine(libraryPath, lib.Downloads.Classifiers.NativesMacos.Path);

@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MCL.Core.Java.Helpers;
-using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Minecraft.Helpers;
 using MCL.Core.MiniCommon;
@@ -27,7 +26,7 @@ public class DownloadFabricInstaller : ILauncherCommand
                 _launcherVersion.FabricInstallerVersion = options.GetValueOrDefault("installerversion") ?? "latest";
                 if (!bool.TryParse(options.GetValueOrDefault("update") ?? "false", out bool update))
                     return;
-                if (!_launcherVersion.FabricInstallerVersionExists())
+                if (ObjectValidator<string>.IsNullOrWhitespace(_launcherVersion.FabricInstallerVersion))
                     return;
                 if (!await VersionHelper.SetVersion(settings, _launcherVersion, update))
                     return;

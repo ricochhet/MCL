@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 using MCL.Core.Interfaces.Web;
-using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Services;
 using MCL.Core.Logger.Enums;
@@ -72,7 +71,7 @@ public class FabricLoaderDownloadService : ILoaderDownloadService<FabricUrls>, I
 
         if (!await FabricVersionManifestDownloader.Download(_launcherPath, _fabricUrls))
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.download", [nameof(FabricVersionManifestDownloader)]);
+            NotificationService.Log(NativeLogLevel.Error, "error.download", nameof(FabricVersionManifestDownloader));
             return false;
         }
 
@@ -87,7 +86,7 @@ public class FabricLoaderDownloadService : ILoaderDownloadService<FabricUrls>, I
         FabricVersionManifest = Json.Load<FabricVersionManifest>(FabricPathResolver.VersionManifestPath(_launcherPath));
         if (FabricVersionManifest == null)
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.readfile", [nameof(FabricVersionManifest)]);
+            NotificationService.Log(NativeLogLevel.Error, "error.readfile", nameof(FabricVersionManifest));
             return false;
         }
 
@@ -113,7 +112,7 @@ public class FabricLoaderDownloadService : ILoaderDownloadService<FabricUrls>, I
 
         if (!await FabricProfileDownloader.Download(_launcherPath, _launcherVersion, _fabricUrls))
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.download", [nameof(FabricProfileDownloader)]);
+            NotificationService.Log(NativeLogLevel.Error, "error.download", nameof(FabricProfileDownloader));
             return false;
         }
 
@@ -125,13 +124,15 @@ public class FabricLoaderDownloadService : ILoaderDownloadService<FabricUrls>, I
         if (!_loaded)
             return false;
 
-        if (!_launcherVersion.VersionExists() || !_launcherVersion.FabricLoaderVersionExists())
+        if (
+            ObjectValidator<string>.IsNullOrWhitespace(_launcherVersion?.Version, _launcherVersion?.FabricLoaderVersion)
+        )
             return false;
 
         FabricProfile = Json.Load<FabricProfile>(FabricPathResolver.ProfilePath(_launcherPath, _launcherVersion));
         if (FabricProfile == null)
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.download", [nameof(FabricProfile)]);
+            NotificationService.Log(NativeLogLevel.Error, "error.download", nameof(FabricProfile));
             return false;
         }
 
@@ -149,7 +150,8 @@ public class FabricLoaderDownloadService : ILoaderDownloadService<FabricUrls>, I
             NotificationService.Log(
                 NativeLogLevel.Error,
                 "error.parse",
-                [_launcherVersion?.FabricLoaderVersion, nameof(FabricLoader)]
+                _launcherVersion?.FabricLoaderVersion,
+                nameof(FabricLoader)
             );
             return false;
         }
@@ -172,7 +174,7 @@ public class FabricLoaderDownloadService : ILoaderDownloadService<FabricUrls>, I
             )
         )
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.download", [nameof(FabricLoaderDownloader)]);
+            NotificationService.Log(NativeLogLevel.Error, "error.download", nameof(FabricLoaderDownloader));
             return false;
         }
 

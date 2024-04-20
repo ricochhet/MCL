@@ -14,12 +14,12 @@ public static class NotificationService
 
     public static void Log(NativeLogLevel level, string id)
     {
-        _notifications.Add(new Notification(level, id));
+        _notifications.Add(new(level, id));
     }
 
-    public static void Log(NativeLogLevel level, string id, string[] _params)
+    public static void Log(NativeLogLevel level, string id, params string[] _params)
     {
-        _notifications.Add(new Notification(level, id, _params));
+        _notifications.Add(new(level, id, _params));
     }
 
     public static void Clear() => _notifications.Clear();

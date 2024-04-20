@@ -1,6 +1,6 @@
 using MCL.Core.Java.Models;
-using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
+using MCL.Core.MiniCommon;
 using MCL.Core.Servers.Paper.Resolvers;
 
 namespace MCL.Core.Servers.Paper.Helpers;
@@ -9,8 +9,8 @@ public static class PaperServerArgs
 {
     public static JvmArguments DefaultJvmArguments(LauncherPath launcherPath, LauncherVersion launcherVersion)
     {
-        if (!launcherVersion.VersionExists() || !launcherVersion.PaperServerVersionExists())
-            return default;
+        if (ObjectValidator<string>.IsNullOrWhitespace(launcherVersion?.Version, launcherVersion?.PaperServerVersion))
+            return null;
 
         JvmArguments jvmArguments = new();
         jvmArguments.Add("-Xms{0}m", ["4096"]);

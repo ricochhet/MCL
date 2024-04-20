@@ -1,11 +1,8 @@
 using System.Threading.Tasks;
-using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Services;
 using MCL.Core.Logger.Enums;
-using MCL.Core.Minecraft.Extensions;
 using MCL.Core.MiniCommon;
-using MCL.Core.ModLoaders.Quilt.Extensions;
 using MCL.Core.ModLoaders.Quilt.Models;
 using MCL.Core.ModLoaders.Quilt.Resolvers;
 
@@ -19,17 +16,20 @@ public static class QuiltInstallerDownloader
         QuiltInstaller quiltInstaller
     )
     {
-        if (!launcherVersion.QuiltInstallerVersionExists())
-            return false;
-
-        if (!quiltInstaller.UrlExists() || !quiltInstaller.VersionExists())
+        if (
+            ObjectValidator<string>.IsNullOrWhitespace(
+                launcherVersion?.QuiltInstallerVersion,
+                quiltInstaller?.URL,
+                quiltInstaller?.Version
+            )
+        )
             return false;
 
         string quiltInstallerPath = QuiltPathResolver.InstallerPath(launcherPath, launcherVersion);
         // Quilt does not provide a file hash through the current method. We do simple check of the version instead.
         if (VFS.Exists(quiltInstallerPath))
         {
-            NotificationService.Log(NativeLogLevel.Info, "quilt.installer-exists", [quiltInstaller?.Version]);
+            NotificationService.Log(NativeLogLevel.Info, "quilt.installer-exists", quiltInstaller.Version);
             return true;
         }
 

@@ -1,6 +1,7 @@
 using MCL.Core.Java.Helpers;
 using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
+using MCL.Core.MiniCommon;
 using MCL.Core.Servers.Paper.Resolvers;
 
 namespace MCL.Core.Servers.Paper.Helpers;
@@ -9,7 +10,7 @@ public static class PaperLauncher
 {
     public static void Launch(Settings settings)
     {
-        if (!settings.LauncherVersion.VersionExists())
+        if (ObjectValidator<string>.IsNullOrWhitespace(settings?.LauncherVersion?.Version))
             return;
 
         settings.Save(PaperServerArgs.DefaultJvmArguments(settings.LauncherPath, settings.LauncherVersion));

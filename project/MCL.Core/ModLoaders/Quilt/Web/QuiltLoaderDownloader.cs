@@ -1,10 +1,10 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Services;
 using MCL.Core.Minecraft.Resolvers;
 using MCL.Core.MiniCommon;
-using MCL.Core.ModLoaders.Quilt.Extensions;
 using MCL.Core.ModLoaders.Quilt.Models;
 using MCL.Core.ModLoaders.Quilt.Resolvers;
 
@@ -23,17 +23,20 @@ public static class QuiltLoaderDownloader
     )
 #pragma warning restore
     {
-        if (!launcherVersion.QuiltLoaderVersionExists())
-            return false;
-
-        if (!quiltProfile.LibraryExists() || !quiltUrls.ApiLoaderNameExists() || !quiltUrls.ApiIntermediaryNameExists())
+        if (
+            ObjectValidator<string>.IsNullOrWhitespace(
+                launcherVersion?.QuiltLoaderVersion,
+                quiltUrls?.ApiLoaderName,
+                quiltUrls?.ApiIntermediaryName
+            ) || ObjectValidator<List<QuiltLibrary>>.IsNullOrEmpty(quiltProfile?.Libraries)
+        )
             return false;
 
         LauncherModLoader loader = new() { Version = launcherVersion.QuiltLoaderVersion };
 
         foreach (QuiltLibrary library in quiltProfile.Libraries)
         {
-            if (!library.LibraryExists())
+            if (ObjectValidator<string>.IsNullOrWhitespace(library?.Name, library?.URL))
                 return false;
 
             string request;

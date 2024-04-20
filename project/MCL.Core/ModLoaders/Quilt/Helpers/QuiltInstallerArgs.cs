@@ -1,7 +1,7 @@
 using MCL.Core.Java.Extensions;
 using MCL.Core.Java.Models;
-using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
+using MCL.Core.MiniCommon;
 using MCL.Core.ModLoaders.Quilt.Enums;
 using MCL.Core.ModLoaders.Quilt.Resolvers;
 
@@ -16,11 +16,13 @@ public static class QuiltInstallerArgs
     )
     {
         if (
-            !launcherVersion.VersionExists()
-            || !launcherVersion.QuiltInstallerVersionExists()
-            || !launcherVersion.QuiltLoaderVersionExists()
+            ObjectValidator<string>.IsNullOrWhitespace(
+                launcherVersion?.Version,
+                launcherVersion?.QuiltInstallerVersion,
+                launcherVersion?.QuiltLoaderVersion
+            )
         )
-            return default;
+            return null;
 
         JvmArguments jvmArguments = new();
         jvmArguments.Add("-jar \"{0}\"", [QuiltPathResolver.InstallerPath(launcherPath, launcherVersion)]);

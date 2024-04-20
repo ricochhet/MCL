@@ -1,9 +1,7 @@
 using System.Text;
 using System.Threading.Tasks;
-using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
 using MCL.Core.MiniCommon;
-using MCL.Core.Servers.Paper.Extensions;
 using MCL.Core.Servers.Paper.Models;
 using MCL.Core.Servers.Paper.Resolvers;
 
@@ -17,10 +15,7 @@ public static class PaperVersionManifestDownloader
         PaperUrls paperUrls
     )
     {
-        if (!paperUrls.VersionManifestExists())
-            return false;
-
-        if (!launcherVersion.VersionExists())
+        if (ObjectValidator<string>.IsNullOrWhitespace(launcherVersion?.Version, paperUrls?.VersionManifest))
             return false;
 
         string filepath = PaperPathResolver.VersionManifestPath(launcherPath, launcherVersion);

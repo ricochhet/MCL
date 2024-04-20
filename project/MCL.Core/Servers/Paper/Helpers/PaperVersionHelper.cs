@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Services;
-using MCL.Core.Servers.Paper.Extensions;
+using MCL.Core.MiniCommon;
 using MCL.Core.Servers.Paper.Models;
 using MCL.Core.Servers.Paper.Services;
 
@@ -48,7 +47,7 @@ public static class PaperVersionHelper
 
     public static List<string> GetVersionIds(PaperVersionManifest paperVersionManifest)
     {
-        if (!paperVersionManifest.BuildsExists())
+        if (ObjectValidator<List<PaperBuild>>.IsNullOrEmpty(paperVersionManifest?.Builds))
             return [];
 
         List<string> versions = [];
@@ -62,10 +61,10 @@ public static class PaperVersionHelper
 
     public static PaperBuild GetVersion(LauncherVersion paperServerVersion, PaperVersionManifest paperVersionManifest)
     {
-        if (!paperServerVersion.PaperServerVersionExists())
-            return null;
-
-        if (!paperVersionManifest.BuildsExists())
+        if (
+            ObjectValidator<string>.IsNullOrWhitespace(paperServerVersion?.PaperServerVersion)
+            || ObjectValidator<List<PaperBuild>>.IsNullOrEmpty(paperVersionManifest?.Builds)
+        )
             return null;
 
         PaperBuild paperBuild = paperVersionManifest.Builds[^1];

@@ -1,6 +1,6 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using MCL.Core.Launcher.Models;
-using MCL.Core.Minecraft.Extensions;
 using MCL.Core.Minecraft.Models;
 using MCL.Core.Minecraft.Resolvers;
 using MCL.Core.MiniCommon;
@@ -11,7 +11,10 @@ public static class ResourceDownloader
 {
     public static async Task<bool> Download(LauncherPath launcherPath, MUrls mUrls, MAssetsData assets)
     {
-        if (!mUrls.MinecraftResourcesExists() || !assets.ObjectsExists())
+        if (
+            ObjectValidator<string>.IsNullOrWhitespace(mUrls?.MinecraftResources)
+            || ObjectValidator<Dictionary<string, MAsset>>.IsNullOrEmpty(assets?.Objects)
+        )
             return false;
 
         string objectsPath = VFS.Combine(MPathResolver.AssetsPath(launcherPath), "objects");
