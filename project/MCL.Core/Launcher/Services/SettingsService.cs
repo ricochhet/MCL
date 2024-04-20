@@ -33,6 +33,7 @@ public static class SettingsService
                 new()
                 {
                     LauncherInstance = new(),
+                    OverrideLauncherInstance = new(),
                     LauncherUsername = new(username: "Player1337"),
                     LauncherPath = new(),
                     LauncherVersion = new(),
@@ -42,11 +43,15 @@ public static class SettingsService
                     QuiltUrls = new(),
                     PaperUrls = new(),
                     MJvmArguments = new(),
+                    OverrideMJvmArguments = new(),
                     FabricJvmArguments = new(),
+                    OverrideFabricJvmArguments = new(),
                     QuiltJvmArguments = new(),
+                    OverrideQuiltJvmArguments = new(),
                     JavaSettings = new(),
                     SevenZipSettings = new(),
-                    ModSettings = new()
+                    ModSettings = new(),
+                    OverrideModSettings = new(),
                 };
 
             Json.Save(_settingsFilePath, settings, JsonSerializerOptions);

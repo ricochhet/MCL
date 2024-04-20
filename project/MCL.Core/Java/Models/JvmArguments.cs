@@ -18,7 +18,8 @@ public class JvmArguments
         List<LaunchArg> sortedLaunchArgs = [.. Arguments.OrderBy(a => a.Priority)];
         foreach (LaunchArg arg in sortedLaunchArgs)
         {
-            parsedLaunchArgs.Add(arg.Parse());
+            if (!arg.Ignore)
+                parsedLaunchArgs.Add(arg.Parse());
         }
         return string.Join(" ", parsedLaunchArgs);
     }

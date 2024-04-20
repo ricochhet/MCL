@@ -4,8 +4,8 @@ namespace MCL.Core.Modding.Models;
 
 public class ModSettings
 {
-    public string[] CopyOnlyTypes { get; set; } = [".jar"];
-    public string[] UnzipAndCopyTypes { get; set; } = [".zip", ".rar", ".7z"];
+    public List<string> CopyOnlyTypes { get; set; } = [".jar"];
+    public List<string> UnzipAndCopyTypes { get; set; } = [".zip", ".rar", ".7z"];
     public List<string> ModStores { get; set; } = [];
     public List<string> DeployPaths { get; set; } = [];
 
