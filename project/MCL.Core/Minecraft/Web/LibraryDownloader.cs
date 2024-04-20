@@ -37,7 +37,7 @@ public static class LibraryDownloader
                 return false;
 
             string filepath = VFS.Combine(libPath, lib.Downloads.Artifact.Path);
-            if (!await Request.Download(lib.Downloads.Artifact.URL, filepath, lib.Downloads.Artifact.SHA1))
+            if (!await Request.DownloadSHA1(lib.Downloads.Artifact.URL, filepath, lib.Downloads.Artifact.SHA1))
                 return false;
         }
 
@@ -119,7 +119,7 @@ public static class LibraryDownloader
                 break;
         }
 
-        if (!await Request.Download(classifierUrl, classifierFilePath, classifierSha1))
+        if (!await Request.DownloadSHA1(classifierUrl, classifierFilePath, classifierSha1))
             return false;
         return true;
     }

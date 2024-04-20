@@ -8,11 +8,15 @@ public static class ServerProperties
 {
     public static void NewEula(LauncherPath launcherPath)
     {
-        VFS.WriteFile(VFS.Combine(MPathResolver.ServerPath(launcherPath), "eula.txt"), "eula=true\n");
+        string filepath = VFS.Combine(MPathResolver.ServerPath(launcherPath), "eula.txt");
+        if (!VFS.Exists(filepath))
+            VFS.WriteFile(filepath, "eula=true\n");
     }
 
     public static void NewProperties(LauncherPath launcherPath)
     {
-        VFS.WriteFile(VFS.Combine(MPathResolver.ServerPath(launcherPath), "server.properties"), "online-mode=false\n");
+        string filepath = VFS.Combine(MPathResolver.ServerPath(launcherPath), "server.properties");
+        if (!VFS.Exists(filepath))
+            VFS.WriteFile(filepath, "online-mode=false\n");
     }
 }

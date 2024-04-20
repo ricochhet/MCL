@@ -14,7 +14,7 @@ public static class AssetIndexDownloader
         if (!versionDetails.AssetIndexExists())
             return false;
 
-        return await Request.Download(
+        return await Request.DownloadSHA1(
             versionDetails.AssetIndex.URL,
             MPathResolver.ClientIndexPath(launcherPath, versionDetails),
             versionDetails.AssetIndex.SHA1

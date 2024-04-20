@@ -8,6 +8,7 @@ public static class PaperBuildExt
     {
         return paperBuild != null
             && !string.IsNullOrWhiteSpace(paperBuild.Build.ToString())
-            && !string.IsNullOrWhiteSpace(paperBuild.Downloads?.Application?.Name);
+            && !string.IsNullOrWhiteSpace(paperBuild.Downloads?.Application?.Name)
+            && !string.IsNullOrWhiteSpace(paperBuild.Downloads?.Application?.SHA256);
     }
 }

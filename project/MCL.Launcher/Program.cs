@@ -70,6 +70,7 @@ internal static class Program
         commands.Add(new DownloadQuiltLoader());
         commands.Add(new DownloadPaperServer());
         commands.Add(new LaunchMinecraft());
+        commands.Add(new LaunchPaperServer());
         commands.Add(new DeployMods());
 
         foreach (ILauncherCommand command in commands)

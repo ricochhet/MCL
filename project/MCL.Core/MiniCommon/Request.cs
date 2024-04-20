@@ -195,8 +195,20 @@ public static class Request
     }
 
 #nullable disable
+    public static async Task<bool> DownloadSHA256(string request, string filepath, string hash)
+    {
+        if (VFS.Exists(filepath) && CryptographyHelper.CreateSHA256(filepath, true) == hash)
+        {
+            RequestDataService.Add(request, filepath, 0, hash);
+            NotificationService.Log(NativeLogLevel.Info, "request.get.exists", [request]);
+            return true;
+        }
+        else if (!await Download(request, filepath))
+            return false;
+        return true;
+    }
 
-    public static async Task<bool> Download(string request, string filepath, string hash)
+    public static async Task<bool> DownloadSHA1(string request, string filepath, string hash)
     {
         if (VFS.Exists(filepath) && CryptographyHelper.CreateSHA1(filepath, true) == hash)
         {

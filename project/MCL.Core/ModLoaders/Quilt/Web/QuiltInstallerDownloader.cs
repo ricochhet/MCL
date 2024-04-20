@@ -33,6 +33,6 @@ public static class QuiltInstallerDownloader
             return true;
         }
 
-        return await Request.Download(quiltInstaller.URL, quiltInstallerPath, string.Empty);
+        return await Request.DownloadSHA1(quiltInstaller.URL, quiltInstallerPath, string.Empty);
     }
 }

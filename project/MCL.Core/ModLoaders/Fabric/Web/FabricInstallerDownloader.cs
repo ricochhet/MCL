@@ -33,6 +33,6 @@ public static class FabricInstallerDownloader
             return true;
         }
 
-        return await Request.Download(fabricInstaller.URL, fabricInstallerPath, string.Empty);
+        return await Request.DownloadSHA1(fabricInstaller.URL, fabricInstallerPath, string.Empty);
     }
 }

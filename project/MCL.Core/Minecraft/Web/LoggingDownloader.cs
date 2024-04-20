@@ -14,7 +14,7 @@ public static class LoggingDownloader
         if (!versionDetails.LoggingExists())
             return false;
 
-        return await Request.Download(
+        return await Request.DownloadSHA1(
             versionDetails.Logging.Client.File.URL,
             MPathResolver.LoggingPath(launcherPath, versionDetails),
             versionDetails.Logging.Client.File.SHA1

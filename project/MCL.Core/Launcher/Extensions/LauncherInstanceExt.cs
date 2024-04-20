@@ -26,11 +26,18 @@ public static class LauncherInstanceExt
             .Select(group => group.Last())
             .ToList();
 
+        List<string> paperServerVersions = launcherInstance
+            .PaperServerVersions.Concat(concat.PaperServerVersions)
+            .GroupBy(arg => arg)
+            .Select(group => group.Last())
+            .ToList();
+
         return new LauncherInstance
         {
             Versions = versions,
             FabricLoaders = fabricLoaders,
-            QuiltLoaders = quiltLoaders
+            QuiltLoaders = quiltLoaders,
+            PaperServerVersions = paperServerVersions
         };
     }
 }

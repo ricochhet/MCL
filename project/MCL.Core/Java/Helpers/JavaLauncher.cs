@@ -26,6 +26,22 @@ public static class JavaLauncher
     public static void Launch(
         Settings settings,
         string workingDirectory,
+        JvmArguments jvmArguments,
+        JavaRuntimeType javaRuntimeType
+    )
+    {
+        if (settings == null || string.IsNullOrWhiteSpace(workingDirectory))
+            return;
+        if (!VFS.Exists(workingDirectory))
+            return;
+        string javaHome = JavaRuntimeHelper.FindJavaRuntimeEnvironment(settings, workingDirectory, javaRuntimeType);
+        string javaExe = VFS.Combine(JavaPathResolver.JavaRuntimeBin(javaHome), settings.JavaSettings.Executable);
+        RunJavaProcess(settings, workingDirectory, jvmArguments, javaExe, javaHome);
+    }
+
+    public static void Launch(
+        Settings settings,
+        string workingDirectory,
         ClientType clientType,
         JavaRuntimeType javaRuntimeType
     )

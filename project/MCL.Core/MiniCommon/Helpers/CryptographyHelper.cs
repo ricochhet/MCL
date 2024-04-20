@@ -33,6 +33,32 @@ public static class CryptographyHelper
         return stringBuilder.ToString();
     }
 
+    public static string CreateSHA256(string fileName, bool formatting)
+    {
+        if (!VFS.Exists(fileName))
+            return string.Empty;
+
+        using FileStream stream = VFS.OpenRead(fileName);
+        byte[] hash = SHA256.HashData(stream);
+
+        if (formatting)
+            return BitConverter.ToString(hash).ToLower().Replace("-", string.Empty);
+
+        return BitConverter.ToString(hash);
+    }
+
+    public static string CreateSHA256(string value, Encoding enc)
+    {
+        StringBuilder stringBuilder = new();
+        byte[] hash = SHA256.HashData(enc.GetBytes(value));
+        foreach (byte b in hash)
+        {
+            stringBuilder.Append(b.ToString("x2"));
+        }
+
+        return stringBuilder.ToString();
+    }
+
     public static string CreateUUID(string value)
     {
         byte[] digestedHash = MD5.HashData(Encoding.UTF8.GetBytes(value));

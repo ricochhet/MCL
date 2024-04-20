@@ -14,7 +14,7 @@ public static class ClientMappingsDownloader
         if (!versionDetails.ClientMappingsExists())
             return false;
 
-        return await Request.Download(
+        return await Request.DownloadSHA1(
             versionDetails.Downloads.ClientMappings.URL,
             MPathResolver.ClientMappingsPath(launcherPath, versionDetails),
             versionDetails.Downloads.ClientMappings.SHA1

@@ -91,6 +91,12 @@ public class MDownloadService : IDownloadService
         if (!await DownloadLogging())
             return false;
 
+        foreach (string version in _launcherInstance.Versions)
+        {
+            if (version == _launcherVersion.Version)
+                _launcherInstance.Versions.Remove(version);
+        }
+
         _launcherInstance.Versions.Add(_launcherVersion.Version);
         SettingsService.Load().Save(_launcherInstance);
 

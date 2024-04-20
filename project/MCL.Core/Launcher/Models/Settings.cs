@@ -11,6 +11,8 @@ namespace MCL.Core.Launcher.Models;
 
 public class Settings
 {
+    public MainClassNames MainClassNames { get; set; }
+
     public LauncherInstance LauncherInstance { get; set; }
 
     [JsonPropertyName("LauncherInstance.Override")]
@@ -39,6 +41,11 @@ public class Settings
 
     [JsonPropertyName("QuiltJvmArguments.Override")]
     public JvmArguments OverrideQuiltJvmArguments { get; set; }
+
+    public JvmArguments PaperJvmArguments { get; set; }
+
+    [JsonPropertyName("PaperJvmArguments.Override")]
+    public JvmArguments OverridePaperJvmArguments { get; set; }
 
     public JavaSettings JavaSettings { get; set; }
     public SevenZipSettings SevenZipSettings { get; set; }

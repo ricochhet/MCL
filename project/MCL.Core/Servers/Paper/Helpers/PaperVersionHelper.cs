@@ -17,7 +17,12 @@ public static class PaperVersionHelper
         bool updateVersionManifest = false
     )
     {
-        PaperServerDownloadService.Init(settings.LauncherPath, settings.LauncherVersion, settings.PaperUrls);
+        PaperServerDownloadService.Init(
+            settings.LauncherPath,
+            settings.LauncherVersion,
+            settings.LauncherInstance,
+            settings.PaperUrls
+        );
         if (!PaperServerDownloadService.LoadVersionManifestWithoutLogging() || updateVersionManifest)
         {
             await PaperServerDownloadService.DownloadVersionManifest();

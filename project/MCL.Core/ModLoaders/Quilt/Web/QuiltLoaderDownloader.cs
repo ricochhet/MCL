@@ -56,7 +56,7 @@ public static class QuiltLoaderDownloader
             );
             loader.Libraries.Add(filepath.Replace("\\", "/"));
 
-            if (!await Request.Download(request, filepath, string.Empty))
+            if (!await Request.DownloadSHA1(request, filepath, string.Empty))
                 return false;
         }
 

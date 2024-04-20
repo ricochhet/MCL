@@ -40,6 +40,16 @@ public static class SettingsExt
         return settings;
     }
 
+    public static Settings Save(this Settings settings, JvmArguments jvmArguments)
+    {
+        if (settings.PaperJvmArguments != jvmArguments)
+        {
+            settings.PaperJvmArguments = jvmArguments.Concat(settings.OverridePaperJvmArguments);
+            SettingsService.Save(settings);
+        }
+        return settings;
+    }
+
     public static Settings Save(this Settings settings, ModSettings modSettings)
     {
         if (settings.ModSettings != modSettings)

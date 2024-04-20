@@ -2,6 +2,7 @@ using System.Threading.Tasks;
 using MCL.Core.Launcher.Models;
 using MCL.Core.MiniCommon;
 using MCL.Core.Servers.Paper.Extensions;
+using MCL.Core.Servers.Paper.Helpers;
 using MCL.Core.Servers.Paper.Models;
 using MCL.Core.Servers.Paper.Resolvers;
 
@@ -22,9 +23,12 @@ public static class PaperServerDownloader
         if (!paperBuild.BuildExists())
             return false;
 
+        PaperServerProperties.NewEula(launcherPath, launcherVersion);
+        PaperServerProperties.NewProperties(launcherPath, launcherVersion);
+
         string filepath = PaperPathResolver.JarPath(launcherPath, launcherVersion);
         if (
-            !await Request.Download(
+            !await Request.DownloadSHA256(
                 string.Format(
                     paperUrls.PaperJar,
                     "paper",
@@ -33,7 +37,7 @@ public static class PaperServerDownloader
                     paperBuild.Downloads.Application.Name
                 ),
                 filepath,
-                string.Empty // Paper only provides SHA256 throughout the API, not SHA1.
+                paperBuild.Downloads.Application.SHA256
             )
         )
             return false;

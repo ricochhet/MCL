@@ -12,19 +12,26 @@ using MCL.Core.Servers.Paper.Web;
 
 namespace MCL.Core.Servers.Paper.Services;
 
-public class PaperServerDownloadService : IJarDownloadService<PaperUrls>, IDownloadService
+public class PaperServerDownloadService : IDownloadService
 {
     public static PaperVersionManifest PaperVersionManifest { get; private set; }
     public static PaperBuild PaperBuild { get; private set; }
     private static LauncherPath _launcherPath;
     private static LauncherVersion _launcherVersion;
+    private static LauncherInstance _launcherInstance;
     private static PaperUrls _paperUrls;
     private static bool _loaded = false;
 
-    public static void Init(LauncherPath launcherPath, LauncherVersion launcherVersion, PaperUrls paperUrls)
+    public static void Init(
+        LauncherPath launcherPath,
+        LauncherVersion launcherVersion,
+        LauncherInstance launcherInstance,
+        PaperUrls paperUrls
+    )
     {
         _launcherPath = launcherPath;
         _launcherVersion = launcherVersion;
+        _launcherInstance = launcherInstance;
         _paperUrls = paperUrls;
         _loaded = true;
     }
@@ -45,6 +52,15 @@ public class PaperServerDownloadService : IJarDownloadService<PaperUrls>, IDownl
 
         if (!await DownloadJar())
             return false;
+
+        foreach (string version in _launcherInstance.PaperServerVersions)
+        {
+            if (version == _launcherVersion.PaperServerVersion)
+                _launcherInstance.PaperServerVersions.Remove(version);
+        }
+
+        _launcherInstance.PaperServerVersions.Add(_launcherVersion.PaperServerVersion);
+        SettingsService.Load().Save(_launcherInstance);
 
         return true;
     }

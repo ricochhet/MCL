@@ -32,6 +32,7 @@ public static class SettingsService
             Settings settings =
                 new()
                 {
+                    MainClassNames = new(),
                     LauncherInstance = new(),
                     OverrideLauncherInstance = new(),
                     LauncherUsername = new(username: "Player1337"),
@@ -48,6 +49,8 @@ public static class SettingsService
                     OverrideFabricJvmArguments = new(),
                     QuiltJvmArguments = new(),
                     OverrideQuiltJvmArguments = new(),
+                    PaperJvmArguments = new(),
+                    OverridePaperJvmArguments = new(),
                     JavaSettings = new(),
                     SevenZipSettings = new(),
                     ModSettings = new(),

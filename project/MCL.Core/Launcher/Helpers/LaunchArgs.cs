@@ -45,19 +45,19 @@ public static class LaunchArgs
             settings.LauncherSettings.ClientType,
             ClientType.VANILLA,
             "-DMcEmu={0}",
-            [ClientTypeResolver.ToString(ClientType.VANILLA)]
+            [ClientTypeResolver.ToString(ClientType.VANILLA, settings.MainClassNames)]
         );
         jvmArguments.Add(
             settings.LauncherSettings.ClientType,
             ClientType.FABRIC,
             "-DFabricMcEmu={0}",
-            [ClientTypeResolver.ToString(ClientType.VANILLA)]
+            [ClientTypeResolver.ToString(ClientType.VANILLA, settings.MainClassNames)]
         );
         jvmArguments.Add(
             settings.LauncherSettings.ClientType,
             ClientType.QUILT,
             "-DFabricMcEmu={0}",
-            [ClientTypeResolver.ToString(ClientType.VANILLA)]
+            [ClientTypeResolver.ToString(ClientType.VANILLA, settings.MainClassNames)]
         );
         jvmArguments.Add("-Dlog4j2.formatMsgNoLookups=true");
         jvmArguments.Add("-Djava.rmi.server.useCodebaseOnly=true");
@@ -71,7 +71,7 @@ public static class LaunchArgs
                     settings.LauncherInstance,
                     settings.LauncherSettings
                 ),
-                ClientTypeResolver.ToString(settings.LauncherSettings.ClientType)
+                ClientTypeResolver.ToString(settings.LauncherSettings.ClientType, settings.MainClassNames)
             ]
         );
         jvmArguments.Add("--username {0}", [settings.LauncherUsername.ValidateUsername()]);

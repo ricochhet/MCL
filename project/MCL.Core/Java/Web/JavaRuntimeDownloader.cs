@@ -30,7 +30,7 @@ public static class JavaRuntimeDownloader
                     return false;
 
                 if (
-                    !await Request.Download(
+                    !await Request.DownloadSHA1(
                         javaRuntimeFile.Downloads.Raw.URL,
                         VFS.Combine(
                             JavaPathResolver.DownloadedJavaRuntimePath(

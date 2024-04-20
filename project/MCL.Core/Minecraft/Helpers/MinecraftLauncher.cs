@@ -2,8 +2,6 @@ using MCL.Core.Java.Helpers;
 using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Helpers;
 using MCL.Core.Launcher.Models;
-using MCL.Core.Launcher.Services;
-using MCL.Core.Modding.Services;
 
 namespace MCL.Core.Minecraft.Helpers;
 
@@ -15,8 +13,6 @@ public static class MinecraftLauncher
             return;
 
         settings.Save(settings.LauncherSettings.ClientType, LaunchArgs.DefaultJvmArguments(settings));
-        SettingsService.Save(settings);
-        settings.Save(ModdingService.ModSettings);
         if (VersionHelper.GetVersionDetails(settings.LauncherPath, settings.LauncherVersion) == null)
             return;
         JavaLauncher.Launch(

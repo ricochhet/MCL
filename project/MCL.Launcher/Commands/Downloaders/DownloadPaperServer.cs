@@ -32,7 +32,12 @@ public class DownloadPaperServer : ILauncherCommand
                 if (!await PaperVersionHelper.SetVersion(settings, _launcherVersion, update))
                     return;
 
-                PaperServerDownloadService.Init(settings.LauncherPath, settings.LauncherVersion, settings.PaperUrls);
+                PaperServerDownloadService.Init(
+                    settings.LauncherPath,
+                    settings.LauncherVersion,
+                    settings.LauncherInstance,
+                    settings.PaperUrls
+                );
                 await PaperServerDownloadService.Download(useLocalVersionManifest: true);
             }
         );

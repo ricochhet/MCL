@@ -25,7 +25,7 @@ public static class ResourceDownloader
 
             string request = $"{mUrls.MinecraftResources}/{asset.Hash[..2]}/{asset.Hash}";
             string filepath = VFS.Combine(objectsPath, asset.Hash[..2], asset.Hash);
-            if (!await Request.Download(request, filepath, asset.Hash))
+            if (!await Request.DownloadSHA1(request, filepath, asset.Hash))
                 return false;
         }
 

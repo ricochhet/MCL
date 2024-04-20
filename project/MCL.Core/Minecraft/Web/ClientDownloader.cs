@@ -14,7 +14,7 @@ public static class ClientDownloader
         if (!versionDetails.ClientExists())
             return false;
 
-        return await Request.Download(
+        return await Request.DownloadSHA1(
             versionDetails.Downloads.Client.URL,
             MPathResolver.ClientJarPath(launcherPath, versionDetails),
             versionDetails.Downloads.Client.SHA1

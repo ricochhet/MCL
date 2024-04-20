@@ -18,7 +18,7 @@ public static class ServerDownloader
         ServerProperties.NewEula(launcherPath);
         ServerProperties.NewProperties(launcherPath);
 
-        return await Request.Download(
+        return await Request.DownloadSHA1(
             versionDetails.Downloads.Server.URL,
             MPathResolver.ServerJarPath(launcherPath, versionDetails),
             versionDetails.Downloads.Server.SHA1

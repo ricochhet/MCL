@@ -66,7 +66,7 @@ public static class FabricLoaderDownloader
             );
             loader.Libraries.Add(filepath.Replace("\\", "/"));
 
-            if (!await Request.Download(request, filepath, hash))
+            if (!await Request.DownloadSHA1(request, filepath, hash))
                 return false;
         }
 
