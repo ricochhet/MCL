@@ -8,6 +8,7 @@ using MCL.Core.MiniCommon;
 using MCL.Core.MiniCommon.Interfaces;
 using MCL.Core.ModLoaders.Quilt.Enums;
 using MCL.Core.ModLoaders.Quilt.Helpers;
+using MCL.Core.ModLoaders.Quilt.Resolvers;
 using MCL.Core.ModLoaders.Quilt.Services;
 
 namespace MCL.Launcher.Commands.Downloaders;
@@ -39,6 +40,7 @@ public class DownloadQuiltInstaller : ILauncherCommand
 
                 JavaLauncher.Launch(
                     settings,
+                    QuiltPathResolver.InstallersPath(settings.LauncherPath),
                     QuiltInstallerArgs.DefaultJvmArguments(
                         settings.LauncherPath,
                         settings.LauncherVersion,

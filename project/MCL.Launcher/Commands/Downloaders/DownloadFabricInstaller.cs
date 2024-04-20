@@ -8,6 +8,7 @@ using MCL.Core.MiniCommon;
 using MCL.Core.MiniCommon.Interfaces;
 using MCL.Core.ModLoaders.Fabric.Enums;
 using MCL.Core.ModLoaders.Fabric.Helpers;
+using MCL.Core.ModLoaders.Fabric.Resolvers;
 using MCL.Core.ModLoaders.Fabric.Services;
 
 namespace MCL.Launcher.Commands.Downloaders;
@@ -43,6 +44,7 @@ public class DownloadFabricInstaller : ILauncherCommand
 
                 JavaLauncher.Launch(
                     settings,
+                    FabricPathResolver.InstallersPath(settings.LauncherPath),
                     FabricInstallerArgs.DefaultJvmArguments(
                         settings.LauncherPath,
                         settings.LauncherVersion,

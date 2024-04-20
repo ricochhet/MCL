@@ -18,6 +18,9 @@ public static class FabricPathResolver
             $"fabric-installer-{launcherVersion.FabricInstallerVersion}.jar"
         );
 
+    public static string InstallersPath(LauncherPath launcherPath) =>
+        VFS.Combine(launcherPath.FabricPath, "installers");
+
     public static string VersionManifestPath(LauncherPath launcherPath) =>
         VFS.FromCwd(launcherPath.FabricPath, "fabric_manifest.json");
 

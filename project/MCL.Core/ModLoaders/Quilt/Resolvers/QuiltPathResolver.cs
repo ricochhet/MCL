@@ -18,6 +18,8 @@ public static class QuiltPathResolver
             $"quilt-installer-{launcherVersion.QuiltInstallerVersion}.jar"
         );
 
+    public static string InstallersPath(LauncherPath launcherPath) => VFS.Combine(launcherPath.QuiltPath, "installers");
+
     public static string VersionManifestPath(LauncherPath launcherPath) =>
         VFS.FromCwd(launcherPath.QuiltPath, "quilt_manifest.json");
 
