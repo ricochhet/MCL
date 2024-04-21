@@ -15,6 +15,7 @@ public static class SevenZipPathResolver
         );
         if (VFS.Exists(windowsExecutable))
             return windowsExecutable;
+        NotificationService.Info("error.missing.7z");
         return sevenZipSettings.Executable;
     }
 }

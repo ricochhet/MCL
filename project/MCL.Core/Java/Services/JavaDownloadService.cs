@@ -84,7 +84,7 @@ public class JavaDownloadService : IDownloadService
         _javaVersionManifest = Json.Load<JavaVersionManifest>(
             JavaPathResolver.DownloadedJavaVersionManifestPath(_launcherPath)
         );
-        if (ObjectValidator<JavaVersionManifest>.IsNull(_javaVersionManifest))
+        if (ObjectValidator<JavaVersionManifest>.IsNull(_javaVersionManifest, NativeLogLevel.Debug))
             return false;
 
         return true;

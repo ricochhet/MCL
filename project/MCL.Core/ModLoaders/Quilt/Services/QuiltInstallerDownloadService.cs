@@ -83,7 +83,7 @@ public class QuiltInstallerDownloadService : IJarDownloadService<QuiltUrls>, IDo
             return false;
 
         QuiltVersionManifest = Json.Load<QuiltVersionManifest>(QuiltPathResolver.VersionManifestPath(_launcherPath));
-        if (ObjectValidator<QuiltVersionManifest>.IsNull(QuiltVersionManifest))
+        if (ObjectValidator<QuiltVersionManifest>.IsNull(QuiltVersionManifest, NativeLogLevel.Debug))
             return false;
 
         return true;

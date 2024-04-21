@@ -12,21 +12,35 @@ public static class NotificationService
 
     public static void Add(Notification item) => _notifications.Add(item);
 
-    public static void Benchmark(params string[] _params) =>
-        _notifications.Add(new(NativeLogLevel.Benchmark, "log", _params));
+    public static void DebugLog(params string[] _params) =>
+        _notifications.Add(new(NativeLogLevel.Debug, "log", _params));
 
-    public static void Debug(params string[] _params) => _notifications.Add(new(NativeLogLevel.Debug, "log", _params));
+    public static void Debug(string id, params string[] _params) =>
+        _notifications.Add(new(NativeLogLevel.Debug, id, _params));
 
-    public static void Warn(params string[] _params) => _notifications.Add(new(NativeLogLevel.Warn, "log", _params));
+    public static void WarnLog(params string[] _params) => _notifications.Add(new(NativeLogLevel.Warn, "log", _params));
 
-    public static void Error(params string[] _params) => _notifications.Add(new(NativeLogLevel.Error, "log", _params));
+    public static void Warn(string id, params string[] _params) =>
+        _notifications.Add(new(NativeLogLevel.Warn, id, _params));
 
-    public static void Info(params string[] _params) => _notifications.Add(new(NativeLogLevel.Info, "log", _params));
+    public static void ErrorLog(params string[] _params) =>
+        _notifications.Add(new(NativeLogLevel.Error, "log", _params));
+
+    public static void Error(string id, params string[] _params) =>
+        _notifications.Add(new(NativeLogLevel.Error, id, _params));
+
+    public static void InfoLog(params string[] _params) => _notifications.Add(new(NativeLogLevel.Info, "log", _params));
+
+    public static void Info(string id, params string[] _params) =>
+        _notifications.Add(new(NativeLogLevel.Info, id, _params));
 
     public static void Native(params string[] _params) =>
         _notifications.Add(new(NativeLogLevel.Native, "log", _params));
 
-    public static void Print(NativeLogLevel level, params string[] _params) =>
+    public static void Native(string id, params string[] _params) =>
+        _notifications.Add(new(NativeLogLevel.Native, id, _params));
+
+    public static void PrintLog(NativeLogLevel level, params string[] _params) =>
         _notifications.Add(new(level, "log", _params));
 
     public static void Log(NativeLogLevel level, string id) => _notifications.Add(new(level, id));

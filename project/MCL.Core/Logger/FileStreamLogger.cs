@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using MCL.Core.Launcher.Services;
 using MCL.Core.Logger.Enums;
 using MCL.Core.Logger.Models;
 
@@ -15,11 +16,20 @@ public class FileStreamLogger : ILogger, IDisposable
     private readonly object _mutex = new();
     private readonly bool _flush = true;
     private bool _disposed = false;
+    private readonly NativeLogLevel _minLevel = NativeLogLevel.Debug;
 
     public FileStreamLogger(string filePath)
     {
         _queue = new Queue<FileStreamLog>();
         _stream = new StreamWriter(filePath, append: true);
+        Task.Run(Flush);
+    }
+
+    public FileStreamLogger(string filePath, NativeLogLevel minLevel)
+    {
+        _queue = new Queue<FileStreamLog>();
+        _stream = new StreamWriter(filePath, append: true);
+        _minLevel = minLevel;
         Task.Run(Flush);
     }
 
@@ -62,6 +72,8 @@ public class FileStreamLogger : ILogger, IDisposable
     {
         lock (_mutex)
         {
+            if ((int)level < (int)_minLevel)
+                return Task.FromResult(true);
             _queue.Enqueue(new FileStreamLog(level, message));
             Monitor.Pulse(_mutex);
         }
@@ -102,7 +114,7 @@ public class FileStreamLogger : ILogger, IDisposable
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error writing to log file: {ex.Message}");
+            NotificationService.Error("error.writefile", ex.Message);
         }
     }
 

@@ -17,8 +17,8 @@ internal static class Program
     private static async Task Main(string[] args)
     {
         Console.Title = "MCL.CodeAnalyzers";
-        Log.Add(new NativeLogger());
-        Log.Add(new FileStreamLogger(SettingsService.LogFilePath));
+        Log.Add(new NativeLogger(NativeLogLevel.Info));
+        Log.Add(new FileStreamLogger(SettingsService.LogFilePath, NativeLogLevel.Info));
         SettingsService.Save();
         Settings settings = SettingsService.Load();
         if (ObjectValidator<Settings>.IsNull(settings))

@@ -9,7 +9,7 @@ namespace MCL.Core.Launcher.Services;
 
 public static class SettingsService
 {
-    public const string DataPath = "./.mcl";
+    public const string DataPath = ".mcl";
     public const string SettingsFileName = "mcl.json";
     public static readonly string LogFilePath = VFS.FromCwd(DataPath, _logFileName);
     public static readonly List<string> WatermarkText =

@@ -138,7 +138,7 @@ public class MDownloadService : IDownloadService
             return false;
 
         VersionManifest = Json.Load<MVersionManifest>(MPathResolver.VersionManifestPath(_launcherPath));
-        if (ObjectValidator<MVersionManifest>.IsNull(VersionManifest))
+        if (ObjectValidator<MVersionManifest>.IsNull(VersionManifest, NativeLogLevel.Debug))
             return false;
 
         return true;

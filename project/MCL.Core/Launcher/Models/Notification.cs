@@ -30,7 +30,7 @@ public class Notification
         LogLevel = logLevel;
         ID = id;
         Params = _params;
-        Message = string.Format(LocalizationService.Translate(ID), Params);
+        Message = LocalizationService.FormatTranslate(ID, Params);
         Exception = exception;
         OnNotificationAdded?.Invoke(this);
     }

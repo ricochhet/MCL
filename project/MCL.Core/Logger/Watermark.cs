@@ -22,7 +22,7 @@ public static class Watermark
 
         result.Add($"└─{line}─┘");
         foreach (string textItem in result)
-            NotificationService.Info(textItem);
+            NotificationService.InfoLog(textItem);
     }
 
     private static int TextLength(string s)

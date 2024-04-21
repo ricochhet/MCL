@@ -15,11 +15,19 @@ public static partial class LineAnalyzer
         List<int> fileLines = [];
         foreach (string file in files)
         {
-            if (file.Contains("AssemblyInfo") || file.Contains("AssemblyAttributes"))
+            if (
+                file.Contains("AssemblyInfo")
+                || file.Contains("AssemblyAttributes")
+                || file.Contains("GlobalSuppressions")
+            )
                 continue;
             string[] lines = VFS.ReadAllLines(file);
             int fileLineCount = 0;
-            foreach (string line in lines.Where(a => ObjectValidator<string>.IsNotNullOrWhiteSpace([a])))
+            foreach (
+                string line in lines.Where(a =>
+                    ObjectValidator<string>.IsNotNullOrWhiteSpace([a], NativeLogLevel.Debug)
+                )
+            )
                 fileLineCount++;
 
             fileLines.Add(fileLineCount);

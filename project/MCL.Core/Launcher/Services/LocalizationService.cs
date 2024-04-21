@@ -39,4 +39,14 @@ public static class LocalizationService
             return value;
         return $"{id}:NO_LOCALIZATION";
     }
+
+    public static string FormatTranslate(string id, params string[] _params)
+    {
+        if (!_loaded)
+            return $"{id}:LOCALIZATION_SERVICE_ERROR";
+
+        if (Localization.Entries.TryGetValue(id, out string value))
+            return string.Format(value, _params);
+        return $"{id}:NO_LOCALIZATION";
+    }
 }

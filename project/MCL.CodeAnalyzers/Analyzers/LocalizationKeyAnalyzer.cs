@@ -19,7 +19,11 @@ public static partial class LocalizationKeyAnalyzer
 
         foreach (string file in files)
         {
-            if (file.Contains("AssemblyInfo") || file.Contains("AssemblyAttributes"))
+            if (
+                file.Contains("AssemblyInfo")
+                || file.Contains("AssemblyAttributes")
+                || file.Contains("GlobalSuppressions")
+            )
                 continue;
 
             Regex matchNotification = NotificationServiceRegex();
@@ -30,7 +34,7 @@ public static partial class LocalizationKeyAnalyzer
                 Regex matchQuotes = QuoteRegex();
                 Match quoteMatch = matchQuotes.Match(match.Value);
 
-                if (ObjectValidator<string>.IsNullOrWhiteSpace([quoteMatch?.Value]))
+                if (ObjectValidator<string>.IsNullOrWhiteSpace([quoteMatch?.Value], NativeLogLevel.Debug))
                     continue;
 
                 if (!localization.Entries.ContainsKey(quoteMatch.Value.Replace("\"", string.Empty)))
@@ -60,7 +64,7 @@ public static partial class LocalizationKeyAnalyzer
         );
     }
 
-    [GeneratedRegex(@"NotificationService\.Log[^;]*\);(?=\s|$)")]
+    [GeneratedRegex(@"NotificationService\.[^;]*\);(?=\s|$)")]
     private static partial Regex NotificationServiceRegex();
 
     [GeneratedRegex("\"([^\"]*)\"")]

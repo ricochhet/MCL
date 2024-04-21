@@ -104,7 +104,7 @@ public class PaperServerDownloadService : IDownloadService
         if (!_loaded)
             return false;
 
-        if (ObjectValidator<string>.IsNullOrWhiteSpace([_launcherVersion?.Version]))
+        if (ObjectValidator<string>.IsNullOrWhiteSpace([_launcherVersion?.Version], NativeLogLevel.Debug))
             return false;
 
         PaperVersionManifest = Json.Load<PaperVersionManifest>(

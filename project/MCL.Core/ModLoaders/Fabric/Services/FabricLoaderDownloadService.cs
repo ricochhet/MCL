@@ -99,7 +99,7 @@ public class FabricLoaderDownloadService : ILoaderDownloadService<FabricUrls>, I
             return false;
 
         FabricVersionManifest = Json.Load<FabricVersionManifest>(FabricPathResolver.VersionManifestPath(_launcherPath));
-        if (ObjectValidator<FabricVersionManifest>.IsNull(FabricVersionManifest))
+        if (ObjectValidator<FabricVersionManifest>.IsNull(FabricVersionManifest, NativeLogLevel.Debug))
             return false;
 
         return true;

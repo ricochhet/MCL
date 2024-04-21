@@ -18,13 +18,17 @@ public static partial class NamespaceAnalyzer
             Match namespaceMatch = matchNamespace.Match(fileData);
             string name = namespaceMatch.Value;
 
-            if (file.Contains("AssemblyInfo") || file.Contains("AssemblyAttributes"))
+            if (
+                file.Contains("AssemblyInfo")
+                || file.Contains("AssemblyAttributes")
+                || file.Contains("GlobalSuppressions")
+            )
             {
                 success++;
                 continue;
             }
 
-            if (ObjectValidator<string>.IsNullOrWhiteSpace([name]))
+            if (ObjectValidator<string>.IsNullOrWhiteSpace([name], NativeLogLevel.Debug))
             {
                 NotificationService.Log(NativeLogLevel.Error, "analyzer.error.namespace", file, name ?? string.Empty);
                 continue;
