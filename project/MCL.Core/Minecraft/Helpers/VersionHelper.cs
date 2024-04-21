@@ -49,7 +49,7 @@ public static class VersionHelper
 
     public static List<string> GetVersionIds(MVersionManifest versionManifest)
     {
-        if (ObjectValidator<MVersion>.IsNullOrEmpty(versionManifest?.Versions))
+        if (ObjectValidator<List<MVersion>>.IsNullOrEmpty(versionManifest?.Versions))
             return [];
 
         List<string> versions = [];
@@ -63,7 +63,7 @@ public static class VersionHelper
     {
         if (
             ObjectValidator<string>.IsNullOrWhiteSpace([launcherVersion?.Version])
-            || ObjectValidator<MVersion>.IsNullOrEmpty(versionManifest?.Versions)
+            || ObjectValidator<List<MVersion>>.IsNullOrEmpty(versionManifest?.Versions)
         )
             return null;
 
@@ -91,7 +91,7 @@ public static class VersionHelper
 
         MVersionManifest versionManifest = Json.Load<MVersionManifest>(MPathResolver.VersionManifestPath(launcherPath));
 
-        if (ObjectValidator<MVersion>.IsNullOrEmpty(versionManifest?.Versions))
+        if (ObjectValidator<List<MVersion>>.IsNullOrEmpty(versionManifest?.Versions))
             return null;
 
         MVersion version = GetVersion(launcherVersion, versionManifest);

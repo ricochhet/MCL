@@ -77,7 +77,7 @@ public static class FabricVersionHelper
 
     public static List<string> GetInstallerVersionIds(FabricVersionManifest fabricVersionManifest)
     {
-        if (ObjectValidator<FabricInstaller>.IsNullOrEmpty(fabricVersionManifest?.Installer))
+        if (ObjectValidator<List<FabricInstaller>>.IsNullOrEmpty(fabricVersionManifest?.Installer))
             return [];
 
         List<string> versions = [];
@@ -91,7 +91,7 @@ public static class FabricVersionHelper
 
     public static List<string> GetLoaderVersionIds(FabricVersionManifest fabricVersionManifest)
     {
-        if (ObjectValidator<FabricLoader>.IsNullOrEmpty(fabricVersionManifest?.Loader))
+        if (ObjectValidator<List<FabricLoader>>.IsNullOrEmpty(fabricVersionManifest?.Loader))
             return [];
 
         List<string> versions = [];
@@ -110,7 +110,7 @@ public static class FabricVersionHelper
     {
         if (
             ObjectValidator<string>.IsNullOrWhiteSpace([installerVersion?.FabricInstallerVersion])
-            || ObjectValidator<FabricInstaller>.IsNullOrEmpty(fabricVersionManifest?.Installer)
+            || ObjectValidator<List<FabricInstaller>>.IsNullOrEmpty(fabricVersionManifest?.Installer)
         )
             return null;
 
@@ -136,7 +136,7 @@ public static class FabricVersionHelper
     {
         if (
             ObjectValidator<string>.IsNullOrWhiteSpace([loaderVersion?.FabricLoaderVersion])
-            || ObjectValidator<FabricLoader>.IsNullOrEmpty(fabricVersionManifest?.Loader)
+            || ObjectValidator<List<FabricLoader>>.IsNullOrEmpty(fabricVersionManifest?.Loader)
         )
             return null;
 

@@ -18,7 +18,7 @@ public static class LibraryDownloader
         MVersionDetails versionDetails
     )
     {
-        if (ObjectValidator<MLibrary>.IsNullOrEmpty(versionDetails?.Libraries))
+        if (ObjectValidator<List<MLibrary>>.IsNullOrEmpty(versionDetails?.Libraries))
             return false;
 
         string libPath = VFS.Combine(launcherPath.Path, "libraries");
@@ -50,7 +50,7 @@ public static class LibraryDownloader
 
     public static bool SkipLibrary(MLibrary lib, LauncherSettings launcherSettings)
     {
-        if (ObjectValidator<MLibraryRule>.IsNullOrEmpty(lib.Rules))
+        if (ObjectValidator<List<MLibraryRule>>.IsNullOrEmpty(lib.Rules))
             return false;
 
         bool allowLibrary = false;

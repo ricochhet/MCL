@@ -122,7 +122,7 @@ public static class ModdingService
 
     public static bool Deploy(ModFiles modFiles, string deployPath, bool overwrite = false)
     {
-        if (ObjectValidator<ModFile>.IsNullOrEmpty(modFiles?.Files))
+        if (ObjectValidator<List<ModFile>>.IsNullOrEmpty(modFiles?.Files))
         {
             NotificationService.Log(NativeLogLevel.Error, "modding.deploy.error-nofile");
             return false;

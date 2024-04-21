@@ -77,7 +77,7 @@ public static class QuiltVersionHelper
 
     public static List<string> GetInstallerVersionIds(QuiltVersionManifest quiltVersionManifest)
     {
-        if (ObjectValidator<QuiltInstaller>.IsNullOrEmpty(quiltVersionManifest?.Installer))
+        if (ObjectValidator<List<QuiltInstaller>>.IsNullOrEmpty(quiltVersionManifest?.Installer))
             return [];
 
         List<string> versions = [];
@@ -91,7 +91,7 @@ public static class QuiltVersionHelper
 
     public static List<string> GetLoaderVersionIds(QuiltVersionManifest quiltVersionManifest)
     {
-        if (ObjectValidator<QuiltLoader>.IsNullOrEmpty(quiltVersionManifest?.Loader))
+        if (ObjectValidator<List<QuiltLoader>>.IsNullOrEmpty(quiltVersionManifest?.Loader))
             return [];
 
         List<string> versions = [];
@@ -110,7 +110,7 @@ public static class QuiltVersionHelper
     {
         if (
             ObjectValidator<string>.IsNullOrWhiteSpace([installerVersion?.QuiltInstallerVersion])
-            || ObjectValidator<QuiltInstaller>.IsNullOrEmpty(quiltVersionManifest?.Installer)
+            || ObjectValidator<List<QuiltInstaller>>.IsNullOrEmpty(quiltVersionManifest?.Installer)
         )
             return null;
 
@@ -133,7 +133,7 @@ public static class QuiltVersionHelper
     {
         if (
             ObjectValidator<string>.IsNullOrWhiteSpace([loaderVersion?.QuiltLoaderVersion])
-            || ObjectValidator<QuiltLoader>.IsNullOrEmpty(quiltVersionManifest?.Loader)
+            || ObjectValidator<List<QuiltLoader>>.IsNullOrEmpty(quiltVersionManifest?.Loader)
         )
             return null;
 

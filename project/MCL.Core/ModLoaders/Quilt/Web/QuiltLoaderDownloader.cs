@@ -26,7 +26,7 @@ public static class QuiltLoaderDownloader
         if (
             ObjectValidator<string>.IsNullOrWhiteSpace(
                 [launcherVersion?.QuiltLoaderVersion, quiltUrls?.ApiLoaderName, quiltUrls?.ApiIntermediaryName]
-            ) || ObjectValidator<QuiltLibrary>.IsNullOrEmpty(quiltProfile?.Libraries)
+            ) || ObjectValidator<List<QuiltLibrary>>.IsNullOrEmpty(quiltProfile?.Libraries)
         )
             return false;
 

@@ -62,7 +62,7 @@ public class ObjectValidator<T>
     {
         ObjectValidator<T> validator = new();
 
-        foreach (string property in properties)
+        foreach (string property in properties ?? [])
             validator.AddRule(
                 a => !string.IsNullOrWhiteSpace(property),
                 $"Property cannot be null, empty, or whitespace.\nMember: {memberName}\nSource: {sourceFilePath}\nLine: {sourceLineNumber}"
@@ -93,23 +93,23 @@ public class ObjectValidator<T>
         return !IsNullOrEmpty(obj, properties, memberName, sourceFilePath, sourceLineNumber);
     }
 
-    public static bool IsNullOrEmpty(
-        List<T> obj,
-        List<T>[] properties = null,
+    public static bool IsNullOrEmpty<T1>(
+        List<T1> obj,
+        List<T1>[] properties = null,
         [CallerMemberName] string memberName = "",
         [CallerFilePath] string sourceFilePath = "",
         [CallerLineNumber] int sourceLineNumber = 0
     )
     {
-        ObjectValidator<T> validator = new();
+        ObjectValidator<List<T1>> validator = new();
 
         string message =
             $"Property cannot be null or empty.\nMember: {memberName}\nSource: {sourceFilePath}\nLine: {sourceLineNumber}";
-        validator.AddRule(a => obj != null, message);
-        foreach (List<T> property in properties)
+        validator.AddRule(a => obj != null && obj.Count > 0, message);
+        foreach (List<T1> property in properties ?? [])
             validator.AddRule(a => property != null && property.Count > 0, message);
 
-        return !validator.Validate(default);
+        return !validator.Validate(obj);
     }
 
     public static bool IsNullOrEmpty<T1, T2>(
@@ -124,11 +124,11 @@ public class ObjectValidator<T>
 
         string message =
             $"Property cannot be null or empty.\nMember: {memberName}\nSource: {sourceFilePath}\nLine: {sourceLineNumber}";
-        validator.AddRule(a => obj != null, message);
-        foreach (Dictionary<T1, T2> property in properties)
+        validator.AddRule(a => obj != null && obj.Count > 0, message);
+        foreach (Dictionary<T1, T2> property in properties ?? [])
             validator.AddRule(a => property != null && property.Count > 0, message);
 
-        return !validator.Validate(default);
+        return !validator.Validate(obj);
     }
 
     public static bool IsNotNull(
@@ -155,7 +155,7 @@ public class ObjectValidator<T>
         string message =
             $"Property cannot be null or empty.\nMember: {memberName}\nSource: {sourceFilePath}\nLine: {sourceLineNumber}";
         validator.AddRule(a => obj != null, message);
-        foreach (object property in properties)
+        foreach (object property in properties ?? [])
             validator.AddRule(a => property != null, message);
 
         return !validator.Validate(obj);

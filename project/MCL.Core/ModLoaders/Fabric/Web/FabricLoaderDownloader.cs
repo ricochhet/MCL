@@ -26,7 +26,7 @@ public static class FabricLoaderDownloader
         if (
             ObjectValidator<string>.IsNullOrWhiteSpace(
                 [launcherVersion?.FabricLoaderVersion, fabricUrls?.ApiLoaderName, fabricUrls?.ApiIntermediaryName]
-            ) || ObjectValidator<FabricLibrary>.IsNullOrEmpty(fabricProfile?.Libraries)
+            ) || ObjectValidator<List<FabricLibrary>>.IsNullOrEmpty(fabricProfile?.Libraries)
         )
             return false;
 

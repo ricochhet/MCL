@@ -47,7 +47,7 @@ public static class PaperVersionHelper
 
     public static List<string> GetVersionIds(PaperVersionManifest paperVersionManifest)
     {
-        if (ObjectValidator<PaperBuild>.IsNullOrEmpty(paperVersionManifest?.Builds))
+        if (ObjectValidator<List<PaperBuild>>.IsNullOrEmpty(paperVersionManifest?.Builds))
             return [];
 
         List<string> versions = [];
@@ -63,7 +63,7 @@ public static class PaperVersionHelper
     {
         if (
             ObjectValidator<string>.IsNullOrWhiteSpace([paperServerVersion?.PaperServerVersion])
-            || ObjectValidator<PaperBuild>.IsNullOrEmpty(paperVersionManifest?.Builds)
+            || ObjectValidator<List<PaperBuild>>.IsNullOrEmpty(paperVersionManifest?.Builds)
         )
             return null;
 

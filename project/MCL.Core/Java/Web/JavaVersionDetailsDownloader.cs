@@ -84,7 +84,7 @@ public static class JavaVersionDetailsDownloader
     {
         if (
             ObjectValidator<JavaRuntime>.IsNull(javaRuntime)
-            || ObjectValidator<JavaRuntimeObject>.IsNullOrEmpty(javaRuntimeObjects)
+            || ObjectValidator<List<JavaRuntimeObject>>.IsNullOrEmpty(javaRuntimeObjects)
             || ObjectValidator<string>.IsNullOrWhiteSpace([javaRuntimeObjects[0]?.JavaRuntimeManifest?.Url])
         )
             return false;
