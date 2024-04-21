@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using MCL.Core.Java.Enums;
 using MCL.Core.Java.Resolvers;
 using MCL.Core.Launcher.Models;
+using MCL.Core.Logger.Enums;
 using MCL.Core.Minecraft.Enums;
 using MCL.Core.Minecraft.Models;
 using MCL.Core.Minecraft.Resolvers;
@@ -50,7 +51,7 @@ public static class LibraryDownloader
 
     public static bool SkipLibrary(MLibrary lib, LauncherSettings launcherSettings)
     {
-        if (ObjectValidator<List<MLibraryRule>>.IsNullOrEmpty(lib.Rules))
+        if (ObjectValidator<List<MLibraryRule>>.IsNullOrEmpty(lib.Rules, NativeLogLevel.Debug))
             return false;
 
         bool allowLibrary = false;
@@ -80,7 +81,7 @@ public static class LibraryDownloader
         LauncherSettings launcherSettings
     )
     {
-        if (ObjectValidator<MClassifiers>.IsNull(lib.Downloads.Classifiers))
+        if (ObjectValidator<MClassifiers>.IsNull(lib.Downloads.Classifiers, NativeLogLevel.Debug))
             return true;
 
         string classifierFilePath = string.Empty;

@@ -24,7 +24,7 @@ internal static class Program
     private static async Task Main(string[] args)
     {
         Console.Title = "MCL.Launcher";
-        Log.Add(new NativeLogger());
+        Log.Add(new NativeLogger(NativeLogLevel.Info));
         Log.Add(new FileStreamLogger(SettingsService.LogFilePath));
         SettingsService.Save();
         Settings settings = SettingsService.Load();

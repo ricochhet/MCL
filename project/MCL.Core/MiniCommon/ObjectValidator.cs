@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using MCL.Core.Launcher.Services;
+using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon.Models;
 
 namespace MCL.Core.MiniCommon;
@@ -41,11 +42,11 @@ public class ObjectValidator<T>
     /// <summary>
     /// Validate object of type T, and automatically output errors.
     /// </summary>
-    public bool Validate(T obj)
+    public bool Validate(T obj, NativeLogLevel level)
     {
         List<string> _errors = _rules.Where(rule => !rule.Rule(obj)).Select(rule => rule.ErrorMessage).ToList();
         foreach (string error in _errors)
-            NotificationService.Error(error);
+            NotificationService.Print(level, error);
         return _errors.Count == 0;
     }
 
@@ -54,16 +55,18 @@ public class ObjectValidator<T>
     /// </summary>
     public static bool IsNotNullOrWhiteSpace(
         string[] properties,
+        NativeLogLevel level = NativeLogLevel.Error,
         [CallerMemberName] string memberName = "",
         [CallerFilePath] string sourceFilePath = "",
         [CallerLineNumber] int sourceLineNumber = 0
-    ) => !IsNullOrWhiteSpace(properties, memberName, sourceFilePath, sourceLineNumber);
+    ) => !IsNullOrWhiteSpace(properties, level, memberName, sourceFilePath, sourceLineNumber);
 
     /// <summary>
     /// Validate an array of strings is null, empty, or whitespace.
     /// </summary>
     public static bool IsNullOrWhiteSpace(
         string[] properties,
+        NativeLogLevel level = NativeLogLevel.Error,
         [CallerMemberName] string memberName = "",
         [CallerFilePath] string sourceFilePath = "",
         [CallerLineNumber] int sourceLineNumber = 0
@@ -77,7 +80,7 @@ public class ObjectValidator<T>
                 $"Property cannot be null, empty, or whitespace.\nMember: {memberName}\nSource: {sourceFilePath}\nLine: {sourceLineNumber}"
             );
 
-        return !validator.Validate(default);
+        return !validator.Validate(default, level);
     }
 
     /// <summary>
@@ -85,28 +88,31 @@ public class ObjectValidator<T>
     /// </summary>
     public static bool IsNotNullOrEmpty(
         List<T> obj,
+        NativeLogLevel level = NativeLogLevel.Error,
         List<T>[] properties = null,
         [CallerMemberName] string memberName = "",
         [CallerFilePath] string sourceFilePath = "",
         [CallerLineNumber] int sourceLineNumber = 0
-    ) => !IsNullOrEmpty(obj, properties, memberName, sourceFilePath, sourceLineNumber);
+    ) => !IsNullOrEmpty(obj, level, properties, memberName, sourceFilePath, sourceLineNumber);
 
     /// <summary>
     /// Validate a dictionary is not null, or empty.
     /// </summary>
     public static bool IsNotNullOrEmpty<T1, T2>(
         Dictionary<T1, T2> obj,
+        NativeLogLevel level = NativeLogLevel.Error,
         Dictionary<T1, T2>[] properties = null,
         [CallerMemberName] string memberName = "",
         [CallerFilePath] string sourceFilePath = "",
         [CallerLineNumber] int sourceLineNumber = 0
-    ) => !IsNullOrEmpty(obj, properties, memberName, sourceFilePath, sourceLineNumber);
+    ) => !IsNullOrEmpty(obj, level, properties, memberName, sourceFilePath, sourceLineNumber);
 
     /// <summary>
     /// Validate a list is null, or empty.
     /// </summary>
     public static bool IsNullOrEmpty<T1>(
         List<T1> obj,
+        NativeLogLevel level = NativeLogLevel.Error,
         List<T1>[] properties = null,
         [CallerMemberName] string memberName = "",
         [CallerFilePath] string sourceFilePath = "",
@@ -121,7 +127,7 @@ public class ObjectValidator<T>
         foreach (List<T1> property in properties ?? [])
             validator.AddRule(a => property != null && property.Count > 0, message);
 
-        return !validator.Validate(obj);
+        return !validator.Validate(obj, level);
     }
 
     /// <summary>
@@ -129,6 +135,7 @@ public class ObjectValidator<T>
     /// </summary>
     public static bool IsNullOrEmpty<T1, T2>(
         Dictionary<T1, T2> obj,
+        NativeLogLevel level = NativeLogLevel.Error,
         Dictionary<T1, T2>[] properties = null,
         [CallerMemberName] string memberName = "",
         [CallerFilePath] string sourceFilePath = "",
@@ -143,7 +150,7 @@ public class ObjectValidator<T>
         foreach (Dictionary<T1, T2> property in properties ?? [])
             validator.AddRule(a => property != null && property.Count > 0, message);
 
-        return !validator.Validate(obj);
+        return !validator.Validate(obj, level);
     }
 
     /// <summary>
@@ -151,17 +158,19 @@ public class ObjectValidator<T>
     /// </summary>
     public static bool IsNotNull(
         T obj,
+        NativeLogLevel level = NativeLogLevel.Error,
         object[] properties = null,
         [CallerMemberName] string memberName = "",
         [CallerFilePath] string sourceFilePath = "",
         [CallerLineNumber] int sourceLineNumber = 0
-    ) => !IsNull(obj, properties, memberName, sourceFilePath, sourceLineNumber);
+    ) => !IsNull(obj, level, properties, memberName, sourceFilePath, sourceLineNumber);
 
     /// <summary>
     /// Validate object of type T is null.
     /// </summary>
     public static bool IsNull(
         T obj,
+        NativeLogLevel level = NativeLogLevel.Error,
         object[] properties = null,
         [CallerMemberName] string memberName = "",
         [CallerFilePath] string sourceFilePath = "",
@@ -176,6 +185,6 @@ public class ObjectValidator<T>
         foreach (object property in properties ?? [])
             validator.AddRule(a => property != null, message);
 
-        return !validator.Validate(obj);
+        return !validator.Validate(obj, level);
     }
 }

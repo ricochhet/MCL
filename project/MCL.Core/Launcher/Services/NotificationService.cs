@@ -26,6 +26,9 @@ public static class NotificationService
     public static void Native(params string[] _params) =>
         _notifications.Add(new(NativeLogLevel.Native, "log", _params));
 
+    public static void Print(NativeLogLevel level, params string[] _params) =>
+        _notifications.Add(new(level, "log", _params));
+
     public static void Log(NativeLogLevel level, string id) => _notifications.Add(new(level, id));
 
     public static void Log(NativeLogLevel level, string id, params string[] _params) =>

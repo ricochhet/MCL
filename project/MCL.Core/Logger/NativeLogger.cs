@@ -11,9 +11,17 @@ public partial class NativeLogger : ILogger
     [return: MarshalAs(UnmanagedType.Bool)]
     private static partial bool AllocConsole();
 
+    private readonly NativeLogLevel _minLevel = NativeLogLevel.Debug;
+
     public NativeLogger()
     {
         _ = AllocConsole();
+    }
+
+    public NativeLogger(NativeLogLevel minLevel)
+    {
+        _ = AllocConsole();
+        _minLevel = minLevel;
     }
 
     public Task Base(NativeLogLevel level, string message) => WriteToStdout(level, message);
@@ -51,8 +59,11 @@ public partial class NativeLogger : ILogger
     public Task Native(string format, params object[] args) =>
         WriteToStdout(NativeLogLevel.Native, string.Format(format, args));
 
-    private static Task<bool> WriteToStdout(NativeLogLevel level, string message)
+    private Task<bool> WriteToStdout(NativeLogLevel level, string message)
     {
+        if ((int)level < (int)_minLevel)
+            return Task.FromResult(true);
+
         Console.ForegroundColor = ConsoleColor.DarkMagenta;
         Console.Write($"[{DateTime.Now.ToLongTimeString()}]");
         Console.ForegroundColor = (ConsoleColor)level;
