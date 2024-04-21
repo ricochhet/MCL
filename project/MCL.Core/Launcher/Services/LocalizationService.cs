@@ -26,7 +26,7 @@ public static class LocalizationService
             NotificationService.Log(
                 NativeLogLevel.Error,
                 "error.readfile",
-                [LocalizationPathResolver.LanguageFilePath(launcherPath, language)]
+                LocalizationPathResolver.LanguageFilePath(launcherPath, language)
             );
     }
 
