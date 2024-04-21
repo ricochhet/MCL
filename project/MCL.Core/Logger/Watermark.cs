@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using MCL.Core.Launcher.Services;
-using MCL.Core.Logger.Enums;
 
 namespace MCL.Core.Logger;
 
@@ -23,7 +22,7 @@ public static class Watermark
 
         result.Add($"└─{line}─┘");
         foreach (string textItem in result)
-            NotificationService.Log(NativeLogLevel.Info, "log", textItem);
+            NotificationService.Info(textItem);
     }
 
     private static int TextLength(string s)

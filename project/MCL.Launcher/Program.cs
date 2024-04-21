@@ -33,17 +33,12 @@ internal static class Program
 
         LocalizationService.Init(settings.LauncherPath, Language.ENGLISH);
         NotificationService.OnNotificationAdded(
-            (Notification notification) =>
-            {
-                Log.Base(notification.LogLevel, notification.Message);
-            }
+            (Notification notification) => Log.Base(notification.LogLevel, notification.Message)
         );
         NotificationService.Log(NativeLogLevel.Info, "log.initialized");
         RequestDataService.OnRequestCompleted(
             (RequestData requestData) =>
-            {
-                NotificationService.Log(NativeLogLevel.Info, "request.get.success", requestData.URL);
-            }
+                NotificationService.Log(NativeLogLevel.Info, "request.get.success", requestData.URL)
         );
 
         Request.JsonSerializerOptions = new()

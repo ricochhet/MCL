@@ -42,13 +42,13 @@ public static class ProcessHelper
                 process.OutputDataReceived += (sender, e) =>
                 {
                     if (ObjectValidator<string>.IsNotNullOrWhiteSpace([e?.Data]))
-                        NotificationService.Log(NativeLogLevel.Info, "log", e.Data ?? string.Empty);
+                        NotificationService.Info(e.Data ?? string.Empty);
                 };
 
                 process.ErrorDataReceived += (sender, e) =>
                 {
                     if (ObjectValidator<string>.IsNotNullOrWhiteSpace([e?.Data]))
-                        NotificationService.Log(NativeLogLevel.Error, "log", e.Data ?? string.Empty);
+                        NotificationService.Error(e.Data ?? string.Empty);
                 };
 
                 process.Start();
@@ -58,7 +58,7 @@ public static class ProcessHelper
             else
             {
                 process.Start();
-                NotificationService.Log(NativeLogLevel.Info, "log", process.StandardOutput.ReadToEnd());
+                NotificationService.Info(process.StandardOutput.ReadToEnd());
             }
 
             process.WaitForExit();

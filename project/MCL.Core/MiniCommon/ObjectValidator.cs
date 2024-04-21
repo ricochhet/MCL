@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using MCL.Core.Launcher.Services;
-using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon.Models;
 
 namespace MCL.Core.MiniCommon;
@@ -46,7 +45,7 @@ public class ObjectValidator<T>
     {
         List<string> _errors = _rules.Where(rule => !rule.Rule(obj)).Select(rule => rule.ErrorMessage).ToList();
         foreach (string error in _errors)
-            NotificationService.Log(NativeLogLevel.Error, "log", error);
+            NotificationService.Error(error);
         return _errors.Count == 0;
     }
 
