@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Services;
@@ -13,7 +14,7 @@ public static partial class LocalizationKeyAnalyzer
         int success = 0;
         int fail = 0;
 
-        if (localization?.Entries == null || localization.Entries?.Count <= 0)
+        if (ObjectValidator<Dictionary<string, string>>.IsNullOrEmpty(localization?.Entries))
             return;
 
         foreach (string file in files)
@@ -29,7 +30,7 @@ public static partial class LocalizationKeyAnalyzer
                 Regex matchQuotes = QuoteRegex();
                 Match quoteMatch = matchQuotes.Match(match.Value);
 
-                if (string.IsNullOrWhiteSpace(quoteMatch.Value))
+                if (ObjectValidator<string>.IsNullOrWhiteSpace([quoteMatch?.Value]))
                     continue;
 
                 if (!localization.Entries.ContainsKey(quoteMatch.Value.Replace("\"", string.Empty)))
@@ -38,7 +39,8 @@ public static partial class LocalizationKeyAnalyzer
                     NotificationService.Log(
                         NativeLogLevel.Error,
                         "analyzer.error.localization",
-                        [file, quoteMatch.Value]
+                        file,
+                        quoteMatch.Value
                     );
                 }
                 else
@@ -51,7 +53,10 @@ public static partial class LocalizationKeyAnalyzer
         NotificationService.Log(
             NativeLogLevel.Info,
             "analyzer.output",
-            [nameof(LocalizationKeyAnalyzer), success.ToString(), fail.ToString(), (success + fail).ToString()]
+            nameof(LocalizationKeyAnalyzer),
+            success.ToString(),
+            fail.ToString(),
+            (success + fail).ToString()
         );
     }
 

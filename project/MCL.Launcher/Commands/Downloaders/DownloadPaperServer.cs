@@ -25,9 +25,8 @@ public class DownloadPaperServer : ILauncherCommand
                 if (!bool.TryParse(options.GetValueOrDefault("update") ?? "false", out bool update))
                     return;
                 if (
-                    ObjectValidator<string>.IsNullOrWhitespace(
-                        _launcherVersion.Version,
-                        _launcherVersion.PaperServerVersion
+                    ObjectValidator<string>.IsNullOrWhiteSpace(
+                        [_launcherVersion.Version, _launcherVersion.PaperServerVersion]
                     )
                 )
                     return;

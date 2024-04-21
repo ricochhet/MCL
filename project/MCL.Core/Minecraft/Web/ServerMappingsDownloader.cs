@@ -11,10 +11,12 @@ public static class ServerMappingsDownloader
     public static async Task<bool> Download(LauncherPath launcherPath, MVersionDetails versionDetails)
     {
         if (
-            ObjectValidator<string>.IsNullOrWhitespace(
-                versionDetails?.Downloads?.ServerMappings?.SHA1,
-                versionDetails?.Downloads?.ServerMappings?.URL,
-                versionDetails?.ID
+            ObjectValidator<string>.IsNullOrWhiteSpace(
+                [
+                    versionDetails?.Downloads?.ServerMappings?.SHA1,
+                    versionDetails?.Downloads?.ServerMappings?.URL,
+                    versionDetails?.ID
+                ]
             )
         )
             return false;

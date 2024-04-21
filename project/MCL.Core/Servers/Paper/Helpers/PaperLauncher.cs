@@ -10,7 +10,7 @@ public static class PaperLauncher
 {
     public static void Launch(Settings settings)
     {
-        if (ObjectValidator<string>.IsNullOrWhitespace(settings?.LauncherVersion?.Version))
+        if (ObjectValidator<string>.IsNullOrWhiteSpace([settings?.LauncherVersion?.Version]))
             return;
 
         settings.Save(PaperServerArgs.DefaultJvmArguments(settings.LauncherPath, settings.LauncherVersion));

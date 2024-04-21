@@ -28,7 +28,7 @@ public class FabricLoaderDownloadService : ILoaderDownloadService<FabricUrls>, I
         FabricUrls fabricUrls
     )
     {
-        if (launcherInstance == null)
+        if (ObjectValidator<LauncherInstance>.IsNull(launcherInstance))
             return;
 
         _launcherInstance = launcherInstance;
@@ -84,7 +84,7 @@ public class FabricLoaderDownloadService : ILoaderDownloadService<FabricUrls>, I
             return false;
 
         FabricVersionManifest = Json.Load<FabricVersionManifest>(FabricPathResolver.VersionManifestPath(_launcherPath));
-        if (FabricVersionManifest == null)
+        if (ObjectValidator<FabricVersionManifest>.IsNull(FabricVersionManifest))
         {
             NotificationService.Log(NativeLogLevel.Error, "error.readfile", nameof(FabricVersionManifest));
             return false;
@@ -99,7 +99,7 @@ public class FabricLoaderDownloadService : ILoaderDownloadService<FabricUrls>, I
             return false;
 
         FabricVersionManifest = Json.Load<FabricVersionManifest>(FabricPathResolver.VersionManifestPath(_launcherPath));
-        if (FabricVersionManifest == null)
+        if (ObjectValidator<FabricVersionManifest>.IsNull(FabricVersionManifest))
             return false;
 
         return true;
@@ -125,12 +125,14 @@ public class FabricLoaderDownloadService : ILoaderDownloadService<FabricUrls>, I
             return false;
 
         if (
-            ObjectValidator<string>.IsNullOrWhitespace(_launcherVersion?.Version, _launcherVersion?.FabricLoaderVersion)
+            ObjectValidator<string>.IsNullOrWhiteSpace(
+                [_launcherVersion?.Version, _launcherVersion?.FabricLoaderVersion]
+            )
         )
             return false;
 
         FabricProfile = Json.Load<FabricProfile>(FabricPathResolver.ProfilePath(_launcherPath, _launcherVersion));
-        if (FabricProfile == null)
+        if (ObjectValidator<FabricProfile>.IsNull(FabricProfile))
         {
             NotificationService.Log(NativeLogLevel.Error, "error.download", nameof(FabricProfile));
             return false;
@@ -145,7 +147,7 @@ public class FabricLoaderDownloadService : ILoaderDownloadService<FabricUrls>, I
             return false;
 
         FabricLoader fabricLoader = FabricVersionHelper.GetLoaderVersion(_launcherVersion, FabricVersionManifest);
-        if (fabricLoader == null)
+        if (ObjectValidator<FabricLoader>.IsNull(fabricLoader))
         {
             NotificationService.Log(
                 NativeLogLevel.Error,

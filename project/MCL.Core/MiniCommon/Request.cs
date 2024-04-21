@@ -39,7 +39,9 @@ public static class Request
             NotificationService.Log(
                 NativeLogLevel.Error,
                 "error.request",
-                [request, ex.Message, ex.StackTrace ?? LocalizationService.Translate("stack.trace.null")]
+                request,
+                ex.Message,
+                ex.StackTrace ?? LocalizationService.Translate("stack.trace.null")
             );
             return null;
         }
@@ -56,7 +58,9 @@ public static class Request
             NotificationService.Log(
                 NativeLogLevel.Error,
                 "error.request",
-                [request, ex.Message, ex.StackTrace ?? LocalizationService.Translate("stack.trace.null")]
+                request,
+                ex.Message,
+                ex.StackTrace ?? LocalizationService.Translate("stack.trace.null")
             );
             return null;
         }
@@ -73,7 +77,9 @@ public static class Request
             NotificationService.Log(
                 NativeLogLevel.Error,
                 "error.request",
-                [request, ex.Message, ex.StackTrace ?? LocalizationService.Translate("stack.trace.null")]
+                request,
+                ex.Message,
+                ex.StackTrace ?? LocalizationService.Translate("stack.trace.null")
             );
             return null;
         }
@@ -90,7 +96,9 @@ public static class Request
             NotificationService.Log(
                 NativeLogLevel.Error,
                 "error.request",
-                [request, ex.Message, ex.StackTrace ?? LocalizationService.Translate("stack.trace.null")]
+                request,
+                ex.Message,
+                ex.StackTrace ?? LocalizationService.Translate("stack.trace.null")
             );
             return default;
         }
@@ -102,22 +110,22 @@ public static class Request
     {
         for (int retry = 0; retry < Math.Max(1, Retry); retry++)
         {
-            NotificationService.Log(NativeLogLevel.Info, "request.get.start", [request]);
+            NotificationService.Log(NativeLogLevel.Info, "request.get.start", request);
             string response;
             string hash;
             try
             {
                 response = await GetStringAsync(request);
-                if (string.IsNullOrWhiteSpace(response))
+                if (ObjectValidator<string>.IsNullOrWhiteSpace([response]))
                 {
-                    NotificationService.Log(NativeLogLevel.Error, "error.download", [request]);
+                    NotificationService.Log(NativeLogLevel.Error, "error.download", request);
                     return default;
                 }
                 hash = CryptographyHelper.CreateSHA1(response, encoding);
                 RequestDataService.Add(request, filepath, encoding.GetByteCount(response), hash);
                 if (VFS.Exists(filepath) && CryptographyHelper.CreateSHA1(filepath, true) == hash)
                 {
-                    NotificationService.Log(NativeLogLevel.Info, "request.get.exists", [request]);
+                    NotificationService.Log(NativeLogLevel.Info, "request.get.exists", request);
                     return response;
                 }
 
@@ -129,7 +137,9 @@ public static class Request
                 NotificationService.Log(
                     NativeLogLevel.Error,
                     "error.request",
-                    [request, ex.Message, ex.StackTrace ?? LocalizationService.Translate("stack.trace.null")]
+                    request,
+                    ex.Message,
+                    ex.StackTrace ?? LocalizationService.Translate("stack.trace.null")
                 );
             }
         }
@@ -141,22 +151,22 @@ public static class Request
     {
         for (int retry = 0; retry < Math.Max(1, Retry); retry++)
         {
-            NotificationService.Log(NativeLogLevel.Info, "request.get.start", [request]);
+            NotificationService.Log(NativeLogLevel.Info, "request.get.start", request);
             string response;
             string hash;
             try
             {
                 response = await GetStringAsync(request);
-                if (string.IsNullOrWhiteSpace(response))
+                if (ObjectValidator<string>.IsNullOrWhiteSpace([response]))
                 {
-                    NotificationService.Log(NativeLogLevel.Error, "error.download", [request]);
+                    NotificationService.Log(NativeLogLevel.Error, "error.download", request);
                     return default;
                 }
                 hash = CryptographyHelper.CreateSHA1(response, encoding);
                 RequestDataService.Add(request, filepath, encoding.GetByteCount(response), hash);
                 if (VFS.Exists(filepath) && CryptographyHelper.CreateSHA1(filepath, true) == hash)
                 {
-                    NotificationService.Log(NativeLogLevel.Info, "request.get.exists", [request]);
+                    NotificationService.Log(NativeLogLevel.Info, "request.get.exists", request);
                     return response;
                 }
 
@@ -168,7 +178,9 @@ public static class Request
                 NotificationService.Log(
                     NativeLogLevel.Error,
                     "error.request",
-                    [request, ex.Message, ex.StackTrace ?? LocalizationService.Translate("stack.trace.null")]
+                    request,
+                    ex.Message,
+                    ex.StackTrace ?? LocalizationService.Translate("stack.trace.null")
                 );
             }
         }
@@ -188,7 +200,9 @@ public static class Request
             NotificationService.Log(
                 NativeLogLevel.Error,
                 "error.request",
-                [request, ex.Message, ex.StackTrace ?? LocalizationService.Translate("stack.trace.null")]
+                request,
+                ex.Message,
+                ex.StackTrace ?? LocalizationService.Translate("stack.trace.null")
             );
             return null;
         }
@@ -200,7 +214,7 @@ public static class Request
         if (VFS.Exists(filepath) && CryptographyHelper.CreateSHA256(filepath, true) == hash)
         {
             RequestDataService.Add(request, filepath, 0, hash);
-            NotificationService.Log(NativeLogLevel.Info, "request.get.exists", [request]);
+            NotificationService.Log(NativeLogLevel.Info, "request.get.exists", request);
             return true;
         }
         else if (!await Download(request, filepath))
@@ -213,7 +227,7 @@ public static class Request
         if (VFS.Exists(filepath) && CryptographyHelper.CreateSHA1(filepath, true) == hash)
         {
             RequestDataService.Add(request, filepath, 0, hash);
-            NotificationService.Log(NativeLogLevel.Info, "request.get.exists", [request]);
+            NotificationService.Log(NativeLogLevel.Info, "request.get.exists", request);
             return true;
         }
         else if (!await Download(request, filepath))
@@ -225,7 +239,7 @@ public static class Request
     {
         for (int retry = 0; retry < Math.Max(1, Retry); retry++)
         {
-            NotificationService.Log(NativeLogLevel.Info, "request.get.start", [request]);
+            NotificationService.Log(NativeLogLevel.Info, "request.get.start", request);
 #nullable enable
             HttpResponseMessage? response;
 #nullable disable
@@ -233,7 +247,7 @@ public static class Request
             {
                 response = await GetAsync(request);
 
-                if (response == null)
+                if (ObjectValidator<HttpResponseMessage>.IsNull(response))
                     return false;
 
                 if (!response.IsSuccessStatusCode)
@@ -253,7 +267,9 @@ public static class Request
                 NotificationService.Log(
                     NativeLogLevel.Error,
                     "error.request",
-                    [request, ex.Message, ex.StackTrace ?? LocalizationService.Translate("stack.trace.null")]
+                    request,
+                    ex.Message,
+                    ex.StackTrace ?? LocalizationService.Translate("stack.trace.null")
                 );
             }
         }

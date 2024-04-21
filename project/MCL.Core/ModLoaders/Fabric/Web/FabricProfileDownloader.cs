@@ -16,10 +16,8 @@ public static class FabricProfileDownloader
     )
     {
         if (
-            ObjectValidator<string>.IsNullOrWhitespace(
-                launcherVersion?.Version,
-                launcherVersion?.FabricLoaderVersion,
-                fabricUrls?.LoaderProfile
+            ObjectValidator<string>.IsNullOrWhiteSpace(
+                [launcherVersion?.Version, launcherVersion?.FabricLoaderVersion, fabricUrls?.LoaderProfile]
             )
         )
             return false;
@@ -29,7 +27,7 @@ public static class FabricProfileDownloader
             FabricPathResolver.ProfilePath(launcherPath, launcherVersion),
             Encoding.UTF8
         );
-        if (string.IsNullOrWhiteSpace(fabricProfile))
+        if (ObjectValidator<string>.IsNullOrWhiteSpace([fabricProfile]))
             return false;
         return true;
     }

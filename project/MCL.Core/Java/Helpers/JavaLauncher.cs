@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using MCL.Core.Java.Enums;
 using MCL.Core.Java.Models;
 using MCL.Core.Java.Resolvers;
@@ -14,7 +15,9 @@ public static class JavaLauncher
     public static void Launch(Settings settings, JvmArguments jvmArguments, JavaRuntimeType javaRuntimeType)
     {
         string workingDirectory = Environment.CurrentDirectory;
-        if (settings == null || string.IsNullOrWhiteSpace(workingDirectory))
+        if (
+            ObjectValidator<Settings>.IsNull(settings) || ObjectValidator<string>.IsNullOrWhiteSpace([workingDirectory])
+        )
             return;
         if (!VFS.Exists(workingDirectory))
             return;
@@ -30,7 +33,9 @@ public static class JavaLauncher
         JavaRuntimeType javaRuntimeType
     )
     {
-        if (settings == null || string.IsNullOrWhiteSpace(workingDirectory))
+        if (
+            ObjectValidator<Settings>.IsNull(settings) || ObjectValidator<string>.IsNullOrWhiteSpace([workingDirectory])
+        )
             return;
         if (!VFS.Exists(workingDirectory))
             return;
@@ -46,7 +51,9 @@ public static class JavaLauncher
         JavaRuntimeType javaRuntimeType
     )
     {
-        if (settings == null || string.IsNullOrWhiteSpace(workingDirectory))
+        if (
+            ObjectValidator<Settings>.IsNull(settings) || ObjectValidator<string>.IsNullOrWhiteSpace([workingDirectory])
+        )
             return;
         if (!VFS.Exists(workingDirectory))
             return;
@@ -90,20 +97,7 @@ public static class JavaLauncher
         );
     }
 
-    private static bool JvmArgumentsExist(Settings settings, JvmArguments jvmArguments)
-    {
-        if (settings == null)
-            return false;
-
-        if (jvmArguments == null)
-            return false;
-
-        if (jvmArguments.Arguments == null)
-            return false;
-
-        if (jvmArguments.Arguments.Count <= 0)
-            return false;
-
-        return true;
-    }
+    private static bool JvmArgumentsExist(Settings settings, JvmArguments jvmArguments) =>
+        ObjectValidator<Settings>.IsNotNull(settings)
+        && ObjectValidator<LaunchArg>.IsNotNullOrEmpty(jvmArguments?.Arguments);
 }

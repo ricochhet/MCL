@@ -28,13 +28,13 @@ public static class PaperVersionHelper
             PaperServerDownloadService.LoadVersionManifest();
         }
 
-        if (PaperServerDownloadService.PaperVersionManifest == null)
+        if (ObjectValidator<PaperVersionManifest>.IsNull(PaperServerDownloadService.PaperVersionManifest))
             return false;
 
         List<string> versions = GetVersionIds(PaperServerDownloadService.PaperVersionManifest);
         string version = launcherVersion.PaperServerVersion;
 
-        if (version == "latest" || string.IsNullOrWhiteSpace(version))
+        if (version == "latest" || ObjectValidator<string>.IsNullOrWhiteSpace([version]))
             version = versions[^1]; // Latest is the last version of the array.
 
         if (!versions.Contains(version))
@@ -47,7 +47,7 @@ public static class PaperVersionHelper
 
     public static List<string> GetVersionIds(PaperVersionManifest paperVersionManifest)
     {
-        if (ObjectValidator<List<PaperBuild>>.IsNullOrEmpty(paperVersionManifest?.Builds))
+        if (ObjectValidator<PaperBuild>.IsNullOrEmpty(paperVersionManifest?.Builds))
             return [];
 
         List<string> versions = [];
@@ -62,15 +62,21 @@ public static class PaperVersionHelper
     public static PaperBuild GetVersion(LauncherVersion paperServerVersion, PaperVersionManifest paperVersionManifest)
     {
         if (
-            ObjectValidator<string>.IsNullOrWhitespace(paperServerVersion?.PaperServerVersion)
-            || ObjectValidator<List<PaperBuild>>.IsNullOrEmpty(paperVersionManifest?.Builds)
+            ObjectValidator<string>.IsNullOrWhiteSpace([paperServerVersion?.PaperServerVersion])
+            || ObjectValidator<PaperBuild>.IsNullOrEmpty(paperVersionManifest?.Builds)
         )
             return null;
 
         PaperBuild paperBuild = paperVersionManifest.Builds[^1];
+        if (ObjectValidator<string>.IsNullOrWhiteSpace([paperServerVersion?.PaperServerVersion]))
+            return paperBuild;
+
         foreach (PaperBuild item in paperVersionManifest.Builds)
         {
-            if (item.Build.ToString() == paperServerVersion.PaperServerVersion)
+            if (
+                ObjectValidator<string>.IsNotNullOrWhiteSpace([paperServerVersion?.PaperServerVersion])
+                && item.Build.ToString() == paperServerVersion.PaperServerVersion
+            )
                 return item;
         }
         return paperBuild;

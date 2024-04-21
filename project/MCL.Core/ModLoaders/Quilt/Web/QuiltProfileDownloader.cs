@@ -16,10 +16,8 @@ public static class QuiltProfileDownloader
     )
     {
         if (
-            ObjectValidator<string>.IsNullOrWhitespace(
-                launcherVersion?.Version,
-                launcherVersion?.QuiltLoaderVersion,
-                quiltUrls?.LoaderProfile
+            ObjectValidator<string>.IsNullOrWhiteSpace(
+                [launcherVersion?.Version, launcherVersion?.QuiltLoaderVersion, quiltUrls?.LoaderProfile]
             )
         )
             return false;
@@ -29,7 +27,7 @@ public static class QuiltProfileDownloader
             QuiltPathResolver.ProfilePath(launcherPath, launcherVersion),
             Encoding.UTF8
         );
-        if (string.IsNullOrWhiteSpace(quiltProfile))
+        if (ObjectValidator<string>.IsNullOrWhiteSpace([quiltProfile]))
             return false;
         return true;
     }

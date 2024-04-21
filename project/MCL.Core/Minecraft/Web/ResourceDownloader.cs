@@ -12,7 +12,7 @@ public static class ResourceDownloader
     public static async Task<bool> Download(LauncherPath launcherPath, MUrls mUrls, MAssetsData assets)
     {
         if (
-            ObjectValidator<string>.IsNullOrWhitespace(mUrls?.MinecraftResources)
+            ObjectValidator<string>.IsNullOrWhiteSpace([mUrls?.MinecraftResources])
             || ObjectValidator<Dictionary<string, MAsset>>.IsNullOrEmpty(assets?.Objects)
         )
             return false;
@@ -20,10 +20,7 @@ public static class ResourceDownloader
         string objectsPath = VFS.Combine(MPathResolver.AssetsPath(launcherPath), "objects");
         foreach ((_, MAsset asset) in assets.Objects)
         {
-            if (asset == null)
-                continue;
-
-            if (string.IsNullOrWhiteSpace(asset.Hash))
+            if (ObjectValidator<string>.IsNullOrWhiteSpace([asset?.Hash]))
                 return false;
 
             string request = $"{mUrls.MinecraftResources}/{asset.Hash[..2]}/{asset.Hash}";

@@ -24,11 +24,9 @@ public static class QuiltLoaderDownloader
 #pragma warning restore
     {
         if (
-            ObjectValidator<string>.IsNullOrWhitespace(
-                launcherVersion?.QuiltLoaderVersion,
-                quiltUrls?.ApiLoaderName,
-                quiltUrls?.ApiIntermediaryName
-            ) || ObjectValidator<List<QuiltLibrary>>.IsNullOrEmpty(quiltProfile?.Libraries)
+            ObjectValidator<string>.IsNullOrWhiteSpace(
+                [launcherVersion?.QuiltLoaderVersion, quiltUrls?.ApiLoaderName, quiltUrls?.ApiIntermediaryName]
+            ) || ObjectValidator<QuiltLibrary>.IsNullOrEmpty(quiltProfile?.Libraries)
         )
             return false;
 
@@ -36,7 +34,7 @@ public static class QuiltLoaderDownloader
 
         foreach (QuiltLibrary library in quiltProfile.Libraries)
         {
-            if (ObjectValidator<string>.IsNullOrWhitespace(library?.Name, library?.URL))
+            if (ObjectValidator<string>.IsNullOrWhiteSpace([library?.Name, library?.URL]))
                 return false;
 
             string request;

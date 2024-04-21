@@ -18,7 +18,7 @@ public static class ClassPathHelper
         LauncherSettings launcherSettings
     )
     {
-        if (ObjectValidator<string>.IsNullOrWhitespace(launcherVersion?.Version))
+        if (ObjectValidator<string>.IsNullOrWhiteSpace([launcherVersion?.Version]))
             return string.Empty;
 
         string separator = launcherSettings.JavaRuntimePlatform switch

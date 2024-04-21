@@ -8,6 +8,7 @@ using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Services;
 using MCL.Core.Logger;
 using MCL.Core.Logger.Enums;
+using MCL.Core.Minecraft.Models;
 using MCL.Core.MiniCommon;
 using MCL.Core.MiniCommon.Interfaces;
 using MCL.Core.MiniCommon.Models;
@@ -28,7 +29,7 @@ internal static class Program
         Log.Add(new FileStreamLogger(SettingsService.LogFilePath));
         SettingsService.Save();
         Settings settings = SettingsService.Load();
-        if (settings == null)
+        if (ObjectValidator<Settings>.IsNull(settings))
             return;
 
         LocalizationService.Init(settings.LauncherPath, Language.ENGLISH);
@@ -56,6 +57,9 @@ internal static class Program
 
         SevenZipService.Init(settings.SevenZipSettings);
         ModdingService.Init(settings.LauncherPath, settings.ModSettings);
+
+        List<string> strings = [];
+        NotificationService.Log(NativeLogLevel.Debug, "log", ObjectValidator<string>.IsNullOrEmpty(strings).ToString());
 
         if (args.Length <= 0)
             return;

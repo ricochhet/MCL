@@ -12,7 +12,7 @@ public static class JavaVersionManifestDownloader
 {
     public static async Task<bool> Download(LauncherPath launcherPath, MUrls mUrls)
     {
-        if (ObjectValidator<string>.IsNullOrWhitespace(mUrls?.JavaVersionManifest))
+        if (ObjectValidator<string>.IsNullOrWhiteSpace([mUrls?.JavaVersionManifest]))
             return false;
 
         string filepath = JavaPathResolver.DownloadedJavaVersionManifestPath(launcherPath);
@@ -21,7 +21,7 @@ public static class JavaVersionManifestDownloader
             filepath,
             Encoding.UTF8
         );
-        if (string.IsNullOrWhiteSpace(javaVersionManifest))
+        if (ObjectValidator<string>.IsNullOrWhiteSpace([javaVersionManifest]))
             return false;
         return true;
     }

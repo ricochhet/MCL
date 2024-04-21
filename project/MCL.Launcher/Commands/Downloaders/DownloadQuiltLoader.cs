@@ -25,9 +25,8 @@ public class DownloadQuiltLoader : ILauncherCommand
                 if (!bool.TryParse(options.GetValueOrDefault("update") ?? "false", out bool update))
                     return;
                 if (
-                    ObjectValidator<string>.IsNullOrWhitespace(
-                        _launcherVersion.Version,
-                        _launcherVersion.QuiltLoaderVersion
+                    ObjectValidator<string>.IsNullOrWhiteSpace(
+                        [_launcherVersion.Version, _launcherVersion.QuiltLoaderVersion]
                     )
                 )
                     return;

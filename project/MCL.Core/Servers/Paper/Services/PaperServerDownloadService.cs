@@ -84,13 +84,13 @@ public class PaperServerDownloadService : IDownloadService
         if (!_loaded)
             return false;
 
-        if (ObjectValidator<string>.IsNullOrWhitespace(_launcherVersion?.Version))
+        if (ObjectValidator<string>.IsNullOrWhiteSpace([_launcherVersion?.Version]))
             return false;
 
         PaperVersionManifest = Json.Load<PaperVersionManifest>(
             PaperPathResolver.VersionManifestPath(_launcherPath, _launcherVersion)
         );
-        if (PaperVersionManifest == null)
+        if (ObjectValidator<PaperVersionManifest>.IsNull(PaperVersionManifest))
         {
             NotificationService.Log(NativeLogLevel.Error, "error.readfile", nameof(PaperVersionManifest));
             return false;
@@ -104,13 +104,13 @@ public class PaperServerDownloadService : IDownloadService
         if (!_loaded)
             return false;
 
-        if (ObjectValidator<string>.IsNullOrWhitespace(_launcherVersion?.Version))
+        if (ObjectValidator<string>.IsNullOrWhiteSpace([_launcherVersion?.Version]))
             return false;
 
         PaperVersionManifest = Json.Load<PaperVersionManifest>(
             PaperPathResolver.VersionManifestPath(_launcherPath, _launcherVersion)
         );
-        if (PaperVersionManifest == null)
+        if (ObjectValidator<PaperVersionManifest>.IsNull(PaperVersionManifest))
             return false;
 
         return true;
@@ -122,7 +122,7 @@ public class PaperServerDownloadService : IDownloadService
             return false;
 
         PaperBuild = PaperVersionHelper.GetVersion(_launcherVersion, PaperVersionManifest);
-        if (PaperBuild == null)
+        if (ObjectValidator<PaperBuild>.IsNull(PaperBuild))
         {
             NotificationService.Log(
                 NativeLogLevel.Error,

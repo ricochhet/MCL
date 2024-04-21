@@ -55,7 +55,7 @@ public class QuiltInstallerDownloadService : IJarDownloadService<QuiltUrls>, IDo
 
         if (!await QuiltVersionManifestDownloader.Download(_launcherPath, _quiltUrls))
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.download", [nameof(QuiltVersionManifestDownloader)]);
+            NotificationService.Log(NativeLogLevel.Error, "error.download", nameof(QuiltVersionManifestDownloader));
             return false;
         }
 
@@ -68,9 +68,9 @@ public class QuiltInstallerDownloadService : IJarDownloadService<QuiltUrls>, IDo
             return false;
 
         QuiltVersionManifest = Json.Load<QuiltVersionManifest>(QuiltPathResolver.VersionManifestPath(_launcherPath));
-        if (QuiltVersionManifest == null)
+        if (ObjectValidator<QuiltVersionManifest>.IsNull(QuiltVersionManifest))
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.readfile", [nameof(QuiltVersionManifest)]);
+            NotificationService.Log(NativeLogLevel.Error, "error.readfile", nameof(QuiltVersionManifest));
             return false;
         }
 
@@ -83,7 +83,7 @@ public class QuiltInstallerDownloadService : IJarDownloadService<QuiltUrls>, IDo
             return false;
 
         QuiltVersionManifest = Json.Load<QuiltVersionManifest>(QuiltPathResolver.VersionManifestPath(_launcherPath));
-        if (QuiltVersionManifest == null)
+        if (ObjectValidator<QuiltVersionManifest>.IsNull(QuiltVersionManifest))
             return false;
 
         return true;
@@ -95,12 +95,13 @@ public class QuiltInstallerDownloadService : IJarDownloadService<QuiltUrls>, IDo
             return false;
 
         QuiltInstaller = QuiltVersionHelper.GetInstallerVersion(_launcherVersion, QuiltVersionManifest);
-        if (QuiltInstaller == null)
+        if (ObjectValidator<QuiltInstaller>.IsNull(QuiltInstaller))
         {
             NotificationService.Log(
                 NativeLogLevel.Error,
                 "error.parse",
-                [_launcherVersion?.QuiltInstallerVersion, nameof(QuiltInstaller)]
+                _launcherVersion?.QuiltInstallerVersion,
+                nameof(QuiltInstaller)
             );
             return false;
         }
@@ -115,7 +116,7 @@ public class QuiltInstallerDownloadService : IJarDownloadService<QuiltUrls>, IDo
 
         if (!await QuiltInstallerDownloader.Download(_launcherPath, _launcherVersion, QuiltInstaller))
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.download", [nameof(QuiltInstallerDownloader)]);
+            NotificationService.Log(NativeLogLevel.Error, "error.download", nameof(QuiltInstallerDownloader));
             return false;
         }
 

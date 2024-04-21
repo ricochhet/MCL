@@ -11,10 +11,8 @@ public static class ClientDownloader
     public static async Task<bool> Download(LauncherPath launcherPath, MVersionDetails versionDetails)
     {
         if (
-            ObjectValidator<string>.IsNullOrWhitespace(
-                versionDetails?.Downloads?.Client?.SHA1,
-                versionDetails?.Downloads?.Client?.URL,
-                versionDetails?.ID
+            ObjectValidator<string>.IsNullOrWhiteSpace(
+                [versionDetails?.Downloads?.Client?.SHA1, versionDetails?.Downloads?.Client?.URL, versionDetails?.ID]
             )
         )
             return false;

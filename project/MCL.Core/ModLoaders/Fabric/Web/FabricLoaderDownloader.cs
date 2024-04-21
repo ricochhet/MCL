@@ -24,11 +24,9 @@ public static class FabricLoaderDownloader
 #pragma warning restore
     {
         if (
-            ObjectValidator<string>.IsNullOrWhitespace(
-                launcherVersion?.FabricLoaderVersion,
-                fabricUrls?.ApiLoaderName,
-                fabricUrls?.ApiIntermediaryName
-            ) || ObjectValidator<List<FabricLibrary>>.IsNullOrEmpty(fabricProfile?.Libraries)
+            ObjectValidator<string>.IsNullOrWhiteSpace(
+                [launcherVersion?.FabricLoaderVersion, fabricUrls?.ApiLoaderName, fabricUrls?.ApiIntermediaryName]
+            ) || ObjectValidator<FabricLibrary>.IsNullOrEmpty(fabricProfile?.Libraries)
         )
             return false;
 
@@ -36,7 +34,7 @@ public static class FabricLoaderDownloader
 
         foreach (FabricLibrary library in fabricProfile.Libraries)
         {
-            if (ObjectValidator<string>.IsNullOrWhitespace(library?.Name, library?.URL))
+            if (ObjectValidator<string>.IsNullOrWhiteSpace([library?.Name, library?.URL]))
                 return false;
 
             string request;
@@ -53,7 +51,7 @@ public static class FabricLoaderDownloader
             }
             else
             {
-                if (string.IsNullOrWhiteSpace(library.SHA1))
+                if (ObjectValidator<string>.IsNullOrWhiteSpace([library.SHA1]))
                     return false;
                 request = FabricLibrary.ParseURL(library.Name, library.URL);
                 hash = library.SHA1;

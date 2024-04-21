@@ -30,13 +30,13 @@ public static class VersionHelper
             MDownloadService.LoadVersionManifest();
         }
 
-        if (MDownloadService.VersionManifest == null)
+        if (ObjectValidator<MVersionManifest>.IsNull(MDownloadService.VersionManifest))
             return false;
 
         List<string> versions = GetVersionIds(MDownloadService.VersionManifest);
         string version = launcherVersion.Version;
 
-        if (version == "latest" || string.IsNullOrWhiteSpace(version))
+        if (version == "latest" || ObjectValidator<string>.IsNullOrWhiteSpace([version]))
             version = versions[0];
 
         if (!versions.Contains(version))
@@ -49,7 +49,7 @@ public static class VersionHelper
 
     public static List<string> GetVersionIds(MVersionManifest versionManifest)
     {
-        if (ObjectValidator<List<MVersion>>.IsNullOrEmpty(versionManifest?.Versions))
+        if (ObjectValidator<MVersion>.IsNullOrEmpty(versionManifest?.Versions))
             return [];
 
         List<string> versions = [];
@@ -62,17 +62,23 @@ public static class VersionHelper
     public static MVersion GetVersion(LauncherVersion launcherVersion, MVersionManifest versionManifest)
     {
         if (
-            ObjectValidator<string>.IsNullOrWhitespace(launcherVersion?.Version)
-            || ObjectValidator<List<MVersion>>.IsNullOrEmpty(versionManifest?.Versions)
+            ObjectValidator<string>.IsNullOrWhiteSpace([launcherVersion?.Version])
+            || ObjectValidator<MVersion>.IsNullOrEmpty(versionManifest?.Versions)
         )
             return null;
 
         foreach (MVersion item in versionManifest.Versions)
         {
-            if (string.IsNullOrWhiteSpace(launcherVersion.Version) && item.ID == versionManifest.Latest.Release)
+            if (
+                ObjectValidator<string>.IsNullOrWhiteSpace([launcherVersion?.Version])
+                && item.ID == versionManifest.Latest.Release
+            )
                 return item;
 
-            if ((!string.IsNullOrWhiteSpace(launcherVersion.Version)) && item.ID == launcherVersion.Version)
+            if (
+                ObjectValidator<string>.IsNotNullOrWhiteSpace([launcherVersion?.Version])
+                && item.ID == launcherVersion.Version
+            )
                 return item;
         }
         return null;
@@ -80,12 +86,12 @@ public static class VersionHelper
 
     public static MVersionDetails GetVersionDetails(LauncherPath launcherPath, LauncherVersion launcherVersion)
     {
-        if (ObjectValidator<string>.IsNullOrWhitespace(launcherVersion.Version))
+        if (ObjectValidator<string>.IsNullOrWhiteSpace([launcherVersion.Version]))
             return null;
 
         MVersionManifest versionManifest = Json.Load<MVersionManifest>(MPathResolver.VersionManifestPath(launcherPath));
 
-        if (versionManifest?.Versions == null)
+        if (ObjectValidator<MVersion>.IsNullOrEmpty(versionManifest?.Versions))
             return null;
 
         MVersion version = GetVersion(launcherVersion, versionManifest);

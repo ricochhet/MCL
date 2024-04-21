@@ -15,10 +15,10 @@ public static class JavaVersionHelper
         LauncherSettings launcherSettings
     )
     {
-        if (ObjectValidator<string>.IsNullOrWhitespace(launcherVersion?.Version))
+        if (ObjectValidator<string>.IsNullOrWhiteSpace([launcherVersion?.Version]))
             return launcherSettings.JavaRuntimeType;
         MVersionDetails versionDetails = VersionHelper.GetVersionDetails(launcherPath, launcherVersion);
-        if (ObjectValidator<string>.IsNullOrWhitespace(versionDetails?.JavaVersion?.Component))
+        if (ObjectValidator<string>.IsNullOrWhiteSpace([versionDetails?.JavaVersion?.Component]))
             return launcherSettings.JavaRuntimeType;
         return GenericEnumParser.Parse(versionDetails.JavaVersion.Component, launcherSettings.JavaRuntimeType);
     }

@@ -16,10 +16,8 @@ public static class QuiltInstallerArgs
     )
     {
         if (
-            ObjectValidator<string>.IsNullOrWhitespace(
-                launcherVersion?.Version,
-                launcherVersion?.QuiltInstallerVersion,
-                launcherVersion?.QuiltLoaderVersion
+            ObjectValidator<string>.IsNullOrWhiteSpace(
+                [launcherVersion?.Version, launcherVersion?.QuiltInstallerVersion, launcherVersion?.QuiltLoaderVersion]
             )
         )
             return null;

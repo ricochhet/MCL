@@ -15,7 +15,7 @@ public static class PaperVersionManifestDownloader
         PaperUrls paperUrls
     )
     {
-        if (ObjectValidator<string>.IsNullOrWhitespace(launcherVersion?.Version, paperUrls?.VersionManifest))
+        if (ObjectValidator<string>.IsNullOrWhiteSpace([launcherVersion?.Version, paperUrls?.VersionManifest]))
             return false;
 
         string filepath = PaperPathResolver.VersionManifestPath(launcherPath, launcherVersion);
@@ -24,7 +24,7 @@ public static class PaperVersionManifestDownloader
             filepath,
             Encoding.UTF8
         );
-        if (string.IsNullOrWhiteSpace(paperIndex))
+        if (ObjectValidator<string>.IsNullOrWhiteSpace([paperIndex]))
             return false;
         return true;
     }

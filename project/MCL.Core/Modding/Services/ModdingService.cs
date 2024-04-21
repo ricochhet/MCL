@@ -35,14 +35,14 @@ public static class ModdingService
         string modPath = ModPathResolver.ModPath(LauncherPath, modStoreName);
         if (!VFS.Exists(modPath))
         {
-            NotificationService.Log(NativeLogLevel.Error, "modding.save.error-nodir", [modPath]);
+            NotificationService.Log(NativeLogLevel.Error, "modding.save.error-nodir", modPath);
             return false;
         }
 
         string[] modFilePaths = VFS.GetFiles(modPath, "*", SearchOption.TopDirectoryOnly);
         if (modFilePaths.Length <= 0)
         {
-            NotificationService.Log(NativeLogLevel.Error, "modding.save.error-nofile", [modPath]);
+            NotificationService.Log(NativeLogLevel.Error, "modding.save.error-nofile", modPath);
             return false;
         }
 
@@ -52,7 +52,7 @@ public static class ModdingService
             .ToArray();
         if (filteredModFilePaths.Length <= 0)
         {
-            NotificationService.Log(NativeLogLevel.Error, "modding.save.error-nofile", [modPath]);
+            NotificationService.Log(NativeLogLevel.Error, "modding.save.error-nofile", modPath);
             return false;
         }
 
@@ -122,13 +122,7 @@ public static class ModdingService
 
     public static bool Deploy(ModFiles modFiles, string deployPath, bool overwrite = false)
     {
-        if (modFiles == null)
-        {
-            NotificationService.Log(NativeLogLevel.Error, "modding.deploy.error-nofile");
-            return false;
-        }
-
-        if (modFiles.Files?.Count <= 0)
+        if (ObjectValidator<ModFile>.IsNullOrEmpty(modFiles?.Files))
         {
             NotificationService.Log(NativeLogLevel.Error, "modding.deploy.error-nofile");
             return false;
@@ -147,7 +141,7 @@ public static class ModdingService
 
         foreach (ModFile modFile in sortedModFiles)
         {
-            if (modFile == null)
+            if (ObjectValidator<ModFile>.IsNull(modFile))
             {
                 NotificationService.Log(NativeLogLevel.Error, "modding.deploy.error-nodata");
                 return false;

@@ -17,11 +17,13 @@ public static class PaperServerDownloader
     )
     {
         if (
-            ObjectValidator<string>.IsNullOrWhitespace(
-                paperUrls?.PaperJar,
-                paperBuild?.Build.ToString(),
-                paperBuild?.Downloads?.Application?.Name,
-                paperBuild?.Downloads?.Application?.SHA256
+            ObjectValidator<string>.IsNullOrWhiteSpace(
+                [
+                    paperUrls?.PaperJar,
+                    paperBuild?.Build.ToString(),
+                    paperBuild?.Downloads?.Application?.Name,
+                    paperBuild?.Downloads?.Application?.SHA256
+                ]
             )
         )
             return false;

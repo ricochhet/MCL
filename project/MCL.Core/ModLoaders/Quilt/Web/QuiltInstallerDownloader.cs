@@ -17,10 +17,8 @@ public static class QuiltInstallerDownloader
     )
     {
         if (
-            ObjectValidator<string>.IsNullOrWhitespace(
-                launcherVersion?.QuiltInstallerVersion,
-                quiltInstaller?.URL,
-                quiltInstaller?.Version
+            ObjectValidator<string>.IsNullOrWhiteSpace(
+                [launcherVersion?.QuiltInstallerVersion, quiltInstaller?.URL, quiltInstaller?.Version]
             )
         )
             return false;

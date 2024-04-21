@@ -11,7 +11,7 @@ public static class QuiltVersionManifestDownloader
 {
     public static async Task<bool> Download(LauncherPath launcherPath, QuiltUrls quiltUrls)
     {
-        if (ObjectValidator<string>.IsNullOrWhitespace(quiltUrls?.VersionManifest))
+        if (ObjectValidator<string>.IsNullOrWhiteSpace([quiltUrls?.VersionManifest]))
             return false;
 
         string filepath = QuiltPathResolver.VersionManifestPath(launcherPath);
@@ -20,7 +20,7 @@ public static class QuiltVersionManifestDownloader
             filepath,
             Encoding.UTF8
         );
-        if (string.IsNullOrWhiteSpace(quiltVersionManifest))
+        if (ObjectValidator<string>.IsNullOrWhiteSpace([quiltVersionManifest]))
             return false;
         return true;
     }

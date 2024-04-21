@@ -17,10 +17,8 @@ public static class FabricInstallerDownloader
     )
     {
         if (
-            ObjectValidator<string>.IsNullOrWhitespace(
-                launcherVersion?.FabricInstallerVersion,
-                fabricInstaller?.URL,
-                fabricInstaller?.Version
+            ObjectValidator<string>.IsNullOrWhiteSpace(
+                [launcherVersion?.FabricInstallerVersion, fabricInstaller?.URL, fabricInstaller?.Version]
             )
         )
             return false;

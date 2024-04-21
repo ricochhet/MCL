@@ -11,7 +11,7 @@ public static class VersionManifestDownloader
 {
     public static async Task<bool> Download(LauncherPath launcherPath, MUrls mUrls)
     {
-        if (ObjectValidator<string>.IsNullOrWhitespace(mUrls?.VersionManifest))
+        if (ObjectValidator<string>.IsNullOrWhiteSpace([mUrls?.VersionManifest]))
             return false;
 
         string filepath = MPathResolver.VersionManifestPath(launcherPath);
@@ -20,7 +20,7 @@ public static class VersionManifestDownloader
             filepath,
             Encoding.UTF8
         );
-        if (string.IsNullOrWhiteSpace(versionManifest))
+        if (ObjectValidator<string>.IsNullOrWhiteSpace([versionManifest]))
             return false;
         return true;
     }

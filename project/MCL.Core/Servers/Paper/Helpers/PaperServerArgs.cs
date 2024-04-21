@@ -9,7 +9,7 @@ public static class PaperServerArgs
 {
     public static JvmArguments DefaultJvmArguments(LauncherPath launcherPath, LauncherVersion launcherVersion)
     {
-        if (ObjectValidator<string>.IsNullOrWhitespace(launcherVersion?.Version, launcherVersion?.PaperServerVersion))
+        if (ObjectValidator<string>.IsNullOrWhiteSpace([launcherVersion?.Version, launcherVersion?.PaperServerVersion]))
             return null;
 
         JvmArguments jvmArguments = new();

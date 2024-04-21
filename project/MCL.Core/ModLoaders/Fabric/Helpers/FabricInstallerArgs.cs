@@ -15,10 +15,12 @@ public static class FabricInstallerArgs
     )
     {
         if (
-            ObjectValidator<string>.IsNullOrWhitespace(
-                launcherVersion?.Version,
-                launcherVersion?.FabricInstallerVersion,
-                launcherVersion?.FabricLoaderVersion
+            ObjectValidator<string>.IsNullOrWhiteSpace(
+                [
+                    launcherVersion?.Version,
+                    launcherVersion?.FabricInstallerVersion,
+                    launcherVersion?.FabricLoaderVersion
+                ]
             )
         )
             return null;

@@ -26,7 +26,7 @@ public class DownloadFabricInstaller : ILauncherCommand
                 _launcherVersion.FabricInstallerVersion = options.GetValueOrDefault("installerversion") ?? "latest";
                 if (!bool.TryParse(options.GetValueOrDefault("update") ?? "false", out bool update))
                     return;
-                if (ObjectValidator<string>.IsNullOrWhitespace(_launcherVersion.FabricInstallerVersion))
+                if (ObjectValidator<string>.IsNullOrWhiteSpace([_launcherVersion.FabricInstallerVersion]))
                     return;
                 if (!await VersionHelper.SetVersion(settings, _launcherVersion, update))
                     return;

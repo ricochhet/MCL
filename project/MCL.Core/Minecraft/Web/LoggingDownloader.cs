@@ -11,10 +11,12 @@ public static class LoggingDownloader
     public static async Task<bool> Download(LauncherPath launcherPath, MVersionDetails versionDetails)
     {
         if (
-            ObjectValidator<string>.IsNullOrWhitespace(
-                versionDetails?.Logging?.Client?.File?.SHA1,
-                versionDetails?.Logging?.Client?.File?.URL,
-                versionDetails?.ID
+            ObjectValidator<string>.IsNullOrWhiteSpace(
+                [
+                    versionDetails?.Logging?.Client?.File?.SHA1,
+                    versionDetails?.Logging?.Client?.File?.URL,
+                    versionDetails?.ID
+                ]
             )
         )
             return false;

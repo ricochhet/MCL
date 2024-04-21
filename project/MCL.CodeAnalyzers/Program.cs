@@ -7,6 +7,7 @@ using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Services;
 using MCL.Core.Logger;
 using MCL.Core.Logger.Enums;
+using MCL.Core.MiniCommon;
 using MCL.Core.MiniCommon.Interfaces;
 
 namespace MCL.CodeAnalyzers;
@@ -20,7 +21,7 @@ internal static class Program
         Log.Add(new FileStreamLogger(SettingsService.LogFilePath));
         SettingsService.Save();
         Settings settings = SettingsService.Load();
-        if (settings == null)
+        if (ObjectValidator<Settings>.IsNull(settings))
             return;
 
         LocalizationService.Init(settings.LauncherPath, Language.ENGLISH);

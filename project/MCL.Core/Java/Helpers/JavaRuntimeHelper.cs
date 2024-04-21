@@ -21,7 +21,7 @@ public static class JavaRuntimeHelper
             string javaHomeEnvironmentVariable = Environment.GetEnvironmentVariable(
                 settings.JavaSettings.HomeEnvironmentVariable
             );
-            if (string.IsNullOrWhiteSpace(javaHomeEnvironmentVariable))
+            if (ObjectValidator<string>.IsNullOrWhiteSpace([javaHomeEnvironmentVariable]))
                 return javaHome;
             return javaHomeEnvironmentVariable;
         }

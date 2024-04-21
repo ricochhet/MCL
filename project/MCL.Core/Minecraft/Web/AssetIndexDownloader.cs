@@ -11,10 +11,8 @@ public static class AssetIndexDownloader
     public static async Task<bool> Download(LauncherPath launcherPath, MVersionDetails versionDetails)
     {
         if (
-            ObjectValidator<string>.IsNullOrWhitespace(
-                versionDetails?.AssetIndex?.SHA1,
-                versionDetails?.AssetIndex?.URL,
-                versionDetails?.Assets
+            ObjectValidator<string>.IsNullOrWhiteSpace(
+                [versionDetails?.AssetIndex?.SHA1, versionDetails?.AssetIndex?.URL, versionDetails?.Assets]
             )
         )
             return false;

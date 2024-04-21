@@ -19,11 +19,8 @@ public static partial class LineAnalyzer
                 continue;
             string[] lines = VFS.ReadAllLines(file);
             int fileLineCount = 0;
-            foreach (string line in lines)
-            {
-                if (!string.IsNullOrWhiteSpace(line))
-                    fileLineCount++;
-            }
+            foreach (string line in lines.Where(a => ObjectValidator<string>.IsNotNullOrWhiteSpace([a])))
+                fileLineCount++;
 
             fileLines.Add(fileLineCount);
         }
@@ -31,7 +28,9 @@ public static partial class LineAnalyzer
         NotificationService.Log(
             NativeLogLevel.Info,
             "analyzer.line.output",
-            [nameof(LineAnalyzer), fileLines.Sum().ToString(), Math.Round(fileLines.Average()).ToString()]
+            nameof(LineAnalyzer),
+            fileLines.Sum().ToString(),
+            Math.Round(fileLines.Average()).ToString()
         );
     }
 

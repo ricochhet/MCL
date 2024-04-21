@@ -22,7 +22,7 @@ public class DownloadMinecraft : ILauncherCommand
                 _launcherVersion.Version = options.GetValueOrDefault("gameversion") ?? "latest";
                 if (!bool.TryParse(options.GetValueOrDefault("update") ?? "false", out bool update))
                     return;
-                if (ObjectValidator<string>.IsNullOrWhitespace(_launcherVersion.Version))
+                if (ObjectValidator<string>.IsNullOrWhiteSpace([_launcherVersion.Version]))
                     return;
                 if (!await VersionHelper.SetVersion(settings, _launcherVersion, update))
                     return;

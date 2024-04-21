@@ -81,11 +81,11 @@ public static class SettingsService
             if (inputJson != null)
                 return inputJson;
 
-            NotificationService.Log(NativeLogLevel.Error, "launcher.settings.missing", [SettingsFileName, DataPath]);
+            NotificationService.Log(NativeLogLevel.Error, "launcher.settings.missing", SettingsFileName, DataPath);
             return null;
         }
 
-        NotificationService.Log(NativeLogLevel.Error, "launcher.settings.missing", [SettingsFileName, DataPath]);
+        NotificationService.Log(NativeLogLevel.Error, "launcher.settings.missing", SettingsFileName, DataPath);
         return null;
     }
 }

@@ -30,7 +30,7 @@ public static class JavaVersionDetailsDownloader
             JavaRuntimePlatform.WINDOWSX86 => GetJavaRuntimeUrl(javaRuntimeType, javaVersionManifest?.WindowsX86),
             _ => string.Empty,
         };
-        if (string.IsNullOrWhiteSpace(request))
+        if (ObjectValidator<string>.IsNullOrWhiteSpace([request]))
             return false;
 
         string javaRuntimeFiles = await Request.GetJsonAsync<JavaVersionDetails>(
@@ -41,7 +41,7 @@ public static class JavaVersionDetailsDownloader
             ),
             Encoding.UTF8
         );
-        if (string.IsNullOrWhiteSpace(javaRuntimeFiles))
+        if (ObjectValidator<string>.IsNullOrWhiteSpace([javaRuntimeFiles]))
             return false;
         return true;
     }
@@ -84,8 +84,8 @@ public static class JavaVersionDetailsDownloader
     {
         if (
             ObjectValidator<JavaRuntime>.IsNull(javaRuntime)
-            || ObjectValidator<List<JavaRuntimeObject>>.IsNullOrEmpty(javaRuntimeObjects)
-            || ObjectValidator<string>.IsNullOrWhitespace(javaRuntimeObjects[0]?.JavaRuntimeManifest?.Url)
+            || ObjectValidator<JavaRuntimeObject>.IsNullOrEmpty(javaRuntimeObjects)
+            || ObjectValidator<string>.IsNullOrWhiteSpace([javaRuntimeObjects[0]?.JavaRuntimeManifest?.Url])
         )
             return false;
         return true;

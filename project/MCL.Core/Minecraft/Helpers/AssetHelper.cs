@@ -9,26 +9,23 @@ public static class AssetHelper
 {
     public static string GetAssetId(LauncherPath launcherPath, LauncherVersion launcherVersion)
     {
-        if (ObjectValidator<string>.IsNullOrWhitespace(launcherVersion?.Version))
+        if (ObjectValidator<string>.IsNullOrWhiteSpace([launcherVersion?.Version]))
             return string.Empty;
 
         MVersionManifest versionManifest = Json.Load<MVersionManifest>(MPathResolver.VersionManifestPath(launcherPath));
 
-        if (versionManifest == null)
+        if (ObjectValidator<MVersionManifest>.IsNull(versionManifest))
             return string.Empty;
 
         MVersion version = VersionHelper.GetVersion(launcherVersion, versionManifest);
-        if (version == null)
+        if (ObjectValidator<MVersion>.IsNull(version))
             return string.Empty;
 
         MVersionDetails versionDetails = Json.Load<MVersionDetails>(
             MPathResolver.VersionDetailsPath(launcherPath, version)
         );
 
-        if (versionDetails == null)
-            return string.Empty;
-
-        if (string.IsNullOrWhiteSpace(versionDetails.Assets))
+        if (ObjectValidator<string>.IsNullOrWhiteSpace([versionDetails?.Assets]))
             return string.Empty;
         return versionDetails.Assets;
     }

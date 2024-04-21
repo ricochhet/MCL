@@ -23,13 +23,13 @@ public static class FabricVersionHelper
             FabricInstallerDownloadService.LoadVersionManifest();
         }
 
-        if (FabricInstallerDownloadService.FabricVersionManifest == null)
+        if (ObjectValidator<FabricVersionManifest>.IsNull(FabricInstallerDownloadService.FabricVersionManifest))
             return false;
 
         List<string> installerVersions = GetInstallerVersionIds(FabricInstallerDownloadService.FabricVersionManifest);
         string installerVersion = launcherVersion.FabricInstallerVersion;
 
-        if (installerVersion == "latest" || string.IsNullOrWhiteSpace(installerVersion))
+        if (installerVersion == "latest" || ObjectValidator<string>.IsNullOrWhiteSpace([installerVersion]))
             installerVersion = installerVersions[0];
 
         if (!installerVersions.Contains(installerVersion))
@@ -58,13 +58,13 @@ public static class FabricVersionHelper
             FabricLoaderDownloadService.LoadVersionManifest();
         }
 
-        if (FabricLoaderDownloadService.FabricVersionManifest == null)
+        if (ObjectValidator<FabricVersionManifest>.IsNull(FabricLoaderDownloadService.FabricVersionManifest))
             return false;
 
         List<string> loaderVersions = GetLoaderVersionIds(FabricLoaderDownloadService.FabricVersionManifest);
         string loaderVersion = launcherVersion.FabricLoaderVersion;
 
-        if (loaderVersion == "latest" || string.IsNullOrWhiteSpace(loaderVersion))
+        if (loaderVersion == "latest" || ObjectValidator<string>.IsNullOrWhiteSpace([loaderVersion]))
             loaderVersion = loaderVersions[0];
 
         if (!loaderVersions.Contains(loaderVersion))
@@ -77,7 +77,7 @@ public static class FabricVersionHelper
 
     public static List<string> GetInstallerVersionIds(FabricVersionManifest fabricVersionManifest)
     {
-        if (ObjectValidator<List<FabricInstaller>>.IsNullOrEmpty(fabricVersionManifest?.Installer))
+        if (ObjectValidator<FabricInstaller>.IsNullOrEmpty(fabricVersionManifest?.Installer))
             return [];
 
         List<string> versions = [];
@@ -91,7 +91,7 @@ public static class FabricVersionHelper
 
     public static List<string> GetLoaderVersionIds(FabricVersionManifest fabricVersionManifest)
     {
-        if (ObjectValidator<List<FabricLoader>>.IsNullOrEmpty(fabricVersionManifest?.Loader))
+        if (ObjectValidator<FabricLoader>.IsNullOrEmpty(fabricVersionManifest?.Loader))
             return [];
 
         List<string> versions = [];
@@ -109,15 +109,21 @@ public static class FabricVersionHelper
     )
     {
         if (
-            ObjectValidator<string>.IsNullOrWhitespace(installerVersion?.FabricInstallerVersion)
-            || ObjectValidator<List<FabricInstaller>>.IsNullOrEmpty(fabricVersionManifest?.Installer)
+            ObjectValidator<string>.IsNullOrWhiteSpace([installerVersion?.FabricInstallerVersion])
+            || ObjectValidator<FabricInstaller>.IsNullOrEmpty(fabricVersionManifest?.Installer)
         )
             return null;
 
         FabricInstaller fabricInstaller = fabricVersionManifest.Installer[0];
+        if (ObjectValidator<string>.IsNullOrWhiteSpace([installerVersion?.FabricInstallerVersion]))
+            return fabricInstaller;
+
         foreach (FabricInstaller item in fabricVersionManifest.Installer)
         {
-            if (item.Version == installerVersion.FabricInstallerVersion)
+            if (
+                ObjectValidator<string>.IsNotNullOrWhiteSpace([installerVersion?.FabricInstallerVersion])
+                && item.Version == installerVersion.FabricInstallerVersion
+            )
                 return item;
         }
         return fabricInstaller;
@@ -129,15 +135,21 @@ public static class FabricVersionHelper
     )
     {
         if (
-            ObjectValidator<string>.IsNullOrWhitespace(loaderVersion?.FabricLoaderVersion)
-            || ObjectValidator<List<FabricLoader>>.IsNullOrEmpty(fabricVersionManifest?.Loader)
+            ObjectValidator<string>.IsNullOrWhiteSpace([loaderVersion?.FabricLoaderVersion])
+            || ObjectValidator<FabricLoader>.IsNullOrEmpty(fabricVersionManifest?.Loader)
         )
             return null;
 
         FabricLoader fabricLoader = fabricVersionManifest.Loader[0];
+        if (ObjectValidator<string>.IsNullOrWhiteSpace([loaderVersion?.FabricLoaderVersion]))
+            return fabricLoader;
+
         foreach (FabricLoader item in fabricVersionManifest.Loader)
         {
-            if (item.Version == loaderVersion.FabricLoaderVersion)
+            if (
+                ObjectValidator<string>.IsNotNullOrWhiteSpace([loaderVersion?.FabricLoaderVersion])
+                && item.Version == loaderVersion.FabricLoaderVersion
+            )
                 return item;
         }
         return fabricLoader;

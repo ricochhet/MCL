@@ -26,7 +26,7 @@ public class DownloadQuiltInstaller : ILauncherCommand
                 _launcherVersion.QuiltInstallerVersion = options.GetValueOrDefault("installerversion") ?? "latest";
                 if (!bool.TryParse(options.GetValueOrDefault("update") ?? "false", out bool update))
                     return;
-                if (ObjectValidator<string>.IsNullOrWhitespace(_launcherVersion.QuiltInstallerVersion))
+                if (ObjectValidator<string>.IsNullOrWhiteSpace([_launcherVersion.QuiltInstallerVersion]))
                     return;
                 if (!await VersionHelper.SetVersion(settings, _launcherVersion, update))
                     return;

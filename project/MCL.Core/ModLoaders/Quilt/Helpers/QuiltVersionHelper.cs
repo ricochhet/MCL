@@ -23,13 +23,13 @@ public static class QuiltVersionHelper
             QuiltInstallerDownloadService.LoadVersionManifest();
         }
 
-        if (QuiltInstallerDownloadService.QuiltVersionManifest == null)
+        if (ObjectValidator<QuiltVersionManifest>.IsNull(QuiltInstallerDownloadService.QuiltVersionManifest))
             return false;
 
         List<string> installerVersions = GetInstallerVersionIds(QuiltInstallerDownloadService.QuiltVersionManifest);
         string installerVersion = launcherVersion.QuiltInstallerVersion;
 
-        if (installerVersion == "latest" || string.IsNullOrWhiteSpace(installerVersion))
+        if (installerVersion == "latest" || ObjectValidator<string>.IsNullOrWhiteSpace([installerVersion]))
             installerVersion = installerVersions[0];
 
         if (!installerVersions.Contains(installerVersion))
@@ -58,13 +58,13 @@ public static class QuiltVersionHelper
             QuiltLoaderDownloadService.LoadVersionManifest();
         }
 
-        if (QuiltLoaderDownloadService.QuiltVersionManifest == null)
+        if (ObjectValidator<QuiltVersionManifest>.IsNull(QuiltLoaderDownloadService.QuiltVersionManifest))
             return false;
 
         List<string> loaderVersions = GetLoaderVersionIds(QuiltLoaderDownloadService.QuiltVersionManifest);
         string loaderVersion = launcherVersion.QuiltLoaderVersion;
 
-        if (loaderVersion == "latest" || string.IsNullOrWhiteSpace(loaderVersion))
+        if (loaderVersion == "latest" || ObjectValidator<string>.IsNullOrWhiteSpace([loaderVersion]))
             loaderVersion = loaderVersions[0];
 
         if (!loaderVersions.Contains(loaderVersion))
@@ -77,7 +77,7 @@ public static class QuiltVersionHelper
 
     public static List<string> GetInstallerVersionIds(QuiltVersionManifest quiltVersionManifest)
     {
-        if (ObjectValidator<List<QuiltInstaller>>.IsNullOrEmpty(quiltVersionManifest?.Installer))
+        if (ObjectValidator<QuiltInstaller>.IsNullOrEmpty(quiltVersionManifest?.Installer))
             return [];
 
         List<string> versions = [];
@@ -91,7 +91,7 @@ public static class QuiltVersionHelper
 
     public static List<string> GetLoaderVersionIds(QuiltVersionManifest quiltVersionManifest)
     {
-        if (ObjectValidator<List<QuiltLoader>>.IsNullOrEmpty(quiltVersionManifest?.Loader))
+        if (ObjectValidator<QuiltLoader>.IsNullOrEmpty(quiltVersionManifest?.Loader))
             return [];
 
         List<string> versions = [];
@@ -109,19 +109,19 @@ public static class QuiltVersionHelper
     )
     {
         if (
-            ObjectValidator<string>.IsNullOrWhitespace(installerVersion?.QuiltInstallerVersion)
-            || ObjectValidator<List<QuiltInstaller>>.IsNullOrEmpty(quiltVersionManifest?.Installer)
+            ObjectValidator<string>.IsNullOrWhiteSpace([installerVersion?.QuiltInstallerVersion])
+            || ObjectValidator<QuiltInstaller>.IsNullOrEmpty(quiltVersionManifest?.Installer)
         )
             return null;
 
         QuiltInstaller quiltInstaller = quiltVersionManifest.Installer[0];
-        if (string.IsNullOrWhiteSpace(installerVersion.QuiltInstallerVersion))
+        if (ObjectValidator<string>.IsNullOrWhiteSpace([installerVersion?.QuiltInstallerVersion]))
             return quiltInstaller;
 
         foreach (QuiltInstaller item in quiltVersionManifest.Installer)
         {
             if (
-                (!string.IsNullOrWhiteSpace(installerVersion.QuiltInstallerVersion))
+                ObjectValidator<string>.IsNotNullOrWhiteSpace([installerVersion?.QuiltInstallerVersion])
                 && item.Version == installerVersion.QuiltInstallerVersion
             )
                 return item;
@@ -132,19 +132,19 @@ public static class QuiltVersionHelper
     public static QuiltLoader GetLoaderVersion(LauncherVersion loaderVersion, QuiltVersionManifest quiltVersionManifest)
     {
         if (
-            ObjectValidator<string>.IsNullOrWhitespace(loaderVersion?.QuiltLoaderVersion)
-            || ObjectValidator<List<QuiltLoader>>.IsNullOrEmpty(quiltVersionManifest?.Loader)
+            ObjectValidator<string>.IsNullOrWhiteSpace([loaderVersion?.QuiltLoaderVersion])
+            || ObjectValidator<QuiltLoader>.IsNullOrEmpty(quiltVersionManifest?.Loader)
         )
             return null;
 
         QuiltLoader quiltLoader = quiltVersionManifest.Loader[0];
-        if (string.IsNullOrWhiteSpace(loaderVersion.QuiltLoaderVersion))
+        if (ObjectValidator<string>.IsNullOrWhiteSpace([loaderVersion?.QuiltLoaderVersion]))
             return quiltLoader;
 
         foreach (QuiltLoader item in quiltVersionManifest.Loader)
         {
             if (
-                (!string.IsNullOrWhiteSpace(loaderVersion.QuiltLoaderVersion))
+                ObjectValidator<string>.IsNotNullOrWhiteSpace([loaderVersion?.QuiltLoaderVersion])
                 && item.Version == loaderVersion.QuiltLoaderVersion
             )
                 return item;

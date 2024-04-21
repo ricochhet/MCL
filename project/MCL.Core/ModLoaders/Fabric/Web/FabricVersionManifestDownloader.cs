@@ -11,7 +11,7 @@ public static class FabricVersionManifestDownloader
 {
     public static async Task<bool> Download(LauncherPath launcherPath, FabricUrls fabricUrls)
     {
-        if (ObjectValidator<string>.IsNullOrWhitespace(fabricUrls?.VersionManifest))
+        if (ObjectValidator<string>.IsNullOrWhiteSpace([fabricUrls?.VersionManifest]))
             return false;
 
         string filepath = FabricPathResolver.VersionManifestPath(launcherPath);
@@ -20,7 +20,7 @@ public static class FabricVersionManifestDownloader
             filepath,
             Encoding.UTF8
         );
-        if (string.IsNullOrWhiteSpace(fabricVersionManifest))
+        if (ObjectValidator<string>.IsNullOrWhiteSpace([fabricVersionManifest]))
             return false;
         return true;
     }

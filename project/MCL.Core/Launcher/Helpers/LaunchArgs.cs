@@ -14,9 +14,8 @@ public static class LaunchArgs
     public static JvmArguments DefaultJvmArguments(Settings settings)
     {
         if (
-            ObjectValidator<string>.IsNullOrWhitespace(
-                settings?.LauncherVersion?.Version,
-                settings?.LauncherVersion?.VersionType
+            ObjectValidator<string>.IsNullOrWhiteSpace(
+                [settings?.LauncherVersion?.Version, settings?.LauncherVersion?.VersionType]
             )
         )
             return null;

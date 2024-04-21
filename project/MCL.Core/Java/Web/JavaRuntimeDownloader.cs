@@ -27,9 +27,8 @@ public static class JavaRuntimeDownloader
             if (javaRuntimeFile.Type == "file")
             {
                 if (
-                    ObjectValidator<string>.IsNullOrWhitespace(
-                        javaRuntimeFile.Downloads?.Raw?.URL,
-                        javaRuntimeFile.Downloads?.Raw?.SHA1
+                    ObjectValidator<string>.IsNullOrWhiteSpace(
+                        [javaRuntimeFile.Downloads?.Raw?.URL, javaRuntimeFile.Downloads?.Raw?.SHA1]
                     )
                 )
                     return false;

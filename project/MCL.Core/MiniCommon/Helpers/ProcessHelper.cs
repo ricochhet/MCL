@@ -41,14 +41,14 @@ public static class ProcessHelper
             {
                 process.OutputDataReceived += (sender, e) =>
                 {
-                    if (!string.IsNullOrWhiteSpace(e.Data))
-                        NotificationService.Log(NativeLogLevel.Info, "log", [e.Data ?? string.Empty]);
+                    if (ObjectValidator<string>.IsNotNullOrWhiteSpace([e?.Data]))
+                        NotificationService.Log(NativeLogLevel.Info, "log", e.Data ?? string.Empty);
                 };
 
                 process.ErrorDataReceived += (sender, e) =>
                 {
-                    if (!string.IsNullOrWhiteSpace(e.Data))
-                        NotificationService.Log(NativeLogLevel.Error, "log", [e.Data ?? string.Empty]);
+                    if (ObjectValidator<string>.IsNotNullOrWhiteSpace([e?.Data]))
+                        NotificationService.Log(NativeLogLevel.Error, "log", e.Data ?? string.Empty);
                 };
 
                 process.Start();
@@ -58,7 +58,7 @@ public static class ProcessHelper
             else
             {
                 process.Start();
-                NotificationService.Log(NativeLogLevel.Info, "log", [process.StandardOutput.ReadToEnd()]);
+                NotificationService.Log(NativeLogLevel.Info, "log", process.StandardOutput.ReadToEnd());
             }
 
             process.WaitForExit();
@@ -68,7 +68,8 @@ public static class ProcessHelper
             NotificationService.Log(
                 NativeLogLevel.Error,
                 "log.stack.trace",
-                [ex.Message, ex.StackTrace ?? LocalizationService.Translate("stack.trace.null")]
+                ex.Message,
+                ex.StackTrace ?? LocalizationService.Translate("stack.trace.null")
             );
         }
     }
