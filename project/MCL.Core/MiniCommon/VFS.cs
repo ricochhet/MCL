@@ -82,7 +82,7 @@ public static class VFS
     }
 
     /// <summary>
-    /// Get directory name of a filepath
+    /// Get directory name of a filepath.
     /// </summary>
     public static string GetDirectoryName(this string filepath)
     {
@@ -91,7 +91,7 @@ public static class VFS
     }
 
     /// <summary>
-    /// Get file name of a filepath
+    /// Get file name of a filepath.
     /// </summary>
     public static string GetFileName(this string filepath)
     {
@@ -118,7 +118,7 @@ public static class VFS
     }
 
     /// <summary>
-    /// Move file from one place to another
+    /// Move file from one place to another.
     /// </summary>
     public static void MoveFile(string a, string b)
     {
@@ -129,7 +129,7 @@ public static class VFS
     }
 
     /// <summary>
-    /// Copy file from one place to another
+    /// Copy file from one place to another.
     /// </summary>
     public static void CopyFile(string a, string b, bool overwrite = true)
     {

@@ -7,6 +7,9 @@ namespace MCL.Core.MiniCommon.Helpers;
 
 public static class CryptographyHelper
 {
+    /// <summary>
+    /// Create a SHA1 hash from a filestream, and return as string.
+    /// </summary>
     public static string CreateSHA1(string fileName, bool formatting)
     {
         if (!VFS.Exists(fileName))
@@ -21,6 +24,9 @@ public static class CryptographyHelper
         return BitConverter.ToString(hash);
     }
 
+    /// <summary>
+    /// Create a SHA1 hash from a string, and return as string.
+    /// </summary>
     public static string CreateSHA1(string value, Encoding enc)
     {
         StringBuilder stringBuilder = new();
@@ -33,6 +39,9 @@ public static class CryptographyHelper
         return stringBuilder.ToString();
     }
 
+    /// <summary>
+    /// Create a SHA256 hash from a filestream, and return as string.
+    /// </summary>
     public static string CreateSHA256(string fileName, bool formatting)
     {
         if (!VFS.Exists(fileName))
@@ -47,6 +56,9 @@ public static class CryptographyHelper
         return BitConverter.ToString(hash);
     }
 
+    /// <summary>
+    /// Create a SHA256 hash from a string, and return as string.
+    /// </summary>
     public static string CreateSHA256(string value, Encoding enc)
     {
         StringBuilder stringBuilder = new();
@@ -59,6 +71,9 @@ public static class CryptographyHelper
         return stringBuilder.ToString();
     }
 
+    /// <summary>
+    /// Create an UUID from an MD5 hash, and return as string.
+    /// </summary>
     public static string CreateUUID(string value)
     {
         byte[] digestedHash = MD5.HashData(Encoding.UTF8.GetBytes(value));

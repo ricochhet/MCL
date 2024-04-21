@@ -10,6 +10,9 @@ public static class CommandLine
 {
     private static readonly char[] _separator = [',', ';'];
 
+    /// <summary>
+    /// Processes a command line argument identified by a flag and invokes the provided action with the argument's value of type T.
+    /// </summary>
     public static void ProcessArgument<T>(string[] args, string flag, Action<T> action)
     {
         try
@@ -31,6 +34,9 @@ public static class CommandLine
         }
     }
 
+    /// <summary>
+    /// Processes a command line argument identified by a flag and invokes the provided action with a dictionary of key-value pairs extracted from the argument.
+    /// </summary>
     public static void ProcessArgument(string[] args, string flag, Action<Dictionary<string, string>> action)
     {
         try
@@ -48,6 +54,9 @@ public static class CommandLine
         }
     }
 
+    /// <summary>
+    /// Processes a command line argument identified by a flag and invokes the provided action with the argument's value of type T.
+    /// </summary>
     public static async Task ProcessArgumentAsync<T>(string[] args, string flag, Func<T, Task> action)
     {
         try
@@ -69,6 +78,9 @@ public static class CommandLine
         }
     }
 
+    /// <summary>
+    /// Processes a command line argument identified by a flag and invokes the provided action with a dictionary of key-value pairs extracted from the argument.
+    /// </summary>
     public static async Task ProcessArgumentAsync(
         string[] args,
         string flag,
@@ -90,6 +102,9 @@ public static class CommandLine
         }
     }
 
+    /// <summary>
+    /// Parses a string containing key-value pairs separated by specified separators into a dictionary.
+    /// </summary>
     private static Dictionary<string, string> ParseKeyValuePairs(string input)
     {
         Dictionary<string, string> keyValuePairs = [];
@@ -103,6 +118,9 @@ public static class CommandLine
         return keyValuePairs;
     }
 
+    /// <summary>
+    /// Logs an exception message along with stack trace information.
+    /// </summary>
     private static void LogException(Exception ex)
     {
         NotificationService.Log(
@@ -113,6 +131,9 @@ public static class CommandLine
         );
     }
 
+    /// <summary>
+    /// Pauses the command line execution until the user presses the 'F' key.
+    /// </summary>
     public static void Pause()
     {
         NotificationService.Log(NativeLogLevel.Info, "commandline.exit", "F");
