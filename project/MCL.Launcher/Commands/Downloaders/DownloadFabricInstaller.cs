@@ -67,7 +67,8 @@ public class DownloadFabricInstaller : ILauncherCommand
                         settings.LauncherVersion,
                         FabricInstallerType.INSTALL_CLIENT
                     ),
-                    settings.LauncherSettings.JavaRuntimeType
+                    settings.LauncherSettings.JavaRuntimeType,
+                    options.GetValueOrDefault("javapath") ?? string.Empty
                 );
             }
         );

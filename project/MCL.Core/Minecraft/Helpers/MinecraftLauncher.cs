@@ -27,7 +27,7 @@ namespace MCL.Core.Minecraft.Helpers;
 
 public static class MinecraftLauncher
 {
-    public static void Launch(Settings settings)
+    public static void Launch(Settings settings, string javaHome)
     {
         if (ObjectValidator<string>.IsNullOrWhiteSpace([settings?.LauncherVersion?.Version]))
             return;
@@ -47,7 +47,8 @@ public static class MinecraftLauncher
                 settings.LauncherPath,
                 settings.LauncherVersion,
                 settings.LauncherSettings
-            )
+            ),
+            javaHome
         );
     }
 }

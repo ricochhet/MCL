@@ -16,6 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using MCL.Core.Launcher.Models;
 using MCL.Core.MiniCommon;
@@ -45,7 +46,7 @@ public class LaunchPaperServer : ILauncherCommand
                 )
                     settings.LauncherVersion.PaperServerVersion = paperVersion;
 
-                PaperLauncher.Launch(settings);
+                PaperLauncher.Launch(settings, options.GetValueOrDefault("javapath") ?? string.Empty);
             }
         );
 

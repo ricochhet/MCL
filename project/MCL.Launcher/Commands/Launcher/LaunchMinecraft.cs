@@ -47,7 +47,7 @@ public class LaunchMinecraft : ILauncherCommand
                 )
                     settings.LauncherVersion.Version = version;
 
-                MinecraftLauncher.Launch(settings);
+                MinecraftLauncher.Launch(settings, options.GetValueOrDefault("javapath") ?? string.Empty);
             }
         );
 

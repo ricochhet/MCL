@@ -26,7 +26,7 @@ namespace MCL.Core.Servers.Paper.Helpers;
 
 public static class PaperLauncher
 {
-    public static void Launch(Settings settings)
+    public static void Launch(Settings settings, string javaHome)
     {
         if (ObjectValidator<string>.IsNullOrWhiteSpace([settings?.LauncherVersion?.Version]))
             return;
@@ -36,7 +36,8 @@ public static class PaperLauncher
             settings,
             PaperPathResolver.InstallerPath(settings.LauncherPath, settings.LauncherVersion),
             settings.PaperJvmArguments,
-            settings.LauncherSettings.JavaRuntimeType
+            settings.LauncherSettings.JavaRuntimeType,
+            javaHome
         );
     }
 }

@@ -63,7 +63,8 @@ public class DownloadQuiltInstaller : ILauncherCommand
                         settings.LauncherVersion,
                         QuiltInstallerType.INSTALL_CLIENT
                     ),
-                    settings.LauncherSettings.JavaRuntimeType
+                    settings.LauncherSettings.JavaRuntimeType,
+                    options.GetValueOrDefault("javapath") ?? string.Empty
                 );
             }
         );
