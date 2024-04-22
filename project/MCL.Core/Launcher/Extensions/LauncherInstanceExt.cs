@@ -26,19 +26,19 @@ public static class LauncherInstanceExt
 {
     public static LauncherInstance Concat(this LauncherInstance launcherInstance, LauncherInstance concat)
     {
-        List<string> versions = launcherInstance
+        List<LauncherLoader> versions = launcherInstance
             .Versions.Concat(concat.Versions)
-            .GroupBy(arg => arg)
+            .GroupBy(arg => arg.Version)
             .Select(group => group.Last())
             .ToList();
 
-        List<LauncherModLoader> fabricLoaders = launcherInstance
+        List<LauncherLoader> fabricLoaders = launcherInstance
             .FabricLoaders.Concat(concat.FabricLoaders)
             .GroupBy(arg => arg.Version)
             .Select(group => group.Last())
             .ToList();
 
-        List<LauncherModLoader> quiltLoaders = launcherInstance
+        List<LauncherLoader> quiltLoaders = launcherInstance
             .QuiltLoaders.Concat(concat.QuiltLoaders)
             .GroupBy(arg => arg.Version)
             .Select(group => group.Last())

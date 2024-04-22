@@ -49,9 +49,9 @@ public class FabricLoaderDownloadService : ILoaderDownloadService<FabricUrls>, I
         if (ObjectValidator<LauncherInstance>.IsNull(launcherInstance))
             return;
 
-        _launcherInstance = launcherInstance;
         _launcherPath = launcherPath;
         _launcherVersion = launcherVersion;
+        _launcherInstance = launcherInstance;
         _fabricUrls = fabricUrls;
         _loaded = true;
     }

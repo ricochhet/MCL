@@ -48,7 +48,7 @@ public static class FabricLoaderDownloader
         )
             return false;
 
-        LauncherModLoader loader = new() { Version = launcherVersion.FabricLoaderVersion };
+        LauncherLoader loader = new() { Version = launcherVersion.FabricLoaderVersion };
 
         foreach (FabricLibrary library in fabricProfile.Libraries)
         {
@@ -79,13 +79,13 @@ public static class FabricLoaderDownloader
                 MPathResolver.LibraryPath(launcherPath),
                 FabricLibrary.ParsePath(library.Name)
             );
-            loader.Libraries.Add(filepath.Replace("\\", "/"));
+            loader.Libraries.Add(filepath);
 
             if (!await Request.DownloadSHA1(request, filepath, hash))
                 return false;
         }
 
-        foreach (LauncherModLoader existingLoader in launcherInstance.FabricLoaders)
+        foreach (LauncherLoader existingLoader in launcherInstance.FabricLoaders)
         {
             if (existingLoader.Version == loader.Version)
                 launcherInstance.FabricLoaders.Remove(existingLoader);

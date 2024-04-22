@@ -48,7 +48,7 @@ public static class QuiltLoaderDownloader
         )
             return false;
 
-        LauncherModLoader loader = new() { Version = launcherVersion.QuiltLoaderVersion };
+        LauncherLoader loader = new() { Version = launcherVersion.QuiltLoaderVersion };
 
         foreach (QuiltLibrary library in quiltProfile.Libraries)
         {
@@ -73,13 +73,13 @@ public static class QuiltLoaderDownloader
                 MPathResolver.LibraryPath(launcherPath),
                 QuiltLibrary.ParsePath(library.Name)
             );
-            loader.Libraries.Add(filepath.Replace("\\", "/"));
+            loader.Libraries.Add(filepath);
 
             if (!await Request.DownloadSHA1(request, filepath, string.Empty))
                 return false;
         }
 
-        foreach (LauncherModLoader existingLoader in launcherInstance.QuiltLoaders)
+        foreach (LauncherLoader existingLoader in launcherInstance.QuiltLoaders)
         {
             if (existingLoader.Version == loader.Version)
                 launcherInstance.QuiltLoaders.Remove(existingLoader);

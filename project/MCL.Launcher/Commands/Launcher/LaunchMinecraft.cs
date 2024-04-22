@@ -43,7 +43,7 @@ public class LaunchMinecraft : ILauncherCommand
 
                 if (
                     options.TryGetValue("gameversion", out string version)
-                    && settings.LauncherInstance.Versions.Contains(version)
+                    && settings.LauncherInstance.Versions.Exists(a => a.Version == version)
                 )
                     settings.LauncherVersion.Version = version;
 

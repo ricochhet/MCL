@@ -53,8 +53,8 @@ public class MDownloadService : IDownloadService
     {
         _launcherPath = launcherPath;
         _launcherVersion = launcherVersion;
-        _launcherSettings = launcherSettings;
         _launcherInstance = launcherInstance;
+        _launcherSettings = launcherSettings;
         _mUrls = mUrls;
         _loaded = true;
     }
@@ -108,15 +108,6 @@ public class MDownloadService : IDownloadService
 
         if (!await DownloadLogging())
             return false;
-
-        foreach (string version in _launcherInstance.Versions)
-        {
-            if (version == _launcherVersion.Version)
-                _launcherInstance.Versions.Remove(version);
-        }
-
-        _launcherInstance.Versions.Add(_launcherVersion.Version);
-        SettingsService.Load().Save(_launcherInstance);
 
         return true;
     }
@@ -211,7 +202,15 @@ public class MDownloadService : IDownloadService
         if (!_loaded)
             return false;
 
-        if (!await LibraryDownloader.Download(_launcherPath, _launcherSettings, VersionDetails))
+        if (
+            !await LibraryDownloader.Download(
+                _launcherPath,
+                _launcherVersion,
+                _launcherInstance,
+                _launcherSettings,
+                VersionDetails
+            )
+        )
         {
             NotificationService.Log(NativeLogLevel.Error, "error.download", nameof(LibraryDownloader));
             return false;

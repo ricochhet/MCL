@@ -50,10 +50,14 @@ public static class ClassPathHelper
             _ => throw new NotImplementedException("Unsupported OS."),
         };
 
-        string libPath = VFS.Combine(launcherPath.Path, "libraries");
-        string[] libraries = VFS.GetFiles(libPath, "*");
-        libraries = libraries
-            .Prepend(MPathResolver.ClientLibrary(launcherVersion))
+        LauncherLoader mLoader = launcherInstance
+            .Versions.Where(a => a.Version == launcherVersion.Version)
+            .FirstOrDefault();
+        if (ObjectValidator<LauncherLoader>.IsNull(mLoader))
+            return string.Empty;
+
+        string[] libraries = mLoader
+            .Libraries.Prepend(MPathResolver.ClientLibrary(launcherVersion))
             .Select(lib => lib.Replace("\\", "/"))
             .ToArray();
 
@@ -81,7 +85,7 @@ public static class ClassPathHelper
     {
         string[] managedLibraries = libraries;
 
-        foreach (LauncherModLoader loader in launcherInstance.FabricLoaders.Concat(launcherInstance.QuiltLoaders))
+        foreach (LauncherLoader loader in launcherInstance.FabricLoaders.Concat(launcherInstance.QuiltLoaders))
         {
             libraries = libraries.Except(loader.Libraries).ToArray();
         }
@@ -98,13 +102,13 @@ public static class ClassPathHelper
         string[] managedLibraries = libraries;
 
         // Remove all quilt specific libraries.
-        foreach (LauncherModLoader loader in launcherInstance.QuiltLoaders)
+        foreach (LauncherLoader loader in launcherInstance.QuiltLoaders)
         {
             managedLibraries = managedLibraries.Except(loader.Libraries).ToArray();
         }
 
         // Remove all fabric specific libraries that don't belong to the current version.
-        foreach (LauncherModLoader loader in launcherInstance.FabricLoaders)
+        foreach (LauncherLoader loader in launcherInstance.FabricLoaders)
         {
             if (loader.Version != launcherVersion.FabricLoaderVersion)
                 managedLibraries = managedLibraries.Except(loader.Libraries).ToArray();
@@ -124,13 +128,13 @@ public static class ClassPathHelper
         string[] managedLibraries = libraries;
 
         // Remove all fabric specific libraries.
-        foreach (LauncherModLoader loader in launcherInstance.FabricLoaders)
+        foreach (LauncherLoader loader in launcherInstance.FabricLoaders)
         {
             managedLibraries = managedLibraries.Except(loader.Libraries).ToArray();
         }
 
         // Remove all quilt specific libraries that don't belong to the current version.
-        foreach (LauncherModLoader loader in launcherInstance.QuiltLoaders)
+        foreach (LauncherLoader loader in launcherInstance.QuiltLoaders)
         {
             if (loader.Version != launcherVersion.QuiltLoaderVersion)
                 managedLibraries = managedLibraries.Except(loader.Libraries).ToArray();

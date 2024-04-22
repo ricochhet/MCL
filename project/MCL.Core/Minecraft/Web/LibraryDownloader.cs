@@ -20,7 +20,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using MCL.Core.Java.Enums;
 using MCL.Core.Java.Resolvers;
+using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
+using MCL.Core.Launcher.Services;
 using MCL.Core.Logger.Enums;
 using MCL.Core.Minecraft.Enums;
 using MCL.Core.Minecraft.Models;
@@ -31,8 +33,12 @@ namespace MCL.Core.Minecraft.Web;
 
 public static class LibraryDownloader
 {
+    private static LauncherLoader _loader;
+
     public static async Task<bool> Download(
         LauncherPath launcherPath,
+        LauncherVersion launcherVersion,
+        LauncherInstance launcherInstance,
         LauncherSettings launcherSettings,
         MVersionDetails versionDetails
     )
@@ -41,6 +47,8 @@ public static class LibraryDownloader
             return false;
 
         string libPath = VFS.Combine(launcherPath.Path, "libraries");
+        _loader = new() { Version = launcherVersion.Version };
+
         foreach (MLibrary lib in versionDetails.Libraries)
         {
             if (ObjectValidator<MLibraryDownloads>.IsNull(lib?.Downloads))
@@ -62,8 +70,17 @@ public static class LibraryDownloader
             string filepath = VFS.Combine(libPath, lib.Downloads.Artifact.Path);
             if (!await Request.DownloadSHA1(lib.Downloads.Artifact.URL, filepath, lib.Downloads.Artifact.SHA1))
                 return false;
+            _loader.Libraries.Add(filepath);
         }
 
+        foreach (LauncherLoader existingLoader in launcherInstance.Versions)
+        {
+            if (existingLoader.Version == _loader.Version)
+                launcherInstance.Versions.Remove(existingLoader);
+        }
+
+        launcherInstance.Versions.Add(_loader);
+        SettingsService.Load().Save(launcherInstance);
         return true;
     }
 
@@ -165,6 +182,7 @@ public static class LibraryDownloader
 
         if (!await Request.DownloadSHA1(classifierUrl, classifierFilePath, classifierSha1))
             return false;
+        _loader.Libraries.Add(classifierFilePath);
         return true;
     }
 }
