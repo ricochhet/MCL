@@ -16,12 +16,16 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using MCL.Core.Logger.Enums;
+using System;
 
-namespace MCL.Core.Logger.Models;
+namespace MCL.Core.MiniCommon.Logger.Enums;
 
-public class FileStreamLog(NativeLogLevel level, string message)
+public enum NativeLogLevel
 {
-    public NativeLogLevel Level { get; set; } = level;
-    public string Message { get; set; } = message;
+    Benchmark = ConsoleColor.Gray,
+    Debug = ConsoleColor.DarkGreen,
+    Warn = ConsoleColor.DarkYellow,
+    Error = ConsoleColor.DarkRed,
+    Info = ConsoleColor.DarkCyan,
+    Native = ConsoleColor.Magenta
 }

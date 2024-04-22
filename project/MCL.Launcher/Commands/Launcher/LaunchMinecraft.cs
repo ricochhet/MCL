@@ -20,10 +20,10 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using MCL.Core.Launcher.Enums;
 using MCL.Core.Launcher.Models;
-using MCL.Core.Launcher.Resolvers;
 using MCL.Core.Minecraft.Helpers;
 using MCL.Core.MiniCommon;
 using MCL.Core.MiniCommon.Interfaces;
+using MCL.Core.MiniCommon.Resolvers;
 
 namespace MCL.Launcher.Commands.Launcher;
 

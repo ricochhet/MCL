@@ -16,18 +16,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using System.Collections.Generic;
+namespace MCL.Core.MiniCommon.Enums;
 
-namespace MCL.Core.Launcher.Models;
-
-public class Localization
+public enum Language
 {
-    public Dictionary<string, string> Entries { get; set; }
-
-    public Localization()
-    {
-        Entries ??= [];
-        Entries.Add("localization.service", "localization.service");
-        Entries.Add("log", "{0}");
-    }
+    ENGLISH,
+    CHINESE,
 }

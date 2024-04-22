@@ -21,11 +21,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using MCL.Core.Launcher.Services;
-using MCL.Core.Logger.Enums;
-using MCL.Core.Logger.Models;
+using MCL.Core.MiniCommon.Logger.Enums;
+using MCL.Core.MiniCommon.Logger.Models;
+using MCL.Core.MiniCommon.Services;
 
-namespace MCL.Core.Logger;
+namespace MCL.Core.MiniCommon.Logger;
 
 public class FileStreamLogger : ILogger, IDisposable
 {
@@ -91,9 +91,9 @@ public class FileStreamLogger : ILogger, IDisposable
     private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
     {
         if (e.ExceptionObject is Exception ex)
-            NotificationService.ErrorLog($"Unhandled exception: {ex}");
+            NotificationService.Error("log.unhandled.exception", ex.ToString());
         else
-            NotificationService.ErrorLog($"Unhandled non-exception object: {e.ExceptionObject}");
+            NotificationService.Error("log.unhandled.object", e.ExceptionObject.ToString());
     }
 
     private Task<bool> WriteToBuffer(NativeLogLevel level, string message)

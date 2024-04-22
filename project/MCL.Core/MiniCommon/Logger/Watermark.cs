@@ -18,9 +18,9 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using MCL.Core.Launcher.Services;
+using MCL.Core.MiniCommon.Services;
 
-namespace MCL.Core.Logger;
+namespace MCL.Core.MiniCommon.Logger;
 
 public static class Watermark
 {

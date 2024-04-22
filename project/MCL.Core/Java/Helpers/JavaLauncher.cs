@@ -21,9 +21,9 @@ using MCL.Core.Java.Models;
 using MCL.Core.Java.Resolvers;
 using MCL.Core.Launcher.Enums;
 using MCL.Core.Launcher.Models;
-using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon;
 using MCL.Core.MiniCommon.Helpers;
+using MCL.Core.MiniCommon.Logger.Enums;
 
 namespace MCL.Core.Java.Helpers;
 

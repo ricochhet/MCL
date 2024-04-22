@@ -16,17 +16,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using System;
+using MCL.Core.MiniCommon.Enums;
 
-namespace MCL.Core.Launcher.Resolvers;
+namespace MCL.Core.MiniCommon.Resolvers;
 
-public static class EnumResolver
+public static class LocalizationPathResolver
 {
-    public static T Parse<T>(string value, T fallback)
-        where T : struct
-    {
-        if (Enum.TryParse(value.Replace("-", "_"), true, out T result))
-            return result;
-        return fallback;
-    }
+    public static string LanguageFilePath(string filepath, Language language) =>
+        VFS.FromCwd(filepath, $"localization.{LanguageResolver.ToString(language)}.json");
 }

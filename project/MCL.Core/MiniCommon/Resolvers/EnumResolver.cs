@@ -18,14 +18,15 @@
 
 using System;
 
-namespace MCL.Core.Logger.Enums;
+namespace MCL.Core.MiniCommon.Resolvers;
 
-public enum NativeLogLevel
+public static class EnumResolver
 {
-    Benchmark = ConsoleColor.Gray,
-    Debug = ConsoleColor.DarkGreen,
-    Warn = ConsoleColor.DarkYellow,
-    Error = ConsoleColor.DarkRed,
-    Info = ConsoleColor.DarkCyan,
-    Native = ConsoleColor.Magenta
+    public static T Parse<T>(string value, T fallback)
+        where T : struct
+    {
+        if (Enum.TryParse(value.Replace("-", "_"), true, out T result))
+            return result;
+        return fallback;
+    }
 }

@@ -19,8 +19,8 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using MCL.Core.Launcher.Services;
-using MCL.Core.Logger.Enums;
+using MCL.Core.MiniCommon.Logger.Enums;
+using MCL.Core.MiniCommon.Services;
 
 namespace MCL.Core.MiniCommon.Helpers;
 

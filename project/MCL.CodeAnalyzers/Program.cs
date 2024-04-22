@@ -20,13 +20,15 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MCL.CodeAnalyzers.Commands;
-using MCL.Core.Launcher.Enums;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Services;
-using MCL.Core.Logger;
-using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon;
+using MCL.Core.MiniCommon.Enums;
 using MCL.Core.MiniCommon.Interfaces;
+using MCL.Core.MiniCommon.Logger;
+using MCL.Core.MiniCommon.Logger.Enums;
+using MCL.Core.MiniCommon.Models;
+using MCL.Core.MiniCommon.Services;
 
 namespace MCL.CodeAnalyzers;
 
@@ -37,7 +39,7 @@ internal static class Program
         Console.Title = "MCL.CodeAnalyzers";
         Log.Add(new NativeLogger(NativeLogLevel.Info));
         Log.Add(new FileStreamLogger(SettingsService.LogFilePath, NativeLogLevel.Info));
-        LocalizationService.Init(Language.ENGLISH);
+        LocalizationService.Init(SettingsService.LocalizationPath, Language.ENGLISH);
         NotificationService.OnNotificationAdded(
             (Notification notification) =>
             {

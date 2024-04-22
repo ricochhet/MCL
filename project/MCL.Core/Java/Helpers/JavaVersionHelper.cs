@@ -18,10 +18,10 @@
 
 using MCL.Core.Java.Enums;
 using MCL.Core.Launcher.Models;
-using MCL.Core.Launcher.Resolvers;
 using MCL.Core.Minecraft.Helpers;
 using MCL.Core.Minecraft.Models;
 using MCL.Core.MiniCommon;
+using MCL.Core.MiniCommon.Resolvers;
 
 namespace MCL.Core.Java.Helpers;
 

@@ -19,6 +19,7 @@
 using MCL.Core.FileExtractors.Models;
 using MCL.Core.Launcher.Services;
 using MCL.Core.MiniCommon;
+using MCL.Core.MiniCommon.Services;
 
 namespace MCL.Core.FileExtractors.Resolvers;
 

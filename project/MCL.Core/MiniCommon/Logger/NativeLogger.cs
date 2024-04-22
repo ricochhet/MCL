@@ -19,10 +19,10 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using MCL.Core.Launcher.Services;
-using MCL.Core.Logger.Enums;
+using MCL.Core.MiniCommon.Logger.Enums;
+using MCL.Core.MiniCommon.Services;
 
-namespace MCL.Core.Logger;
+namespace MCL.Core.MiniCommon.Logger;
 
 public partial class NativeLogger : ILogger
 {
@@ -83,9 +83,9 @@ public partial class NativeLogger : ILogger
     private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
     {
         if (e.ExceptionObject is Exception ex)
-            NotificationService.ErrorLog($"Unhandled exception: {ex}");
+            NotificationService.Error("log.unhandled.exception", ex.ToString());
         else
-            NotificationService.ErrorLog($"Unhandled non-exception object: {e.ExceptionObject}");
+            NotificationService.Error("log.unhandled.object", e.ExceptionObject.ToString());
     }
 
     private Task<bool> WriteToStdout(NativeLogLevel level, string message)

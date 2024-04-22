@@ -19,13 +19,13 @@
 using System.Threading.Tasks;
 using MCL.Core.Interfaces.Web;
 using MCL.Core.Launcher.Models;
-using MCL.Core.Launcher.Services;
-using MCL.Core.Logger.Enums;
 using MCL.Core.Minecraft.Helpers;
 using MCL.Core.Minecraft.Models;
 using MCL.Core.Minecraft.Resolvers;
 using MCL.Core.Minecraft.Web;
 using MCL.Core.MiniCommon;
+using MCL.Core.MiniCommon.Logger.Enums;
+using MCL.Core.MiniCommon.Services;
 
 namespace MCL.Core.Minecraft.Services;
 

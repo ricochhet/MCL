@@ -20,9 +20,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using MCL.CodeAnalyzers.Analyzers.Models;
-using MCL.Core.Launcher.Services;
-using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon;
+using MCL.Core.MiniCommon.Logger.Enums;
+using MCL.Core.MiniCommon.Services;
 
 namespace MCL.CodeAnalyzers.Analyzers;
 

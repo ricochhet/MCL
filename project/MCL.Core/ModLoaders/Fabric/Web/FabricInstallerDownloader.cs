@@ -18,9 +18,8 @@
 
 using System.Threading.Tasks;
 using MCL.Core.Launcher.Models;
-using MCL.Core.Launcher.Services;
-using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon;
+using MCL.Core.MiniCommon.Services;
 using MCL.Core.ModLoaders.Fabric.Models;
 using MCL.Core.ModLoaders.Fabric.Resolvers;
 

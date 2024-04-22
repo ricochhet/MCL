@@ -16,10 +16,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace MCL.Core.Launcher.Enums;
+using MCL.Core.MiniCommon.Logger.Enums;
 
-public enum Language
+namespace MCL.Core.MiniCommon.Logger.Models;
+
+public class FileStreamLog(NativeLogLevel level, string message)
 {
-    ENGLISH,
-    CHINESE,
+    public NativeLogLevel Level { get; set; } = level;
+    public string Message { get; set; } = message;
 }

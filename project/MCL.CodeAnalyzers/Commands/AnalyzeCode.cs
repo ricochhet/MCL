@@ -20,9 +20,9 @@ using System.IO;
 using System.Threading.Tasks;
 using MCL.CodeAnalyzers.Analyzers;
 using MCL.Core.Launcher.Models;
-using MCL.Core.Launcher.Services;
 using MCL.Core.MiniCommon;
 using MCL.Core.MiniCommon.Interfaces;
+using MCL.Core.MiniCommon.Services;
 
 namespace MCL.CodeAnalyzers.Commands;
 

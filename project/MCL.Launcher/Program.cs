@@ -21,13 +21,13 @@ using System.Collections.Generic;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using MCL.Core.FileExtractors.Services;
-using MCL.Core.Launcher.Enums;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Services;
-using MCL.Core.Logger;
-using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon;
+using MCL.Core.MiniCommon.Enums;
 using MCL.Core.MiniCommon.Interfaces;
+using MCL.Core.MiniCommon.Logger;
+using MCL.Core.MiniCommon.Logger.Enums;
 using MCL.Core.MiniCommon.Models;
 using MCL.Core.MiniCommon.Services;
 using MCL.Core.Modding.Services;
@@ -44,7 +44,7 @@ internal static class Program
         Console.Title = "MCL.Launcher";
         Log.Add(new NativeLogger(NativeLogLevel.Info));
         Log.Add(new FileStreamLogger(SettingsService.LogFilePath));
-        LocalizationService.Init(Language.ENGLISH);
+        LocalizationService.Init(SettingsService.LocalizationPath, Language.ENGLISH);
         NotificationService.OnNotificationAdded(
             (Notification notification) => Log.Base(notification.LogLevel, notification.Message)
         );

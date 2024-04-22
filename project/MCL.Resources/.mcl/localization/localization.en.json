@@ -8,6 +8,8 @@
       "log.initialized": "Intialized Logger",
       "log": "{0}",
       "log.stack.trace": "{0}\n{1}",
+      "log.unhandled.exception": "Unhandled exception: {0}",
+      "log.unhandled.object": "Unhandled non-exception object: {0}",
       "request.get.start": "Sending GET request to: {0}",
       "request.get.success": "Successfully received response from: {0}",
       "request.get.exists": "[GET] File already exists: {0}",

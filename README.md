@@ -11,14 +11,10 @@ git config --local user.email "USERNAME@SOMETHING.com"
 
 ## Requirements
 - .NET 8 SDK
-- Visual Studio Code
-
-### Recommended
+- Visual Studio Code or SonarLint compatible IDE.
 - SonarLint
 
 ## Build
-The primary way to build is using [Cake](https://cakebuild.net/).
-
 1. Install Cake: `dotnet tool install Cake.Tool --version 3.2.0` or run `dotnet tool restore` (from `/project/` root).
 2. Run `dotnet-cake build.cake` (from `/project/` root).
 3. Output will be located in `project/Build/*`.

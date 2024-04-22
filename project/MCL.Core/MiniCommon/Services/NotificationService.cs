@@ -18,10 +18,10 @@
 
 using System;
 using System.Collections.Generic;
-using MCL.Core.Launcher.Models;
-using MCL.Core.Logger.Enums;
+using MCL.Core.MiniCommon.Logger.Enums;
+using MCL.Core.MiniCommon.Models;
 
-namespace MCL.Core.Launcher.Services;
+namespace MCL.Core.MiniCommon.Services;
 
 public static class NotificationService
 {

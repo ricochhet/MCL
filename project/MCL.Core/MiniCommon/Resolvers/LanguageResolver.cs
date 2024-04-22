@@ -16,14 +16,18 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using MCL.Core.Launcher.Enums;
-using MCL.Core.Launcher.Services;
-using MCL.Core.MiniCommon;
+using System;
+using MCL.Core.MiniCommon.Enums;
 
-namespace MCL.Core.Launcher.Resolvers;
+namespace MCL.Core.MiniCommon.Resolvers;
 
-public static class LocalizationPathResolver
+public static class LanguageResolver
 {
-    public static string LanguageFilePath(Language language) =>
-        VFS.FromCwd(SettingsService.LocalizationPath, $"localization.{LanguageResolver.ToString(language)}.json");
+    public static string ToString(Language type) =>
+        type switch
+        {
+            Language.ENGLISH => "en",
+            Language.CHINESE => "cn",
+            _ => throw new ArgumentOutOfRangeException(nameof(type)),
+        };
 }

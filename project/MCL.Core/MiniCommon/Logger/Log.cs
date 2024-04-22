@@ -20,9 +20,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Threading;
-using MCL.Core.Logger.Enums;
+using MCL.Core.MiniCommon.Logger.Enums;
 
-namespace MCL.Core.Logger;
+namespace MCL.Core.MiniCommon.Logger;
 
 public class Log
 {

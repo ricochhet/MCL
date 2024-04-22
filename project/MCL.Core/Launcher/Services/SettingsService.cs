@@ -20,8 +20,8 @@ using System.Collections.Generic;
 using System.Text.Encodings.Web;
 using System.Text.Json;
 using MCL.Core.Launcher.Models;
-using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon;
+using MCL.Core.MiniCommon.Services;
 
 namespace MCL.Core.Launcher.Services;
 

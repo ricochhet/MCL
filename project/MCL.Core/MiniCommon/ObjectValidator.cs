@@ -20,9 +20,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using MCL.Core.Launcher.Services;
-using MCL.Core.Logger.Enums;
+using MCL.Core.MiniCommon.Logger.Enums;
 using MCL.Core.MiniCommon.Models;
+using MCL.Core.MiniCommon.Services;
 
 namespace MCL.Core.MiniCommon;
 

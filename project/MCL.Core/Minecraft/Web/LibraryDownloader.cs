@@ -23,11 +23,11 @@ using MCL.Core.Java.Resolvers;
 using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Services;
-using MCL.Core.Logger.Enums;
 using MCL.Core.Minecraft.Enums;
 using MCL.Core.Minecraft.Models;
 using MCL.Core.Minecraft.Resolvers;
 using MCL.Core.MiniCommon;
+using MCL.Core.MiniCommon.Logger.Enums;
 
 namespace MCL.Core.Minecraft.Web;
 

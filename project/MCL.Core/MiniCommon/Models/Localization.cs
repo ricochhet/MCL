@@ -16,18 +16,18 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using System;
-using MCL.Core.Launcher.Enums;
+using System.Collections.Generic;
 
-namespace MCL.Core.Launcher.Resolvers;
+namespace MCL.Core.MiniCommon.Models;
 
-public static class LanguageResolver
+public class Localization
 {
-    public static string ToString(Language type) =>
-        type switch
-        {
-            Language.ENGLISH => "en",
-            Language.CHINESE => "cn",
-            _ => throw new ArgumentOutOfRangeException(nameof(type)),
-        };
+    public Dictionary<string, string> Entries { get; set; }
+
+    public Localization()
+    {
+        Entries ??= [];
+        Entries.Add("localization.service", "localization.service");
+        Entries.Add("log", "{0}");
+    }
 }
