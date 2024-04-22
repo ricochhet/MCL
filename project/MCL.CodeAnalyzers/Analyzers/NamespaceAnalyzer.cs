@@ -1,4 +1,5 @@
 using System.Text.RegularExpressions;
+using MCL.CodeAnalyzers.Analyzers.Models;
 using MCL.Core.Launcher.Services;
 using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon;
@@ -18,11 +19,7 @@ public static partial class NamespaceAnalyzer
             Match namespaceMatch = matchNamespace.Match(fileData);
             string name = namespaceMatch.Value;
 
-            if (
-                file.Contains("AssemblyInfo")
-                || file.Contains("AssemblyAttributes")
-                || file.Contains("GlobalSuppressions")
-            )
+            if (AnalyzerFiles.Restricted.Exists(file.Contains))
             {
                 success++;
                 continue;

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using MCL.CodeAnalyzers.Analyzers.Models;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Services;
 using MCL.Core.Logger.Enums;
@@ -19,11 +20,7 @@ public static partial class LocalizationKeyAnalyzer
 
         foreach (string file in files)
         {
-            if (
-                file.Contains("AssemblyInfo")
-                || file.Contains("AssemblyAttributes")
-                || file.Contains("GlobalSuppressions")
-            )
+            if (AnalyzerFiles.Restricted.Exists(file.Contains))
                 continue;
 
             Regex matchNotification = NotificationServiceRegex();

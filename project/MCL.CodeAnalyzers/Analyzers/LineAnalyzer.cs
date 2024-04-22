@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using MCL.CodeAnalyzers.Analyzers.Models;
 using MCL.Core.Launcher.Services;
 using MCL.Core.Logger.Enums;
 using MCL.Core.MiniCommon;
@@ -15,11 +16,7 @@ public static partial class LineAnalyzer
         List<int> fileLines = [];
         foreach (string file in files)
         {
-            if (
-                file.Contains("AssemblyInfo")
-                || file.Contains("AssemblyAttributes")
-                || file.Contains("GlobalSuppressions")
-            )
+            if (AnalyzerFiles.Restricted.Exists(file.Contains))
                 continue;
             string[] lines = VFS.ReadAllLines(file);
             int fileLineCount = 0;
