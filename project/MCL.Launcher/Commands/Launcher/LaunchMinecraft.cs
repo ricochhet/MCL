@@ -36,7 +36,7 @@ public class LaunchMinecraft : ILauncherCommand
             "--launch",
             options =>
             {
-                settings.LauncherSettings.ClientType = GenericEnumParser.Parse(
+                settings.LauncherSettings.ClientType = EnumResolver.Parse(
                     options.GetValueOrDefault("client"),
                     ClientType.VANILLA
                 );

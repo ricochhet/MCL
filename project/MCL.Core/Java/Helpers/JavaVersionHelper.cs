@@ -38,6 +38,6 @@ public static class JavaVersionHelper
         MVersionDetails versionDetails = VersionHelper.GetVersionDetails(launcherPath, launcherVersion);
         if (ObjectValidator<string>.IsNullOrWhiteSpace([versionDetails?.JavaVersion?.Component]))
             return launcherSettings.JavaRuntimeType;
-        return GenericEnumParser.Parse(versionDetails.JavaVersion.Component, launcherSettings.JavaRuntimeType);
+        return EnumResolver.Parse(versionDetails.JavaVersion.Component, launcherSettings.JavaRuntimeType);
     }
 }
