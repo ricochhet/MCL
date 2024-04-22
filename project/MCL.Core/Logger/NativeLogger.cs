@@ -19,6 +19,7 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using MCL.Core.Launcher.Services;
 using MCL.Core.Logger.Enums;
 
 namespace MCL.Core.Logger;
@@ -34,12 +35,14 @@ public partial class NativeLogger : ILogger
     public NativeLogger()
     {
         _ = AllocConsole();
+        AppDomain.CurrentDomain.UnhandledException += UnhandledException;
     }
 
     public NativeLogger(NativeLogLevel minLevel)
     {
         _ = AllocConsole();
         _minLevel = minLevel;
+        AppDomain.CurrentDomain.UnhandledException += UnhandledException;
     }
 
     public Task Base(NativeLogLevel level, string message) => WriteToStdout(level, message);
@@ -76,6 +79,14 @@ public partial class NativeLogger : ILogger
 
     public Task Native(string format, params object[] args) =>
         WriteToStdout(NativeLogLevel.Native, string.Format(format, args));
+
+    private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
+    {
+        if (e.ExceptionObject is Exception ex)
+            NotificationService.ErrorLog($"Unhandled exception: {ex}");
+        else
+            NotificationService.ErrorLog($"Unhandled non-exception object: {e.ExceptionObject}");
+    }
 
     private Task<bool> WriteToStdout(NativeLogLevel level, string message)
     {

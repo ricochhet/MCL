@@ -28,5 +28,6 @@ public class Localization
     {
         Entries ??= [];
         Entries.Add("localization.service", "localization.service");
+        Entries.Add("log", "{0}");
     }
 }

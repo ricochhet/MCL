@@ -40,6 +40,7 @@ public class FileStreamLogger : ILogger, IDisposable
     {
         _queue = new Queue<FileStreamLog>();
         _stream = new StreamWriter(filePath, append: true);
+        AppDomain.CurrentDomain.UnhandledException += UnhandledException;
         Task.Run(Flush);
     }
 
@@ -48,6 +49,7 @@ public class FileStreamLogger : ILogger, IDisposable
         _queue = new Queue<FileStreamLog>();
         _stream = new StreamWriter(filePath, append: true);
         _minLevel = minLevel;
+        AppDomain.CurrentDomain.UnhandledException += UnhandledException;
         Task.Run(Flush);
     }
 
@@ -85,6 +87,14 @@ public class FileStreamLogger : ILogger, IDisposable
 
     public Task Benchmark(string format, params object[] args) =>
         WriteToBuffer(NativeLogLevel.Info, string.Format(format, args));
+
+    private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
+    {
+        if (e.ExceptionObject is Exception ex)
+            NotificationService.ErrorLog($"Unhandled exception: {ex}");
+        else
+            NotificationService.ErrorLog($"Unhandled non-exception object: {e.ExceptionObject}");
+    }
 
     private Task<bool> WriteToBuffer(NativeLogLevel level, string message)
     {
