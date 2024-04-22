@@ -76,7 +76,7 @@ public class JavaDownloadService : IDownloadService
     {
         if (!await JavaVersionManifestDownloader.Download(_launcherPath, _mUrls))
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.download", nameof(JavaVersionManifestDownloader));
+            NotificationService.Error("error.download", nameof(JavaVersionManifestDownloader));
             return false;
         }
 
@@ -90,7 +90,7 @@ public class JavaDownloadService : IDownloadService
         );
         if (ObjectValidator<JavaVersionManifest>.IsNull(_javaVersionManifest))
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.readfile", nameof(_javaVersionManifest));
+            NotificationService.Error("error.readfile", nameof(_javaVersionManifest));
             return false;
         }
 
@@ -119,7 +119,7 @@ public class JavaDownloadService : IDownloadService
             )
         )
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.download", nameof(JavaVersionDetailsDownloader));
+            NotificationService.Error("error.download", nameof(JavaVersionDetailsDownloader));
             return false;
         }
 
@@ -136,7 +136,7 @@ public class JavaDownloadService : IDownloadService
         );
         if (ObjectValidator<JavaVersionDetails>.IsNull(_javaVersionDetails))
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.readfile", nameof(_javaVersionDetails));
+            NotificationService.Error("error.readfile", nameof(_javaVersionDetails));
             return false;
         }
 
@@ -147,7 +147,7 @@ public class JavaDownloadService : IDownloadService
     {
         if (!await JavaRuntimeDownloader.Download(_launcherPath, _javaRuntimeType, _javaVersionDetails))
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.download", nameof(JavaRuntimeDownloader));
+            NotificationService.Error("error.download", nameof(JavaRuntimeDownloader));
             return false;
         }
 

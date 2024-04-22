@@ -37,19 +37,18 @@ internal static class Program
         Console.Title = "MCL.CodeAnalyzers";
         Log.Add(new NativeLogger(NativeLogLevel.Info));
         Log.Add(new FileStreamLogger(SettingsService.LogFilePath, NativeLogLevel.Info));
-        SettingsService.Save();
-        Settings settings = SettingsService.Load();
-        if (ObjectValidator<Settings>.IsNull(settings))
-            return;
-
-        LocalizationService.Init(settings.LauncherPath, Language.ENGLISH);
+        LocalizationService.Init(Language.ENGLISH);
         NotificationService.OnNotificationAdded(
             (Notification notification) =>
             {
                 Log.Base(notification.LogLevel, notification.Message);
             }
         );
-        NotificationService.Log(NativeLogLevel.Info, "log.initialized");
+        NotificationService.Info("log.initialized");
+        SettingsService.Init();
+        Settings settings = SettingsService.Load();
+        if (ObjectValidator<Settings>.IsNull(settings))
+            return;
         Watermark.Draw(SettingsService.WatermarkText);
 
         if (args.Length <= 0)

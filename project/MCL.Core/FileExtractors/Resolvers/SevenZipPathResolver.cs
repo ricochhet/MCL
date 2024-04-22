@@ -27,7 +27,7 @@ public static class SevenZipPathResolver
     public static string SevenZipPath(SevenZipSettings sevenZipSettings)
     {
         string windowsExecutable = VFS.Combine(
-            SettingsService.DataPath,
+            SettingsService.DataDirectory,
             "SevenZip",
             sevenZipSettings.Executable + ".exe"
         );

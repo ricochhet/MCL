@@ -18,7 +18,6 @@
 
 using System.Threading.Tasks;
 using MCL.Core.Interfaces.Web;
-using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Services;
 using MCL.Core.Logger.Enums;
@@ -119,7 +118,7 @@ public class MDownloadService : IDownloadService
 
         if (!await VersionManifestDownloader.Download(_launcherPath, _mUrls))
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.download", nameof(MVersionManifest));
+            NotificationService.Error("error.download", nameof(MVersionManifest));
             return false;
         }
 
@@ -134,7 +133,7 @@ public class MDownloadService : IDownloadService
         VersionManifest = Json.Load<MVersionManifest>(MPathResolver.VersionManifestPath(_launcherPath));
         if (ObjectValidator<MVersionManifest>.IsNull(VersionManifest))
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.readfile", nameof(MVersionManifest));
+            NotificationService.Error("error.readfile", nameof(MVersionManifest));
             return false;
         }
 
@@ -161,7 +160,7 @@ public class MDownloadService : IDownloadService
         Version = VersionHelper.GetVersion(_launcherVersion, VersionManifest);
         if (ObjectValidator<MVersion>.IsNull(Version))
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.parse", _launcherVersion?.Version, nameof(MVersion));
+            NotificationService.Error("error.parse", _launcherVersion?.Version, nameof(MVersion));
             return false;
         }
 
@@ -175,7 +174,7 @@ public class MDownloadService : IDownloadService
 
         if (!await VersionDetailsDownloader.Download(_launcherPath, Version))
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.download", nameof(VersionDetailsDownloader));
+            NotificationService.Error("error.download", nameof(VersionDetailsDownloader));
             return false;
         }
 
@@ -190,7 +189,7 @@ public class MDownloadService : IDownloadService
         VersionDetails = Json.Load<MVersionDetails>(MPathResolver.VersionDetailsPath(_launcherPath, Version));
         if (ObjectValidator<MVersionDetails>.IsNull(VersionDetails))
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.readfile", nameof(MVersionDetails));
+            NotificationService.Error("error.readfile", nameof(MVersionDetails));
             return false;
         }
 
@@ -212,7 +211,7 @@ public class MDownloadService : IDownloadService
             )
         )
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.download", nameof(LibraryDownloader));
+            NotificationService.Error("error.download", nameof(LibraryDownloader));
             return false;
         }
 
@@ -226,7 +225,7 @@ public class MDownloadService : IDownloadService
 
         if (!await ClientDownloader.Download(_launcherPath, VersionDetails))
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.download", nameof(ClientDownloader));
+            NotificationService.Error("error.download", nameof(ClientDownloader));
             return false;
         }
 
@@ -240,7 +239,7 @@ public class MDownloadService : IDownloadService
 
         if (!await ClientMappingsDownloader.Download(_launcherPath, VersionDetails))
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.download", nameof(ClientMappingsDownloader));
+            NotificationService.Error("error.download", nameof(ClientMappingsDownloader));
             return false;
         }
 
@@ -254,7 +253,7 @@ public class MDownloadService : IDownloadService
 
         if (!await ServerDownloader.Download(_launcherPath, VersionDetails))
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.download", nameof(ServerDownloader));
+            NotificationService.Error("error.download", nameof(ServerDownloader));
             return false;
         }
 
@@ -268,7 +267,7 @@ public class MDownloadService : IDownloadService
 
         if (!await ServerMappingsDownloader.Download(_launcherPath, VersionDetails))
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.download", nameof(ServerMappingsDownloader));
+            NotificationService.Error("error.download", nameof(ServerMappingsDownloader));
             return false;
         }
 
@@ -282,7 +281,7 @@ public class MDownloadService : IDownloadService
 
         if (!await AssetIndexDownloader.Download(_launcherPath, VersionDetails))
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.download", nameof(AssetIndexDownloader));
+            NotificationService.Error("error.download", nameof(AssetIndexDownloader));
             return false;
         }
 
@@ -297,7 +296,7 @@ public class MDownloadService : IDownloadService
         _assets = Json.Load<MAssetsData>(MPathResolver.ClientIndexPath(_launcherPath, VersionDetails));
         if (ObjectValidator<MAssetsData>.IsNull(_assets))
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.readfile", nameof(MAssetsData));
+            NotificationService.Error("error.readfile", nameof(MAssetsData));
             return false;
         }
 
@@ -311,7 +310,7 @@ public class MDownloadService : IDownloadService
 
         if (!await ResourceDownloader.Download(_launcherPath, _mUrls, _assets))
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.download", nameof(ResourceDownloader));
+            NotificationService.Error("error.download", nameof(ResourceDownloader));
             return false;
         }
 
@@ -325,7 +324,7 @@ public class MDownloadService : IDownloadService
 
         if (!await LoggingDownloader.Download(_launcherPath, VersionDetails))
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.download", nameof(LoggingDownloader));
+            NotificationService.Error("error.download", nameof(LoggingDownloader));
             return false;
         }
 

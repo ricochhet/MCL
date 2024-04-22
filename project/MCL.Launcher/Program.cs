@@ -44,16 +44,15 @@ internal static class Program
         Console.Title = "MCL.Launcher";
         Log.Add(new NativeLogger(NativeLogLevel.Info));
         Log.Add(new FileStreamLogger(SettingsService.LogFilePath));
-        SettingsService.Save();
-        Settings settings = SettingsService.Load();
-        if (ObjectValidator<Settings>.IsNull(settings))
-            return;
-
-        LocalizationService.Init(settings.LauncherPath, Language.ENGLISH);
+        LocalizationService.Init(Language.ENGLISH);
         NotificationService.OnNotificationAdded(
             (Notification notification) => Log.Base(notification.LogLevel, notification.Message)
         );
         NotificationService.Log(NativeLogLevel.Info, "log.initialized");
+        SettingsService.Init();
+        Settings settings = SettingsService.Load();
+        if (ObjectValidator<Settings>.IsNull(settings))
+            return;
         RequestDataService.OnRequestCompleted(
             (RequestData requestData) =>
                 NotificationService.Log(NativeLogLevel.Info, "request.get.success", requestData.URL)

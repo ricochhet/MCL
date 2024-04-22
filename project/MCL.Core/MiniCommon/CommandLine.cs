@@ -141,8 +141,7 @@ public static class CommandLine
     /// </summary>
     private static void LogException(Exception ex)
     {
-        NotificationService.Log(
-            NativeLogLevel.Error,
+        NotificationService.Error(
             "log.stack.trace",
             ex.Message,
             ex.StackTrace ?? LocalizationService.Translate("stack.trace.null")
@@ -154,7 +153,7 @@ public static class CommandLine
     /// </summary>
     public static void Pause()
     {
-        NotificationService.Log(NativeLogLevel.Info, "commandline.exit", "F");
+        NotificationService.Info("commandline.exit", "F");
 
 #pragma warning disable IDE0079
 #pragma warning disable S108

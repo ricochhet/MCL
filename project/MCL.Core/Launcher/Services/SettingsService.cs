@@ -27,9 +27,11 @@ namespace MCL.Core.Launcher.Services;
 
 public static class SettingsService
 {
-    public const string DataPath = ".mcl";
+    public const string DataDirectory = ".mcl";
     public const string SettingsFileName = "mcl.json";
-    public static readonly string LogFilePath = VFS.FromCwd(DataPath, _logFileName);
+    public const string LocalizationDirectory = "localization";
+    public static readonly string LogFilePath = VFS.FromCwd(DataDirectory, _logFileName);
+    public static readonly string LocalizationPath = VFS.FromCwd(DataDirectory, LocalizationDirectory);
     public static readonly List<string> WatermarkText =
     [
         "MCL.Launcher",
@@ -37,16 +39,17 @@ public static class SettingsService
         "If you paid money, you were scammed"
     ];
     private const string _logFileName = "mcl.log";
-    private static readonly string _settingsFilePath = VFS.FromCwd(DataPath, SettingsFileName);
+    private static readonly string _settingsFilePath = VFS.FromCwd(DataDirectory, SettingsFileName);
 
     public static JsonSerializerOptions JsonSerializerOptions { get; set; } =
         new() { WriteIndented = true, Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping };
 
-    public static void Save()
+    public static void Init()
     {
         if (!VFS.Exists(_settingsFilePath))
         {
-            NotificationService.Log(NativeLogLevel.Info, "launcher.settings.setup");
+            NotificationService.Warn("launcher.settings.missing", SettingsFileName, DataDirectory);
+            NotificationService.Info("launcher.settings.setup", _settingsFilePath);
             Settings settings =
                 new()
                 {
@@ -77,6 +80,8 @@ public static class SettingsService
 
             Json.Save(_settingsFilePath, settings, JsonSerializerOptions);
         }
+
+        NotificationService.Info("launcher.settings.using", _settingsFilePath);
     }
 
     public static void Save(Settings settings)
@@ -99,11 +104,11 @@ public static class SettingsService
             if (inputJson != null)
                 return inputJson;
 
-            NotificationService.Log(NativeLogLevel.Error, "launcher.settings.missing", SettingsFileName, DataPath);
+            NotificationService.Error("launcher.settings.missing", SettingsFileName, DataDirectory);
             return null;
         }
 
-        NotificationService.Log(NativeLogLevel.Error, "launcher.settings.missing", SettingsFileName, DataPath);
+        NotificationService.Error("launcher.settings.missing", SettingsFileName, DataDirectory);
         return null;
     }
 }

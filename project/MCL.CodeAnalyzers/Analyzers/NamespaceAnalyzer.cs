@@ -45,7 +45,7 @@ public static partial class NamespaceAnalyzer
 
             if (ObjectValidator<string>.IsNullOrWhiteSpace([name], NativeLogLevel.Debug))
             {
-                NotificationService.Log(NativeLogLevel.Error, "analyzer.error.namespace", file, name ?? string.Empty);
+                NotificationService.Error("analyzer.error.namespace", file, name ?? string.Empty);
                 continue;
             }
 
@@ -68,12 +68,11 @@ public static partial class NamespaceAnalyzer
                 VFS.WriteFile(file, fileData.Replace(oldNamespace, newNamespace));
 
                 fail++;
-                NotificationService.Log(NativeLogLevel.Error, "analyzer.error.namespace", VFS.GetFileName(file), name);
+                NotificationService.Error("analyzer.error.namespace", VFS.GetFileName(file), name);
             }
         }
 
-        NotificationService.Log(
-            NativeLogLevel.Info,
+        NotificationService.Info(
             "analyzer.output",
             nameof(NamespaceAnalyzer),
             success.ToString(),

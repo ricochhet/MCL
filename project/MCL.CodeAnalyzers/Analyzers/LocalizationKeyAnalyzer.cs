@@ -55,8 +55,7 @@ public static partial class LocalizationKeyAnalyzer
                 if (!localization.Entries.ContainsKey(quoteMatch.Value.Replace("\"", string.Empty)))
                 {
                     fail++;
-                    NotificationService.Log(
-                        NativeLogLevel.Error,
+                    NotificationService.Error(
                         "analyzer.error.localization",
                         file,
                         quoteMatch.Value
@@ -69,8 +68,7 @@ public static partial class LocalizationKeyAnalyzer
             }
         }
 
-        NotificationService.Log(
-            NativeLogLevel.Info,
+        NotificationService.Info(
             "analyzer.output",
             nameof(LocalizationKeyAnalyzer),
             success.ToString(),

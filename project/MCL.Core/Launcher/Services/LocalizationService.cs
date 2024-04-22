@@ -29,42 +29,49 @@ public static class LocalizationService
     public static Localization Localization { get; private set; } = new();
     private static bool _loaded = false;
 
-    public static void Init(LauncherPath launcherPath, Language language, bool alwaysSaveNewTranslation = false)
+    public static void Init(Language language, bool alwaysSaveNewTranslation = false)
     {
-        if (!VFS.Exists(LocalizationPathResolver.LanguageFilePath(launcherPath, language)) || alwaysSaveNewTranslation)
+        if (!VFS.Exists(LocalizationPathResolver.LanguageFilePath(language)) || alwaysSaveNewTranslation)
             Json.Save(
-                LocalizationPathResolver.LanguageFilePath(launcherPath, language),
+                LocalizationPathResolver.LanguageFilePath(language),
                 new Localization(),
                 new() { WriteIndented = true }
             );
-        Localization = Json.Load<Localization>(LocalizationPathResolver.LanguageFilePath(launcherPath, language));
+        Localization = Json.Load<Localization>(LocalizationPathResolver.LanguageFilePath(language));
         if (Localization?.Entries != null)
             _loaded = true;
         else
-            NotificationService.Log(
-                NativeLogLevel.Error,
+            NotificationService.Error(
                 "error.readfile",
-                LocalizationPathResolver.LanguageFilePath(launcherPath, language)
+                LocalizationPathResolver.LanguageFilePath(language)
             );
     }
 
     public static string Translate(string id)
     {
         if (!_loaded)
-            return $"{id}:LOCALIZATION_SERVICE_ERROR";
-
+            return LocalizationServiceError(id);
         if (Localization.Entries.TryGetValue(id, out string value))
             return value;
-        return $"{id}:NO_LOCALIZATION";
+        return LocalizationError(id);
     }
 
     public static string FormatTranslate(string id, params string[] _params)
     {
         if (!_loaded)
-            return $"{id}:LOCALIZATION_SERVICE_ERROR";
-
+            return LocalizationServiceError(id, _params);
         if (Localization.Entries.TryGetValue(id, out string value))
+        {
+            if (_params.Length <= 0)
+                return value;
             return string.Format(value, _params);
-        return $"{id}:NO_LOCALIZATION";
+        }
+        return LocalizationError(id, _params);
     }
+
+    private static string LocalizationServiceError(string id, params string[] _params) =>
+        $"LOCALIZATION_SERVICE_ERROR: {id} - {_params}";
+
+    private static string LocalizationError(string id, params string[] _params) =>
+        $"NO_LOCALIZATION_ERROR: {id} - {_params}";
 }

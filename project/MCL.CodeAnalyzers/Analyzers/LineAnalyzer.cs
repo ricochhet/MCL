@@ -47,8 +47,7 @@ public static class LineAnalyzer
             fileLines.Add(fileLineCount);
         }
 
-        NotificationService.Log(
-            NativeLogLevel.Info,
+        NotificationService.Info(
             "analyzer.line.output",
             nameof(LineAnalyzer),
             fileLines.Sum().ToString(),
