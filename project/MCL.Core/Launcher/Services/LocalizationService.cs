@@ -41,10 +41,7 @@ public static class LocalizationService
         if (Localization?.Entries != null)
             _loaded = true;
         else
-            NotificationService.Error(
-                "error.readfile",
-                LocalizationPathResolver.LanguageFilePath(language)
-            );
+            NotificationService.Error("error.readfile", LocalizationPathResolver.LanguageFilePath(language));
     }
 
     public static string Translate(string id)

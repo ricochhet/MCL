@@ -89,7 +89,7 @@ public class QuiltLoaderDownloadService : ILoaderDownloadService<QuiltUrls>, IDo
 
         if (!await QuiltVersionManifestDownloader.Download(_launcherPath, _quiltUrls))
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.download", nameof(QuiltVersionManifestDownloader));
+            NotificationService.Error("error.download", nameof(QuiltVersionManifestDownloader));
             return false;
         }
 
@@ -104,7 +104,7 @@ public class QuiltLoaderDownloadService : ILoaderDownloadService<QuiltUrls>, IDo
         QuiltVersionManifest = Json.Load<QuiltVersionManifest>(QuiltPathResolver.VersionManifestPath(_launcherPath));
         if (ObjectValidator<QuiltVersionManifest>.IsNull(QuiltVersionManifest))
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.readfile", nameof(QuiltVersionManifest));
+            NotificationService.Error("error.readfile", nameof(QuiltVersionManifest));
             return false;
         }
 
@@ -130,7 +130,7 @@ public class QuiltLoaderDownloadService : ILoaderDownloadService<QuiltUrls>, IDo
 
         if (!await QuiltProfileDownloader.Download(_launcherPath, _launcherVersion, _quiltUrls))
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.download", nameof(QuiltProfileDownloader));
+            NotificationService.Error("error.download", nameof(QuiltProfileDownloader));
             return false;
         }
 
@@ -152,7 +152,7 @@ public class QuiltLoaderDownloadService : ILoaderDownloadService<QuiltUrls>, IDo
         QuiltProfile = Json.Load<QuiltProfile>(QuiltPathResolver.ProfilePath(_launcherPath, _launcherVersion));
         if (ObjectValidator<QuiltProfile>.IsNull(QuiltProfile))
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.download", nameof(QuiltProfile));
+            NotificationService.Error("error.download", nameof(QuiltProfile));
             return false;
         }
 
@@ -167,12 +167,7 @@ public class QuiltLoaderDownloadService : ILoaderDownloadService<QuiltUrls>, IDo
         QuiltLoader quiltLoader = QuiltVersionHelper.GetLoaderVersion(_launcherVersion, QuiltVersionManifest);
         if (ObjectValidator<QuiltLoader>.IsNull(quiltLoader))
         {
-            NotificationService.Log(
-                NativeLogLevel.Error,
-                "error.parse",
-                _launcherVersion?.QuiltLoaderVersion,
-                nameof(QuiltLoader)
-            );
+            NotificationService.Error("error.parse", _launcherVersion?.QuiltLoaderVersion, nameof(QuiltLoader));
             return false;
         }
 
@@ -194,7 +189,7 @@ public class QuiltLoaderDownloadService : ILoaderDownloadService<QuiltUrls>, IDo
             )
         )
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.download", nameof(QuiltLoaderDownloader));
+            NotificationService.Error("error.download", nameof(QuiltLoaderDownloader));
             return false;
         }
 

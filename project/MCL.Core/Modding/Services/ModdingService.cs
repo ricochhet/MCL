@@ -53,14 +53,14 @@ public static class ModdingService
         string modPath = ModPathResolver.ModPath(LauncherPath, modStoreName);
         if (!VFS.Exists(modPath))
         {
-            NotificationService.Log(NativeLogLevel.Error, "modding.save.error-nodir", modPath);
+            NotificationService.Error("modding.save.error-nodir", modPath);
             return false;
         }
 
         string[] modFilePaths = VFS.GetFiles(modPath, "*", SearchOption.TopDirectoryOnly);
         if (modFilePaths.Length <= 0)
         {
-            NotificationService.Log(NativeLogLevel.Error, "modding.save.error-nofile", modPath);
+            NotificationService.Error("modding.save.error-nofile", modPath);
             return false;
         }
 
@@ -70,7 +70,7 @@ public static class ModdingService
             .ToArray();
         if (filteredModFilePaths.Length <= 0)
         {
-            NotificationService.Log(NativeLogLevel.Error, "modding.save.error-nofile", modPath);
+            NotificationService.Error("modding.save.error-nofile", modPath);
             return false;
         }
 
@@ -142,7 +142,7 @@ public static class ModdingService
     {
         if (ObjectValidator<List<ModFile>>.IsNullOrEmpty(modFiles?.Files))
         {
-            NotificationService.Log(NativeLogLevel.Error, "modding.deploy.error-nofile");
+            NotificationService.Error("modding.deploy.error-nofile");
             return false;
         }
 
@@ -161,7 +161,7 @@ public static class ModdingService
         {
             if (ObjectValidator<ModFile>.IsNull(modFile))
             {
-                NotificationService.Log(NativeLogLevel.Error, "modding.deploy.error-nodata");
+                NotificationService.Error("modding.deploy.error-nodata");
                 return false;
             }
 

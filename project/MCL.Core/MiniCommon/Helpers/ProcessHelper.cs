@@ -83,8 +83,7 @@ public static class ProcessHelper
         }
         catch (Exception ex)
         {
-            NotificationService.Log(
-                NativeLogLevel.Error,
+            NotificationService.Error(
                 "log.stack.trace",
                 ex.Message,
                 ex.StackTrace ?? LocalizationService.Translate("stack.trace.null")

@@ -73,7 +73,7 @@ public class FabricInstallerDownloadService : IJarDownloadService<FabricUrls>, I
 
         if (!await FabricVersionManifestDownloader.Download(_launcherPath, _fabricUrls))
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.download", nameof(FabricVersionManifestDownloader));
+            NotificationService.Error("error.download", nameof(FabricVersionManifestDownloader));
             return false;
         }
 
@@ -88,7 +88,7 @@ public class FabricInstallerDownloadService : IJarDownloadService<FabricUrls>, I
         FabricVersionManifest = Json.Load<FabricVersionManifest>(FabricPathResolver.VersionManifestPath(_launcherPath));
         if (ObjectValidator<FabricVersionManifest>.IsNull(FabricVersionManifest))
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.readfile", nameof(FabricVersionManifest));
+            NotificationService.Error("error.readfile", nameof(FabricVersionManifest));
             return false;
         }
 
@@ -115,12 +115,7 @@ public class FabricInstallerDownloadService : IJarDownloadService<FabricUrls>, I
         FabricInstaller = FabricVersionHelper.GetInstallerVersion(_launcherVersion, FabricVersionManifest);
         if (ObjectValidator<FabricInstaller>.IsNull(FabricInstaller))
         {
-            NotificationService.Log(
-                NativeLogLevel.Error,
-                "error.parse",
-                _launcherVersion?.FabricInstallerVersion,
-                nameof(FabricInstaller)
-            );
+            NotificationService.Error("error.parse", _launcherVersion?.FabricInstallerVersion, nameof(FabricInstaller));
             return false;
         }
 
@@ -134,7 +129,7 @@ public class FabricInstallerDownloadService : IJarDownloadService<FabricUrls>, I
 
         if (!await FabricInstallerDownloader.Download(_launcherPath, _launcherVersion, FabricInstaller))
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.download", nameof(FabricInstallerDownloader));
+            NotificationService.Error("error.download", nameof(FabricInstallerDownloader));
             return false;
         }
 

@@ -90,7 +90,7 @@ public class PaperServerDownloadService : IDownloadService
 
         if (!await PaperVersionManifestDownloader.Download(_launcherPath, _launcherVersion, _paperUrls))
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.download", nameof(PaperVersionManifestDownloader));
+            NotificationService.Error("error.download", nameof(PaperVersionManifestDownloader));
             return false;
         }
 
@@ -110,7 +110,7 @@ public class PaperServerDownloadService : IDownloadService
         );
         if (ObjectValidator<PaperVersionManifest>.IsNull(PaperVersionManifest))
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.readfile", nameof(PaperVersionManifest));
+            NotificationService.Error("error.readfile", nameof(PaperVersionManifest));
             return false;
         }
 
@@ -142,12 +142,7 @@ public class PaperServerDownloadService : IDownloadService
         PaperBuild = PaperVersionHelper.GetVersion(_launcherVersion, PaperVersionManifest);
         if (ObjectValidator<PaperBuild>.IsNull(PaperBuild))
         {
-            NotificationService.Log(
-                NativeLogLevel.Error,
-                "error.parse",
-                _launcherVersion?.PaperServerVersion,
-                nameof(PaperBuild)
-            );
+            NotificationService.Error("error.parse", _launcherVersion?.PaperServerVersion, nameof(PaperBuild));
             return false;
         }
 
@@ -161,7 +156,7 @@ public class PaperServerDownloadService : IDownloadService
 
         if (!await PaperServerDownloader.Download(_launcherPath, _launcherVersion, PaperBuild, _paperUrls))
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.download", nameof(PaperServerDownloader));
+            NotificationService.Error("error.download", nameof(PaperServerDownloader));
             return false;
         }
 

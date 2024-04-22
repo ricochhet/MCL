@@ -55,11 +55,7 @@ public static partial class LocalizationKeyAnalyzer
                 if (!localization.Entries.ContainsKey(quoteMatch.Value.Replace("\"", string.Empty)))
                 {
                     fail++;
-                    NotificationService.Error(
-                        "analyzer.error.localization",
-                        file,
-                        quoteMatch.Value
-                    );
+                    NotificationService.Error("analyzer.error.localization", file, quoteMatch.Value);
                 }
                 else
                 {

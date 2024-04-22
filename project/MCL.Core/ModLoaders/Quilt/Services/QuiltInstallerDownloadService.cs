@@ -73,7 +73,7 @@ public class QuiltInstallerDownloadService : IJarDownloadService<QuiltUrls>, IDo
 
         if (!await QuiltVersionManifestDownloader.Download(_launcherPath, _quiltUrls))
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.download", nameof(QuiltVersionManifestDownloader));
+            NotificationService.Error("error.download", nameof(QuiltVersionManifestDownloader));
             return false;
         }
 
@@ -88,7 +88,7 @@ public class QuiltInstallerDownloadService : IJarDownloadService<QuiltUrls>, IDo
         QuiltVersionManifest = Json.Load<QuiltVersionManifest>(QuiltPathResolver.VersionManifestPath(_launcherPath));
         if (ObjectValidator<QuiltVersionManifest>.IsNull(QuiltVersionManifest))
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.readfile", nameof(QuiltVersionManifest));
+            NotificationService.Error("error.readfile", nameof(QuiltVersionManifest));
             return false;
         }
 
@@ -115,12 +115,7 @@ public class QuiltInstallerDownloadService : IJarDownloadService<QuiltUrls>, IDo
         QuiltInstaller = QuiltVersionHelper.GetInstallerVersion(_launcherVersion, QuiltVersionManifest);
         if (ObjectValidator<QuiltInstaller>.IsNull(QuiltInstaller))
         {
-            NotificationService.Log(
-                NativeLogLevel.Error,
-                "error.parse",
-                _launcherVersion?.QuiltInstallerVersion,
-                nameof(QuiltInstaller)
-            );
+            NotificationService.Error("error.parse", _launcherVersion?.QuiltInstallerVersion, nameof(QuiltInstaller));
             return false;
         }
 
@@ -134,7 +129,7 @@ public class QuiltInstallerDownloadService : IJarDownloadService<QuiltUrls>, IDo
 
         if (!await QuiltInstallerDownloader.Download(_launcherPath, _launcherVersion, QuiltInstaller))
         {
-            NotificationService.Log(NativeLogLevel.Error, "error.download", nameof(QuiltInstallerDownloader));
+            NotificationService.Error("error.download", nameof(QuiltInstallerDownloader));
             return false;
         }
 

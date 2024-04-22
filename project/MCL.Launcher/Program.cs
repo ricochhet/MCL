@@ -48,14 +48,13 @@ internal static class Program
         NotificationService.OnNotificationAdded(
             (Notification notification) => Log.Base(notification.LogLevel, notification.Message)
         );
-        NotificationService.Log(NativeLogLevel.Info, "log.initialized");
+        NotificationService.Info("log.initialized");
         SettingsService.Init();
         Settings settings = SettingsService.Load();
         if (ObjectValidator<Settings>.IsNull(settings))
             return;
         RequestDataService.OnRequestCompleted(
-            (RequestData requestData) =>
-                NotificationService.Log(NativeLogLevel.Info, "request.get.success", requestData.URL)
+            (RequestData requestData) => NotificationService.Info("request.get.success", requestData.URL)
         );
 
         Request.JsonSerializerOptions = new()
