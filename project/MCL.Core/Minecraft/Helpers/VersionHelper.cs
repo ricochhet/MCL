@@ -29,6 +29,9 @@ namespace MCL.Core.Minecraft.Helpers;
 
 public static class VersionHelper
 {
+    /// <summary>
+    /// Get the MVersionManifest and set the version of MVersion in Settings.
+    /// </summary>
     public static async Task<bool> SetVersion(
         Settings settings,
         LauncherVersion launcherVersion,
@@ -65,6 +68,9 @@ public static class VersionHelper
         return true;
     }
 
+    /// <summary>
+    /// Get a list of version identifiers.
+    /// </summary>
     public static List<string> GetVersionIds(MVersionManifest versionManifest)
     {
         if (ObjectValidator<List<MVersion>>.IsNullOrEmpty(versionManifest?.Versions))
@@ -77,6 +83,9 @@ public static class VersionHelper
         return versions;
     }
 
+    /// <summary>
+    /// Get a MVersion object from the MVersionManifest.
+    /// </summary>
     public static MVersion GetVersion(LauncherVersion launcherVersion, MVersionManifest versionManifest)
     {
         if (
@@ -102,6 +111,9 @@ public static class VersionHelper
         return null;
     }
 
+    /// <summary>
+    /// Get a MVersionDetails object from the MVersion.
+    /// </summary>
     public static MVersionDetails GetVersionDetails(LauncherPath launcherPath, LauncherVersion launcherVersion)
     {
         if (ObjectValidator<string>.IsNullOrWhiteSpace([launcherVersion.MVersion]))

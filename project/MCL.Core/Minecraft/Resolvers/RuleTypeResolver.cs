@@ -23,6 +23,9 @@ namespace MCL.Core.Minecraft.Resolvers;
 
 public static class RuleTypeResolver
 {
+    /// <summary>
+    /// Convert RuleType to a direct string.
+    /// </summary>
     public static string ToString(RuleType type) =>
         type switch
         {

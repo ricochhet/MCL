@@ -24,6 +24,9 @@ namespace MCL.Core.Minecraft.Helpers;
 
 public static class ServerProperties
 {
+    /// <summary>
+    /// Create a new Eula text file in the specified server path.
+    /// </summary>
     public static void NewEula(LauncherPath launcherPath)
     {
         string filepath = VFS.Combine(MPathResolver.ServerPath(launcherPath), "eula.txt");
@@ -31,6 +34,9 @@ public static class ServerProperties
             VFS.WriteFile(filepath, "eula=true\n");
     }
 
+    /// <summary>
+    /// Create a new Properties file in the specified server path.
+    /// </summary>
     public static void NewProperties(LauncherPath launcherPath)
     {
         string filepath = VFS.Combine(MPathResolver.ServerPath(launcherPath), "server.properties");

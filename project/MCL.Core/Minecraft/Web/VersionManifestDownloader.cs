@@ -27,6 +27,9 @@ namespace MCL.Core.Minecraft.Web;
 
 public static class VersionManifestDownloader
 {
+    /// <summary>
+    /// Download the game version manifest.
+    /// </summary>
     public static async Task<bool> Download(LauncherPath launcherPath, MUrls mUrls)
     {
         if (ObjectValidator<string>.IsNullOrWhiteSpace([mUrls?.VersionManifest]))

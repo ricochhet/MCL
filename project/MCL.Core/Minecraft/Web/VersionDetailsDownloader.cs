@@ -27,6 +27,9 @@ namespace MCL.Core.Minecraft.Web;
 
 public static class VersionDetailsDownloader
 {
+    /// <summary>
+    /// Download the game version details specified by the MVersion.
+    /// </summary>
     public static async Task<bool> Download(LauncherPath launcherPath, MVersion version)
     {
         if (ObjectValidator<string>.IsNullOrWhiteSpace([version?.URL, version?.ID]))

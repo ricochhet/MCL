@@ -38,8 +38,7 @@ public class ObjectValidator<T>
     /// <summary>
     /// Add a new validation rule.
     /// </summary>
-    public void AddRule(Func<T, bool> rule, string errorMessage) =>
-        _rules.Add(new(rule, errorMessage));
+    public void AddRule(Func<T, bool> rule, string errorMessage) => _rules.Add(new(rule, errorMessage));
 
     /// <summary>
     /// Validate object of type T.

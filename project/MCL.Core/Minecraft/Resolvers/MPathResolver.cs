@@ -29,51 +29,100 @@ public static class MPathResolver
     public const string BaseLibrariesPath = "libraries";
     public const string BaseServerPath = "server";
 
+    /// <summary>
+    /// The main client library jar.
+    /// </summary>
     public static string ClientLibrary(LauncherVersion launcherVersion) =>
         VFS.Combine(BaseVersionsPath, launcherVersion.MVersion, $"{launcherVersion.MVersion}.jar");
 
-    public static string Libraries(LauncherVersion launcherVersion) =>
+    /// <summary>
+    /// The natives library path specified by the MVersion.
+    /// </summary>
+    public static string NativesLibraries(LauncherVersion launcherVersion) =>
         VFS.Combine(BaseVersionsPath, launcherVersion.MVersion, $"{launcherVersion.MVersion}-natives");
 
+    /// <summary>
+    /// The assets path.
+    /// </summary>
     public static string AssetsPath(LauncherPath launcherPath) => VFS.Combine(launcherPath.MPath, BaseAssetsPath);
 
+    /// <summary>
+    /// The library path.
+    /// </summary>
     public static string LibraryPath(LauncherPath launcherPath) => VFS.Combine(launcherPath.MPath, BaseLibrariesPath);
 
+    /// <summary>
+    /// The server client path.
+    /// </summary>
     public static string ServerPath(LauncherPath launcherPath) => VFS.Combine(launcherPath.MPath, BaseServerPath);
 
+    /// <summary>
+    /// The client version path specified by MVersionDetails identifier.
+    /// </summary>
     public static string VersionPath(LauncherPath launcherPath, MVersionDetails versionDetails) =>
         VFS.Combine(launcherPath.MPath, BaseVersionsPath, versionDetails.ID);
 
+    /// <summary>
+    /// The main client library jar path.
+    /// </summary>
     public static string ClientJarPath(LauncherPath launcherPath, MVersionDetails versionDetails) =>
         VFS.Combine(VersionPath(launcherPath, versionDetails), versionDetails.ID + ".jar");
 
+    /// <summary>
+    /// The client mappings path specified by MVersionDetails identifier.
+    /// </summary>
     public static string ClientMappingsPath(LauncherPath launcherPath, MVersionDetails versionDetails) =>
         VFS.Combine(VersionPath(launcherPath, versionDetails), "client.txt");
 
-    public static string ClientIndexPath(LauncherPath launcherPath, MVersionDetails versionDetails) =>
+    /// <summary>
+    /// The client asset index path.
+    /// </summary>
+    public static string ClientAssetIndexPath(LauncherPath launcherPath, MVersionDetails versionDetails) =>
         VFS.Combine(AssetsPath(launcherPath), "indexes", versionDetails.Assets + ".json");
 
+    /// <summary>
+    /// The logging configuration path.
+    /// </summary>
     public static string LoggingPath(LauncherPath launcherPath, MVersionDetails versionDetails) =>
         VFS.Combine(VersionPath(launcherPath, versionDetails), "client.xml");
 
+    // The logging configuration XML file.
     public static string LoggingPath(LauncherVersion launcherVersion) =>
         VFS.Combine(BaseVersionsPath, launcherVersion.MVersion, "client.xml");
 
+    /// <summary>
+    /// The server library jar path.
+    /// </summary>
     public static string ServerJarPath(LauncherPath launcherPath, MVersionDetails versionDetails) =>
         VFS.Combine(ServerPath(launcherPath), $"minecraft_server.{versionDetails.ID}.jar");
 
+    /// <summary>
+    /// The server mappings path specified by MVersionDetails identifier.
+    /// </summary>
     public static string ServerMappingsPath(LauncherPath launcherPath, MVersionDetails versionDetails) =>
         VFS.Combine(ServerPath(launcherPath), $"minecraft_server.{versionDetails.ID}.txt");
 
+    /// <summary>
+    /// The server Eula path.
+    /// </summary>
     public static string ServerEulaPath(LauncherPath launcherPath) =>
         VFS.Combine(ServerPath(launcherPath), "server.properties");
 
+    /// <summary>
+    /// The server properties path.
+    /// </summary>
     public static string ServerPropertiesPath(LauncherPath launcherPath) =>
         VFS.Combine(ServerPath(launcherPath), "server.properties");
 
+    /// <summary>
+    /// The main version manifest path.
+    /// </summary>
     public static string VersionManifestPath(LauncherPath launcherPath) =>
         VFS.Combine(launcherPath.MPath, "version_manifest.json");
 
+    /// <summary>
+    /// The version details path specified by MVersion identifier.
+    /// </summary>
     public static string VersionDetailsPath(LauncherPath launcherPath, MVersion version) =>
         VFS.Combine(launcherPath.MPath, BaseVersionsPath, version.ID + ".json");
 }

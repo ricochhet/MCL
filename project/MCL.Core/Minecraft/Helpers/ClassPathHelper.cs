@@ -20,7 +20,6 @@ using System;
 using System.Linq;
 using MCL.Core.Java.Enums;
 using MCL.Core.Launcher.Enums;
-using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Minecraft.Resolvers;
 using MCL.Core.MiniCommon;
@@ -29,6 +28,9 @@ namespace MCL.Core.Minecraft.Helpers;
 
 public static class ClassPathHelper
 {
+    /// <summary>
+    /// Get a list of class libraries for the specified MVersion and Loader versions.
+    /// </summary>
     public static string GetClassLibraries(
         LauncherVersion launcherVersion,
         LauncherInstance launcherInstance,
@@ -52,86 +54,26 @@ public static class ClassPathHelper
         LauncherLoader mLoader = launcherInstance.Versions.Find(a => a.Version == launcherVersion.MVersion);
         if (ObjectValidator<LauncherLoader>.IsNull(mLoader))
             return string.Empty;
-
         string[] libraries = mLoader.Libraries.Prepend(MPathResolver.ClientLibrary(launcherVersion)).ToArray();
 
         switch (launcherSettings.ClientType)
         {
             case ClientType.VANILLA:
-                libraries = ManageVanillaLibraries(libraries, launcherInstance);
                 break;
             case ClientType.FABRIC:
-                libraries = ManageFabricLibraries(libraries, launcherVersion, launcherInstance);
+                LauncherLoader fabricLoader = launcherInstance.FabricLoaders.Find(a =>
+                    a.Version == launcherVersion.FabricLoaderVersion
+                );
+                libraries = [.. libraries, .. fabricLoader.Libraries];
                 break;
             case ClientType.QUILT:
-                libraries = ManageQuiltLibraries(libraries, launcherVersion, launcherInstance);
+                LauncherLoader quiltLoader = launcherInstance.QuiltLoaders.Find(a =>
+                    a.Version == launcherVersion.QuiltLoaderVersion
+                );
+                libraries = [.. libraries, .. quiltLoader.Libraries];
                 break;
         }
 
         return string.Join(separator, libraries);
-    }
-
-    private static string[] ManageVanillaLibraries(string[] libraries, LauncherInstance launcherInstance)
-    {
-        string[] managedLibraries = libraries;
-
-        foreach (LauncherLoader loader in launcherInstance.FabricLoaders.Concat(launcherInstance.QuiltLoaders))
-        {
-            libraries = libraries.Except(loader.Libraries).ToArray();
-        }
-
-        return managedLibraries;
-    }
-
-    private static string[] ManageFabricLibraries(
-        string[] libraries,
-        LauncherVersion launcherVersion,
-        LauncherInstance launcherInstance
-    )
-    {
-        string[] managedLibraries = libraries;
-
-        // Remove all quilt specific libraries.
-        foreach (LauncherLoader loader in launcherInstance.QuiltLoaders)
-        {
-            managedLibraries = managedLibraries.Except(loader.Libraries).ToArray();
-        }
-
-        // Remove all fabric specific libraries that don't belong to the current version.
-        foreach (LauncherLoader loader in launcherInstance.FabricLoaders)
-        {
-            if (loader.Version != launcherVersion.FabricLoaderVersion)
-                managedLibraries = managedLibraries.Except(loader.Libraries).ToArray();
-            else
-                managedLibraries = [.. managedLibraries, .. loader.Libraries];
-        }
-
-        return managedLibraries;
-    }
-
-    private static string[] ManageQuiltLibraries(
-        string[] libraries,
-        LauncherVersion launcherVersion,
-        LauncherInstance launcherInstance
-    )
-    {
-        string[] managedLibraries = libraries;
-
-        // Remove all fabric specific libraries.
-        foreach (LauncherLoader loader in launcherInstance.FabricLoaders)
-        {
-            managedLibraries = managedLibraries.Except(loader.Libraries).ToArray();
-        }
-
-        // Remove all quilt specific libraries that don't belong to the current version.
-        foreach (LauncherLoader loader in launcherInstance.QuiltLoaders)
-        {
-            if (loader.Version != launcherVersion.QuiltLoaderVersion)
-                managedLibraries = managedLibraries.Except(loader.Libraries).ToArray();
-            else
-                managedLibraries = [.. managedLibraries, .. loader.Libraries];
-        }
-
-        return managedLibraries;
     }
 }

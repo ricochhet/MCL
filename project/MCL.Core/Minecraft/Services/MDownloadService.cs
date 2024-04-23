@@ -42,6 +42,9 @@ public class MDownloadService : IDownloadService
     private static MUrls _mUrls;
     private static bool _loaded = false;
 
+    /// <summary>
+    /// Initialize the game download service.
+    /// </summary>
     public static void Init(
         LauncherPath launcherPath,
         LauncherVersion launcherVersion,
@@ -60,6 +63,9 @@ public class MDownloadService : IDownloadService
 
 #pragma warning disable IDE0079
 #pragma warning disable S3776
+    /// <summary>
+    /// Download all parts of the game.
+    /// </summary>
     public static async Task<bool> Download(bool useLocalVersionManifest = false)
 #pragma warning restore
     {
@@ -111,6 +117,9 @@ public class MDownloadService : IDownloadService
         return true;
     }
 
+    /// <summary>
+    /// Exclusively download the game version manifest.
+    /// </summary>
     public static async Task<bool> DownloadVersionManifest()
     {
         if (!_loaded)
@@ -125,6 +134,9 @@ public class MDownloadService : IDownloadService
         return true;
     }
 
+    /// <summary>
+    /// Load the game version manifest from the download path.
+    /// </summary>
     public static bool LoadVersionManifest()
     {
         if (!_loaded)
@@ -140,6 +152,9 @@ public class MDownloadService : IDownloadService
         return true;
     }
 
+    /// <summary>
+    /// Load the game version manifest from the download path, without logging errors if loading failed.
+    /// </summary>
     public static bool LoadVersionManifestWithoutLogging()
     {
         if (!_loaded)
@@ -152,6 +167,9 @@ public class MDownloadService : IDownloadService
         return true;
     }
 
+    /// <summary>
+    /// Load the game version specified by MVersion from the MVersionManifest download path.
+    /// </summary>
     public static bool LoadVersion()
     {
         if (!_loaded)
@@ -167,6 +185,9 @@ public class MDownloadService : IDownloadService
         return true;
     }
 
+    /// <summary>
+    /// Exclusively download the game version details.
+    /// </summary>
     public static async Task<bool> DownloadVersionDetails()
     {
         if (!_loaded)
@@ -181,6 +202,9 @@ public class MDownloadService : IDownloadService
         return true;
     }
 
+    /// <summary>
+    /// Load the game version details from the download path.
+    /// </summary>
     public static bool LoadVersionDetails()
     {
         if (!_loaded)
@@ -196,6 +220,9 @@ public class MDownloadService : IDownloadService
         return true;
     }
 
+    /// <summary>
+    /// Exclusively download the game libraries.
+    /// </summary>
     public static async Task<bool> DownloadLibraries()
     {
         if (!_loaded)
@@ -218,6 +245,9 @@ public class MDownloadService : IDownloadService
         return true;
     }
 
+    /// <summary>
+    /// Exclusively download the game client.
+    /// </summary>
     public static async Task<bool> DownloadClient()
     {
         if (!_loaded)
@@ -232,6 +262,9 @@ public class MDownloadService : IDownloadService
         return true;
     }
 
+    /// <summary>
+    /// Exclusively download the game client mappings
+    /// </summary>
     public static async Task<bool> DownloadClientMappings()
     {
         if (!_loaded)
@@ -246,6 +279,9 @@ public class MDownloadService : IDownloadService
         return true;
     }
 
+    /// <summary>
+    /// Exclusively download the game server.
+    /// </summary>
     public static async Task<bool> DownloadServer()
     {
         if (!_loaded)
@@ -260,6 +296,9 @@ public class MDownloadService : IDownloadService
         return true;
     }
 
+    /// <summary>
+    /// Exclusively download the game server mappings.
+    /// </summary>
     public static async Task<bool> DownloadServerMappings()
     {
         if (!_loaded)
@@ -274,6 +313,9 @@ public class MDownloadService : IDownloadService
         return true;
     }
 
+    /// <summary>
+    /// Download the game asset index.
+    /// </summary>
     public static async Task<bool> DownloadAssetIndex()
     {
         if (!_loaded)
@@ -288,12 +330,15 @@ public class MDownloadService : IDownloadService
         return true;
     }
 
+    /// <summary>
+    /// Load the game asset index from the download path.
+    /// </summary>
     public static bool LoadAssetIndex()
     {
         if (!_loaded)
             return false;
 
-        _assets = Json.Load<MAssetsData>(MPathResolver.ClientIndexPath(_launcherPath, VersionDetails));
+        _assets = Json.Load<MAssetsData>(MPathResolver.ClientAssetIndexPath(_launcherPath, VersionDetails));
         if (ObjectValidator<MAssetsData>.IsNull(_assets))
         {
             NotificationService.Error("error.readfile", nameof(MAssetsData));
@@ -303,6 +348,9 @@ public class MDownloadService : IDownloadService
         return true;
     }
 
+    /// <summary>
+    /// Exclusively download the game resources.
+    /// </summary>
     public static async Task<bool> DownloadResources()
     {
         if (!_loaded)
@@ -317,6 +365,9 @@ public class MDownloadService : IDownloadService
         return true;
     }
 
+    /// <summary>
+    /// Exclusively download the game logging configuration.
+    /// </summary>
     public static async Task<bool> DownloadLogging()
     {
         if (!_loaded)

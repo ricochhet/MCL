@@ -27,6 +27,9 @@ namespace MCL.Core.Minecraft.Helpers;
 
 public static class MinecraftLauncher
 {
+    /// <summary>
+    /// Launch the game process specified by the ClientType.
+    /// </summary>
     public static void Launch(Settings settings, string javaHome)
     {
         if (ObjectValidator<Settings>.IsNull(settings))

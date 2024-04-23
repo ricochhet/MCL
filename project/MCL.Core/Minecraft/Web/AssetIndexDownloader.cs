@@ -26,6 +26,9 @@ namespace MCL.Core.Minecraft.Web;
 
 public static class AssetIndexDownloader
 {
+    /// <summary>
+    /// Download the game asset index specified by the MVersionDetails.
+    /// </summary>
     public static async Task<bool> Download(LauncherPath launcherPath, MVersionDetails versionDetails)
     {
         if (
@@ -37,7 +40,7 @@ public static class AssetIndexDownloader
 
         return await Request.DownloadSHA1(
             versionDetails.AssetIndex.URL,
-            MPathResolver.ClientIndexPath(launcherPath, versionDetails),
+            MPathResolver.ClientAssetIndexPath(launcherPath, versionDetails),
             versionDetails.AssetIndex.SHA1
         );
     }

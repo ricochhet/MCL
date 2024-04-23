@@ -25,6 +25,9 @@ namespace MCL.Core.Minecraft.Helpers;
 
 public static class AssetHelper
 {
+    /// <summary>
+    /// Get the asset data identifier for the specified MVersion.
+    /// </summary>
     public static string GetAssetId(LauncherPath launcherPath, LauncherVersion launcherVersion)
     {
         if (ObjectValidator<string>.IsNullOrWhiteSpace([launcherVersion?.MVersion]))

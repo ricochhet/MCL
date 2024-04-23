@@ -38,7 +38,7 @@ public static class LaunchArgs
             return null;
 
         JvmArguments jvmArguments = new();
-        string libraries = MPathResolver.Libraries(settings.LauncherVersion);
+        string libraries = MPathResolver.NativesLibraries(settings.LauncherVersion);
 
         jvmArguments.Add("-Xms{0}m", [settings.LauncherMemory.MemoryMinMb.ToString()]);
         jvmArguments.Add("-Xmx{0}m", [settings.LauncherMemory.MemoryMaxMb.ToString()]);

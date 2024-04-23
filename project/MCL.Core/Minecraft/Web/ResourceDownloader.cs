@@ -27,6 +27,9 @@ namespace MCL.Core.Minecraft.Web;
 
 public static class ResourceDownloader
 {
+    /// <summary>
+    /// Download the game resources specified by the MAssetsData.
+    /// </summary>
     public static async Task<bool> Download(LauncherPath launcherPath, MUrls mUrls, MAssetsData assets)
     {
         if (

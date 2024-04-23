@@ -26,6 +26,9 @@ namespace MCL.Core.Minecraft.Web;
 
 public static class ServerMappingsDownloader
 {
+    /// <summary>
+    /// Download the game server mappings specified by the MVersionDetails.
+    /// </summary>
     public static async Task<bool> Download(LauncherPath launcherPath, MVersionDetails versionDetails)
     {
         if (

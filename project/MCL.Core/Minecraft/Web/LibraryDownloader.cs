@@ -35,6 +35,9 @@ public static class LibraryDownloader
 {
     private static LauncherLoader _loader;
 
+    /// <summary>
+    /// Download the game libraries specified by the MVersionDetails.
+    /// </summary>
     public static async Task<bool> Download(
         LauncherPath launcherPath,
         LauncherVersion launcherVersion,
@@ -84,6 +87,9 @@ public static class LibraryDownloader
         return true;
     }
 
+    /// <summary>
+    /// Check library rules and determine whether the library should be downloaded.
+    /// </summary>
     public static bool SkipLibrary(MLibrary lib, LauncherSettings launcherSettings)
     {
         if (ObjectValidator<List<MLibraryRule>>.IsNullOrEmpty(lib.Rules, NativeLogLevel.Debug))
@@ -110,6 +116,9 @@ public static class LibraryDownloader
         return !allowLibrary;
     }
 
+    /// <summary>
+    /// Download native libraries from classifiers if any exist.
+    /// </summary>
     public static async Task<bool> DownloadNatives(
         LauncherPath launcherPath,
         MLibrary lib,
