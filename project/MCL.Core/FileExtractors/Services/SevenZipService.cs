@@ -27,11 +27,17 @@ public static class SevenZipService
 {
     private static SevenZipSettings SevenZipSettings { get; set; }
 
+    /// <summary>
+    /// Initialize the SevenZip service.
+    /// </summary>
     public static void Init(SevenZipSettings sevenZipSettings)
     {
         SevenZipSettings = sevenZipSettings;
     }
 
+    /// <summary>
+    /// Extract an archive using SevenZip, using arguments specified by SevenZipSettings.
+    /// </summary>
     public static void Extract(string source, string destination)
     {
         ProcessHelper.RunProcess(

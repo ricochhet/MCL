@@ -25,6 +25,10 @@ namespace MCL.Core.FileExtractors.Resolvers;
 
 public static class SevenZipPathResolver
 {
+    /// <summary>
+    /// Check if the SevenZip executable exists under the 'Data' directory.
+    /// If it is not found, attempt to use it from PATH.
+    /// </summary>
     public static string SevenZipPath(SevenZipSettings sevenZipSettings)
     {
         string windowsExecutable = VFS.Combine(
