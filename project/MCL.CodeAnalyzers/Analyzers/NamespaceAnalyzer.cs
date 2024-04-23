@@ -30,6 +30,7 @@ public static partial class NamespaceAnalyzer
     {
         int success = 0;
         int fail = 0;
+
         foreach (string file in files)
         {
             string fileData = VFS.ReadAllText(file);
@@ -38,10 +39,7 @@ public static partial class NamespaceAnalyzer
             string name = namespaceMatch.Value;
 
             if (AnalyzerFiles.Restricted.Exists(file.Contains))
-            {
-                success++;
                 continue;
-            }
 
             if (ObjectValidator<string>.IsNullOrWhiteSpace([name], NativeLogLevel.Debug))
             {
@@ -77,7 +75,7 @@ public static partial class NamespaceAnalyzer
             nameof(NamespaceAnalyzer),
             success.ToString(),
             fail.ToString(),
-            files.Length.ToString()
+            (success + fail).ToString()
         );
     }
 

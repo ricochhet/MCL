@@ -37,6 +37,7 @@ public class AnalyzeCode : ILauncherCommand
             {
                 string[] files = VFS.GetFiles(value, "*.cs", SearchOption.AllDirectories);
 
+                LicenseAnalyzer.Analyze(files);
                 LineAnalyzer.Analyze(files);
                 NamespaceAnalyzer.Analyze(files);
                 LocalizationKeyAnalyzer.Analyze(files, LocalizationService.Localization);
