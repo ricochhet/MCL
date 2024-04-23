@@ -37,10 +37,10 @@ public class DownloadMinecraft : ILauncherCommand
             "--dl-minecraft",
             async options =>
             {
-                _launcherVersion.Version = options.GetValueOrDefault("gameversion") ?? "latest";
+                _launcherVersion.MVersion = options.GetValueOrDefault("gameversion") ?? "latest";
                 if (!bool.TryParse(options.GetValueOrDefault("update") ?? "false", out bool update))
                     return;
-                if (ObjectValidator<string>.IsNullOrWhiteSpace([_launcherVersion.Version]))
+                if (ObjectValidator<string>.IsNullOrWhiteSpace([_launcherVersion.MVersion]))
                     return;
                 if (!await VersionHelper.SetVersion(settings, _launcherVersion, update))
                     return;

@@ -29,7 +29,7 @@ public static class MinecraftLauncher
 {
     public static void Launch(Settings settings, string javaHome)
     {
-        if (ObjectValidator<string>.IsNullOrWhiteSpace([settings?.LauncherVersion?.Version]))
+        if (ObjectValidator<Settings>.IsNull(settings))
             return;
 
         settings.Save(settings.LauncherSettings.ClientType, LaunchArgs.DefaultJvmArguments(settings));
@@ -41,7 +41,7 @@ public static class MinecraftLauncher
             return;
         JavaLauncher.Launch(
             settings,
-            settings.LauncherPath.Path,
+            settings.LauncherPath.MPath,
             settings.LauncherSettings.ClientType,
             JavaVersionHelper.GetDownloadedMCVersionJava(
                 settings.LauncherPath,

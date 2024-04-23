@@ -35,7 +35,7 @@ public static class FabricInstallerArgs
         if (
             ObjectValidator<string>.IsNullOrWhiteSpace(
                 [
-                    launcherVersion?.Version,
+                    launcherVersion?.MVersion,
                     launcherVersion?.FabricInstallerVersion,
                     launcherVersion?.FabricLoaderVersion
                 ]
@@ -48,8 +48,8 @@ public static class FabricInstallerArgs
             "-jar \"{0}\" {1}",
             [FabricPathResolver.InstallerPath(launcherPath, launcherVersion), "client"]
         );
-        jvmArguments.Add("-dir \"{0}\" {1}", [launcherPath.Path, FabricInstallerTypeResolver.ToString(installerType)]);
-        jvmArguments.Add("-mcversion {0}", [launcherVersion.Version]);
+        jvmArguments.Add("-dir \"{0}\" {1}", [launcherPath.MPath, FabricInstallerTypeResolver.ToString(installerType)]);
+        jvmArguments.Add("-mcversion {0}", [launcherVersion.MVersion]);
         jvmArguments.Add("-loader {0}", [launcherVersion.FabricLoaderVersion]);
         jvmArguments.Add("-noprofile");
 

@@ -160,7 +160,7 @@ public class MDownloadService : IDownloadService
         Version = VersionHelper.GetVersion(_launcherVersion, VersionManifest);
         if (ObjectValidator<MVersion>.IsNull(Version))
         {
-            NotificationService.Error("error.parse", _launcherVersion?.Version, nameof(MVersion));
+            NotificationService.Error("error.parse", _launcherVersion?.MVersion, nameof(MVersion));
             return false;
         }
 

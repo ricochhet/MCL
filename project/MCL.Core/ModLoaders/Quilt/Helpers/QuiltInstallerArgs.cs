@@ -35,7 +35,7 @@ public static class QuiltInstallerArgs
     {
         if (
             ObjectValidator<string>.IsNullOrWhiteSpace(
-                [launcherVersion?.Version, launcherVersion?.QuiltInstallerVersion, launcherVersion?.QuiltLoaderVersion]
+                [launcherVersion?.MVersion, launcherVersion?.QuiltInstallerVersion, launcherVersion?.QuiltLoaderVersion]
             )
         )
             return null;
@@ -44,10 +44,10 @@ public static class QuiltInstallerArgs
         jvmArguments.Add("-jar \"{0}\"", [QuiltPathResolver.InstallerPath(launcherPath, launcherVersion)]);
         jvmArguments.Add(
             $"install {QuiltInstallerTypeResolver.ToString(installerType)} {0} {1}",
-            [launcherVersion.Version, launcherVersion.QuiltLoaderVersion]
+            [launcherVersion.MVersion, launcherVersion.QuiltLoaderVersion]
         );
         jvmArguments.Add(installerType, QuiltInstallerType.INSTALL_SERVER, "--download-server");
-        jvmArguments.Add("--install-dir=\"{0}\"", [launcherPath.Path]);
+        jvmArguments.Add("--install-dir=\"{0}\"", [launcherPath.MPath]);
         jvmArguments.Add("--no-profile");
 
         return jvmArguments;

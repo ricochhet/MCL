@@ -38,7 +38,7 @@ public class LaunchPaperServer : ILauncherCommand
                     options.TryGetValue("gameversion", out string version)
                     && settings.LauncherInstance.Versions.Exists(a => a.Version == version)
                 )
-                    settings.LauncherVersion.Version = version;
+                    settings.LauncherVersion.MVersion = version;
 
                 if (
                     options.TryGetValue("paperversion", out string paperVersion)

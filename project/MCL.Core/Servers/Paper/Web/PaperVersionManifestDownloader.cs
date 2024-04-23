@@ -33,12 +33,12 @@ public static class PaperVersionManifestDownloader
         PaperUrls paperUrls
     )
     {
-        if (ObjectValidator<string>.IsNullOrWhiteSpace([launcherVersion?.Version, paperUrls?.VersionManifest]))
+        if (ObjectValidator<string>.IsNullOrWhiteSpace([launcherVersion?.MVersion, paperUrls?.VersionManifest]))
             return false;
 
         string filepath = PaperPathResolver.VersionManifestPath(launcherPath, launcherVersion);
         string paperIndex = await Request.GetJsonAsync<PaperVersionManifest>(
-            string.Format(paperUrls.VersionManifest, "paper", launcherVersion.Version),
+            string.Format(paperUrls.VersionManifest, "paper", launcherVersion.MVersion),
             filepath,
             Encoding.UTF8
         );

@@ -31,7 +31,7 @@ namespace MCL.Core.MiniCommon;
 public static class Request
 {
     private static readonly HttpClient _httpClient = new();
-    public static JsonSerializerOptions JsonSerializerOptions { get; set; } = new();
+    public static JsonSerializerOptions JsonSerializerOptions { get; set; } = Json.JsonSerializerOptions;
 
     public static HttpClient GetHttpClient() => _httpClient;
 

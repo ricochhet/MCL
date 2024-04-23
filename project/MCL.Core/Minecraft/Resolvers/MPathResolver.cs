@@ -24,20 +24,25 @@ namespace MCL.Core.Minecraft.Resolvers;
 
 public static class MPathResolver
 {
+    public const string BaseVersionsPath = "versions";
+    public const string BaseAssetsPath = "assets";
+    public const string BaseLibrariesPath = "libraries";
+    public const string BaseServerPath = "server";
+
     public static string ClientLibrary(LauncherVersion launcherVersion) =>
-        VFS.Combine("versions", launcherVersion.Version, $"{launcherVersion.Version}.jar").Replace("\\", "/");
+        VFS.Combine(BaseVersionsPath, launcherVersion.MVersion, $"{launcherVersion.MVersion}.jar");
 
     public static string Libraries(LauncherVersion launcherVersion) =>
-        VFS.Combine("versions", launcherVersion.Version, $"{launcherVersion.Version}-natives").Replace("\\", "/");
+        VFS.Combine(BaseVersionsPath, launcherVersion.MVersion, $"{launcherVersion.MVersion}-natives");
 
-    public static string AssetsPath(LauncherPath launcherPath) => VFS.Combine(launcherPath.Path, "assets");
+    public static string AssetsPath(LauncherPath launcherPath) => VFS.Combine(launcherPath.MPath, BaseAssetsPath);
 
-    public static string LibraryPath(LauncherPath launcherPath) => VFS.Combine(launcherPath.Path, "libraries");
+    public static string LibraryPath(LauncherPath launcherPath) => VFS.Combine(launcherPath.MPath, BaseLibrariesPath);
 
-    public static string ServerPath(LauncherPath launcherPath) => VFS.Combine(launcherPath.Path, "server");
+    public static string ServerPath(LauncherPath launcherPath) => VFS.Combine(launcherPath.MPath, BaseServerPath);
 
     public static string VersionPath(LauncherPath launcherPath, MVersionDetails versionDetails) =>
-        VFS.Combine(launcherPath.Path, "versions", versionDetails.ID);
+        VFS.Combine(launcherPath.MPath, BaseVersionsPath, versionDetails.ID);
 
     public static string ClientJarPath(LauncherPath launcherPath, MVersionDetails versionDetails) =>
         VFS.Combine(VersionPath(launcherPath, versionDetails), versionDetails.ID + ".jar");
@@ -52,7 +57,7 @@ public static class MPathResolver
         VFS.Combine(VersionPath(launcherPath, versionDetails), "client.xml");
 
     public static string LoggingPath(LauncherVersion launcherVersion) =>
-        VFS.Combine("versions", launcherVersion.Version, "client.xml");
+        VFS.Combine(BaseVersionsPath, launcherVersion.MVersion, "client.xml");
 
     public static string ServerJarPath(LauncherPath launcherPath, MVersionDetails versionDetails) =>
         VFS.Combine(ServerPath(launcherPath), $"minecraft_server.{versionDetails.ID}.jar");
@@ -67,8 +72,8 @@ public static class MPathResolver
         VFS.Combine(ServerPath(launcherPath), "server.properties");
 
     public static string VersionManifestPath(LauncherPath launcherPath) =>
-        VFS.Combine(launcherPath.Path, "version_manifest.json");
+        VFS.Combine(launcherPath.MPath, "version_manifest.json");
 
     public static string VersionDetailsPath(LauncherPath launcherPath, MVersion version) =>
-        VFS.Combine(launcherPath.Path, "versions", version.ID + ".json");
+        VFS.Combine(launcherPath.MPath, BaseVersionsPath, version.ID + ".json");
 }

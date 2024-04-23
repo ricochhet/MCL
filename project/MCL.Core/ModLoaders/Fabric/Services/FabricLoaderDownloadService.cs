@@ -144,7 +144,7 @@ public class FabricLoaderDownloadService : ILoaderDownloadService<FabricUrls>, I
 
         if (
             ObjectValidator<string>.IsNullOrWhiteSpace(
-                [_launcherVersion?.Version, _launcherVersion?.FabricLoaderVersion]
+                [_launcherVersion?.MVersion, _launcherVersion?.FabricLoaderVersion]
             )
         )
             return false;

@@ -25,14 +25,14 @@ namespace MCL.Core.Servers.Paper.Helpers;
 
 public static class PaperServerArgs
 {
-    public static JvmArguments DefaultJvmArguments(LauncherPath launcherPath, LauncherVersion launcherVersion)
+    public static JvmArguments DefaultJvmArguments(Settings settings)
     {
-        if (ObjectValidator<string>.IsNullOrWhiteSpace([launcherVersion?.Version, launcherVersion?.PaperServerVersion]))
+        if (ObjectValidator<Settings>.IsNull(settings))
             return null;
 
         JvmArguments jvmArguments = new();
-        jvmArguments.Add("-Xms{0}m", ["4096"]);
-        jvmArguments.Add("-Xmx{0}m", ["4096"]);
+        jvmArguments.Add("-Xms{0}m", [settings.LauncherMemory.MemoryMinMb.ToString()]);
+        jvmArguments.Add("-Xmx{0}m", [settings.LauncherMemory.MemoryMaxMb.ToString()]);
         jvmArguments.Add("-XX:+AlwaysPreTouch");
         jvmArguments.Add("-XX:+DisableExplicitGC");
         jvmArguments.Add("-XX:+ParallelRefProcEnabled");
@@ -53,7 +53,10 @@ public static class PaperServerArgs
         jvmArguments.Add("-XX:SurvivorRatio=32");
         jvmArguments.Add("-Dusing.aikars.flags=https://mcflags.emc.gs");
         jvmArguments.Add("-Daikars.new.flags=true");
-        jvmArguments.Add("-jar {0} {1}", [PaperPathResolver.JarPath(launcherPath, launcherVersion), "nogui"]);
+        jvmArguments.Add(
+            "-jar {0} {1}",
+            [PaperPathResolver.JarPath(settings.LauncherPath, settings.LauncherVersion), "nogui"]
+        );
 
         return jvmArguments;
     }

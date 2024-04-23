@@ -23,6 +23,8 @@ namespace MCL.Core.Launcher.Models;
 public class LauncherUsername(string username)
 {
     public string Username { get; set; } = username;
+    public string UserType { get; set; } = "legacy";
+    public string AccessToken { get; set; } = "1337535510N";
 
     public string ValidateUsername(int length = 16)
     {

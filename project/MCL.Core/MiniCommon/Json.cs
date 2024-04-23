@@ -16,12 +16,16 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using System.Text.Encodings.Web;
 using System.Text.Json;
 
 namespace MCL.Core.MiniCommon;
 
 public static class Json
 {
+    public static JsonSerializerOptions JsonSerializerOptions { get; private set; } =
+        new() { WriteIndented = true, Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping };
+
     /// <summary>
     /// Serialize data of type T.
     /// </summary>

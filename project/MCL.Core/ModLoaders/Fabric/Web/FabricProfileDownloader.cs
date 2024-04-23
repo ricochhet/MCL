@@ -35,7 +35,7 @@ public static class FabricProfileDownloader
     {
         if (
             ObjectValidator<string>.IsNullOrWhiteSpace(
-                [launcherVersion?.Version, launcherVersion?.FabricLoaderVersion, fabricUrls?.LoaderProfile]
+                [launcherVersion?.MVersion, launcherVersion?.FabricLoaderVersion, fabricUrls?.LoaderProfile]
             )
         )
             return false;

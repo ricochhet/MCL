@@ -27,7 +27,7 @@ public static class FabricPathResolver
     public static string ModPath(LauncherPath launcherPath) => VFS.FromCwd(launcherPath.FabricPath, "mods");
 
     public static string ModCategoryPath(LauncherPath launcherPath, LauncherVersion launcherVersion) =>
-        VFS.Combine(ModPath(launcherPath), launcherVersion.Version);
+        VFS.Combine(ModPath(launcherPath), launcherVersion.MVersion);
 
     public static string InstallerPath(LauncherPath launcherPath, LauncherVersion launcherVersion) =>
         VFS.Combine(
@@ -45,12 +45,12 @@ public static class FabricPathResolver
     public static string ProfilePath(LauncherPath launcherPath, LauncherVersion launcherVersion) =>
         VFS.FromCwd(
             launcherPath.FabricPath,
-            $"fabric_profile-{launcherVersion.Version}-{launcherVersion.FabricLoaderVersion}.json"
+            $"fabric_profile-{launcherVersion.MVersion}-{launcherVersion.FabricLoaderVersion}.json"
         );
 
     public static string LoaderJarPath(FabricUrls fabricUrls, LauncherVersion launcherVersion) =>
         fabricUrls.LoaderJar.Replace("{0}", launcherVersion.FabricLoaderVersion);
 
     public static string LoaderProfilePath(FabricUrls fabricUrls, LauncherVersion launcherVersion) =>
-        string.Format(fabricUrls.LoaderProfile, launcherVersion.Version, launcherVersion.FabricLoaderVersion);
+        string.Format(fabricUrls.LoaderProfile, launcherVersion.MVersion, launcherVersion.FabricLoaderVersion);
 }

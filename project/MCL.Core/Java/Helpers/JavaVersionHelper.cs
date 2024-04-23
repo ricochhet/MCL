@@ -33,7 +33,7 @@ public static class JavaVersionHelper
         LauncherSettings launcherSettings
     )
     {
-        if (ObjectValidator<string>.IsNullOrWhiteSpace([launcherVersion?.Version]))
+        if (ObjectValidator<string>.IsNullOrWhiteSpace([launcherVersion?.MVersion]))
             return launcherSettings.JavaRuntimeType;
         MVersionDetails versionDetails = VersionHelper.GetVersionDetails(launcherPath, launcherVersion);
         if (ObjectValidator<string>.IsNullOrWhiteSpace([versionDetails?.JavaVersion?.Component]))

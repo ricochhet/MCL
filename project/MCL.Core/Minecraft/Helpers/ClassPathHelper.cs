@@ -29,14 +29,13 @@ namespace MCL.Core.Minecraft.Helpers;
 
 public static class ClassPathHelper
 {
-    public static string CreateClassPath(
-        LauncherPath launcherPath,
+    public static string GetClassLibraries(
         LauncherVersion launcherVersion,
         LauncherInstance launcherInstance,
         LauncherSettings launcherSettings
     )
     {
-        if (ObjectValidator<string>.IsNullOrWhiteSpace([launcherVersion?.Version]))
+        if (ObjectValidator<string>.IsNullOrWhiteSpace([launcherVersion?.MVersion]))
             return string.Empty;
 
         string separator = launcherSettings.JavaRuntimePlatform switch
@@ -50,16 +49,11 @@ public static class ClassPathHelper
             _ => throw new NotImplementedException("Unsupported OS."),
         };
 
-        LauncherLoader mLoader = launcherInstance
-            .Versions.Where(a => a.Version == launcherVersion.Version)
-            .FirstOrDefault();
+        LauncherLoader mLoader = launcherInstance.Versions.Find(a => a.Version == launcherVersion.MVersion);
         if (ObjectValidator<LauncherLoader>.IsNull(mLoader))
             return string.Empty;
 
-        string[] libraries = mLoader
-            .Libraries.Prepend(MPathResolver.ClientLibrary(launcherVersion))
-            .Select(lib => lib.Replace("\\", "/"))
-            .ToArray();
+        string[] libraries = mLoader.Libraries.Prepend(MPathResolver.ClientLibrary(launcherVersion)).ToArray();
 
         switch (launcherSettings.ClientType)
         {
@@ -74,11 +68,7 @@ public static class ClassPathHelper
                 break;
         }
 
-        string filepath = launcherPath.Path.Replace("\\", "/");
-        return string.Join(
-            separator,
-            libraries.Select(lib => lib.Replace("\\", "/").Replace(filepath + "/", string.Empty))
-        );
+        return string.Join(separator, libraries);
     }
 
     private static string[] ManageVanillaLibraries(string[] libraries, LauncherInstance launcherInstance)

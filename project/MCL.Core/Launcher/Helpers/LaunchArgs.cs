@@ -31,18 +31,14 @@ public static class LaunchArgs
 {
     public static JvmArguments DefaultJvmArguments(Settings settings)
     {
-        if (
-            ObjectValidator<string>.IsNullOrWhiteSpace(
-                [settings?.LauncherVersion?.Version, settings?.LauncherVersion?.VersionType]
-            )
-        )
+        if (ObjectValidator<Settings>.IsNull(settings))
             return null;
 
         JvmArguments jvmArguments = new();
         string libraries = MPathResolver.Libraries(settings.LauncherVersion);
 
-        jvmArguments.Add("-Xms{0}m", ["4096"]);
-        jvmArguments.Add("-Xmx{0}m", ["4096"]);
+        jvmArguments.Add("-Xms{0}m", [settings.LauncherMemory.MemoryMinMb.ToString()]);
+        jvmArguments.Add("-Xmx{0}m", [settings.LauncherMemory.MemoryMaxMb.ToString()]);
         jvmArguments.Add("-XX:+UnlockExperimentalVMOptions");
         jvmArguments.Add("-XX:+UseG1GC");
         jvmArguments.Add("-XX:G1NewSizePercent=20");
@@ -61,8 +57,6 @@ public static class LaunchArgs
             "-Dlog4j2.configurationFile={0}",
             [MPathResolver.LoggingPath(settings.LauncherVersion)]
         );
-        jvmArguments.Add("-Dminecraft.launcher.brand={0}", ["MCL"]);
-        jvmArguments.Add("-Dminecraft.launcher.version={0}", ["1.0.0"]);
         jvmArguments.Add(
             settings.LauncherSettings.ClientType,
             ClientType.VANILLA,
@@ -84,11 +78,12 @@ public static class LaunchArgs
         jvmArguments.Add("-Dlog4j2.formatMsgNoLookups=true");
         jvmArguments.Add("-Djava.rmi.server.useCodebaseOnly=true");
         jvmArguments.Add("-Dcom.sun.jndi.rmi.object.trustURLCodebase=false");
+        jvmArguments.Add("-Dminecraft.launcher.brand={0}", [settings.LauncherVersion.Brand]);
+        jvmArguments.Add("-Dminecraft.launcher.version={0}", [settings.LauncherVersion.Version]);
         jvmArguments.Add(
             "-cp {0} {1}",
             [
-                ClassPathHelper.CreateClassPath(
-                    settings.LauncherPath,
+                ClassPathHelper.GetClassLibraries(
                     settings.LauncherVersion,
                     settings.LauncherInstance,
                     settings.LauncherSettings
@@ -97,16 +92,16 @@ public static class LaunchArgs
             ]
         );
         jvmArguments.Add("--username {0}", [settings.LauncherUsername.ValidateUsername()]);
-        jvmArguments.Add("--userType {0}", ["legacy"]);
+        jvmArguments.Add("--userType {0}", [settings.LauncherUsername.UserType]);
         jvmArguments.Add("--gameDir {0}", ["."]);
         jvmArguments.Add("--assetIndex {0}", [AssetHelper.GetAssetId(settings.LauncherPath, settings.LauncherVersion)]);
-        jvmArguments.Add("--assetsDir {0}", ["assets"]);
-        jvmArguments.Add("--accessToken {0}", ["1337535510N"]);
+        jvmArguments.Add("--assetsDir {0}", [MPathResolver.BaseAssetsPath]);
+        jvmArguments.Add("--accessToken {0}", [settings.LauncherUsername.AccessToken]);
         jvmArguments.Add("--uuid {0}", [settings.LauncherUsername.UUID()]);
         jvmArguments.Add("--clientId {0}", ["0"]);
         jvmArguments.Add("--xuid {0}", ["0"]);
-        jvmArguments.Add("--version {0}", [settings.LauncherVersion.Version]);
-        jvmArguments.Add("--versionType {0}", [settings.LauncherVersion.VersionType]);
+        jvmArguments.Add("--version {0}", [settings.LauncherVersion.MVersion]);
+        jvmArguments.Add("--versionType {0}", [$"{settings.LauncherVersion.Brand} {settings.LauncherVersion.Version}"]);
 
         return jvmArguments;
     }

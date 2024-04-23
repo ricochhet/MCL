@@ -17,7 +17,6 @@
  */
 
 using System.Collections.Generic;
-using System.Text.Encodings.Web;
 using System.Text.Json;
 using MCL.Core.Launcher.Models;
 using MCL.Core.MiniCommon;
@@ -41,8 +40,7 @@ public static class SettingsService
     private const string _logFileName = "mcl.log";
     private static readonly string _settingsFilePath = VFS.FromCwd(DataDirectory, SettingsFileName);
 
-    public static JsonSerializerOptions JsonSerializerOptions { get; set; } =
-        new() { WriteIndented = true, Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping };
+    public static JsonSerializerOptions JsonSerializerOptions { get; set; } = Json.JsonSerializerOptions;
 
     public static void Init()
     {
@@ -54,6 +52,7 @@ public static class SettingsService
                 new()
                 {
                     MainClassNames = new(),
+                    LauncherMemory = new(),
                     LauncherInstance = new(),
                     OverrideLauncherInstance = new(),
                     LauncherUsername = new(username: "Player1337"),

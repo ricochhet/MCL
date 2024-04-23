@@ -27,7 +27,7 @@ public static class AssetHelper
 {
     public static string GetAssetId(LauncherPath launcherPath, LauncherVersion launcherVersion)
     {
-        if (ObjectValidator<string>.IsNullOrWhiteSpace([launcherVersion?.Version]))
+        if (ObjectValidator<string>.IsNullOrWhiteSpace([launcherVersion?.MVersion]))
             return string.Empty;
 
         MVersionManifest versionManifest = Json.Load<MVersionManifest>(MPathResolver.VersionManifestPath(launcherPath));

@@ -38,13 +38,13 @@ public class DownloadFabricLoader : ILauncherCommand
             "--dl-fabric-loader",
             async options =>
             {
-                _launcherVersion.Version = options.GetValueOrDefault("gameversion") ?? "latest";
+                _launcherVersion.MVersion = options.GetValueOrDefault("gameversion") ?? "latest";
                 _launcherVersion.FabricLoaderVersion = options.GetValueOrDefault("loaderversion") ?? "latest";
                 if (!bool.TryParse(options.GetValueOrDefault("update") ?? "false", out bool update))
                     return;
                 if (
                     ObjectValidator<string>.IsNullOrWhiteSpace(
-                        [_launcherVersion.Version, _launcherVersion.FabricLoaderVersion]
+                        [_launcherVersion.MVersion, _launcherVersion.FabricLoaderVersion]
                     )
                 )
                     return;

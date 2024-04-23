@@ -46,8 +46,8 @@ public static class LibraryDownloader
         if (ObjectValidator<List<MLibrary>>.IsNullOrEmpty(versionDetails?.Libraries))
             return false;
 
-        string libPath = VFS.Combine(launcherPath.Path, "libraries");
-        _loader = new() { Version = launcherVersion.Version };
+        string libPath = VFS.Combine(launcherPath.MPath, "libraries");
+        _loader = new() { Version = launcherVersion.MVersion };
 
         foreach (MLibrary lib in versionDetails.Libraries)
         {

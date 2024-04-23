@@ -144,7 +144,7 @@ public class QuiltLoaderDownloadService : ILoaderDownloadService<QuiltUrls>, IDo
 
         if (
             ObjectValidator<string>.IsNullOrWhiteSpace(
-                [_launcherVersion?.Version, _launcherVersion?.QuiltLoaderVersion]
+                [_launcherVersion?.MVersion, _launcherVersion?.QuiltLoaderVersion]
             )
         )
             return false;

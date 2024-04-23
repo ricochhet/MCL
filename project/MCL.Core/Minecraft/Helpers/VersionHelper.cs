@@ -52,7 +52,7 @@ public static class VersionHelper
             return false;
 
         List<string> versions = GetVersionIds(MDownloadService.VersionManifest);
-        string version = launcherVersion.Version;
+        string version = launcherVersion.MVersion;
 
         if (version == "latest" || ObjectValidator<string>.IsNullOrWhiteSpace([version]))
             version = versions[0];
@@ -60,7 +60,7 @@ public static class VersionHelper
         if (!versions.Contains(version))
             return false;
 
-        settings.LauncherVersion.Version = version;
+        settings.LauncherVersion.MVersion = version;
         SettingsService.Save(settings);
         return true;
     }
@@ -80,7 +80,7 @@ public static class VersionHelper
     public static MVersion GetVersion(LauncherVersion launcherVersion, MVersionManifest versionManifest)
     {
         if (
-            ObjectValidator<string>.IsNullOrWhiteSpace([launcherVersion?.Version])
+            ObjectValidator<string>.IsNullOrWhiteSpace([launcherVersion?.MVersion])
             || ObjectValidator<List<MVersion>>.IsNullOrEmpty(versionManifest?.Versions)
         )
             return null;
@@ -88,14 +88,14 @@ public static class VersionHelper
         foreach (MVersion item in versionManifest.Versions)
         {
             if (
-                ObjectValidator<string>.IsNullOrWhiteSpace([launcherVersion?.Version])
+                ObjectValidator<string>.IsNullOrWhiteSpace([launcherVersion?.MVersion])
                 && item.ID == versionManifest.Latest.Release
             )
                 return item;
 
             if (
-                ObjectValidator<string>.IsNotNullOrWhiteSpace([launcherVersion?.Version])
-                && item.ID == launcherVersion.Version
+                ObjectValidator<string>.IsNotNullOrWhiteSpace([launcherVersion?.MVersion])
+                && item.ID == launcherVersion.MVersion
             )
                 return item;
         }
@@ -104,7 +104,7 @@ public static class VersionHelper
 
     public static MVersionDetails GetVersionDetails(LauncherPath launcherPath, LauncherVersion launcherVersion)
     {
-        if (ObjectValidator<string>.IsNullOrWhiteSpace([launcherVersion.Version]))
+        if (ObjectValidator<string>.IsNullOrWhiteSpace([launcherVersion.MVersion]))
             return null;
 
         MVersionManifest versionManifest = Json.Load<MVersionManifest>(MPathResolver.VersionManifestPath(launcherPath));

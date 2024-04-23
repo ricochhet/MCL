@@ -45,7 +45,7 @@ public class LaunchMinecraft : ILauncherCommand
                     options.TryGetValue("gameversion", out string version)
                     && settings.LauncherInstance.Versions.Exists(a => a.Version == version)
                 )
-                    settings.LauncherVersion.Version = version;
+                    settings.LauncherVersion.MVersion = version;
 
                 MinecraftLauncher.Launch(settings, options.GetValueOrDefault("javapath") ?? string.Empty);
             }

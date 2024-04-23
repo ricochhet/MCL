@@ -18,7 +18,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using MCL.Core.FileExtractors.Services;
 using MCL.Core.Launcher.Models;
@@ -57,11 +56,6 @@ internal static class Program
             (RequestData requestData) => NotificationService.Info("request.get.success", requestData.URL)
         );
 
-        Request.JsonSerializerOptions = new()
-        {
-            WriteIndented = true,
-            Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
-        };
         Request.HttpClientTimeOut = TimeSpan.FromMinutes(1);
         Watermark.Draw(SettingsService.WatermarkText);
 

@@ -35,7 +35,7 @@ public static class QuiltProfileDownloader
     {
         if (
             ObjectValidator<string>.IsNullOrWhiteSpace(
-                [launcherVersion?.Version, launcherVersion?.QuiltLoaderVersion, quiltUrls?.LoaderProfile]
+                [launcherVersion?.MVersion, launcherVersion?.QuiltLoaderVersion, quiltUrls?.LoaderProfile]
             )
         )
             return false;

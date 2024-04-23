@@ -20,8 +20,10 @@ namespace MCL.Core.Launcher.Models;
 
 public class LauncherVersion
 {
-    public string Version { get; set; } = string.Empty;
-    public string VersionType { get; set; } = "release";
+    public string Brand { get; set; } = "MCL";
+    public string Version { get; set; } = "1.0.0.000";
+    public string MVersion { get; set; } = string.Empty;
+    public string MVersionType { get; set; } = "release";
     public string FabricInstallerVersion { get; set; } = string.Empty;
     public string FabricLoaderVersion { get; set; } = string.Empty;
     public string QuiltInstallerVersion { get; set; } = string.Empty;
@@ -31,8 +33,8 @@ public class LauncherVersion
     public LauncherVersion() { }
 
     public LauncherVersion(
-        string version,
-        string versionType,
+        string mVersion,
+        string mVersionType,
         string fabricInstallerVersion,
         string fabricLoaderVersion,
         string quiltInstallerVersion,
@@ -40,8 +42,8 @@ public class LauncherVersion
         string paperServerVersion
     )
     {
-        Version = version;
-        VersionType = versionType;
+        MVersion = mVersion;
+        MVersionType = mVersionType;
         FabricInstallerVersion = fabricInstallerVersion;
         FabricLoaderVersion = fabricLoaderVersion;
         QuiltInstallerVersion = quiltInstallerVersion;
@@ -52,8 +54,8 @@ public class LauncherVersion
     public static LauncherVersion Latest() =>
         new()
         {
-            Version = "latest",
-            VersionType = "release",
+            MVersion = "latest",
+            MVersionType = "release",
             FabricInstallerVersion = "latest",
             FabricLoaderVersion = "latest",
             QuiltInstallerVersion = "latest",

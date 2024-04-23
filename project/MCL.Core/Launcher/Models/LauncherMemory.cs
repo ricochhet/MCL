@@ -16,28 +16,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using MCL.Core.Java.Helpers;
-using MCL.Core.Launcher.Extensions;
-using MCL.Core.Launcher.Models;
-using MCL.Core.MiniCommon;
-using MCL.Core.Servers.Paper.Resolvers;
+namespace MCL.Core.Launcher.Models;
 
-namespace MCL.Core.Servers.Paper.Helpers;
-
-public static class PaperLauncher
+public class LauncherMemory
 {
-    public static void Launch(Settings settings, string javaHome)
-    {
-        if (ObjectValidator<Settings>.IsNull(settings))
-            return;
-
-        settings.Save(PaperServerArgs.DefaultJvmArguments(settings));
-        JavaLauncher.Launch(
-            settings,
-            PaperPathResolver.InstallerPath(settings.LauncherPath, settings.LauncherVersion),
-            settings.PaperJvmArguments,
-            settings.LauncherSettings.JavaRuntimeType,
-            javaHome
-        );
-    }
+    public int MemoryMinMb { get; set; } = 4096;
+    public int MemoryMaxMb { get; set; } = 4096;
 }

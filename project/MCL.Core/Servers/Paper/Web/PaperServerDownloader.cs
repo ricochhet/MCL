@@ -55,7 +55,7 @@ public static class PaperServerDownloader
                 string.Format(
                     paperUrls.PaperJar,
                     "paper",
-                    launcherVersion.Version,
+                    launcherVersion.MVersion,
                     paperBuild.Build.ToString(),
                     paperBuild.Downloads.Application.Name
                 ),

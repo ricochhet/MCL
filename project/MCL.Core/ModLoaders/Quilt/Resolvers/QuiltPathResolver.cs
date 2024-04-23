@@ -27,7 +27,7 @@ public static class QuiltPathResolver
     public static string ModPath(LauncherPath launcherPath) => VFS.FromCwd(launcherPath.QuiltPath, "mods");
 
     public static string ModCategoryPath(LauncherPath launcherPath, LauncherVersion launcherVersion) =>
-        VFS.Combine(ModPath(launcherPath), launcherVersion.Version);
+        VFS.Combine(ModPath(launcherPath), launcherVersion.MVersion);
 
     public static string InstallerPath(LauncherPath launcherPath, LauncherVersion launcherVersion) =>
         VFS.Combine(
@@ -44,12 +44,12 @@ public static class QuiltPathResolver
     public static string ProfilePath(LauncherPath launcherPath, LauncherVersion launcherVersion) =>
         VFS.FromCwd(
             launcherPath.QuiltPath,
-            $"quilt_profile-{launcherVersion.Version}-{launcherVersion.QuiltLoaderVersion}.json"
+            $"quilt_profile-{launcherVersion.MVersion}-{launcherVersion.QuiltLoaderVersion}.json"
         );
 
     public static string LoaderJarPath(QuiltUrls quiltUrls, LauncherVersion launcherVersion) =>
         quiltUrls.LoaderJar.Replace("{0}", launcherVersion.QuiltLoaderVersion);
 
     public static string LoaderProfilePath(QuiltUrls quiltUrls, LauncherVersion launcherVersion) =>
-        string.Format(quiltUrls.LoaderProfile, launcherVersion.Version, launcherVersion.QuiltLoaderVersion);
+        string.Format(quiltUrls.LoaderProfile, launcherVersion.MVersion, launcherVersion.QuiltLoaderVersion);
 }

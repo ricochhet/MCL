@@ -24,7 +24,7 @@ namespace MCL.Core.Java.Resolvers;
 
 public static class JavaPathResolver
 {
-    public static string JavaRuntimePath(LauncherPath launcherPath) => VFS.Combine(launcherPath.Path, "runtime");
+    public static string JavaRuntimePath(LauncherPath launcherPath) => VFS.Combine(launcherPath.MPath, "runtime");
 
     public static string JavaRuntimeHome(string workingDirectory, JavaRuntimeType javaRuntimeType) =>
         VFS.Combine(workingDirectory, "runtime", JavaRuntimeTypeResolver.ToString(javaRuntimeType));

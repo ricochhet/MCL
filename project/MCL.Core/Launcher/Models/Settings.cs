@@ -30,6 +30,7 @@ namespace MCL.Core.Launcher.Models;
 public class Settings
 {
     public MainClassNames MainClassNames { get; set; }
+    public LauncherMemory LauncherMemory { get; set; }
 
     public LauncherInstance LauncherInstance { get; set; }
 
