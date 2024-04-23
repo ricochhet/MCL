@@ -26,6 +26,9 @@ namespace MCL.Core.ModLoaders.Fabric.Helpers;
 
 public static class FabricInstallerArgs
 {
+    /// <summary>
+    /// The default JvmArguments to run the Fabric installer.
+    /// </summary>
     public static JvmArguments DefaultJvmArguments(
         LauncherPath launcherPath,
         LauncherVersion launcherVersion,

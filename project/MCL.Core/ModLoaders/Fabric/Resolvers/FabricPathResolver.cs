@@ -24,11 +24,20 @@ namespace MCL.Core.ModLoaders.Fabric.Resolvers;
 
 public static class FabricPathResolver
 {
+    /// <summary>
+    /// The Fabric mod path.
+    /// </summary>
     public static string ModPath(LauncherPath launcherPath) => VFS.FromCwd(launcherPath.FabricPath, "mods");
 
-    public static string ModCategoryPath(LauncherPath launcherPath, LauncherVersion launcherVersion) =>
+    /// <summary>
+    /// The Fabric mod version path specified by the MVersion.
+    /// </summary>
+    public static string ModVersionPath(LauncherPath launcherPath, LauncherVersion launcherVersion) =>
         VFS.Combine(ModPath(launcherPath), launcherVersion.MVersion);
 
+    /// <summary>
+    /// The Fabric installer jar path specified by the FabricInstallerVersion.
+    /// </summary>
     public static string InstallerPath(LauncherPath launcherPath, LauncherVersion launcherVersion) =>
         VFS.Combine(
             launcherPath.FabricPath,
@@ -36,21 +45,36 @@ public static class FabricPathResolver
             $"fabric-installer-{launcherVersion.FabricInstallerVersion}.jar"
         );
 
+    /// <summary>
+    /// The base installer path for Fabric installers.
+    /// </summary>
     public static string InstallersPath(LauncherPath launcherPath) =>
         VFS.Combine(launcherPath.FabricPath, "installers");
 
+    /// <summary>
+    /// The Fabric manifest path.
+    /// </summary>
     public static string VersionManifestPath(LauncherPath launcherPath) =>
         VFS.FromCwd(launcherPath.FabricPath, "fabric_manifest.json");
 
+    /// <summary>
+    /// The Fabric profile path specified by the FabricLoaderVersion.
+    /// </summary>
     public static string ProfilePath(LauncherPath launcherPath, LauncherVersion launcherVersion) =>
         VFS.FromCwd(
             launcherPath.FabricPath,
             $"fabric_profile-{launcherVersion.MVersion}-{launcherVersion.FabricLoaderVersion}.json"
         );
 
+    /// <summary>
+    /// The Fabric loader jar path specified by the FabricLoaderVersion.
+    /// </summary>
     public static string LoaderJarPath(FabricUrls fabricUrls, LauncherVersion launcherVersion) =>
         fabricUrls.LoaderJar.Replace("{0}", launcherVersion.FabricLoaderVersion);
 
+    /// <summary>
+    /// The Fabric loader profile path specified by the FabricLoaderVersion.
+    /// </summary>
     public static string LoaderProfilePath(FabricUrls fabricUrls, LauncherVersion launcherVersion) =>
         string.Format(fabricUrls.LoaderProfile, launcherVersion.MVersion, launcherVersion.FabricLoaderVersion);
 }

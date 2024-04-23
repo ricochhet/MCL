@@ -23,6 +23,9 @@ namespace MCL.Core.ModLoaders.Fabric.Resolvers;
 
 public static class FabricInstallerTypeResolver
 {
+    /// <summary>
+    /// Convert FabricInstallerType into installation option string.
+    /// </summary>
     public static string ToString(FabricInstallerType type) =>
         type switch
         {

@@ -38,6 +38,9 @@ public class QuiltInstallerDownloadService : IJarDownloadService<QuiltUrls>, IDo
     private static QuiltUrls _quiltUrls;
     private static bool _loaded = false;
 
+    /// <summary>
+    /// Initialize the Quilt installer download service.
+    /// </summary>
     public static void Init(LauncherPath launcherPath, LauncherVersion launcherVersion, QuiltUrls quiltUrls)
     {
         _launcherPath = launcherPath;
@@ -46,6 +49,9 @@ public class QuiltInstallerDownloadService : IJarDownloadService<QuiltUrls>, IDo
         _loaded = true;
     }
 
+    /// <summary>
+    /// Download all parts of the Quilt installer.
+    /// </summary>
     public static async Task<bool> Download(bool useLocalVersionManifest = false)
     {
         if (!_loaded)
@@ -66,6 +72,9 @@ public class QuiltInstallerDownloadService : IJarDownloadService<QuiltUrls>, IDo
         return true;
     }
 
+    /// <summary>
+    /// Download the Quilt version manifest.
+    /// </summary>
     public static async Task<bool> DownloadVersionManifest()
     {
         if (!_loaded)
@@ -80,6 +89,9 @@ public class QuiltInstallerDownloadService : IJarDownloadService<QuiltUrls>, IDo
         return true;
     }
 
+    /// <summary>
+    /// Load the Quilt version manifest from the download path.
+    /// </summary>
     public static bool LoadVersionManifest()
     {
         if (!_loaded)
@@ -95,6 +107,9 @@ public class QuiltInstallerDownloadService : IJarDownloadService<QuiltUrls>, IDo
         return true;
     }
 
+    /// <summary>
+    /// Load the Quilt version manifest from the download path, without logging errors if loading failed.
+    /// </summary>
     public static bool LoadVersionManifestWithoutLogging()
     {
         if (!_loaded)
@@ -107,6 +122,9 @@ public class QuiltInstallerDownloadService : IJarDownloadService<QuiltUrls>, IDo
         return true;
     }
 
+    /// <summary>
+    /// Load the Quilt installer version specified by the QuiltInstallerVersion from the QuiltVersionManifest download path.
+    /// </summary>
     public static bool LoadVersion()
     {
         if (!_loaded)
@@ -122,6 +140,9 @@ public class QuiltInstallerDownloadService : IJarDownloadService<QuiltUrls>, IDo
         return true;
     }
 
+    /// <summary>
+    /// Download the Quilt installer.
+    /// </summary>
     public static async Task<bool> DownloadJar()
     {
         if (!_loaded)

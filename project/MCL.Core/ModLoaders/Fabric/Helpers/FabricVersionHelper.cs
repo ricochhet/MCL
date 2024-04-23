@@ -28,6 +28,9 @@ namespace MCL.Core.ModLoaders.Fabric.Helpers;
 
 public static class FabricVersionHelper
 {
+    /// <summary>
+    /// Get the Fabric manifest and set the version of FabricInstallerVersion in Settings.
+    /// </summary>
     public static async Task<bool> SetInstallerVersion(
         Settings settings,
         LauncherVersion launcherVersion,
@@ -58,6 +61,9 @@ public static class FabricVersionHelper
         return true;
     }
 
+    /// <summary>
+    /// Get the Fabric manifest and set the version of FabricLoaderVersion in Settings.
+    /// </summary>
     public static async Task<bool> SetLoaderVersion(
         Settings settings,
         LauncherVersion launcherVersion,
@@ -93,6 +99,9 @@ public static class FabricVersionHelper
         return true;
     }
 
+    /// <summary>
+    /// Get a list of Fabric installer version identifiers.
+    /// </summary>
     public static List<string> GetInstallerVersionIds(FabricVersionManifest fabricVersionManifest)
     {
         if (ObjectValidator<List<FabricInstaller>>.IsNullOrEmpty(fabricVersionManifest?.Installer))
@@ -107,6 +116,9 @@ public static class FabricVersionHelper
         return versions;
     }
 
+    /// <summary>
+    /// Get a list of Fabric loader version identifiers.
+    /// </summary>
     public static List<string> GetLoaderVersionIds(FabricVersionManifest fabricVersionManifest)
     {
         if (ObjectValidator<List<FabricLoader>>.IsNullOrEmpty(fabricVersionManifest?.Loader))
@@ -121,6 +133,9 @@ public static class FabricVersionHelper
         return versions;
     }
 
+    /// <summary>
+    /// Get a FabricInstaller object from the FabricVersionManifest.
+    /// </summary>
     public static FabricInstaller GetInstallerVersion(
         LauncherVersion installerVersion,
         FabricVersionManifest fabricVersionManifest
@@ -147,6 +162,9 @@ public static class FabricVersionHelper
         return fabricInstaller;
     }
 
+    /// <summary>
+    /// Get a FabricLoader object from the FabricVersionManifest.
+    /// </summary>
     public static FabricLoader GetLoaderVersion(
         LauncherVersion loaderVersion,
         FabricVersionManifest fabricVersionManifest

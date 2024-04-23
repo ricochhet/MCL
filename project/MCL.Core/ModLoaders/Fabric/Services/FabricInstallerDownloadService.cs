@@ -38,6 +38,9 @@ public class FabricInstallerDownloadService : IJarDownloadService<FabricUrls>, I
     private static FabricUrls _fabricUrls;
     private static bool _loaded = false;
 
+    /// <summary>
+    /// Initialize the Fabric installer download service.
+    /// </summary>
     public static void Init(LauncherPath launcherPath, LauncherVersion launcherVersion, FabricUrls fabricUrls)
     {
         _launcherPath = launcherPath;
@@ -46,6 +49,9 @@ public class FabricInstallerDownloadService : IJarDownloadService<FabricUrls>, I
         _loaded = true;
     }
 
+    /// <summary>
+    /// Download all parts of the Fabric installer.
+    /// </summary>
     public static async Task<bool> Download(bool useLocalVersionManifest = false)
     {
         if (!_loaded)
@@ -66,6 +72,9 @@ public class FabricInstallerDownloadService : IJarDownloadService<FabricUrls>, I
         return true;
     }
 
+    /// <summary>
+    /// Download the Fabric version manifest.
+    /// </summary>
     public static async Task<bool> DownloadVersionManifest()
     {
         if (!_loaded)
@@ -80,6 +89,9 @@ public class FabricInstallerDownloadService : IJarDownloadService<FabricUrls>, I
         return true;
     }
 
+    /// <summary>
+    /// Load the Fabric version manifest from the download path.
+    /// </summary>
     public static bool LoadVersionManifest()
     {
         if (!_loaded)
@@ -95,6 +107,9 @@ public class FabricInstallerDownloadService : IJarDownloadService<FabricUrls>, I
         return true;
     }
 
+    /// <summary>
+    /// Load the Fabric version manifest from the download path, without logging errors if loading failed.
+    /// </summary>
     public static bool LoadVersionManifestWithoutLogging()
     {
         if (!_loaded)
@@ -107,6 +122,9 @@ public class FabricInstallerDownloadService : IJarDownloadService<FabricUrls>, I
         return true;
     }
 
+    /// <summary>
+    /// Load the Fabric installer version specified by the FabricInstallerVersion from the FabricVersionManifest download path.
+    /// </summary>
     public static bool LoadVersion()
     {
         if (!_loaded)
@@ -122,6 +140,9 @@ public class FabricInstallerDownloadService : IJarDownloadService<FabricUrls>, I
         return true;
     }
 
+    /// <summary>
+    /// Download the Fabric installer.
+    /// </summary>
     public static async Task<bool> DownloadJar()
     {
         if (!_loaded)

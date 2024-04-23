@@ -28,6 +28,9 @@ namespace MCL.Core.ModLoaders.Quilt.Helpers;
 
 public static class QuiltVersionHelper
 {
+    /// <summary>
+    /// Get the Fabric Quilt and set the version of QuiltInstallerVersion in Settings.
+    /// </summary>
     public static async Task<bool> SetInstallerVersion(
         Settings settings,
         LauncherVersion launcherVersion,
@@ -58,6 +61,9 @@ public static class QuiltVersionHelper
         return true;
     }
 
+    /// <summary>
+    /// Get the Quilt manifest and set the version of QuiltLoaderVersion in Settings.
+    /// </summary>
     public static async Task<bool> SetLoaderVersion(
         Settings settings,
         LauncherVersion launcherVersion,
@@ -93,6 +99,9 @@ public static class QuiltVersionHelper
         return true;
     }
 
+    /// <summary>
+    /// Get a list of Quilt installer version identifiers.
+    /// </summary>
     public static List<string> GetInstallerVersionIds(QuiltVersionManifest quiltVersionManifest)
     {
         if (ObjectValidator<List<QuiltInstaller>>.IsNullOrEmpty(quiltVersionManifest?.Installer))
@@ -107,6 +116,9 @@ public static class QuiltVersionHelper
         return versions;
     }
 
+    /// <summary>
+    /// Get a list of Quilt loader version identifiers.
+    /// </summary>
     public static List<string> GetLoaderVersionIds(QuiltVersionManifest quiltVersionManifest)
     {
         if (ObjectValidator<List<QuiltLoader>>.IsNullOrEmpty(quiltVersionManifest?.Loader))
@@ -121,6 +133,9 @@ public static class QuiltVersionHelper
         return versions;
     }
 
+    /// <summary>
+    /// Get a QuiltInstaller object from the QuiltVersionManifest.
+    /// </summary>
     public static QuiltInstaller GetInstallerVersion(
         LauncherVersion installerVersion,
         QuiltVersionManifest quiltVersionManifest
@@ -147,6 +162,9 @@ public static class QuiltVersionHelper
         return quiltInstaller;
     }
 
+    /// <summary>
+    /// Get a QuiltLoader object from the QuiltVersionManifest.
+    /// </summary>
     public static QuiltLoader GetLoaderVersion(LauncherVersion loaderVersion, QuiltVersionManifest quiltVersionManifest)
     {
         if (

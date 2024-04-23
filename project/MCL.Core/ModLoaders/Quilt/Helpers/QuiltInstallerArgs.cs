@@ -27,6 +27,9 @@ namespace MCL.Core.ModLoaders.Quilt.Helpers;
 
 public static class QuiltInstallerArgs
 {
+    /// <summary>
+    /// The default JvmArguments to run the Quilt installer.
+    /// </summary>
     public static JvmArguments DefaultJvmArguments(
         LauncherPath launcherPath,
         LauncherVersion launcherVersion,

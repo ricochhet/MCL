@@ -23,6 +23,9 @@ namespace MCL.Core.ModLoaders.Quilt.Resolvers;
 
 public static class QuiltInstallerTypeResolver
 {
+    /// <summary>
+    /// Convert QuiltInstallerType into installation option string.
+    /// </summary>
     public static string ToString(QuiltInstallerType type) =>
         type switch
         {

@@ -24,11 +24,20 @@ namespace MCL.Core.ModLoaders.Quilt.Resolvers;
 
 public static class QuiltPathResolver
 {
+    /// <summary>
+    /// The Quilt mod path.
+    /// </summary>
     public static string ModPath(LauncherPath launcherPath) => VFS.FromCwd(launcherPath.QuiltPath, "mods");
 
-    public static string ModCategoryPath(LauncherPath launcherPath, LauncherVersion launcherVersion) =>
+    /// <summary>
+    /// The Quilt mod version path specified by the MVersion.
+    /// </summary>
+    public static string ModVersionPath(LauncherPath launcherPath, LauncherVersion launcherVersion) =>
         VFS.Combine(ModPath(launcherPath), launcherVersion.MVersion);
 
+    /// <summary>
+    /// The Quilt installer jar path specified by the QuiltInstallerVersion.
+    /// </summary>
     public static string InstallerPath(LauncherPath launcherPath, LauncherVersion launcherVersion) =>
         VFS.Combine(
             launcherPath.QuiltPath,
@@ -36,20 +45,35 @@ public static class QuiltPathResolver
             $"quilt-installer-{launcherVersion.QuiltInstallerVersion}.jar"
         );
 
+    /// <summary>
+    /// The base installer path for Quilt installers.
+    /// </summary>
     public static string InstallersPath(LauncherPath launcherPath) => VFS.Combine(launcherPath.QuiltPath, "installers");
 
+    /// <summary>
+    /// The Quilt manifest path.
+    /// </summary>
     public static string VersionManifestPath(LauncherPath launcherPath) =>
         VFS.FromCwd(launcherPath.QuiltPath, "quilt_manifest.json");
 
+    /// <summary>
+    /// The Quilt profile path specified by the QuiltLoaderVersion.
+    /// </summary>
     public static string ProfilePath(LauncherPath launcherPath, LauncherVersion launcherVersion) =>
         VFS.FromCwd(
             launcherPath.QuiltPath,
             $"quilt_profile-{launcherVersion.MVersion}-{launcherVersion.QuiltLoaderVersion}.json"
         );
 
+    /// <summary>
+    /// The Quilt loader jar path specified by the QuiltLoaderVersion.
+    /// </summary>
     public static string LoaderJarPath(QuiltUrls quiltUrls, LauncherVersion launcherVersion) =>
         quiltUrls.LoaderJar.Replace("{0}", launcherVersion.QuiltLoaderVersion);
 
+    /// <summary>
+    /// The Quilt loader profile path specified by the QuiltLoaderVersion.
+    /// </summary>
     public static string LoaderProfilePath(QuiltUrls quiltUrls, LauncherVersion launcherVersion) =>
         string.Format(quiltUrls.LoaderProfile, launcherVersion.MVersion, launcherVersion.QuiltLoaderVersion);
 }
