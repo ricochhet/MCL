@@ -28,6 +28,9 @@ namespace MCL.Core.Java.Extensions;
 
 public static class JvmArgumentExt
 {
+    /// <summary>
+    /// Compares ClientType 'A' to ClientType 'B' and adds argument if successful.
+    /// </summary>
     public static void Add(
         this JvmArguments jvmArguments,
         ClientType a,
@@ -41,6 +44,9 @@ public static class JvmArgumentExt
             jvmArguments.Add(arg, argParams, priority);
     }
 
+    /// <summary>
+    /// Compares LauncherType 'A' to LauncherType 'B' and adds argument if successful.
+    /// </summary>
     public static void Add(
         this JvmArguments jvmArguments,
         LauncherType a,
@@ -54,6 +60,9 @@ public static class JvmArgumentExt
             jvmArguments.Add(arg, argParams, priority);
     }
 
+    /// <summary>
+    /// Compares FabricInstallerType 'A' to FabricInstallerType 'B' and adds argument if successful.
+    /// </summary>
     public static void Add(
         this JvmArguments jvmArguments,
         FabricInstallerType a,
@@ -67,6 +76,9 @@ public static class JvmArgumentExt
             jvmArguments.Add(arg, argParams, priority);
     }
 
+    /// <summary>
+    /// Compares QuiltInstallerType 'A' to QuiltInstallerType 'B' and adds argument if successful.
+    /// </summary>
     public static void Add(
         this JvmArguments jvmArguments,
         QuiltInstallerType a,
@@ -80,6 +92,9 @@ public static class JvmArgumentExt
             jvmArguments.Add(arg, argParams, priority);
     }
 
+    /// <summary>
+    /// Combines two JvmArguments objects and keeps the last occurences of 'Arg'.
+    /// </summary>
     public static JvmArguments Concat(this JvmArguments jvmArguments, JvmArguments concat)
     {
         List<LaunchArg> arguments = jvmArguments

@@ -39,6 +39,9 @@ public class JavaDownloadService : IDownloadService
     private static JavaRuntimeType _javaRuntimeType;
     private static JavaRuntimePlatform _javaRuntimePlatform;
 
+    /// <summary>
+    /// Initialize the Java Download Service.
+    /// </summary>
     public static void Init(
         LauncherPath launcherPath,
         MUrls mUrls,
@@ -52,6 +55,9 @@ public class JavaDownloadService : IDownloadService
         _javaRuntimePlatform = javaRuntimePlatform;
     }
 
+    /// <summary>
+    /// Download all parts of the Java runtime environment.
+    /// </summary>
     public static async Task<bool> Download(bool useLocalVersionManifest = false)
     {
         if (!useLocalVersionManifest && !await DownloadJavaVersionManifest())
@@ -72,6 +78,9 @@ public class JavaDownloadService : IDownloadService
         return true;
     }
 
+    /// <summary>
+    /// Exclusively download the Java version manifest.
+    /// </summary>
     public static async Task<bool> DownloadJavaVersionManifest()
     {
         if (!await JavaVersionManifestDownloader.Download(_launcherPath, _mUrls))
@@ -83,10 +92,13 @@ public class JavaDownloadService : IDownloadService
         return true;
     }
 
+    /// <summary>
+    /// Load the Java version manifest from the download path.
+    /// </summary>
     public static bool LoadJavaVersionManifest()
     {
         _javaVersionManifest = Json.Load<JavaVersionManifest>(
-            JavaPathResolver.DownloadedJavaVersionManifestPath(_launcherPath)
+            JavaPathResolver.JavaVersionManifestPath(_launcherPath)
         );
         if (ObjectValidator<JavaVersionManifest>.IsNull(_javaVersionManifest))
         {
@@ -97,10 +109,13 @@ public class JavaDownloadService : IDownloadService
         return true;
     }
 
+    /// <summary>
+    /// Load the Java version manifest from the download path, without logging errors if loading failed.
+    /// </summary>
     public static bool LoadJavaVersionManifestWithoutLogging()
     {
         _javaVersionManifest = Json.Load<JavaVersionManifest>(
-            JavaPathResolver.DownloadedJavaVersionManifestPath(_launcherPath)
+            JavaPathResolver.JavaVersionManifestPath(_launcherPath)
         );
         if (ObjectValidator<JavaVersionManifest>.IsNull(_javaVersionManifest, NativeLogLevel.Debug))
             return false;
@@ -108,6 +123,9 @@ public class JavaDownloadService : IDownloadService
         return true;
     }
 
+    /// <summary>
+    /// Exclusively download the Java version details.
+    /// </summary>
     public static async Task<bool> DownloadJavaVersionDetails()
     {
         if (
@@ -126,10 +144,13 @@ public class JavaDownloadService : IDownloadService
         return true;
     }
 
+    /// <summary>
+    /// Load the Java version details from the download path.
+    /// </summary>
     public static bool LoadJavaVersionDetails()
     {
         _javaVersionDetails = Json.Load<JavaVersionDetails>(
-            JavaPathResolver.DownloadedJavaVersionDetailsPath(
+            JavaPathResolver.JavaVersionDetailsPath(
                 _launcherPath,
                 JavaRuntimeTypeResolver.ToString(_javaRuntimeType)
             )
@@ -143,6 +164,9 @@ public class JavaDownloadService : IDownloadService
         return true;
     }
 
+    /// <summary>
+    /// Download the Java runtime environment.
+    /// </summary>
     public static async Task<bool> DownloadJavaRuntime()
     {
         if (!await JavaRuntimeDownloader.Download(_launcherPath, _javaRuntimeType, _javaVersionDetails))

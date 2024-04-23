@@ -27,6 +27,10 @@ namespace MCL.Core.Java.Helpers;
 
 public static class JavaRuntimeHelper
 {
+    /// <summary>
+    /// Attempts to find a pre-installed Java runtime environment in the specified working directory.
+    /// If no environment is found, attempt to look in the PATH variables for 'JAVA_HOME'.
+    /// </summary>
     public static string FindJavaRuntimeEnvironment(
         Settings settings,
         string workingDirectory,

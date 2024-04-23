@@ -23,6 +23,9 @@ namespace MCL.Core.Java.Resolvers;
 
 public static class JavaRuntimeTypeResolver
 {
+    /// <summary>
+    /// Convert JavaRuntimeType into a direct string.
+    /// </summary>
     public static string ToString(JavaRuntimeType type) =>
         type switch
         {

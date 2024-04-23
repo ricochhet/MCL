@@ -29,6 +29,9 @@ namespace MCL.Core.Java.Helpers;
 
 public static class JavaLauncher
 {
+    /// <summary>
+    /// Starts a Java runtime process with the specified arguments.
+    /// </summary>
     public static void Launch(
         Settings settings,
         string workingDirectory,
@@ -50,6 +53,9 @@ public static class JavaLauncher
         RunJavaProcess(settings, workingDirectory, jvmArguments, javaExe, _javaHome);
     }
 
+    /// <summary>
+    /// Starts a Java runtime process with the arguments specified by ClientType.
+    /// </summary>
     public static void Launch(
         Settings settings,
         string workingDirectory,
@@ -89,6 +95,9 @@ public static class JavaLauncher
         }
     }
 
+    /// <summary>
+    /// Starts a Java runtime process with the corresponding environment variables.
+    /// </summary>
     private static void RunJavaProcess(
         Settings settings,
         string workingDirectory,
@@ -106,6 +115,9 @@ public static class JavaLauncher
         );
     }
 
+    /// <summary>
+    /// Validates the JvmArguments are not null, or empty.
+    /// </summary>
     private static bool JvmArgumentsExist(Settings settings, JvmArguments jvmArguments) =>
         ObjectValidator<Settings>.IsNotNull(settings)
         && ObjectValidator<LaunchArg>.IsNotNullOrEmpty(jvmArguments?.Arguments);

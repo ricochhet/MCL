@@ -37,7 +37,7 @@ public class DownloadJava : ILauncherCommand
                 JavaDownloadService.Init(
                     settings.LauncherPath,
                     settings.MUrls,
-                    JavaVersionHelper.GetDownloadedMCVersionJava(
+                    JavaVersionHelper.GetMVersionJava(
                         settings.LauncherPath,
                         settings.LauncherVersion,
                         settings.LauncherSettings

@@ -24,22 +24,37 @@ namespace MCL.Core.Java.Resolvers;
 
 public static class JavaPathResolver
 {
+    /// <summary>
+    /// The Java runtime path.
+    /// </summary>
     public static string JavaRuntimePath(LauncherPath launcherPath) => VFS.Combine(launcherPath.MPath, "runtime");
 
+    /// <summary>
+    /// The Java runtime 'home' specified by the working directory.
+    /// </summary>
     public static string JavaRuntimeHome(string workingDirectory, JavaRuntimeType javaRuntimeType) =>
         VFS.Combine(workingDirectory, "runtime", JavaRuntimeTypeResolver.ToString(javaRuntimeType));
 
-    public static string JavaRuntimeBin(string workingDirectory, JavaRuntimeType javaRuntimeType) =>
-        VFS.Combine(JavaRuntimeHome(workingDirectory, javaRuntimeType), "bin");
-
+    /// <summary>
+    /// The Java runtime 'bin' specified by the working directory.
+    /// </summary>
     public static string JavaRuntimeBin(string workingDirectory) => VFS.Combine(workingDirectory, "bin");
 
-    public static string DownloadedJavaVersionManifestPath(LauncherPath launcherPath) =>
+    /// <summary>
+    /// The Java runtime version manifest path.
+    /// </summary>
+    public static string JavaVersionManifestPath(LauncherPath launcherPath) =>
         VFS.Combine(JavaRuntimePath(launcherPath), "version_details.json");
 
-    public static string DownloadedJavaVersionDetailsPath(LauncherPath launcherPath, string javaRuntimeVersion) =>
+    /// <summary>
+    /// The Java runtime version details path.
+    /// </summary>
+    public static string JavaVersionDetailsPath(LauncherPath launcherPath, string javaRuntimeVersion) =>
         VFS.Combine(JavaRuntimePath(launcherPath), javaRuntimeVersion, $"{javaRuntimeVersion}.json");
 
-    public static string DownloadedJavaRuntimePath(LauncherPath launcherPath, string javaRuntimeVersion) =>
+    /// <summary>
+    /// The Java runtime version path.
+    /// </summary>
+    public static string JavaRuntimeVersionPath(LauncherPath launcherPath, string javaRuntimeVersion) =>
         VFS.Combine(JavaRuntimePath(launcherPath), javaRuntimeVersion);
 }

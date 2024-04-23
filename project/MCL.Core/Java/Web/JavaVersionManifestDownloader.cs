@@ -28,12 +28,15 @@ namespace MCL.Core.Java.Web;
 
 public static class JavaVersionManifestDownloader
 {
+    /// <summary>
+    /// Download the Java version manifest.
+    /// </summary>
     public static async Task<bool> Download(LauncherPath launcherPath, MUrls mUrls)
     {
         if (ObjectValidator<string>.IsNullOrWhiteSpace([mUrls?.JavaVersionManifest]))
             return false;
 
-        string filepath = JavaPathResolver.DownloadedJavaVersionManifestPath(launcherPath);
+        string filepath = JavaPathResolver.JavaVersionManifestPath(launcherPath);
         string javaVersionManifest = await Request.GetJsonAsync<JavaVersionManifest>(
             mUrls.JavaVersionManifest,
             filepath,

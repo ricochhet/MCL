@@ -35,7 +35,7 @@ public class Log
     {
         get
         {
-            _instance ??= new Log();
+            _instance ??= new();
 
             return _instance;
         }

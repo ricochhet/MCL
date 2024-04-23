@@ -28,6 +28,9 @@ namespace MCL.Core.Java.Web;
 
 public static class JavaRuntimeDownloader
 {
+    /// <summary>
+    /// Download the Java runtime environment specified by JavaRuntimeType.
+    /// </summary>
     public static async Task<bool> Download(
         LauncherPath launcherPath,
         JavaRuntimeType javaRuntimeType,
@@ -55,7 +58,7 @@ public static class JavaRuntimeDownloader
                     !await Request.DownloadSHA1(
                         javaRuntimeFile.Downloads.Raw.URL,
                         VFS.Combine(
-                            JavaPathResolver.DownloadedJavaRuntimePath(
+                            JavaPathResolver.JavaRuntimeVersionPath(
                                 launcherPath,
                                 JavaRuntimeTypeResolver.ToString(javaRuntimeType)
                             ),

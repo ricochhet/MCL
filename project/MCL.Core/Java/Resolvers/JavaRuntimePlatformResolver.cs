@@ -23,6 +23,9 @@ namespace MCL.Core.Java.Resolvers;
 
 public static class JavaRuntimePlatformResolver
 {
+    /// <summary>
+    /// Convert JavaRuntimePlatform into a direct string.
+    /// </summary>
     public static string ToString(JavaRuntimePlatform type) =>
         type switch
         {
@@ -37,6 +40,9 @@ public static class JavaRuntimePlatformResolver
             _ => throw new ArgumentOutOfRangeException(nameof(type)),
         };
 
+    /// <summary>
+    /// Convert JavaRuntimePlatform into a base platform name.
+    /// </summary>
     public static string ToPlatformString(JavaRuntimePlatform type) =>
         type switch
         {

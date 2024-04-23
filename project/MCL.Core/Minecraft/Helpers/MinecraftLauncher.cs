@@ -43,7 +43,7 @@ public static class MinecraftLauncher
             settings,
             settings.LauncherPath.MPath,
             settings.LauncherSettings.ClientType,
-            JavaVersionHelper.GetDownloadedMCVersionJava(
+            JavaVersionHelper.GetMVersionJava(
                 settings.LauncherPath,
                 settings.LauncherVersion,
                 settings.LauncherSettings

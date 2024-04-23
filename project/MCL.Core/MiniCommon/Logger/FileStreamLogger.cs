@@ -38,16 +38,16 @@ public class FileStreamLogger : ILogger, IDisposable
 
     public FileStreamLogger(string filePath)
     {
-        _queue = new Queue<FileStreamLog>();
-        _stream = new StreamWriter(filePath, append: true);
+        _queue = new();
+        _stream = new(filePath, append: true);
         AppDomain.CurrentDomain.UnhandledException += UnhandledException;
         Task.Run(Flush);
     }
 
     public FileStreamLogger(string filePath, NativeLogLevel minLevel)
     {
-        _queue = new Queue<FileStreamLog>();
-        _stream = new StreamWriter(filePath, append: true);
+        _queue = new();
+        _stream = new(filePath, append: true);
         _minLevel = minLevel;
         AppDomain.CurrentDomain.UnhandledException += UnhandledException;
         Task.Run(Flush);
@@ -102,7 +102,7 @@ public class FileStreamLogger : ILogger, IDisposable
         {
             if ((int)level < (int)_minLevel)
                 return Task.FromResult(true);
-            _queue.Enqueue(new FileStreamLog(level, message));
+            _queue.Enqueue(new(level, message));
             Monitor.Pulse(_mutex);
         }
         return Task.FromResult(true);

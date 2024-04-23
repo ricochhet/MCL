@@ -27,7 +27,10 @@ namespace MCL.Core.Java.Helpers;
 
 public static class JavaVersionHelper
 {
-    public static JavaRuntimeType GetDownloadedMCVersionJava(
+    /// <summary>
+    /// Find the Java runtime version specified for the specified MVersion.
+    /// </summary>
+    public static JavaRuntimeType GetMVersionJava(
         LauncherPath launcherPath,
         LauncherVersion launcherVersion,
         LauncherSettings launcherSettings

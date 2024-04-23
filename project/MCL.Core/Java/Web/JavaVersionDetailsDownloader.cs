@@ -29,6 +29,9 @@ namespace MCL.Core.Java.Web;
 
 public static class JavaVersionDetailsDownloader
 {
+    /// <summary>
+    /// Download the Java version details specified by the JavaRuntimePlatform and JavaRuntimeType.
+    /// </summary>
     public static async Task<bool> Download(
         LauncherPath launcherPath,
         JavaRuntimePlatform javaRuntimePlatform,
@@ -53,7 +56,7 @@ public static class JavaVersionDetailsDownloader
 
         string javaRuntimeFiles = await Request.GetJsonAsync<JavaVersionDetails>(
             request,
-            JavaPathResolver.DownloadedJavaVersionDetailsPath(
+            JavaPathResolver.JavaVersionDetailsPath(
                 launcherPath,
                 JavaRuntimeTypeResolver.ToString(javaRuntimeType)
             ),
