@@ -24,6 +24,9 @@ namespace MCL.Core.Modding.Extensions;
 
 public static class ModSettingsExt
 {
+    /// <summary>
+    /// Combines two ModSettings objects and keeps the last occurences of each property.
+    /// </summary>
     public static ModSettings Concat(this ModSettings modSettings, ModSettings concat)
     {
         List<string> copyOnlyTypes = modSettings

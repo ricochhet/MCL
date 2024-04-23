@@ -39,6 +39,9 @@ public static class ModdingService
 
     static ModdingService() { }
 
+    /// <summary>
+    /// Initialize the Modding service.
+    /// </summary>
     public static void Init(LauncherPath launcherPath, ModSettings modSettings)
     {
         LauncherPath = launcherPath;
@@ -47,6 +50,9 @@ public static class ModdingService
             VFS.CreateDirectory(launcherPath.ModPath);
     }
 
+    /// <summary>
+    /// Save mod store data from the mod store location.
+    /// </summary>
     public static bool Save(string modStoreName)
     {
         string modPath = ModPathResolver.ModPath(LauncherPath, modStoreName);
@@ -97,6 +103,9 @@ public static class ModdingService
         return true;
     }
 
+    /// <summary>
+    /// Register a mod store path to ModSettings.
+    /// </summary>
     public static void Register(string modStoreName)
     {
         if (
@@ -106,6 +115,9 @@ public static class ModdingService
             ModSettings.ModStores.Add(modStoreName);
     }
 
+    /// <summary>
+    /// Load ModFiles from the mod store data file.
+    /// </summary>
     public static ModFiles Load(string modStoreName)
     {
         string modStorePath = ModPathResolver.ModStorePath(LauncherPath, modStoreName);
@@ -114,6 +126,9 @@ public static class ModdingService
         return default;
     }
 
+    /// <summary>
+    /// Delete a mod store data file.
+    /// </summary>
     public static bool Delete(string modStoreName)
     {
         string modStorePath = ModPathResolver.ModStorePath(LauncherPath, modStoreName);
@@ -127,6 +142,9 @@ public static class ModdingService
         return true;
     }
 
+    /// <summary>
+    /// Delete a mod store deployment path from the data file.
+    /// </summary>
     public static bool DeleteSavedDeployPath(string deployPath)
     {
         if (ModSettings.IsDeployPathSaved(deployPath))
@@ -137,6 +155,9 @@ public static class ModdingService
         return true;
     }
 
+    /// <summary>
+    /// Deploy ModFiles to the specified deployment path.
+    /// </summary>
     public static bool Deploy(ModFiles modFiles, string deployPath, bool overwrite = false)
     {
         if (ObjectValidator<List<ModFile>>.IsNullOrEmpty(modFiles?.Files))

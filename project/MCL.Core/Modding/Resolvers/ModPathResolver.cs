@@ -23,11 +23,20 @@ namespace MCL.Core.Modding.Resolvers;
 
 public static class ModPathResolver
 {
+    /// <summary>
+    /// The mod store path.
+    /// </summary>
     public static string ModPath(LauncherPath launcherPath, string modStoreName) =>
         VFS.FromCwd(launcherPath.ModPath, modStoreName);
 
+    /// <summary>
+    /// The mod store data path.
+    /// </summary>
     public static string ModStorePath(LauncherPath launcherPath, string modStoreName) =>
         VFS.FromCwd(launcherPath.ModPath, $"{modStoreName}.modstore.json");
 
+    /// <summary>
+    /// The mod deployment path.
+    /// </summary>
     public static string ModDeployPath(LauncherPath launcherPath) => VFS.Combine(launcherPath.MPath, "mods");
 }
