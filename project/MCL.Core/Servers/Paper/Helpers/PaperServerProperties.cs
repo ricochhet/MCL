@@ -24,6 +24,9 @@ namespace MCL.Core.Servers.Paper.Helpers;
 
 public static class PaperServerProperties
 {
+    /// <summary>
+    /// Create a new Eula text file in the specified server path.
+    /// </summary>
     public static void NewEula(LauncherPath launcherPath, LauncherVersion launcherVersion)
     {
         string filepath = VFS.Combine(PaperPathResolver.InstallerPath(launcherPath, launcherVersion), "eula.txt");
@@ -31,6 +34,9 @@ public static class PaperServerProperties
             VFS.WriteFile(filepath, "eula=true\n");
     }
 
+    /// <summary>
+    /// Create a new Properties file in the specified server path.
+    /// </summary>
     public static void NewProperties(LauncherPath launcherPath, LauncherVersion launcherVersion)
     {
         string filepath = VFS.Combine(

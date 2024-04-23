@@ -27,6 +27,9 @@ namespace MCL.Core.Servers.Paper.Web;
 
 public static class PaperVersionManifestDownloader
 {
+    /// <summary>
+    /// Download the Paper server version manifest.
+    /// </summary>
     public static async Task<bool> Download(
         LauncherPath launcherPath,
         LauncherVersion launcherVersion,

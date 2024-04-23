@@ -141,7 +141,7 @@ public class QuiltInstallerDownloadService : IJarDownloadService<QuiltUrls>, IDo
     }
 
     /// <summary>
-    /// Download the Quilt installer.
+    /// Download the Quilt installer jar.
     /// </summary>
     public static async Task<bool> DownloadJar()
     {

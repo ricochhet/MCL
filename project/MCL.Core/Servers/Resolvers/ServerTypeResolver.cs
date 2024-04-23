@@ -23,6 +23,9 @@ namespace MCL.Core.Servers.Resolvers;
 
 public static class ServerTypeResolver
 {
+    /// <summary>
+    /// Convert ServerType to a Java class name string.
+    /// </summary>
     public static string ToString(ServerType type) =>
         type switch
         {

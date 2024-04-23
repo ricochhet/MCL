@@ -15,7 +15,7 @@ Tasks marked with (*) are easier to do.
     - [x] Cleanup calls to path resolvers.
     - [x] Cleanup variable names for consistency.
     - [x] Cleanup LaunchHelper.
-    - [ ] Add documentation.
+    - [x] Add documentation.
     - [x] Update class path helper to use user-specified platform.
 - [x] Implement UNZIP_AND_COPY file deployment.
     - [x] Implement download and extraction of 7z for use.

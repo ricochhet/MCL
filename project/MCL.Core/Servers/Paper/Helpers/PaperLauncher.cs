@@ -26,6 +26,9 @@ namespace MCL.Core.Servers.Paper.Helpers;
 
 public static class PaperLauncher
 {
+    /// <summary>
+    /// Launch the Paper server process.
+    /// </summary>
     public static void Launch(Settings settings, string javaHome)
     {
         if (ObjectValidator<Settings>.IsNull(settings))

@@ -141,7 +141,7 @@ public class FabricInstallerDownloadService : IJarDownloadService<FabricUrls>, I
     }
 
     /// <summary>
-    /// Download the Fabric installer.
+    /// Download the Fabric installer jar.
     /// </summary>
     public static async Task<bool> DownloadJar()
     {

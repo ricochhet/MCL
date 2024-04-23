@@ -27,6 +27,9 @@ namespace MCL.Core.Servers.Paper.Web;
 
 public static class PaperServerDownloader
 {
+    /// <summary>
+    /// Download a Paper server specified by the PaperBuild object.
+    /// </summary>
     public static async Task<bool> Download(
         LauncherPath launcherPath,
         LauncherVersion launcherVersion,

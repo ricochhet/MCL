@@ -199,7 +199,7 @@ public class QuiltLoaderDownloadService : ILoaderDownloadService<QuiltUrls>, IDo
     }
 
     /// <summary>
-    /// Download the Quilt loader.
+    /// Download the Quilt loader jar.
     /// </summary>
     public static async Task<bool> DownloadLoader()
     {

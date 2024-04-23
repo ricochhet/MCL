@@ -25,6 +25,9 @@ namespace MCL.Core.Servers.Paper.Helpers;
 
 public static class PaperServerArgs
 {
+    /// <summary>
+    /// The default JvmArguments to launch the process with.
+    /// </summary>
     public static JvmArguments DefaultJvmArguments(Settings settings)
     {
         if (ObjectValidator<Settings>.IsNull(settings))

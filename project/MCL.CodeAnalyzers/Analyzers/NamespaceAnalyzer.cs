@@ -26,6 +26,9 @@ namespace MCL.CodeAnalyzers.Analyzers;
 
 public static partial class NamespaceAnalyzer
 {
+    /// <summary>
+    /// Analyze all files, compare the namespace with the files relative directory, and repairs it to match.
+    /// </summary>
     public static void Analyze(string[] files)
     {
         int success = 0;

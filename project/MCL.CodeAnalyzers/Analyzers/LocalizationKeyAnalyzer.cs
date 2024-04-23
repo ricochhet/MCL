@@ -28,6 +28,9 @@ namespace MCL.CodeAnalyzers.Analyzers;
 
 public static partial class LocalizationKeyAnalyzer
 {
+    /// <summary>
+    /// Analyze all files, find all occurences of NotificationService and check that all used localization keys are valid.
+    /// </summary>
     public static void Analyze(string[] files, Localization localization)
     {
         int success = 0;

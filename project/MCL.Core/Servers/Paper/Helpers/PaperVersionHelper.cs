@@ -28,6 +28,9 @@ namespace MCL.Core.Servers.Paper.Helpers;
 
 public static class PaperVersionHelper
 {
+    /// <summary>
+    /// Get the PaperVersionManifest and set the version of PaperServerVersion in Settings.
+    /// </summary>
     public static async Task<bool> SetVersion(
         Settings settings,
         LauncherVersion launcherVersion,
@@ -63,6 +66,9 @@ public static class PaperVersionHelper
         return true;
     }
 
+    /// <summary>
+    /// Get a list of version identifiers.
+    /// </summary>
     public static List<string> GetVersionIds(PaperVersionManifest paperVersionManifest)
     {
         if (ObjectValidator<List<PaperBuild>>.IsNullOrEmpty(paperVersionManifest?.Builds))
@@ -77,6 +83,9 @@ public static class PaperVersionHelper
         return versions;
     }
 
+    /// <summary>
+    /// Get a PaperBuild object from the PaperVersionManifest.
+    /// </summary>
     public static PaperBuild GetVersion(LauncherVersion paperServerVersion, PaperVersionManifest paperVersionManifest)
     {
         if (

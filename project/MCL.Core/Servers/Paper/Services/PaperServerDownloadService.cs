@@ -41,6 +41,9 @@ public class PaperServerDownloadService : IDownloadService
     private static PaperUrls _paperUrls;
     private static bool _loaded = false;
 
+    /// <summary>
+    /// Initialize the Paper server download service.
+    /// </summary>
     public static void Init(
         LauncherPath launcherPath,
         LauncherVersion launcherVersion,
@@ -55,6 +58,9 @@ public class PaperServerDownloadService : IDownloadService
         _loaded = true;
     }
 
+    /// <summary>
+    /// Download all parts of the Paper server.
+    /// </summary>
     public static async Task<bool> Download(bool useLocalVersionManifest = false)
     {
         if (!_loaded)
@@ -84,6 +90,9 @@ public class PaperServerDownloadService : IDownloadService
         return true;
     }
 
+    /// <summary>
+    /// Download the Paper version manifest.
+    /// </summary>
     public static async Task<bool> DownloadVersionManifest()
     {
         if (!_loaded)
@@ -98,6 +107,9 @@ public class PaperServerDownloadService : IDownloadService
         return true;
     }
 
+    /// <summary>
+    /// Load the Paper version manifest from the download path.
+    /// </summary>
     public static bool LoadVersionManifest()
     {
         if (!_loaded)
@@ -118,6 +130,9 @@ public class PaperServerDownloadService : IDownloadService
         return true;
     }
 
+    /// <summary>
+    /// Load the Paper version manifest from the download path, without logging errors if loading failed.
+    /// </summary>
     public static bool LoadVersionManifestWithoutLogging()
     {
         if (!_loaded)
@@ -135,6 +150,9 @@ public class PaperServerDownloadService : IDownloadService
         return true;
     }
 
+    /// <summary>
+    /// Load the Paper server version specified by the PaperServerVersion from the PaperVersionManifest download path.
+    /// </summary>
     public static bool LoadVersion()
     {
         if (!_loaded)
@@ -150,6 +168,9 @@ public class PaperServerDownloadService : IDownloadService
         return true;
     }
 
+    /// <summary>
+    /// Download the Paper server.
+    /// </summary>
     public static async Task<bool> DownloadJar()
     {
         if (!_loaded)

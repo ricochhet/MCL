@@ -199,7 +199,7 @@ public class FabricLoaderDownloadService : ILoaderDownloadService<FabricUrls>, I
     }
 
     /// <summary>
-    /// Download the Fabric loader.
+    /// Download the Fabric loader jar.
     /// </summary>
     public static async Task<bool> DownloadLoader()
     {

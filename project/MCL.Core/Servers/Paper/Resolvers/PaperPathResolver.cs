@@ -23,12 +23,21 @@ namespace MCL.Core.Servers.Paper.Resolvers;
 
 public static class PaperPathResolver
 {
+    /// <summary>
+    /// The Paper server installation path.
+    /// </summary>
     public static string InstallerPath(LauncherPath launcherPath, LauncherVersion launcherVersion) =>
         VFS.FromCwd(launcherPath.PaperPath, launcherVersion.MVersion);
 
+    /// <summary>
+    /// The Paper server version manifest path.
+    /// </summary>
     public static string VersionManifestPath(LauncherPath launcherPath, LauncherVersion launcherVersion) =>
         VFS.FromCwd(launcherPath.PaperPath, launcherVersion.MVersion, "paper_manifest.json");
 
+    /// <summary>
+    /// The Paper server client jar path.
+    /// </summary>
     public static string JarPath(LauncherPath launcherPath, LauncherVersion launcherVersion) =>
         VFS.Combine(
             InstallerPath(launcherPath, launcherVersion),

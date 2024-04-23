@@ -28,6 +28,9 @@ namespace MCL.CodeAnalyzers.Analyzers;
 
 public static class LineAnalyzer
 {
+    /// <summary>
+    /// Analyze all files, and count all lines.
+    /// </summary>
     public static void Analyze(string[] files)
     {
         List<int> fileLines = [];

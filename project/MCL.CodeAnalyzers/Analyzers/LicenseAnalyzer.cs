@@ -24,6 +24,9 @@ namespace MCL.CodeAnalyzers.Analyzers;
 
 public static class LicenseAnalyzer
 {
+    /// <summary>
+    /// Analyze all files, and search for an existing LICENSE header, specified by LICENSE-NOTICE.txt.
+    /// </summary>
     public static void Analyze(string[] files)
     {
         int success = 0;
