@@ -31,6 +31,9 @@ public class Log
     private static readonly SemaphoreSlim _semaphore = new(1, 1);
     private readonly Dictionary<string, Stopwatch> _benchmarkers = [];
 
+    /// <summary>
+    /// The Log instance. Creating a new one if not previously present.
+    /// </summary>
     public static Log Instance
     {
         get
@@ -43,6 +46,9 @@ public class Log
 
 #pragma warning disable IDE0079
 #pragma warning disable S3168
+    /// <summary>
+    /// Add a new logger the Log instance.
+    /// </summary>
     public static async void Add(ILogger logger)
     {
         try
@@ -56,6 +62,9 @@ public class Log
         }
     }
 
+    /// <summary>
+    /// Log a message using the base log format.
+    /// </summary>
     public static async void Base(NativeLogLevel level, string message)
     {
         try
@@ -71,6 +80,9 @@ public class Log
         }
     }
 
+    /// <summary>
+    /// Log a message using the base log format.
+    /// </summary>
     public static async void Base(NativeLogLevel level, string format, params object[] args)
     {
         try
@@ -86,6 +98,9 @@ public class Log
         }
     }
 
+    /// <summary>
+    /// Log a debug level message.
+    /// </summary>
     public static async void Debug(string message)
     {
         try
@@ -101,6 +116,9 @@ public class Log
         }
     }
 
+    /// <summary>
+    /// Log a debug level message.
+    /// </summary>
     public static async void Debug(string format, params object[] args)
     {
         try
@@ -116,6 +134,9 @@ public class Log
         }
     }
 
+    /// <summary>
+    /// Log a native level message.
+    /// </summary>
     public static async void Native(string message)
     {
         try
@@ -131,6 +152,9 @@ public class Log
         }
     }
 
+    /// <summary>
+    /// Log a native level message.
+    /// </summary>
     public static async void Native(string format, params object[] args)
     {
         try
@@ -146,6 +170,9 @@ public class Log
         }
     }
 
+    /// <summary>
+    /// Log an info level message.
+    /// </summary>
     public static async void Info(string message)
     {
         try
@@ -161,6 +188,9 @@ public class Log
         }
     }
 
+    /// <summary>
+    /// Log an info level message.
+    /// </summary>
     public static async void Info(string format, params object[] args)
     {
         try
@@ -176,6 +206,9 @@ public class Log
         }
     }
 
+    /// <summary>
+    /// Log a warn level message.
+    /// </summary>
     public static async void Warn(string message)
     {
         try
@@ -191,6 +224,9 @@ public class Log
         }
     }
 
+    /// <summary>
+    /// Log a warn level message.
+    /// </summary>
     public static async void Warn(string format, params object[] args)
     {
         try
@@ -206,6 +242,9 @@ public class Log
         }
     }
 
+    /// <summary>
+    /// Log an error level message.
+    /// </summary>
     public static async void Error(string message)
     {
         try
@@ -221,6 +260,9 @@ public class Log
         }
     }
 
+    /// <summary>
+    /// Log an error level message.
+    /// </summary>
     public static async void Error(string format, params object[] args)
     {
         try
@@ -236,6 +278,9 @@ public class Log
         }
     }
 
+    /// <summary>
+    /// Log a benchmark level message.
+    /// </summary>
     private static async void BenchmarkLog(string message)
     {
         try
@@ -251,6 +296,9 @@ public class Log
         }
     }
 
+    /// <summary>
+    /// Start a benchmark.
+    /// </summary>
     public static void Benchmark([CallerMemberName] string name = "")
     {
         if (Instance._benchmarkers.ContainsKey(name))
@@ -260,12 +308,15 @@ public class Log
         Instance._benchmarkers.Add(name, Stopwatch.StartNew());
     }
 
+    /// <summary>
+    /// End a benchmark.
+    /// </summary>
     public static void BenchmarkEnd([CallerMemberName] string name = "")
     {
-        if (!Instance._benchmarkers.ContainsKey(name))
+        if (!Instance._benchmarkers.TryGetValue(name, out Stopwatch value))
             return;
 
-        Stopwatch benchmarker = Instance._benchmarkers[name];
+        Stopwatch benchmarker = value;
         BenchmarkLog($"Time taken for '{name}': {benchmarker.ElapsedMilliseconds}ms");
         benchmarker.Stop();
         _ = Instance._benchmarkers.Remove(name);

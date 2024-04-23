@@ -24,6 +24,9 @@ namespace MCL.Core.MiniCommon.Logger;
 
 public static class Watermark
 {
+    /// <summary>
+    /// Write an array of text to stdout with box ASCII around it.
+    /// </summary>
     public static void Draw(List<string> text)
     {
         List<string> result = [];

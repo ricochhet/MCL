@@ -168,7 +168,7 @@ public class MDownloadService : IDownloadService
     }
 
     /// <summary>
-    /// Load the game version specified by MVersion from the MVersionManifest download path.
+    /// Load the game version specified by the MVersion from the MVersionManifest download path.
     /// </summary>
     public static bool LoadVersion()
     {

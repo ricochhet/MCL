@@ -34,12 +34,18 @@ public static class RequestDataService
 
     public static void Clear() => _requests.Clear();
 
+    /// <summary>
+    /// Execute a user-defined method when a RequestData is added to the list.
+    /// </summary>
     public static void OnRequestCompleted(Action<RequestData> func)
     {
         RequestData.OnRequestDataAdded += func;
         RequestData.OnRequestDataAdded += Manage;
     }
 
+    /// <summary>
+    /// Keep the RequestData list in a rotating list of MaxSize.
+    /// </summary>
     private static void Manage(RequestData _)
     {
         if (_requests.Count > MaxSize)

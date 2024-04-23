@@ -57,7 +57,7 @@ public static class MPathResolver
     public static string ServerPath(LauncherPath launcherPath) => VFS.Combine(launcherPath.MPath, BaseServerPath);
 
     /// <summary>
-    /// The client version path specified by MVersionDetails identifier.
+    /// The client version path specified by the MVersionDetails identifier.
     /// </summary>
     public static string VersionPath(LauncherPath launcherPath, MVersionDetails versionDetails) =>
         VFS.Combine(launcherPath.MPath, BaseVersionsPath, versionDetails.ID);
@@ -69,7 +69,7 @@ public static class MPathResolver
         VFS.Combine(VersionPath(launcherPath, versionDetails), versionDetails.ID + ".jar");
 
     /// <summary>
-    /// The client mappings path specified by MVersionDetails identifier.
+    /// The client mappings path specified by the MVersionDetails identifier.
     /// </summary>
     public static string ClientMappingsPath(LauncherPath launcherPath, MVersionDetails versionDetails) =>
         VFS.Combine(VersionPath(launcherPath, versionDetails), "client.txt");
@@ -97,7 +97,7 @@ public static class MPathResolver
         VFS.Combine(ServerPath(launcherPath), $"minecraft_server.{versionDetails.ID}.jar");
 
     /// <summary>
-    /// The server mappings path specified by MVersionDetails identifier.
+    /// The server mappings path specified by the MVersionDetails identifier.
     /// </summary>
     public static string ServerMappingsPath(LauncherPath launcherPath, MVersionDetails versionDetails) =>
         VFS.Combine(ServerPath(launcherPath), $"minecraft_server.{versionDetails.ID}.txt");
@@ -121,7 +121,7 @@ public static class MPathResolver
         VFS.Combine(launcherPath.MPath, "version_manifest.json");
 
     /// <summary>
-    /// The version details path specified by MVersion identifier.
+    /// The version details path specified by the MVersion identifier.
     /// </summary>
     public static string VersionDetailsPath(LauncherPath launcherPath, MVersion version) =>
         VFS.Combine(launcherPath.MPath, BaseVersionsPath, version.ID + ".json");

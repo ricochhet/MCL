@@ -22,6 +22,9 @@ namespace MCL.Core.MiniCommon.Resolvers;
 
 public static class LocalizationPathResolver
 {
+    /// <summary>
+    /// The language file path specified by the Language.
+    /// </summary>
     public static string LanguageFilePath(string filepath, Language language) =>
         VFS.FromCwd(filepath, $"localization.{LanguageResolver.ToString(language)}.json");
 }

@@ -27,6 +27,9 @@ public static class LocalizationService
     public static Localization Localization { get; private set; } = new();
     private static bool _loaded = false;
 
+    /// <summary>
+    /// Initialize the Localization service.
+    /// </summary>
     public static void Init(string filepath, Language language, bool alwaysSaveNewTranslation = false)
     {
         if (!VFS.Exists(LocalizationPathResolver.LanguageFilePath(filepath, language)) || alwaysSaveNewTranslation)
@@ -42,6 +45,9 @@ public static class LocalizationService
             NotificationService.Error("error.readfile", LocalizationPathResolver.LanguageFilePath(filepath, language));
     }
 
+    /// <summary>
+    /// Get a translation value by the identifier.
+    /// </summary>
     public static string Translate(string id)
     {
         if (!_loaded)
@@ -51,6 +57,9 @@ public static class LocalizationService
         return LocalizationError(id);
     }
 
+    /// <summary>
+    /// Get and format a translation value by the identifier.
+    /// </summary>
     public static string FormatTranslate(string id, params string[] _params)
     {
         if (!_loaded)
@@ -64,9 +73,15 @@ public static class LocalizationService
         return LocalizationError(id, _params);
     }
 
+    /// <summary>
+    /// Localization service error (Could not load localization service).
+    /// </summary>
     private static string LocalizationServiceError(string id, params string[] _params) =>
         $"LOCALIZATION_SERVICE_ERROR: {id} - {_params}";
 
+    /// <summary>
+    /// Localization error (Identifier was not found).
+    /// </summary>
     private static string LocalizationError(string id, params string[] _params) =>
         $"NO_LOCALIZATION_ERROR: {id} - {_params}";
 }

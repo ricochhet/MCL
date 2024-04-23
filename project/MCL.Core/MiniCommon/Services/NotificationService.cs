@@ -30,6 +30,12 @@ public static class NotificationService
 
     public static void Add(Notification item) => _notifications.Add(item);
 
+    public static void BenchmarkLog(params string[] _params) =>
+        _notifications.Add(new(NativeLogLevel.Benchmark, "log", _params));
+
+    public static void Benchmark(string id, params string[] _params) =>
+        _notifications.Add(new(NativeLogLevel.Benchmark, id, _params));
+
     public static void DebugLog(params string[] _params) =>
         _notifications.Add(new(NativeLogLevel.Debug, "log", _params));
 
@@ -52,7 +58,7 @@ public static class NotificationService
     public static void Info(string id, params string[] _params) =>
         _notifications.Add(new(NativeLogLevel.Info, id, _params));
 
-    public static void Native(params string[] _params) =>
+    public static void NativeLog(params string[] _params) =>
         _notifications.Add(new(NativeLogLevel.Native, "log", _params));
 
     public static void Native(string id, params string[] _params) =>
@@ -68,12 +74,18 @@ public static class NotificationService
 
     public static void Clear() => _notifications.Clear();
 
+    /// <summary>
+    /// Execute a user-defined method when a Notification is added to the list.
+    /// </summary>
     public static void OnNotificationAdded(Action<Notification> func)
     {
         Notification.OnNotificationAdded += func;
         Notification.OnNotificationAdded += Manage;
     }
 
+    /// <summary>
+    /// Keep the Notification list in a rotating list of MaxSize.
+    /// </summary>
     private static void Manage(Notification _)
     {
         if (_notifications.Count > MaxSize)

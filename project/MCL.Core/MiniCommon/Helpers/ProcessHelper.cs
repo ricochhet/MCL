@@ -26,6 +26,9 @@ namespace MCL.Core.MiniCommon.Helpers;
 
 public static class ProcessHelper
 {
+    /// <summary>
+    /// Create and run a new process.
+    /// </summary>
     public static void RunProcess(
         string fileName,
         string arguments,

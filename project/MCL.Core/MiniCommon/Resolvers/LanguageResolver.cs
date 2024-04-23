@@ -23,6 +23,9 @@ namespace MCL.Core.MiniCommon.Resolvers;
 
 public static class LanguageResolver
 {
+    /// <summary>
+    /// Convert Language to a two character language code.
+    /// </summary>
     public static string ToString(Language type) =>
         type switch
         {

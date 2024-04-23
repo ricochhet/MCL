@@ -32,12 +32,18 @@ public partial class NativeLogger : ILogger
 
     private readonly NativeLogLevel _minLevel = NativeLogLevel.Debug;
 
+    /// <summary>
+    /// Create a new NativeLogger and allocate a console for it.
+    /// </summary>
     public NativeLogger()
     {
         _ = AllocConsole();
         AppDomain.CurrentDomain.UnhandledException += UnhandledException;
     }
 
+    /// <summary>
+    /// Create a new NativeLogger with a minimum log level and allocate a console for it.
+    /// </summary>
     public NativeLogger(NativeLogLevel minLevel)
     {
         _ = AllocConsole();
@@ -80,6 +86,9 @@ public partial class NativeLogger : ILogger
     public Task Native(string format, params object[] args) =>
         WriteToStdout(NativeLogLevel.Native, string.Format(format, args));
 
+    /// <summary>
+    /// Handle incoming exception objects.
+    /// </summary>
     private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
     {
         if (e.ExceptionObject is Exception ex)
@@ -88,6 +97,9 @@ public partial class NativeLogger : ILogger
             NotificationService.Error("log.unhandled.object", e.ExceptionObject.ToString());
     }
 
+    /// <summary>
+    /// Write a formatted message to stdout.
+    /// </summary>
     private Task<bool> WriteToStdout(NativeLogLevel level, string message)
     {
         if ((int)level < (int)_minLevel)

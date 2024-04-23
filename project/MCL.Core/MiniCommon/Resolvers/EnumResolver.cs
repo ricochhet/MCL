@@ -22,6 +22,9 @@ namespace MCL.Core.MiniCommon.Resolvers;
 
 public static class EnumResolver
 {
+    /// <summary>
+    /// Try to parse a string value as an enumerator.
+    /// </summary>
     public static T Parse<T>(string value, T fallback)
         where T : struct
     {

@@ -36,6 +36,9 @@ public class FileStreamLogger : ILogger, IDisposable
     private bool _disposed = false;
     private readonly NativeLogLevel _minLevel = NativeLogLevel.Debug;
 
+    /// <summary>
+    /// Create a new FileStreamLogger toward the specified log path.
+    /// </summary>
     public FileStreamLogger(string filePath)
     {
         _queue = new();
@@ -44,6 +47,9 @@ public class FileStreamLogger : ILogger, IDisposable
         Task.Run(Flush);
     }
 
+    /// <summary>
+    /// Create a new FileStreamLogger with a minimum log level toward the specified log path.
+    /// </summary>
     public FileStreamLogger(string filePath, NativeLogLevel minLevel)
     {
         _queue = new();
@@ -88,6 +94,9 @@ public class FileStreamLogger : ILogger, IDisposable
     public Task Benchmark(string format, params object[] args) =>
         WriteToBuffer(NativeLogLevel.Info, string.Format(format, args));
 
+    /// <summary>
+    /// Handle incoming exception objects.
+    /// </summary>
     private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
     {
         if (e.ExceptionObject is Exception ex)
@@ -96,6 +105,9 @@ public class FileStreamLogger : ILogger, IDisposable
             NotificationService.Error("log.unhandled.object", e.ExceptionObject.ToString());
     }
 
+    /// <summary>
+    /// Places a message into the queue if the minimum level is lower than the message level.
+    /// </summary>
     private Task<bool> WriteToBuffer(NativeLogLevel level, string message)
     {
         lock (_mutex)
@@ -108,6 +120,9 @@ public class FileStreamLogger : ILogger, IDisposable
         return Task.FromResult(true);
     }
 
+    /// <summary>
+    /// Flush the message queue and write to the file stream.
+    /// </summary>
     private async Task Flush()
     {
         while (_flush)
@@ -128,6 +143,9 @@ public class FileStreamLogger : ILogger, IDisposable
         }
     }
 
+    /// <summary>
+    /// Write all messages to the file stream and flush the stream.
+    /// </summary>
     private async Task WriteToStream(FileStreamLog[] messages)
     {
         try
