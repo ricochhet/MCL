@@ -24,6 +24,9 @@ namespace MCL.Core.Launcher.Extensions;
 
 public static class LauncherInstanceExt
 {
+    /// <summary>
+    /// Combines two LauncherInstance objects and keeps the last occurences of each version.
+    /// </summary>
     public static LauncherInstance Concat(this LauncherInstance launcherInstance, LauncherInstance concat)
     {
         List<LauncherLoader> versions = launcherInstance

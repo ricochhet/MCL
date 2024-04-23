@@ -40,7 +40,7 @@ public class JavaDownloadService : IDownloadService
     private static JavaRuntimePlatform _javaRuntimePlatform;
 
     /// <summary>
-    /// Initialize the Java Download Service.
+    /// Initialize the Java download service.
     /// </summary>
     public static void Init(
         LauncherPath launcherPath,

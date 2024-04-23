@@ -24,6 +24,9 @@ namespace MCL.Core.Launcher.Resolvers;
 
 public static class ClientTypeResolver
 {
+    /// <summary>
+    /// Convert ClientType to a Java class name string.
+    /// </summary>
     public static string ToString(ClientType type, MainClassNames mainClassNames) =>
         type switch
         {

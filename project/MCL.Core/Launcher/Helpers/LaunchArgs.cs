@@ -29,6 +29,9 @@ namespace MCL.Core.Launcher.Helpers;
 
 public static class LaunchArgs
 {
+    /// <summary>
+    /// The default JvmArguments to launch the process with.
+    /// </summary>
     public static JvmArguments DefaultJvmArguments(Settings settings)
     {
         if (ObjectValidator<Settings>.IsNull(settings))

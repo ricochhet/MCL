@@ -42,6 +42,10 @@ public static class SettingsService
 
     public static JsonSerializerOptions JsonSerializerOptions { get; set; } = Json.JsonSerializerOptions;
 
+    /// <summary>
+    /// Initialize the Settings service.
+    /// Create a new configuration file if one is not present.
+    /// </summary>
     public static void Init()
     {
         if (!VFS.Exists(_settingsFilePath))
@@ -83,6 +87,9 @@ public static class SettingsService
         NotificationService.Info("launcher.settings.using", _settingsFilePath);
     }
 
+    /// <summary>
+    /// Save a Settings object to the Settings file path.
+    /// </summary>
     public static void Save(Settings settings)
     {
         if (!VFS.Exists(_settingsFilePath))
@@ -95,6 +102,9 @@ public static class SettingsService
         Json.Save(_settingsFilePath, settings, JsonSerializerOptions);
     }
 
+    /// <summary>
+    /// Load a Settings object from the Settings file path.
+    /// </summary>
     public static Settings Load()
     {
         if (VFS.Exists(_settingsFilePath))

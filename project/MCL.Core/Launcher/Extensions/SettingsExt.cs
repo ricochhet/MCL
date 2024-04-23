@@ -28,6 +28,9 @@ namespace MCL.Core.Launcher.Extensions;
 
 public static class SettingsExt
 {
+    /// <summary>
+    /// Save JvmArguments to Settings specified by the ClientType.
+    /// </summary>
     public static Settings Save(this Settings settings, ClientType clientType, JvmArguments jvmArguments)
     {
         switch (clientType)
@@ -58,6 +61,9 @@ public static class SettingsExt
         return settings;
     }
 
+    /// <summary>
+    /// Save JvmArguments to Settings for 'PaperJvmArguments'.
+    /// </summary>
     public static Settings Save(this Settings settings, JvmArguments jvmArguments)
     {
         if (settings.PaperJvmArguments != jvmArguments)
@@ -68,6 +74,9 @@ public static class SettingsExt
         return settings;
     }
 
+    /// <summary>
+    /// Save ModSettings to Settings for 'ModSettings'.
+    /// </summary>
     public static Settings Save(this Settings settings, ModSettings modSettings)
     {
         if (settings.ModSettings != modSettings)
@@ -78,6 +87,9 @@ public static class SettingsExt
         return settings;
     }
 
+    /// <summary>
+    /// Save LauncherInstance to Settings for 'LauncherInstance'.
+    /// </summary>
     public static Settings Save(this Settings settings, LauncherInstance launcherInstance)
     {
         if (settings.LauncherInstance != launcherInstance)
