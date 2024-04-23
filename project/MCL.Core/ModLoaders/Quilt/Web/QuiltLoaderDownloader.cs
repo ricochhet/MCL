@@ -32,6 +32,9 @@ public static class QuiltLoaderDownloader
 {
 #pragma warning disable IDE0079
 #pragma warning disable S3776
+    /// <summary>
+    /// Download a Quilt loader specified by the QuiltProfile object.
+    /// </summary>
     public static async Task<bool> Download(
         LauncherPath launcherPath,
         LauncherVersion launcherVersion,

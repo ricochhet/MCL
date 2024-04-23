@@ -27,6 +27,9 @@ namespace MCL.Core.ModLoaders.Fabric.Web;
 
 public static class FabricProfileDownloader
 {
+    /// <summary>
+    /// Download a Fabric profile specified by the FabricLoaderVersion.
+    /// </summary>
     public static async Task<bool> Download(
         LauncherPath launcherPath,
         LauncherVersion launcherVersion,

@@ -27,6 +27,9 @@ namespace MCL.Core.ModLoaders.Quilt.Web;
 
 public static class QuiltInstallerDownloader
 {
+    /// <summary>
+    /// Download a Quilt installer specified by the QuiltInstaller object.
+    /// </summary>
     public static async Task<bool> Download(
         LauncherPath launcherPath,
         LauncherVersion launcherVersion,

@@ -27,6 +27,9 @@ namespace MCL.Core.ModLoaders.Quilt.Web;
 
 public static class QuiltVersionManifestDownloader
 {
+    /// <summary>
+    /// Download the Quilt version manifest.
+    /// </summary>
     public static async Task<bool> Download(LauncherPath launcherPath, QuiltUrls quiltUrls)
     {
         if (ObjectValidator<string>.IsNullOrWhiteSpace([quiltUrls?.VersionManifest]))

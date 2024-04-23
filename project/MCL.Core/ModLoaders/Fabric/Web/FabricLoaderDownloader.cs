@@ -32,6 +32,9 @@ public static class FabricLoaderDownloader
 {
 #pragma warning disable IDE0079
 #pragma warning disable S3776
+    /// <summary>
+    /// Download a Fabric loader specified by the FabricProfile object.
+    /// </summary>
     public static async Task<bool> Download(
         LauncherPath launcherPath,
         LauncherVersion launcherVersion,

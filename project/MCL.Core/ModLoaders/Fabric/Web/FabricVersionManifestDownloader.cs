@@ -27,6 +27,9 @@ namespace MCL.Core.ModLoaders.Fabric.Web;
 
 public static class FabricVersionManifestDownloader
 {
+    /// <summary>
+    /// Download the Fabric version manifest.
+    /// </summary>
     public static async Task<bool> Download(LauncherPath launcherPath, FabricUrls fabricUrls)
     {
         if (ObjectValidator<string>.IsNullOrWhiteSpace([fabricUrls?.VersionManifest]))

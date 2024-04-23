@@ -27,6 +27,9 @@ namespace MCL.Core.ModLoaders.Quilt.Web;
 
 public static class QuiltProfileDownloader
 {
+    /// <summary>
+    /// Download a Quilt profile specified by the QuiltLoaderVersion.
+    /// </summary>
     public static async Task<bool> Download(
         LauncherPath launcherPath,
         LauncherVersion launcherVersion,

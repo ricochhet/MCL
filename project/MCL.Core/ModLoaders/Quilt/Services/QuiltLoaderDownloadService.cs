@@ -39,6 +39,9 @@ public class QuiltLoaderDownloadService : ILoaderDownloadService<QuiltUrls>, IDo
     private static QuiltUrls _quiltUrls;
     private static bool _loaded = false;
 
+    /// <summary>
+    /// Initialize the Quilt loader download service.
+    /// </summary>
     public static void Init(
         LauncherPath launcherPath,
         LauncherVersion launcherVersion,
@@ -56,6 +59,9 @@ public class QuiltLoaderDownloadService : ILoaderDownloadService<QuiltUrls>, IDo
         _loaded = true;
     }
 
+    /// <summary>
+    /// Download all parts of the Quilt loader.
+    /// </summary>
     public static async Task<bool> Download(bool useLocalVersionManifest = false)
     {
         if (!_loaded)
@@ -82,6 +88,9 @@ public class QuiltLoaderDownloadService : ILoaderDownloadService<QuiltUrls>, IDo
         return true;
     }
 
+    /// <summary>
+    /// Download the Quilt version manifest.
+    /// </summary>
     public static async Task<bool> DownloadVersionManifest()
     {
         if (!_loaded)
@@ -96,6 +105,9 @@ public class QuiltLoaderDownloadService : ILoaderDownloadService<QuiltUrls>, IDo
         return true;
     }
 
+    /// <summary>
+    /// Load the Quilt version manifest from the download path.
+    /// </summary>
     public static bool LoadVersionManifest()
     {
         if (!_loaded)
@@ -111,6 +123,9 @@ public class QuiltLoaderDownloadService : ILoaderDownloadService<QuiltUrls>, IDo
         return true;
     }
 
+    /// <summary>
+    /// Load the Quilt version manifest from the download path, without logging errors if loading failed.
+    /// </summary>
     public static bool LoadVersionManifestWithoutLogging()
     {
         if (!_loaded)
@@ -123,6 +138,9 @@ public class QuiltLoaderDownloadService : ILoaderDownloadService<QuiltUrls>, IDo
         return true;
     }
 
+    /// <summary>
+    /// Exclusively download the Quilt profile.
+    /// </summary>
     public static async Task<bool> DownloadProfile()
     {
         if (!_loaded)
@@ -137,6 +155,9 @@ public class QuiltLoaderDownloadService : ILoaderDownloadService<QuiltUrls>, IDo
         return true;
     }
 
+    /// <summary>
+    /// Load the Quilt profile from the download path.
+    /// </summary>
     public static bool LoadProfile()
     {
         if (!_loaded)
@@ -159,6 +180,9 @@ public class QuiltLoaderDownloadService : ILoaderDownloadService<QuiltUrls>, IDo
         return true;
     }
 
+    /// <summary>
+    /// Load the Quilt loader version specified by the QuiltLoaderVersion from the QuiltVersionManifest download path.
+    /// </summary>
     public static bool LoadLoaderVersion()
     {
         if (!_loaded)
@@ -174,6 +198,9 @@ public class QuiltLoaderDownloadService : ILoaderDownloadService<QuiltUrls>, IDo
         return true;
     }
 
+    /// <summary>
+    /// Download the Quilt loader.
+    /// </summary>
     public static async Task<bool> DownloadLoader()
     {
         if (!_loaded)
