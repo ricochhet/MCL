@@ -11,7 +11,7 @@ Tasks marked with (*) are easier to do.
     - This tool will analyze the project for project-specific rules and warn when the rule is not followed.
     - [x] Rule: Namespaces should match physical path, e.g. MCL.Core.Models == MCL/Core/Models/*
     - [x] Rule: Localization keys must exist.
-- [ ] Code cleanup
+- [x] Code cleanup 1
     - [x] Cleanup calls to path resolvers.
     - [x] Cleanup variable names for consistency.
     - [x] Cleanup LaunchHelper.
