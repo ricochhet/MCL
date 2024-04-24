@@ -163,6 +163,37 @@ public static class VFS
     }
 
     /// <summary>
+    /// Copy directory from one place to another.
+    /// </summary>
+    public static void CopyDirectory(string a, string b, bool recursive = false)
+    {
+        lock (_mutex)
+        {
+            DirectoryInfo directory = new(a);
+
+            if (!directory.Exists)
+                return;
+
+            DirectoryInfo[] directories = directory.GetDirectories();
+            Directory.CreateDirectory(b);
+            foreach (FileInfo file in directory.GetFiles())
+            {
+                string destination = Path.Combine(b, file.Name);
+                file.CopyTo(destination);
+            }
+
+            if (!recursive)
+                return;
+
+            foreach (DirectoryInfo subDirectory in directories)
+            {
+                string destination = Path.Combine(b, subDirectory.Name);
+                CopyDirectory(subDirectory.FullName, destination, true);
+            }
+        }
+    }
+
+    /// <summary>
     /// Does the filepath exist?
     /// </summary>
     public static bool Exists(string filepath)
@@ -293,6 +324,14 @@ public static class VFS
     }
 
     /// <summary>
+    /// Get directories in directory by full path.
+    /// </summary>
+    public static DirectoryInfo[] GetDirectoryInfos(string filepath, string searchPattern, SearchOption searchOption)
+    {
+        return new DirectoryInfo(filepath).GetDirectories(searchPattern, searchOption);
+    }
+
+    /// <summary>
     /// Get files in directory by full path.
     /// </summary>
     public static string[] GetFiles(string filepath)
@@ -340,6 +379,14 @@ public static class VFS
 
             return [.. paths];
         }
+    }
+
+    /// <summary>
+    /// Get files in directory and its sub-directories by full path.
+    /// </summary>
+    public static FileInfo[] GetFileInfos(string filepath, string searchPattern, SearchOption searchOption)
+    {
+        return new DirectoryInfo(filepath).GetFiles(searchPattern, searchOption);
     }
 
     /// <summary>
