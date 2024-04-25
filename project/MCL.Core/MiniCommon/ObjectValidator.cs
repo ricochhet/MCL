@@ -30,6 +30,7 @@ namespace MCL.Core.MiniCommon;
 #pragma warning disable S107
 
 public class ObjectValidator<T>
+    where T : class
 {
     private readonly List<ValidationRule<T>> _rules;
 
@@ -239,7 +240,7 @@ public class ObjectValidator<T>
             sourceFilePath,
             sourceLineNumber.ToString()
         );
-        validator.AddRule(a => obj != null, message);
+        validator.AddRule(a => obj != default(T), message);
         foreach (object property in properties ?? [])
             validator.AddRule(a => property != null, message);
 

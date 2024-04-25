@@ -18,6 +18,7 @@
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using MCL.Core.Launcher.Helpers;
 using MCL.Core.Launcher.Models;
 using MCL.Core.MiniCommon;
 using MCL.Core.MiniCommon.Interfaces;
@@ -34,19 +35,19 @@ public class LaunchPaperServer : ILauncherCommand
             "--launch-paper",
             options =>
             {
-                if (
-                    options.TryGetValue("gameversion", out string version)
-                    && settings.LauncherInstance.Versions.Exists(a => a.Version == version)
-                )
-                    settings.LauncherVersion.MVersion = version;
-
-                if (
-                    options.TryGetValue("paperversion", out string paperVersion)
-                    && settings.LauncherInstance.PaperServerVersions.Contains(paperVersion)
-                )
-                    settings.LauncherVersion.PaperServerVersion = paperVersion;
-
-                PaperLauncher.Launch(settings, options.GetValueOrDefault("javapath") ?? string.Empty);
+                settings.Set(
+                    options,
+                    "gameversion",
+                    s => s.LauncherVersion.MVersion,
+                    (s, v) => s.LauncherVersion.MVersion = v
+                );
+                settings.Set(
+                    options,
+                    "paperversion",
+                    s => s.LauncherVersion.PaperServerVersion,
+                    (s, v) => s.LauncherVersion.PaperServerVersion = v
+                );
+                PaperLauncher.Launch(settings, options.GetValueOrDefault("javapath", string.Empty));
             }
         );
 

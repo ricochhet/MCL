@@ -19,6 +19,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MCL.Core.Launcher.Enums;
+using MCL.Core.Launcher.Helpers;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Minecraft.Helpers;
 using MCL.Core.MiniCommon;
@@ -37,17 +38,34 @@ public class LaunchMinecraft : ILauncherCommand
             options =>
             {
                 settings.LauncherSettings.ClientType = EnumResolver.Parse(
-                    options.GetValueOrDefault("client"),
+                    options.GetValueOrDefault("client", "vanilla"),
                     ClientType.VANILLA
                 );
-
-                if (
-                    options.TryGetValue("gameversion", out string version)
-                    && settings.LauncherInstance.Versions.Exists(a => a.Version == version)
-                )
-                    settings.LauncherVersion.MVersion = version;
-
-                MinecraftLauncher.Launch(settings, options.GetValueOrDefault("javapath") ?? string.Empty);
+                settings.Set(
+                    options,
+                    "gameversion",
+                    s => s.LauncherVersion.MVersion,
+                    (s, v) => s.LauncherVersion.MVersion = v
+                );
+                settings.Set(
+                    options,
+                    "fabricversion",
+                    s => s.LauncherVersion.FabricLoaderVersion,
+                    (s, v) => s.LauncherVersion.FabricLoaderVersion = v
+                );
+                settings.Set(
+                    options,
+                    "quiltversion",
+                    s => s.LauncherVersion.QuiltLoaderVersion,
+                    (s, v) => s.LauncherVersion.QuiltLoaderVersion = v
+                );
+                settings.Set(
+                    options,
+                    "username",
+                    s => s.LauncherUsername.Username,
+                    (s, v) => s.LauncherUsername.Username = v
+                );
+                MinecraftLauncher.Launch(settings, options.GetValueOrDefault("javapath", string.Empty));
             }
         );
 

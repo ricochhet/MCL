@@ -41,8 +41,8 @@ public class DownloadQuiltInstaller : ILauncherCommand
             "--dl-quilt-installer",
             async options =>
             {
-                _launcherVersion.QuiltInstallerVersion = options.GetValueOrDefault("installerversion") ?? "latest";
-                if (!bool.TryParse(options.GetValueOrDefault("update") ?? "false", out bool update))
+                _launcherVersion.QuiltInstallerVersion = options.GetValueOrDefault("installerversion", "latest");
+                if (!bool.TryParse(options.GetValueOrDefault("update", "false"), out bool update))
                     return;
                 if (ObjectValidator<string>.IsNullOrWhiteSpace([_launcherVersion.QuiltInstallerVersion]))
                     return;
@@ -64,7 +64,7 @@ public class DownloadQuiltInstaller : ILauncherCommand
                         QuiltInstallerType.INSTALL_CLIENT
                     ),
                     settings.LauncherSettings.JavaRuntimeType,
-                    options.GetValueOrDefault("javapath") ?? string.Empty
+                    options.GetValueOrDefault("javapath", string.Empty)
                 );
             }
         );

@@ -38,9 +38,9 @@ public class DownloadQuiltLoader : ILauncherCommand
             "--dl-quilt-loader",
             async options =>
             {
-                _launcherVersion.MVersion = options.GetValueOrDefault("gameversion") ?? "latest";
-                _launcherVersion.QuiltLoaderVersion = options.GetValueOrDefault("loaderversion") ?? "latest";
-                if (!bool.TryParse(options.GetValueOrDefault("update") ?? "false", out bool update))
+                _launcherVersion.MVersion = options.GetValueOrDefault("gameversion", "latest");
+                _launcherVersion.QuiltLoaderVersion = options.GetValueOrDefault("loaderversion", "latest");
+                if (!bool.TryParse(options.GetValueOrDefault("update", "false"), out bool update))
                     return;
                 if (
                     ObjectValidator<string>.IsNullOrWhiteSpace(

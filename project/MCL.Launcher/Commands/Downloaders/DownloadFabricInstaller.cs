@@ -41,8 +41,8 @@ public class DownloadFabricInstaller : ILauncherCommand
             "--dl-fabric-installer",
             async options =>
             {
-                _launcherVersion.FabricInstallerVersion = options.GetValueOrDefault("installerversion") ?? "latest";
-                if (!bool.TryParse(options.GetValueOrDefault("update") ?? "false", out bool update))
+                _launcherVersion.FabricInstallerVersion = options.GetValueOrDefault("installerversion", "latest");
+                if (!bool.TryParse(options.GetValueOrDefault("update", "false"), out bool update))
                     return;
                 if (ObjectValidator<string>.IsNullOrWhiteSpace([_launcherVersion.FabricInstallerVersion]))
                     return;
@@ -68,7 +68,7 @@ public class DownloadFabricInstaller : ILauncherCommand
                         FabricInstallerType.INSTALL_CLIENT
                     ),
                     settings.LauncherSettings.JavaRuntimeType,
-                    options.GetValueOrDefault("javapath") ?? string.Empty
+                    options.GetValueOrDefault("javapath", string.Empty)
                 );
             }
         );

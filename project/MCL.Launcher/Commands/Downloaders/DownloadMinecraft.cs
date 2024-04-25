@@ -37,8 +37,8 @@ public class DownloadMinecraft : ILauncherCommand
             "--dl-minecraft",
             async options =>
             {
-                _launcherVersion.MVersion = options.GetValueOrDefault("gameversion") ?? "latest";
-                if (!bool.TryParse(options.GetValueOrDefault("update") ?? "false", out bool update))
+                _launcherVersion.MVersion = options.GetValueOrDefault("gameversion", "latest");
+                if (!bool.TryParse(options.GetValueOrDefault("update", "false"), out bool update))
                     return;
                 if (ObjectValidator<string>.IsNullOrWhiteSpace([_launcherVersion.MVersion]))
                     return;
