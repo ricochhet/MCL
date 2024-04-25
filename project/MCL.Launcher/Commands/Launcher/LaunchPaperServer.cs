@@ -32,7 +32,16 @@ public class LaunchPaperServer : ILauncherCommand
     {
         CommandLine.ProcessArgument(
             args,
-            "--launch-paper",
+            new()
+            {
+                Name = "launch-paper",
+                Parameters =
+                [
+                    new() { Name = "gameversion", Optional = true },
+                    new() { Name = "paperversion", Optional = true },
+                    new() { Name = "javapath", Optional = true }
+                ]
+            },
             options =>
             {
                 settings.Set(

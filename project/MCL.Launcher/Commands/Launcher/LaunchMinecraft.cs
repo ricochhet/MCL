@@ -34,7 +34,19 @@ public class LaunchMinecraft : ILauncherCommand
     {
         CommandLine.ProcessArgument(
             args,
-            "--launch",
+            new()
+            {
+                Name = "launch",
+                Parameters =
+                [
+                    new() { Name = "client", Optional = false },
+                    new() { Name = "gameversion", Optional = true },
+                    new() { Name = "fabricversion", Optional = true },
+                    new() { Name = "quiltversion", Optional = true },
+                    new() { Name = "username", Optional = true },
+                    new() { Name = "javapath", Optional = true }
+                ]
+            },
             options =>
             {
                 settings.LauncherSettings.ClientType = EnumResolver.Parse(

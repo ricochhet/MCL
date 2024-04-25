@@ -16,36 +16,31 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using System.Collections.Generic;
-using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
-using MCL.CodeAnalyzers.Analyzers;
 using MCL.Core.Launcher.Models;
-using MCL.Core.MiniCommon;
+using MCL.Core.MiniCommon.Helpers;
 using MCL.Core.MiniCommon.Interfaces;
+using MCL.Core.MiniCommon.Models;
 using MCL.Core.MiniCommon.Services;
 
-namespace MCL.CodeAnalyzers.Commands;
+namespace MCL.Core.MiniCommon.Commands;
 
-public class AnalyzeCode : ILauncherCommand
+public class Help : ILauncherCommand
 {
     public Task Init(string[] args, Settings settings)
     {
         CommandLine.ProcessArgument(
             args,
-            new() { Name = "analyze", Parameters = [new() { Name = "path", Optional = false }] },
-            options =>
+            new() { Name = "help", },
+            (string _) =>
             {
-                string[] files = VFS.GetFiles(
-                    options.GetValueOrDefault("path", "./"),
-                    "*.cs",
-                    SearchOption.AllDirectories
-                );
-
-                LicenseAnalyzer.Analyze(files);
-                LineAnalyzer.Analyze(files);
-                NamespaceAnalyzer.Analyze(files);
-                LocalizationKeyAnalyzer.Analyze(files, LocalizationService.Localization);
+                foreach (Command command in CommandHelper.Commands)
+                {
+                    NotificationService.InfoLog(
+                        $"{command.Name} {string.Join(" ", command.Parameters.Select(a => "<" + a.Name + ">"))}"
+                    );
+                }
             }
         );
 

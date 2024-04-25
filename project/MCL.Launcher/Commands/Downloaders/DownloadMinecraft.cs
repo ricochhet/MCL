@@ -34,7 +34,15 @@ public class DownloadMinecraft : ILauncherCommand
     {
         await CommandLine.ProcessArgumentAsync(
             args,
-            "--dl-minecraft",
+            new()
+            {
+                Name = "dl-minecraft",
+                Parameters =
+                [
+                    new() { Name = "gameversion", Optional = true },
+                    new() { Name = "update", Optional = true }
+                ]
+            },
             async options =>
             {
                 _launcherVersion.MVersion = options.GetValueOrDefault("gameversion", "latest");

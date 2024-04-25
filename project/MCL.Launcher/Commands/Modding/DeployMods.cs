@@ -32,7 +32,7 @@ public class DeployMods : ILauncherCommand
     {
         CommandLine.ProcessArgument(
             args,
-            "--deploy-mods",
+            new() { Name = "deploy-mods" },
             (string value) =>
             {
                 ModdingService.Save(value);

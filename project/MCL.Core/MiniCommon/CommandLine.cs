@@ -18,23 +18,26 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using MCL.Core.MiniCommon.Models;
 using MCL.Core.MiniCommon.Services;
 
 namespace MCL.Core.MiniCommon;
 
 public static class CommandLine
 {
+    private static readonly string _prefix = "--";
     private static readonly char[] _separator = [',', ';'];
 
     /// <summary>
     /// Processes a command line argument identified by a flag and invokes the provided action with the argument's value of type T.
     /// </summary>
-    public static void ProcessArgument<T>(string[] args, string flag, Action<T> action)
+    public static void ProcessArgument<T>(string[] args, Command command, Action<T> action)
     {
         try
         {
-            int index = Array.IndexOf(args, flag);
+            int index = Array.IndexOf(args, _prefix + command.Name);
             if (index != -1)
             {
                 T value = default;
@@ -54,15 +57,24 @@ public static class CommandLine
     /// <summary>
     /// Processes a command line argument identified by a flag and invokes the provided action with a dictionary of key-value pairs extracted from the argument.
     /// </summary>
-    public static void ProcessArgument(string[] args, string flag, Action<Dictionary<string, string>> action)
+    public static void ProcessArgument(string[] args, Command command, Action<Dictionary<string, string>> action)
     {
         try
         {
-            int index = Array.IndexOf(args, flag);
+            int index = Array.IndexOf(args, _prefix + command.Name);
             if (index != -1 && index + 1 < args.Length && !args[index + 1].StartsWith("--"))
             {
                 Dictionary<string, string> options = ParseKeyValuePairs(args[index + 1]);
-                action(options);
+                if (
+                    command.Parameters.Where(a => !a.Optional).All(a => options.ContainsKey(a.Name))
+                    || ObjectValidator<List<CommandParameter>>.IsNullOrEmpty(command.Parameters)
+                )
+                    action(options);
+                else
+                    NotificationService.Error(
+                        "commandline.error",
+                        $"{command.Name} {string.Join(" ", command.Parameters.Select(a => "<" + a.Name + ">"))}"
+                    );
             }
         }
         catch (Exception ex)
@@ -74,11 +86,11 @@ public static class CommandLine
     /// <summary>
     /// Processes a command line argument identified by a flag and invokes the provided action with the argument's value of type T.
     /// </summary>
-    public static async Task ProcessArgumentAsync<T>(string[] args, string flag, Func<T, Task> action)
+    public static async Task ProcessArgumentAsync<T>(string[] args, Command command, Func<T, Task> action)
     {
         try
         {
-            int index = Array.IndexOf(args, flag);
+            int index = Array.IndexOf(args, _prefix + command.Name);
             if (index != -1)
             {
                 T value = default;
@@ -100,17 +112,26 @@ public static class CommandLine
     /// </summary>
     public static async Task ProcessArgumentAsync(
         string[] args,
-        string flag,
+        Command command,
         Func<Dictionary<string, string>, Task> action
     )
     {
         try
         {
-            int index = Array.IndexOf(args, flag);
+            int index = Array.IndexOf(args, _prefix + command.Name);
             if (index != -1 && index + 1 < args.Length && !args[index + 1].StartsWith("--"))
             {
                 Dictionary<string, string> options = ParseKeyValuePairs(args[index + 1]);
-                await action(options);
+                if (
+                    command.Parameters.Where(a => !a.Optional).All(a => options.ContainsKey(a.Name))
+                    || ObjectValidator<List<CommandParameter>>.IsNullOrEmpty(command.Parameters)
+                )
+                    await action(options);
+                else
+                    NotificationService.Error(
+                        "commandline.error",
+                        $"{command.Name} {string.Join(" ", command.Parameters.Select(a => "<" + a.Name + ">"))}"
+                    );
             }
         }
         catch (Exception ex)

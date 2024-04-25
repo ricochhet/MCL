@@ -38,7 +38,16 @@ public class DownloadFabricInstaller : ILauncherCommand
     {
         await CommandLine.ProcessArgumentAsync(
             args,
-            "--dl-fabric-installer",
+            new()
+            {
+                Name = "dl-fabric-installer",
+                Parameters =
+                [
+                    new() { Name = "installerversion", Optional = true },
+                    new() { Name = "update", Optional = true },
+                    new() { Name = "javapath", Optional = true }
+                ]
+            },
             async options =>
             {
                 _launcherVersion.FabricInstallerVersion = options.GetValueOrDefault("installerversion", "latest");

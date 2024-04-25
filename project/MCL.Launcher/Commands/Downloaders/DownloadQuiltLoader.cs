@@ -35,7 +35,16 @@ public class DownloadQuiltLoader : ILauncherCommand
     {
         await CommandLine.ProcessArgumentAsync(
             args,
-            "--dl-quilt-loader",
+            new()
+            {
+                Name = "dl-quilt-loader",
+                Parameters =
+                [
+                    new() { Name = "gameversion", Optional = true },
+                    new() { Name = "loaderversion", Optional = true },
+                    new() { Name = "update", Optional = true }
+                ]
+            },
             async options =>
             {
                 _launcherVersion.MVersion = options.GetValueOrDefault("gameversion", "latest");

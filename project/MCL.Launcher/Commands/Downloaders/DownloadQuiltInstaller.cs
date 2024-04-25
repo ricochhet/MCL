@@ -38,7 +38,16 @@ public class DownloadQuiltInstaller : ILauncherCommand
     {
         await CommandLine.ProcessArgumentAsync(
             args,
-            "--dl-quilt-installer",
+            new()
+            {
+                Name = "dl-quilt-installer",
+                Parameters =
+                [
+                    new() { Name = "installerversion", Optional = true },
+                    new() { Name = "update", Optional = true },
+                    new() { Name = "javapath", Optional = true }
+                ]
+            },
             async options =>
             {
                 _launcherVersion.QuiltInstallerVersion = options.GetValueOrDefault("installerversion", "latest");

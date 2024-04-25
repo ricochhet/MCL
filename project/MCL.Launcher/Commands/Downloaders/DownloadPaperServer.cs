@@ -35,7 +35,16 @@ public class DownloadPaperServer : ILauncherCommand
     {
         await CommandLine.ProcessArgumentAsync(
             args,
-            "--dl-paper-server",
+            new()
+            {
+                Name = "dl-paper-server",
+                Parameters =
+                [
+                    new() { Name = "gameversion", Optional = true },
+                    new() { Name = "paperversion", Optional = true },
+                    new() { Name = "update", Optional = true }
+                ]
+            },
             async options =>
             {
                 _launcherVersion.MVersion = options.GetValueOrDefault("gameversion", "latest");

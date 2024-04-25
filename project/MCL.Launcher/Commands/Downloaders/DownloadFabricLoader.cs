@@ -35,7 +35,16 @@ public class DownloadFabricLoader : ILauncherCommand
     {
         await CommandLine.ProcessArgumentAsync(
             args,
-            "--dl-fabric-loader",
+            new()
+            {
+                Name = "dl-fabric-loader",
+                Parameters =
+                [
+                    new() { Name = "gameversion", Optional = true },
+                    new() { Name = "loaderversion", Optional = true },
+                    new() { Name = "update", Optional = true }
+                ]
+            },
             async options =>
             {
                 _launcherVersion.MVersion = options.GetValueOrDefault("gameversion", "latest");

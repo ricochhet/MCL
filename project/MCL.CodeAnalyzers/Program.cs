@@ -23,6 +23,7 @@ using MCL.CodeAnalyzers.Commands;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Services;
 using MCL.Core.MiniCommon;
+using MCL.Core.MiniCommon.Commands;
 using MCL.Core.MiniCommon.Enums;
 using MCL.Core.MiniCommon.Interfaces;
 using MCL.Core.MiniCommon.Logger;
@@ -58,6 +59,7 @@ internal static class Program
 
         List<ILauncherCommand> commands = [];
         commands.Add(new AnalyzeCode());
+        commands.Add(new Help());
 
         foreach (ILauncherCommand command in commands)
             await command.Init(args, settings);
