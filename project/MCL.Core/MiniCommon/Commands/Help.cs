@@ -37,9 +37,9 @@ public class Help : ILauncherCommand
             {
                 foreach (Command command in CommandHelper.Commands)
                 {
-                    NotificationService.InfoLog(
-                        $"{command.Name} {string.Join(" ", command.Parameters.Select(a => "<" + a.Name + ">"))}"
-                    );
+                    string message =
+                        $"{command.Name} {string.Join(" ", command.Parameters.Select(a => "<" + a.Name + ">"))}\t{command.Description}";
+                    NotificationService.InfoLog(message);
                 }
             }
         );
