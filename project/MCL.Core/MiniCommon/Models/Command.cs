@@ -17,7 +17,9 @@
  */
 
 using System.Collections.Generic;
+using System.Linq;
 using MCL.Core.MiniCommon.Helpers;
+using MCL.Core.MiniCommon.Logger.Enums;
 
 namespace MCL.Core.MiniCommon.Models;
 
@@ -30,5 +32,17 @@ public class Command
     public Command()
     {
         CommandHelper.Add(this);
+    }
+
+    public string Usage()
+    {
+        string _parameters = string.Join(" ", Parameters.Select(a => $"\n\t<{a.Name}(Optional:{a.Optional})=value>"));
+        string parameters = ObjectValidator<string>.IsNotNullOrWhiteSpace([_parameters], NativeLogLevel.Debug)
+            ? _parameters
+            : "\n\tNo parameters.";
+        string description = ObjectValidator<string>.IsNotNullOrWhiteSpace([Description], NativeLogLevel.Debug)
+            ? Description
+            : "No description.";
+        return $"\nCommand:\n\t{CommandLine.Prefix}{Name}\nParameters:\t{parameters}\nDescription:\n\t{description}";
     }
 }

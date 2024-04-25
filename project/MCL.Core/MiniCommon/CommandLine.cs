@@ -27,7 +27,7 @@ namespace MCL.Core.MiniCommon;
 
 public static class CommandLine
 {
-    private static readonly string _prefix = "--";
+    public static string Prefix { get; private set; } = "--";
     private static readonly char[] _separator = [',', ';'];
 
     /// <summary>
@@ -37,7 +37,7 @@ public static class CommandLine
     {
         try
         {
-            int index = Array.IndexOf(args, _prefix + command.Name);
+            int index = Array.IndexOf(args, Prefix + command.Name);
             if (index != -1)
             {
                 T value = default;
@@ -61,7 +61,7 @@ public static class CommandLine
     {
         try
         {
-            int index = Array.IndexOf(args, _prefix + command.Name);
+            int index = Array.IndexOf(args, Prefix + command.Name);
             if (index != -1 && index + 1 < args.Length && !args[index + 1].StartsWith("--"))
             {
                 Dictionary<string, string> options = ParseKeyValuePairs(args[index + 1]);
@@ -71,10 +71,7 @@ public static class CommandLine
                 )
                     action(options);
                 else
-                    NotificationService.Error(
-                        "commandline.error",
-                        $"{command.Name} {string.Join(" ", command.Parameters.Select(a => "<" + a.Name + ">"))}"
-                    );
+                    NotificationService.Error("commandline.error", command.Usage());
             }
         }
         catch (Exception ex)
@@ -90,7 +87,7 @@ public static class CommandLine
     {
         try
         {
-            int index = Array.IndexOf(args, _prefix + command.Name);
+            int index = Array.IndexOf(args, Prefix + command.Name);
             if (index != -1)
             {
                 T value = default;
@@ -118,7 +115,7 @@ public static class CommandLine
     {
         try
         {
-            int index = Array.IndexOf(args, _prefix + command.Name);
+            int index = Array.IndexOf(args, Prefix + command.Name);
             if (index != -1 && index + 1 < args.Length && !args[index + 1].StartsWith("--"))
             {
                 Dictionary<string, string> options = ParseKeyValuePairs(args[index + 1]);
@@ -128,10 +125,7 @@ public static class CommandLine
                 )
                     await action(options);
                 else
-                    NotificationService.Error(
-                        "commandline.error",
-                        $"{command.Name} {string.Join(" ", command.Parameters.Select(a => "<" + a.Name + ">"))}"
-                    );
+                    NotificationService.Error("commandline.error", command.Usage());
             }
         }
         catch (Exception ex)
