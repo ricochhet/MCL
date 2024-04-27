@@ -23,4 +23,5 @@ public enum ClientType
     VANILLA,
     FABRIC,
     QUILT,
+    CUSTOM,
 }

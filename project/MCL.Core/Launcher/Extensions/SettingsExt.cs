@@ -36,7 +36,8 @@ public static class SettingsExt
     {
         switch (clientType)
         {
-            case ClientType.VANILLA:
+            case ClientType.VANILLA
+            or ClientType.CUSTOM:
                 if (settings.MJvmArguments != jvmArguments)
                 {
                     settings.MJvmArguments =

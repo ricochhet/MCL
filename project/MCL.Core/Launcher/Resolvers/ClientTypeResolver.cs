@@ -31,7 +31,7 @@ public static class ClientTypeResolver
     public static string ToString(ClientType? type, MainClassNames? mainClassNames) =>
         type switch
         {
-            ClientType.VANILLA => mainClassNames?.Vanilla ?? ValidationShims.StringEmpty(),
+            ClientType.VANILLA or ClientType.CUSTOM => mainClassNames?.Vanilla ?? ValidationShims.StringEmpty(),
             ClientType.FABRIC => mainClassNames?.Fabric ?? ValidationShims.StringEmpty(),
             ClientType.QUILT => mainClassNames?.Quilt ?? ValidationShims.StringEmpty(),
             _ => throw new ArgumentOutOfRangeException(nameof(type)),

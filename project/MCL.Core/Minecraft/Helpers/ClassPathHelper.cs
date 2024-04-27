@@ -22,6 +22,7 @@ using MCL.Core.Java.Enums;
 using MCL.Core.Launcher.Enums;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Minecraft.Resolvers;
+using MCL.Core.MiniCommon.FileSystem;
 using MCL.Core.MiniCommon.Validation;
 
 namespace MCL.Core.Minecraft.Helpers;
@@ -32,6 +33,7 @@ public static class ClassPathHelper
     /// Get a list of class libraries for the specified MVersion and Loader versions.
     /// </summary>
     public static string GetClassLibraries(
+        LauncherPath? launcherPath,
         LauncherVersion? launcherVersion,
         LauncherInstance? launcherInstance,
         LauncherSettings? launcherSettings
@@ -73,6 +75,11 @@ public static class ClassPathHelper
                     a.Version == launcherVersion?.QuiltLoaderVersion
                 );
                 libraries = [.. libraries, .. quiltLoader?.Libraries];
+                break;
+            case ClientType.CUSTOM:
+                libraries = VFS.GetFiles(MPathResolver.LibraryPath(launcherPath), "*")
+                    .Prepend(MPathResolver.ClientLibrary(launcherVersion))
+                    .ToArray();
                 break;
         }
 

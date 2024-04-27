@@ -84,7 +84,8 @@ public static class JavaLauncher
 
         switch (clientType)
         {
-            case ClientType.VANILLA:
+            case ClientType.VANILLA
+            or ClientType.CUSTOM:
                 if (!JvmArgumentsExist(settings, settings.MJvmArguments))
                     return;
                 RunJavaProcess(settings, workingDirectory, settings.MJvmArguments, javaExe, _javaHome);
