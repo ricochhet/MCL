@@ -20,7 +20,6 @@ using MCL.Core.Java.Enums;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Minecraft.Helpers;
 using MCL.Core.Minecraft.Models;
-using MCL.Core.MiniCommon;
 using MCL.Core.MiniCommon.Resolvers;
 using MCL.Core.MiniCommon.Validation;
 

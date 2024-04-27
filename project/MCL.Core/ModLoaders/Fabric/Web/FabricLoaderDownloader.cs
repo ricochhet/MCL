@@ -22,7 +22,6 @@ using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Services;
 using MCL.Core.Minecraft.Resolvers;
-using MCL.Core.MiniCommon;
 using MCL.Core.MiniCommon.FileSystem;
 using MCL.Core.MiniCommon.Validation;
 using MCL.Core.MiniCommon.Web;

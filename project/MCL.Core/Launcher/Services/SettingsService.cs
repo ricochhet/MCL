@@ -16,10 +16,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using System;
 using System.Collections.Generic;
 using System.Text.Json;
 using MCL.Core.Launcher.Models;
-using MCL.Core.MiniCommon;
 using MCL.Core.MiniCommon.FileSystem;
 using MCL.Core.MiniCommon.Services;
 
@@ -30,7 +30,12 @@ public static class SettingsService
     public const string DataDirectory = ".mcl";
     public const string SettingsFileName = "mcl.json";
     public const string LocalizationDirectory = "localization";
-    public static readonly string LogFilePath = VFS.FromCwd(DataDirectory, _logFileName);
+    public const string LogsDirectory = "logs";
+    public static readonly string LogFilePath = VFS.FromCwd(
+        DataDirectory,
+        LogsDirectory,
+        $"{DateTime.Now:yyyy-MM-dd-HH-mm-ss}.log"
+    );
     public static readonly string LocalizationPath = VFS.FromCwd(DataDirectory, LocalizationDirectory);
     public static readonly List<string> WatermarkText =
     [
@@ -38,7 +43,6 @@ public static class SettingsService
         "This work is free of charge",
         "If you paid money, you were scammed"
     ];
-    private const string _logFileName = "mcl.log";
     private static readonly string _settingsFilePath = VFS.FromCwd(DataDirectory, SettingsFileName);
 
     public static JsonSerializerOptions JsonSerializerOptions { get; set; } = Json.JsonSerializerOptions;

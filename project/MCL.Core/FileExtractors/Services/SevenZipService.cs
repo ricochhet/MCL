@@ -19,7 +19,6 @@
 using System;
 using MCL.Core.FileExtractors.Models;
 using MCL.Core.FileExtractors.Resolvers;
-using MCL.Core.MiniCommon;
 using MCL.Core.MiniCommon.Helpers;
 using MCL.Core.MiniCommon.Validation;
 

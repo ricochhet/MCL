@@ -23,7 +23,6 @@ using System.Linq;
 using System.Text.Encodings.Web;
 using MCL.Core.FileExtractors.Services;
 using MCL.Core.Launcher.Models;
-using MCL.Core.MiniCommon;
 using MCL.Core.MiniCommon.FileSystem;
 using MCL.Core.MiniCommon.Helpers;
 using MCL.Core.MiniCommon.Services;

@@ -21,7 +21,6 @@ using System.Threading.Tasks;
 using MCL.Core.Java.Helpers;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Minecraft.Helpers;
-using MCL.Core.MiniCommon;
 using MCL.Core.MiniCommon.Commands;
 using MCL.Core.MiniCommon.Interfaces;
 using MCL.Core.MiniCommon.Validation;

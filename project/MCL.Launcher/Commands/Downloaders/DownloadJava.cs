@@ -20,7 +20,6 @@ using System.Threading.Tasks;
 using MCL.Core.Java.Helpers;
 using MCL.Core.Java.Services;
 using MCL.Core.Launcher.Models;
-using MCL.Core.MiniCommon;
 using MCL.Core.MiniCommon.Commands;
 using MCL.Core.MiniCommon.Interfaces;
 

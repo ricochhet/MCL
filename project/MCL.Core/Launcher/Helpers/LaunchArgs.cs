@@ -23,7 +23,6 @@ using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Resolvers;
 using MCL.Core.Minecraft.Helpers;
 using MCL.Core.Minecraft.Resolvers;
-using MCL.Core.MiniCommon;
 using MCL.Core.MiniCommon.Validation;
 
 namespace MCL.Core.Launcher.Helpers;
