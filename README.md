@@ -24,11 +24,21 @@ If you want to build with an icon, you can place an icon in `{root}/project/MCL.
 Files placed in `{root}/project/MCL.Resources` or `{root}/project/MCL.Resources.Local` will be copied over to `project/Build`.
 
 ## Platforms
+
 |        | Windows|Linux (Untested)|Mac OS (Untested)|
 |--------|--------|----------------|-----------------|
 | x86-64 | ✅ | ❌ | ❌ |
 | x86    | ❌ | ❌ | ❌ |
 | ARM64  | ❌ | ❌ | ❌ |
+
+## Mod Loaders
+(*) Denotes unsupported mod loaders.
+
+|        | Windows|Linux (Untested)|Mac OS (Untested)|
+|--------|--------|----------------|-----------------|
+| Fabric | ✅ | ❌ | ❌ |
+| Quilt  | ❌ | ❌ | ❌ |
+| *Forge | ❌ | ❌ | ❌ |
 
 ### Suggestions & PRs
 Suggestions and pull requests are welcome, just keep in mind to follow the project architecture to keep it consistent.
