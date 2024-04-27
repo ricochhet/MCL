@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MCL.Core.Launcher.Models;
 using MCL.Core.MiniCommon;
+using MCL.Core.MiniCommon.Validation;
 
 namespace MCL.Core.Launcher.Extensions;
 

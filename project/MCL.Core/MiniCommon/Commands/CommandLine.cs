@@ -22,8 +22,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using MCL.Core.MiniCommon.Models;
 using MCL.Core.MiniCommon.Services;
+using MCL.Core.MiniCommon.Validation;
 
-namespace MCL.Core.MiniCommon;
+namespace MCL.Core.MiniCommon.Commands;
 
 public static class CommandLine
 {

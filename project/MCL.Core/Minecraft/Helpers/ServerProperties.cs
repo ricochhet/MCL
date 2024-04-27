@@ -19,6 +19,7 @@
 using MCL.Core.Launcher.Models;
 using MCL.Core.Minecraft.Resolvers;
 using MCL.Core.MiniCommon;
+using MCL.Core.MiniCommon.FileSystem;
 
 namespace MCL.Core.Minecraft.Helpers;
 

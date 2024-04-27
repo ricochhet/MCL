@@ -20,6 +20,7 @@ using System;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using MCL.Core.MiniCommon.FileSystem;
 
 namespace MCL.Core.MiniCommon.Helpers;
 
@@ -28,64 +29,52 @@ public static class CryptographyHelper
     /// <summary>
     /// Create a SHA1 hash from a filestream, and return as string.
     /// </summary>
-    public static string CreateSHA1(string fileName, bool formatting)
-    {
-        if (!VFS.Exists(fileName))
-            return string.Empty;
-
-        using FileStream stream = VFS.OpenRead(fileName);
-        byte[] hash = SHA1.HashData(stream);
-
-        if (formatting)
-            return BitConverter.ToString(hash).ToLower().Replace("-", string.Empty);
-
-        return BitConverter.ToString(hash);
-    }
+    public static string CreateSHA1(string fileName, bool formatting) =>
+        CreateHash(fileName, formatting, SHA1.Create());
 
     /// <summary>
     /// Create a SHA1 hash from a string, and return as string.
     /// </summary>
-    public static string CreateSHA1(string value, Encoding enc)
-    {
-        StringBuilder stringBuilder = new();
-        byte[] hash = SHA1.HashData(enc.GetBytes(value));
-        foreach (byte b in hash)
-        {
-            stringBuilder.Append(b.ToString("x2"));
-        }
-
-        return stringBuilder.ToString();
-    }
+    public static string CreateSHA1(string value, Encoding enc) => CreateHash(value, enc, SHA1.Create());
 
     /// <summary>
     /// Create a SHA256 hash from a filestream, and return as string.
     /// </summary>
-    public static string CreateSHA256(string fileName, bool formatting)
+    public static string CreateSHA256(string fileName, bool formatting) =>
+        CreateHash(fileName, formatting, SHA256.Create());
+
+    /// <summary>
+    /// Create a SHA256 hash from a string, and return as string.
+    /// </summary>
+    public static string CreateSHA256(string value, Encoding enc) => CreateHash(value, enc, SHA256.Create());
+
+    /// <summary>
+    /// Create a hash from a filestream, and return as string.
+    /// </summary>
+    public static string CreateHash(string fileName, bool formatting, HashAlgorithm algorithm)
     {
         if (!VFS.Exists(fileName))
             return string.Empty;
 
         using FileStream stream = VFS.OpenRead(fileName);
-        byte[] hash = SHA256.HashData(stream);
+        byte[] hash = algorithm.ComputeHash(stream);
 
         if (formatting)
             return BitConverter.ToString(hash).ToLower().Replace("-", string.Empty);
-
         return BitConverter.ToString(hash);
     }
 
     /// <summary>
-    /// Create a SHA256 hash from a string, and return as string.
+    /// Create a hash from a string, and return as string.
     /// </summary>
-    public static string CreateSHA256(string value, Encoding enc)
+    public static string CreateHash(string value, Encoding enc, HashAlgorithm algorithm)
     {
+        byte[] hash = algorithm.ComputeHash(enc.GetBytes(value));
         StringBuilder stringBuilder = new();
-        byte[] hash = SHA256.HashData(enc.GetBytes(value));
         foreach (byte b in hash)
         {
             stringBuilder.Append(b.ToString("x2"));
         }
-
         return stringBuilder.ToString();
     }
 

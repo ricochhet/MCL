@@ -25,7 +25,7 @@ using MCL.Core.MiniCommon.Logger.Enums;
 using MCL.Core.MiniCommon.Models;
 using MCL.Core.MiniCommon.Services;
 
-namespace MCL.Core.MiniCommon;
+namespace MCL.Core.MiniCommon.Validation;
 
 #pragma warning disable IDE0079
 #pragma warning disable S107

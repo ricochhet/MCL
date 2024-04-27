@@ -21,7 +21,7 @@ using System.Runtime.CompilerServices;
 using MCL.Core.MiniCommon.Logger.Enums;
 using MCL.Core.MiniCommon.Services;
 
-namespace MCL.Core.MiniCommon;
+namespace MCL.Core.MiniCommon.Validation;
 
 public static class ValidationShims
 {

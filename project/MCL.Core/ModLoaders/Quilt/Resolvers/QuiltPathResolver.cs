@@ -18,6 +18,8 @@
 
 using MCL.Core.Launcher.Models;
 using MCL.Core.MiniCommon;
+using MCL.Core.MiniCommon.FileSystem;
+using MCL.Core.MiniCommon.Validation;
 using MCL.Core.ModLoaders.Quilt.Models;
 
 namespace MCL.Core.ModLoaders.Quilt.Resolvers;

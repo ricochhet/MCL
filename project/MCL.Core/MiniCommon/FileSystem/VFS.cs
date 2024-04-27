@@ -22,7 +22,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace MCL.Core.MiniCommon;
+namespace MCL.Core.MiniCommon.FileSystem;
 
 #pragma warning disable IDE0079
 #pragma warning disable S101
@@ -104,7 +104,7 @@ public static class VFS
     /// </summary>
     public static string GetDirectoryName(this string filepath)
     {
-        string value = Path.GetDirectoryName(filepath) ?? ValidationShims.StringEmpty();
+        string value = Path.GetDirectoryName(filepath) ?? string.Empty;
         return (!string.IsNullOrWhiteSpace(value)) ? value : string.Empty;
     }
 

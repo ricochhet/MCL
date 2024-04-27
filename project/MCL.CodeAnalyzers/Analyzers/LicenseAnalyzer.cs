@@ -18,6 +18,7 @@
 
 using MCL.CodeAnalyzers.Analyzers.Models;
 using MCL.Core.MiniCommon;
+using MCL.Core.MiniCommon.FileSystem;
 using MCL.Core.MiniCommon.Services;
 
 namespace MCL.CodeAnalyzers.Analyzers;

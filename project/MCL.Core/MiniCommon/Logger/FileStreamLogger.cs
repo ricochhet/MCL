@@ -24,6 +24,7 @@ using System.Threading.Tasks;
 using MCL.Core.MiniCommon.Logger.Enums;
 using MCL.Core.MiniCommon.Logger.Models;
 using MCL.Core.MiniCommon.Services;
+using MCL.Core.MiniCommon.Validation;
 
 namespace MCL.Core.MiniCommon.Logger;
 
