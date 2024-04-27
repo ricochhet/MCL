@@ -34,7 +34,7 @@ public static class PaperLauncher
         if (ObjectValidator<Settings>.IsNull(settings))
             return;
 
-        settings?.Save(PaperServerArgs.DefaultJvmArguments(settings));
+        settings?.Save(PaperLaunchOptions.DefaultJvmArguments(settings)?.JvmArguments());
         JavaLauncher.Launch(
             settings,
             PaperPathResolver.InstallerPath(settings?.LauncherPath, settings?.LauncherVersion),

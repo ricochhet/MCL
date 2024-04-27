@@ -35,7 +35,10 @@ public static class MinecraftLauncher
         if (ObjectValidator<Settings>.IsNull(settings))
             return;
 
-        settings.Save(settings.LauncherSettings?.ClientType, LaunchArgs.DefaultJvmArguments(settings));
+        settings.Save(
+            settings.LauncherSettings?.ClientType,
+            MLaunchOptions.DefaultJvmArguments(settings)?.JvmArguments()
+        );
         if (
             ObjectValidator<MVersionDetails>.IsNull(
                 VersionHelper.GetVersionDetails(settings.LauncherPath, settings.LauncherVersion)

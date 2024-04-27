@@ -24,12 +24,12 @@ using MCL.Core.ModLoaders.Fabric.Resolvers;
 
 namespace MCL.Core.ModLoaders.Fabric.Helpers;
 
-public static class FabricInstallerArgs
+public static class FabricInstallerOptions
 {
     /// <summary>
     /// The default JvmArguments to run the Fabric installer.
     /// </summary>
-    public static JvmArguments? DefaultJvmArguments(
+    public static MArgument[]? DefaultJvmArguments(
         LauncherPath? launcherPath,
         LauncherVersion? launcherVersion,
         FabricInstallerType installerType
@@ -46,19 +46,33 @@ public static class FabricInstallerArgs
         )
             return null;
 
-        JvmArguments jvmArguments = new();
-        jvmArguments.Add(
-            "-jar \"{0}\" {1}",
-            [FabricPathResolver.InstallerPath(launcherPath, launcherVersion), "client"]
-        );
-        jvmArguments.Add(
-            "-dir \"{0}\" {1}",
-            [launcherPath?.MPath ?? ValidationShims.StringEmpty(), FabricInstallerTypeResolver.ToString(installerType)]
-        );
-        jvmArguments.Add("-mcversion {0}", [launcherVersion?.MVersion ?? ValidationShims.StringEmpty()]);
-        jvmArguments.Add("-loader {0}", [launcherVersion?.FabricLoaderVersion ?? ValidationShims.StringEmpty()]);
-        jvmArguments.Add("-noprofile");
-
-        return jvmArguments;
+        return
+        [
+            new MArgument
+            {
+                Arg = "-jar \"{0}\" {1}",
+                ArgParams = [FabricPathResolver.InstallerPath(launcherPath, launcherVersion), "client"]
+            },
+            new MArgument
+            {
+                Arg = "-dir \"{0}\" {1}",
+                ArgParams =
+                [
+                    launcherPath?.MPath ?? ValidationShims.StringEmpty(),
+                    FabricInstallerTypeResolver.ToString(installerType)
+                ]
+            },
+            new MArgument
+            {
+                Arg = "-mcversion {0}",
+                ArgParams = [launcherVersion?.MVersion ?? ValidationShims.StringEmpty()]
+            },
+            new MArgument
+            {
+                Arg = "-loader {0}",
+                ArgParams = [launcherVersion?.FabricLoaderVersion ?? ValidationShims.StringEmpty()]
+            },
+            new MArgument { Arg = "-noprofile" }
+        ];
     }
 }

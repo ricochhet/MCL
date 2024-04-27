@@ -98,8 +98,8 @@ public static class JvmArgumentExt
     /// </summary>
     public static JvmArguments Concat(this JvmArguments jvmArguments, JvmArguments? concat)
     {
-        List<LaunchArg> arguments = jvmArguments
-            .Arguments.Concat(concat?.Arguments ?? ValidationShims.ListEmpty<LaunchArg>())
+        List<MArgument> arguments = jvmArguments
+            .Arguments.Concat(concat?.Arguments ?? ValidationShims.ListEmpty<MArgument>())
             .GroupBy(arg => arg.Arg)
             .Select(group => group.Last())
             .ToList();

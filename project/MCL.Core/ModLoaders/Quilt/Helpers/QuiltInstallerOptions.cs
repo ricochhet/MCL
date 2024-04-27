@@ -25,12 +25,12 @@ using MCL.Core.ModLoaders.Quilt.Resolvers;
 
 namespace MCL.Core.ModLoaders.Quilt.Helpers;
 
-public static class QuiltInstallerArgs
+public static class QuiltInstallerOptions
 {
     /// <summary>
     /// The default JvmArguments to run the Quilt installer.
     /// </summary>
-    public static JvmArguments? DefaultJvmArguments(
+    public static MArgument[]? DefaultJvmArguments(
         LauncherPath? launcherPath,
         LauncherVersion? launcherVersion,
         QuiltInstallerType installerType
@@ -43,19 +43,29 @@ public static class QuiltInstallerArgs
         )
             return null;
 
-        JvmArguments jvmArguments = new();
-        jvmArguments.Add("-jar \"{0}\"", [QuiltPathResolver.InstallerPath(launcherPath, launcherVersion)]);
-        jvmArguments.Add(
-            $"install {QuiltInstallerTypeResolver.ToString(installerType)} {0} {1}",
-            [
-                launcherVersion?.MVersion ?? ValidationShims.StringEmpty(),
-                launcherVersion?.QuiltLoaderVersion ?? ValidationShims.StringEmpty()
-            ]
-        );
-        jvmArguments.Add(installerType, QuiltInstallerType.INSTALL_SERVER, "--download-server");
-        jvmArguments.Add("--install-dir=\"{0}\"", [launcherPath?.MPath ?? ValidationShims.StringEmpty()]);
-        jvmArguments.Add("--no-profile");
-
-        return jvmArguments;
+        return
+        [
+            new MArgument
+            {
+                Arg = "-jar \"{0}\"",
+                ArgParams = [QuiltPathResolver.InstallerPath(launcherPath, launcherVersion)]
+            },
+            new MArgument
+            {
+                Arg = $"install {QuiltInstallerTypeResolver.ToString(installerType)} {0} {1}",
+                ArgParams =
+                [
+                    launcherVersion?.MVersion ?? ValidationShims.StringEmpty(),
+                    launcherVersion?.QuiltLoaderVersion ?? ValidationShims.StringEmpty()
+                ]
+            },
+            new MArgument { Arg = "--download-server", Condition = installerType == QuiltInstallerType.INSTALL_SERVER },
+            new MArgument
+            {
+                Arg = "--install-dir=\"{0}\"",
+                ArgParams = [launcherPath?.MPath ?? ValidationShims.StringEmpty()]
+            },
+            new MArgument { Arg = "--no-profile" }
+        ];
     }
 }

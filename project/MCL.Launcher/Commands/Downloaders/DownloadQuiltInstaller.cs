@@ -19,6 +19,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MCL.Core.Java.Helpers;
+using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Minecraft.Helpers;
 using MCL.Core.MiniCommon.Commands;
@@ -72,11 +73,13 @@ public class DownloadQuiltInstaller : ILauncherCommand
                 JavaLauncher.Launch(
                     settings,
                     QuiltPathResolver.InstallersPath(settings?.LauncherPath),
-                    QuiltInstallerArgs.DefaultJvmArguments(
-                        settings?.LauncherPath,
-                        settings?.LauncherVersion,
-                        QuiltInstallerType.INSTALL_CLIENT
-                    ),
+                    QuiltInstallerOptions
+                        .DefaultJvmArguments(
+                            settings?.LauncherPath,
+                            settings?.LauncherVersion,
+                            QuiltInstallerType.INSTALL_CLIENT
+                        )
+                        ?.JvmArguments(),
                     settings?.LauncherSettings?.JavaRuntimeType,
                     options.GetValueOrDefault("javapath", string.Empty)
                 );

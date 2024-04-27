@@ -127,5 +127,5 @@ public static class JavaLauncher
     /// </summary>
     private static bool JvmArgumentsExist(Settings settings, JvmArguments? jvmArguments) =>
         ObjectValidator<Settings>.IsNotNull(settings)
-        && ObjectValidator<LaunchArg>.IsNotNullOrEmpty(jvmArguments?.Arguments);
+        && ObjectValidator<MArgument>.IsNotNullOrEmpty(jvmArguments?.Arguments);
 }

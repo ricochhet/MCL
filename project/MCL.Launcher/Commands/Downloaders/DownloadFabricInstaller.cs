@@ -19,6 +19,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MCL.Core.Java.Helpers;
+using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Minecraft.Helpers;
 using MCL.Core.MiniCommon.Commands;
@@ -72,11 +73,13 @@ public class DownloadFabricInstaller : ILauncherCommand
                 JavaLauncher.Launch(
                     settings,
                     FabricPathResolver.InstallersPath(settings?.LauncherPath),
-                    FabricInstallerArgs.DefaultJvmArguments(
-                        settings?.LauncherPath,
-                        settings?.LauncherVersion,
-                        FabricInstallerType.INSTALL_CLIENT
-                    ),
+                    FabricInstallerOptions
+                        .DefaultJvmArguments(
+                            settings?.LauncherPath,
+                            settings?.LauncherVersion,
+                            FabricInstallerType.INSTALL_CLIENT
+                        )
+                        ?.JvmArguments(),
                     settings?.LauncherSettings?.JavaRuntimeType,
                     options.GetValueOrDefault("javapath", string.Empty)
                 );

@@ -27,7 +27,8 @@ namespace MCL.Core.Launcher.Models;
 
 public class LauncherSettings
 {
-    public LauncherType LauncherType { get; set; } = CompileConstants.IsDebug ? LauncherType.DEBUG : LauncherType.RELEASE;
+    public LauncherType LauncherType { get; set; } =
+        CompileConstants.IsDebug ? LauncherType.DEBUG : LauncherType.RELEASE;
     public ClientType ClientType { get; set; } = ClientType.VANILLA;
     public FabricInstallerType FabricInstallerType { get; set; } = FabricInstallerType.INSTALL_CLIENT;
     public QuiltInstallerType QuiltInstallerType { get; set; } = QuiltInstallerType.INSTALL_CLIENT;

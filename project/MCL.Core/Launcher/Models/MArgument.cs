@@ -16,20 +16,33 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using MCL.Core.MiniCommon.Validation;
+
 namespace MCL.Core.Launcher.Models;
 
-public class LaunchArg(string arg, string[]? argParams = null, int priority = 0)
+public class MArgument
 {
-    public string Arg { get; set; } = arg;
-    public string[]? ArgParams { get; set; } = argParams;
-    public int Priority { get; set; } = priority;
-    public bool Ignore { get; set; } = false;
+    public string? Arg { get; set; }
+    public string[]? ArgParams { get; set; }
+    public int Priority { get; set; }
+    public bool Ignore { get; set; }
+    public bool Condition { get; set; } = true;
 
-    public string Parse()
+    public MArgument() { }
+
+    public MArgument(string arg, string[]? argParams = null, int priority = 0, bool ignore = false)
+    {
+        Arg = arg;
+        ArgParams = argParams;
+        Priority = priority;
+        Ignore = ignore;
+    }
+
+    public string? Parse()
     {
         if (ArgParams == null || ArgParams.Length <= 0)
             return Arg;
 
-        return string.Format(Arg, ArgParams);
+        return string.Format(Arg ?? ValidationShims.StringEmpty(), ArgParams);
     }
 }
