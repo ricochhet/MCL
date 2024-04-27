@@ -16,12 +16,14 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using MCL.Core.BuildInfo;
+
 namespace MCL.Core.Launcher.Models;
 
 public class LauncherVersion
 {
     public string Brand { get; set; } = "MCL";
-    public string Version { get; set; } = "1.0.0.000";
+    public string Version { get; set; } = ApplicationConstants.CurrentVersion.ToString();
     public string MVersion { get; set; } = string.Empty;
     public string MVersionType { get; set; } = "release";
     public string FabricInstallerVersion { get; set; } = string.Empty;

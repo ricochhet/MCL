@@ -17,6 +17,7 @@
  */
 
 using MCL.Core.Java.Enums;
+using MCL.Core.Java.Resolvers;
 using MCL.Core.Launcher.Enums;
 using MCL.Core.ModLoaders.Fabric.Enums;
 using MCL.Core.ModLoaders.Quilt.Enums;
@@ -26,11 +27,11 @@ namespace MCL.Core.Launcher.Models;
 public class LauncherSettings
 {
     public LauncherType LauncherType { get; set; } = LauncherType.RELEASE;
-    public ClientType ClientType { get; set; } = ClientType.FABRIC;
+    public ClientType ClientType { get; set; } = ClientType.VANILLA;
     public FabricInstallerType FabricInstallerType { get; set; } = FabricInstallerType.INSTALL_CLIENT;
     public QuiltInstallerType QuiltInstallerType { get; set; } = QuiltInstallerType.INSTALL_CLIENT;
     public JavaRuntimeType JavaRuntimeType { get; set; } = JavaRuntimeType.JAVA_RUNTIME_GAMMA;
-    public JavaRuntimePlatform JavaRuntimePlatform { get; set; } = JavaRuntimePlatform.WINDOWSX64;
+    public JavaRuntimePlatform JavaRuntimePlatform { get; set; } = JavaRuntimePlatformResolver.OSToJavaRuntimePlatform();
 
     public LauncherSettings() { }
 

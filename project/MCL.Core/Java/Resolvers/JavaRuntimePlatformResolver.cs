@@ -17,6 +17,7 @@
  */
 
 using System;
+using System.Runtime.InteropServices;
 using MCL.Core.Java.Enums;
 
 namespace MCL.Core.Java.Resolvers;
@@ -55,4 +56,37 @@ public static class JavaRuntimePlatformResolver
             JavaRuntimePlatform.MACOSARM64 => "osx",
             _ => throw new ArgumentOutOfRangeException(nameof(type)),
         };
+
+    public static JavaRuntimePlatform OSToJavaRuntimePlatform()
+    {
+        bool isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+        bool isLinux = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
+        bool isMacOS = RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
+
+        if (isWindows)
+        {
+            if (RuntimeInformation.OSArchitecture == Architecture.X64)
+                return JavaRuntimePlatform.WINDOWSX64;
+            else if (RuntimeInformation.OSArchitecture == Architecture.X86)
+                return JavaRuntimePlatform.WINDOWSX86;
+            else if (RuntimeInformation.OSArchitecture == Architecture.Arm64)
+                return JavaRuntimePlatform.WINDOWSARM64;
+        }
+        else if (isLinux)
+        {
+            if (RuntimeInformation.OSArchitecture == Architecture.X64)
+                return JavaRuntimePlatform.LINUX;
+            else if (RuntimeInformation.OSArchitecture == Architecture.X86)
+                return JavaRuntimePlatform.LINUXI386;
+        }
+        else if (isMacOS)
+        {
+            if (RuntimeInformation.OSArchitecture == Architecture.Arm64)
+                return JavaRuntimePlatform.MACOSARM64;
+            else if (RuntimeInformation.OSArchitecture == Architecture.X64)
+                return JavaRuntimePlatform.MACOS;
+        }
+
+        throw new NotSupportedException("Unsupported platform or architecture.");
+    }
 }
