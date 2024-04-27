@@ -3,6 +3,12 @@ TODO tasks are in order from top-to-bottom, most-to-least important.
 
 Tasks marked with (*) are easier to do.
 
+- [ ] Implement frontend interface via Avalonia.
+- [ ] Implement player skin options on non-vanilla loaders.
+    - Non-vanilla loaders can use modifications such as OfflineSkins to provide skins without in-depth networking systems.
+    - Skins can still be supplied via an API or website to reduce the manual processes.
+- [ ] Implement configuration migration service.
+    - This is beneficial when the configuration model is refactored.
 - [x] Implement object validator throughout project.
 - [x] Download commands should require a version flag.
 - [x] Implement instance data to assist in managing game and mod loader versions.
@@ -53,14 +59,8 @@ Tasks marked with (*) are easier to do.
     - [x]  Quilt
     - ~~Forge~~ Won't Implement
 - [x] Implement simple management of Fabric / Quilt mods.
-- [ ] Implement frontend interface via Avalonia.
 - [x] Add support for downloading and installing third-party server clients.
     - This includes the functionality to run the clients.
-- [ ] Implement player skin options on non-vanilla loaders.
-    - Non-vanilla loaders can use modifications such as OfflineSkins to provide skins without in-depth networking systems.
-    - Skins can still be supplied via an API or website to reduce the manual processes.
-- [ ] Implement configuration migration service.
-    - This is beneficial when the configuration model is refactored.
 - [x] Better handling of JVM arguments.
     - Every JVM argument should be an object that we can parse.
     - JVM argument objects should be added to a list.
