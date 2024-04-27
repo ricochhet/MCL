@@ -26,7 +26,6 @@
       "error.validation.list-shim": "Empty list. {0} - {1}:{2}",
       "error.validation.string-shim": "Empty string. {0} - {1}:{2}",
       "error.validation.class-shim": "Empty class. {0} - {1}:{2}",
-      "error.validation.bool-shim": "Empty boolean. {0} - {1}:{2}",
       "stack.trace.null": "No stack trace provided.",
       "commandline.error": "Invalid command. Expects: {0}",
       "commandline.exit": "Press '{0}' to safely exit.",
