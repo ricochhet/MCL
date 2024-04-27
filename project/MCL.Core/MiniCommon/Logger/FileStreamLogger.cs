@@ -102,7 +102,10 @@ public class FileStreamLogger : ILogger, IDisposable
         if (e.ExceptionObject is Exception ex)
             NotificationService.Error("log.unhandled.exception", ex.ToString());
         else
-            NotificationService.Error("log.unhandled.object", e.ExceptionObject.ToString());
+            NotificationService.Error(
+                "log.unhandled.object",
+                e.ExceptionObject.ToString() ?? ValidationShims.StringEmpty()
+            );
     }
 
     /// <summary>

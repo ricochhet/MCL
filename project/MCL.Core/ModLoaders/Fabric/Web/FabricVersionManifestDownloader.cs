@@ -30,14 +30,14 @@ public static class FabricVersionManifestDownloader
     /// <summary>
     /// Download the Fabric version manifest.
     /// </summary>
-    public static async Task<bool> Download(LauncherPath launcherPath, FabricUrls fabricUrls)
+    public static async Task<bool> Download(LauncherPath? launcherPath, FabricUrls? fabricUrls)
     {
         if (ObjectValidator<string>.IsNullOrWhiteSpace([fabricUrls?.VersionManifest]))
             return false;
 
         string filepath = FabricPathResolver.VersionManifestPath(launcherPath);
-        string fabricVersionManifest = await Request.GetJsonAsync<FabricVersionManifest>(
-            fabricUrls.VersionManifest,
+        string? fabricVersionManifest = await Request.GetJsonAsync<FabricVersionManifest>(
+            fabricUrls?.VersionManifest ?? ValidationShims.StringEmpty(),
             filepath,
             Encoding.UTF8
         );

@@ -24,7 +24,7 @@ namespace MCL.Core.MiniCommon.Services;
 
 public static class LocalizationService
 {
-    public static Localization Localization { get; private set; } = new();
+    public static Localization? Localization { get; private set; } = new();
     private static bool _loaded = false;
 
     /// <summary>
@@ -52,7 +52,7 @@ public static class LocalizationService
     {
         if (!_loaded)
             return LocalizationServiceError(id);
-        if (Localization.Entries.TryGetValue(id, out string value))
+        if (Localization?.Entries.TryGetValue(id, out string? value) ?? false)
             return value;
         return LocalizationError(id);
     }
@@ -64,7 +64,7 @@ public static class LocalizationService
     {
         if (!_loaded)
             return LocalizationServiceError(id, _params);
-        if (Localization.Entries.TryGetValue(id, out string value))
+        if (Localization?.Entries.TryGetValue(id, out string? value) ?? false)
         {
             if (_params.Length <= 0)
                 return value;

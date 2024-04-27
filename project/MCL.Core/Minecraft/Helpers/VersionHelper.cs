@@ -33,17 +33,17 @@ public static class VersionHelper
     /// Get the MVersionManifest and set the version of MVersion in Settings.
     /// </summary>
     public static async Task<bool> SetVersion(
-        Settings settings,
+        Settings? settings,
         LauncherVersion launcherVersion,
         bool updateVersionManifest = false
     )
     {
         MDownloadService.Init(
-            settings.LauncherPath,
-            settings.LauncherVersion,
-            settings.LauncherSettings,
-            settings.LauncherInstance,
-            settings.MUrls
+            settings?.LauncherPath,
+            settings?.LauncherVersion,
+            settings?.LauncherSettings,
+            settings?.LauncherInstance,
+            settings?.MUrls
         );
         if (!MDownloadService.LoadVersionManifestWithoutLogging() || updateVersionManifest)
         {
@@ -63,7 +63,11 @@ public static class VersionHelper
         if (!versions.Contains(version))
             return false;
 
+        if (ObjectValidator<LauncherVersion>.IsNull(settings?.LauncherVersion))
+            return false;
+#pragma warning disable CS8602
         settings.LauncherVersion.MVersion = version;
+#pragma warning restore CS8602
         SettingsService.Save(settings);
         return true;
     }
@@ -71,13 +75,13 @@ public static class VersionHelper
     /// <summary>
     /// Get a list of version identifiers.
     /// </summary>
-    public static List<string> GetVersionIds(MVersionManifest versionManifest)
+    public static List<string> GetVersionIds(MVersionManifest? versionManifest)
     {
         if (ObjectValidator<List<MVersion>>.IsNullOrEmpty(versionManifest?.Versions))
             return [];
 
         List<string> versions = [];
-        foreach (MVersion item in versionManifest.Versions)
+        foreach (MVersion item in versionManifest?.Versions ?? ValidationShims.ListEmpty<MVersion>())
             versions.Add(item.ID);
 
         return versions;
@@ -86,7 +90,7 @@ public static class VersionHelper
     /// <summary>
     /// Get a MVersion object from the MVersionManifest.
     /// </summary>
-    public static MVersion GetVersion(LauncherVersion launcherVersion, MVersionManifest versionManifest)
+    public static MVersion? GetVersion(LauncherVersion? launcherVersion, MVersionManifest? versionManifest)
     {
         if (
             ObjectValidator<string>.IsNullOrWhiteSpace([launcherVersion?.MVersion])
@@ -94,17 +98,17 @@ public static class VersionHelper
         )
             return null;
 
-        foreach (MVersion item in versionManifest.Versions)
+        foreach (MVersion item in versionManifest?.Versions ?? ValidationShims.ListEmpty<MVersion>())
         {
             if (
                 ObjectValidator<string>.IsNullOrWhiteSpace([launcherVersion?.MVersion])
-                && item.ID == versionManifest.Latest.Release
+                && item.ID == versionManifest?.Latest?.Release
             )
                 return item;
 
             if (
                 ObjectValidator<string>.IsNotNullOrWhiteSpace([launcherVersion?.MVersion])
-                && item.ID == launcherVersion.MVersion
+                && item.ID == launcherVersion?.MVersion
             )
                 return item;
         }
@@ -114,21 +118,23 @@ public static class VersionHelper
     /// <summary>
     /// Get a MVersionDetails object from the MVersion.
     /// </summary>
-    public static MVersionDetails GetVersionDetails(LauncherPath launcherPath, LauncherVersion launcherVersion)
+    public static MVersionDetails? GetVersionDetails(LauncherPath? launcherPath, LauncherVersion? launcherVersion)
     {
-        if (ObjectValidator<string>.IsNullOrWhiteSpace([launcherVersion.MVersion]))
+        if (ObjectValidator<string>.IsNullOrWhiteSpace([launcherVersion?.MVersion]))
             return null;
 
-        MVersionManifest versionManifest = Json.Load<MVersionManifest>(MPathResolver.VersionManifestPath(launcherPath));
+        MVersionManifest? versionManifest = Json.Load<MVersionManifest>(
+            MPathResolver.VersionManifestPath(launcherPath)
+        );
 
         if (ObjectValidator<List<MVersion>>.IsNullOrEmpty(versionManifest?.Versions))
             return null;
 
-        MVersion version = GetVersion(launcherVersion, versionManifest);
+        MVersion? version = GetVersion(launcherVersion, versionManifest);
         if (ObjectValidator<MVersion>.IsNull(version))
             return null;
 
-        MVersionDetails versionDetails = Json.Load<MVersionDetails>(
+        MVersionDetails? versionDetails = Json.Load<MVersionDetails>(
             MPathResolver.VersionDetailsPath(launcherPath, version)
         );
         if (ObjectValidator<MVersionDetails>.IsNull(versionDetails))

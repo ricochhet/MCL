@@ -19,18 +19,19 @@
 using System;
 using MCL.Core.FileExtractors.Models;
 using MCL.Core.FileExtractors.Resolvers;
+using MCL.Core.MiniCommon;
 using MCL.Core.MiniCommon.Helpers;
 
 namespace MCL.Core.FileExtractors.Services;
 
 public static class SevenZipService
 {
-    private static SevenZipSettings SevenZipSettings { get; set; }
+    private static SevenZipSettings? SevenZipSettings { get; set; }
 
     /// <summary>
     /// Initialize the SevenZip service.
     /// </summary>
-    public static void Init(SevenZipSettings sevenZipSettings)
+    public static void Init(SevenZipSettings? sevenZipSettings)
     {
         SevenZipSettings = sevenZipSettings;
     }
@@ -42,7 +43,7 @@ public static class SevenZipService
     {
         ProcessHelper.RunProcess(
             SevenZipPathResolver.SevenZipPath(SevenZipSettings),
-            string.Format(SevenZipSettings.ExtractArguments, source, destination),
+            string.Format(SevenZipSettings?.ExtractArguments ?? ValidationShims.StringEmpty(), source, destination),
             Environment.CurrentDirectory,
             false
         );

@@ -31,9 +31,9 @@ public static class FabricProfileDownloader
     /// Download a Fabric profile specified by the FabricLoaderVersion.
     /// </summary>
     public static async Task<bool> Download(
-        LauncherPath launcherPath,
-        LauncherVersion launcherVersion,
-        FabricUrls fabricUrls
+        LauncherPath? launcherPath,
+        LauncherVersion? launcherVersion,
+        FabricUrls? fabricUrls
     )
     {
         if (
@@ -43,7 +43,7 @@ public static class FabricProfileDownloader
         )
             return false;
 
-        string fabricProfile = await Request.GetJsonAsync<FabricProfile>(
+        string? fabricProfile = await Request.GetJsonAsync<FabricProfile>(
             FabricPathResolver.LoaderProfilePath(fabricUrls, launcherVersion),
             FabricPathResolver.ProfilePath(launcherPath, launcherVersion),
             Encoding.UTF8

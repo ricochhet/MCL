@@ -33,10 +33,10 @@ public static class JavaLauncher
     /// Starts a Java runtime process with the specified arguments.
     /// </summary>
     public static void Launch(
-        Settings settings,
+        Settings? settings,
         string workingDirectory,
-        JvmArguments jvmArguments,
-        JavaRuntimeType javaRuntimeType,
+        JvmArguments? jvmArguments,
+        JavaRuntimeType? javaRuntimeType,
         string javaHome
     )
     {
@@ -49,7 +49,10 @@ public static class JavaLauncher
         string _javaHome = javaHome;
         if (ObjectValidator<string>.IsNullOrWhiteSpace([javaHome], NativeLogLevel.Debug))
             _javaHome = JavaRuntimeHelper.FindJavaRuntimeEnvironment(settings, workingDirectory, javaRuntimeType);
-        string javaExe = VFS.Combine(JavaPathResolver.JavaRuntimeBin(_javaHome), settings.JavaSettings.Executable);
+        string javaExe = VFS.Combine(
+            JavaPathResolver.JavaRuntimeBin(_javaHome),
+            settings?.JavaSettings?.Executable ?? ValidationShims.StringEmpty()
+        );
         RunJavaProcess(settings, workingDirectory, jvmArguments, javaExe, _javaHome);
     }
 
@@ -59,8 +62,8 @@ public static class JavaLauncher
     public static void Launch(
         Settings settings,
         string workingDirectory,
-        ClientType clientType,
-        JavaRuntimeType javaRuntimeType,
+        ClientType? clientType,
+        JavaRuntimeType? javaRuntimeType,
         string javaHome
     )
     {
@@ -73,7 +76,10 @@ public static class JavaLauncher
         string _javaHome = javaHome;
         if (ObjectValidator<string>.IsNullOrWhiteSpace([javaHome], NativeLogLevel.Debug))
             _javaHome = JavaRuntimeHelper.FindJavaRuntimeEnvironment(settings, workingDirectory, javaRuntimeType);
-        string javaExe = VFS.Combine(JavaPathResolver.JavaRuntimeBin(_javaHome), settings.JavaSettings.Executable);
+        string javaExe = VFS.Combine(
+            JavaPathResolver.JavaRuntimeBin(_javaHome),
+            settings.JavaSettings?.Executable ?? ValidationShims.StringEmpty()
+        );
 
         switch (clientType)
         {
@@ -99,26 +105,26 @@ public static class JavaLauncher
     /// Starts a Java runtime process with the corresponding environment variables.
     /// </summary>
     private static void RunJavaProcess(
-        Settings settings,
+        Settings? settings,
         string workingDirectory,
-        JvmArguments jvmArguments,
+        JvmArguments? jvmArguments,
         string javaExe,
         string javaHome
     )
     {
         ProcessHelper.RunProcess(
             javaExe,
-            jvmArguments.Build(),
+            jvmArguments?.Build() ?? ValidationShims.StringEmpty(),
             workingDirectory,
             false,
-            new() { { settings.JavaSettings.HomeEnvironmentVariable, javaHome } }
+            new() { { settings?.JavaSettings?.HomeEnvironmentVariable ?? ValidationShims.StringEmpty(), javaHome } }
         );
     }
 
     /// <summary>
     /// Validates the JvmArguments are not null, or empty.
     /// </summary>
-    private static bool JvmArgumentsExist(Settings settings, JvmArguments jvmArguments) =>
+    private static bool JvmArgumentsExist(Settings settings, JvmArguments? jvmArguments) =>
         ObjectValidator<Settings>.IsNotNull(settings)
         && ObjectValidator<LaunchArg>.IsNotNullOrEmpty(jvmArguments?.Arguments);
 }

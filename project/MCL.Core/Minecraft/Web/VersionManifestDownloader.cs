@@ -30,14 +30,14 @@ public static class VersionManifestDownloader
     /// <summary>
     /// Download the game version manifest.
     /// </summary>
-    public static async Task<bool> Download(LauncherPath launcherPath, MUrls mUrls)
+    public static async Task<bool> Download(LauncherPath? launcherPath, MUrls? mUrls)
     {
         if (ObjectValidator<string>.IsNullOrWhiteSpace([mUrls?.VersionManifest]))
             return false;
 
         string filepath = MPathResolver.VersionManifestPath(launcherPath);
-        string versionManifest = await Request.GetJsonAsync<MVersionManifest>(
-            mUrls.VersionManifest,
+        string? versionManifest = await Request.GetJsonAsync<MVersionManifest>(
+            mUrls?.VersionManifest ?? ValidationShims.StringEmpty(),
             filepath,
             Encoding.UTF8
         );

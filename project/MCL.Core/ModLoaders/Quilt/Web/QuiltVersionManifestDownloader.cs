@@ -30,14 +30,14 @@ public static class QuiltVersionManifestDownloader
     /// <summary>
     /// Download the Quilt version manifest.
     /// </summary>
-    public static async Task<bool> Download(LauncherPath launcherPath, QuiltUrls quiltUrls)
+    public static async Task<bool> Download(LauncherPath? launcherPath, QuiltUrls? quiltUrls)
     {
         if (ObjectValidator<string>.IsNullOrWhiteSpace([quiltUrls?.VersionManifest]))
             return false;
 
         string filepath = QuiltPathResolver.VersionManifestPath(launcherPath);
-        string quiltVersionManifest = await Request.GetJsonAsync<QuiltVersionManifest>(
-            quiltUrls.VersionManifest,
+        string? quiltVersionManifest = await Request.GetJsonAsync<QuiltVersionManifest>(
+            quiltUrls?.VersionManifest ?? ValidationShims.StringEmpty(),
             filepath,
             Encoding.UTF8
         );

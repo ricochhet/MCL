@@ -27,7 +27,7 @@ namespace MCL.Core.MiniCommon.Logger;
 public class Log
 {
     private readonly List<ILogger> _io = [];
-    private static Log _instance;
+    private static Log? _instance;
     private static readonly SemaphoreSlim _semaphore = new(1, 1);
     private readonly Dictionary<string, Stopwatch> _benchmarkers = [];
 
@@ -313,7 +313,7 @@ public class Log
     /// </summary>
     public static void BenchmarkEnd([CallerMemberName] string name = "")
     {
-        if (!Instance._benchmarkers.TryGetValue(name, out Stopwatch value))
+        if (!Instance._benchmarkers.TryGetValue(name, out Stopwatch? value))
             return;
 
         Stopwatch benchmarker = value;
@@ -321,5 +321,5 @@ public class Log
         benchmarker.Stop();
         _ = Instance._benchmarkers.Remove(name);
     }
-#pragma warning restore
+#pragma warning restore IDE0079, S3168
 }

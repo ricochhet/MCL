@@ -10,6 +10,7 @@
     </PropertyGroup>
     <PropertyGroup>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <Nullable>enable</Nullable>
     </PropertyGroup>
     <PropertyGroup Condition="Exists('..\MCL.Resources.Local\icon.ico')">
         <ApplicationIcon>..\MCL.Resources.Local\icon.ico</ApplicationIcon>

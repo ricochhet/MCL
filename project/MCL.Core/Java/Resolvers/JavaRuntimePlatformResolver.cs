@@ -43,7 +43,7 @@ public static class JavaRuntimePlatformResolver
     /// <summary>
     /// Convert JavaRuntimePlatform into a base platform name.
     /// </summary>
-    public static string ToPlatformString(JavaRuntimePlatform type) =>
+    public static string ToPlatformString(JavaRuntimePlatform? type) =>
         type switch
         {
             JavaRuntimePlatform.WINDOWSARM64 => "windows",

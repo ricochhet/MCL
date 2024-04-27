@@ -32,7 +32,7 @@ public static class LaunchArgs
     /// <summary>
     /// The default JvmArguments to launch the process with.
     /// </summary>
-    public static JvmArguments DefaultJvmArguments(Settings settings)
+    public static JvmArguments? DefaultJvmArguments(Settings settings)
     {
         if (ObjectValidator<Settings>.IsNull(settings))
             return null;
@@ -40,8 +40,14 @@ public static class LaunchArgs
         JvmArguments jvmArguments = new();
         string libraries = MPathResolver.NativesLibraries(settings.LauncherVersion);
 
-        jvmArguments.Add("-Xms{0}m", [settings.LauncherMemory.MemoryMinMb.ToString()]);
-        jvmArguments.Add("-Xmx{0}m", [settings.LauncherMemory.MemoryMaxMb.ToString()]);
+        jvmArguments.Add(
+            "-Xms{0}m",
+            [settings.LauncherMemory?.MemoryMinMb.ToString() ?? ValidationShims.StringEmpty()]
+        );
+        jvmArguments.Add(
+            "-Xmx{0}m",
+            [settings.LauncherMemory?.MemoryMaxMb.ToString() ?? ValidationShims.StringEmpty()]
+        );
         jvmArguments.Add("-XX:+UnlockExperimentalVMOptions");
         jvmArguments.Add("-XX:+UseG1GC");
         jvmArguments.Add("-XX:G1NewSizePercent=20");
@@ -55,25 +61,25 @@ public static class LaunchArgs
         jvmArguments.Add("-Dorg.lwjgl.system.SharedLibraryExtractPath={0}", [libraries]);
         jvmArguments.Add("-Dio.netty.native.workdir={0}", [libraries]);
         jvmArguments.Add(
-            settings.LauncherSettings.LauncherType,
+            settings.LauncherSettings?.LauncherType ?? LauncherType.RELEASE,
             LauncherType.DEBUG,
             "-Dlog4j2.configurationFile={0}",
             [MPathResolver.LoggingPath(settings.LauncherVersion)]
         );
         jvmArguments.Add(
-            settings.LauncherSettings.ClientType,
+            settings.LauncherSettings?.ClientType ?? ClientType.VANILLA,
             ClientType.VANILLA,
             "-DMcEmu={0}",
             [ClientTypeResolver.ToString(ClientType.VANILLA, settings.MainClassNames)]
         );
         jvmArguments.Add(
-            settings.LauncherSettings.ClientType,
+            settings.LauncherSettings?.ClientType ?? ClientType.VANILLA,
             ClientType.FABRIC,
             "-DFabricMcEmu={0}",
             [ClientTypeResolver.ToString(ClientType.VANILLA, settings.MainClassNames)]
         );
         jvmArguments.Add(
-            settings.LauncherSettings.ClientType,
+            settings.LauncherSettings?.ClientType ?? ClientType.VANILLA,
             ClientType.QUILT,
             "-DFabricMcEmu={0}",
             [ClientTypeResolver.ToString(ClientType.VANILLA, settings.MainClassNames)]
@@ -81,8 +87,14 @@ public static class LaunchArgs
         jvmArguments.Add("-Dlog4j2.formatMsgNoLookups=true");
         jvmArguments.Add("-Djava.rmi.server.useCodebaseOnly=true");
         jvmArguments.Add("-Dcom.sun.jndi.rmi.object.trustURLCodebase=false");
-        jvmArguments.Add("-Dminecraft.launcher.brand={0}", [settings.LauncherVersion.Brand]);
-        jvmArguments.Add("-Dminecraft.launcher.version={0}", [settings.LauncherVersion.Version]);
+        jvmArguments.Add(
+            "-Dminecraft.launcher.brand={0}",
+            [settings.LauncherVersion?.Brand ?? ValidationShims.StringEmpty()]
+        );
+        jvmArguments.Add(
+            "-Dminecraft.launcher.version={0}",
+            [settings.LauncherVersion?.Version ?? ValidationShims.StringEmpty()]
+        );
         jvmArguments.Add(
             "-cp {0} {1}",
             [
@@ -91,20 +103,29 @@ public static class LaunchArgs
                     settings.LauncherInstance,
                     settings.LauncherSettings
                 ),
-                ClientTypeResolver.ToString(settings.LauncherSettings.ClientType, settings.MainClassNames)
+                ClientTypeResolver.ToString(settings.LauncherSettings?.ClientType, settings.MainClassNames)
             ]
         );
-        jvmArguments.Add("--username {0}", [settings.LauncherUsername.ValidateUsername()]);
-        jvmArguments.Add("--userType {0}", [settings.LauncherUsername.UserType]);
+        jvmArguments.Add(
+            "--username {0}",
+            [settings.LauncherUsername?.ValidateUsername() ?? ValidationShims.StringEmpty()]
+        );
+        jvmArguments.Add("--userType {0}", [settings.LauncherUsername?.UserType ?? ValidationShims.StringEmpty()]);
         jvmArguments.Add("--gameDir {0}", ["."]);
         jvmArguments.Add("--assetIndex {0}", [AssetHelper.GetAssetId(settings.LauncherPath, settings.LauncherVersion)]);
         jvmArguments.Add("--assetsDir {0}", [MPathResolver.BaseAssetsPath]);
-        jvmArguments.Add("--accessToken {0}", [settings.LauncherUsername.AccessToken]);
-        jvmArguments.Add("--uuid {0}", [settings.LauncherUsername.UUID()]);
+        jvmArguments.Add(
+            "--accessToken {0}",
+            [settings.LauncherUsername?.AccessToken ?? ValidationShims.StringEmpty()]
+        );
+        jvmArguments.Add("--uuid {0}", [settings.LauncherUsername?.UUID() ?? ValidationShims.StringEmpty()]);
         jvmArguments.Add("--clientId {0}", ["0"]);
         jvmArguments.Add("--xuid {0}", ["0"]);
-        jvmArguments.Add("--version {0}", [settings.LauncherVersion.MVersion]);
-        jvmArguments.Add("--versionType {0}", [$"{settings.LauncherVersion.Brand} {settings.LauncherVersion.Version}"]);
+        jvmArguments.Add("--version {0}", [settings.LauncherVersion?.MVersion ?? ValidationShims.StringEmpty()]);
+        jvmArguments.Add(
+            "--versionType {0}",
+            [$"{settings.LauncherVersion?.Brand} {settings.LauncherVersion?.Version}"]
+        );
 
         return jvmArguments;
     }

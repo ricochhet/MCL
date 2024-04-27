@@ -31,9 +31,9 @@ public static class QuiltInstallerDownloader
     /// Download a Quilt installer specified by the QuiltInstaller object.
     /// </summary>
     public static async Task<bool> Download(
-        LauncherPath launcherPath,
-        LauncherVersion launcherVersion,
-        QuiltInstaller quiltInstaller
+        LauncherPath? launcherPath,
+        LauncherVersion? launcherVersion,
+        QuiltInstaller? quiltInstaller
     )
     {
         if (
@@ -47,10 +47,17 @@ public static class QuiltInstallerDownloader
         // Quilt does not provide a file hash through the current method. We do simple check of the version instead.
         if (VFS.Exists(quiltInstallerPath))
         {
-            NotificationService.Info("quilt.installer-exists", quiltInstaller.Version);
+            NotificationService.Info(
+                "quilt.installer-exists",
+                quiltInstaller?.Version ?? ValidationShims.StringEmpty()
+            );
             return true;
         }
 
-        return await Request.DownloadSHA1(quiltInstaller.URL, quiltInstallerPath, string.Empty);
+        return await Request.DownloadSHA1(
+            quiltInstaller?.URL ?? ValidationShims.StringEmpty(),
+            quiltInstallerPath,
+            string.Empty
+        );
     }
 }

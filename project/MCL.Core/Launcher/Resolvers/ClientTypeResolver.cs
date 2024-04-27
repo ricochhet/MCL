@@ -19,6 +19,7 @@
 using System;
 using MCL.Core.Launcher.Enums;
 using MCL.Core.Launcher.Models;
+using MCL.Core.MiniCommon;
 
 namespace MCL.Core.Launcher.Resolvers;
 
@@ -27,12 +28,12 @@ public static class ClientTypeResolver
     /// <summary>
     /// Convert ClientType to a Java class name string.
     /// </summary>
-    public static string ToString(ClientType type, MainClassNames mainClassNames) =>
+    public static string ToString(ClientType? type, MainClassNames? mainClassNames) =>
         type switch
         {
-            ClientType.VANILLA => mainClassNames.Vanilla,
-            ClientType.FABRIC => mainClassNames.Fabric,
-            ClientType.QUILT => mainClassNames.Quilt,
+            ClientType.VANILLA => mainClassNames?.Vanilla ?? ValidationShims.StringEmpty(),
+            ClientType.FABRIC => mainClassNames?.Fabric ?? ValidationShims.StringEmpty(),
+            ClientType.QUILT => mainClassNames?.Quilt ?? ValidationShims.StringEmpty(),
             _ => throw new ArgumentOutOfRangeException(nameof(type)),
         };
 }

@@ -31,9 +31,9 @@ public static class FabricInstallerDownloader
     /// Download a Fabric installer specified by the FabricInstaller object.
     /// </summary>
     public static async Task<bool> Download(
-        LauncherPath launcherPath,
-        LauncherVersion launcherVersion,
-        FabricInstaller fabricInstaller
+        LauncherPath? launcherPath,
+        LauncherVersion? launcherVersion,
+        FabricInstaller? fabricInstaller
     )
     {
         if (
@@ -47,10 +47,17 @@ public static class FabricInstallerDownloader
         // Fabric does not provide a file hash through the current method. We do simple check of the version instead.
         if (VFS.Exists(fabricInstallerPath))
         {
-            NotificationService.Error("fabric.installer-exists", fabricInstaller?.Version);
+            NotificationService.Error(
+                "fabric.installer-exists",
+                fabricInstaller?.Version ?? ValidationShims.StringEmpty()
+            );
             return true;
         }
 
-        return await Request.DownloadSHA1(fabricInstaller.URL, fabricInstallerPath, string.Empty);
+        return await Request.DownloadSHA1(
+            fabricInstaller?.URL ?? ValidationShims.StringEmpty(),
+            fabricInstallerPath,
+            string.Empty
+        );
     }
 }

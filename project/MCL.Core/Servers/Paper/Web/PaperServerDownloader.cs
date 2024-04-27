@@ -31,10 +31,10 @@ public static class PaperServerDownloader
     /// Download a Paper server specified by the PaperBuild object.
     /// </summary>
     public static async Task<bool> Download(
-        LauncherPath launcherPath,
-        LauncherVersion launcherVersion,
-        PaperBuild paperBuild,
-        PaperUrls paperUrls
+        LauncherPath? launcherPath,
+        LauncherVersion? launcherVersion,
+        PaperBuild? paperBuild,
+        PaperUrls? paperUrls
     )
     {
         if (
@@ -56,14 +56,14 @@ public static class PaperServerDownloader
         if (
             !await Request.DownloadSHA256(
                 string.Format(
-                    paperUrls.PaperJar,
+                    paperUrls?.PaperJar ?? ValidationShims.StringEmpty(),
                     "paper",
-                    launcherVersion.MVersion,
-                    paperBuild.Build.ToString(),
-                    paperBuild.Downloads.Application.Name
+                    launcherVersion?.MVersion,
+                    paperBuild?.Build.ToString(),
+                    paperBuild?.Downloads?.Application?.Name
                 ),
                 filepath,
-                paperBuild.Downloads.Application.SHA256
+                paperBuild?.Downloads?.Application?.SHA256 ?? ValidationShims.StringEmpty()
             )
         )
             return false;

@@ -31,7 +31,7 @@ public class DownloadPaperServer : ILauncherCommand
 {
     private static readonly LauncherVersion _launcherVersion = LauncherVersion.Latest();
 
-    public async Task Init(string[] args, Settings settings)
+    public async Task Init(string[] args, Settings? settings)
     {
         await CommandLine.ProcessArgumentAsync(
             args,
@@ -63,10 +63,10 @@ public class DownloadPaperServer : ILauncherCommand
                     return;
 
                 PaperServerDownloadService.Init(
-                    settings.LauncherPath,
-                    settings.LauncherVersion,
-                    settings.LauncherInstance,
-                    settings.PaperUrls
+                    settings?.LauncherPath,
+                    settings?.LauncherVersion,
+                    settings?.LauncherInstance,
+                    settings?.PaperUrls
                 );
                 await PaperServerDownloadService.Download(useLocalVersionManifest: true);
             }

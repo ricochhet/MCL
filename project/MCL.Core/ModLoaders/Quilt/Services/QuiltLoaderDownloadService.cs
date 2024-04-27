@@ -31,22 +31,22 @@ namespace MCL.Core.ModLoaders.Quilt.Services;
 
 public class QuiltLoaderDownloadService : ILoaderDownloadService<QuiltUrls>, IDownloadService
 {
-    public static QuiltVersionManifest QuiltVersionManifest { get; private set; }
-    public static QuiltProfile QuiltProfile { get; private set; }
-    private static LauncherPath _launcherPath;
-    private static LauncherVersion _launcherVersion;
-    private static LauncherInstance _launcherInstance;
-    private static QuiltUrls _quiltUrls;
+    public static QuiltVersionManifest? QuiltVersionManifest { get; private set; }
+    public static QuiltProfile? QuiltProfile { get; private set; }
+    private static LauncherPath? _launcherPath;
+    private static LauncherVersion? _launcherVersion;
+    private static LauncherInstance? _launcherInstance;
+    private static QuiltUrls? _quiltUrls;
     private static bool _loaded = false;
 
     /// <summary>
     /// Initialize the Quilt loader download service.
     /// </summary>
     public static void Init(
-        LauncherPath launcherPath,
-        LauncherVersion launcherVersion,
-        LauncherInstance launcherInstance,
-        QuiltUrls quiltUrls
+        LauncherPath? launcherPath,
+        LauncherVersion? launcherVersion,
+        LauncherInstance? launcherInstance,
+        QuiltUrls? quiltUrls
     )
     {
         if (ObjectValidator<LauncherInstance>.IsNull(launcherInstance))
@@ -188,10 +188,14 @@ public class QuiltLoaderDownloadService : ILoaderDownloadService<QuiltUrls>, IDo
         if (!_loaded)
             return false;
 
-        QuiltLoader quiltLoader = QuiltVersionHelper.GetLoaderVersion(_launcherVersion, QuiltVersionManifest);
+        QuiltLoader? quiltLoader = QuiltVersionHelper.GetLoaderVersion(_launcherVersion, QuiltVersionManifest);
         if (ObjectValidator<QuiltLoader>.IsNull(quiltLoader))
         {
-            NotificationService.Error("error.parse", _launcherVersion?.QuiltLoaderVersion, nameof(QuiltLoader));
+            NotificationService.Error(
+                "error.parse",
+                _launcherVersion?.QuiltLoaderVersion ?? ValidationShims.StringEmpty(),
+                nameof(QuiltLoader)
+            );
             return false;
         }
 

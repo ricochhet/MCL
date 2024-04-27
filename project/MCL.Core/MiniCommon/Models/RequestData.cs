@@ -26,7 +26,7 @@ public class RequestData
     public string FilePath { get; set; }
     public int Size { get; set; }
     public string SHA1 { get; set; }
-    public static event Action<RequestData> OnRequestDataAdded;
+    public static event Action<RequestData>? OnRequestDataAdded;
 
     public RequestData(string url, string filePath, int size, string sha1)
     {

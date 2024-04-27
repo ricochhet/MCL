@@ -36,13 +36,13 @@ public static class QuiltLoaderDownloader
     /// Download a Quilt loader specified by the QuiltProfile object.
     /// </summary>
     public static async Task<bool> Download(
-        LauncherPath launcherPath,
-        LauncherVersion launcherVersion,
-        LauncherInstance launcherInstance,
-        QuiltProfile quiltProfile,
-        QuiltUrls quiltUrls
+        LauncherPath? launcherPath,
+        LauncherVersion? launcherVersion,
+        LauncherInstance? launcherInstance,
+        QuiltProfile? quiltProfile,
+        QuiltUrls? quiltUrls
     )
-#pragma warning restore
+#pragma warning restore IDE0079, S3776
     {
         if (
             ObjectValidator<string>.IsNullOrWhiteSpace(
@@ -51,30 +51,34 @@ public static class QuiltLoaderDownloader
         )
             return false;
 
-        LauncherLoader loader = new() { Version = launcherVersion.QuiltLoaderVersion };
+        LauncherLoader loader =
+            new() { Version = launcherVersion?.QuiltLoaderVersion ?? ValidationShims.StringEmpty() };
 
-        foreach (QuiltLibrary library in quiltProfile.Libraries)
+        foreach (QuiltLibrary library in quiltProfile?.Libraries ?? ValidationShims.ListEmpty<QuiltLibrary>())
         {
             if (ObjectValidator<string>.IsNullOrWhiteSpace([library?.Name, library?.URL]))
                 return false;
 
             string request;
-            if (library.Name.Contains(quiltUrls.ApiLoaderName))
+            if (library?.Name.Contains(quiltUrls?.ApiLoaderName ?? ValidationShims.StringEmpty()) ?? false)
             {
                 request = QuiltPathResolver.LoaderJarPath(quiltUrls, launcherVersion);
             }
-            else if (library.Name.Contains(quiltUrls.ApiIntermediaryName))
+            else if (library?.Name.Contains(quiltUrls?.ApiIntermediaryName ?? ValidationShims.StringEmpty()) ?? false)
             {
                 request = QuiltLibrary.ParseURL(library.Name, library.URL);
             }
             else
             {
-                request = QuiltLibrary.ParseURL(library.Name, library.URL);
+                request = QuiltLibrary.ParseURL(
+                    library?.Name ?? ValidationShims.StringEmpty(),
+                    library?.URL ?? ValidationShims.StringEmpty()
+                );
             }
 
             string filepath = VFS.Combine(
                 MPathResolver.LibraryPath(launcherPath),
-                QuiltLibrary.ParsePath(library.Name)
+                QuiltLibrary.ParsePath(library?.Name ?? ValidationShims.StringEmpty())
             );
             loader.Libraries.Add(filepath);
 
@@ -82,14 +86,17 @@ public static class QuiltLoaderDownloader
                 return false;
         }
 
-        foreach (LauncherLoader existingLoader in launcherInstance.QuiltLoaders)
+        foreach (
+            LauncherLoader existingLoader in launcherInstance?.QuiltLoaders
+                ?? ValidationShims.ListEmpty<LauncherLoader>()
+        )
         {
             if (existingLoader.Version == loader.Version)
-                launcherInstance.QuiltLoaders.Remove(existingLoader);
+                launcherInstance?.QuiltLoaders.Remove(existingLoader);
         }
 
-        launcherInstance.QuiltLoaders.Add(loader);
-        SettingsService.Load().Save(launcherInstance);
+        launcherInstance?.QuiltLoaders.Add(loader);
+        SettingsService.Load()?.Save(launcherInstance);
         return true;
     }
 }

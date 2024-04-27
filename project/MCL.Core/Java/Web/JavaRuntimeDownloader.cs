@@ -32,20 +32,23 @@ public static class JavaRuntimeDownloader
     /// Download the Java runtime environment specified by JavaRuntimeType.
     /// </summary>
     public static async Task<bool> Download(
-        LauncherPath launcherPath,
-        JavaRuntimeType javaRuntimeType,
-        JavaVersionDetails javaRuntimeFiles
+        LauncherPath? launcherPath,
+        JavaRuntimeType? javaRuntimeType,
+        JavaVersionDetails? javaRuntimeFiles
     )
     {
         if (ObjectValidator<Dictionary<string, JavaRuntimeFile>>.IsNullOrEmpty(javaRuntimeFiles?.Files))
             return false;
 
-        foreach ((string path, JavaRuntimeFile javaRuntimeFile) in javaRuntimeFiles?.Files ?? [])
+        foreach (
+            (string path, JavaRuntimeFile javaRuntimeFile) in javaRuntimeFiles?.Files
+                ?? ValidationShims.DictionaryEmpty<string, JavaRuntimeFile>()
+        )
         {
             if (ObjectValidator<JavaRuntimeFileDownloads>.IsNull(javaRuntimeFile?.Downloads))
                 continue;
 
-            if (javaRuntimeFile.Type == "file")
+            if (javaRuntimeFile?.Type == "file")
             {
                 if (
                     ObjectValidator<string>.IsNullOrWhiteSpace(
@@ -56,7 +59,7 @@ public static class JavaRuntimeDownloader
 
                 if (
                     !await Request.DownloadSHA1(
-                        javaRuntimeFile.Downloads.Raw.URL,
+                        javaRuntimeFile.Downloads?.Raw.URL ?? ValidationShims.StringEmpty(),
                         VFS.Combine(
                             JavaPathResolver.JavaRuntimeVersionPath(
                                 launcherPath,
@@ -64,7 +67,7 @@ public static class JavaRuntimeDownloader
                             ),
                             path
                         ),
-                        javaRuntimeFile.Downloads.Raw.SHA1
+                        javaRuntimeFile.Downloads?.Raw.SHA1 ?? ValidationShims.StringEmpty()
                     )
                 )
                     return false;

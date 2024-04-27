@@ -32,21 +32,21 @@ namespace MCL.Core.Java.Services;
 
 public class JavaDownloadService : IDownloadService
 {
-    private static JavaVersionManifest _javaVersionManifest;
-    private static JavaVersionDetails _javaVersionDetails;
-    private static LauncherPath _launcherPath;
-    private static MUrls _mUrls;
-    private static JavaRuntimeType _javaRuntimeType;
-    private static JavaRuntimePlatform _javaRuntimePlatform;
+    private static JavaVersionManifest? _javaVersionManifest;
+    private static JavaVersionDetails? _javaVersionDetails;
+    private static LauncherPath? _launcherPath;
+    private static MUrls? _mUrls;
+    private static JavaRuntimeType? _javaRuntimeType;
+    private static JavaRuntimePlatform? _javaRuntimePlatform;
 
     /// <summary>
     /// Initialize the Java download service.
     /// </summary>
     public static void Init(
-        LauncherPath launcherPath,
-        MUrls mUrls,
-        JavaRuntimeType javaRuntimeType,
-        JavaRuntimePlatform javaRuntimePlatform
+        LauncherPath? launcherPath,
+        MUrls? mUrls,
+        JavaRuntimeType? javaRuntimeType,
+        JavaRuntimePlatform? javaRuntimePlatform
     )
     {
         _launcherPath = launcherPath;

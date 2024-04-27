@@ -28,14 +28,20 @@ public static class PaperServerArgs
     /// <summary>
     /// The default JvmArguments to launch the process with.
     /// </summary>
-    public static JvmArguments DefaultJvmArguments(Settings settings)
+    public static JvmArguments? DefaultJvmArguments(Settings settings)
     {
         if (ObjectValidator<Settings>.IsNull(settings))
             return null;
 
         JvmArguments jvmArguments = new();
-        jvmArguments.Add("-Xms{0}m", [settings.LauncherMemory.MemoryMinMb.ToString()]);
-        jvmArguments.Add("-Xmx{0}m", [settings.LauncherMemory.MemoryMaxMb.ToString()]);
+        jvmArguments.Add(
+            "-Xms{0}m",
+            [settings.LauncherMemory?.MemoryMinMb.ToString() ?? ValidationShims.StringEmpty()]
+        );
+        jvmArguments.Add(
+            "-Xmx{0}m",
+            [settings.LauncherMemory?.MemoryMaxMb.ToString() ?? ValidationShims.StringEmpty()]
+        );
         jvmArguments.Add("-XX:+AlwaysPreTouch");
         jvmArguments.Add("-XX:+DisableExplicitGC");
         jvmArguments.Add("-XX:+ParallelRefProcEnabled");

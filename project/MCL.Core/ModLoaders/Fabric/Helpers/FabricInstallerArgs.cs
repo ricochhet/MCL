@@ -29,9 +29,9 @@ public static class FabricInstallerArgs
     /// <summary>
     /// The default JvmArguments to run the Fabric installer.
     /// </summary>
-    public static JvmArguments DefaultJvmArguments(
-        LauncherPath launcherPath,
-        LauncherVersion launcherVersion,
+    public static JvmArguments? DefaultJvmArguments(
+        LauncherPath? launcherPath,
+        LauncherVersion? launcherVersion,
         FabricInstallerType installerType
     )
     {
@@ -51,9 +51,12 @@ public static class FabricInstallerArgs
             "-jar \"{0}\" {1}",
             [FabricPathResolver.InstallerPath(launcherPath, launcherVersion), "client"]
         );
-        jvmArguments.Add("-dir \"{0}\" {1}", [launcherPath.MPath, FabricInstallerTypeResolver.ToString(installerType)]);
-        jvmArguments.Add("-mcversion {0}", [launcherVersion.MVersion]);
-        jvmArguments.Add("-loader {0}", [launcherVersion.FabricLoaderVersion]);
+        jvmArguments.Add(
+            "-dir \"{0}\" {1}",
+            [launcherPath?.MPath ?? ValidationShims.StringEmpty(), FabricInstallerTypeResolver.ToString(installerType)]
+        );
+        jvmArguments.Add("-mcversion {0}", [launcherVersion?.MVersion ?? ValidationShims.StringEmpty()]);
+        jvmArguments.Add("-loader {0}", [launcherVersion?.FabricLoaderVersion ?? ValidationShims.StringEmpty()]);
         jvmArguments.Add("-noprofile");
 
         return jvmArguments;

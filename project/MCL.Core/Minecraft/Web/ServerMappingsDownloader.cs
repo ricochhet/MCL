@@ -29,7 +29,7 @@ public static class ServerMappingsDownloader
     /// <summary>
     /// Download the game server mappings specified by the MVersionDetails.
     /// </summary>
-    public static async Task<bool> Download(LauncherPath launcherPath, MVersionDetails versionDetails)
+    public static async Task<bool> Download(LauncherPath? launcherPath, MVersionDetails? versionDetails)
     {
         if (
             ObjectValidator<string>.IsNullOrWhiteSpace(
@@ -43,9 +43,9 @@ public static class ServerMappingsDownloader
             return false;
 
         return await Request.DownloadSHA1(
-            versionDetails.Downloads.ServerMappings.URL,
+            versionDetails?.Downloads?.ServerMappings.URL ?? ValidationShims.StringEmpty(),
             MPathResolver.ServerMappingsPath(launcherPath, versionDetails),
-            versionDetails.Downloads.ServerMappings.SHA1
+            versionDetails?.Downloads?.ServerMappings.SHA1 ?? ValidationShims.StringEmpty()
         );
     }
 }

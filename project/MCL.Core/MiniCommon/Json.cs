@@ -29,7 +29,7 @@ public static class Json
     /// <summary>
     /// Serialize data of type T.
     /// </summary>
-    public static string Serialize<T>(T data, JsonSerializerOptions options = null)
+    public static string Serialize<T>(T data, JsonSerializerOptions? options = null)
     {
         return JsonSerializer.Serialize(data, options);
     }
@@ -37,7 +37,7 @@ public static class Json
     /// <summary>
     /// Deserialize data of type T.
     /// </summary>
-    public static T Deserialize<T>(string json, JsonSerializerOptions options = null)
+    public static T? Deserialize<T>(string json, JsonSerializerOptions? options = null)
     {
         return JsonSerializer.Deserialize<T>(json, options);
     }
@@ -66,7 +66,7 @@ public static class Json
     /// <summary>
     /// Deserialize file text, and return as type T.
     /// </summary>
-    public static T Load<T>(string filepath)
+    public static T? Load<T>(string filepath)
         where T : new()
     {
         if (!VFS.Exists(filepath))
@@ -86,7 +86,7 @@ public static class Json
     /// <summary>
     /// Deserialize file text, and return as type T.
     /// </summary>
-    public static T Load<T>(string filepath, JsonSerializerOptions options)
+    public static T? Load<T>(string filepath, JsonSerializerOptions options)
         where T : new()
     {
         if (!VFS.Exists(filepath))

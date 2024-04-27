@@ -30,9 +30,9 @@ public static class QuiltInstallerArgs
     /// <summary>
     /// The default JvmArguments to run the Quilt installer.
     /// </summary>
-    public static JvmArguments DefaultJvmArguments(
-        LauncherPath launcherPath,
-        LauncherVersion launcherVersion,
+    public static JvmArguments? DefaultJvmArguments(
+        LauncherPath? launcherPath,
+        LauncherVersion? launcherVersion,
         QuiltInstallerType installerType
     )
     {
@@ -47,10 +47,13 @@ public static class QuiltInstallerArgs
         jvmArguments.Add("-jar \"{0}\"", [QuiltPathResolver.InstallerPath(launcherPath, launcherVersion)]);
         jvmArguments.Add(
             $"install {QuiltInstallerTypeResolver.ToString(installerType)} {0} {1}",
-            [launcherVersion.MVersion, launcherVersion.QuiltLoaderVersion]
+            [
+                launcherVersion?.MVersion ?? ValidationShims.StringEmpty(),
+                launcherVersion?.QuiltLoaderVersion ?? ValidationShims.StringEmpty()
+            ]
         );
         jvmArguments.Add(installerType, QuiltInstallerType.INSTALL_SERVER, "--download-server");
-        jvmArguments.Add("--install-dir=\"{0}\"", [launcherPath.MPath]);
+        jvmArguments.Add("--install-dir=\"{0}\"", [launcherPath?.MPath ?? ValidationShims.StringEmpty()]);
         jvmArguments.Add("--no-profile");
 
         return jvmArguments;

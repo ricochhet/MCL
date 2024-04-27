@@ -33,14 +33,14 @@ public static class CommandLine
     /// <summary>
     /// Processes a command line argument identified by a flag and invokes the provided action with the argument's value of type T.
     /// </summary>
-    public static void ProcessArgument<T>(string[] args, Command command, Action<T> action)
+    public static void ProcessArgument<T>(string[] args, Command command, Action<T?> action)
     {
         try
         {
             int index = Array.IndexOf(args, Prefix + command.Name);
             if (index != -1)
             {
-                T value = default;
+                T? value = default;
                 if (index + 1 < args.Length && !args[index + 1].StartsWith("--"))
                 {
                     value = (T)Convert.ChangeType(args[index + 1], typeof(T));
@@ -66,7 +66,9 @@ public static class CommandLine
             {
                 Dictionary<string, string> options = ParseKeyValuePairs(args[index + 1]);
                 if (
-                    command.Parameters.Where(a => !a.Optional).All(a => options.ContainsKey(a.Name))
+                    command
+                        .Parameters.Where(a => !a.Optional)
+                        .All(a => options.ContainsKey(a?.Name ?? ValidationShims.StringEmpty()))
                     || ObjectValidator<List<CommandParameter>>.IsNullOrEmpty(command.Parameters)
                 )
                     action(options);
@@ -83,14 +85,14 @@ public static class CommandLine
     /// <summary>
     /// Processes a command line argument identified by a flag and invokes the provided action with the argument's value of type T.
     /// </summary>
-    public static async Task ProcessArgumentAsync<T>(string[] args, Command command, Func<T, Task> action)
+    public static async Task ProcessArgumentAsync<T>(string[] args, Command command, Func<T?, Task> action)
     {
         try
         {
             int index = Array.IndexOf(args, Prefix + command.Name);
             if (index != -1)
             {
-                T value = default;
+                T? value = default;
                 if (index + 1 < args.Length && !args[index + 1].StartsWith("--"))
                 {
                     value = (T)Convert.ChangeType(args[index + 1], typeof(T));
@@ -120,7 +122,9 @@ public static class CommandLine
             {
                 Dictionary<string, string> options = ParseKeyValuePairs(args[index + 1]);
                 if (
-                    command.Parameters.Where(a => !a.Optional).All(a => options.ContainsKey(a.Name))
+                    command
+                        .Parameters.Where(a => !a.Optional)
+                        .All(a => options.ContainsKey(a?.Name ?? ValidationShims.StringEmpty()))
                     || ObjectValidator<List<CommandParameter>>.IsNullOrEmpty(command.Parameters)
                 )
                     await action(options);
@@ -172,6 +176,6 @@ public static class CommandLine
 #pragma warning disable IDE0079
 #pragma warning disable S108
         while (Console.ReadKey(intercept: true).Key != ConsoleKey.F) { }
-#pragma warning restore
+#pragma warning restore IDE0079, S108
     }
 }

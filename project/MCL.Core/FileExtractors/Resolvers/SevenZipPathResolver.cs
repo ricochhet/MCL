@@ -29,16 +29,16 @@ public static class SevenZipPathResolver
     /// Check if the SevenZip executable exists under the 'Data' directory.
     /// If it is not found, attempt to use it from PATH.
     /// </summary>
-    public static string SevenZipPath(SevenZipSettings sevenZipSettings)
+    public static string SevenZipPath(SevenZipSettings? sevenZipSettings)
     {
         string windowsExecutable = VFS.Combine(
             SettingsService.DataDirectory,
             "SevenZip",
-            sevenZipSettings.Executable + ".exe"
+            sevenZipSettings?.Executable + ".exe"
         );
         if (VFS.Exists(windowsExecutable))
             return windowsExecutable;
         NotificationService.Info("error.missing.7z");
-        return sevenZipSettings.Executable;
+        return sevenZipSettings?.Executable ?? ValidationShims.StringEmpty();
     }
 }

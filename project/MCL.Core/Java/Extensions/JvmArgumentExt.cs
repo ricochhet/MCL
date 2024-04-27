@@ -21,6 +21,7 @@ using System.Linq;
 using MCL.Core.Java.Models;
 using MCL.Core.Launcher.Enums;
 using MCL.Core.Launcher.Models;
+using MCL.Core.MiniCommon;
 using MCL.Core.ModLoaders.Fabric.Enums;
 using MCL.Core.ModLoaders.Quilt.Enums;
 
@@ -36,7 +37,7 @@ public static class JvmArgumentExt
         ClientType a,
         ClientType b,
         string arg,
-        string[] argParams = null,
+        string[]? argParams = null,
         int priority = 0
     )
     {
@@ -52,7 +53,7 @@ public static class JvmArgumentExt
         LauncherType a,
         LauncherType b,
         string arg,
-        string[] argParams = null,
+        string[]? argParams = null,
         int priority = 0
     )
     {
@@ -68,7 +69,7 @@ public static class JvmArgumentExt
         FabricInstallerType a,
         FabricInstallerType b,
         string arg,
-        string[] argParams = null,
+        string[]? argParams = null,
         int priority = 0
     )
     {
@@ -84,7 +85,7 @@ public static class JvmArgumentExt
         QuiltInstallerType a,
         QuiltInstallerType b,
         string arg,
-        string[] argParams = null,
+        string[]? argParams = null,
         int priority = 0
     )
     {
@@ -95,10 +96,10 @@ public static class JvmArgumentExt
     /// <summary>
     /// Combines two JvmArguments objects and keeps the last occurences of 'Arg'.
     /// </summary>
-    public static JvmArguments Concat(this JvmArguments jvmArguments, JvmArguments concat)
+    public static JvmArguments Concat(this JvmArguments jvmArguments, JvmArguments? concat)
     {
         List<LaunchArg> arguments = jvmArguments
-            .Arguments.Concat(concat.Arguments)
+            .Arguments.Concat(concat?.Arguments ?? ValidationShims.ListEmpty<LaunchArg>())
             .GroupBy(arg => arg.Arg)
             .Select(group => group.Last())
             .ToList();

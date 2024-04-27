@@ -24,19 +24,19 @@ namespace MCL.Core.ModLoaders.Fabric.Models;
 public class FabricVersionManifest
 {
     [JsonPropertyName("game")]
-    public List<FabricGame> Game { get; set; }
+    public List<FabricGame>? Game { get; set; }
 
     [JsonPropertyName("mappings")]
-    public List<FabricMappings> Mappings { get; set; }
+    public List<FabricMappings>? Mappings { get; set; }
 
     [JsonPropertyName("intermediary")]
-    public List<FabricIntermediary> Intermediary { get; set; }
+    public List<FabricIntermediary>? Intermediary { get; set; }
 
     [JsonPropertyName("loader")]
-    public List<FabricLoader> Loader { get; set; }
+    public List<FabricLoader>? Loader { get; set; }
 
     [JsonPropertyName("installer")]
-    public List<FabricInstaller> Installer { get; set; }
+    public List<FabricInstaller>? Installer { get; set; }
 
     public FabricVersionManifest() { }
 }

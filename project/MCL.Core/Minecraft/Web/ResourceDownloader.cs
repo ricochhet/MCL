@@ -30,7 +30,7 @@ public static class ResourceDownloader
     /// <summary>
     /// Download the game resources specified by the MAssetsData.
     /// </summary>
-    public static async Task<bool> Download(LauncherPath launcherPath, MUrls mUrls, MAssetsData assets)
+    public static async Task<bool> Download(LauncherPath? launcherPath, MUrls? mUrls, MAssetsData? assets)
     {
         if (
             ObjectValidator<string>.IsNullOrWhiteSpace([mUrls?.MinecraftResources])
@@ -39,14 +39,18 @@ public static class ResourceDownloader
             return false;
 
         string objectsPath = VFS.Combine(MPathResolver.AssetsPath(launcherPath), "objects");
-        foreach ((_, MAsset asset) in assets.Objects)
+        foreach ((_, MAsset asset) in assets?.Objects ?? ValidationShims.DictionaryEmpty<string, MAsset>())
         {
             if (ObjectValidator<string>.IsNullOrWhiteSpace([asset?.Hash]))
                 return false;
 
-            string request = $"{mUrls.MinecraftResources}/{asset.Hash[..2]}/{asset.Hash}";
-            string filepath = VFS.Combine(objectsPath, asset.Hash[..2], asset.Hash);
-            if (!await Request.DownloadSHA1(request, filepath, asset.Hash))
+            string request = $"{mUrls?.MinecraftResources}/{asset?.Hash[..2]}/{asset?.Hash}";
+            string filepath = VFS.Combine(
+                objectsPath,
+                asset?.Hash[..2] ?? ValidationShims.StringEmpty(),
+                asset?.Hash ?? ValidationShims.StringEmpty()
+            );
+            if (!await Request.DownloadSHA1(request, filepath, asset?.Hash ?? ValidationShims.StringEmpty()))
                 return false;
         }
 

@@ -38,42 +38,47 @@ public static class QuiltPathResolver
     /// <summary>
     /// The Quilt installer jar path specified by the QuiltInstallerVersion.
     /// </summary>
-    public static string InstallerPath(LauncherPath launcherPath, LauncherVersion launcherVersion) =>
+    public static string InstallerPath(LauncherPath? launcherPath, LauncherVersion? launcherVersion) =>
         VFS.Combine(
-            launcherPath.QuiltPath,
+            launcherPath?.QuiltPath ?? ValidationShims.StringEmpty(),
             "installers",
-            $"quilt-installer-{launcherVersion.QuiltInstallerVersion}.jar"
+            $"quilt-installer-{launcherVersion?.QuiltInstallerVersion}.jar"
         );
 
     /// <summary>
     /// The base installer path for Quilt installers.
     /// </summary>
-    public static string InstallersPath(LauncherPath launcherPath) => VFS.Combine(launcherPath.QuiltPath, "installers");
+    public static string InstallersPath(LauncherPath? launcherPath) =>
+        VFS.Combine(launcherPath?.QuiltPath ?? ValidationShims.StringEmpty(), "installers");
 
     /// <summary>
     /// The Quilt manifest path.
     /// </summary>
-    public static string VersionManifestPath(LauncherPath launcherPath) =>
-        VFS.FromCwd(launcherPath.QuiltPath, "quilt_manifest.json");
+    public static string VersionManifestPath(LauncherPath? launcherPath) =>
+        VFS.FromCwd(launcherPath?.QuiltPath ?? ValidationShims.StringEmpty(), "quilt_manifest.json");
 
     /// <summary>
     /// The Quilt profile path specified by the QuiltLoaderVersion.
     /// </summary>
-    public static string ProfilePath(LauncherPath launcherPath, LauncherVersion launcherVersion) =>
+    public static string ProfilePath(LauncherPath? launcherPath, LauncherVersion? launcherVersion) =>
         VFS.FromCwd(
-            launcherPath.QuiltPath,
-            $"quilt_profile-{launcherVersion.MVersion}-{launcherVersion.QuiltLoaderVersion}.json"
+            launcherPath?.QuiltPath ?? ValidationShims.StringEmpty(),
+            $"quilt_profile-{launcherVersion?.MVersion}-{launcherVersion?.QuiltLoaderVersion}.json"
         );
 
     /// <summary>
     /// The Quilt loader jar path specified by the QuiltLoaderVersion.
     /// </summary>
-    public static string LoaderJarPath(QuiltUrls quiltUrls, LauncherVersion launcherVersion) =>
-        quiltUrls.LoaderJar.Replace("{0}", launcherVersion.QuiltLoaderVersion);
+    public static string LoaderJarPath(QuiltUrls? quiltUrls, LauncherVersion? launcherVersion) =>
+        quiltUrls?.LoaderJar.Replace("{0}", launcherVersion?.QuiltLoaderVersion) ?? ValidationShims.StringEmpty();
 
     /// <summary>
     /// The Quilt loader profile path specified by the QuiltLoaderVersion.
     /// </summary>
-    public static string LoaderProfilePath(QuiltUrls quiltUrls, LauncherVersion launcherVersion) =>
-        string.Format(quiltUrls.LoaderProfile, launcherVersion.MVersion, launcherVersion.QuiltLoaderVersion);
+    public static string LoaderProfilePath(QuiltUrls? quiltUrls, LauncherVersion? launcherVersion) =>
+        string.Format(
+            quiltUrls?.LoaderProfile ?? ValidationShims.StringEmpty(),
+            launcherVersion?.MVersion,
+            launcherVersion?.QuiltLoaderVersion
+        );
 }

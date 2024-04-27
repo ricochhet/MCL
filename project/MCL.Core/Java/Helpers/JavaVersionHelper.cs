@@ -30,17 +30,20 @@ public static class JavaVersionHelper
     /// <summary>
     /// Find the Java runtime version specified for the specified MVersion.
     /// </summary>
-    public static JavaRuntimeType GetMVersionJava(
-        LauncherPath launcherPath,
-        LauncherVersion launcherVersion,
-        LauncherSettings launcherSettings
+    public static JavaRuntimeType? GetMVersionJava(
+        LauncherPath? launcherPath,
+        LauncherVersion? launcherVersion,
+        LauncherSettings? launcherSettings
     )
     {
         if (ObjectValidator<string>.IsNullOrWhiteSpace([launcherVersion?.MVersion]))
-            return launcherSettings.JavaRuntimeType;
-        MVersionDetails versionDetails = VersionHelper.GetVersionDetails(launcherPath, launcherVersion);
+            return launcherSettings?.JavaRuntimeType;
+        MVersionDetails? versionDetails = VersionHelper.GetVersionDetails(launcherPath, launcherVersion);
         if (ObjectValidator<string>.IsNullOrWhiteSpace([versionDetails?.JavaVersion?.Component]))
-            return launcherSettings.JavaRuntimeType;
-        return EnumResolver.Parse(versionDetails.JavaVersion.Component, launcherSettings.JavaRuntimeType);
+            return launcherSettings?.JavaRuntimeType;
+        return EnumResolver.Parse(
+            versionDetails?.JavaVersion?.Component ?? ValidationShims.StringEmpty(),
+            launcherSettings?.JavaRuntimeType ?? JavaRuntimeType.JAVA_RUNTIME_GAMMA
+        );
     }
 }

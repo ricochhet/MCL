@@ -27,7 +27,7 @@ public static class ServerProperties
     /// <summary>
     /// Create a new Eula text file in the specified server path.
     /// </summary>
-    public static void NewEula(LauncherPath launcherPath)
+    public static void NewEula(LauncherPath? launcherPath)
     {
         string filepath = VFS.Combine(MPathResolver.ServerPath(launcherPath), "eula.txt");
         if (!VFS.Exists(filepath))
@@ -37,7 +37,7 @@ public static class ServerProperties
     /// <summary>
     /// Create a new Properties file in the specified server path.
     /// </summary>
-    public static void NewProperties(LauncherPath launcherPath)
+    public static void NewProperties(LauncherPath? launcherPath)
     {
         string filepath = VFS.Combine(MPathResolver.ServerPath(launcherPath), "server.properties");
         if (!VFS.Exists(filepath))

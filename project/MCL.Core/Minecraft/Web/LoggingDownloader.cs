@@ -29,7 +29,7 @@ public static class LoggingDownloader
     /// <summary>
     /// Download the game logging configuration specified by the MVersionDetails.
     /// </summary>
-    public static async Task<bool> Download(LauncherPath launcherPath, MVersionDetails versionDetails)
+    public static async Task<bool> Download(LauncherPath? launcherPath, MVersionDetails? versionDetails)
     {
         if (
             ObjectValidator<string>.IsNullOrWhiteSpace(
@@ -43,9 +43,9 @@ public static class LoggingDownloader
             return false;
 
         return await Request.DownloadSHA1(
-            versionDetails.Logging.Client.File.URL,
+            versionDetails?.Logging?.Client.File.URL ?? ValidationShims.StringEmpty(),
             MPathResolver.LoggingPath(launcherPath, versionDetails),
-            versionDetails.Logging.Client.File.SHA1
+            versionDetails?.Logging?.Client.File.SHA1 ?? ValidationShims.StringEmpty()
         );
     }
 }

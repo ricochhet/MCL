@@ -22,8 +22,8 @@ namespace MCL.Core.Modding.Models;
 
 public class ModFile
 {
-    public string ModPath { get; set; }
-    public string SHA1 { get; set; }
+    public string? ModPath { get; set; }
+    public string? SHA1 { get; set; }
     public ModRule ModRule { get; set; }
     public int Priority { get; set; }
 

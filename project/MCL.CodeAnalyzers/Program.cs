@@ -49,7 +49,7 @@ internal static class Program
         );
         NotificationService.Info("log.initialized");
         SettingsService.Init();
-        Settings settings = SettingsService.Load();
+        Settings? settings = SettingsService.Load();
         if (ObjectValidator<Settings>.IsNull(settings))
             return;
         Watermark.Draw(SettingsService.WatermarkText);

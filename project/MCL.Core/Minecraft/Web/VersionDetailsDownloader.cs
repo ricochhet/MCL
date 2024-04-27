@@ -30,13 +30,17 @@ public static class VersionDetailsDownloader
     /// <summary>
     /// Download the game version details specified by the MVersion.
     /// </summary>
-    public static async Task<bool> Download(LauncherPath launcherPath, MVersion version)
+    public static async Task<bool> Download(LauncherPath? launcherPath, MVersion? version)
     {
         if (ObjectValidator<string>.IsNullOrWhiteSpace([version?.URL, version?.ID]))
             return false;
 
         string filepath = MPathResolver.VersionDetailsPath(launcherPath, version);
-        string versionDetails = await Request.GetJsonAsync<MVersionDetails>(version.URL, filepath, Encoding.UTF8);
+        string? versionDetails = await Request.GetJsonAsync<MVersionDetails>(
+            version?.URL ?? ValidationShims.StringEmpty(),
+            filepath,
+            Encoding.UTF8
+        );
         if (ObjectValidator<string>.IsNullOrWhiteSpace([versionDetails]))
             return false;
         return true;

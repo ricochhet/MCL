@@ -4,6 +4,10 @@
         <TargetFramework>net8.0</TargetFramework>
         <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     </PropertyGroup>
+    <PropertyGroup>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
     <ItemGroup>
         <ProjectReference Include="..\MCL.Core\MCL.Core.csproj" />
         <ProjectReference Include="..\MCL.Launcher\MCL.Launcher.csproj" />

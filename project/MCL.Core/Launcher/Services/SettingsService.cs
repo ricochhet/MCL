@@ -95,7 +95,7 @@ public static class SettingsService
         if (!VFS.Exists(_settingsFilePath))
             return;
 
-        Settings existingSettings = Load();
+        Settings? existingSettings = Load();
         if (existingSettings == settings)
             return;
 
@@ -105,11 +105,11 @@ public static class SettingsService
     /// <summary>
     /// Load a Settings object from the Settings file path.
     /// </summary>
-    public static Settings Load()
+    public static Settings? Load()
     {
         if (VFS.Exists(_settingsFilePath))
         {
-            Settings inputJson = Json.Load<Settings>(_settingsFilePath);
+            Settings? inputJson = Json.Load<Settings>(_settingsFilePath);
             if (inputJson != null)
                 return inputJson;
 

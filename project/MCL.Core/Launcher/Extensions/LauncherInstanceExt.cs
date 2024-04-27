@@ -19,6 +19,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using MCL.Core.Launcher.Models;
+using MCL.Core.MiniCommon;
 
 namespace MCL.Core.Launcher.Extensions;
 
@@ -27,28 +28,28 @@ public static class LauncherInstanceExt
     /// <summary>
     /// Combines two LauncherInstance objects and keeps the last occurences of each version.
     /// </summary>
-    public static LauncherInstance Concat(this LauncherInstance launcherInstance, LauncherInstance concat)
+    public static LauncherInstance Concat(this LauncherInstance launcherInstance, LauncherInstance? concat)
     {
         List<LauncherLoader> versions = launcherInstance
-            .Versions.Concat(concat.Versions)
+            .Versions.Concat(concat?.Versions ?? ValidationShims.ListEmpty<LauncherLoader>())
             .GroupBy(arg => arg.Version)
             .Select(group => group.Last())
             .ToList();
 
         List<LauncherLoader> fabricLoaders = launcherInstance
-            .FabricLoaders.Concat(concat.FabricLoaders)
+            .FabricLoaders.Concat(concat?.FabricLoaders ?? ValidationShims.ListEmpty<LauncherLoader>())
             .GroupBy(arg => arg.Version)
             .Select(group => group.Last())
             .ToList();
 
         List<LauncherLoader> quiltLoaders = launcherInstance
-            .QuiltLoaders.Concat(concat.QuiltLoaders)
+            .QuiltLoaders.Concat(concat?.QuiltLoaders ?? ValidationShims.ListEmpty<LauncherLoader>())
             .GroupBy(arg => arg.Version)
             .Select(group => group.Last())
             .ToList();
 
         List<string> paperServerVersions = launcherInstance
-            .PaperServerVersions.Concat(concat.PaperServerVersions)
+            .PaperServerVersions.Concat(concat?.PaperServerVersions ?? ValidationShims.ListEmpty<string>())
             .GroupBy(arg => arg)
             .Select(group => group.Last())
             .ToList();

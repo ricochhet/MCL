@@ -30,7 +30,7 @@ public static class ServerDownloader
     /// <summary>
     /// Download the game server client specified by the MVersionDetails.
     /// </summary>
-    public static async Task<bool> Download(LauncherPath launcherPath, MVersionDetails versionDetails)
+    public static async Task<bool> Download(LauncherPath? launcherPath, MVersionDetails? versionDetails)
     {
         if (
             ObjectValidator<string>.IsNullOrWhiteSpace(
@@ -43,9 +43,9 @@ public static class ServerDownloader
         ServerProperties.NewProperties(launcherPath);
 
         return await Request.DownloadSHA1(
-            versionDetails.Downloads.Server.URL,
+            versionDetails?.Downloads?.Server.URL ?? ValidationShims.StringEmpty(),
             MPathResolver.ServerJarPath(launcherPath, versionDetails),
-            versionDetails.Downloads.Server.SHA1
+            versionDetails?.Downloads?.Server.SHA1 ?? ValidationShims.StringEmpty()
         );
     }
 }

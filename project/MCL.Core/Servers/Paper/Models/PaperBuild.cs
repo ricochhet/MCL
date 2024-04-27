@@ -27,17 +27,17 @@ public class PaperBuild
     public int Build { get; set; }
 
     [JsonPropertyName("time")]
-    public string Time { get; set; }
+    public string? Time { get; set; }
 
     [JsonPropertyName("channel")]
-    public string Channel { get; set; }
+    public string? Channel { get; set; }
 
     [JsonPropertyName("promoted")]
     public bool Promoted { get; set; }
 
     [JsonPropertyName("changes")]
-    public List<PaperBuildChange> Changes { get; set; }
+    public List<PaperBuildChange>? Changes { get; set; }
 
     [JsonPropertyName("downloads")]
-    public PaperDownloads Downloads { get; set; }
+    public PaperDownloads? Downloads { get; set; }
 }

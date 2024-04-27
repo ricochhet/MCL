@@ -31,17 +31,17 @@ namespace MCL.Core.ModLoaders.Fabric.Services;
 
 public class FabricInstallerDownloadService : IJarDownloadService<FabricUrls>, IDownloadService
 {
-    public static FabricVersionManifest FabricVersionManifest { get; private set; }
-    public static FabricInstaller FabricInstaller { get; private set; }
-    private static LauncherPath _launcherPath;
-    private static LauncherVersion _launcherVersion;
-    private static FabricUrls _fabricUrls;
+    public static FabricVersionManifest? FabricVersionManifest { get; private set; }
+    public static FabricInstaller? FabricInstaller { get; private set; }
+    private static LauncherPath? _launcherPath;
+    private static LauncherVersion? _launcherVersion;
+    private static FabricUrls? _fabricUrls;
     private static bool _loaded = false;
 
     /// <summary>
     /// Initialize the Fabric installer download service.
     /// </summary>
-    public static void Init(LauncherPath launcherPath, LauncherVersion launcherVersion, FabricUrls fabricUrls)
+    public static void Init(LauncherPath? launcherPath, LauncherVersion? launcherVersion, FabricUrls? fabricUrls)
     {
         _launcherPath = launcherPath;
         _launcherVersion = launcherVersion;
@@ -133,7 +133,11 @@ public class FabricInstallerDownloadService : IJarDownloadService<FabricUrls>, I
         FabricInstaller = FabricVersionHelper.GetInstallerVersion(_launcherVersion, FabricVersionManifest);
         if (ObjectValidator<FabricInstaller>.IsNull(FabricInstaller))
         {
-            NotificationService.Error("error.parse", _launcherVersion?.FabricInstallerVersion, nameof(FabricInstaller));
+            NotificationService.Error(
+                "error.parse",
+                _launcherVersion?.FabricInstallerVersion ?? ValidationShims.StringEmpty(),
+                nameof(FabricInstaller)
+            );
             return false;
         }
 

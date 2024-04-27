@@ -25,28 +25,28 @@ namespace MCL.Core.ModLoaders.Fabric.Models;
 public class FabricProfile
 {
     [JsonPropertyName("id")]
-    public string ID { get; set; }
+    public string? ID { get; set; }
 
     [JsonPropertyName("inheritsFrom")]
-    public string InheritsFrom { get; set; }
+    public string? InheritsFrom { get; set; }
 
     [JsonPropertyName("releaseTime")]
-    public string ReleaseTime { get; set; }
+    public string? ReleaseTime { get; set; }
 
     [JsonPropertyName("time")]
-    public string Time { get; set; }
+    public string? Time { get; set; }
 
     [JsonPropertyName("type")]
-    public string Type { get; set; }
+    public string? Type { get; set; }
 
     [JsonPropertyName("mainClass")]
-    public string MainClass { get; set; }
+    public string? MainClass { get; set; }
 
     [JsonPropertyName("arguments")]
-    public MArgument Arguments { get; set; }
+    public MArgument? Arguments { get; set; }
 
     [JsonPropertyName("libraries")]
-    public List<FabricLibrary> Libraries { get; set; }
+    public List<FabricLibrary>? Libraries { get; set; }
 
     public FabricProfile() { }
 }

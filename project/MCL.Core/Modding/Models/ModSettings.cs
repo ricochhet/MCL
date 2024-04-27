@@ -17,6 +17,7 @@
  */
 
 using System.Collections.Generic;
+using MCL.Core.MiniCommon;
 
 namespace MCL.Core.Modding.Models;
 
@@ -29,7 +30,7 @@ public class ModSettings
 
     public ModSettings() { }
 
-    public bool IsStoreSaved(string modStoreName) => ModStores.Contains(modStoreName);
+    public bool IsStoreSaved(string? modStoreName) => ModStores.Contains(modStoreName ?? ValidationShims.StringEmpty());
 
     public bool IsDeployPathSaved(string deployPathName) => DeployPaths.Contains(deployPathName);
 }

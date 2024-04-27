@@ -29,12 +29,12 @@ public static class SettingsHelper
         this Settings settings,
         Dictionary<string, string> options,
         string key,
-        Func<Settings, T> propertySelector,
+        Func<Settings?, T?> propertySelector,
         Action<Settings, T> setter
     )
         where T : class
     {
-        if (options.TryGetValue(key, out string value) && ObjectValidator<T>.IsNotNull(propertySelector(settings)))
+        if (options.TryGetValue(key, out string? value) && ObjectValidator<T>.IsNotNull(propertySelector(settings)))
         {
             T convertedValue = (T)Convert.ChangeType(value, typeof(T));
             setter(settings, convertedValue);

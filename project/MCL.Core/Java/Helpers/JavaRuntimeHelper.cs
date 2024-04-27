@@ -32,23 +32,23 @@ public static class JavaRuntimeHelper
     /// If no environment is found, attempt to look in the PATH variables for 'JAVA_HOME'.
     /// </summary>
     public static string FindJavaRuntimeEnvironment(
-        Settings settings,
+        Settings? settings,
         string workingDirectory,
-        JavaRuntimeType javaRuntimeType
+        JavaRuntimeType? javaRuntimeType
     )
     {
         string javaHome = JavaPathResolver.JavaRuntimeHome(workingDirectory, javaRuntimeType);
 
         if (!VFS.Exists(javaHome))
         {
-            string javaHomeEnvironmentVariable = Environment.GetEnvironmentVariable(
-                settings.JavaSettings.HomeEnvironmentVariable
+            string? javaHomeEnvironmentVariable = Environment.GetEnvironmentVariable(
+                settings?.JavaSettings?.HomeEnvironmentVariable ?? ValidationShims.StringEmpty()
             );
             if (ObjectValidator<string>.IsNullOrWhiteSpace([javaHomeEnvironmentVariable]))
                 return javaHome;
 
             NotificationService.Info("error.missing.java");
-            return javaHomeEnvironmentVariable;
+            return javaHomeEnvironmentVariable ?? ValidationShims.StringEmpty();
         }
 
         return javaHome;

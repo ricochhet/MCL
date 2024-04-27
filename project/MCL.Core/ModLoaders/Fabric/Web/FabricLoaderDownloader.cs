@@ -36,13 +36,13 @@ public static class FabricLoaderDownloader
     /// Download a Fabric loader specified by the FabricProfile object.
     /// </summary>
     public static async Task<bool> Download(
-        LauncherPath launcherPath,
-        LauncherVersion launcherVersion,
-        LauncherInstance launcherInstance,
-        FabricProfile fabricProfile,
-        FabricUrls fabricUrls
+        LauncherPath? launcherPath,
+        LauncherVersion? launcherVersion,
+        LauncherInstance? launcherInstance,
+        FabricProfile? fabricProfile,
+        FabricUrls? fabricUrls
     )
-#pragma warning restore
+#pragma warning restore IDE0079, S3776
     {
         if (
             ObjectValidator<string>.IsNullOrWhiteSpace(
@@ -51,36 +51,40 @@ public static class FabricLoaderDownloader
         )
             return false;
 
-        LauncherLoader loader = new() { Version = launcherVersion.FabricLoaderVersion };
+        LauncherLoader loader =
+            new() { Version = launcherVersion?.FabricLoaderVersion ?? ValidationShims.StringEmpty() };
 
-        foreach (FabricLibrary library in fabricProfile.Libraries)
+        foreach (FabricLibrary library in fabricProfile?.Libraries ?? ValidationShims.ListEmpty<FabricLibrary>())
         {
             if (ObjectValidator<string>.IsNullOrWhiteSpace([library?.Name, library?.URL]))
                 return false;
 
             string request;
             string hash;
-            if (library.Name.Contains(fabricUrls.ApiLoaderName))
+            if (library?.Name.Contains(fabricUrls?.ApiLoaderName ?? ValidationShims.StringEmpty()) ?? false)
             {
                 request = FabricPathResolver.LoaderJarPath(fabricUrls, launcherVersion);
                 hash = string.Empty;
             }
-            else if (library.Name.Contains(fabricUrls.ApiIntermediaryName))
+            else if (library?.Name.Contains(fabricUrls?.ApiIntermediaryName ?? ValidationShims.StringEmpty()) ?? false)
             {
                 request = FabricLibrary.ParseURL(library.Name, library.URL);
                 hash = string.Empty;
             }
             else
             {
-                if (ObjectValidator<string>.IsNullOrWhiteSpace([library.SHA1]))
+                if (ObjectValidator<string>.IsNullOrWhiteSpace([library?.SHA1]))
                     return false;
-                request = FabricLibrary.ParseURL(library.Name, library.URL);
-                hash = library.SHA1;
+                request = FabricLibrary.ParseURL(
+                    library?.Name ?? ValidationShims.StringEmpty(),
+                    library?.URL ?? ValidationShims.StringEmpty()
+                );
+                hash = library?.SHA1 ?? ValidationShims.StringEmpty();
             }
 
             string filepath = VFS.Combine(
                 MPathResolver.LibraryPath(launcherPath),
-                FabricLibrary.ParsePath(library.Name)
+                FabricLibrary.ParsePath(library?.Name ?? ValidationShims.StringEmpty())
             );
             loader.Libraries.Add(filepath);
 
@@ -88,14 +92,17 @@ public static class FabricLoaderDownloader
                 return false;
         }
 
-        foreach (LauncherLoader existingLoader in launcherInstance.FabricLoaders)
+        foreach (
+            LauncherLoader existingLoader in launcherInstance?.FabricLoaders
+                ?? ValidationShims.ListEmpty<LauncherLoader>()
+        )
         {
             if (existingLoader.Version == loader.Version)
-                launcherInstance.FabricLoaders.Remove(existingLoader);
+                launcherInstance?.FabricLoaders.Remove(existingLoader);
         }
 
-        launcherInstance.FabricLoaders.Add(loader);
-        SettingsService.Load().Save(launcherInstance);
+        launcherInstance?.FabricLoaders.Add(loader);
+        SettingsService.Load()?.Save(launcherInstance);
         return true;
     }
 }

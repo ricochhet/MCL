@@ -31,14 +31,14 @@ public static class JavaVersionManifestDownloader
     /// <summary>
     /// Download the Java version manifest.
     /// </summary>
-    public static async Task<bool> Download(LauncherPath launcherPath, MUrls mUrls)
+    public static async Task<bool> Download(LauncherPath? launcherPath, MUrls? mUrls)
     {
         if (ObjectValidator<string>.IsNullOrWhiteSpace([mUrls?.JavaVersionManifest]))
             return false;
 
         string filepath = JavaPathResolver.JavaVersionManifestPath(launcherPath);
-        string javaVersionManifest = await Request.GetJsonAsync<JavaVersionManifest>(
-            mUrls.JavaVersionManifest,
+        string? javaVersionManifest = await Request.GetJsonAsync<JavaVersionManifest>(
+            mUrls?.JavaVersionManifest ?? ValidationShims.StringEmpty(),
             filepath,
             Encoding.UTF8
         );

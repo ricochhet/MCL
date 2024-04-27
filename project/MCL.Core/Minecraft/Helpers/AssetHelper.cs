@@ -28,26 +28,28 @@ public static class AssetHelper
     /// <summary>
     /// Get the asset data identifier for the specified MVersion.
     /// </summary>
-    public static string GetAssetId(LauncherPath launcherPath, LauncherVersion launcherVersion)
+    public static string GetAssetId(LauncherPath? launcherPath, LauncherVersion? launcherVersion)
     {
         if (ObjectValidator<string>.IsNullOrWhiteSpace([launcherVersion?.MVersion]))
             return string.Empty;
 
-        MVersionManifest versionManifest = Json.Load<MVersionManifest>(MPathResolver.VersionManifestPath(launcherPath));
+        MVersionManifest? versionManifest = Json.Load<MVersionManifest>(
+            MPathResolver.VersionManifestPath(launcherPath)
+        );
 
         if (ObjectValidator<MVersionManifest>.IsNull(versionManifest))
             return string.Empty;
 
-        MVersion version = VersionHelper.GetVersion(launcherVersion, versionManifest);
+        MVersion? version = VersionHelper.GetVersion(launcherVersion, versionManifest);
         if (ObjectValidator<MVersion>.IsNull(version))
             return string.Empty;
 
-        MVersionDetails versionDetails = Json.Load<MVersionDetails>(
+        MVersionDetails? versionDetails = Json.Load<MVersionDetails>(
             MPathResolver.VersionDetailsPath(launcherPath, version)
         );
 
         if (ObjectValidator<string>.IsNullOrWhiteSpace([versionDetails?.Assets]))
             return string.Empty;
-        return versionDetails.Assets;
+        return versionDetails?.Assets ?? ValidationShims.StringEmpty();
     }
 }

@@ -46,7 +46,7 @@ public static partial class NamespaceAnalyzer
 
             if (ObjectValidator<string>.IsNullOrWhiteSpace([name], NativeLogLevel.Debug))
             {
-                NotificationService.Error("analyzer.error.namespace", file, name ?? string.Empty);
+                NotificationService.Error("analyzer.error.namespace", file, name ?? ValidationShims.StringEmpty());
                 continue;
             }
 

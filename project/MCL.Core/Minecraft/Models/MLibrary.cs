@@ -32,8 +32,6 @@ public class MLibrary(string name, MLibraryDownloads downloads, List<MLibraryRul
     [JsonPropertyName("rules")]
     public List<MLibraryRule> Rules { get; set; } = rules;
 
-#nullable enable // Natives object typically doesn't exist for newer versions.
-
     [JsonPropertyName("natives")]
     public MLibraryNatives? Natives { get; set; } = natives;
 }

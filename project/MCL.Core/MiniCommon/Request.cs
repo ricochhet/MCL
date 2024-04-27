@@ -18,6 +18,7 @@
 
 using System;
 using System.IO;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text;
@@ -43,7 +44,6 @@ public static class Request
         set { _httpClient.Timeout = value; }
     }
 
-#nullable enable
     /// <summary>
     /// Sends a GET async request to the specified URI.
     /// </summary>
@@ -128,12 +128,10 @@ public static class Request
         }
     }
 
-#nullable disable
-
     /// <summary>
     /// Sends a GET async request to the specified URI, and saves the deserialized response of type T to a file.
     /// </summary>
-    public static async Task<string> GetJsonAsync<T>(string request, string filepath, Encoding encoding)
+    public static async Task<string?> GetJsonAsync<T>(string request, string filepath, Encoding encoding)
     {
         for (int retry = 0; retry < Math.Max(1, Retry); retry++)
         {
@@ -142,7 +140,7 @@ public static class Request
             string hash;
             try
             {
-                response = await GetStringAsync(request);
+                response = await GetStringAsync(request) ?? ValidationShims.StringEmpty();
                 if (ObjectValidator<string>.IsNullOrWhiteSpace([response]))
                 {
                     NotificationService.Error("error.download", request);
@@ -176,7 +174,7 @@ public static class Request
     /// <summary>
     /// Sends a GET async request to the specified URI, and saves the response to a file.
     /// </summary>
-    public static async Task<string> GetStringAsync(string request, string filepath, Encoding encoding)
+    public static async Task<string?> GetStringAsync(string request, string filepath, Encoding encoding)
     {
         for (int retry = 0; retry < Math.Max(1, Retry); retry++)
         {
@@ -185,7 +183,7 @@ public static class Request
             string hash;
             try
             {
-                response = await GetStringAsync(request);
+                response = await GetStringAsync(request) ?? ValidationShims.StringEmpty();
                 if (ObjectValidator<string>.IsNullOrWhiteSpace([response]))
                 {
                     NotificationService.Error("error.download", request);
@@ -216,7 +214,6 @@ public static class Request
         return default;
     }
 
-#nullable enable
     /// <summary>
     /// Sends a GET async request to the specified URI, and returns the response body as a string.
     /// </summary>
@@ -238,7 +235,6 @@ public static class Request
         }
     }
 
-#nullable disable
     /// <summary>
     /// Sends a GET async request to the specified URI, compares SHA256 hashes, and saves file if comparison is false.
     /// </summary>
@@ -279,12 +275,10 @@ public static class Request
         for (int retry = 0; retry < Math.Max(1, Retry); retry++)
         {
             NotificationService.Info("request.get.start", request);
-#nullable enable
-            HttpResponseMessage? response;
-#nullable disable
+            HttpResponseMessage response;
             try
             {
-                response = await GetAsync(request);
+                response = await GetAsync(request) ?? new(HttpStatusCode.BadRequest);
 
                 if (ObjectValidator<HttpResponseMessage>.IsNull(response))
                     return false;

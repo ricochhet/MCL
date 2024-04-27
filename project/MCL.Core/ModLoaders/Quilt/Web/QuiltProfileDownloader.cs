@@ -31,9 +31,9 @@ public static class QuiltProfileDownloader
     /// Download a Quilt profile specified by the QuiltLoaderVersion.
     /// </summary>
     public static async Task<bool> Download(
-        LauncherPath launcherPath,
-        LauncherVersion launcherVersion,
-        QuiltUrls quiltUrls
+        LauncherPath? launcherPath,
+        LauncherVersion? launcherVersion,
+        QuiltUrls? quiltUrls
     )
     {
         if (
@@ -43,7 +43,7 @@ public static class QuiltProfileDownloader
         )
             return false;
 
-        string quiltProfile = await Request.GetJsonAsync<QuiltProfile>(
+        string? quiltProfile = await Request.GetJsonAsync<QuiltProfile>(
             QuiltPathResolver.LoaderProfilePath(quiltUrls, launcherVersion),
             QuiltPathResolver.ProfilePath(launcherPath, launcherVersion),
             Encoding.UTF8

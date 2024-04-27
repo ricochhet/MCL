@@ -31,17 +31,21 @@ public static class PaperVersionManifestDownloader
     /// Download the Paper server version manifest.
     /// </summary>
     public static async Task<bool> Download(
-        LauncherPath launcherPath,
-        LauncherVersion launcherVersion,
-        PaperUrls paperUrls
+        LauncherPath? launcherPath,
+        LauncherVersion? launcherVersion,
+        PaperUrls? paperUrls
     )
     {
         if (ObjectValidator<string>.IsNullOrWhiteSpace([launcherVersion?.MVersion, paperUrls?.VersionManifest]))
             return false;
 
         string filepath = PaperPathResolver.VersionManifestPath(launcherPath, launcherVersion);
-        string paperIndex = await Request.GetJsonAsync<PaperVersionManifest>(
-            string.Format(paperUrls.VersionManifest, "paper", launcherVersion.MVersion),
+        string? paperIndex = await Request.GetJsonAsync<PaperVersionManifest>(
+            string.Format(
+                paperUrls?.VersionManifest ?? ValidationShims.StringEmpty(),
+                "paper",
+                launcherVersion?.MVersion
+            ),
             filepath,
             Encoding.UTF8
         );

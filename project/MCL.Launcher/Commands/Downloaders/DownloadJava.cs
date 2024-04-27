@@ -27,7 +27,7 @@ namespace MCL.Launcher.Commands.Downloaders;
 
 public class DownloadJava : ILauncherCommand
 {
-    public async Task Init(string[] args, Settings settings)
+    public async Task Init(string[] args, Settings? settings)
     {
         await CommandLine.ProcessArgumentAsync(
             args,
@@ -35,14 +35,14 @@ public class DownloadJava : ILauncherCommand
             async _ =>
             {
                 JavaDownloadService.Init(
-                    settings.LauncherPath,
-                    settings.MUrls,
+                    settings?.LauncherPath,
+                    settings?.MUrls,
                     JavaVersionHelper.GetMVersionJava(
-                        settings.LauncherPath,
-                        settings.LauncherVersion,
-                        settings.LauncherSettings
+                        settings?.LauncherPath,
+                        settings?.LauncherVersion,
+                        settings?.LauncherSettings
                     ),
-                    settings.LauncherSettings.JavaRuntimePlatform
+                    settings?.LauncherSettings?.JavaRuntimePlatform
                 );
 
                 await JavaDownloadService.Download();

@@ -34,7 +34,7 @@ public class DownloadQuiltInstaller : ILauncherCommand
 {
     private static readonly LauncherVersion _launcherVersion = LauncherVersion.Latest();
 
-    public async Task Init(string[] args, Settings settings)
+    public async Task Init(string[] args, Settings? settings)
     {
         await CommandLine.ProcessArgumentAsync(
             args,
@@ -60,19 +60,23 @@ public class DownloadQuiltInstaller : ILauncherCommand
                 if (!await QuiltVersionHelper.SetInstallerVersion(settings, _launcherVersion, update))
                     return;
 
-                QuiltInstallerDownloadService.Init(settings.LauncherPath, settings.LauncherVersion, settings.QuiltUrls);
+                QuiltInstallerDownloadService.Init(
+                    settings?.LauncherPath,
+                    settings?.LauncherVersion,
+                    settings?.QuiltUrls
+                );
                 if (!await QuiltInstallerDownloadService.Download(useLocalVersionManifest: true))
                     return;
 
                 JavaLauncher.Launch(
                     settings,
-                    QuiltPathResolver.InstallersPath(settings.LauncherPath),
+                    QuiltPathResolver.InstallersPath(settings?.LauncherPath),
                     QuiltInstallerArgs.DefaultJvmArguments(
-                        settings.LauncherPath,
-                        settings.LauncherVersion,
+                        settings?.LauncherPath,
+                        settings?.LauncherVersion,
                         QuiltInstallerType.INSTALL_CLIENT
                     ),
-                    settings.LauncherSettings.JavaRuntimeType,
+                    settings?.LauncherSettings?.JavaRuntimeType,
                     options.GetValueOrDefault("javapath", string.Empty)
                 );
             }

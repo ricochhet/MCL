@@ -27,12 +27,13 @@ public static class JavaPathResolver
     /// <summary>
     /// The Java runtime path.
     /// </summary>
-    public static string JavaRuntimePath(LauncherPath launcherPath) => VFS.Combine(launcherPath.MPath, "runtime");
+    public static string JavaRuntimePath(LauncherPath? launcherPath) =>
+        VFS.Combine(launcherPath?.MPath ?? ValidationShims.StringEmpty(), "runtime");
 
     /// <summary>
     /// The Java runtime 'home' specified by the working directory.
     /// </summary>
-    public static string JavaRuntimeHome(string workingDirectory, JavaRuntimeType javaRuntimeType) =>
+    public static string JavaRuntimeHome(string workingDirectory, JavaRuntimeType? javaRuntimeType) =>
         VFS.Combine(workingDirectory, "runtime", JavaRuntimeTypeResolver.ToString(javaRuntimeType));
 
     /// <summary>
@@ -43,18 +44,18 @@ public static class JavaPathResolver
     /// <summary>
     /// The Java runtime version manifest path.
     /// </summary>
-    public static string JavaVersionManifestPath(LauncherPath launcherPath) =>
+    public static string JavaVersionManifestPath(LauncherPath? launcherPath) =>
         VFS.Combine(JavaRuntimePath(launcherPath), "version_details.json");
 
     /// <summary>
     /// The Java runtime version details path.
     /// </summary>
-    public static string JavaVersionDetailsPath(LauncherPath launcherPath, string javaRuntimeVersion) =>
+    public static string JavaVersionDetailsPath(LauncherPath? launcherPath, string javaRuntimeVersion) =>
         VFS.Combine(JavaRuntimePath(launcherPath), javaRuntimeVersion, $"{javaRuntimeVersion}.json");
 
     /// <summary>
     /// The Java runtime version path.
     /// </summary>
-    public static string JavaRuntimeVersionPath(LauncherPath launcherPath, string javaRuntimeVersion) =>
+    public static string JavaRuntimeVersionPath(LauncherPath? launcherPath, string javaRuntimeVersion) =>
         VFS.Combine(JavaRuntimePath(launcherPath), javaRuntimeVersion);
 }

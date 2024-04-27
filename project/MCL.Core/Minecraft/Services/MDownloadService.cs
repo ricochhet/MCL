@@ -31,26 +31,26 @@ namespace MCL.Core.Minecraft.Services;
 
 public class MDownloadService : IDownloadService
 {
-    public static MVersionManifest VersionManifest { get; private set; }
-    public static MVersionDetails VersionDetails { get; private set; }
-    public static MVersion Version { get; private set; }
-    private static MAssetsData _assets;
-    private static LauncherPath _launcherPath;
-    private static LauncherVersion _launcherVersion;
-    private static LauncherSettings _launcherSettings;
-    private static LauncherInstance _launcherInstance;
-    private static MUrls _mUrls;
+    public static MVersionManifest? VersionManifest { get; private set; }
+    public static MVersionDetails? VersionDetails { get; private set; }
+    public static MVersion? Version { get; private set; }
+    private static MAssetsData? _assets;
+    private static LauncherPath? _launcherPath;
+    private static LauncherVersion? _launcherVersion;
+    private static LauncherSettings? _launcherSettings;
+    private static LauncherInstance? _launcherInstance;
+    private static MUrls? _mUrls;
     private static bool _loaded = false;
 
     /// <summary>
     /// Initialize the game download service.
     /// </summary>
     public static void Init(
-        LauncherPath launcherPath,
-        LauncherVersion launcherVersion,
-        LauncherSettings launcherSettings,
-        LauncherInstance launcherInstance,
-        MUrls mUrls
+        LauncherPath? launcherPath,
+        LauncherVersion? launcherVersion,
+        LauncherSettings? launcherSettings,
+        LauncherInstance? launcherInstance,
+        MUrls? mUrls
     )
     {
         _launcherPath = launcherPath;
@@ -67,7 +67,7 @@ public class MDownloadService : IDownloadService
     /// Download all parts of the game.
     /// </summary>
     public static async Task<bool> Download(bool useLocalVersionManifest = false)
-#pragma warning restore
+#pragma warning restore IDE0079, S3776
     {
         if (!_loaded)
             return false;
@@ -178,7 +178,11 @@ public class MDownloadService : IDownloadService
         Version = VersionHelper.GetVersion(_launcherVersion, VersionManifest);
         if (ObjectValidator<MVersion>.IsNull(Version))
         {
-            NotificationService.Error("error.parse", _launcherVersion?.MVersion, nameof(MVersion));
+            NotificationService.Error(
+                "error.parse",
+                _launcherVersion?.MVersion ?? ValidationShims.StringEmpty(),
+                nameof(MVersion)
+            );
             return false;
         }
 

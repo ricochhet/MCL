@@ -33,22 +33,22 @@ namespace MCL.Core.Servers.Paper.Services;
 
 public class PaperServerDownloadService : IDownloadService
 {
-    public static PaperVersionManifest PaperVersionManifest { get; private set; }
-    public static PaperBuild PaperBuild { get; private set; }
-    private static LauncherPath _launcherPath;
-    private static LauncherVersion _launcherVersion;
-    private static LauncherInstance _launcherInstance;
-    private static PaperUrls _paperUrls;
+    public static PaperVersionManifest? PaperVersionManifest { get; private set; }
+    public static PaperBuild? PaperBuild { get; private set; }
+    private static LauncherPath? _launcherPath;
+    private static LauncherVersion? _launcherVersion;
+    private static LauncherInstance? _launcherInstance;
+    private static PaperUrls? _paperUrls;
     private static bool _loaded = false;
 
     /// <summary>
     /// Initialize the Paper server download service.
     /// </summary>
     public static void Init(
-        LauncherPath launcherPath,
-        LauncherVersion launcherVersion,
-        LauncherInstance launcherInstance,
-        PaperUrls paperUrls
+        LauncherPath? launcherPath,
+        LauncherVersion? launcherVersion,
+        LauncherInstance? launcherInstance,
+        PaperUrls? paperUrls
     )
     {
         _launcherPath = launcherPath;
@@ -78,14 +78,16 @@ public class PaperServerDownloadService : IDownloadService
         if (!await DownloadJar())
             return false;
 
-        foreach (string version in _launcherInstance.PaperServerVersions)
+        foreach (string version in _launcherInstance?.PaperServerVersions ?? ValidationShims.ListEmpty<string>())
         {
-            if (version == _launcherVersion.PaperServerVersion)
-                _launcherInstance.PaperServerVersions.Remove(version);
+            if (version == _launcherVersion?.PaperServerVersion)
+                _launcherInstance?.PaperServerVersions.Remove(version);
         }
 
-        _launcherInstance.PaperServerVersions.Add(_launcherVersion.PaperServerVersion);
-        SettingsService.Load().Save(_launcherInstance);
+        _launcherInstance?.PaperServerVersions.Add(
+            _launcherVersion?.PaperServerVersion ?? ValidationShims.StringEmpty()
+        );
+        SettingsService.Load()?.Save(_launcherInstance);
 
         return true;
     }
@@ -161,7 +163,11 @@ public class PaperServerDownloadService : IDownloadService
         PaperBuild = PaperVersionHelper.GetVersion(_launcherVersion, PaperVersionManifest);
         if (ObjectValidator<PaperBuild>.IsNull(PaperBuild))
         {
-            NotificationService.Error("error.parse", _launcherVersion?.PaperServerVersion, nameof(PaperBuild));
+            NotificationService.Error(
+                "error.parse",
+                _launcherVersion?.PaperServerVersion ?? ValidationShims.StringEmpty(),
+                nameof(PaperBuild)
+            );
             return false;
         }
 

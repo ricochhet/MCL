@@ -29,17 +29,17 @@ public static class PaperLauncher
     /// <summary>
     /// Launch the Paper server process.
     /// </summary>
-    public static void Launch(Settings settings, string javaHome)
+    public static void Launch(Settings? settings, string javaHome)
     {
         if (ObjectValidator<Settings>.IsNull(settings))
             return;
 
-        settings.Save(PaperServerArgs.DefaultJvmArguments(settings));
+        settings?.Save(PaperServerArgs.DefaultJvmArguments(settings));
         JavaLauncher.Launch(
             settings,
-            PaperPathResolver.InstallerPath(settings.LauncherPath, settings.LauncherVersion),
-            settings.PaperJvmArguments,
-            settings.LauncherSettings.JavaRuntimeType,
+            PaperPathResolver.InstallerPath(settings?.LauncherPath, settings?.LauncherVersion),
+            settings?.PaperJvmArguments,
+            settings?.LauncherSettings?.JavaRuntimeType,
             javaHome
         );
     }

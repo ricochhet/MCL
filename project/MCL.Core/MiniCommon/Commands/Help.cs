@@ -28,12 +28,12 @@ namespace MCL.Core.MiniCommon.Commands;
 
 public class Help : ILauncherCommand
 {
-    public Task Init(string[] args, Settings settings)
+    public Task Init(string[] args, Settings? settings)
     {
         CommandLine.ProcessArgument(
             args,
             new() { Name = "help", },
-            (string _) =>
+            (string? _) =>
             {
                 foreach (Command command in CommandHelper.Commands)
                 {

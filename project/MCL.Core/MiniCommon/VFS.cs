@@ -27,7 +27,7 @@ namespace MCL.Core.MiniCommon;
 #pragma warning disable IDE0079
 #pragma warning disable S101
 public static class VFS
-#pragma warning restore
+#pragma warning restore IDE0079, S101
 {
     public static string Cwd { get; set; } = Environment.CurrentDirectory;
     private static readonly object _mutex = new();
@@ -89,7 +89,7 @@ public static class VFS
     {
         return Combine(Cwd, path1, path2, path3);
     }
-#pragma warning restore
+#pragma warning restore IDE0079, S2234
 
     /// <summary>
     /// Combines an array of filepaths with the current working directory.
@@ -104,7 +104,7 @@ public static class VFS
     /// </summary>
     public static string GetDirectoryName(this string filepath)
     {
-        string value = Path.GetDirectoryName(filepath);
+        string value = Path.GetDirectoryName(filepath) ?? ValidationShims.StringEmpty();
         return (!string.IsNullOrWhiteSpace(value)) ? value : string.Empty;
     }
 
@@ -275,7 +275,7 @@ public static class VFS
     /// <summary>
     /// Write string to file.
     /// </summary>
-    public static void WriteFile(string filepath, string data, Encoding encoding = null)
+    public static void WriteFile(string filepath, string data, Encoding? encoding = null)
     {
         WriteFile(filepath, (encoding ?? Encoding.UTF8).GetBytes(data));
     }

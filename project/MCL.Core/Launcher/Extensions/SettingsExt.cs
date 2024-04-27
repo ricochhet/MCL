@@ -21,6 +21,7 @@ using MCL.Core.Java.Models;
 using MCL.Core.Launcher.Enums;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Services;
+using MCL.Core.MiniCommon;
 using MCL.Core.Modding.Extensions;
 using MCL.Core.Modding.Models;
 
@@ -31,28 +32,34 @@ public static class SettingsExt
     /// <summary>
     /// Save JvmArguments to Settings specified by the ClientType.
     /// </summary>
-    public static Settings Save(this Settings settings, ClientType clientType, JvmArguments jvmArguments)
+    public static Settings Save(this Settings settings, ClientType? clientType, JvmArguments? jvmArguments)
     {
         switch (clientType)
         {
             case ClientType.VANILLA:
                 if (settings.MJvmArguments != jvmArguments)
                 {
-                    settings.MJvmArguments = jvmArguments.Concat(settings.OverrideMJvmArguments);
+                    settings.MJvmArguments =
+                        jvmArguments?.Concat(settings.OverrideMJvmArguments)
+                        ?? ValidationShims.ClassEmpty<JvmArguments>();
                     SettingsService.Save(settings);
                 }
                 break;
             case ClientType.FABRIC:
                 if (settings.FabricJvmArguments != jvmArguments)
                 {
-                    settings.FabricJvmArguments = jvmArguments.Concat(settings.OverrideFabricJvmArguments);
+                    settings.FabricJvmArguments =
+                        jvmArguments?.Concat(settings.OverrideFabricJvmArguments)
+                        ?? ValidationShims.ClassEmpty<JvmArguments>();
                     SettingsService.Save(settings);
                 }
                 break;
             case ClientType.QUILT:
                 if (settings.QuiltJvmArguments != jvmArguments)
                 {
-                    settings.QuiltJvmArguments = jvmArguments.Concat(settings.OverrideQuiltJvmArguments);
+                    settings.QuiltJvmArguments =
+                        jvmArguments?.Concat(settings.OverrideQuiltJvmArguments)
+                        ?? ValidationShims.ClassEmpty<JvmArguments>();
                     SettingsService.Save(settings);
                 }
                 break;
@@ -64,11 +71,12 @@ public static class SettingsExt
     /// <summary>
     /// Save JvmArguments to Settings for 'PaperJvmArguments'.
     /// </summary>
-    public static Settings Save(this Settings settings, JvmArguments jvmArguments)
+    public static Settings Save(this Settings settings, JvmArguments? jvmArguments)
     {
         if (settings.PaperJvmArguments != jvmArguments)
         {
-            settings.PaperJvmArguments = jvmArguments.Concat(settings.OverridePaperJvmArguments);
+            settings.PaperJvmArguments =
+                jvmArguments?.Concat(settings.OverridePaperJvmArguments) ?? ValidationShims.ClassEmpty<JvmArguments>();
             SettingsService.Save(settings);
         }
         return settings;
@@ -77,11 +85,12 @@ public static class SettingsExt
     /// <summary>
     /// Save ModSettings to Settings for 'ModSettings'.
     /// </summary>
-    public static Settings Save(this Settings settings, ModSettings modSettings)
+    public static Settings Save(this Settings settings, ModSettings? modSettings)
     {
         if (settings.ModSettings != modSettings)
         {
-            settings.ModSettings = modSettings.Concat(settings.OverrideModSettings);
+            settings.ModSettings =
+                modSettings?.Concat(settings.OverrideModSettings) ?? ValidationShims.ClassEmpty<ModSettings>();
             SettingsService.Save(settings);
         }
         return settings;
@@ -90,11 +99,13 @@ public static class SettingsExt
     /// <summary>
     /// Save LauncherInstance to Settings for 'LauncherInstance'.
     /// </summary>
-    public static Settings Save(this Settings settings, LauncherInstance launcherInstance)
+    public static Settings Save(this Settings settings, LauncherInstance? launcherInstance)
     {
         if (settings.LauncherInstance != launcherInstance)
         {
-            settings.LauncherInstance = launcherInstance.Concat(settings.OverrideLauncherInstance);
+            settings.LauncherInstance =
+                launcherInstance?.Concat(settings.OverrideLauncherInstance)
+                ?? ValidationShims.ClassEmpty<LauncherInstance>();
             SettingsService.Save(settings);
         }
         return settings;

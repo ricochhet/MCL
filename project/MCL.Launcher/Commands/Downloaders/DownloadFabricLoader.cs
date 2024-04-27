@@ -31,7 +31,7 @@ public class DownloadFabricLoader : ILauncherCommand
 {
     private static readonly LauncherVersion _launcherVersion = LauncherVersion.Latest();
 
-    public async Task Init(string[] args, Settings settings)
+    public async Task Init(string[] args, Settings? settings)
     {
         await CommandLine.ProcessArgumentAsync(
             args,
@@ -63,10 +63,10 @@ public class DownloadFabricLoader : ILauncherCommand
                     return;
 
                 FabricLoaderDownloadService.Init(
-                    settings.LauncherPath,
-                    settings.LauncherVersion,
-                    settings.LauncherInstance,
-                    settings.FabricUrls
+                    settings?.LauncherPath,
+                    settings?.LauncherVersion,
+                    settings?.LauncherInstance,
+                    settings?.FabricUrls
                 );
                 await FabricLoaderDownloadService.Download(useLocalVersionManifest: true);
             }

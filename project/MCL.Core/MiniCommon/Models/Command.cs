@@ -25,7 +25,7 @@ namespace MCL.Core.MiniCommon.Models;
 
 public class Command
 {
-    public string Name { get; set; }
+    public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public List<CommandParameter> Parameters { get; set; } = [];
 

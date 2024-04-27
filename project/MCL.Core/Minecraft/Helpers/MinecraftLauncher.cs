@@ -35,7 +35,7 @@ public static class MinecraftLauncher
         if (ObjectValidator<Settings>.IsNull(settings))
             return;
 
-        settings.Save(settings.LauncherSettings.ClientType, LaunchArgs.DefaultJvmArguments(settings));
+        settings.Save(settings.LauncherSettings?.ClientType, LaunchArgs.DefaultJvmArguments(settings));
         if (
             ObjectValidator<MVersionDetails>.IsNull(
                 VersionHelper.GetVersionDetails(settings.LauncherPath, settings.LauncherVersion)
@@ -44,8 +44,8 @@ public static class MinecraftLauncher
             return;
         JavaLauncher.Launch(
             settings,
-            settings.LauncherPath.MPath,
-            settings.LauncherSettings.ClientType,
+            settings.LauncherPath?.MPath ?? ValidationShims.StringEmpty(),
+            settings.LauncherSettings?.ClientType,
             JavaVersionHelper.GetMVersionJava(
                 settings.LauncherPath,
                 settings.LauncherVersion,

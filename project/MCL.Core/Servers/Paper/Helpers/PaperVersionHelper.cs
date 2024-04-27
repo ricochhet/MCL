@@ -17,6 +17,7 @@
  */
 
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Services;
@@ -32,16 +33,16 @@ public static class PaperVersionHelper
     /// Get the PaperVersionManifest and set the version of PaperServerVersion in Settings.
     /// </summary>
     public static async Task<bool> SetVersion(
-        Settings settings,
+        Settings? settings,
         LauncherVersion launcherVersion,
         bool updateVersionManifest = false
     )
     {
         PaperServerDownloadService.Init(
-            settings.LauncherPath,
-            settings.LauncherVersion,
-            settings.LauncherInstance,
-            settings.PaperUrls
+            settings?.LauncherPath,
+            settings?.LauncherVersion,
+            settings?.LauncherInstance,
+            settings?.PaperUrls
         );
         if (!PaperServerDownloadService.LoadVersionManifestWithoutLogging() || updateVersionManifest)
         {
@@ -52,16 +53,22 @@ public static class PaperVersionHelper
         if (ObjectValidator<PaperVersionManifest>.IsNull(PaperServerDownloadService.PaperVersionManifest))
             return false;
 
-        List<string> versions = GetVersionIds(PaperServerDownloadService.PaperVersionManifest);
-        string version = launcherVersion.PaperServerVersion;
+        List<string> versions = GetVersionIds(
+            PaperServerDownloadService.PaperVersionManifest ?? ValidationShims.ClassEmpty<PaperVersionManifest>()
+        );
+        string? version = launcherVersion.PaperServerVersion;
 
         if (version == "latest" || ObjectValidator<string>.IsNullOrWhiteSpace([version]))
-            version = versions[^1]; // Latest is the last version of the array.
+            version = versions.LastOrDefault(); // Latest is the last version of the array.
 
-        if (!versions.Contains(version))
+        if (!versions.Contains(version ?? ValidationShims.StringEmpty()))
             return false;
 
-        settings.LauncherVersion.PaperServerVersion = version;
+        if (ObjectValidator<LauncherVersion>.IsNull(settings?.LauncherVersion))
+            return false;
+#pragma warning disable CS8602
+        settings.LauncherVersion.PaperServerVersion = version ?? ValidationShims.StringEmpty();
+#pragma warning restore CS8602
         SettingsService.Save(settings);
         return true;
     }
@@ -75,7 +82,7 @@ public static class PaperVersionHelper
             return [];
 
         List<string> versions = [];
-        foreach (PaperBuild item in paperVersionManifest.Builds)
+        foreach (PaperBuild item in paperVersionManifest?.Builds ?? ValidationShims.ListEmpty<PaperBuild>())
         {
             versions.Add(item.Build.ToString());
         }
@@ -86,7 +93,10 @@ public static class PaperVersionHelper
     /// <summary>
     /// Get a PaperBuild object from the PaperVersionManifest.
     /// </summary>
-    public static PaperBuild GetVersion(LauncherVersion paperServerVersion, PaperVersionManifest paperVersionManifest)
+    public static PaperBuild? GetVersion(
+        LauncherVersion? paperServerVersion,
+        PaperVersionManifest? paperVersionManifest
+    )
     {
         if (
             ObjectValidator<string>.IsNullOrWhiteSpace([paperServerVersion?.PaperServerVersion])
@@ -94,15 +104,15 @@ public static class PaperVersionHelper
         )
             return null;
 
-        PaperBuild paperBuild = paperVersionManifest.Builds[^1];
+        PaperBuild? paperBuild = paperVersionManifest?.Builds?.LastOrDefault();
         if (ObjectValidator<string>.IsNullOrWhiteSpace([paperServerVersion?.PaperServerVersion]))
             return paperBuild;
 
-        foreach (PaperBuild item in paperVersionManifest.Builds)
+        foreach (PaperBuild item in paperVersionManifest?.Builds ?? ValidationShims.ListEmpty<PaperBuild>())
         {
             if (
                 ObjectValidator<string>.IsNotNullOrWhiteSpace([paperServerVersion?.PaperServerVersion])
-                && item.Build.ToString() == paperServerVersion.PaperServerVersion
+                && item.Build.ToString() == paperServerVersion?.PaperServerVersion
             )
                 return item;
         }

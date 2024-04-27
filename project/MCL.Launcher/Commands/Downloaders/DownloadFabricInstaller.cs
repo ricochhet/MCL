@@ -34,7 +34,7 @@ public class DownloadFabricInstaller : ILauncherCommand
 {
     private static readonly LauncherVersion _launcherVersion = LauncherVersion.Latest();
 
-    public async Task Init(string[] args, Settings settings)
+    public async Task Init(string[] args, Settings? settings)
     {
         await CommandLine.ProcessArgumentAsync(
             args,
@@ -61,22 +61,22 @@ public class DownloadFabricInstaller : ILauncherCommand
                     return;
 
                 FabricInstallerDownloadService.Init(
-                    settings.LauncherPath,
-                    settings.LauncherVersion,
-                    settings.FabricUrls
+                    settings?.LauncherPath,
+                    settings?.LauncherVersion,
+                    settings?.FabricUrls
                 );
                 if (!await FabricInstallerDownloadService.Download(useLocalVersionManifest: true))
                     return;
 
                 JavaLauncher.Launch(
                     settings,
-                    FabricPathResolver.InstallersPath(settings.LauncherPath),
+                    FabricPathResolver.InstallersPath(settings?.LauncherPath),
                     FabricInstallerArgs.DefaultJvmArguments(
-                        settings.LauncherPath,
-                        settings.LauncherVersion,
+                        settings?.LauncherPath,
+                        settings?.LauncherVersion,
                         FabricInstallerType.INSTALL_CLIENT
                     ),
-                    settings.LauncherSettings.JavaRuntimeType,
+                    settings?.LauncherSettings?.JavaRuntimeType,
                     options.GetValueOrDefault("javapath", string.Empty)
                 );
             }

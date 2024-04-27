@@ -24,14 +24,14 @@ namespace MCL.Core.Servers.Paper.Models;
 public class PaperVersionManifest
 {
     [JsonPropertyName("project_id")]
-    public string ProjectId { get; set; }
+    public string? ProjectId { get; set; }
 
     [JsonPropertyName("project_name")]
-    public string ProjectName { get; set; }
+    public string? ProjectName { get; set; }
 
     [JsonPropertyName("version")]
-    public string Version { get; set; }
+    public string? Version { get; set; }
 
     [JsonPropertyName("builds")]
-    public List<PaperBuild> Builds { get; set; }
+    public List<PaperBuild>? Builds { get; set; }
 }

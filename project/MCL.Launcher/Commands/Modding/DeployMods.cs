@@ -28,16 +28,19 @@ namespace MCL.Launcher.Commands.Modding;
 
 public class DeployMods : ILauncherCommand
 {
-    public Task Init(string[] args, Settings settings)
+    public Task Init(string[] args, Settings? settings)
     {
         CommandLine.ProcessArgument(
             args,
             new() { Name = "deploy-mods" },
-            (string value) =>
+            (string? value) =>
             {
                 ModdingService.Save(value);
-                ModdingService.Deploy(ModdingService.Load(value), ModPathResolver.ModDeployPath(settings.LauncherPath));
-                settings.Save(ModdingService.ModSettings);
+                ModdingService.Deploy(
+                    ModdingService.Load(value),
+                    ModPathResolver.ModDeployPath(settings?.LauncherPath)
+                );
+                settings?.Save(ModdingService.ModSettings);
             }
         );
 

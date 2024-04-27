@@ -27,7 +27,7 @@ public static class PaperServerProperties
     /// <summary>
     /// Create a new Eula text file in the specified server path.
     /// </summary>
-    public static void NewEula(LauncherPath launcherPath, LauncherVersion launcherVersion)
+    public static void NewEula(LauncherPath? launcherPath, LauncherVersion? launcherVersion)
     {
         string filepath = VFS.Combine(PaperPathResolver.InstallerPath(launcherPath, launcherVersion), "eula.txt");
         if (!VFS.Exists(filepath))
@@ -37,7 +37,7 @@ public static class PaperServerProperties
     /// <summary>
     /// Create a new Properties file in the specified server path.
     /// </summary>
-    public static void NewProperties(LauncherPath launcherPath, LauncherVersion launcherVersion)
+    public static void NewProperties(LauncherPath? launcherPath, LauncherVersion? launcherVersion)
     {
         string filepath = VFS.Combine(
             PaperPathResolver.InstallerPath(launcherPath, launcherVersion),

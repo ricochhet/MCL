@@ -26,7 +26,7 @@ public static class JavaRuntimeTypeResolver
     /// <summary>
     /// Convert JavaRuntimeType into a direct string.
     /// </summary>
-    public static string ToString(JavaRuntimeType type) =>
+    public static string ToString(JavaRuntimeType? type) =>
         type switch
         {
             JavaRuntimeType.JAVA_RUNTIME_ALPHA => "java-runtime-alpha",

@@ -55,10 +55,18 @@ public static partial class LocalizationKeyAnalyzer
                 if (ObjectValidator<string>.IsNullOrWhiteSpace([quoteMatch?.Value], NativeLogLevel.Debug))
                     continue;
 
-                if (!localization.Entries.ContainsKey(quoteMatch.Value.Replace("\"", string.Empty)))
+                if (
+                    !localization?.Entries.ContainsKey(
+                        quoteMatch?.Value.Replace("\"", string.Empty) ?? ValidationShims.StringEmpty()
+                    ) ?? true
+                )
                 {
                     fail++;
-                    NotificationService.Error("analyzer.error.localization", file, quoteMatch.Value);
+                    NotificationService.Error(
+                        "analyzer.error.localization",
+                        file,
+                        quoteMatch?.Value ?? ValidationShims.StringEmpty()
+                    );
                 }
                 else
                 {

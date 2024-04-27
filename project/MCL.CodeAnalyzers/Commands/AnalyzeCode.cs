@@ -23,13 +23,14 @@ using MCL.CodeAnalyzers.Analyzers;
 using MCL.Core.Launcher.Models;
 using MCL.Core.MiniCommon;
 using MCL.Core.MiniCommon.Interfaces;
+using MCL.Core.MiniCommon.Models;
 using MCL.Core.MiniCommon.Services;
 
 namespace MCL.CodeAnalyzers.Commands;
 
 public class AnalyzeCode : ILauncherCommand
 {
-    public Task Init(string[] args, Settings settings)
+    public Task Init(string[] args, Settings? settings)
     {
         CommandLine.ProcessArgument(
             args,
@@ -45,7 +46,10 @@ public class AnalyzeCode : ILauncherCommand
                 LicenseAnalyzer.Analyze(files);
                 LineAnalyzer.Analyze(files);
                 NamespaceAnalyzer.Analyze(files);
-                LocalizationKeyAnalyzer.Analyze(files, LocalizationService.Localization);
+                LocalizationKeyAnalyzer.Analyze(
+                    files,
+                    LocalizationService.Localization ?? ValidationShims.ClassEmpty<Localization>()
+                );
             }
         );
 

@@ -16,6 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MCL.Core.Launcher.Enums;
@@ -30,7 +31,7 @@ namespace MCL.Launcher.Commands.Launcher;
 
 public class LaunchMinecraft : ILauncherCommand
 {
-    public Task Init(string[] args, Settings settings)
+    public Task Init(string[] args, Settings? settings)
     {
         CommandLine.ProcessArgument(
             args,
@@ -49,33 +50,65 @@ public class LaunchMinecraft : ILauncherCommand
             },
             options =>
             {
+                if (ObjectValidator<LauncherSettings>.IsNull(settings?.LauncherSettings))
+                    return;
+#pragma warning disable CS8602
                 settings.LauncherSettings.ClientType = EnumResolver.Parse(
                     options.GetValueOrDefault("client", "vanilla"),
                     ClientType.VANILLA
                 );
+#pragma warning restore CS8602
                 settings.Set(
                     options,
                     "gameversion",
-                    s => s.LauncherVersion.MVersion,
-                    (s, v) => s.LauncherVersion.MVersion = v
+                    s => s?.LauncherVersion?.MVersion,
+                    (s, v) =>
+                    {
+                        if (ObjectValidator<LauncherVersion>.IsNull(s?.LauncherVersion))
+                            return;
+#pragma warning disable CS8602
+                        s.LauncherVersion.MVersion = v;
+#pragma warning restore CS8602
+                    }
                 );
                 settings.Set(
                     options,
                     "fabricversion",
-                    s => s.LauncherVersion.FabricLoaderVersion,
-                    (s, v) => s.LauncherVersion.FabricLoaderVersion = v
+                    s => s?.LauncherVersion?.FabricLoaderVersion,
+                    (s, v) =>
+                    {
+                        if (ObjectValidator<LauncherVersion>.IsNull(s?.LauncherVersion))
+                            return;
+#pragma warning disable CS8602
+                        s.LauncherVersion.FabricLoaderVersion = v;
+#pragma warning restore CS8602
+                    }
                 );
                 settings.Set(
                     options,
                     "quiltversion",
-                    s => s.LauncherVersion.QuiltLoaderVersion,
-                    (s, v) => s.LauncherVersion.QuiltLoaderVersion = v
+                    s => s?.LauncherVersion?.QuiltLoaderVersion,
+                    (s, v) =>
+                    {
+                        if (ObjectValidator<LauncherVersion>.IsNull(s?.LauncherVersion))
+                            return;
+#pragma warning disable CS8602
+                        s.LauncherVersion.QuiltLoaderVersion = v;
+#pragma warning restore CS8602
+                    }
                 );
                 settings.Set(
                     options,
                     "username",
-                    s => s.LauncherUsername.Username,
-                    (s, v) => s.LauncherUsername.Username = v
+                    s => s?.LauncherUsername?.Username,
+                    (s, v) =>
+                    {
+                        if (ObjectValidator<LauncherUsername>.IsNull(s?.LauncherUsername))
+                            return;
+#pragma warning disable CS8602
+                        s.LauncherUsername.Username = v;
+#pragma warning restore CS8602
+                    }
                 );
                 MinecraftLauncher.Launch(settings, options.GetValueOrDefault("javapath", string.Empty));
             }

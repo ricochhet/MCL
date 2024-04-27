@@ -28,9 +28,8 @@ public class Notification
     public NativeLogLevel LogLevel { get; set; }
     public string ID { get; set; }
     public string Message { get; set; }
-    public string[] Params { get; set; }
-    public static event Action<Notification> OnNotificationAdded;
-#nullable enable
+    public string[]? Params { get; set; }
+    public static event Action<Notification>? OnNotificationAdded;
     public Exception? Exception { get; set; }
 
     public Notification(NativeLogLevel logLevel, string id, Exception? exception = null)
@@ -43,7 +42,6 @@ public class Notification
     }
 
     public Notification(NativeLogLevel logLevel, string id, string[] _params, Exception? exception = null)
-#nullable disable
     {
         LogLevel = logLevel;
         ID = id;

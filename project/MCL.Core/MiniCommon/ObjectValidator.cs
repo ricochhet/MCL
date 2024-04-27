@@ -18,6 +18,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using MCL.Core.MiniCommon.Logger.Enums;
@@ -39,7 +40,7 @@ public class ObjectValidator<T>
     /// <summary>
     /// Add a new validation rule.
     /// </summary>
-    public void AddRule(Func<T, bool> rule, string errorMessage) => _rules.Add(new(rule, errorMessage));
+    public void AddRule(Func<T?, bool> rule, string errorMessage) => _rules.Add(new(rule, errorMessage));
 
     /// <summary>
     /// Validate object of type T.
@@ -63,7 +64,7 @@ public class ObjectValidator<T>
     /// <summary>
     /// Validate object of type T, and automatically output errors.
     /// </summary>
-    public bool Validate(T obj, NativeLogLevel level)
+    public bool Validate(T? obj, NativeLogLevel level)
     {
         List<string> _errors = _rules.Where(rule => !rule.Rule(obj)).Select(rule => rule.ErrorMessage).ToList();
         foreach (string error in _errors)
@@ -75,7 +76,7 @@ public class ObjectValidator<T>
     /// Validate an array of strings is not null, empty, or whitespace.
     /// </summary>
     public static bool IsNotNullOrWhiteSpace(
-        string[] properties,
+        string?[] properties,
         NativeLogLevel level = NativeLogLevel.Error,
         [CallerArgumentExpression(nameof(properties))] string propertiesName = "",
         [CallerMemberName] string memberName = "",
@@ -87,7 +88,7 @@ public class ObjectValidator<T>
     /// Validate an array of strings is null, empty, or whitespace.
     /// </summary>
     public static bool IsNullOrWhiteSpace(
-        string[] properties,
+        string?[] properties,
         NativeLogLevel level = NativeLogLevel.Error,
         [CallerArgumentExpression(nameof(properties))] string propertiesName = "",
         [CallerMemberName] string memberName = "",
@@ -97,7 +98,7 @@ public class ObjectValidator<T>
     {
         ObjectValidator<T> validator = new();
 
-        foreach (string property in properties ?? [])
+        foreach (string? property in properties ?? [.. ValidationShims.ListEmpty<string>()])
             validator.AddRule(
                 a => !string.IsNullOrWhiteSpace(property),
                 LocalizationService.FormatTranslate(
@@ -116,9 +117,9 @@ public class ObjectValidator<T>
     /// Validate a list is not null, or empty.
     /// </summary>
     public static bool IsNotNullOrEmpty(
-        List<T> obj,
+        List<T>? obj,
         NativeLogLevel level = NativeLogLevel.Error,
-        List<T>[] properties = null,
+        List<T>[]? properties = null,
         [CallerArgumentExpression(nameof(obj))] string objName = "",
         [CallerArgumentExpression(nameof(properties))] string propertiesName = "",
         [CallerMemberName] string memberName = "",
@@ -130,23 +131,25 @@ public class ObjectValidator<T>
     /// Validate a dictionary is not null, or empty.
     /// </summary>
     public static bool IsNotNullOrEmpty<T1, T2>(
-        Dictionary<T1, T2> obj,
+        Dictionary<T1, T2>? obj,
         NativeLogLevel level = NativeLogLevel.Error,
-        Dictionary<T1, T2>[] properties = null,
+        Dictionary<T1, T2>[]? properties = null,
         [CallerArgumentExpression(nameof(obj))] string objName = "",
         [CallerArgumentExpression(nameof(properties))] string propertiesName = "",
         [CallerMemberName] string memberName = "",
         [CallerFilePath] string sourceFilePath = "",
         [CallerLineNumber] int sourceLineNumber = 0
-    ) => !IsNullOrEmpty(obj, level, properties, objName, propertiesName, memberName, sourceFilePath, sourceLineNumber);
+    )
+        where T1 : notnull =>
+        !IsNullOrEmpty(obj, level, properties, objName, propertiesName, memberName, sourceFilePath, sourceLineNumber);
 
     /// <summary>
     /// Validate a list is null, or empty.
     /// </summary>
     public static bool IsNullOrEmpty<T1>(
-        List<T1> obj,
+        List<T1>? obj,
         NativeLogLevel level = NativeLogLevel.Error,
-        List<T1>[] properties = null,
+        List<T1>[]? properties = null,
         [CallerArgumentExpression(nameof(obj))] string objName = "",
         [CallerArgumentExpression(nameof(properties))] string propertiesName = "",
         [CallerMemberName] string memberName = "",
@@ -165,7 +168,7 @@ public class ObjectValidator<T>
             sourceLineNumber.ToString()
         );
         validator.AddRule(a => obj != null && obj.Count > 0, message);
-        foreach (List<T1> property in properties ?? [])
+        foreach (List<T1> property in properties ?? [.. ValidationShims.ListEmpty<List<T1>>()])
             validator.AddRule(a => property != null && property.Count > 0, message);
 
         return !validator.Validate(obj, level);
@@ -175,15 +178,16 @@ public class ObjectValidator<T>
     /// Validate a dictionary is null, or empty.
     /// </summary>
     public static bool IsNullOrEmpty<T1, T2>(
-        Dictionary<T1, T2> obj,
+        Dictionary<T1, T2>? obj,
         NativeLogLevel level = NativeLogLevel.Error,
-        Dictionary<T1, T2>[] properties = null,
+        Dictionary<T1, T2>[]? properties = null,
         [CallerArgumentExpression(nameof(obj))] string objName = "",
         [CallerArgumentExpression(nameof(properties))] string propertiesName = "",
         [CallerMemberName] string memberName = "",
         [CallerFilePath] string sourceFilePath = "",
         [CallerLineNumber] int sourceLineNumber = 0
     )
+        where T1 : notnull
     {
         ObjectValidator<Dictionary<T1, T2>> validator = new();
 
@@ -196,7 +200,7 @@ public class ObjectValidator<T>
             sourceLineNumber.ToString()
         );
         validator.AddRule(a => obj != null && obj.Count > 0, message);
-        foreach (Dictionary<T1, T2> property in properties ?? [])
+        foreach (Dictionary<T1, T2> property in properties ?? [.. ValidationShims.ListEmpty<Dictionary<T1, T2>>()])
             validator.AddRule(a => property != null && property.Count > 0, message);
 
         return !validator.Validate(obj, level);
@@ -206,11 +210,11 @@ public class ObjectValidator<T>
     /// Validate object of type T is not null.
     /// </summary>
     public static bool IsNotNull(
-        T obj,
+        T? obj,
         NativeLogLevel level = NativeLogLevel.Error,
-        object[] properties = null,
-        [CallerArgumentExpression(nameof(obj))] string objName = null,
-        [CallerArgumentExpression(nameof(properties))] string propertiesName = null,
+        object[]? properties = null,
+        [CallerArgumentExpression(nameof(obj))] string? objName = null,
+        [CallerArgumentExpression(nameof(properties))] string? propertiesName = null,
         [CallerMemberName] string memberName = "",
         [CallerFilePath] string sourceFilePath = "",
         [CallerLineNumber] int sourceLineNumber = 0
@@ -220,11 +224,11 @@ public class ObjectValidator<T>
     /// Validate object of type T is null.
     /// </summary>
     public static bool IsNull(
-        T obj,
+        T? obj,
         NativeLogLevel level = NativeLogLevel.Error,
-        object[] properties = null,
-        [CallerArgumentExpression(nameof(obj))] string objName = "",
-        [CallerArgumentExpression(nameof(properties))] string propertiesName = "",
+        object[]? properties = null,
+        [CallerArgumentExpression(nameof(obj))] string? objName = "",
+        [CallerArgumentExpression(nameof(properties))] string? propertiesName = "",
         [CallerMemberName] string memberName = "",
         [CallerFilePath] string sourceFilePath = "",
         [CallerLineNumber] int sourceLineNumber = 0
@@ -234,14 +238,14 @@ public class ObjectValidator<T>
 
         string message = LocalizationService.FormatTranslate(
             "error.validation.object",
-            objName,
-            propertiesName,
+            objName ?? ValidationShims.StringEmpty(),
+            propertiesName ?? ValidationShims.StringEmpty(),
             memberName,
             sourceFilePath,
             sourceLineNumber.ToString()
         );
         validator.AddRule(a => obj != default(T), message);
-        foreach (object property in properties ?? [])
+        foreach (object property in properties ?? [.. ValidationShims.ListEmpty<object>()])
             validator.AddRule(a => property != null, message);
 
         return !validator.Validate(obj, level);

@@ -28,7 +28,7 @@ namespace MCL.Launcher.Commands.Launcher;
 
 public class LaunchPaperServer : ILauncherCommand
 {
-    public Task Init(string[] args, Settings settings)
+    public Task Init(string[] args, Settings? settings)
     {
         CommandLine.ProcessArgument(
             args,
@@ -44,17 +44,31 @@ public class LaunchPaperServer : ILauncherCommand
             },
             options =>
             {
-                settings.Set(
+                settings?.Set(
                     options,
                     "gameversion",
-                    s => s.LauncherVersion.MVersion,
-                    (s, v) => s.LauncherVersion.MVersion = v
+                    s => s?.LauncherVersion?.MVersion,
+                    (s, v) =>
+                    {
+                        if (ObjectValidator<LauncherVersion>.IsNull(s?.LauncherVersion))
+                            return;
+#pragma warning disable CS8602
+                        s.LauncherVersion.MVersion = v;
+#pragma warning restore CS8602
+                    }
                 );
-                settings.Set(
+                settings?.Set(
                     options,
                     "paperversion",
-                    s => s.LauncherVersion.PaperServerVersion,
-                    (s, v) => s.LauncherVersion.PaperServerVersion = v
+                    s => s?.LauncherVersion?.PaperServerVersion,
+                    (s, v) =>
+                    {
+                        if (ObjectValidator<LauncherVersion>.IsNull(s?.LauncherVersion))
+                            return;
+#pragma warning disable CS8602
+                        s.LauncherVersion.PaperServerVersion = v;
+                    }
+#pragma warning restore CS8602
                 );
                 PaperLauncher.Launch(settings, options.GetValueOrDefault("javapath", string.Empty));
             }

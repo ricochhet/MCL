@@ -31,17 +31,17 @@ namespace MCL.Core.ModLoaders.Quilt.Services;
 
 public class QuiltInstallerDownloadService : IJarDownloadService<QuiltUrls>, IDownloadService
 {
-    public static QuiltVersionManifest QuiltVersionManifest { get; private set; }
-    public static QuiltInstaller QuiltInstaller { get; private set; }
-    private static LauncherPath _launcherPath;
-    private static LauncherVersion _launcherVersion;
-    private static QuiltUrls _quiltUrls;
+    public static QuiltVersionManifest? QuiltVersionManifest { get; private set; }
+    public static QuiltInstaller? QuiltInstaller { get; private set; }
+    private static LauncherPath? _launcherPath;
+    private static LauncherVersion? _launcherVersion;
+    private static QuiltUrls? _quiltUrls;
     private static bool _loaded = false;
 
     /// <summary>
     /// Initialize the Quilt installer download service.
     /// </summary>
-    public static void Init(LauncherPath launcherPath, LauncherVersion launcherVersion, QuiltUrls quiltUrls)
+    public static void Init(LauncherPath? launcherPath, LauncherVersion? launcherVersion, QuiltUrls? quiltUrls)
     {
         _launcherPath = launcherPath;
         _launcherVersion = launcherVersion;
@@ -133,7 +133,11 @@ public class QuiltInstallerDownloadService : IJarDownloadService<QuiltUrls>, IDo
         QuiltInstaller = QuiltVersionHelper.GetInstallerVersion(_launcherVersion, QuiltVersionManifest);
         if (ObjectValidator<QuiltInstaller>.IsNull(QuiltInstaller))
         {
-            NotificationService.Error("error.parse", _launcherVersion?.QuiltInstallerVersion, nameof(QuiltInstaller));
+            NotificationService.Error(
+                "error.parse",
+                _launcherVersion?.QuiltInstallerVersion ?? ValidationShims.StringEmpty(),
+                nameof(QuiltInstaller)
+            );
             return false;
         }
 

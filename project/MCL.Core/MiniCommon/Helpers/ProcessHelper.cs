@@ -34,7 +34,7 @@ public static class ProcessHelper
         string arguments,
         string workingDirectory,
         bool useShellExecute = true,
-        Dictionary<string, string> environmentalVariables = null
+        Dictionary<string, string>? environmentalVariables = null
     )
     {
         ProcessStartInfo startInfo =
@@ -63,13 +63,13 @@ public static class ProcessHelper
                 process.OutputDataReceived += (sender, e) =>
                 {
                     if (ObjectValidator<string>.IsNotNullOrWhiteSpace([e?.Data], NativeLogLevel.Debug))
-                        NotificationService.InfoLog(e.Data ?? string.Empty);
+                        NotificationService.InfoLog(e?.Data ?? ValidationShims.StringEmpty());
                 };
 
                 process.ErrorDataReceived += (sender, e) =>
                 {
                     if (ObjectValidator<string>.IsNotNullOrWhiteSpace([e?.Data], NativeLogLevel.Debug))
-                        NotificationService.ErrorLog(e.Data ?? string.Empty);
+                        NotificationService.ErrorLog(e?.Data ?? ValidationShims.StringEmpty());
                 };
 
                 process.Start();

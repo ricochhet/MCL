@@ -31,22 +31,22 @@ namespace MCL.Core.ModLoaders.Fabric.Services;
 
 public class FabricLoaderDownloadService : ILoaderDownloadService<FabricUrls>, IDownloadService
 {
-    public static FabricVersionManifest FabricVersionManifest { get; private set; }
-    public static FabricProfile FabricProfile { get; private set; }
-    private static LauncherPath _launcherPath;
-    private static LauncherVersion _launcherVersion;
-    private static LauncherInstance _launcherInstance;
-    private static FabricUrls _fabricUrls;
+    public static FabricVersionManifest? FabricVersionManifest { get; private set; }
+    public static FabricProfile? FabricProfile { get; private set; }
+    private static LauncherPath? _launcherPath;
+    private static LauncherVersion? _launcherVersion;
+    private static LauncherInstance? _launcherInstance;
+    private static FabricUrls? _fabricUrls;
     private static bool _loaded = false;
 
     /// <summary>
     /// Initialize the Fabric loader download service.
     /// </summary>
     public static void Init(
-        LauncherPath launcherPath,
-        LauncherVersion launcherVersion,
-        LauncherInstance launcherInstance,
-        FabricUrls fabricUrls
+        LauncherPath? launcherPath,
+        LauncherVersion? launcherVersion,
+        LauncherInstance? launcherInstance,
+        FabricUrls? fabricUrls
     )
     {
         if (ObjectValidator<LauncherInstance>.IsNull(launcherInstance))
@@ -188,10 +188,14 @@ public class FabricLoaderDownloadService : ILoaderDownloadService<FabricUrls>, I
         if (!_loaded)
             return false;
 
-        FabricLoader fabricLoader = FabricVersionHelper.GetLoaderVersion(_launcherVersion, FabricVersionManifest);
+        FabricLoader? fabricLoader = FabricVersionHelper.GetLoaderVersion(_launcherVersion, FabricVersionManifest);
         if (ObjectValidator<FabricLoader>.IsNull(fabricLoader))
         {
-            NotificationService.Error("error.parse", _launcherVersion?.FabricLoaderVersion, nameof(FabricLoader));
+            NotificationService.Error(
+                "error.parse",
+                _launcherVersion?.FabricLoaderVersion ?? ValidationShims.StringEmpty(),
+                nameof(FabricLoader)
+            );
             return false;
         }
 

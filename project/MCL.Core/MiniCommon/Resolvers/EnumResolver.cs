@@ -28,7 +28,7 @@ public static class EnumResolver
     public static T Parse<T>(string value, T fallback)
         where T : struct
     {
-        if (Enum.TryParse(value.Replace("-", "_"), true, out T result))
+        if (Enum.TryParse(value?.Replace("-", "_"), true, out T result))
             return result;
         return fallback;
     }
