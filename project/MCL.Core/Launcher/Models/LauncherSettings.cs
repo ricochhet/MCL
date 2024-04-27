@@ -31,7 +31,8 @@ public class LauncherSettings
     public FabricInstallerType FabricInstallerType { get; set; } = FabricInstallerType.INSTALL_CLIENT;
     public QuiltInstallerType QuiltInstallerType { get; set; } = QuiltInstallerType.INSTALL_CLIENT;
     public JavaRuntimeType JavaRuntimeType { get; set; } = JavaRuntimeType.JAVA_RUNTIME_GAMMA;
-    public JavaRuntimePlatform JavaRuntimePlatform { get; set; } = JavaRuntimePlatformResolver.OSToJavaRuntimePlatform();
+    public JavaRuntimePlatform JavaRuntimePlatform { get; set; } =
+        JavaRuntimePlatformResolver.OSToJavaRuntimePlatform();
 
     public LauncherSettings() { }
 

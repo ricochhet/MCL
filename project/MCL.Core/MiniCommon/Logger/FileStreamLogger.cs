@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using MCL.Core.MiniCommon.FileSystem;
 using MCL.Core.MiniCommon.Logger.Enums;
 using MCL.Core.MiniCommon.Logger.Models;
 using MCL.Core.MiniCommon.Services;
@@ -43,6 +44,7 @@ public class FileStreamLogger : ILogger, IDisposable
     public FileStreamLogger(string filePath)
     {
         _queue = new();
+        VFS.CreateDirectory(VFS.GetDirectoryName(filePath));
         _stream = new(filePath, append: true);
         AppDomain.CurrentDomain.UnhandledException += UnhandledException;
         Task.Run(Flush);
@@ -54,6 +56,7 @@ public class FileStreamLogger : ILogger, IDisposable
     public FileStreamLogger(string filePath, NativeLogLevel minLevel)
     {
         _queue = new();
+        VFS.CreateDirectory(VFS.GetDirectoryName(filePath));
         _stream = new(filePath, append: true);
         _minLevel = minLevel;
         AppDomain.CurrentDomain.UnhandledException += UnhandledException;
