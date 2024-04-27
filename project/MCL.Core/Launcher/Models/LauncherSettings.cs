@@ -16,6 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using MCL.Core.BuildInfo;
 using MCL.Core.Java.Enums;
 using MCL.Core.Java.Resolvers;
 using MCL.Core.Launcher.Enums;
@@ -26,7 +27,7 @@ namespace MCL.Core.Launcher.Models;
 
 public class LauncherSettings
 {
-    public LauncherType LauncherType { get; set; } = LauncherType.RELEASE;
+    public LauncherType LauncherType { get; set; } = CompileConstants.IsDebug ? LauncherType.DEBUG : LauncherType.RELEASE;
     public ClientType ClientType { get; set; } = ClientType.VANILLA;
     public FabricInstallerType FabricInstallerType { get; set; } = FabricInstallerType.INSTALL_CLIENT;
     public QuiltInstallerType QuiltInstallerType { get; set; } = QuiltInstallerType.INSTALL_CLIENT;
