@@ -16,8 +16,6 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using MCL.Core.Java.Extensions;
-using MCL.Core.Java.Models;
 using MCL.Core.Launcher.Models;
 using MCL.Core.MiniCommon.Validation;
 using MCL.Core.ModLoaders.Quilt.Enums;
