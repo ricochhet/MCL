@@ -142,7 +142,7 @@ public static class CommandLine
     /// <summary>
     /// Parses a string containing key-value pairs separated by specified separators into a dictionary.
     /// </summary>
-    private static Dictionary<string, string> ParseKeyValuePairs(string input)
+    public static Dictionary<string, string> ParseKeyValuePairs(string input)
     {
         Dictionary<string, string> keyValuePairs = [];
         string[] pairs = input.Split(_separator, StringSplitOptions.RemoveEmptyEntries);

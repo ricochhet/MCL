@@ -65,7 +65,10 @@ internal static class Program
         ModdingService.Init(settings?.LauncherPath, settings?.ModSettings);
 
         if (args.Length <= 0)
+        {
+            SimpleLaunchService.Init(SettingsService.SimpleLaunchFilePath, settings);
             return;
+        }
 
         List<ILauncherCommand> commands = [];
 

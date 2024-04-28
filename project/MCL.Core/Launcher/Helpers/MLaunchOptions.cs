@@ -125,6 +125,7 @@ public static class MLaunchOptions
                 ArgParams =
                 [
                     ClassPathHelper.GetClassLibraries(
+                        settings.LauncherPath,
                         settings.LauncherVersion,
                         settings.LauncherInstance,
                         settings.LauncherSettings

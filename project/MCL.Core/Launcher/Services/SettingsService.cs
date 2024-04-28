@@ -29,6 +29,7 @@ public static class SettingsService
 {
     public const string DataDirectory = ".mcl";
     public const string SettingsFileName = "mcl.json";
+    public const string SimpleLaunchFileName = "launch.txt";
     public const string LocalizationDirectory = "localization";
     public const string LogsDirectory = "logs";
     public static readonly string LogFilePath = VFS.FromCwd(
@@ -37,6 +38,7 @@ public static class SettingsService
         $"{DateTime.Now:yyyy-MM-dd-HH-mm-ss}.log"
     );
     public static readonly string LocalizationPath = VFS.FromCwd(DataDirectory, LocalizationDirectory);
+    public static readonly string SimpleLaunchFilePath = VFS.FromCwd(DataDirectory, SimpleLaunchFileName);
     public static readonly List<string> WatermarkText =
     [
         "MCL.Launcher",
