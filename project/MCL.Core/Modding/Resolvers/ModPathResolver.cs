@@ -17,7 +17,7 @@
  */
 
 using MCL.Core.Launcher.Models;
-using MCL.Core.MiniCommon.FileSystem;
+using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Validation;
 
 namespace MCL.Core.Modding.Resolvers;

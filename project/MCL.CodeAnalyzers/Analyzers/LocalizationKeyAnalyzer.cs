@@ -19,7 +19,7 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using MCL.CodeAnalyzers.Analyzers.Models;
-using MCL.Core.MiniCommon.FileSystem;
+using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Logger.Enums;
 using MCL.Core.MiniCommon.Models;
 using MCL.Core.MiniCommon.Services;

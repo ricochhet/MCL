@@ -20,7 +20,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Minecraft.Helpers;
-using MCL.Core.MiniCommon.Commands;
+using MCL.Core.MiniCommon.CommandParser;
 using MCL.Core.MiniCommon.Interfaces;
 using MCL.Core.MiniCommon.Validation;
 using MCL.Core.ModLoaders.Fabric.Helpers;

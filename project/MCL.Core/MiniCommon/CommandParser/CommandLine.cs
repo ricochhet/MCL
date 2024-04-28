@@ -24,7 +24,7 @@ using MCL.Core.MiniCommon.Models;
 using MCL.Core.MiniCommon.Services;
 using MCL.Core.MiniCommon.Validation;
 
-namespace MCL.Core.MiniCommon.Commands;
+namespace MCL.Core.MiniCommon.CommandParser;
 
 public static class CommandLine
 {

@@ -24,6 +24,9 @@ namespace MCL.Core.Launcher.Extensions;
 
 public static class MArgumentExt
 {
+    /// <summary>
+    /// Convert an array of MArgument into JvmArguments object.
+    /// </summary>
     public static JvmArguments? JvmArguments(this MArgument[] arguments)
     {
         return new JvmArguments { Arguments = arguments.Where(a => a.Condition).ToList() };

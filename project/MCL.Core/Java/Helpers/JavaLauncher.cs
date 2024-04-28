@@ -21,8 +21,8 @@ using MCL.Core.Java.Models;
 using MCL.Core.Java.Resolvers;
 using MCL.Core.Launcher.Enums;
 using MCL.Core.Launcher.Models;
-using MCL.Core.MiniCommon.FileSystem;
-using MCL.Core.MiniCommon.Helpers;
+using MCL.Core.MiniCommon.IO;
+using MCL.Core.MiniCommon.IO.Helpers;
 using MCL.Core.MiniCommon.Logger.Enums;
 using MCL.Core.MiniCommon.Validation;
 

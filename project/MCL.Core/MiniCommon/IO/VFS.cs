@@ -22,7 +22,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace MCL.Core.MiniCommon.FileSystem;
+namespace MCL.Core.MiniCommon.IO;
 
 #pragma warning disable IDE0079
 #pragma warning disable S101

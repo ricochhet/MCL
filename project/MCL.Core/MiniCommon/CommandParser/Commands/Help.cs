@@ -16,16 +16,31 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using MCL.Core.MiniCommon.Enums;
-using MCL.Core.MiniCommon.IO;
+using System.Threading.Tasks;
+using MCL.Core.Launcher.Models;
+using MCL.Core.MiniCommon.CommandParser.Helpers;
+using MCL.Core.MiniCommon.Interfaces;
+using MCL.Core.MiniCommon.Models;
+using MCL.Core.MiniCommon.Services;
 
-namespace MCL.Core.MiniCommon.Resolvers;
+namespace MCL.Core.MiniCommon.CommandParser.Commands;
 
-public static class LocalizationPathResolver
+public class Help : ILauncherCommand
 {
-    /// <summary>
-    /// The language file path specified by the Language.
-    /// </summary>
-    public static string LanguageFilePath(string filepath, Language language) =>
-        VFS.FromCwd(filepath, $"localization.{LanguageResolver.ToString(language)}.json");
+    public Task Init(string[] args, Settings? settings)
+    {
+        CommandLine.ProcessArgument(
+            args,
+            new() { Name = "help", },
+            (string? _) =>
+            {
+                foreach (Command command in CommandHelper.Commands)
+                {
+                    NotificationService.InfoLog(command.Usage());
+                }
+            }
+        );
+
+        return Task.CompletedTask;
+    }
 }

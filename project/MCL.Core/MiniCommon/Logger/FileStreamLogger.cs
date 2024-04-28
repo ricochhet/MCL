@@ -21,7 +21,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using MCL.Core.MiniCommon.FileSystem;
+using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Logger.Enums;
 using MCL.Core.MiniCommon.Logger.Models;
 using MCL.Core.MiniCommon.Services;

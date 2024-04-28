@@ -23,7 +23,7 @@ using MCL.Core.Launcher.Services;
 using MCL.Core.Minecraft.Models;
 using MCL.Core.Minecraft.Resolvers;
 using MCL.Core.Minecraft.Services;
-using MCL.Core.MiniCommon.FileSystem;
+using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Validation;
 
 namespace MCL.Core.Minecraft.Helpers;

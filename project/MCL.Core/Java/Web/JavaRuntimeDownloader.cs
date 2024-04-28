@@ -22,7 +22,7 @@ using MCL.Core.Java.Enums;
 using MCL.Core.Java.Models;
 using MCL.Core.Java.Resolvers;
 using MCL.Core.Launcher.Models;
-using MCL.Core.MiniCommon.FileSystem;
+using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Validation;
 using MCL.Core.MiniCommon.Web;
 

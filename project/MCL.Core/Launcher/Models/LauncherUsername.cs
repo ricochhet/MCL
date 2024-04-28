@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using MCL.Core.MiniCommon.Helpers;
+using MCL.Core.MiniCommon.Cryptography.Helpers;
 
 namespace MCL.Core.Launcher.Models;
 

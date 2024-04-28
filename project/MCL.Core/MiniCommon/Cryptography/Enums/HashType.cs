@@ -16,31 +16,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using System.Threading.Tasks;
-using MCL.Core.Launcher.Models;
-using MCL.Core.MiniCommon.Helpers;
-using MCL.Core.MiniCommon.Interfaces;
-using MCL.Core.MiniCommon.Models;
-using MCL.Core.MiniCommon.Services;
+namespace MCL.Core.MiniCommon.Cryptography.Enums;
 
-namespace MCL.Core.MiniCommon.Commands;
-
-public class Help : ILauncherCommand
+public enum HashType
 {
-    public Task Init(string[] args, Settings? settings)
-    {
-        CommandLine.ProcessArgument(
-            args,
-            new() { Name = "help", },
-            (string? _) =>
-            {
-                foreach (Command command in CommandHelper.Commands)
-                {
-                    NotificationService.InfoLog(command.Usage());
-                }
-            }
-        );
-
-        return Task.CompletedTask;
-    }
+    MD5,
+    SHA1,
+    SHA256,
 }

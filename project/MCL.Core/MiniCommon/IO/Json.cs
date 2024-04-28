@@ -19,7 +19,7 @@
 using System.Text.Encodings.Web;
 using System.Text.Json;
 
-namespace MCL.Core.MiniCommon.FileSystem;
+namespace MCL.Core.MiniCommon.IO;
 
 public static class Json
 {

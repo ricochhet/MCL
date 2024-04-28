@@ -24,7 +24,7 @@ using MCL.Core.Java.Resolvers;
 using MCL.Core.Java.Web;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Minecraft.Models;
-using MCL.Core.MiniCommon.FileSystem;
+using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Logger.Enums;
 using MCL.Core.MiniCommon.Services;
 using MCL.Core.MiniCommon.Validation;

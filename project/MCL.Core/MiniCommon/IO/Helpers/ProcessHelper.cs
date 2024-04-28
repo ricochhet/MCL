@@ -23,7 +23,7 @@ using MCL.Core.MiniCommon.Logger.Enums;
 using MCL.Core.MiniCommon.Services;
 using MCL.Core.MiniCommon.Validation;
 
-namespace MCL.Core.MiniCommon.Helpers;
+namespace MCL.Core.MiniCommon.IO.Helpers;
 
 public static class ProcessHelper
 {

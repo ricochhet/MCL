@@ -16,16 +16,17 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using MCL.Core.MiniCommon.Enums;
-using MCL.Core.MiniCommon.IO;
+using System.Collections.Generic;
+using MCL.Core.MiniCommon.Models;
 
-namespace MCL.Core.MiniCommon.Resolvers;
+namespace MCL.Core.MiniCommon.CommandParser.Helpers;
 
-public static class LocalizationPathResolver
+public static class CommandHelper
 {
-    /// <summary>
-    /// The language file path specified by the Language.
-    /// </summary>
-    public static string LanguageFilePath(string filepath, Language language) =>
-        VFS.FromCwd(filepath, $"localization.{LanguageResolver.ToString(language)}.json");
+    public static List<Command> Commands { get; private set; } = [];
+
+    public static void Add(Command command)
+    {
+        Commands.Add(command);
+    }
 }

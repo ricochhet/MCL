@@ -16,17 +16,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using System.Collections.Generic;
-using MCL.Core.MiniCommon.Models;
+namespace MCL.Core.MiniCommon.Cryptography.Models;
 
-namespace MCL.Core.MiniCommon.Helpers;
-
-public static class CommandHelper
+public class HashVerifiedFile
 {
-    public static List<Command> Commands { get; private set; } = [];
-
-    public static void Add(Command command)
-    {
-        Commands.Add(command);
-    }
+    public string? FileName { get; set; }
+    public string? OriginalHash { get; set; }
+    public string? CurrentHash { get; set; }
+    public bool Verified { get; set; }
 }

@@ -21,8 +21,8 @@ using System.Linq;
 using MCL.Core.Launcher.Enums;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Minecraft.Helpers;
-using MCL.Core.MiniCommon.Commands;
-using MCL.Core.MiniCommon.FileSystem;
+using MCL.Core.MiniCommon.CommandParser;
+using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Resolvers;
 using MCL.Core.MiniCommon.Services;
 using MCL.Core.MiniCommon.Validation;
@@ -31,6 +31,9 @@ namespace MCL.Core.Launcher.Services;
 
 public static class SimpleLaunchService
 {
+    /// <summary>
+    /// Launch the game process specified by a launch file.
+    /// </summary>
     public static void Init(string filePath, Settings? settings)
     {
         if (!VFS.Exists(filePath))

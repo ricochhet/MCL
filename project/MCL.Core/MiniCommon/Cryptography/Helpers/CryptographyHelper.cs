@@ -20,12 +20,22 @@ using System;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
-using MCL.Core.MiniCommon.FileSystem;
+using MCL.Core.MiniCommon.IO;
 
-namespace MCL.Core.MiniCommon.Helpers;
+namespace MCL.Core.MiniCommon.Cryptography.Helpers;
 
 public static class CryptographyHelper
 {
+    /// <summary>
+    /// Create a MD5 hash from a filestream, and return as string.
+    /// </summary>
+    public static string CreateMD5(string fileName, bool formatting) => CreateHash(fileName, formatting, MD5.Create());
+
+    /// <summary>
+    /// Create a MD5 hash from a string, and return as string.
+    /// </summary>
+    public static string CreateMD5(string value, Encoding enc) => CreateHash(value, enc, MD5.Create());
+
     /// <summary>
     /// Create a SHA1 hash from a filestream, and return as string.
     /// </summary>
