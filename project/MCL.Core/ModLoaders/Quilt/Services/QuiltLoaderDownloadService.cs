@@ -38,7 +38,7 @@ public class QuiltLoaderDownloadService : ILoaderDownloadService<QuiltUrls>, IDo
     private static LauncherVersion? _launcherVersion;
     private static LauncherInstance? _launcherInstance;
     private static QuiltUrls? _quiltUrls;
-    private static bool _loaded = false;
+    private static bool _initialized = false;
 
     /// <summary>
     /// Initialize the Quilt loader download service.
@@ -57,7 +57,7 @@ public class QuiltLoaderDownloadService : ILoaderDownloadService<QuiltUrls>, IDo
         _launcherPath = launcherPath;
         _launcherVersion = launcherVersion;
         _quiltUrls = quiltUrls;
-        _loaded = true;
+        _initialized = true;
     }
 
     /// <summary>
@@ -65,7 +65,7 @@ public class QuiltLoaderDownloadService : ILoaderDownloadService<QuiltUrls>, IDo
     /// </summary>
     public static async Task<bool> Download(bool useLocalVersionManifest = false)
     {
-        if (!_loaded)
+        if (!_initialized)
             return false;
 
         if (!useLocalVersionManifest && !await DownloadVersionManifest())
@@ -94,7 +94,7 @@ public class QuiltLoaderDownloadService : ILoaderDownloadService<QuiltUrls>, IDo
     /// </summary>
     public static async Task<bool> DownloadVersionManifest()
     {
-        if (!_loaded)
+        if (!_initialized)
             return false;
 
         if (!await QuiltVersionManifestDownloader.Download(_launcherPath, _quiltUrls))
@@ -111,7 +111,7 @@ public class QuiltLoaderDownloadService : ILoaderDownloadService<QuiltUrls>, IDo
     /// </summary>
     public static bool LoadVersionManifest()
     {
-        if (!_loaded)
+        if (!_initialized)
             return false;
 
         QuiltVersionManifest = Json.Load<QuiltVersionManifest>(QuiltPathResolver.VersionManifestPath(_launcherPath));
@@ -129,7 +129,7 @@ public class QuiltLoaderDownloadService : ILoaderDownloadService<QuiltUrls>, IDo
     /// </summary>
     public static bool LoadVersionManifestWithoutLogging()
     {
-        if (!_loaded)
+        if (!_initialized)
             return false;
 
         QuiltVersionManifest = Json.Load<QuiltVersionManifest>(QuiltPathResolver.VersionManifestPath(_launcherPath));
@@ -144,7 +144,7 @@ public class QuiltLoaderDownloadService : ILoaderDownloadService<QuiltUrls>, IDo
     /// </summary>
     public static async Task<bool> DownloadProfile()
     {
-        if (!_loaded)
+        if (!_initialized)
             return false;
 
         if (!await QuiltProfileDownloader.Download(_launcherPath, _launcherVersion, _quiltUrls))
@@ -161,7 +161,7 @@ public class QuiltLoaderDownloadService : ILoaderDownloadService<QuiltUrls>, IDo
     /// </summary>
     public static bool LoadProfile()
     {
-        if (!_loaded)
+        if (!_initialized)
             return false;
 
         if (
@@ -186,7 +186,7 @@ public class QuiltLoaderDownloadService : ILoaderDownloadService<QuiltUrls>, IDo
     /// </summary>
     public static bool LoadLoaderVersion()
     {
-        if (!_loaded)
+        if (!_initialized)
             return false;
 
         QuiltLoader? quiltLoader = QuiltVersionHelper.GetLoaderVersion(_launcherVersion, QuiltVersionManifest);
@@ -208,7 +208,7 @@ public class QuiltLoaderDownloadService : ILoaderDownloadService<QuiltUrls>, IDo
     /// </summary>
     public static async Task<bool> DownloadLoader()
     {
-        if (!_loaded)
+        if (!_initialized)
             return false;
 
         if (

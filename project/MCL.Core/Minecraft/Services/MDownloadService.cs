@@ -41,7 +41,7 @@ public class MDownloadService : IDownloadService
     private static LauncherSettings? _launcherSettings;
     private static LauncherInstance? _launcherInstance;
     private static MUrls? _mUrls;
-    private static bool _loaded = false;
+    private static bool _initialized = false;
 
     /// <summary>
     /// Initialize the game download service.
@@ -59,7 +59,7 @@ public class MDownloadService : IDownloadService
         _launcherInstance = launcherInstance;
         _launcherSettings = launcherSettings;
         _mUrls = mUrls;
-        _loaded = true;
+        _initialized = true;
     }
 
 #pragma warning disable IDE0079
@@ -70,7 +70,7 @@ public class MDownloadService : IDownloadService
     public static async Task<bool> Download(bool useLocalVersionManifest = false)
 #pragma warning restore IDE0079, S3776
     {
-        if (!_loaded)
+        if (!_initialized)
             return false;
 
         if (!useLocalVersionManifest && !await DownloadVersionManifest())
@@ -123,7 +123,7 @@ public class MDownloadService : IDownloadService
     /// </summary>
     public static async Task<bool> DownloadVersionManifest()
     {
-        if (!_loaded)
+        if (!_initialized)
             return false;
 
         if (!await VersionManifestDownloader.Download(_launcherPath, _mUrls))
@@ -140,7 +140,7 @@ public class MDownloadService : IDownloadService
     /// </summary>
     public static bool LoadVersionManifest()
     {
-        if (!_loaded)
+        if (!_initialized)
             return false;
 
         VersionManifest = Json.Load<MVersionManifest>(MPathResolver.VersionManifestPath(_launcherPath));
@@ -158,7 +158,7 @@ public class MDownloadService : IDownloadService
     /// </summary>
     public static bool LoadVersionManifestWithoutLogging()
     {
-        if (!_loaded)
+        if (!_initialized)
             return false;
 
         VersionManifest = Json.Load<MVersionManifest>(MPathResolver.VersionManifestPath(_launcherPath));
@@ -173,7 +173,7 @@ public class MDownloadService : IDownloadService
     /// </summary>
     public static bool LoadVersion()
     {
-        if (!_loaded)
+        if (!_initialized)
             return false;
 
         Version = VersionHelper.GetVersion(_launcherVersion, VersionManifest);
@@ -195,7 +195,7 @@ public class MDownloadService : IDownloadService
     /// </summary>
     public static async Task<bool> DownloadVersionDetails()
     {
-        if (!_loaded)
+        if (!_initialized)
             return false;
 
         if (!await VersionDetailsDownloader.Download(_launcherPath, Version))
@@ -212,7 +212,7 @@ public class MDownloadService : IDownloadService
     /// </summary>
     public static bool LoadVersionDetails()
     {
-        if (!_loaded)
+        if (!_initialized)
             return false;
 
         VersionDetails = Json.Load<MVersionDetails>(MPathResolver.VersionDetailsPath(_launcherPath, Version));
@@ -230,7 +230,7 @@ public class MDownloadService : IDownloadService
     /// </summary>
     public static async Task<bool> DownloadLibraries()
     {
-        if (!_loaded)
+        if (!_initialized)
             return false;
 
         if (
@@ -255,7 +255,7 @@ public class MDownloadService : IDownloadService
     /// </summary>
     public static async Task<bool> DownloadClient()
     {
-        if (!_loaded)
+        if (!_initialized)
             return false;
 
         if (!await ClientDownloader.Download(_launcherPath, VersionDetails))
@@ -272,7 +272,7 @@ public class MDownloadService : IDownloadService
     /// </summary>
     public static async Task<bool> DownloadClientMappings()
     {
-        if (!_loaded)
+        if (!_initialized)
             return false;
 
         if (!await ClientMappingsDownloader.Download(_launcherPath, VersionDetails))
@@ -289,7 +289,7 @@ public class MDownloadService : IDownloadService
     /// </summary>
     public static async Task<bool> DownloadServer()
     {
-        if (!_loaded)
+        if (!_initialized)
             return false;
 
         if (!await ServerDownloader.Download(_launcherPath, VersionDetails))
@@ -306,7 +306,7 @@ public class MDownloadService : IDownloadService
     /// </summary>
     public static async Task<bool> DownloadServerMappings()
     {
-        if (!_loaded)
+        if (!_initialized)
             return false;
 
         if (!await ServerMappingsDownloader.Download(_launcherPath, VersionDetails))
@@ -323,7 +323,7 @@ public class MDownloadService : IDownloadService
     /// </summary>
     public static async Task<bool> DownloadAssetIndex()
     {
-        if (!_loaded)
+        if (!_initialized)
             return false;
 
         if (!await AssetIndexDownloader.Download(_launcherPath, VersionDetails))
@@ -340,7 +340,7 @@ public class MDownloadService : IDownloadService
     /// </summary>
     public static bool LoadAssetIndex()
     {
-        if (!_loaded)
+        if (!_initialized)
             return false;
 
         _assets = Json.Load<MAssetsData>(MPathResolver.ClientAssetIndexPath(_launcherPath, VersionDetails));
@@ -358,7 +358,7 @@ public class MDownloadService : IDownloadService
     /// </summary>
     public static async Task<bool> DownloadResources()
     {
-        if (!_loaded)
+        if (!_initialized)
             return false;
 
         if (!await ResourceDownloader.Download(_launcherPath, _mUrls, _assets))
@@ -375,7 +375,7 @@ public class MDownloadService : IDownloadService
     /// </summary>
     public static async Task<bool> DownloadLogging()
     {
-        if (!_loaded)
+        if (!_initialized)
             return false;
 
         if (!await LoggingDownloader.Download(_launcherPath, VersionDetails))

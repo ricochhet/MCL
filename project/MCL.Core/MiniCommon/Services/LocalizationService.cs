@@ -26,7 +26,7 @@ namespace MCL.Core.MiniCommon.Services;
 public static class LocalizationService
 {
     public static Localization? Localization { get; private set; } = new();
-    private static bool _loaded = false;
+    private static bool _initialized = false;
 
     /// <summary>
     /// Initialize the Localization service.
@@ -41,7 +41,7 @@ public static class LocalizationService
             );
         Localization = Json.Load<Localization>(LocalizationPathResolver.LanguageFilePath(filepath, language));
         if (Localization?.Entries != null)
-            _loaded = true;
+            _initialized = true;
         else
             NotificationService.Error("error.readfile", LocalizationPathResolver.LanguageFilePath(filepath, language));
     }
@@ -51,7 +51,7 @@ public static class LocalizationService
     /// </summary>
     public static string Translate(string id)
     {
-        if (!_loaded)
+        if (!_initialized)
             return LocalizationServiceError(id);
         if (Localization?.Entries.TryGetValue(id, out string? value) ?? false)
             return value;
@@ -63,7 +63,7 @@ public static class LocalizationService
     /// </summary>
     public static string FormatTranslate(string id, params string[] _params)
     {
-        if (!_loaded)
+        if (!_initialized)
             return LocalizationServiceError(id, _params);
         if (Localization?.Entries.TryGetValue(id, out string? value) ?? false)
         {

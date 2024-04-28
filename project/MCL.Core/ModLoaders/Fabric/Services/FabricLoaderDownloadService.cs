@@ -38,7 +38,7 @@ public class FabricLoaderDownloadService : ILoaderDownloadService<FabricUrls>, I
     private static LauncherVersion? _launcherVersion;
     private static LauncherInstance? _launcherInstance;
     private static FabricUrls? _fabricUrls;
-    private static bool _loaded = false;
+    private static bool _initialized = false;
 
     /// <summary>
     /// Initialize the Fabric loader download service.
@@ -57,7 +57,7 @@ public class FabricLoaderDownloadService : ILoaderDownloadService<FabricUrls>, I
         _launcherVersion = launcherVersion;
         _launcherInstance = launcherInstance;
         _fabricUrls = fabricUrls;
-        _loaded = true;
+        _initialized = true;
     }
 
     /// <summary>
@@ -65,7 +65,7 @@ public class FabricLoaderDownloadService : ILoaderDownloadService<FabricUrls>, I
     /// </summary>
     public static async Task<bool> Download(bool useLocalVersionManifest = false)
     {
-        if (!_loaded)
+        if (!_initialized)
             return false;
 
         if (!useLocalVersionManifest && !await DownloadVersionManifest())
@@ -94,7 +94,7 @@ public class FabricLoaderDownloadService : ILoaderDownloadService<FabricUrls>, I
     /// </summary>
     public static async Task<bool> DownloadVersionManifest()
     {
-        if (!_loaded)
+        if (!_initialized)
             return false;
 
         if (!await FabricVersionManifestDownloader.Download(_launcherPath, _fabricUrls))
@@ -111,7 +111,7 @@ public class FabricLoaderDownloadService : ILoaderDownloadService<FabricUrls>, I
     /// </summary>
     public static bool LoadVersionManifest()
     {
-        if (!_loaded)
+        if (!_initialized)
             return false;
 
         FabricVersionManifest = Json.Load<FabricVersionManifest>(FabricPathResolver.VersionManifestPath(_launcherPath));
@@ -129,7 +129,7 @@ public class FabricLoaderDownloadService : ILoaderDownloadService<FabricUrls>, I
     /// </summary>
     public static bool LoadVersionManifestWithoutLogging()
     {
-        if (!_loaded)
+        if (!_initialized)
             return false;
 
         FabricVersionManifest = Json.Load<FabricVersionManifest>(FabricPathResolver.VersionManifestPath(_launcherPath));
@@ -144,7 +144,7 @@ public class FabricLoaderDownloadService : ILoaderDownloadService<FabricUrls>, I
     /// </summary>
     public static async Task<bool> DownloadProfile()
     {
-        if (!_loaded)
+        if (!_initialized)
             return false;
 
         if (!await FabricProfileDownloader.Download(_launcherPath, _launcherVersion, _fabricUrls))
@@ -161,7 +161,7 @@ public class FabricLoaderDownloadService : ILoaderDownloadService<FabricUrls>, I
     /// </summary>
     public static bool LoadProfile()
     {
-        if (!_loaded)
+        if (!_initialized)
             return false;
 
         if (
@@ -186,7 +186,7 @@ public class FabricLoaderDownloadService : ILoaderDownloadService<FabricUrls>, I
     /// </summary>
     public static bool LoadLoaderVersion()
     {
-        if (!_loaded)
+        if (!_initialized)
             return false;
 
         FabricLoader? fabricLoader = FabricVersionHelper.GetLoaderVersion(_launcherVersion, FabricVersionManifest);
@@ -208,7 +208,7 @@ public class FabricLoaderDownloadService : ILoaderDownloadService<FabricUrls>, I
     /// </summary>
     public static async Task<bool> DownloadLoader()
     {
-        if (!_loaded)
+        if (!_initialized)
             return false;
 
         if (

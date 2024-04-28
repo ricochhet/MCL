@@ -40,7 +40,7 @@ public class PaperServerDownloadService : IDownloadService
     private static LauncherVersion? _launcherVersion;
     private static LauncherInstance? _launcherInstance;
     private static PaperUrls? _paperUrls;
-    private static bool _loaded = false;
+    private static bool _initialized = false;
 
     /// <summary>
     /// Initialize the Paper server download service.
@@ -56,7 +56,7 @@ public class PaperServerDownloadService : IDownloadService
         _launcherVersion = launcherVersion;
         _launcherInstance = launcherInstance;
         _paperUrls = paperUrls;
-        _loaded = true;
+        _initialized = true;
     }
 
     /// <summary>
@@ -64,7 +64,7 @@ public class PaperServerDownloadService : IDownloadService
     /// </summary>
     public static async Task<bool> Download(bool useLocalVersionManifest = false)
     {
-        if (!_loaded)
+        if (!_initialized)
             return false;
 
         if (!useLocalVersionManifest && !await DownloadVersionManifest())
@@ -79,15 +79,19 @@ public class PaperServerDownloadService : IDownloadService
         if (!await DownloadJar())
             return false;
 
-        foreach (string version in _launcherInstance?.PaperServerVersions ?? ValidationShims.ListEmpty<string>())
+        if (
+            ObjectValidator<string>.IsNullOrEmpty(_launcherInstance?.PaperServerVersions)
+            || ObjectValidator<LauncherVersion>.IsNull(_launcherVersion)
+        )
+            return false;
+
+        foreach (string version in _launcherInstance!.PaperServerVersions!)
         {
-            if (version == _launcherVersion?.PaperServerVersion)
-                _launcherInstance?.PaperServerVersions.Remove(version);
+            if (version == _launcherVersion!.PaperServerVersion)
+                _launcherInstance!.PaperServerVersions.Remove(version);
         }
 
-        _launcherInstance?.PaperServerVersions.Add(
-            _launcherVersion?.PaperServerVersion ?? ValidationShims.StringEmpty()
-        );
+        _launcherInstance!.PaperServerVersions.Add(_launcherVersion!.PaperServerVersion);
         SettingsService.Load()?.Save(_launcherInstance);
 
         return true;
@@ -98,7 +102,7 @@ public class PaperServerDownloadService : IDownloadService
     /// </summary>
     public static async Task<bool> DownloadVersionManifest()
     {
-        if (!_loaded)
+        if (!_initialized)
             return false;
 
         if (!await PaperVersionManifestDownloader.Download(_launcherPath, _launcherVersion, _paperUrls))
@@ -115,7 +119,7 @@ public class PaperServerDownloadService : IDownloadService
     /// </summary>
     public static bool LoadVersionManifest()
     {
-        if (!_loaded)
+        if (!_initialized)
             return false;
 
         if (ObjectValidator<string>.IsNullOrWhiteSpace([_launcherVersion?.MVersion]))
@@ -138,7 +142,7 @@ public class PaperServerDownloadService : IDownloadService
     /// </summary>
     public static bool LoadVersionManifestWithoutLogging()
     {
-        if (!_loaded)
+        if (!_initialized)
             return false;
 
         if (ObjectValidator<string>.IsNullOrWhiteSpace([_launcherVersion?.MVersion], NativeLogLevel.Debug))
@@ -158,7 +162,7 @@ public class PaperServerDownloadService : IDownloadService
     /// </summary>
     public static bool LoadVersion()
     {
-        if (!_loaded)
+        if (!_initialized)
             return false;
 
         PaperBuild = PaperVersionHelper.GetVersion(_launcherVersion, PaperVersionManifest);
@@ -180,7 +184,7 @@ public class PaperServerDownloadService : IDownloadService
     /// </summary>
     public static async Task<bool> DownloadJar()
     {
-        if (!_loaded)
+        if (!_initialized)
             return false;
 
         if (!await PaperServerDownloader.Download(_launcherPath, _launcherVersion, PaperBuild, _paperUrls))
