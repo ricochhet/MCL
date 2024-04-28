@@ -23,6 +23,7 @@ using MCL.Core.Launcher.Helpers;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Minecraft.Helpers;
 using MCL.Core.MiniCommon.CommandParser;
+using MCL.Core.MiniCommon.CommandParser.Converters;
 using MCL.Core.MiniCommon.Interfaces;
 using MCL.Core.MiniCommon.Resolvers;
 using MCL.Core.MiniCommon.Validation;
@@ -61,6 +62,7 @@ public class LaunchMinecraft : ILauncherCommand
                 settings.Set(
                     options,
                     "gameversion",
+                    ArgumentConverter.ToNonNullString,
                     s => s?.LauncherVersion?.MVersion,
                     (s, v) =>
                     {
@@ -74,6 +76,7 @@ public class LaunchMinecraft : ILauncherCommand
                 settings.Set(
                     options,
                     "fabricversion",
+                    ArgumentConverter.ToNonNullString,
                     s => s?.LauncherVersion?.FabricLoaderVersion,
                     (s, v) =>
                     {
@@ -87,6 +90,7 @@ public class LaunchMinecraft : ILauncherCommand
                 settings.Set(
                     options,
                     "quiltversion",
+                    ArgumentConverter.ToNonNullString,
                     s => s?.LauncherVersion?.QuiltLoaderVersion,
                     (s, v) =>
                     {
@@ -100,6 +104,7 @@ public class LaunchMinecraft : ILauncherCommand
                 settings.Set(
                     options,
                     "username",
+                    ArgumentConverter.ToNonNullString,
                     s => s?.LauncherUsername?.Username,
                     (s, v) =>
                     {

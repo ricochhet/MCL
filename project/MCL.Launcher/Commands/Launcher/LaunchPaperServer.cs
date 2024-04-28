@@ -21,6 +21,7 @@ using System.Threading.Tasks;
 using MCL.Core.Launcher.Helpers;
 using MCL.Core.Launcher.Models;
 using MCL.Core.MiniCommon.CommandParser;
+using MCL.Core.MiniCommon.CommandParser.Converters;
 using MCL.Core.MiniCommon.Interfaces;
 using MCL.Core.MiniCommon.Validation;
 using MCL.Core.Servers.Paper.Helpers;
@@ -48,6 +49,7 @@ public class LaunchPaperServer : ILauncherCommand
                 settings?.Set(
                     options,
                     "gameversion",
+                    ArgumentConverter.ToNonNullString,
                     s => s?.LauncherVersion?.MVersion,
                     (s, v) =>
                     {
@@ -61,6 +63,7 @@ public class LaunchPaperServer : ILauncherCommand
                 settings?.Set(
                     options,
                     "paperversion",
+                    ArgumentConverter.ToNonNullString,
                     s => s?.LauncherVersion?.PaperServerVersion,
                     (s, v) =>
                     {

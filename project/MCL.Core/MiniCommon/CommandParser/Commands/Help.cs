@@ -18,6 +18,7 @@
 
 using System.Threading.Tasks;
 using MCL.Core.Launcher.Models;
+using MCL.Core.MiniCommon.CommandParser.Converters;
 using MCL.Core.MiniCommon.CommandParser.Helpers;
 using MCL.Core.MiniCommon.Interfaces;
 using MCL.Core.MiniCommon.Models;
@@ -32,6 +33,7 @@ public class Help : ILauncherCommand
         CommandLine.ProcessArgument(
             args,
             new() { Name = "help", },
+            ArgumentConverter.ToString,
             (string? _) =>
             {
                 foreach (Command command in CommandHelper.Commands)

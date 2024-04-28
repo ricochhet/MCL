@@ -16,29 +16,23 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using System;
-using System.Collections.Generic;
-using MCL.Core.Launcher.Models;
-using MCL.Core.MiniCommon.Validation;
+namespace MCL.Core.MiniCommon.CommandParser.Converters;
 
-namespace MCL.Core.Launcher.Helpers;
-
-public static class SettingsHelper
+public static class ArgumentConverter
 {
-    public static void Set<T>(
-        this Settings settings,
-        Dictionary<string, string> options,
-        string key,
-        Func<string, T> converter,
-        Func<Settings?, T?> propertySelector,
-        Action<Settings, T> setter
-    )
-        where T : class
+    public static string? ToString(string input)
     {
-        if (options.TryGetValue(key, out string? value) && ObjectValidator<T>.IsNotNull(propertySelector(settings)))
-        {
-            T convertedValue = converter(value);
-            setter(settings, convertedValue);
-        }
+        return input;
+    }
+
+    public static string ToNonNullString(string input)
+    {
+        return input;
+    }
+
+    public static int ToInt(string input)
+    {
+        _ = int.TryParse(input, out int number);
+        return number;
     }
 }

@@ -34,7 +34,7 @@ public static class CommandLine
     /// <summary>
     /// Processes a command line argument identified by a flag and invokes the provided action with the argument's value of type T.
     /// </summary>
-    public static void ProcessArgument<T>(string[] args, Command command, Action<T?> action)
+    public static void ProcessArgument<T>(string[] args, Command command, Func<string, T?> converter, Action<T?> action)
     {
         try
         {
@@ -44,7 +44,7 @@ public static class CommandLine
                 T? value = default;
                 if (index + 1 < args.Length && !args[index + 1].StartsWith("--"))
                 {
-                    value = (T)Convert.ChangeType(args[index + 1], typeof(T));
+                    value = converter(args[index + 1]);
                 }
                 action(value);
             }
@@ -86,7 +86,12 @@ public static class CommandLine
     /// <summary>
     /// Processes a command line argument identified by a flag and invokes the provided action with the argument's value of type T.
     /// </summary>
-    public static async Task ProcessArgumentAsync<T>(string[] args, Command command, Func<T?, Task> action)
+    public static async Task ProcessArgumentAsync<T>(
+        string[] args,
+        Command command,
+        Func<string, T?> converter,
+        Func<T?, Task> action
+    )
     {
         try
         {
@@ -96,7 +101,7 @@ public static class CommandLine
                 T? value = default;
                 if (index + 1 < args.Length && !args[index + 1].StartsWith("--"))
                 {
-                    value = (T)Convert.ChangeType(args[index + 1], typeof(T));
+                    value = converter(args[index + 1]);
                 }
                 await action(value);
             }
