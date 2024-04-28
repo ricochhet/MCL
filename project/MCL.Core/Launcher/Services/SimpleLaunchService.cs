@@ -30,45 +30,25 @@ public static class SimpleLaunchService
         foreach (string line in lines)
             options = options.Concat(CommandLine.ParseKeyValuePairs(line)).ToDictionary();
         options = options.GroupBy(a => a).Select(a => a.Last()).ToDictionary();
-        string javaPath = string.Empty;
-        foreach ((string key, string value) in options)
-        {
-            switch (key)
-            {
-                case "client":
+
 #pragma warning disable CS8602
-                    settings.LauncherSettings.ClientType = EnumResolver.Parse(value, ClientType.VANILLA);
+        settings.LauncherSettings.ClientType = EnumResolver.Parse(
+            options.GetValueOrDefault("client", "vanilla"),
+            ClientType.VANILLA
+        );
+        settings.LauncherVersion.MVersion = options.GetValueOrDefault("gameversion", settings.LauncherVersion.MVersion);
+        settings.LauncherVersion.FabricLoaderVersion = options.GetValueOrDefault(
+            "fabricversion",
+            settings.LauncherVersion.FabricLoaderVersion
+        );
+        settings.LauncherVersion.QuiltLoaderVersion = options.GetValueOrDefault(
+            "quiltversion",
+            settings.LauncherVersion.QuiltLoaderVersion
+        );
+        settings.LauncherUsername.Username = options.GetValueOrDefault("username", settings.LauncherUsername.Username);
 #pragma warning restore CS8602
-                    break;
-                case "gameversion":
-#pragma warning disable CS8602
-                    settings.LauncherVersion.MVersion = value;
-#pragma warning restore CS8602
-                    break;
-                case "fabricversion":
-#pragma warning disable CS8602
-                    settings.LauncherVersion.FabricLoaderVersion = value;
-#pragma warning restore CS8602
-                    break;
-                case "quiltversion":
-#pragma warning disable CS8602
-                    settings.LauncherVersion.QuiltLoaderVersion = value;
-#pragma warning restore CS8602
-                    break;
-                case "username":
-#pragma warning disable CS8602
-                    settings.LauncherUsername.Username = value;
-#pragma warning restore CS8602
-                    break;
-                case "javapath":
-                    javaPath = value;
-                    break;
-                default:
-                    break;
-            }
-        }
 
         NotificationService.Info("launcher.simple.launch");
-        MinecraftLauncher.Launch(settings ?? ValidationShims.ClassEmpty<Settings>(), javaPath);
+        MinecraftLauncher.Launch(settings, options.GetValueOrDefault("javapath", string.Empty));
     }
 }
