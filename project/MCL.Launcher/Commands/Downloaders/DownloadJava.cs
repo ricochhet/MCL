@@ -22,6 +22,7 @@ using MCL.Core.Java.Services;
 using MCL.Core.Launcher.Models;
 using MCL.Core.MiniCommon.CommandParser;
 using MCL.Core.MiniCommon.Interfaces;
+using MCL.Core.MiniCommon.Validation;
 
 namespace MCL.Launcher.Commands.Downloaders;
 
@@ -34,15 +35,18 @@ public class DownloadJava : ILauncherCommand
             new() { Name = "dl-java" },
             async _ =>
             {
+                if (ObjectValidator<Settings>.IsNull(settings))
+                    return;
+
                 JavaDownloadService.Init(
-                    settings?.LauncherPath,
-                    settings?.MUrls,
+                    settings!?.LauncherPath,
+                    settings!?.MUrls,
                     JavaVersionHelper.GetMVersionJava(
-                        settings?.LauncherPath,
-                        settings?.LauncherVersion,
-                        settings?.LauncherSettings
+                        settings!?.LauncherPath,
+                        settings!?.LauncherVersion,
+                        settings!?.LauncherSettings
                     ),
-                    settings?.LauncherSettings?.JavaRuntimePlatform
+                    settings!?.LauncherSettings?.JavaRuntimePlatform
                 );
 
                 await JavaDownloadService.Download();

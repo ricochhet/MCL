@@ -39,7 +39,7 @@ public static class JavaVersionManifestDownloader
 
         string filepath = JavaPathResolver.JavaVersionManifestPath(launcherPath);
         string? javaVersionManifest = await Request.GetJsonAsync<JavaVersionManifest>(
-            mUrls?.JavaVersionManifest ?? ValidationShims.StringEmpty(),
+            mUrls!.JavaVersionManifest,
             filepath,
             Encoding.UTF8
         );

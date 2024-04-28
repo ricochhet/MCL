@@ -37,11 +37,7 @@ public static class VersionDetailsDownloader
             return false;
 
         string filepath = MPathResolver.VersionDetailsPath(launcherPath, version);
-        string? versionDetails = await Request.GetJsonAsync<MVersionDetails>(
-            version?.URL ?? ValidationShims.StringEmpty(),
-            filepath,
-            Encoding.UTF8
-        );
+        string? versionDetails = await Request.GetJsonAsync<MVersionDetails>(version!.URL, filepath, Encoding.UTF8);
         if (ObjectValidator<string>.IsNullOrWhiteSpace([versionDetails]))
             return false;
         return true;

@@ -44,9 +44,9 @@ public static class LoggingDownloader
             return false;
 
         return await Request.DownloadSHA1(
-            versionDetails?.Logging?.Client.File.URL ?? ValidationShims.StringEmpty(),
+            versionDetails!.Logging!.Client!.File!.URL,
             MPathResolver.LoggingPath(launcherPath, versionDetails),
-            versionDetails?.Logging?.Client.File.SHA1 ?? ValidationShims.StringEmpty()
+            versionDetails!.Logging!.Client!.File!.SHA1
         );
     }
 }

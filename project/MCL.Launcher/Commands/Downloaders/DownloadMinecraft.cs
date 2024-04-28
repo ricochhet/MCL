@@ -46,6 +46,9 @@ public class DownloadMinecraft : ILauncherCommand
             },
             async options =>
             {
+                if (ObjectValidator<Settings>.IsNull(settings))
+                    return;
+
                 _launcherVersion.MVersion = options.GetValueOrDefault("gameversion", "latest");
                 if (!bool.TryParse(options.GetValueOrDefault("update", "false"), out bool update))
                     return;
@@ -55,11 +58,11 @@ public class DownloadMinecraft : ILauncherCommand
                     return;
 
                 MDownloadService.Init(
-                    settings?.LauncherPath,
-                    settings?.LauncherVersion,
-                    settings?.LauncherSettings,
-                    settings?.LauncherInstance,
-                    settings?.MUrls
+                    settings!?.LauncherPath,
+                    settings!?.LauncherVersion,
+                    settings!?.LauncherSettings,
+                    settings!?.LauncherInstance,
+                    settings!?.MUrls
                 );
                 await MDownloadService.Download(useLocalVersionManifest: true);
             }

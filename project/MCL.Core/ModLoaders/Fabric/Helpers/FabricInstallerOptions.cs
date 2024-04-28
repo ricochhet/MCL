@@ -39,7 +39,8 @@ public static class FabricInstallerOptions
                 [
                     launcherVersion?.MVersion,
                     launcherVersion?.FabricInstallerVersion,
-                    launcherVersion?.FabricLoaderVersion
+                    launcherVersion?.FabricLoaderVersion,
+                    launcherPath?.MPath
                 ]
             )
         )
@@ -55,22 +56,10 @@ public static class FabricInstallerOptions
             new MArgument
             {
                 Arg = "-dir \"{0}\" {1}",
-                ArgParams =
-                [
-                    launcherPath?.MPath ?? ValidationShims.StringEmpty(),
-                    FabricInstallerTypeResolver.ToString(installerType)
-                ]
+                ArgParams = [launcherPath!.MPath, FabricInstallerTypeResolver.ToString(installerType)]
             },
-            new MArgument
-            {
-                Arg = "-mcversion {0}",
-                ArgParams = [launcherVersion?.MVersion ?? ValidationShims.StringEmpty()]
-            },
-            new MArgument
-            {
-                Arg = "-loader {0}",
-                ArgParams = [launcherVersion?.FabricLoaderVersion ?? ValidationShims.StringEmpty()]
-            },
+            new MArgument { Arg = "-mcversion {0}", ArgParams = [launcherVersion!.MVersion] },
+            new MArgument { Arg = "-loader {0}", ArgParams = [launcherVersion!.FabricLoaderVersion] },
             new MArgument { Arg = "-noprofile" }
         ];
     }

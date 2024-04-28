@@ -40,9 +40,9 @@ public static class ClientDownloader
             return false;
 
         return await Request.DownloadSHA1(
-            versionDetails?.Downloads?.Client.URL ?? ValidationShims.StringEmpty(),
+            versionDetails!.Downloads!.Client!.URL,
             MPathResolver.ClientJarPath(launcherPath, versionDetails),
-            versionDetails?.Downloads?.Client.SHA1 ?? ValidationShims.StringEmpty()
+            versionDetails!.Downloads!.Client!.SHA1
         );
     }
 }

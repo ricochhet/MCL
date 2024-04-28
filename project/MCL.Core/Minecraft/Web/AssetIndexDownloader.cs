@@ -40,9 +40,9 @@ public static class AssetIndexDownloader
             return false;
 
         return await Request.DownloadSHA1(
-            versionDetails?.AssetIndex?.URL ?? ValidationShims.StringEmpty(),
+            versionDetails!.AssetIndex!.URL,
             MPathResolver.ClientAssetIndexPath(launcherPath, versionDetails),
-            versionDetails?.AssetIndex?.SHA1 ?? ValidationShims.StringEmpty()
+            versionDetails!.AssetIndex!.SHA1
         );
     }
 }

@@ -52,6 +52,9 @@ public class DownloadQuiltInstaller : ILauncherCommand
             },
             async options =>
             {
+                if (ObjectValidator<Settings>.IsNull(settings))
+                    return;
+
                 _launcherVersion.QuiltInstallerVersion = options.GetValueOrDefault("installerversion", "latest");
                 if (!bool.TryParse(options.GetValueOrDefault("update", "false"), out bool update))
                     return;
@@ -63,24 +66,24 @@ public class DownloadQuiltInstaller : ILauncherCommand
                     return;
 
                 QuiltInstallerDownloadService.Init(
-                    settings?.LauncherPath,
-                    settings?.LauncherVersion,
-                    settings?.QuiltUrls
+                    settings!?.LauncherPath,
+                    settings!?.LauncherVersion,
+                    settings!?.QuiltUrls
                 );
                 if (!await QuiltInstallerDownloadService.Download(useLocalVersionManifest: true))
                     return;
 
                 JavaLauncher.Launch(
                     settings,
-                    QuiltPathResolver.InstallersPath(settings?.LauncherPath),
+                    QuiltPathResolver.InstallersPath(settings!?.LauncherPath),
                     QuiltInstallerOptions
                         .DefaultJvmArguments(
-                            settings?.LauncherPath,
-                            settings?.LauncherVersion,
+                            settings!?.LauncherPath,
+                            settings!?.LauncherVersion,
                             QuiltInstallerType.INSTALL_CLIENT
                         )
                         ?.JvmArguments(),
-                    settings?.LauncherSettings?.JavaRuntimeType,
+                    settings!?.LauncherSettings?.JavaRuntimeType,
                     options.GetValueOrDefault("javapath", string.Empty)
                 );
             }

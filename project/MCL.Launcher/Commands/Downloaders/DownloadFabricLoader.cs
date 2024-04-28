@@ -48,6 +48,9 @@ public class DownloadFabricLoader : ILauncherCommand
             },
             async options =>
             {
+                if (ObjectValidator<Settings>.IsNull(settings))
+                    return;
+
                 _launcherVersion.MVersion = options.GetValueOrDefault("gameversion", "latest");
                 _launcherVersion.FabricLoaderVersion = options.GetValueOrDefault("loaderversion", "latest");
                 if (!bool.TryParse(options.GetValueOrDefault("update", "false"), out bool update))
@@ -64,10 +67,10 @@ public class DownloadFabricLoader : ILauncherCommand
                     return;
 
                 FabricLoaderDownloadService.Init(
-                    settings?.LauncherPath,
-                    settings?.LauncherVersion,
-                    settings?.LauncherInstance,
-                    settings?.FabricUrls
+                    settings!?.LauncherPath,
+                    settings!?.LauncherVersion,
+                    settings!?.LauncherInstance,
+                    settings!?.FabricUrls
                 );
                 await FabricLoaderDownloadService.Download(useLocalVersionManifest: true);
             }

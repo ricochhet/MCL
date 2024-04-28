@@ -22,6 +22,7 @@ using MCL.Core.Launcher.Models;
 using MCL.Core.MiniCommon.CommandParser;
 using MCL.Core.MiniCommon.CommandParser.Converters;
 using MCL.Core.MiniCommon.Interfaces;
+using MCL.Core.MiniCommon.Validation;
 using MCL.Core.Modding.Resolvers;
 using MCL.Core.Modding.Services;
 
@@ -37,12 +38,15 @@ public class DeployMods : ILauncherCommand
             ArgumentConverter.ToString,
             (string? value) =>
             {
+                if (ObjectValidator<Settings>.IsNull(settings))
+                    return;
+
                 ModdingService.Save(value);
                 ModdingService.Deploy(
                     ModdingService.Load(value),
-                    ModPathResolver.ModDeployPath(settings?.LauncherPath)
+                    ModPathResolver.ModDeployPath(settings!?.LauncherPath)
                 );
-                settings?.Save(ModdingService.ModSettings);
+                settings!?.Save(ModdingService.ModSettings);
             }
         );
 

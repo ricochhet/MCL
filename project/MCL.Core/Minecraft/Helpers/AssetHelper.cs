@@ -51,6 +51,6 @@ public static class AssetHelper
 
         if (ObjectValidator<string>.IsNullOrWhiteSpace([versionDetails?.Assets]))
             return string.Empty;
-        return versionDetails?.Assets ?? ValidationShims.StringEmpty();
+        return versionDetails!.Assets!;
     }
 }

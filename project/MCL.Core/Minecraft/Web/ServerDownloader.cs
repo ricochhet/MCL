@@ -44,9 +44,9 @@ public static class ServerDownloader
         ServerProperties.NewProperties(launcherPath);
 
         return await Request.DownloadSHA1(
-            versionDetails?.Downloads?.Server.URL ?? ValidationShims.StringEmpty(),
+            versionDetails!.Downloads!.Server!.URL,
             MPathResolver.ServerJarPath(launcherPath, versionDetails),
-            versionDetails?.Downloads?.Server.SHA1 ?? ValidationShims.StringEmpty()
+            versionDetails!.Downloads!.Server!.SHA1
         );
     }
 }

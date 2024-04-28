@@ -64,8 +64,8 @@ internal static class Program
         Request.HttpClientTimeOut = TimeSpan.FromMinutes(1);
         Watermark.Draw(SettingsService.WatermarkText);
 
-        SevenZipService.Init(settings?.SevenZipSettings);
-        ModdingService.Init(settings?.LauncherPath, settings?.ModSettings);
+        SevenZipService.Init(settings!?.SevenZipSettings);
+        ModdingService.Init(settings!?.LauncherPath, settings!?.ModSettings);
 
         if (args.Length <= 0)
         {

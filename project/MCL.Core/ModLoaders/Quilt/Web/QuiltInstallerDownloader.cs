@@ -49,17 +49,10 @@ public static class QuiltInstallerDownloader
         // Quilt does not provide a file hash through the current method. We do simple check of the version instead.
         if (VFS.Exists(quiltInstallerPath))
         {
-            NotificationService.Info(
-                "quilt.installer-exists",
-                quiltInstaller?.Version ?? ValidationShims.StringEmpty()
-            );
+            NotificationService.Info("quilt.installer-exists", quiltInstaller!.Version);
             return true;
         }
 
-        return await Request.DownloadSHA1(
-            quiltInstaller?.URL ?? ValidationShims.StringEmpty(),
-            quiltInstallerPath,
-            string.Empty
-        );
+        return await Request.DownloadSHA1(quiltInstaller!.URL, quiltInstallerPath, string.Empty);
     }
 }

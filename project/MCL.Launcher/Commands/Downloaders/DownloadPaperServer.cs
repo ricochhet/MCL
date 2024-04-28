@@ -48,6 +48,9 @@ public class DownloadPaperServer : ILauncherCommand
             },
             async options =>
             {
+                if (ObjectValidator<Settings>.IsNull(settings))
+                    return;
+
                 _launcherVersion.MVersion = options.GetValueOrDefault("gameversion", "latest");
                 _launcherVersion.PaperServerVersion = options.GetValueOrDefault("paperversion", "latest");
                 if (!bool.TryParse(options.GetValueOrDefault("update", "false"), out bool update))
@@ -64,10 +67,10 @@ public class DownloadPaperServer : ILauncherCommand
                     return;
 
                 PaperServerDownloadService.Init(
-                    settings?.LauncherPath,
-                    settings?.LauncherVersion,
-                    settings?.LauncherInstance,
-                    settings?.PaperUrls
+                    settings!?.LauncherPath,
+                    settings!?.LauncherVersion,
+                    settings!?.LauncherInstance,
+                    settings!?.PaperUrls
                 );
                 await PaperServerDownloadService.Download(useLocalVersionManifest: true);
             }

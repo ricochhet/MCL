@@ -42,14 +42,17 @@ public static class JavaRuntimeHelper
 
         if (!VFS.Exists(javaHome))
         {
+            if (ObjectValidator<string>.IsNullOrWhiteSpace([settings?.JavaSettings?.HomeEnvironmentVariable]))
+                return javaHome;
+
             string? javaHomeEnvironmentVariable = Environment.GetEnvironmentVariable(
-                settings?.JavaSettings?.HomeEnvironmentVariable ?? ValidationShims.StringEmpty()
+                settings!.JavaSettings!.HomeEnvironmentVariable
             );
             if (ObjectValidator<string>.IsNullOrWhiteSpace([javaHomeEnvironmentVariable]))
                 return javaHome;
 
             NotificationService.Info("error.missing.java");
-            return javaHomeEnvironmentVariable ?? ValidationShims.StringEmpty();
+            return javaHomeEnvironmentVariable!;
         }
 
         return javaHome;

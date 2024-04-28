@@ -39,7 +39,11 @@ public static class ClassPathHelper
         LauncherSettings? launcherSettings
     )
     {
-        if (ObjectValidator<string>.IsNullOrWhiteSpace([launcherVersion?.MVersion]))
+        if (
+            ObjectValidator<string>.IsNullOrWhiteSpace(
+                [launcherVersion?.MVersion, launcherVersion?.FabricLoaderVersion, launcherVersion?.QuiltLoaderVersion]
+            ) || ObjectValidator<LauncherInstance>.IsNull(launcherInstance)
+        )
             return string.Empty;
 
         string separator = launcherSettings?.JavaRuntimePlatform switch
@@ -53,26 +57,24 @@ public static class ClassPathHelper
             _ => throw new NotImplementedException("Unsupported OS."),
         };
 
-        LauncherLoader? mLoader = launcherInstance?.Versions.Find(a => a.Version == launcherVersion?.MVersion);
+        LauncherLoader? mLoader = launcherInstance!.Versions.Find(a => a.Version == launcherVersion!.MVersion);
         if (ObjectValidator<LauncherLoader>.IsNull(mLoader))
             return string.Empty;
-        string[] libraries =
-            mLoader?.Libraries.Prepend(MPathResolver.ClientLibrary(launcherVersion)).ToArray()
-            ?? [.. ValidationShims.ListEmpty<string>()];
+        string[] libraries = mLoader!.Libraries.Prepend(MPathResolver.ClientLibrary(launcherVersion)).ToArray();
 
         switch (launcherSettings.ClientType)
         {
             case ClientType.VANILLA:
                 break;
             case ClientType.FABRIC:
-                LauncherLoader? fabricLoader = launcherInstance?.FabricLoaders.Find(a =>
-                    a.Version == launcherVersion?.FabricLoaderVersion
+                LauncherLoader? fabricLoader = launcherInstance!.FabricLoaders.Find(a =>
+                    a.Version == launcherVersion!.FabricLoaderVersion
                 );
                 libraries = [.. libraries, .. fabricLoader?.Libraries];
                 break;
             case ClientType.QUILT:
-                LauncherLoader? quiltLoader = launcherInstance?.QuiltLoaders.Find(a =>
-                    a.Version == launcherVersion?.QuiltLoaderVersion
+                LauncherLoader? quiltLoader = launcherInstance!.QuiltLoaders.Find(a =>
+                    a.Version == launcherVersion!.QuiltLoaderVersion
                 );
                 libraries = [.. libraries, .. quiltLoader?.Libraries];
                 break;

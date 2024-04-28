@@ -48,6 +48,9 @@ public class DownloadQuiltLoader : ILauncherCommand
             },
             async options =>
             {
+                if (ObjectValidator<Settings>.IsNull(settings))
+                    return;
+
                 _launcherVersion.MVersion = options.GetValueOrDefault("gameversion", "latest");
                 _launcherVersion.QuiltLoaderVersion = options.GetValueOrDefault("loaderversion", "latest");
                 if (!bool.TryParse(options.GetValueOrDefault("update", "false"), out bool update))
@@ -64,10 +67,10 @@ public class DownloadQuiltLoader : ILauncherCommand
                     return;
 
                 QuiltLoaderDownloadService.Init(
-                    settings?.LauncherPath,
-                    settings?.LauncherVersion,
-                    settings?.LauncherInstance,
-                    settings?.QuiltUrls
+                    settings!?.LauncherPath,
+                    settings!?.LauncherVersion,
+                    settings!?.LauncherInstance,
+                    settings!?.QuiltUrls
                 );
                 await QuiltLoaderDownloadService.Download(useLocalVersionManifest: true);
             }

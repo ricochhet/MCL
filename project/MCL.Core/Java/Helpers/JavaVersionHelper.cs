@@ -42,7 +42,7 @@ public static class JavaVersionHelper
         if (ObjectValidator<string>.IsNullOrWhiteSpace([versionDetails?.JavaVersion?.Component]))
             return launcherSettings?.JavaRuntimeType;
         return EnumResolver.Parse(
-            versionDetails?.JavaVersion?.Component ?? ValidationShims.StringEmpty(),
+            versionDetails!.JavaVersion!.Component,
             launcherSettings?.JavaRuntimeType ?? JavaRuntimeType.JAVA_RUNTIME_GAMMA
         );
     }

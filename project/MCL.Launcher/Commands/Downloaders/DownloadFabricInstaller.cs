@@ -52,6 +52,9 @@ public class DownloadFabricInstaller : ILauncherCommand
             },
             async options =>
             {
+                if (ObjectValidator<Settings>.IsNull(settings))
+                    return;
+
                 _launcherVersion.FabricInstallerVersion = options.GetValueOrDefault("installerversion", "latest");
                 if (!bool.TryParse(options.GetValueOrDefault("update", "false"), out bool update))
                     return;
@@ -63,24 +66,24 @@ public class DownloadFabricInstaller : ILauncherCommand
                     return;
 
                 FabricInstallerDownloadService.Init(
-                    settings?.LauncherPath,
-                    settings?.LauncherVersion,
-                    settings?.FabricUrls
+                    settings!?.LauncherPath,
+                    settings!?.LauncherVersion,
+                    settings!?.FabricUrls
                 );
                 if (!await FabricInstallerDownloadService.Download(useLocalVersionManifest: true))
                     return;
 
                 JavaLauncher.Launch(
                     settings,
-                    FabricPathResolver.InstallersPath(settings?.LauncherPath),
+                    FabricPathResolver.InstallersPath(settings!?.LauncherPath),
                     FabricInstallerOptions
                         .DefaultJvmArguments(
-                            settings?.LauncherPath,
-                            settings?.LauncherVersion,
+                            settings!?.LauncherPath,
+                            settings!?.LauncherVersion,
                             FabricInstallerType.INSTALL_CLIENT
                         )
                         ?.JvmArguments(),
-                    settings?.LauncherSettings?.JavaRuntimeType,
+                    settings!?.LauncherSettings?.JavaRuntimeType,
                     options.GetValueOrDefault("javapath", string.Empty)
                 );
             }

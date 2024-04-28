@@ -37,12 +37,12 @@ public static class PaperLaunchOptions
             new MArgument
             {
                 Arg = "-Xms{0}m",
-                ArgParams = [settings.LauncherMemory?.MemoryMinMb.ToString() ?? ValidationShims.StringEmpty()]
+                ArgParams = [settings!?.LauncherMemory?.MemoryMinMb.ToString() ?? ValidationShims.StringEmpty()]
             },
             new MArgument
             {
                 Arg = "-Xmx{0}m",
-                ArgParams = [settings.LauncherMemory?.MemoryMaxMb.ToString() ?? ValidationShims.StringEmpty()]
+                ArgParams = [settings!?.LauncherMemory?.MemoryMaxMb.ToString() ?? ValidationShims.StringEmpty()]
             },
             new MArgument { Arg = "-XX:+AlwaysPreTouch" },
             new MArgument { Arg = "-XX:+DisableExplicitGC" },
@@ -67,7 +67,7 @@ public static class PaperLaunchOptions
             new MArgument
             {
                 Arg = "-jar {0} {1}",
-                ArgParams = [PaperPathResolver.JarPath(settings.LauncherPath, settings.LauncherVersion), "nogui"]
+                ArgParams = [PaperPathResolver.JarPath(settings!?.LauncherPath, settings!?.LauncherVersion), "nogui"]
             },
         ];
     }

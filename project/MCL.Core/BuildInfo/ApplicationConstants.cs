@@ -30,9 +30,9 @@ public static class ApplicationConstants
         {
             if (CompileConstants.IsDebug)
                 return Version.Parse("0.0.0.1");
-            if (ObjectValidator<string>.IsNotNull(Process.GetCurrentProcess().MainModule?.FileVersionInfo.FileVersion))
+            if (ObjectValidator<string>.IsNotNull(Process.GetCurrentProcess().MainModule!.FileVersionInfo.FileVersion))
                 return Version.TryParse(
-                    Process.GetCurrentProcess().MainModule?.FileVersionInfo.FileVersion,
+                    Process.GetCurrentProcess().MainModule!.FileVersionInfo.FileVersion,
                     out Version? version
                 )
                     ? version

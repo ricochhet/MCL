@@ -44,9 +44,9 @@ public static class ServerMappingsDownloader
             return false;
 
         return await Request.DownloadSHA1(
-            versionDetails?.Downloads?.ServerMappings.URL ?? ValidationShims.StringEmpty(),
+            versionDetails!.Downloads!.ServerMappings!.URL,
             MPathResolver.ServerMappingsPath(launcherPath, versionDetails),
-            versionDetails?.Downloads?.ServerMappings.SHA1 ?? ValidationShims.StringEmpty()
+            versionDetails!.Downloads!.ServerMappings!.SHA1
         );
     }
 }

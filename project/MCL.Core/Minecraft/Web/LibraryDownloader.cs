@@ -37,6 +37,8 @@ public static class LibraryDownloader
 {
     private static LauncherLoader? _loader;
 
+#pragma warning disable IDE0079
+#pragma warning disable S3776
     /// <summary>
     /// Download the game libraries specified by the MVersionDetails.
     /// </summary>
@@ -47,14 +49,18 @@ public static class LibraryDownloader
         LauncherSettings? launcherSettings,
         MVersionDetails? versionDetails
     )
+#pragma warning restore IDE0079, S3776
     {
-        if (ObjectValidator<List<MLibrary>>.IsNullOrEmpty(versionDetails?.Libraries))
+        if (
+            ObjectValidator<List<MLibrary>>.IsNullOrEmpty(versionDetails?.Libraries)
+            || ObjectValidator<string>.IsNullOrWhiteSpace([launcherVersion?.MVersion, launcherPath?.MPath])
+        )
             return false;
 
-        string libPath = VFS.Combine(launcherPath?.MPath ?? ValidationShims.StringEmpty(), "libraries");
-        _loader = new() { Version = launcherVersion?.MVersion ?? ValidationShims.StringEmpty() };
+        string libPath = VFS.Combine(launcherPath!.MPath, "libraries");
+        _loader = new() { Version = launcherVersion!.MVersion };
 
-        foreach (MLibrary lib in versionDetails?.Libraries ?? ValidationShims.ListEmpty<MLibrary>())
+        foreach (MLibrary lib in versionDetails!.Libraries!)
         {
             if (ObjectValidator<MLibraryDownloads>.IsNull(lib?.Downloads))
                 return false;
@@ -67,32 +73,27 @@ public static class LibraryDownloader
 
             if (
                 ObjectValidator<string>.IsNullOrWhiteSpace(
-                    [lib?.Downloads?.Artifact?.Path, lib?.Downloads?.Artifact?.URL, lib?.Downloads?.Artifact?.SHA1]
+                    [lib!.Downloads!.Artifact?.Path, lib!.Downloads!.Artifact?.URL, lib!.Downloads!.Artifact?.SHA1]
                 )
             )
                 return false;
 
-            string filepath = VFS.Combine(libPath, lib?.Downloads?.Artifact.Path ?? ValidationShims.StringEmpty());
-            if (
-                !await Request.DownloadSHA1(
-                    lib?.Downloads?.Artifact.URL ?? ValidationShims.StringEmpty(),
-                    filepath,
-                    lib?.Downloads?.Artifact.SHA1 ?? ValidationShims.StringEmpty()
-                )
-            )
+            string filepath = VFS.Combine(libPath, lib!.Downloads!.Artifact!.Path);
+            if (!await Request.DownloadSHA1(lib!.Downloads!.Artifact.URL, filepath, lib!.Downloads!.Artifact.SHA1))
                 return false;
             _loader.Libraries.Add(filepath);
         }
 
-        foreach (
-            LauncherLoader existingLoader in launcherInstance?.Versions ?? ValidationShims.ListEmpty<LauncherLoader>()
-        )
+        if (ObjectValidator<LauncherLoader>.IsNullOrEmpty(launcherInstance?.Versions))
+            return false;
+
+        foreach (LauncherLoader existingLoader in launcherInstance!.Versions!)
         {
             if (existingLoader.Version == _loader.Version)
-                launcherInstance?.Versions.Remove(existingLoader);
+                launcherInstance!.Versions!.Remove(existingLoader);
         }
 
-        launcherInstance?.Versions.Add(_loader);
+        launcherInstance!.Versions!.Add(_loader);
         SettingsService.Load()?.Save(launcherInstance);
         return true;
     }
@@ -106,7 +107,7 @@ public static class LibraryDownloader
             return false;
 
         bool allowLibrary = false;
-        foreach (MLibraryRule rule in lib?.Rules ?? ValidationShims.ListEmpty<MLibraryRule>())
+        foreach (MLibraryRule rule in lib!.Rules!)
         {
             string action = rule.Action;
             string os = rule.Os?.Name ?? ValidationShims.StringEmpty();
@@ -151,60 +152,51 @@ public static class LibraryDownloader
                 if (
                     ObjectValidator<string>.IsNullOrWhiteSpace(
                         [
-                            lib?.Downloads?.Classifiers?.NativesWindows?.URL,
-                            lib?.Downloads?.Classifiers?.NativesWindows?.SHA1,
-                            lib?.Downloads?.Classifiers?.NativesWindows?.Path
+                            lib!.Downloads!.Classifiers!.NativesWindows?.URL,
+                            lib!.Downloads!.Classifiers!.NativesWindows?.SHA1,
+                            lib!.Downloads!.Classifiers!.NativesWindows?.Path
                         ]
                     )
                 )
                     return false;
 
-                classifierFilePath = VFS.Combine(
-                    libraryPath,
-                    lib?.Downloads?.Classifiers?.NativesWindows?.Path ?? ValidationShims.StringEmpty()
-                );
-                classifierUrl = lib?.Downloads?.Classifiers?.NativesWindows?.URL ?? ValidationShims.StringEmpty();
-                classifierSha1 = lib?.Downloads?.Classifiers?.NativesWindows?.SHA1 ?? ValidationShims.StringEmpty();
+                classifierFilePath = VFS.Combine(libraryPath, lib!.Downloads!.Classifiers!.NativesWindows!.Path);
+                classifierUrl = lib!.Downloads!.Classifiers!.NativesWindows!.URL!;
+                classifierSha1 = lib!.Downloads!.Classifiers!.NativesWindows!.SHA1!;
                 break;
             case JavaRuntimePlatform.LINUX
             or JavaRuntimePlatform.LINUXI386:
                 if (
                     ObjectValidator<string>.IsNullOrWhiteSpace(
                         [
-                            lib?.Downloads?.Classifiers?.NativesLinux?.URL,
-                            lib?.Downloads?.Classifiers?.NativesLinux?.SHA1,
-                            lib?.Downloads?.Classifiers?.NativesLinux?.Path
+                            lib!.Downloads!.Classifiers!.NativesLinux?.URL,
+                            lib!.Downloads!.Classifiers!.NativesLinux?.SHA1,
+                            lib!.Downloads!.Classifiers!.NativesLinux?.Path
                         ]
                     )
                 )
                     return false;
 
-                classifierFilePath = VFS.Combine(
-                    libraryPath,
-                    lib?.Downloads?.Classifiers?.NativesLinux?.Path ?? ValidationShims.StringEmpty()
-                );
-                classifierUrl = lib?.Downloads?.Classifiers?.NativesLinux?.URL ?? ValidationShims.StringEmpty();
-                classifierSha1 = lib?.Downloads?.Classifiers?.NativesLinux?.SHA1 ?? ValidationShims.StringEmpty();
+                classifierFilePath = VFS.Combine(libraryPath, lib!.Downloads!.Classifiers!.NativesLinux!.Path);
+                classifierUrl = lib!.Downloads!.Classifiers!.NativesLinux!.URL!;
+                classifierSha1 = lib!.Downloads!.Classifiers!.NativesLinux!.SHA1!;
                 break;
             case JavaRuntimePlatform.MACOS
             or JavaRuntimePlatform.MACOSARM64:
                 if (
                     ObjectValidator<string>.IsNullOrWhiteSpace(
                         [
-                            lib?.Downloads?.Classifiers?.NativesMacos?.URL,
-                            lib?.Downloads?.Classifiers?.NativesMacos?.SHA1,
-                            lib?.Downloads?.Classifiers?.NativesMacos?.Path
+                            lib!.Downloads!.Classifiers!.NativesMacos?.URL,
+                            lib!.Downloads!.Classifiers!.NativesMacos?.SHA1,
+                            lib!.Downloads!.Classifiers!.NativesMacos?.Path
                         ]
                     )
                 )
                     return false;
 
-                classifierFilePath = VFS.Combine(
-                    libraryPath,
-                    lib?.Downloads?.Classifiers?.NativesMacos?.Path ?? ValidationShims.StringEmpty()
-                );
-                classifierUrl = lib?.Downloads?.Classifiers?.NativesMacos?.URL ?? ValidationShims.StringEmpty();
-                classifierSha1 = lib?.Downloads?.Classifiers?.NativesMacos?.SHA1 ?? ValidationShims.StringEmpty();
+                classifierFilePath = VFS.Combine(libraryPath, lib!.Downloads!.Classifiers!.NativesMacos!.Path);
+                classifierUrl = lib!.Downloads!.Classifiers!.NativesMacos!.URL!;
+                classifierSha1 = lib!.Downloads!.Classifiers!.NativesMacos!.SHA1!;
                 break;
         }
 

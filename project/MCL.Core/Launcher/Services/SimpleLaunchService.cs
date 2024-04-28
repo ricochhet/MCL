@@ -52,22 +52,26 @@ public static class SimpleLaunchService
             options = options.Concat(CommandLine.ParseKeyValuePairs(line)).ToDictionary();
         options = options.GroupBy(a => a).Select(a => a.Last()).ToDictionary();
 
-#pragma warning disable CS8602
-        settings.LauncherSettings.ClientType = EnumResolver.Parse(
+        settings!.LauncherSettings!.ClientType = EnumResolver.Parse(
             options.GetValueOrDefault("client", "vanilla"),
             ClientType.VANILLA
         );
-        settings.LauncherVersion.MVersion = options.GetValueOrDefault("gameversion", settings.LauncherVersion.MVersion);
-        settings.LauncherVersion.FabricLoaderVersion = options.GetValueOrDefault(
+        settings!.LauncherVersion!.MVersion = options.GetValueOrDefault(
+            "gameversion",
+            settings!.LauncherVersion!.MVersion
+        );
+        settings!.LauncherVersion!.FabricLoaderVersion = options.GetValueOrDefault(
             "fabricversion",
-            settings.LauncherVersion.FabricLoaderVersion
+            settings!.LauncherVersion!.FabricLoaderVersion
         );
-        settings.LauncherVersion.QuiltLoaderVersion = options.GetValueOrDefault(
+        settings!.LauncherVersion!.QuiltLoaderVersion = options.GetValueOrDefault(
             "quiltversion",
-            settings.LauncherVersion.QuiltLoaderVersion
+            settings!.LauncherVersion!.QuiltLoaderVersion
         );
-        settings.LauncherUsername.Username = options.GetValueOrDefault("username", settings.LauncherUsername.Username);
-#pragma warning restore CS8602
+        settings!.LauncherUsername!.Username = options.GetValueOrDefault(
+            "username",
+            settings!.LauncherUsername!.Username
+        );
 
         NotificationService.Info("launcher.simple.launch");
         MinecraftLauncher.Launch(settings, options.GetValueOrDefault("javapath", string.Empty));

@@ -48,22 +48,18 @@ public static class QuiltVersionHelper
         if (ObjectValidator<QuiltVersionManifest>.IsNull(QuiltInstallerDownloadService.QuiltVersionManifest))
             return false;
 
-        List<string> installerVersions = GetInstallerVersionIds(
-            QuiltInstallerDownloadService.QuiltVersionManifest ?? ValidationShims.ClassEmpty<QuiltVersionManifest>()
-        );
-        string installerVersion = launcherVersion.QuiltInstallerVersion;
+        List<string> installerVersions = GetInstallerVersionIds(QuiltInstallerDownloadService.QuiltVersionManifest!);
+        string? installerVersion = launcherVersion.QuiltInstallerVersion;
 
         if (installerVersion == "latest" || ObjectValidator<string>.IsNullOrWhiteSpace([installerVersion]))
-            installerVersion = installerVersions[0];
+            installerVersion = installerVersions.FirstOrDefault();
 
-        if (!installerVersions.Contains(installerVersion))
+        if (!installerVersions.Contains(installerVersion ?? ValidationShims.StringEmpty()))
             return false;
 
         if (ObjectValidator<LauncherVersion>.IsNull(settings?.LauncherVersion))
             return false;
-#pragma warning disable CS8602
-        settings.LauncherVersion.QuiltInstallerVersion = installerVersion;
-#pragma warning restore CS8602
+        settings!.LauncherVersion!.QuiltInstallerVersion = installerVersion!;
         SettingsService.Save(settings);
         return true;
     }
@@ -92,22 +88,18 @@ public static class QuiltVersionHelper
         if (ObjectValidator<QuiltVersionManifest>.IsNull(QuiltLoaderDownloadService.QuiltVersionManifest))
             return false;
 
-        List<string> loaderVersions = GetLoaderVersionIds(
-            QuiltLoaderDownloadService.QuiltVersionManifest ?? ValidationShims.ClassEmpty<QuiltVersionManifest>()
-        );
-        string loaderVersion = launcherVersion.QuiltLoaderVersion;
+        List<string> loaderVersions = GetLoaderVersionIds(QuiltLoaderDownloadService.QuiltVersionManifest!);
+        string? loaderVersion = launcherVersion.QuiltLoaderVersion;
 
         if (loaderVersion == "latest" || ObjectValidator<string>.IsNullOrWhiteSpace([loaderVersion]))
-            loaderVersion = loaderVersions[0];
+            loaderVersion = loaderVersions.FirstOrDefault();
 
-        if (!loaderVersions.Contains(loaderVersion))
+        if (!loaderVersions.Contains(loaderVersion ?? ValidationShims.StringEmpty()))
             return false;
 
         if (ObjectValidator<LauncherVersion>.IsNull(settings?.LauncherVersion))
             return false;
-#pragma warning disable CS8602
-        settings.LauncherVersion.QuiltLoaderVersion = loaderVersion;
-#pragma warning restore CS8602
+        settings!.LauncherVersion!.QuiltLoaderVersion = loaderVersion!;
         SettingsService.Save(settings);
         return true;
     }
@@ -121,10 +113,8 @@ public static class QuiltVersionHelper
             return [];
 
         List<string> versions = [];
-        foreach (QuiltInstaller item in quiltVersionManifest?.Installer ?? ValidationShims.ListEmpty<QuiltInstaller>())
-        {
+        foreach (QuiltInstaller item in quiltVersionManifest!.Installer!)
             versions.Add(item.Version);
-        }
 
         return versions;
     }
@@ -138,10 +128,8 @@ public static class QuiltVersionHelper
             return [];
 
         List<string> versions = [];
-        foreach (QuiltLoader item in quiltVersionManifest?.Loader ?? ValidationShims.ListEmpty<QuiltLoader>())
-        {
+        foreach (QuiltLoader item in quiltVersionManifest!.Loader!)
             versions.Add(item.Version);
-        }
 
         return versions;
     }
@@ -160,16 +148,10 @@ public static class QuiltVersionHelper
         )
             return null;
 
-        QuiltInstaller? quiltInstaller = quiltVersionManifest?.Installer?.FirstOrDefault();
-        if (ObjectValidator<string>.IsNullOrWhiteSpace([installerVersion?.QuiltInstallerVersion]))
-            return quiltInstaller;
-
-        foreach (QuiltInstaller item in quiltVersionManifest?.Installer ?? ValidationShims.ListEmpty<QuiltInstaller>())
+        QuiltInstaller? quiltInstaller = quiltVersionManifest!.Installer!.FirstOrDefault();
+        foreach (QuiltInstaller item in quiltVersionManifest!.Installer!)
         {
-            if (
-                ObjectValidator<string>.IsNotNullOrWhiteSpace([installerVersion?.QuiltInstallerVersion])
-                && item.Version == installerVersion?.QuiltInstallerVersion
-            )
+            if (item.Version == installerVersion!.QuiltInstallerVersion)
                 return item;
         }
         return quiltInstaller;
@@ -189,16 +171,10 @@ public static class QuiltVersionHelper
         )
             return null;
 
-        QuiltLoader? quiltLoader = quiltVersionManifest?.Loader?.FirstOrDefault();
-        if (ObjectValidator<string>.IsNullOrWhiteSpace([loaderVersion?.QuiltLoaderVersion]))
-            return quiltLoader;
-
-        foreach (QuiltLoader item in quiltVersionManifest?.Loader ?? ValidationShims.ListEmpty<QuiltLoader>())
+        QuiltLoader? quiltLoader = quiltVersionManifest!.Loader!.FirstOrDefault();
+        foreach (QuiltLoader item in quiltVersionManifest!.Loader!)
         {
-            if (
-                ObjectValidator<string>.IsNotNullOrWhiteSpace([loaderVersion?.QuiltLoaderVersion])
-                && item.Version == loaderVersion?.QuiltLoaderVersion
-            )
+            if (item.Version == loaderVersion!.QuiltLoaderVersion)
                 return item;
         }
         return quiltLoader;

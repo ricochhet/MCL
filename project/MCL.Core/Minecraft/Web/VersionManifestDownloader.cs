@@ -38,7 +38,7 @@ public static class VersionManifestDownloader
 
         string filepath = MPathResolver.VersionManifestPath(launcherPath);
         string? versionManifest = await Request.GetJsonAsync<MVersionManifest>(
-            mUrls?.VersionManifest ?? ValidationShims.StringEmpty(),
+            mUrls!.VersionManifest!,
             filepath,
             Encoding.UTF8
         );

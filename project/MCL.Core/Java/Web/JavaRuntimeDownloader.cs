@@ -42,38 +42,35 @@ public static class JavaRuntimeDownloader
         if (ObjectValidator<Dictionary<string, JavaRuntimeFile>>.IsNullOrEmpty(javaRuntimeFiles?.Files))
             return false;
 
-        foreach (
-            (string path, JavaRuntimeFile javaRuntimeFile) in javaRuntimeFiles?.Files
-                ?? ValidationShims.DictionaryEmpty<string, JavaRuntimeFile>()
-        )
+        foreach ((string path, JavaRuntimeFile javaRuntimeFile) in javaRuntimeFiles!.Files!)
         {
             if (ObjectValidator<JavaRuntimeFileDownloads>.IsNull(javaRuntimeFile?.Downloads))
                 continue;
 
-            if (javaRuntimeFile?.Type == "file")
-            {
-                if (
-                    ObjectValidator<string>.IsNullOrWhiteSpace(
-                        [javaRuntimeFile.Downloads?.Raw?.URL, javaRuntimeFile.Downloads?.Raw?.SHA1]
-                    )
-                )
-                    return false;
+            if (javaRuntimeFile!.Type != "file")
+                continue;
 
-                if (
-                    !await Request.DownloadSHA1(
-                        javaRuntimeFile.Downloads?.Raw.URL ?? ValidationShims.StringEmpty(),
-                        VFS.Combine(
-                            JavaPathResolver.JavaRuntimeVersionPath(
-                                launcherPath,
-                                JavaRuntimeTypeResolver.ToString(javaRuntimeType)
-                            ),
-                            path
-                        ),
-                        javaRuntimeFile.Downloads?.Raw.SHA1 ?? ValidationShims.StringEmpty()
-                    )
+            if (
+                ObjectValidator<string>.IsNullOrWhiteSpace(
+                    [javaRuntimeFile!.Downloads!.Raw?.URL, javaRuntimeFile!.Downloads!.Raw?.SHA1]
                 )
-                    return false;
-            }
+            )
+                return false;
+
+            if (
+                !await Request.DownloadSHA1(
+                    javaRuntimeFile!.Downloads!.Raw?.URL ?? ValidationShims.StringEmpty(),
+                    VFS.Combine(
+                        JavaPathResolver.JavaRuntimeVersionPath(
+                            launcherPath,
+                            JavaRuntimeTypeResolver.ToString(javaRuntimeType)
+                        ),
+                        path
+                    ),
+                    javaRuntimeFile!.Downloads!.Raw?.SHA1 ?? ValidationShims.StringEmpty()
+                )
+            )
+                return false;
         }
 
         return true;

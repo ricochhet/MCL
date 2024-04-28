@@ -64,13 +64,13 @@ public static class ProcessHelper
                 process.OutputDataReceived += (sender, e) =>
                 {
                     if (ObjectValidator<string>.IsNotNullOrWhiteSpace([e?.Data], NativeLogLevel.Debug))
-                        NotificationService.InfoLog(e?.Data ?? ValidationShims.StringEmpty());
+                        NotificationService.InfoLog(e!.Data!);
                 };
 
                 process.ErrorDataReceived += (sender, e) =>
                 {
                     if (ObjectValidator<string>.IsNotNullOrWhiteSpace([e?.Data], NativeLogLevel.Debug))
-                        NotificationService.ErrorLog(e?.Data ?? ValidationShims.StringEmpty());
+                        NotificationService.ErrorLog(e!.Data!);
                 };
 
                 process.Start();

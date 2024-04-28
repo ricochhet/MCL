@@ -53,40 +53,36 @@ public static class FabricLoaderDownloader
         )
             return false;
 
-        LauncherLoader loader =
-            new() { Version = launcherVersion?.FabricLoaderVersion ?? ValidationShims.StringEmpty() };
+        LauncherLoader loader = new() { Version = launcherVersion!.FabricLoaderVersion };
 
-        foreach (FabricLibrary library in fabricProfile?.Libraries ?? ValidationShims.ListEmpty<FabricLibrary>())
+        foreach (FabricLibrary library in fabricProfile!.Libraries!)
         {
             if (ObjectValidator<string>.IsNullOrWhiteSpace([library?.Name, library?.URL]))
                 return false;
 
             string request;
             string hash;
-            if (library?.Name.Contains(fabricUrls?.ApiLoaderName ?? ValidationShims.StringEmpty()) ?? false)
+            if (library!.Name.Contains(fabricUrls!.ApiLoaderName))
             {
                 request = FabricPathResolver.LoaderJarPath(fabricUrls, launcherVersion);
                 hash = string.Empty;
             }
-            else if (library?.Name.Contains(fabricUrls?.ApiIntermediaryName ?? ValidationShims.StringEmpty()) ?? false)
+            else if (library!.Name.Contains(fabricUrls!.ApiIntermediaryName))
             {
                 request = FabricLibrary.ParseURL(library.Name, library.URL);
                 hash = string.Empty;
             }
             else
             {
-                if (ObjectValidator<string>.IsNullOrWhiteSpace([library?.SHA1]))
+                if (ObjectValidator<string>.IsNullOrWhiteSpace([library!.SHA1]))
                     return false;
-                request = FabricLibrary.ParseURL(
-                    library?.Name ?? ValidationShims.StringEmpty(),
-                    library?.URL ?? ValidationShims.StringEmpty()
-                );
-                hash = library?.SHA1 ?? ValidationShims.StringEmpty();
+                request = FabricLibrary.ParseURL(library!.Name, library!.URL);
+                hash = library!.SHA1!;
             }
 
             string filepath = VFS.Combine(
                 MPathResolver.LibraryPath(launcherPath),
-                FabricLibrary.ParsePath(library?.Name ?? ValidationShims.StringEmpty())
+                FabricLibrary.ParsePath(library!.Name)
             );
             loader.Libraries.Add(filepath);
 
@@ -94,16 +90,16 @@ public static class FabricLoaderDownloader
                 return false;
         }
 
-        foreach (
-            LauncherLoader existingLoader in launcherInstance?.FabricLoaders
-                ?? ValidationShims.ListEmpty<LauncherLoader>()
-        )
+        if (ObjectValidator<LauncherLoader>.IsNullOrEmpty(launcherInstance?.FabricLoaders))
+            return false;
+
+        foreach (LauncherLoader existingLoader in launcherInstance!.FabricLoaders!)
         {
             if (existingLoader.Version == loader.Version)
-                launcherInstance?.FabricLoaders.Remove(existingLoader);
+                launcherInstance!.FabricLoaders!.Remove(existingLoader);
         }
 
-        launcherInstance?.FabricLoaders.Add(loader);
+        launcherInstance!.FabricLoaders!.Add(loader);
         SettingsService.Load()?.Save(launcherInstance);
         return true;
     }

@@ -17,6 +17,7 @@
  */
 
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Services;
@@ -56,19 +57,17 @@ public static class VersionHelper
             return false;
 
         List<string> versions = GetVersionIds(MDownloadService.VersionManifest);
-        string version = launcherVersion.MVersion;
+        string? version = launcherVersion.MVersion;
 
         if (version == "latest" || ObjectValidator<string>.IsNullOrWhiteSpace([version]))
-            version = versions[0];
+            version = versions.FirstOrDefault();
 
-        if (!versions.Contains(version))
+        if (!versions.Contains(version ?? ValidationShims.StringEmpty()))
             return false;
 
         if (ObjectValidator<LauncherVersion>.IsNull(settings?.LauncherVersion))
             return false;
-#pragma warning disable CS8602
-        settings.LauncherVersion.MVersion = version;
-#pragma warning restore CS8602
+        settings!.LauncherVersion!.MVersion = version!;
         SettingsService.Save(settings);
         return true;
     }
@@ -82,7 +81,7 @@ public static class VersionHelper
             return [];
 
         List<string> versions = [];
-        foreach (MVersion item in versionManifest?.Versions ?? ValidationShims.ListEmpty<MVersion>())
+        foreach (MVersion item in versionManifest!.Versions!)
             versions.Add(item.ID);
 
         return versions;
@@ -93,17 +92,14 @@ public static class VersionHelper
     /// </summary>
     public static MVersion? GetVersion(LauncherVersion? launcherVersion, MVersionManifest? versionManifest)
     {
-        if (
-            ObjectValidator<string>.IsNullOrWhiteSpace([launcherVersion?.MVersion])
-            || ObjectValidator<List<MVersion>>.IsNullOrEmpty(versionManifest?.Versions)
-        )
+        if (ObjectValidator<List<MVersion>>.IsNullOrEmpty(versionManifest?.Versions))
             return null;
 
-        foreach (MVersion item in versionManifest?.Versions ?? ValidationShims.ListEmpty<MVersion>())
+        foreach (MVersion item in versionManifest!.Versions!)
         {
             if (
                 ObjectValidator<string>.IsNullOrWhiteSpace([launcherVersion?.MVersion])
-                && item.ID == versionManifest?.Latest?.Release
+                && item.ID == versionManifest!.Latest?.Release
             )
                 return item;
 

@@ -38,7 +38,7 @@ public static class QuiltVersionManifestDownloader
 
         string filepath = QuiltPathResolver.VersionManifestPath(launcherPath);
         string? quiltVersionManifest = await Request.GetJsonAsync<QuiltVersionManifest>(
-            quiltUrls?.VersionManifest ?? ValidationShims.StringEmpty(),
+            quiltUrls!.VersionManifest,
             filepath,
             Encoding.UTF8
         );

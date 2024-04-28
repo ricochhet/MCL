@@ -21,8 +21,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using MCL.Core.MiniCommon.Logger.Enums;
-using MCL.Core.MiniCommon.Models;
 using MCL.Core.MiniCommon.Services;
+using MCL.Core.MiniCommon.Validation.Models;
 
 namespace MCL.Core.MiniCommon.Validation;
 

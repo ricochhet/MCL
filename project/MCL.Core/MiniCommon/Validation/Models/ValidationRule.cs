@@ -18,7 +18,7 @@
 
 using System;
 
-namespace MCL.Core.MiniCommon.Models;
+namespace MCL.Core.MiniCommon.Validation.Models;
 
 public class ValidationRule<T>(Func<T?, bool> rule, string errorMessage)
 {

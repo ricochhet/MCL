@@ -42,11 +42,7 @@ public static class PaperVersionManifestDownloader
 
         string filepath = PaperPathResolver.VersionManifestPath(launcherPath, launcherVersion);
         string? paperIndex = await Request.GetJsonAsync<PaperVersionManifest>(
-            string.Format(
-                paperUrls?.VersionManifest ?? ValidationShims.StringEmpty(),
-                "paper",
-                launcherVersion?.MVersion
-            ),
+            string.Format(paperUrls!.VersionManifest, "paper", launcherVersion!.MVersion),
             filepath,
             Encoding.UTF8
         );

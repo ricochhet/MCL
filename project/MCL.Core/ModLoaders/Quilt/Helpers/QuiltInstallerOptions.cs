@@ -36,7 +36,12 @@ public static class QuiltInstallerOptions
     {
         if (
             ObjectValidator<string>.IsNullOrWhiteSpace(
-                [launcherVersion?.MVersion, launcherVersion?.QuiltInstallerVersion, launcherVersion?.QuiltLoaderVersion]
+                [
+                    launcherVersion?.MVersion,
+                    launcherVersion?.QuiltInstallerVersion,
+                    launcherVersion?.QuiltLoaderVersion,
+                    launcherPath?.MPath
+                ]
             )
         )
             return null;
@@ -51,18 +56,10 @@ public static class QuiltInstallerOptions
             new MArgument
             {
                 Arg = $"install {QuiltInstallerTypeResolver.ToString(installerType)} {0} {1}",
-                ArgParams =
-                [
-                    launcherVersion?.MVersion ?? ValidationShims.StringEmpty(),
-                    launcherVersion?.QuiltLoaderVersion ?? ValidationShims.StringEmpty()
-                ]
+                ArgParams = [launcherVersion!.MVersion, launcherVersion!.QuiltLoaderVersion]
             },
             new MArgument { Arg = "--download-server", Condition = installerType == QuiltInstallerType.INSTALL_SERVER },
-            new MArgument
-            {
-                Arg = "--install-dir=\"{0}\"",
-                ArgParams = [launcherPath?.MPath ?? ValidationShims.StringEmpty()]
-            },
+            new MArgument { Arg = "--install-dir=\"{0}\"", ArgParams = [launcherPath!.MPath] },
             new MArgument { Arg = "--no-profile" }
         ];
     }

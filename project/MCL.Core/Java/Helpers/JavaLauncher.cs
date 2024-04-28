@@ -52,7 +52,7 @@ public static class JavaLauncher
             _javaHome = JavaRuntimeHelper.FindJavaRuntimeEnvironment(settings, workingDirectory, javaRuntimeType);
         string javaExe = VFS.Combine(
             JavaPathResolver.JavaRuntimeBin(_javaHome),
-            settings?.JavaSettings?.Executable ?? ValidationShims.StringEmpty()
+            settings!.JavaSettings?.Executable ?? ValidationShims.StringEmpty()
         );
         RunJavaProcess(settings, workingDirectory, jvmArguments, javaExe, _javaHome);
     }
@@ -79,7 +79,7 @@ public static class JavaLauncher
             _javaHome = JavaRuntimeHelper.FindJavaRuntimeEnvironment(settings, workingDirectory, javaRuntimeType);
         string javaExe = VFS.Combine(
             JavaPathResolver.JavaRuntimeBin(_javaHome),
-            settings.JavaSettings?.Executable ?? ValidationShims.StringEmpty()
+            settings!.JavaSettings?.Executable ?? ValidationShims.StringEmpty()
         );
 
         switch (clientType)
@@ -106,7 +106,7 @@ public static class JavaLauncher
     /// <summary>
     /// Starts a Java runtime process with the corresponding environment variables.
     /// </summary>
-    private static void RunJavaProcess(
+    public static void RunJavaProcess(
         Settings? settings,
         string workingDirectory,
         JvmArguments? jvmArguments,

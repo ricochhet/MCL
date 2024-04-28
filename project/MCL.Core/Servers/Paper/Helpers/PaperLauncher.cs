@@ -34,12 +34,12 @@ public static class PaperLauncher
         if (ObjectValidator<Settings>.IsNull(settings))
             return;
 
-        settings?.Save(PaperLaunchOptions.DefaultJvmArguments(settings)?.JvmArguments());
+        settings!.Save(PaperLaunchOptions.DefaultJvmArguments(settings!)?.JvmArguments());
         JavaLauncher.Launch(
             settings,
-            PaperPathResolver.InstallerPath(settings?.LauncherPath, settings?.LauncherVersion),
-            settings?.PaperJvmArguments,
-            settings?.LauncherSettings?.JavaRuntimeType,
+            PaperPathResolver.InstallerPath(settings!?.LauncherPath, settings!?.LauncherVersion),
+            settings!?.PaperJvmArguments,
+            settings!?.LauncherSettings?.JavaRuntimeType,
             javaHome
         );
     }

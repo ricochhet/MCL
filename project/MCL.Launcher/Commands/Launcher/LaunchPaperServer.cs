@@ -46,7 +46,10 @@ public class LaunchPaperServer : ILauncherCommand
             },
             options =>
             {
-                settings?.Set(
+                if (ObjectValidator<LauncherVersion>.IsNull(settings?.LauncherVersion))
+                    return;
+
+                settings!.Set(
                     options,
                     "gameversion",
                     ArgumentConverter.ToNonNullString,
@@ -55,12 +58,10 @@ public class LaunchPaperServer : ILauncherCommand
                     {
                         if (ObjectValidator<LauncherVersion>.IsNull(s?.LauncherVersion))
                             return;
-#pragma warning disable CS8602
-                        s.LauncherVersion.MVersion = v;
-#pragma warning restore CS8602
+                        s!.LauncherVersion!.MVersion = v;
                     }
                 );
-                settings?.Set(
+                settings!.Set(
                     options,
                     "paperversion",
                     ArgumentConverter.ToNonNullString,
@@ -69,10 +70,8 @@ public class LaunchPaperServer : ILauncherCommand
                     {
                         if (ObjectValidator<LauncherVersion>.IsNull(s?.LauncherVersion))
                             return;
-#pragma warning disable CS8602
-                        s.LauncherVersion.PaperServerVersion = v;
+                        s!.LauncherVersion!.PaperServerVersion = v;
                     }
-#pragma warning restore CS8602
                 );
                 PaperLauncher.Launch(settings, options.GetValueOrDefault("javapath", string.Empty));
             }

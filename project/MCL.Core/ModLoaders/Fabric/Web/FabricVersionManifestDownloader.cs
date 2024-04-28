@@ -38,7 +38,7 @@ public static class FabricVersionManifestDownloader
 
         string filepath = FabricPathResolver.VersionManifestPath(launcherPath);
         string? fabricVersionManifest = await Request.GetJsonAsync<FabricVersionManifest>(
-            fabricUrls?.VersionManifest ?? ValidationShims.StringEmpty(),
+            fabricUrls!.VersionManifest!,
             filepath,
             Encoding.UTF8
         );

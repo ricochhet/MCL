@@ -48,22 +48,18 @@ public static class FabricVersionHelper
         if (ObjectValidator<FabricVersionManifest>.IsNull(FabricInstallerDownloadService.FabricVersionManifest))
             return false;
 
-        List<string> installerVersions = GetInstallerVersionIds(
-            FabricInstallerDownloadService.FabricVersionManifest ?? ValidationShims.ClassEmpty<FabricVersionManifest>()
-        );
-        string installerVersion = launcherVersion.FabricInstallerVersion;
+        List<string> installerVersions = GetInstallerVersionIds(FabricInstallerDownloadService.FabricVersionManifest!);
+        string? installerVersion = launcherVersion.FabricInstallerVersion;
 
         if (installerVersion == "latest" || ObjectValidator<string>.IsNullOrWhiteSpace([installerVersion]))
-            installerVersion = installerVersions[0];
+            installerVersion = installerVersions.FirstOrDefault();
 
-        if (!installerVersions.Contains(installerVersion))
+        if (!installerVersions.Contains(installerVersion ?? ValidationShims.StringEmpty()))
             return false;
 
         if (ObjectValidator<LauncherVersion>.IsNull(settings?.LauncherVersion))
             return false;
-#pragma warning disable CS8602
-        settings.LauncherVersion.FabricInstallerVersion = installerVersion;
-#pragma warning restore CS8602
+        settings!.LauncherVersion!.FabricInstallerVersion = installerVersion!;
         SettingsService.Save(settings);
         return true;
     }
@@ -92,22 +88,18 @@ public static class FabricVersionHelper
         if (ObjectValidator<FabricVersionManifest>.IsNull(FabricLoaderDownloadService.FabricVersionManifest))
             return false;
 
-        List<string> loaderVersions = GetLoaderVersionIds(
-            FabricLoaderDownloadService.FabricVersionManifest ?? ValidationShims.ClassEmpty<FabricVersionManifest>()
-        );
-        string loaderVersion = launcherVersion.FabricLoaderVersion;
+        List<string> loaderVersions = GetLoaderVersionIds(FabricLoaderDownloadService.FabricVersionManifest!);
+        string? loaderVersion = launcherVersion.FabricLoaderVersion;
 
         if (loaderVersion == "latest" || ObjectValidator<string>.IsNullOrWhiteSpace([loaderVersion]))
-            loaderVersion = loaderVersions[0];
+            loaderVersion = loaderVersions.FirstOrDefault();
 
-        if (!loaderVersions.Contains(loaderVersion))
+        if (!loaderVersions.Contains(loaderVersion ?? ValidationShims.StringEmpty()))
             return false;
 
         if (ObjectValidator<LauncherVersion>.IsNull(settings?.LauncherVersion))
             return false;
-#pragma warning disable CS8602
-        settings.LauncherVersion.FabricLoaderVersion = loaderVersion;
-#pragma warning restore CS8602
+        settings!.LauncherVersion!.FabricLoaderVersion = loaderVersion!;
         SettingsService.Save(settings);
         return true;
     }
@@ -121,12 +113,8 @@ public static class FabricVersionHelper
             return [];
 
         List<string> versions = [];
-        foreach (
-            FabricInstaller item in fabricVersionManifest?.Installer ?? ValidationShims.ListEmpty<FabricInstaller>()
-        )
-        {
+        foreach (FabricInstaller item in fabricVersionManifest!.Installer!)
             versions.Add(item.Version);
-        }
 
         return versions;
     }
@@ -140,10 +128,8 @@ public static class FabricVersionHelper
             return [];
 
         List<string> versions = [];
-        foreach (FabricLoader item in fabricVersionManifest?.Loader ?? ValidationShims.ListEmpty<FabricLoader>())
-        {
+        foreach (FabricLoader item in fabricVersionManifest!.Loader!)
             versions.Add(item.Version);
-        }
 
         return versions;
     }
@@ -162,18 +148,10 @@ public static class FabricVersionHelper
         )
             return null;
 
-        FabricInstaller? fabricInstaller = fabricVersionManifest?.Installer?.FirstOrDefault();
-        if (ObjectValidator<string>.IsNullOrWhiteSpace([installerVersion?.FabricInstallerVersion]))
-            return fabricInstaller;
-
-        foreach (
-            FabricInstaller item in fabricVersionManifest?.Installer ?? ValidationShims.ListEmpty<FabricInstaller>()
-        )
+        FabricInstaller? fabricInstaller = fabricVersionManifest!.Installer!.FirstOrDefault();
+        foreach (FabricInstaller item in fabricVersionManifest!.Installer!)
         {
-            if (
-                ObjectValidator<string>.IsNotNullOrWhiteSpace([installerVersion?.FabricInstallerVersion])
-                && item.Version == installerVersion?.FabricInstallerVersion
-            )
+            if (item.Version == installerVersion!.FabricInstallerVersion)
                 return item;
         }
         return fabricInstaller;
@@ -193,16 +171,10 @@ public static class FabricVersionHelper
         )
             return null;
 
-        FabricLoader? fabricLoader = fabricVersionManifest?.Loader?.FirstOrDefault();
-        if (ObjectValidator<string>.IsNullOrWhiteSpace([loaderVersion?.FabricLoaderVersion]))
-            return fabricLoader;
-
-        foreach (FabricLoader item in fabricVersionManifest?.Loader ?? ValidationShims.ListEmpty<FabricLoader>())
+        FabricLoader? fabricLoader = fabricVersionManifest!.Loader!.FirstOrDefault();
+        foreach (FabricLoader item in fabricVersionManifest!.Loader!)
         {
-            if (
-                ObjectValidator<string>.IsNotNullOrWhiteSpace([loaderVersion?.FabricLoaderVersion])
-                && item.Version == loaderVersion?.FabricLoaderVersion
-            )
+            if (item.Version == loaderVersion!.FabricLoaderVersion)
                 return item;
         }
         return fabricLoader;

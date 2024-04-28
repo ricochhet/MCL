@@ -187,36 +187,30 @@ public static class ModdingService
             VFS.CreateDirectory(deployPath);
         }
 
-        List<ModFile> sortedModFiles = [.. modFiles?.Files.OrderBy(a => a.Priority)];
+        List<ModFile> sortedModFiles = [.. modFiles!.Files!.OrderBy(a => a.Priority)];
         ModSettings?.DeployPaths.Add(deployPath);
 
         foreach (ModFile modFile in sortedModFiles)
         {
-            if (ObjectValidator<ModFile>.IsNull(modFile))
+            if (ObjectValidator<string>.IsNullOrWhiteSpace([modFile?.ModPath]))
             {
                 NotificationService.Error("modding.deploy.error-nodata");
                 return false;
             }
 
-            if (!VFS.Exists(modFile?.ModPath ?? ValidationShims.StringEmpty()))
+            if (!VFS.Exists(modFile!.ModPath!))
                 continue;
 
-            if (
-                VFS.Exists(VFS.Combine(deployPath, VFS.GetFileName(modFile?.ModPath ?? ValidationShims.StringEmpty())))
-                && !overwrite
-            )
+            if (VFS.Exists(VFS.Combine(deployPath, VFS.GetFileName(modFile!.ModPath!))) && !overwrite)
                 continue;
 
-            switch (modFile?.ModRule)
+            switch (modFile!.ModRule!)
             {
                 case ModRule.COPY_ONLY:
-                    VFS.CopyFile(
-                        modFile.ModPath ?? ValidationShims.StringEmpty(),
-                        VFS.Combine(deployPath, VFS.GetFileName(modFile.ModPath ?? ValidationShims.StringEmpty()))
-                    );
+                    VFS.CopyFile(modFile!.ModPath!, VFS.Combine(deployPath, VFS.GetFileName(modFile!.ModPath!)));
                     break;
                 case ModRule.UNZIP_AND_COPY:
-                    SevenZipService.Extract(modFile.ModPath ?? ValidationShims.StringEmpty(), deployPath);
+                    SevenZipService.Extract(modFile!.ModPath!, deployPath);
                     break;
             }
         }

@@ -53,34 +53,30 @@ public static class QuiltLoaderDownloader
         )
             return false;
 
-        LauncherLoader loader =
-            new() { Version = launcherVersion?.QuiltLoaderVersion ?? ValidationShims.StringEmpty() };
+        LauncherLoader loader = new() { Version = launcherVersion!.QuiltLoaderVersion };
 
-        foreach (QuiltLibrary library in quiltProfile?.Libraries ?? ValidationShims.ListEmpty<QuiltLibrary>())
+        foreach (QuiltLibrary library in quiltProfile!.Libraries!)
         {
             if (ObjectValidator<string>.IsNullOrWhiteSpace([library?.Name, library?.URL]))
                 return false;
 
             string request;
-            if (library?.Name.Contains(quiltUrls?.ApiLoaderName ?? ValidationShims.StringEmpty()) ?? false)
+            if (library!.Name.Contains(quiltUrls!.ApiLoaderName))
             {
                 request = QuiltPathResolver.LoaderJarPath(quiltUrls, launcherVersion);
             }
-            else if (library?.Name.Contains(quiltUrls?.ApiIntermediaryName ?? ValidationShims.StringEmpty()) ?? false)
+            else if (library!.Name.Contains(quiltUrls!.ApiIntermediaryName))
             {
                 request = QuiltLibrary.ParseURL(library.Name, library.URL);
             }
             else
             {
-                request = QuiltLibrary.ParseURL(
-                    library?.Name ?? ValidationShims.StringEmpty(),
-                    library?.URL ?? ValidationShims.StringEmpty()
-                );
+                request = QuiltLibrary.ParseURL(library!.Name, library!.URL);
             }
 
             string filepath = VFS.Combine(
                 MPathResolver.LibraryPath(launcherPath),
-                QuiltLibrary.ParsePath(library?.Name ?? ValidationShims.StringEmpty())
+                QuiltLibrary.ParsePath(library!.Name)
             );
             loader.Libraries.Add(filepath);
 
@@ -88,16 +84,16 @@ public static class QuiltLoaderDownloader
                 return false;
         }
 
-        foreach (
-            LauncherLoader existingLoader in launcherInstance?.QuiltLoaders
-                ?? ValidationShims.ListEmpty<LauncherLoader>()
-        )
+        if (ObjectValidator<LauncherLoader>.IsNullOrEmpty(launcherInstance?.QuiltLoaders))
+            return false;
+
+        foreach (LauncherLoader existingLoader in launcherInstance!.QuiltLoaders!)
         {
             if (existingLoader.Version == loader.Version)
-                launcherInstance?.QuiltLoaders.Remove(existingLoader);
+                launcherInstance!.QuiltLoaders!.Remove(existingLoader);
         }
 
-        launcherInstance?.QuiltLoaders.Add(loader);
+        launcherInstance!.QuiltLoaders!.Add(loader);
         SettingsService.Load()?.Save(launcherInstance);
         return true;
     }

@@ -41,23 +41,26 @@ public static class JavaVersionDetailsDownloader
         JavaVersionManifest? javaVersionManifest
     )
     {
+        if (ObjectValidator<JavaVersionManifest>.IsNull(javaVersionManifest))
+            return false;
+
         string? request = javaRuntimePlatform switch
         {
-            JavaRuntimePlatform.GAMECORE => GetJavaRuntimeUrl(javaRuntimeType, javaVersionManifest?.Gamecore),
-            JavaRuntimePlatform.LINUX => GetJavaRuntimeUrl(javaRuntimeType, javaVersionManifest?.Linux),
-            JavaRuntimePlatform.LINUXI386 => GetJavaRuntimeUrl(javaRuntimeType, javaVersionManifest?.LinuxI386),
-            JavaRuntimePlatform.MACOS => GetJavaRuntimeUrl(javaRuntimeType, javaVersionManifest?.Macos),
-            JavaRuntimePlatform.MACOSARM64 => GetJavaRuntimeUrl(javaRuntimeType, javaVersionManifest?.MacosArm64),
-            JavaRuntimePlatform.WINDOWSARM64 => GetJavaRuntimeUrl(javaRuntimeType, javaVersionManifest?.WindowsArm64),
-            JavaRuntimePlatform.WINDOWSX64 => GetJavaRuntimeUrl(javaRuntimeType, javaVersionManifest?.WindowsX64),
-            JavaRuntimePlatform.WINDOWSX86 => GetJavaRuntimeUrl(javaRuntimeType, javaVersionManifest?.WindowsX86),
+            JavaRuntimePlatform.GAMECORE => GetJavaRuntimeUrl(javaRuntimeType, javaVersionManifest!?.Gamecore),
+            JavaRuntimePlatform.LINUX => GetJavaRuntimeUrl(javaRuntimeType, javaVersionManifest!?.Linux),
+            JavaRuntimePlatform.LINUXI386 => GetJavaRuntimeUrl(javaRuntimeType, javaVersionManifest!?.LinuxI386),
+            JavaRuntimePlatform.MACOS => GetJavaRuntimeUrl(javaRuntimeType, javaVersionManifest!?.Macos),
+            JavaRuntimePlatform.MACOSARM64 => GetJavaRuntimeUrl(javaRuntimeType, javaVersionManifest!?.MacosArm64),
+            JavaRuntimePlatform.WINDOWSARM64 => GetJavaRuntimeUrl(javaRuntimeType, javaVersionManifest!?.WindowsArm64),
+            JavaRuntimePlatform.WINDOWSX64 => GetJavaRuntimeUrl(javaRuntimeType, javaVersionManifest!?.WindowsX64),
+            JavaRuntimePlatform.WINDOWSX86 => GetJavaRuntimeUrl(javaRuntimeType, javaVersionManifest!?.WindowsX86),
             _ => string.Empty,
         };
         if (ObjectValidator<string>.IsNullOrWhiteSpace([request]))
             return false;
 
         string? javaRuntimeFiles = await Request.GetJsonAsync<JavaVersionDetails>(
-            request ?? ValidationShims.StringEmpty(),
+            request!,
             JavaPathResolver.JavaVersionDetailsPath(launcherPath, JavaRuntimeTypeResolver.ToString(javaRuntimeType)),
             Encoding.UTF8
         );

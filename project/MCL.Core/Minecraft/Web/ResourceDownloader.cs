@@ -41,18 +41,14 @@ public static class ResourceDownloader
             return false;
 
         string objectsPath = VFS.Combine(MPathResolver.AssetsPath(launcherPath), "objects");
-        foreach ((_, MAsset asset) in assets?.Objects ?? ValidationShims.DictionaryEmpty<string, MAsset>())
+        foreach ((_, MAsset asset) in assets!.Objects!)
         {
             if (ObjectValidator<string>.IsNullOrWhiteSpace([asset?.Hash]))
                 return false;
 
-            string request = $"{mUrls?.MinecraftResources}/{asset?.Hash[..2]}/{asset?.Hash}";
-            string filepath = VFS.Combine(
-                objectsPath,
-                asset?.Hash[..2] ?? ValidationShims.StringEmpty(),
-                asset?.Hash ?? ValidationShims.StringEmpty()
-            );
-            if (!await Request.DownloadSHA1(request, filepath, asset?.Hash ?? ValidationShims.StringEmpty()))
+            string request = $"{mUrls!.MinecraftResources}/{asset!.Hash[..2]}/{asset!.Hash}";
+            string filepath = VFS.Combine(objectsPath, asset!.Hash[..2], asset!.Hash);
+            if (!await Request.DownloadSHA1(request, filepath, asset!.Hash))
                 return false;
         }
 

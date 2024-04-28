@@ -44,7 +44,8 @@ public static class PaperServerDownloader
                     paperUrls?.PaperJar,
                     paperBuild?.Build.ToString(),
                     paperBuild?.Downloads?.Application?.Name,
-                    paperBuild?.Downloads?.Application?.SHA256
+                    paperBuild?.Downloads?.Application?.SHA256,
+                    launcherVersion?.MVersion
                 ]
             )
         )
@@ -57,14 +58,14 @@ public static class PaperServerDownloader
         if (
             !await Request.DownloadSHA256(
                 string.Format(
-                    paperUrls?.PaperJar ?? ValidationShims.StringEmpty(),
+                    paperUrls!.PaperJar,
                     "paper",
-                    launcherVersion?.MVersion,
-                    paperBuild?.Build.ToString(),
-                    paperBuild?.Downloads?.Application?.Name
+                    launcherVersion!.MVersion,
+                    paperBuild!.Build!.ToString(),
+                    paperBuild!.Downloads!.Application!.Name
                 ),
                 filepath,
-                paperBuild?.Downloads?.Application?.SHA256 ?? ValidationShims.StringEmpty()
+                paperBuild!.Downloads!.Application!.SHA256!
             )
         )
             return false;
