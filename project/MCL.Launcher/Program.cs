@@ -24,6 +24,7 @@ using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Services;
 using MCL.Core.MiniCommon.Commands;
 using MCL.Core.MiniCommon.Enums;
+using MCL.Core.MiniCommon.FileSystem;
 using MCL.Core.MiniCommon.Interfaces;
 using MCL.Core.MiniCommon.Logger;
 using MCL.Core.MiniCommon.Logger.Enums;
@@ -42,6 +43,8 @@ internal static class Program
 {
     private static async Task Main(string[] args)
     {
+        VFS.Cwd = VFS.GetRelativePath(Environment.CurrentDirectory);
+
         Console.Title = "MCL.Launcher";
         Log.Add(new NativeLogger(NativeLogLevel.Info));
         Log.Add(new FileStreamLogger(SettingsService.LogFilePath));

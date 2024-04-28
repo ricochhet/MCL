@@ -136,6 +136,24 @@ public static class VFS
     }
 
     /// <summary>
+    /// Get path relative to a path.
+    /// </summary>
+    public static string GetRelativePath(string relativeTo, string path)
+    {
+        string value = Path.GetRelativePath(relativeTo, path);
+        return (!string.IsNullOrWhiteSpace(value)) ? value : string.Empty;
+    }
+
+    /// <summary>
+    /// Get path relative to itself.
+    /// </summary>
+    public static string GetRelativePath(string relativeTo)
+    {
+        string value = Path.GetRelativePath(relativeTo, relativeTo);
+        return (!string.IsNullOrWhiteSpace(value)) ? value : string.Empty;
+    }
+
+    /// <summary>
     /// Move file from one place to another.
     /// </summary>
     public static void MoveFile(string a, string b)
@@ -447,5 +465,37 @@ public static class VFS
 
             return count;
         }
+    }
+
+    /// <summary>
+    /// Make a relative path from path a to path b.
+    /// </summary>
+    public static string MakeRelativePath(string a, string b)
+    {
+        if (b.StartsWith(a))
+            return b[(a.Length + 1)..];
+
+        string[] baseDirs = a.Split(':', '\\', '/');
+        string[] fileDirs = b.Split(':', '\\', '/');
+
+        if (baseDirs.Length == 0 || fileDirs.Length == 0 || baseDirs[0] != fileDirs[0])
+            return b;
+
+        int offset = 1;
+        for (; offset < baseDirs.Length; offset++)
+        {
+            if (baseDirs[offset] != fileDirs[offset])
+                break;
+        }
+
+        StringBuilder resultBuilder = new();
+        for (int i = 0; i < (baseDirs.Length - offset); i++)
+            resultBuilder.Append("..\\");
+
+        for (int i = offset; i < fileDirs.Length - 1; i++)
+            resultBuilder.Append(fileDirs[i]).Append('\\');
+
+        resultBuilder.Append(fileDirs[^1]);
+        return resultBuilder.ToString();
     }
 }
