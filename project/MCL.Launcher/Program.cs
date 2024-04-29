@@ -69,7 +69,7 @@ internal static class Program
 
         if (args.Length <= 0)
         {
-            SimpleLaunchService.Init(SettingsService.SimpleLaunchFilePath, settings);
+            SimpleMLaunchService.Init(SettingsService.SimpleLaunchFilePath, settings);
             return;
         }
 
