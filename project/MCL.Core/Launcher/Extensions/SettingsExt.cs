@@ -16,6 +16,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using System;
+using System.Collections.Generic;
 using MCL.Core.Java.Extensions;
 using MCL.Core.Java.Models;
 using MCL.Core.Launcher.Enums;
@@ -29,6 +31,26 @@ namespace MCL.Core.Launcher.Extensions;
 
 public static class SettingsExt
 {
+    /// <summary>
+    /// Get and set values to Settings object.
+    /// </summary>
+    public static void Set<T>(
+        this Settings settings,
+        Dictionary<string, string> options,
+        string key,
+        Func<string, T> converter,
+        Func<Settings?, T?> propertySelector,
+        Action<Settings, T> setter
+    )
+        where T : class
+    {
+        if (options.TryGetValue(key, out string? value) && ObjectValidator<T>.IsNotNull(propertySelector(settings)))
+        {
+            T convertedValue = converter(value);
+            setter(settings, convertedValue);
+        }
+    }
+
     /// <summary>
     /// Save JvmArguments to Settings specified by the ClientType.
     /// </summary>
