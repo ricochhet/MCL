@@ -17,21 +17,34 @@
  */
 
 using System.Threading.Tasks;
-using MCL.Core.Java.Wrappers;
+using MCL.Core.Java.Helpers;
+using MCL.Core.Java.Services;
 using MCL.Core.Launcher.Models;
-using MCL.Core.MiniCommon.CommandParser;
-using MCL.Core.MiniCommon.Interfaces;
+using MCL.Core.MiniCommon.Validation;
 
-namespace MCL.Launcher.Commands.Downloaders;
+namespace MCL.Core.Java.Wrappers;
 
-public class DownloadJava : ILauncherCommand
+public static class JavaDownloadWrapper
 {
-    public async Task Init(string[] args, Settings? settings)
+    public static async Task<bool> Download(Settings? settings)
     {
-        await CommandLine.ProcessArgumentAsync(
-            args,
-            new() { Name = "dl-java" },
-            async _ => await JavaDownloadWrapper.Download(settings)
+        if (ObjectValidator<Settings>.IsNull(settings))
+            return false;
+
+        JavaDownloadService.Init(
+            settings!?.LauncherPath,
+            settings!?.MUrls,
+            JavaVersionHelper.GetMVersionJava(
+                settings!?.LauncherPath,
+                settings!?.LauncherVersion,
+                settings!?.LauncherSettings
+            ),
+            settings!?.LauncherSettings?.JavaRuntimePlatform
         );
+
+        if (!await JavaDownloadService.Download())
+            return false;
+
+        return true;
     }
 }

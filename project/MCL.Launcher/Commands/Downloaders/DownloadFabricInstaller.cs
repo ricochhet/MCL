@@ -18,17 +18,10 @@
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MCL.Core.Java.Helpers;
-using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
-using MCL.Core.Minecraft.Helpers;
 using MCL.Core.MiniCommon.CommandParser;
 using MCL.Core.MiniCommon.Interfaces;
-using MCL.Core.MiniCommon.Validation;
-using MCL.Core.ModLoaders.Fabric.Enums;
-using MCL.Core.ModLoaders.Fabric.Helpers;
-using MCL.Core.ModLoaders.Fabric.Resolvers;
-using MCL.Core.ModLoaders.Fabric.Services;
+using MCL.Core.ModLoaders.Fabric.Wrappers;
 
 namespace MCL.Launcher.Commands.Downloaders;
 
@@ -52,39 +45,14 @@ public class DownloadFabricInstaller : ILauncherCommand
             },
             async options =>
             {
-                if (ObjectValidator<Settings>.IsNull(settings))
-                    return;
-
                 _launcherVersion.FabricInstallerVersion = options.GetValueOrDefault("installerversion", "latest");
                 if (!bool.TryParse(options.GetValueOrDefault("update", "false"), out bool update))
                     return;
-                if (ObjectValidator<string>.IsNullOrWhiteSpace([_launcherVersion.FabricInstallerVersion]))
-                    return;
-                if (!await VersionHelper.SetVersion(settings, _launcherVersion, update))
-                    return;
-                if (!await FabricVersionHelper.SetInstallerVersion(settings, _launcherVersion, update))
-                    return;
-
-                FabricInstallerDownloadService.Init(
-                    settings!?.LauncherPath,
-                    settings!?.LauncherVersion,
-                    settings!?.FabricUrls
-                );
-                if (!await FabricInstallerDownloadService.Download(loadLocalVersionManifest: true))
-                    return;
-
-                JavaLauncher.Launch(
+                await FabricInstallerDownloadWrapper.DownloadAndRun(
                     settings,
-                    FabricPathResolver.InstallersPath(settings!?.LauncherPath),
-                    FabricInstallerOptions
-                        .DefaultJvmArguments(
-                            settings!?.LauncherPath,
-                            settings!?.LauncherVersion,
-                            FabricInstallerType.INSTALL_CLIENT
-                        )
-                        ?.JvmArguments(),
-                    settings!?.LauncherSettings?.JavaRuntimeType,
-                    options.GetValueOrDefault("javapath", string.Empty)
+                    _launcherVersion,
+                    options.GetValueOrDefault("javapath", string.Empty),
+                    update
                 );
             }
         );

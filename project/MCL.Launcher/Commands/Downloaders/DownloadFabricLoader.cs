@@ -19,12 +19,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MCL.Core.Launcher.Models;
-using MCL.Core.Minecraft.Helpers;
 using MCL.Core.MiniCommon.CommandParser;
 using MCL.Core.MiniCommon.Interfaces;
-using MCL.Core.MiniCommon.Validation;
-using MCL.Core.ModLoaders.Fabric.Helpers;
-using MCL.Core.ModLoaders.Fabric.Services;
+using MCL.Core.ModLoaders.Fabric.Wrappers;
 
 namespace MCL.Launcher.Commands.Downloaders;
 
@@ -48,31 +45,11 @@ public class DownloadFabricLoader : ILauncherCommand
             },
             async options =>
             {
-                if (ObjectValidator<Settings>.IsNull(settings))
-                    return;
-
                 _launcherVersion.MVersion = options.GetValueOrDefault("gameversion", "latest");
                 _launcherVersion.FabricLoaderVersion = options.GetValueOrDefault("loaderversion", "latest");
                 if (!bool.TryParse(options.GetValueOrDefault("update", "false"), out bool update))
                     return;
-                if (
-                    ObjectValidator<string>.IsNullOrWhiteSpace(
-                        [_launcherVersion.MVersion, _launcherVersion.FabricLoaderVersion]
-                    )
-                )
-                    return;
-                if (!await VersionHelper.SetVersion(settings, _launcherVersion, update))
-                    return;
-                if (!await FabricVersionHelper.SetLoaderVersion(settings, _launcherVersion, update))
-                    return;
-
-                FabricLoaderDownloadService.Init(
-                    settings!?.LauncherPath,
-                    settings!?.LauncherVersion,
-                    settings!?.LauncherInstance,
-                    settings!?.FabricUrls
-                );
-                await FabricLoaderDownloadService.Download(loadLocalVersionManifest: true);
+                await FabricLoaderDownloadWrapper.Download(settings, _launcherVersion, update);
             }
         );
     }

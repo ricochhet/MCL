@@ -19,12 +19,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MCL.Core.Launcher.Models;
-using MCL.Core.Minecraft.Helpers;
 using MCL.Core.MiniCommon.CommandParser;
 using MCL.Core.MiniCommon.Interfaces;
-using MCL.Core.MiniCommon.Validation;
-using MCL.Core.ModLoaders.Quilt.Helpers;
-using MCL.Core.ModLoaders.Quilt.Services;
+using MCL.Core.ModLoaders.Quilt.Wrappers;
 
 namespace MCL.Launcher.Commands.Downloaders;
 
@@ -48,31 +45,11 @@ public class DownloadQuiltLoader : ILauncherCommand
             },
             async options =>
             {
-                if (ObjectValidator<Settings>.IsNull(settings))
-                    return;
-
                 _launcherVersion.MVersion = options.GetValueOrDefault("gameversion", "latest");
                 _launcherVersion.QuiltLoaderVersion = options.GetValueOrDefault("loaderversion", "latest");
                 if (!bool.TryParse(options.GetValueOrDefault("update", "false"), out bool update))
                     return;
-                if (
-                    ObjectValidator<string>.IsNullOrWhiteSpace(
-                        [_launcherVersion.MVersion, _launcherVersion.QuiltLoaderVersion]
-                    )
-                )
-                    return;
-                if (!await VersionHelper.SetVersion(settings, _launcherVersion, update))
-                    return;
-                if (!await QuiltVersionHelper.SetLoaderVersion(settings, _launcherVersion, update))
-                    return;
-
-                QuiltLoaderDownloadService.Init(
-                    settings!?.LauncherPath,
-                    settings!?.LauncherVersion,
-                    settings!?.LauncherInstance,
-                    settings!?.QuiltUrls
-                );
-                await QuiltLoaderDownloadService.Download(loadLocalVersionManifest: true);
+                await QuiltLoaderDownloadWrapper.Download(settings, _launcherVersion, update);
             }
         );
     }

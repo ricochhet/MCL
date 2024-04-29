@@ -18,17 +18,10 @@
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MCL.Core.Java.Helpers;
-using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
-using MCL.Core.Minecraft.Helpers;
 using MCL.Core.MiniCommon.CommandParser;
 using MCL.Core.MiniCommon.Interfaces;
-using MCL.Core.MiniCommon.Validation;
-using MCL.Core.ModLoaders.Quilt.Enums;
-using MCL.Core.ModLoaders.Quilt.Helpers;
-using MCL.Core.ModLoaders.Quilt.Resolvers;
-using MCL.Core.ModLoaders.Quilt.Services;
+using MCL.Core.ModLoaders.Quilt.Wrappers;
 
 namespace MCL.Launcher.Commands.Downloaders;
 
@@ -52,39 +45,14 @@ public class DownloadQuiltInstaller : ILauncherCommand
             },
             async options =>
             {
-                if (ObjectValidator<Settings>.IsNull(settings))
-                    return;
-
                 _launcherVersion.QuiltInstallerVersion = options.GetValueOrDefault("installerversion", "latest");
                 if (!bool.TryParse(options.GetValueOrDefault("update", "false"), out bool update))
                     return;
-                if (ObjectValidator<string>.IsNullOrWhiteSpace([_launcherVersion.QuiltInstallerVersion]))
-                    return;
-                if (!await VersionHelper.SetVersion(settings, _launcherVersion, update))
-                    return;
-                if (!await QuiltVersionHelper.SetInstallerVersion(settings, _launcherVersion, update))
-                    return;
-
-                QuiltInstallerDownloadService.Init(
-                    settings!?.LauncherPath,
-                    settings!?.LauncherVersion,
-                    settings!?.QuiltUrls
-                );
-                if (!await QuiltInstallerDownloadService.Download(loadLocalVersionManifest: true))
-                    return;
-
-                JavaLauncher.Launch(
+                await QuiltInstallerDownloadWrapper.DownloadAndRun(
                     settings,
-                    QuiltPathResolver.InstallersPath(settings!?.LauncherPath),
-                    QuiltInstallerOptions
-                        .DefaultJvmArguments(
-                            settings!?.LauncherPath,
-                            settings!?.LauncherVersion,
-                            QuiltInstallerType.INSTALL_CLIENT
-                        )
-                        ?.JvmArguments(),
-                    settings!?.LauncherSettings?.JavaRuntimeType,
-                    options.GetValueOrDefault("javapath", string.Empty)
+                    _launcherVersion,
+                    options.GetValueOrDefault("javapath", string.Empty),
+                    update
                 );
             }
         );

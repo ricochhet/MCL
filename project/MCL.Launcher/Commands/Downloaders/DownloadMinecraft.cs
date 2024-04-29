@@ -18,6 +18,7 @@
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using MCL.Core.Java.Wrappers;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Minecraft.Helpers;
 using MCL.Core.Minecraft.Services;
@@ -46,25 +47,10 @@ public class DownloadMinecraft : ILauncherCommand
             },
             async options =>
             {
-                if (ObjectValidator<Settings>.IsNull(settings))
-                    return;
-
                 _launcherVersion.MVersion = options.GetValueOrDefault("gameversion", "latest");
                 if (!bool.TryParse(options.GetValueOrDefault("update", "false"), out bool update))
                     return;
-                if (ObjectValidator<string>.IsNullOrWhiteSpace([_launcherVersion.MVersion]))
-                    return;
-                if (!await VersionHelper.SetVersion(settings, _launcherVersion, update))
-                    return;
-
-                MDownloadService.Init(
-                    settings!?.LauncherPath,
-                    settings!?.LauncherVersion,
-                    settings!?.LauncherSettings,
-                    settings!?.LauncherInstance,
-                    settings!?.MUrls
-                );
-                await MDownloadService.Download(loadLocalVersionManifest: true);
+                await MDownloadWrapper.Download(settings, _launcherVersion, update);
             }
         );
     }
