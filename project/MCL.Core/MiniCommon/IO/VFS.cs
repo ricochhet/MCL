@@ -19,6 +19,7 @@
 using System.IO;
 using System.Linq;
 using System.Text;
+using MCL.Core.MiniCommon.IO.Abstractions;
 using MCL.Core.MiniCommon.IO.Interfaces;
 
 namespace MCL.Core.MiniCommon.IO;

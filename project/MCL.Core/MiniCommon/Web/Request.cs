@@ -20,6 +20,7 @@ using System.IO;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using MCL.Core.MiniCommon.Web.Abstractions;
 using MCL.Core.MiniCommon.Web.Interfaces;
 
 namespace MCL.Core.MiniCommon.Web;

@@ -23,7 +23,7 @@ using System.Threading.Tasks;
 using MCL.Core.MiniCommon.Logger.Enums;
 using MCL.Core.MiniCommon.Validation;
 
-namespace MCL.Core.MiniCommon.Web;
+namespace MCL.Core.MiniCommon.Web.Abstractions;
 
 public class ValidatedRequest : BaseRequest
 {

@@ -20,11 +20,10 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Text;
-using MCL.Core.MiniCommon.IO.Abstractions;
 using MCL.Core.MiniCommon.Logger.Enums;
 using MCL.Core.MiniCommon.Validation;
 
-namespace MCL.Core.MiniCommon.IO;
+namespace MCL.Core.MiniCommon.IO.Abstractions;
 
 public class ValidatedFileSystem : BaseFileSystem
 {

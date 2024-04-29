@@ -30,7 +30,7 @@ using MCL.Core.MiniCommon.Services;
 using MCL.Core.MiniCommon.Validation;
 using MCL.Core.MiniCommon.Web.Interfaces;
 
-namespace MCL.Core.MiniCommon.Web;
+namespace MCL.Core.MiniCommon.Web.Abstractions;
 
 public class BaseRequest : IBaseHttpRequest
 {
