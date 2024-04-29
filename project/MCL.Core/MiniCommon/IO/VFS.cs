@@ -17,363 +17,205 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using MCL.Core.MiniCommon.IO.Interfaces;
 
 namespace MCL.Core.MiniCommon.IO;
 
 #pragma warning disable IDE0079
 #pragma warning disable S101
-public static class VFS
+public class VFS : IFileSystem
 #pragma warning restore IDE0079, S101
 {
-    public static string Cwd { get; set; } = Environment.CurrentDirectory;
-    private static readonly object _mutex = new();
+    public static string Cwd { private get; set; } = Environment.CurrentDirectory;
+    public static ValidatedFileSystem FileSystem { get; private set; } = new() { Cwd = Cwd };
 
-    /// <summary>
-    /// Combine two filepaths.
-    /// </summary>
+    /// <inheritdoc />
     public static string Combine(string path1, string path2)
     {
-        return Path.Combine(path1, path2);
+        return FileSystem.Combine(path1, path2);
     }
 
-    /// <summary>
-    /// Combine three filepaths.
-    /// </summary>
+    /// <inheritdoc />
     public static string Combine(string path1, string path2, string path3)
     {
-        return Path.Combine(path1, path2, path3);
+        return FileSystem.Combine(path1, path2, path3);
     }
 
-    /// <summary>
-    /// Combine four filepaths.
-    /// </summary>
+    /// <inheritdoc />
     public static string Combine(string path1, string path2, string path3, string path4)
     {
-        return Path.Combine(path1, path2, path3, path4);
+        return FileSystem.Combine(path1, path2, path3, path4);
     }
 
-    /// <summary>
-    /// Combine an array of filepaths.
-    /// </summary>
+    /// <inheritdoc />
     public static string Combine(params string[] paths)
     {
-        return Path.Combine(paths);
+        return FileSystem.Combine(paths);
     }
 
-    /// <summary>
-    /// Combines a filepath with the current working directory.
-    /// </summary>
+    /// <inheritdoc />
     public static string FromCwd(string filepath)
     {
-        return Combine(Cwd, filepath);
+        return FileSystem.Combine(FileSystem.Cwd, filepath);
     }
 
 #pragma warning disable IDE0079
 #pragma warning disable S2234
-    /// <summary>
-    /// Combines two filepaths with the current working directory.
-    /// </summary>
+    /// <inheritdoc />
     public static string FromCwd(string path1, string path2)
     {
-        return Combine(Cwd, path1, path2);
+        return FileSystem.Combine(FileSystem.Cwd, path1, path2);
     }
 
-    /// <summary>
-    /// Combines three filepaths with the current working directory.
-    /// </summary>
+    /// <inheritdoc />
     public static string FromCwd(string path1, string path2, string path3)
     {
-        return Combine(Cwd, path1, path2, path3);
+        return FileSystem.Combine(FileSystem.Cwd, path1, path2, path3);
     }
 #pragma warning restore IDE0079, S2234
 
-    /// <summary>
-    /// Combines an array of filepaths with the current working directory.
-    /// </summary>
+    /// <inheritdoc />
     public static string FromCwd(params string[] paths)
     {
-        return Combine(paths.Prepend(Cwd).ToArray());
+        return FileSystem.Combine(paths.Prepend(FileSystem.Cwd).ToArray());
     }
 
-    /// <summary>
-    /// Get directory name of a filepath.
-    /// </summary>
-    public static string GetDirectoryName(this string filepath)
+    /// <inheritdoc />
+    public static string GetDirectoryName(string filepath)
     {
-        string value = Path.GetDirectoryName(filepath) ?? string.Empty;
-        return (!string.IsNullOrWhiteSpace(value)) ? value : string.Empty;
+        return FileSystem.GetDirectoryName(filepath);
     }
 
-    /// <summary>
-    /// Get file name of a filepath.
-    /// </summary>
-    public static string GetFileName(this string filepath)
+    /// <inheritdoc />
+    public static string GetFileName(string filepath)
     {
-        string value = Path.GetFileName(filepath);
-        return (!string.IsNullOrWhiteSpace(value)) ? value : string.Empty;
+        return FileSystem.GetFileName(filepath);
     }
 
-    /// <summary>
-    /// Get file extension of a filepath.
-    /// </summary>
-    public static string GetFileExtension(this string filepath)
+    /// <inheritdoc />
+    public static string GetFileExtension(string filepath)
     {
-        string value = Path.GetExtension(filepath);
-        return (!string.IsNullOrWhiteSpace(value)) ? value : string.Empty;
+        return FileSystem.GetFileExtension(filepath);
     }
 
-    /// <summary>
-    /// Get file name without extension of a filepath.
-    /// </summary>
-    public static string GetFileNameWithoutExtension(this string filepath)
+    /// <inheritdoc />
+    public static string GetFileNameWithoutExtension(string filepath)
     {
-        string value = Path.GetFileNameWithoutExtension(filepath);
-        return (!string.IsNullOrWhiteSpace(value)) ? value : string.Empty;
+        return FileSystem.GetFileNameWithoutExtension(filepath);
     }
 
-    /// <summary>
-    /// Get path relative to a path.
-    /// </summary>
+    /// <inheritdoc />
     public static string GetRelativePath(string relativeTo, string path)
     {
-        string value = Path.GetRelativePath(relativeTo, path);
-        return (!string.IsNullOrWhiteSpace(value)) ? value : string.Empty;
+        return FileSystem.GetRelativePath(relativeTo, path);
     }
 
-    /// <summary>
-    /// Get path relative to itself.
-    /// </summary>
+    /// <inheritdoc />
     public static string GetRelativePath(string relativeTo)
     {
-        string value = Path.GetRelativePath(relativeTo, relativeTo);
-        return (!string.IsNullOrWhiteSpace(value)) ? value : string.Empty;
+        return FileSystem.GetRelativePath(relativeTo);
     }
 
-    /// <summary>
-    /// Move file from one place to another.
-    /// </summary>
+    /// <inheritdoc />
     public static void MoveFile(string a, string b)
     {
-        lock (_mutex)
-        {
-            new FileInfo(a).MoveTo(b);
-        }
+        FileSystem.MoveFile(a, b);
     }
 
-    /// <summary>
-    /// Copy file from one place to another.
-    /// </summary>
+    /// <inheritdoc />
     public static void CopyFile(string a, string b, bool overwrite = true)
     {
-        lock (_mutex)
-        {
-            if (!Exists(b))
-            {
-                CreateDirectory(b.GetDirectoryName());
-            }
-
-            File.Copy(a, b, overwrite);
-        }
+        FileSystem.CopyFile(a, b, overwrite);
     }
 
-    /// <summary>
-    /// Copy directory from one place to another.
-    /// </summary>
+    /// <inheritdoc />
     public static void CopyDirectory(string a, string b, bool recursive = false)
     {
-        lock (_mutex)
-        {
-            DirectoryInfo directory = new(a);
-
-            if (!directory.Exists)
-                return;
-
-            DirectoryInfo[] directories = directory.GetDirectories();
-            Directory.CreateDirectory(b);
-            foreach (FileInfo file in directory.GetFiles())
-            {
-                string destination = Path.Combine(b, file.Name);
-                file.CopyTo(destination);
-            }
-
-            if (!recursive)
-                return;
-
-            foreach (DirectoryInfo subDirectory in directories)
-            {
-                string destination = Path.Combine(b, subDirectory.Name);
-                CopyDirectory(subDirectory.FullName, destination, true);
-            }
-        }
+        FileSystem.CopyDirectory(a, b, recursive);
     }
 
-    /// <summary>
-    /// Does the filepath exist?
-    /// </summary>
+    /// <inheritdoc />
     public static bool Exists(string filepath)
     {
-        lock (_mutex)
-        {
-            return Directory.Exists(filepath) || File.Exists(filepath);
-        }
+        return FileSystem.Exists(filepath);
     }
 
-    /// <summary>
-    /// Create directory (recursive).
-    /// </summary>
+    /// <inheritdoc />
     public static void CreateDirectory(string filepath)
     {
-        lock (_mutex)
-        {
-            Directory.CreateDirectory(filepath);
-        }
+        FileSystem.CreateDirectory(filepath);
     }
 
-    /// <summary>
-    /// Get file content as bytes.
-    /// </summary>
+    /// <inheritdoc />
     public static byte[] ReadFile(string filepath)
     {
-        lock (_mutex)
-        {
-            return File.ReadAllBytes(filepath);
-        }
+        return FileSystem.ReadFile(filepath);
     }
 
-    /// <summary>
-    /// Get file content as string.
-    /// </summary>
+    /// <inheritdoc />
     public static string ReadFile(string filepath, Encoding encoding)
     {
-        return (encoding ?? Encoding.UTF8).GetString(ReadFile(filepath));
+        return FileSystem.ReadFile(filepath, encoding);
     }
 
-    /// <summary>
-    /// Get file content as string.
-    /// </summary>
+    /// <inheritdoc />
     public static string ReadAllText(string filepath)
     {
-        lock (_mutex)
-        {
-            return File.ReadAllText(filepath);
-        }
+        return FileSystem.ReadAllText(filepath);
     }
 
-    /// <summary>
-    /// Get file content as an array of strings.
-    /// </summary>
+    /// <inheritdoc />
     public static string[] ReadAllLines(string filepath)
     {
-        lock (_mutex)
-        {
-            return File.ReadAllLines(filepath);
-        }
+        return FileSystem.ReadAllLines(filepath);
     }
 
-    /// <summary>
-    /// Write data to file.
-    /// </summary>
+    /// <inheritdoc />
     public static void WriteFile(string filepath, byte[] data)
     {
-        lock (_mutex)
-        {
-            if (!Exists(filepath))
-            {
-                CreateDirectory(filepath.GetDirectoryName());
-            }
-
-            File.WriteAllBytes(filepath, data);
-        }
+        FileSystem.WriteFile(filepath, data);
     }
 
-    /// <summary>
-    /// Write string to file.
-    /// </summary>
+    /// <inheritdoc />
     public static void WriteFile(string filepath, string data, Encoding? encoding = null)
     {
-        WriteFile(filepath, (encoding ?? Encoding.UTF8).GetBytes(data));
+        FileSystem.WriteFile(filepath, data, encoding);
     }
 
-    /// <summary>
-    /// Open a file write stream.
-    /// </summary>
+    /// <inheritdoc />
     public static FileStream OpenWrite(string filepath)
     {
-        if (!Exists(filepath))
-        {
-            WriteFile(filepath, string.Empty);
-        }
-
-        return File.OpenWrite(filepath);
+        return FileSystem.OpenWrite(filepath);
     }
 
-    /// <summary>
-    /// Open a file read stream.
-    /// </summary>
+    /// <inheritdoc />
     public static FileStream OpenRead(string filepath)
     {
-        return File.OpenRead(filepath);
+        return FileSystem.OpenRead(filepath);
     }
 
-    /// <summary>
-    /// Get directories in directory by full path.
-    /// </summary>
+    /// <inheritdoc />
     public static string[] GetDirectories(string filepath)
     {
-        lock (_mutex)
-        {
-            if (!Exists(filepath))
-                return Enumerable.Empty<string>().ToArray();
-
-            DirectoryInfo di = new(filepath);
-            List<string> paths = [];
-
-            foreach (DirectoryInfo directory in di.GetDirectories())
-            {
-                paths.Add(directory.FullName);
-            }
-
-            return [.. paths];
-        }
+        return FileSystem.GetDirectories(filepath);
     }
 
-    /// <summary>
-    /// Get directories in directory by full path.
-    /// </summary>
+    /// <inheritdoc />
     public static DirectoryInfo[] GetDirectoryInfos(string filepath, string searchPattern, SearchOption searchOption)
     {
-        return new DirectoryInfo(filepath).GetDirectories(searchPattern, searchOption);
+        return FileSystem.GetDirectoryInfos(filepath, searchPattern, searchOption);
     }
 
-    /// <summary>
-    /// Get files in directory by full path.
-    /// </summary>
+    /// <inheritdoc />
     public static string[] GetFiles(string filepath)
     {
-        lock (_mutex)
-        {
-            if (!Exists(filepath))
-                return Enumerable.Empty<string>().ToArray();
-
-            DirectoryInfo di = new(filepath);
-            List<string> paths = [];
-
-            foreach (FileInfo file in di.GetFiles())
-            {
-                paths.Add(file.FullName);
-            }
-
-            return [.. paths];
-        }
+        return FileSystem.GetFiles(filepath);
     }
 
-    /// <summary>
-    /// Get files in directory and its sub-directories by full path.
-    /// </summary>
+    /// <inheritdoc />
     public static string[] GetFiles(
         string filepath,
         string searchPattern,
@@ -381,121 +223,36 @@ public static class VFS
         bool includeExtension = true
     )
     {
-        lock (_mutex)
-        {
-            if (!Exists(filepath))
-                return Enumerable.Empty<string>().ToArray();
-
-            List<string> paths = [];
-            foreach (string file in Directory.EnumerateFiles(filepath, searchPattern, searchOption))
-            {
-                if (includeExtension)
-                    paths.Add(file);
-                else
-                    paths.Add(Path.GetFileNameWithoutExtension(file));
-            }
-
-            return [.. paths];
-        }
+        return FileSystem.GetFiles(filepath, searchPattern, searchOption, includeExtension);
     }
 
-    /// <summary>
-    /// Get files in directory and its sub-directories by full path.
-    /// </summary>
+    /// <inheritdoc />
     public static FileInfo[] GetFileInfos(string filepath, string searchPattern, SearchOption searchOption)
     {
-        return new DirectoryInfo(filepath).GetFiles(searchPattern, searchOption);
+        return FileSystem.GetFileInfos(filepath, searchPattern, searchOption);
     }
 
-    /// <summary>
-    /// Delete directory.
-    /// </summary>
+    /// <inheritdoc />
     public static void DeleteDirectory(string filepath, bool recursive = false)
     {
-        lock (_mutex)
-        {
-            DirectoryInfo di = new(filepath);
-
-            foreach (FileInfo file in di.GetFiles())
-            {
-                file.IsReadOnly = false;
-                file.Delete();
-            }
-
-            foreach (DirectoryInfo directory in di.GetDirectories())
-            {
-                DeleteDirectory(directory.FullName);
-            }
-
-            di.Delete(recursive);
-        }
+        FileSystem.DeleteDirectory(filepath, recursive);
     }
 
-    /// <summary>
-    /// Delete file.
-    /// </summary>
+    /// <inheritdoc />
     public static void DeleteFile(string filepath)
     {
-        lock (_mutex)
-        {
-            FileInfo file = new(filepath) { IsReadOnly = false };
-            file.Delete();
-        }
+        FileSystem.DeleteFile(filepath);
     }
 
-    /// <summary>
-    /// Get files count inside directory recusively
-    /// </summary>
+    /// <inheritdoc />
     public static int GetFilesCount(string filepath)
     {
-        lock (_mutex)
-        {
-            DirectoryInfo di = new(filepath);
-            int count = 0;
-
-            foreach (FileInfo file in di.GetFiles())
-            {
-                ++count;
-            }
-
-            foreach (DirectoryInfo directory in di.GetDirectories())
-            {
-                count += GetFilesCount(directory.FullName);
-            }
-
-            return count;
-        }
+        return FileSystem.GetFilesCount(filepath);
     }
 
-    /// <summary>
-    /// Make a relative path from path a to path b.
-    /// </summary>
+    /// <inheritdoc />
     public static string MakeRelativePath(string a, string b)
     {
-        if (b.StartsWith(a))
-            return b[(a.Length + 1)..];
-
-        string[] baseDirs = a.Split(':', '\\', '/');
-        string[] fileDirs = b.Split(':', '\\', '/');
-
-        if (baseDirs.Length == 0 || fileDirs.Length == 0 || baseDirs[0] != fileDirs[0])
-            return b;
-
-        int offset = 1;
-        for (; offset < baseDirs.Length; offset++)
-        {
-            if (baseDirs[offset] != fileDirs[offset])
-                break;
-        }
-
-        StringBuilder resultBuilder = new();
-        for (int i = 0; i < (baseDirs.Length - offset); i++)
-            resultBuilder.Append("..\\");
-
-        for (int i = offset; i < fileDirs.Length - 1; i++)
-            resultBuilder.Append(fileDirs[i]).Append('\\');
-
-        resultBuilder.Append(fileDirs[^1]);
-        return resultBuilder.ToString();
+        return FileSystem.MakeRelativePath(a, b);
     }
 }

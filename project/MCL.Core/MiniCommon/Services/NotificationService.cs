@@ -53,6 +53,12 @@ public static class NotificationService
     public static void Error(string id, params string[] _params) =>
         _notifications.Add(new(NativeLogLevel.Error, id, _params));
 
+    public static void FatalLog(params string[] _params) =>
+        _notifications.Add(new(NativeLogLevel.Fatal, "log", _params));
+
+    public static void Fatal(string id, params string[] _params) =>
+        _notifications.Add(new(NativeLogLevel.Fatal, id, _params));
+
     public static void InfoLog(params string[] _params) => _notifications.Add(new(NativeLogLevel.Info, "log", _params));
 
     public static void Info(string id, params string[] _params) =>

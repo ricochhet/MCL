@@ -93,6 +93,11 @@ public class FileStreamLogger : ILogger, IDisposable
     public Task Error(string format, params object[] args) =>
         WriteToBuffer(NativeLogLevel.Error, string.Format(format, args));
 
+    public Task Fatal(string message) => WriteToBuffer(NativeLogLevel.Fatal, message);
+
+    public Task Fatal(string format, params object[] args) =>
+        WriteToBuffer(NativeLogLevel.Fatal, string.Format(format, args));
+
     public Task Benchmark(string message) => WriteToBuffer(NativeLogLevel.Info, message);
 
     public Task Benchmark(string format, params object[] args) =>

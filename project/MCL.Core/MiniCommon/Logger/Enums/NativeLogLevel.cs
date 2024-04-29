@@ -27,5 +27,6 @@ public enum NativeLogLevel
     Warn = ConsoleColor.DarkYellow,
     Error = ConsoleColor.DarkRed,
     Info = ConsoleColor.DarkCyan,
-    Native = ConsoleColor.Magenta
+    Native = ConsoleColor.Magenta,
+    Fatal = ConsoleColor.Red
 }

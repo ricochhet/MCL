@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Linq;
 using MCL.Core.MiniCommon.CommandParser;
 using MCL.Core.MiniCommon.CommandParser.Helpers;
+using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Logger.Enums;
 using MCL.Core.MiniCommon.Validation;
 
@@ -38,6 +39,7 @@ public class Command
 
     public string Usage()
     {
+        VFS.Combine("1", "2");
         string _parameters = string.Join(" ", Parameters.Select(a => $"\n\t<{a.Name}(Optional:{a.Optional})=value>"));
         string parameters = ObjectValidator<string>.IsNotNullOrWhiteSpace([_parameters], NativeLogLevel.Debug)
             ? _parameters

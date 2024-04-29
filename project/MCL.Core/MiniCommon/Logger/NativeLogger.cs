@@ -82,6 +82,11 @@ public partial class NativeLogger : ILogger
     public Task Error(string format, params object[] args) =>
         WriteToStdout(NativeLogLevel.Error, string.Format(format, args));
 
+    public Task Fatal(string message) => WriteToStdout(NativeLogLevel.Fatal, message);
+
+    public Task Fatal(string format, params object[] args) =>
+        WriteToStdout(NativeLogLevel.Fatal, string.Format(format, args));
+
     public Task Native(string message) => WriteToStdout(NativeLogLevel.Error, message);
 
     public Task Native(string format, params object[] args) =>

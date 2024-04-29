@@ -28,10 +28,11 @@ using MCL.Core.MiniCommon.Cryptography.Helpers;
 using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Services;
 using MCL.Core.MiniCommon.Validation;
+using MCL.Core.MiniCommon.Web.Interfaces;
 
 namespace MCL.Core.MiniCommon.Web;
 
-public static class Request
+public class Request : IHttpRequest
 {
     private static readonly HttpClient _httpClient = new();
     public static JsonSerializerOptions JsonSerializerOptions { get; set; } = Json.JsonSerializerOptions;
@@ -46,9 +47,7 @@ public static class Request
         set { _httpClient.Timeout = value; }
     }
 
-    /// <summary>
-    /// Sends a GET async request to the specified URI.
-    /// </summary>
+    /// <inheritdoc />
     public static async Task<HttpResponseMessage?> GetAsync(string request)
     {
         try
@@ -67,9 +66,7 @@ public static class Request
         }
     }
 
-    /// <summary>
-    /// Sends a GET async request to the specified URI, and returns the response body as a byte array.
-    /// </summary>
+    /// <inheritdoc />
     public static async Task<byte[]?> GetByteArrayAsync(string request)
     {
         try
@@ -88,9 +85,7 @@ public static class Request
         }
     }
 
-    /// <summary>
-    /// Sends a GET async request to the specified URI, and returns the response body as a stream.
-    /// </summary>
+    /// <inheritdoc />
     public static async Task<Stream?> GetStreamAsync(string request)
     {
         try
@@ -109,9 +104,7 @@ public static class Request
         }
     }
 
-    /// <summary>
-    /// Sends a GET async request to the specified URI, and returns the response body as a deserialized object of type T.
-    /// </summary>
+    /// <inheritdoc />
     public static async Task<T?> GetObjectFromJsonAsync<T>(string request)
     {
         try
@@ -130,9 +123,7 @@ public static class Request
         }
     }
 
-    /// <summary>
-    /// Sends a GET async request to the specified URI, and saves the deserialized response of type T to a file.
-    /// </summary>
+    /// <inheritdoc />
     public static async Task<string?> GetJsonAsync<T>(string request, string filepath, Encoding encoding)
     {
         for (int retry = 0; retry < Math.Max(1, Retry); retry++)
@@ -173,9 +164,7 @@ public static class Request
         return default;
     }
 
-    /// <summary>
-    /// Sends a GET async request to the specified URI, and saves the response to a file.
-    /// </summary>
+    /// <inheritdoc />
     public static async Task<string?> GetStringAsync(string request, string filepath, Encoding encoding)
     {
         for (int retry = 0; retry < Math.Max(1, Retry); retry++)
@@ -216,9 +205,7 @@ public static class Request
         return default;
     }
 
-    /// <summary>
-    /// Sends a GET async request to the specified URI, and returns the response body as a string.
-    /// </summary>
+    /// <inheritdoc />
     public static async Task<string?> GetStringAsync(string request)
     {
         try
@@ -237,9 +224,7 @@ public static class Request
         }
     }
 
-    /// <summary>
-    /// Sends a GET async request to the specified URI, compares SHA256 hashes, and saves file if comparison is false.
-    /// </summary>
+    /// <inheritdoc />
     public static async Task<bool> DownloadSHA256(string request, string filepath, string hash)
     {
         if (VFS.Exists(filepath) && CryptographyHelper.CreateSHA256(filepath, true) == hash)
@@ -253,9 +238,7 @@ public static class Request
         return true;
     }
 
-    /// <summary>
-    /// Sends a GET async request to the specified URI, compares SHA1 hashes, and saves file if comparison is false.
-    /// </summary>
+    /// <inheritdoc />
     public static async Task<bool> DownloadSHA1(string request, string filepath, string hash)
     {
         if (VFS.Exists(filepath) && CryptographyHelper.CreateSHA1(filepath, true) == hash)
@@ -269,9 +252,7 @@ public static class Request
         return true;
     }
 
-    /// <summary>
-    /// Sends a GET async request to the specified URI, and saves the response as a filestream.
-    /// </summary>
+    /// <inheritdoc />
     public static async Task<bool> Download(string request, string filepath)
     {
         for (int retry = 0; retry < Math.Max(1, Retry); retry++)

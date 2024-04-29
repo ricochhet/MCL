@@ -66,8 +66,13 @@ public class ObjectValidator<T>
     public bool Validate(T? obj, NativeLogLevel level)
     {
         List<string> _errors = _rules.Where(rule => !rule.Rule(obj)).Select(rule => rule.ErrorMessage).ToList();
-        foreach (string error in _errors)
-            NotificationService.PrintLog(level, error);
+        if (level == NativeLogLevel.Fatal)
+            throw new ArgumentException(string.Join(", ", _errors));
+        else
+        {
+            foreach (string error in _errors)
+                NotificationService.PrintLog(level, error);
+        }
         return _errors.Count == 0;
     }
 
