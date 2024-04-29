@@ -64,7 +64,7 @@ public class DownloadMinecraft : ILauncherCommand
                     settings!?.LauncherInstance,
                     settings!?.MUrls
                 );
-                await MDownloadService.Download(useLocalVersionManifest: true);
+                await MDownloadService.Download(loadLocalVersionManifest: true);
             }
         );
     }

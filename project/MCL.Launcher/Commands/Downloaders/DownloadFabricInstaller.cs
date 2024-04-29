@@ -70,7 +70,7 @@ public class DownloadFabricInstaller : ILauncherCommand
                     settings!?.LauncherVersion,
                     settings!?.FabricUrls
                 );
-                if (!await FabricInstallerDownloadService.Download(useLocalVersionManifest: true))
+                if (!await FabricInstallerDownloadService.Download(loadLocalVersionManifest: true))
                     return;
 
                 JavaLauncher.Launch(

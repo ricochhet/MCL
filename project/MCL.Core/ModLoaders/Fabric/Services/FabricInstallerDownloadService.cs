@@ -17,7 +17,6 @@
  */
 
 using System.Threading.Tasks;
-using MCL.Core.Interfaces.Web;
 using MCL.Core.Launcher.Models;
 using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Logger.Enums;
@@ -30,7 +29,7 @@ using MCL.Core.ModLoaders.Fabric.Web;
 
 namespace MCL.Core.ModLoaders.Fabric.Services;
 
-public class FabricInstallerDownloadService : IJarDownloadService<FabricUrls>, IDownloadService
+public static class FabricInstallerDownloadService
 {
     public static FabricVersionManifest? FabricVersionManifest { get; private set; }
     public static FabricInstaller? FabricInstaller { get; private set; }
@@ -53,12 +52,12 @@ public class FabricInstallerDownloadService : IJarDownloadService<FabricUrls>, I
     /// <summary>
     /// Download all parts of the Fabric installer.
     /// </summary>
-    public static async Task<bool> Download(bool useLocalVersionManifest = false)
+    public static async Task<bool> Download(bool loadLocalVersionManifest = false)
     {
         if (!_initialized)
             return false;
 
-        if (!useLocalVersionManifest && !await DownloadVersionManifest())
+        if (!loadLocalVersionManifest && !await DownloadVersionManifest())
             return false;
 
         if (!LoadVersionManifest())

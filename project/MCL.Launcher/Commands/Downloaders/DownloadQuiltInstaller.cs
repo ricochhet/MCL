@@ -70,7 +70,7 @@ public class DownloadQuiltInstaller : ILauncherCommand
                     settings!?.LauncherVersion,
                     settings!?.QuiltUrls
                 );
-                if (!await QuiltInstallerDownloadService.Download(useLocalVersionManifest: true))
+                if (!await QuiltInstallerDownloadService.Download(loadLocalVersionManifest: true))
                     return;
 
                 JavaLauncher.Launch(

@@ -17,7 +17,6 @@
  */
 
 using System.Threading.Tasks;
-using MCL.Core.Interfaces.Web;
 using MCL.Core.Java.Enums;
 using MCL.Core.Java.Models;
 using MCL.Core.Java.Resolvers;
@@ -31,7 +30,7 @@ using MCL.Core.MiniCommon.Validation;
 
 namespace MCL.Core.Java.Services;
 
-public class JavaDownloadService : IDownloadService
+public static class JavaDownloadService
 {
     private static JavaVersionManifest? _javaVersionManifest;
     private static JavaVersionDetails? _javaVersionDetails;
@@ -59,15 +58,15 @@ public class JavaDownloadService : IDownloadService
     /// <summary>
     /// Download all parts of the Java runtime environment.
     /// </summary>
-    public static async Task<bool> Download(bool useLocalVersionManifest = false)
+    public static async Task<bool> Download(bool loadLocalVersionManifest = false, bool loadLocalVersionDetails = false)
     {
-        if (!useLocalVersionManifest && !await DownloadJavaVersionManifest())
+        if (!loadLocalVersionManifest && !await DownloadJavaVersionManifest())
             return false;
 
         if (!LoadJavaVersionManifest())
             return false;
 
-        if (!await DownloadJavaVersionDetails())
+        if (!loadLocalVersionDetails && !await DownloadJavaVersionDetails())
             return false;
 
         if (!LoadJavaVersionDetails())

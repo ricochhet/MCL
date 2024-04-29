@@ -72,7 +72,7 @@ public class DownloadPaperServer : ILauncherCommand
                     settings!?.LauncherInstance,
                     settings!?.PaperUrls
                 );
-                await PaperServerDownloadService.Download(useLocalVersionManifest: true);
+                await PaperServerDownloadService.Download(loadLocalVersionManifest: true);
             }
         );
     }

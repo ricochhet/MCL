@@ -17,7 +17,6 @@
  */
 
 using System.Threading.Tasks;
-using MCL.Core.Interfaces.Web;
 using MCL.Core.Launcher.Models;
 using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Logger.Enums;
@@ -30,7 +29,7 @@ using MCL.Core.ModLoaders.Fabric.Web;
 
 namespace MCL.Core.ModLoaders.Fabric.Services;
 
-public class FabricLoaderDownloadService : ILoaderDownloadService<FabricUrls>, IDownloadService
+public static class FabricLoaderDownloadService
 {
     public static FabricVersionManifest? FabricVersionManifest { get; private set; }
     public static FabricProfile? FabricProfile { get; private set; }
@@ -63,18 +62,18 @@ public class FabricLoaderDownloadService : ILoaderDownloadService<FabricUrls>, I
     /// <summary>
     /// Download all parts of the Fabric loader.
     /// </summary>
-    public static async Task<bool> Download(bool useLocalVersionManifest = false)
+    public static async Task<bool> Download(bool loadLocalVersionManifest = false, bool loadLocalVersionDetails = false)
     {
         if (!_initialized)
             return false;
 
-        if (!useLocalVersionManifest && !await DownloadVersionManifest())
+        if (!loadLocalVersionManifest && !await DownloadVersionManifest())
             return false;
 
         if (!LoadVersionManifest())
             return false;
 
-        if (!await DownloadProfile())
+        if (!loadLocalVersionDetails && !await DownloadProfile())
             return false;
 
         if (!LoadProfile())

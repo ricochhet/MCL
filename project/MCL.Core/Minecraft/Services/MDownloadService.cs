@@ -17,7 +17,6 @@
  */
 
 using System.Threading.Tasks;
-using MCL.Core.Interfaces.Web;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Minecraft.Helpers;
 using MCL.Core.Minecraft.Models;
@@ -30,7 +29,7 @@ using MCL.Core.MiniCommon.Validation;
 
 namespace MCL.Core.Minecraft.Services;
 
-public class MDownloadService : IDownloadService
+public static class MDownloadService
 {
     public static MVersionManifest? VersionManifest { get; private set; }
     public static MVersionDetails? VersionDetails { get; private set; }
@@ -67,13 +66,17 @@ public class MDownloadService : IDownloadService
     /// <summary>
     /// Download all parts of the game.
     /// </summary>
-    public static async Task<bool> Download(bool useLocalVersionManifest = false)
+    public static async Task<bool> Download(
+        bool loadLocalVersionManifest = false,
+        bool loadLocalVersionDetails = false,
+        bool loadLocalAssetIndex = false
+    )
 #pragma warning restore IDE0079, S3776
     {
         if (!_initialized)
             return false;
 
-        if (!useLocalVersionManifest && !await DownloadVersionManifest())
+        if (!loadLocalVersionManifest && !await DownloadVersionManifest())
             return false;
 
         if (!LoadVersionManifest())
@@ -82,7 +85,7 @@ public class MDownloadService : IDownloadService
         if (!LoadVersion())
             return false;
 
-        if (!await DownloadVersionDetails())
+        if (!loadLocalVersionDetails && !await DownloadVersionDetails())
             return false;
 
         if (!LoadVersionDetails())
@@ -103,7 +106,7 @@ public class MDownloadService : IDownloadService
         if (!await DownloadServerMappings())
             return false;
 
-        if (!await DownloadAssetIndex())
+        if (!loadLocalAssetIndex && !await DownloadAssetIndex())
             return false;
 
         if (!LoadAssetIndex())

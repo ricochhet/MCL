@@ -17,7 +17,6 @@
  */
 
 using System.Threading.Tasks;
-using MCL.Core.Interfaces.Web;
 using MCL.Core.Launcher.Models;
 using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Logger.Enums;
@@ -30,7 +29,7 @@ using MCL.Core.ModLoaders.Quilt.Web;
 
 namespace MCL.Core.ModLoaders.Quilt.Services;
 
-public class QuiltLoaderDownloadService : ILoaderDownloadService<QuiltUrls>, IDownloadService
+public static class QuiltLoaderDownloadService
 {
     public static QuiltVersionManifest? QuiltVersionManifest { get; private set; }
     public static QuiltProfile? QuiltProfile { get; private set; }
@@ -63,18 +62,18 @@ public class QuiltLoaderDownloadService : ILoaderDownloadService<QuiltUrls>, IDo
     /// <summary>
     /// Download all parts of the Quilt loader.
     /// </summary>
-    public static async Task<bool> Download(bool useLocalVersionManifest = false)
+    public static async Task<bool> Download(bool loadLocalVersionManifest = false, bool loadLocalVersionDetails = false)
     {
         if (!_initialized)
             return false;
 
-        if (!useLocalVersionManifest && !await DownloadVersionManifest())
+        if (!loadLocalVersionManifest && !await DownloadVersionManifest())
             return false;
 
         if (!LoadVersionManifest())
             return false;
 
-        if (!await DownloadProfile())
+        if (!loadLocalVersionDetails && !await DownloadProfile())
             return false;
 
         if (!LoadProfile())

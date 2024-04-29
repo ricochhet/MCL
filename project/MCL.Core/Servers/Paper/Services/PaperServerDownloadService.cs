@@ -17,7 +17,6 @@
  */
 
 using System.Threading.Tasks;
-using MCL.Core.Interfaces.Web;
 using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Services;
@@ -32,7 +31,7 @@ using MCL.Core.Servers.Paper.Web;
 
 namespace MCL.Core.Servers.Paper.Services;
 
-public class PaperServerDownloadService : IDownloadService
+public static class PaperServerDownloadService
 {
     public static PaperVersionManifest? PaperVersionManifest { get; private set; }
     public static PaperBuild? PaperBuild { get; private set; }
@@ -62,12 +61,12 @@ public class PaperServerDownloadService : IDownloadService
     /// <summary>
     /// Download all parts of the Paper server.
     /// </summary>
-    public static async Task<bool> Download(bool useLocalVersionManifest = false)
+    public static async Task<bool> Download(bool loadLocalVersionManifest = false)
     {
         if (!_initialized)
             return false;
 
-        if (!useLocalVersionManifest && !await DownloadVersionManifest())
+        if (!loadLocalVersionManifest && !await DownloadVersionManifest())
             return false;
 
         if (!LoadVersionManifest())

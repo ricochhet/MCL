@@ -72,7 +72,7 @@ public class DownloadFabricLoader : ILauncherCommand
                     settings!?.LauncherInstance,
                     settings!?.FabricUrls
                 );
-                await FabricLoaderDownloadService.Download(useLocalVersionManifest: true);
+                await FabricLoaderDownloadService.Download(loadLocalVersionManifest: true);
             }
         );
     }

@@ -72,7 +72,7 @@ public class DownloadQuiltLoader : ILauncherCommand
                     settings!?.LauncherInstance,
                     settings!?.QuiltUrls
                 );
-                await QuiltLoaderDownloadService.Download(useLocalVersionManifest: true);
+                await QuiltLoaderDownloadService.Download(loadLocalVersionManifest: true);
             }
         );
     }
