@@ -11,6 +11,8 @@
     <ItemGroup>
         <ProjectReference Include="..\MCL.Core\MCL.Core.csproj" />
         <ProjectReference Include="..\MCL.Launcher\MCL.Launcher.csproj" />
+        <ProjectReference Include="..\MCL.Launcher\MCL.SimpleMLauncher.csproj" />
+        <ProjectReference Include="..\MCL.Launcher\MCL.SimplePaperLauncher.csproj" />
         <ProjectReference Include="..\MCL.CodeAnalyzers\MCL.CodeAnalyzers.csproj" />
     </ItemGroup>
     <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">

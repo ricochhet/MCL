@@ -5,7 +5,7 @@ bool VSBuilt = Argument<bool>("vsbuilt", false);
 // Cake API Reference: https://cakebuild.net/dsl/
 // setup variables
 var buildDir = "./Build";
-var csprojPaths = GetFiles("./**/MCL.*(Launcher|CodeAnalyzers).csproj");
+var csprojPaths = GetFiles("./**/MCL.*(Launcher|CodeAnalyzers|SimpleMLauncher|SimplePaperLauncher).csproj");
 var delPaths = GetDirectories("./*(!MCL.Resources)/*(obj|bin)");
 var licenseFile = "../LICENSE";
 var publishRuntime = "win-x64";
