@@ -34,5 +34,6 @@ public class LauncherUsername(string username)
     }
 
     public string UUID() => CryptographyHelper.CreateUUID(ValidateUsername());
+
     public string OfflineUUID() => CryptographyHelper.CreateUUID($"OfflinePlayer:{ValidateUsername()}");
 }
