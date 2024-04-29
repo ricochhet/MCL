@@ -158,7 +158,14 @@ public static class MLaunchOptions
             new MArgument
             {
                 Arg = "--uuid {0}",
-                ArgParams = [settings.LauncherUsername?.UUID() ?? ValidationShims.StringEmpty()]
+                ArgParams = [settings.LauncherUsername?.UUID() ?? ValidationShims.StringEmpty()],
+                Condition = settings.LauncherSettings?.AuthType == AuthType.ONLINE
+            },
+            new MArgument
+            {
+                Arg = "--uuid {0}",
+                ArgParams = [settings.LauncherUsername?.OfflineUUID() ?? ValidationShims.StringEmpty()],
+                Condition = settings.LauncherSettings?.AuthType == AuthType.OFFLINE
             },
             new MArgument { Arg = "--clientId {0}", ArgParams = ["0"] },
             new MArgument { Arg = "--xuid {0}", ArgParams = ["0"] },

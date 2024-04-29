@@ -42,6 +42,7 @@ public class LaunchMinecraft : ILauncherCommand
                 Parameters =
                 [
                     new() { Name = "client", Optional = false },
+                    new() { Name = "online", Optional = true },
                     new() { Name = "gameversion", Optional = true },
                     new() { Name = "fabricversion", Optional = true },
                     new() { Name = "quiltversion", Optional = true },
@@ -60,6 +61,10 @@ public class LaunchMinecraft : ILauncherCommand
                 settings!.LauncherSettings!.ClientType = EnumResolver.Parse(
                     options.GetValueOrDefault("client", "vanilla"),
                     ClientType.VANILLA
+                );
+                settings!.LauncherSettings!.AuthType = EnumResolver.Parse(
+                    options.GetValueOrDefault("online", "offline"),
+                    AuthType.OFFLINE
                 );
                 settings!.Set(
                     options,
