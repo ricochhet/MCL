@@ -38,7 +38,7 @@ internal static class Program
 {
     private static async Task Main(string[] args)
     {
-        VFS.Cwd = VFS.GetRelativePath(Environment.CurrentDirectory);
+        VFS.FileSystem.Cwd = VFS.GetRelativePath(Environment.CurrentDirectory);
 
         Console.Title = "MCL.CodeAnalyzers";
         Log.Add(new NativeLogger(NativeLogLevel.Info));

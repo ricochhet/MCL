@@ -43,7 +43,7 @@ internal static class Program
 {
     private static async Task Main(string[] args)
     {
-        VFS.Cwd = VFS.GetRelativePath(Environment.CurrentDirectory);
+        VFS.FileSystem.Cwd = VFS.GetRelativePath(Environment.CurrentDirectory);
 
         Console.Title = "MCL.Launcher";
         Log.Add(new NativeLogger(NativeLogLevel.Info));
@@ -61,7 +61,7 @@ internal static class Program
             (RequestData requestData) => NotificationService.Info("request.get.success", requestData.URL)
         );
 
-        Request.HttpClientTimeOut = TimeSpan.FromMinutes(1);
+        Request.HttpRequest.HttpClientTimeOut = TimeSpan.FromMinutes(1);
         Watermark.Draw(SettingsService.WatermarkText);
 
         SevenZipService.Init(settings!?.SevenZipSettings);

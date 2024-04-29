@@ -16,7 +16,6 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using System;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -29,8 +28,7 @@ namespace MCL.Core.MiniCommon.IO;
 public class VFS : IFileSystem
 #pragma warning restore IDE0079, S101
 {
-    public static string Cwd { private get; set; } = Environment.CurrentDirectory;
-    public static ValidatedFileSystem FileSystem { get; private set; } = new() { Cwd = Cwd };
+    public static ValidatedFileSystem FileSystem { get; private set; } = new();
 
     /// <inheritdoc />
     public static string Combine(string path1, string path2)

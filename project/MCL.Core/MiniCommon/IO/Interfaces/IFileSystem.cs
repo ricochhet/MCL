@@ -166,7 +166,11 @@ public interface IFileSystem
     /// <summary>
     /// Gets the directories within a directory as DirectoryInfo objects.
     /// </summary>
-    public static abstract DirectoryInfo[] GetDirectoryInfos(string filepath, string searchPattern, SearchOption searchOption);
+    public static abstract DirectoryInfo[] GetDirectoryInfos(
+        string filepath,
+        string searchPattern,
+        SearchOption searchOption
+    );
 
     /// <summary>
     /// Gets the files within a directory.
