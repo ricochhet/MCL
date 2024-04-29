@@ -22,6 +22,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using MCL.Core.MiniCommon.Logger.Enums;
 using MCL.Core.MiniCommon.Services;
+using MCL.Core.MiniCommon.Validation.Exceptions;
 using MCL.Core.MiniCommon.Validation.Models;
 
 namespace MCL.Core.MiniCommon.Validation;
@@ -67,7 +68,7 @@ public class ObjectValidator<T>
     {
         List<string> _errors = _rules.Where(rule => !rule.Rule(obj)).Select(rule => rule.ErrorMessage).ToList();
         if (level == NativeLogLevel.Fatal && _errors.Count > 0)
-            throw new ArgumentException(string.Join(", ", _errors));
+            throw new ObjectValidationException(string.Join(", ", _errors));
         else
         {
             foreach (string error in _errors)

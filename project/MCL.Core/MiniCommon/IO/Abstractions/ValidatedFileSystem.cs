@@ -22,6 +22,7 @@ using System.Linq;
 using System.Text;
 using MCL.Core.MiniCommon.Logger.Enums;
 using MCL.Core.MiniCommon.Validation;
+using MCL.Core.MiniCommon.Validation.Exceptions;
 
 namespace MCL.Core.MiniCommon.IO.Abstractions;
 
@@ -235,7 +236,7 @@ public class ValidatedFileSystem : BaseFileSystem
     public override FileStream OpenWrite(string filepath)
     {
         if (ObjectValidator<string>.IsNullOrWhiteSpace([filepath], NativeLogLevel.Fatal))
-            throw new ArgumentOutOfRangeException(nameof(filepath));
+            throw new ObjectValidationException(nameof(filepath));
         return base.OpenWrite(filepath);
     }
 
@@ -243,7 +244,7 @@ public class ValidatedFileSystem : BaseFileSystem
     public override FileStream OpenRead(string filepath)
     {
         if (ObjectValidator<string>.IsNullOrWhiteSpace([filepath], NativeLogLevel.Fatal))
-            throw new ArgumentOutOfRangeException(nameof(filepath));
+            throw new ObjectValidationException(nameof(filepath));
         return base.OpenRead(filepath);
     }
 
