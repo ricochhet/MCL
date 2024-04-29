@@ -22,7 +22,7 @@ using MCL.Core.Minecraft.Helpers;
 using MCL.Core.Minecraft.Services;
 using MCL.Core.MiniCommon.Validation;
 
-namespace MCL.Core.Java.Wrappers;
+namespace MCL.Core.Minecraft.Wrappers;
 
 public static class MDownloadWrapper
 {

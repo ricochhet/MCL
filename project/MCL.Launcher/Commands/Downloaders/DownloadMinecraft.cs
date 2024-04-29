@@ -18,8 +18,8 @@
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MCL.Core.Java.Wrappers;
 using MCL.Core.Launcher.Models;
+using MCL.Core.Minecraft.Wrappers;
 using MCL.Core.MiniCommon.CommandParser;
 using MCL.Core.MiniCommon.Interfaces;
 
