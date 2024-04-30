@@ -26,7 +26,7 @@ using MCL.Core.MiniCommon.Validation;
 using MCL.Core.Modding.Resolvers;
 using MCL.Core.Modding.Services;
 
-namespace MCL.Launcher.Commands.Modding;
+namespace MCL.Core.Commands.Modding;
 
 public class DeployMods : ILauncherCommand
 {

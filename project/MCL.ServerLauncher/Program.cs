@@ -17,39 +17,32 @@
  */
 
 using System;
-using MCL.Core.Launcher.Models;
+using System.Threading.Tasks;
 using MCL.Core.Launcher.Services;
-using MCL.Core.MiniCommon.Enums;
+using MCL.Core.Managers;
 using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Logger;
 using MCL.Core.MiniCommon.Logger.Enums;
-using MCL.Core.MiniCommon.Models;
-using MCL.Core.MiniCommon.Services;
-using MCL.Core.MiniCommon.Validation;
 
-namespace MCL.SimpleMLauncher;
+namespace MCL.ServerLauncher;
 
 internal static class Program
 {
-    private static void Main(string[] args)
+    private static async Task Main(string[] args)
     {
         VFS.FileSystem.Cwd = VFS.GetRelativePath(Environment.CurrentDirectory);
 
-        Console.Title = "MCL.SimpleMLauncher";
+        Console.Title = "MCL.ServerLauncher";
         Log.Add(new NativeLogger(NativeLogLevel.Info));
         Log.Add(new FileStreamLogger(SettingsService.LogFilePath));
-        LocalizationService.Init(SettingsService.LocalizationPath, Language.ENGLISH);
-        NotificationService.OnNotificationAdded(
-            (Notification notification) => Log.Base(notification.LogLevel, notification.Message)
-        );
-        NotificationService.Info("log.initialized");
-        SettingsService.Init();
-        Settings? settings = SettingsService.Load();
-        if (ObjectValidator<Settings>.IsNull(settings))
-            return;
-        Watermark.Draw(SettingsService.WatermarkText);
+        await ServiceManager.Init();
 
         if (args.Length <= 0)
-            SimpleMLaunchService.Init(SettingsService.SimpleMLaunchFilePath, settings);
+        {
+            SimplePaperLaunchService.Init(SettingsService.SimplePaperLaunchFilePath, ServiceManager.Settings);
+            return;
+        }
+
+        await CommandManager.Init(args);
     }
 }

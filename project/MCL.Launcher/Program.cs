@@ -17,25 +17,12 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using MCL.Core.FileExtractors.Services;
-using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Services;
-using MCL.Core.MiniCommon.CommandParser.Commands;
-using MCL.Core.MiniCommon.Enums;
-using MCL.Core.MiniCommon.Interfaces;
+using MCL.Core.Managers;
 using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Logger;
 using MCL.Core.MiniCommon.Logger.Enums;
-using MCL.Core.MiniCommon.Models;
-using MCL.Core.MiniCommon.Services;
-using MCL.Core.MiniCommon.Validation;
-using MCL.Core.MiniCommon.Web;
-using MCL.Core.Modding.Services;
-using MCL.Launcher.Commands.Downloaders;
-using MCL.Launcher.Commands.Launcher;
-using MCL.Launcher.Commands.Modding;
 
 namespace MCL.Launcher;
 
@@ -48,46 +35,14 @@ internal static class Program
         Console.Title = "MCL.Launcher";
         Log.Add(new NativeLogger(NativeLogLevel.Info));
         Log.Add(new FileStreamLogger(SettingsService.LogFilePath));
-        LocalizationService.Init(SettingsService.LocalizationPath, Language.ENGLISH);
-        NotificationService.OnNotificationAdded(
-            (Notification notification) => Log.Base(notification.LogLevel, notification.Message)
-        );
-        NotificationService.Info("log.initialized");
-        SettingsService.Init();
-        Settings? settings = SettingsService.Load();
-        if (ObjectValidator<Settings>.IsNull(settings))
-            return;
-        RequestDataService.OnRequestCompleted(
-            (RequestData requestData) => NotificationService.Info("request.get.success", requestData.URL)
-        );
-
-        Request.HttpRequest.HttpClientTimeOut = TimeSpan.FromMinutes(1);
-        Watermark.Draw(SettingsService.WatermarkText);
-
-        SevenZipService.Init(settings!?.SevenZipSettings);
-        ModdingService.Init(settings!?.LauncherPath, settings!?.ModSettings);
+        await ServiceManager.Init();
 
         if (args.Length <= 0)
         {
-            SimpleMLaunchService.Init(SettingsService.SimpleMLaunchFilePath, settings);
+            SimpleMLaunchService.Init(SettingsService.SimpleMLaunchFilePath, ServiceManager.Settings);
             return;
         }
 
-        List<ILauncherCommand> commands = [];
-
-        commands.Add(new DownloadJava());
-        commands.Add(new DownloadMinecraft());
-        commands.Add(new DownloadFabricInstaller());
-        commands.Add(new DownloadFabricLoader());
-        commands.Add(new DownloadQuiltInstaller());
-        commands.Add(new DownloadQuiltLoader());
-        commands.Add(new DownloadPaperServer());
-        commands.Add(new LaunchMinecraft());
-        commands.Add(new LaunchPaperServer());
-        commands.Add(new DeployMods());
-        commands.Add(new Help());
-
-        foreach (ILauncherCommand command in commands)
-            await command.Init(args, settings);
+        await CommandManager.Init(args);
     }
 }

@@ -21,11 +21,11 @@ using System.Threading.Tasks;
 using MCL.Core.Launcher.Models;
 using MCL.Core.MiniCommon.CommandParser;
 using MCL.Core.MiniCommon.Interfaces;
-using MCL.Core.ModLoaders.Fabric.Wrappers;
+using MCL.Core.Servers.Paper.Wrappers;
 
-namespace MCL.Launcher.Commands.Downloaders;
+namespace MCL.Core.Commands.Downloaders;
 
-public class DownloadFabricLoader : ILauncherCommand
+public class DownloadPaperServer : ILauncherCommand
 {
     private static readonly LauncherVersion _launcherVersion = LauncherVersion.Latest();
 
@@ -35,21 +35,21 @@ public class DownloadFabricLoader : ILauncherCommand
             args,
             new()
             {
-                Name = "dl-fabric-loader",
+                Name = "dl-paper-server",
                 Parameters =
                 [
                     new() { Name = "gameversion", Optional = true },
-                    new() { Name = "loaderversion", Optional = true },
+                    new() { Name = "paperversion", Optional = true },
                     new() { Name = "update", Optional = true }
                 ]
             },
             async options =>
             {
                 _launcherVersion.MVersion = options.GetValueOrDefault("gameversion", "latest");
-                _launcherVersion.FabricLoaderVersion = options.GetValueOrDefault("loaderversion", "latest");
+                _launcherVersion.PaperServerVersion = options.GetValueOrDefault("paperversion", "latest");
                 if (!bool.TryParse(options.GetValueOrDefault("update", "false"), out bool update))
                     return;
-                await FabricLoaderDownloadWrapper.Download(settings, _launcherVersion, update);
+                await PaperDownloadWrapper.Download(settings, _launcherVersion, update);
             }
         );
     }

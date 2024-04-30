@@ -21,11 +21,11 @@ using System.Threading.Tasks;
 using MCL.Core.Launcher.Models;
 using MCL.Core.MiniCommon.CommandParser;
 using MCL.Core.MiniCommon.Interfaces;
-using MCL.Core.Servers.Paper.Wrappers;
+using MCL.Core.ModLoaders.Quilt.Wrappers;
 
-namespace MCL.Launcher.Commands.Downloaders;
+namespace MCL.Core.Commands.Downloaders;
 
-public class DownloadPaperServer : ILauncherCommand
+public class DownloadQuiltInstaller : ILauncherCommand
 {
     private static readonly LauncherVersion _launcherVersion = LauncherVersion.Latest();
 
@@ -35,21 +35,25 @@ public class DownloadPaperServer : ILauncherCommand
             args,
             new()
             {
-                Name = "dl-paper-server",
+                Name = "dl-quilt-installer",
                 Parameters =
                 [
-                    new() { Name = "gameversion", Optional = true },
-                    new() { Name = "paperversion", Optional = true },
-                    new() { Name = "update", Optional = true }
+                    new() { Name = "installerversion", Optional = true },
+                    new() { Name = "update", Optional = true },
+                    new() { Name = "javapath", Optional = true }
                 ]
             },
             async options =>
             {
-                _launcherVersion.MVersion = options.GetValueOrDefault("gameversion", "latest");
-                _launcherVersion.PaperServerVersion = options.GetValueOrDefault("paperversion", "latest");
+                _launcherVersion.QuiltInstallerVersion = options.GetValueOrDefault("installerversion", "latest");
                 if (!bool.TryParse(options.GetValueOrDefault("update", "false"), out bool update))
                     return;
-                await PaperDownloadWrapper.Download(settings, _launcherVersion, update);
+                await QuiltInstallerDownloadWrapper.DownloadAndRun(
+                    settings,
+                    _launcherVersion,
+                    options.GetValueOrDefault("javapath", string.Empty),
+                    update
+                );
             }
         );
     }

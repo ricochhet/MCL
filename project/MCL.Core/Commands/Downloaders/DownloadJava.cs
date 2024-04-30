@@ -22,7 +22,7 @@ using MCL.Core.Launcher.Models;
 using MCL.Core.MiniCommon.CommandParser;
 using MCL.Core.MiniCommon.Interfaces;
 
-namespace MCL.Launcher.Commands.Downloaders;
+namespace MCL.Core.Commands.Downloaders;
 
 public class DownloadJava : ILauncherCommand
 {

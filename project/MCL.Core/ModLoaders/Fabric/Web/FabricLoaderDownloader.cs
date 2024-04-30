@@ -90,7 +90,7 @@ public static class FabricLoaderDownloader
                 return false;
         }
 
-        if (ObjectValidator<LauncherLoader>.IsNullOrEmpty(launcherInstance?.FabricLoaders))
+        if (ObjectValidator<List<LauncherLoader>>.IsNull(launcherInstance?.FabricLoaders))
             return false;
 
         foreach (LauncherLoader existingLoader in launcherInstance!.FabricLoaders!)

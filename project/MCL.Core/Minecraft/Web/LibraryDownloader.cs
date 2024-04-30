@@ -84,7 +84,7 @@ public static class LibraryDownloader
             _loader.Libraries.Add(filepath);
         }
 
-        if (ObjectValidator<LauncherLoader>.IsNullOrEmpty(launcherInstance?.Versions))
+        if (ObjectValidator<List<LauncherLoader>>.IsNull(launcherInstance?.Versions))
             return false;
 
         foreach (LauncherLoader existingLoader in launcherInstance!.Versions!)

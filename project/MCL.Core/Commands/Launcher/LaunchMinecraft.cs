@@ -28,7 +28,7 @@ using MCL.Core.MiniCommon.Interfaces;
 using MCL.Core.MiniCommon.Resolvers;
 using MCL.Core.MiniCommon.Validation;
 
-namespace MCL.Launcher.Commands.Launcher;
+namespace MCL.Core.Commands.Launcher;
 
 public class LaunchMinecraft : ILauncherCommand
 {

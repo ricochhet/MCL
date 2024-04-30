@@ -19,13 +19,13 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MCL.Core.Launcher.Models;
+using MCL.Core.Minecraft.Wrappers;
 using MCL.Core.MiniCommon.CommandParser;
 using MCL.Core.MiniCommon.Interfaces;
-using MCL.Core.ModLoaders.Quilt.Wrappers;
 
-namespace MCL.Launcher.Commands.Downloaders;
+namespace MCL.Core.Commands.Downloaders;
 
-public class DownloadQuiltLoader : ILauncherCommand
+public class DownloadMinecraft : ILauncherCommand
 {
     private static readonly LauncherVersion _launcherVersion = LauncherVersion.Latest();
 
@@ -35,21 +35,19 @@ public class DownloadQuiltLoader : ILauncherCommand
             args,
             new()
             {
-                Name = "dl-quilt-loader",
+                Name = "dl-minecraft",
                 Parameters =
                 [
                     new() { Name = "gameversion", Optional = true },
-                    new() { Name = "loaderversion", Optional = true },
                     new() { Name = "update", Optional = true }
                 ]
             },
             async options =>
             {
                 _launcherVersion.MVersion = options.GetValueOrDefault("gameversion", "latest");
-                _launcherVersion.QuiltLoaderVersion = options.GetValueOrDefault("loaderversion", "latest");
                 if (!bool.TryParse(options.GetValueOrDefault("update", "false"), out bool update))
                     return;
-                await QuiltLoaderDownloadWrapper.Download(settings, _launcherVersion, update);
+                await MDownloadWrapper.Download(settings, _launcherVersion, update);
             }
         );
     }

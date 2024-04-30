@@ -20,17 +20,13 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MCL.CodeAnalyzers.Commands;
-using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Services;
+using MCL.Core.Managers;
 using MCL.Core.MiniCommon.CommandParser.Commands;
-using MCL.Core.MiniCommon.Enums;
 using MCL.Core.MiniCommon.Interfaces;
 using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Logger;
 using MCL.Core.MiniCommon.Logger.Enums;
-using MCL.Core.MiniCommon.Models;
-using MCL.Core.MiniCommon.Services;
-using MCL.Core.MiniCommon.Validation;
 
 namespace MCL.CodeAnalyzers;
 
@@ -43,19 +39,7 @@ internal static class Program
         Console.Title = "MCL.CodeAnalyzers";
         Log.Add(new NativeLogger(NativeLogLevel.Info));
         Log.Add(new FileStreamLogger(SettingsService.LogFilePath, NativeLogLevel.Info));
-        LocalizationService.Init(SettingsService.LocalizationPath, Language.ENGLISH);
-        NotificationService.OnNotificationAdded(
-            (Notification notification) =>
-            {
-                Log.Base(notification.LogLevel, notification.Message);
-            }
-        );
-        NotificationService.Info("log.initialized");
-        SettingsService.Init();
-        Settings? settings = SettingsService.Load();
-        if (ObjectValidator<Settings>.IsNull(settings))
-            return;
-        Watermark.Draw(SettingsService.WatermarkText);
+        await ServiceManager.Init();
 
         if (args.Length <= 0)
             return;
@@ -65,6 +49,6 @@ internal static class Program
         commands.Add(new Help());
 
         foreach (ILauncherCommand command in commands)
-            await command.Init(args, settings);
+            await command.Init(args, ServiceManager.Settings);
     }
 }

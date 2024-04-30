@@ -19,13 +19,13 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MCL.Core.Launcher.Models;
-using MCL.Core.Minecraft.Wrappers;
 using MCL.Core.MiniCommon.CommandParser;
 using MCL.Core.MiniCommon.Interfaces;
+using MCL.Core.ModLoaders.Fabric.Wrappers;
 
-namespace MCL.Launcher.Commands.Downloaders;
+namespace MCL.Core.Commands.Downloaders;
 
-public class DownloadMinecraft : ILauncherCommand
+public class DownloadFabricInstaller : ILauncherCommand
 {
     private static readonly LauncherVersion _launcherVersion = LauncherVersion.Latest();
 
@@ -35,19 +35,25 @@ public class DownloadMinecraft : ILauncherCommand
             args,
             new()
             {
-                Name = "dl-minecraft",
+                Name = "dl-fabric-installer",
                 Parameters =
                 [
-                    new() { Name = "gameversion", Optional = true },
-                    new() { Name = "update", Optional = true }
+                    new() { Name = "installerversion", Optional = true },
+                    new() { Name = "update", Optional = true },
+                    new() { Name = "javapath", Optional = true }
                 ]
             },
             async options =>
             {
-                _launcherVersion.MVersion = options.GetValueOrDefault("gameversion", "latest");
+                _launcherVersion.FabricInstallerVersion = options.GetValueOrDefault("installerversion", "latest");
                 if (!bool.TryParse(options.GetValueOrDefault("update", "false"), out bool update))
                     return;
-                await MDownloadWrapper.Download(settings, _launcherVersion, update);
+                await FabricInstallerDownloadWrapper.DownloadAndRun(
+                    settings,
+                    _launcherVersion,
+                    options.GetValueOrDefault("javapath", string.Empty),
+                    update
+                );
             }
         );
     }

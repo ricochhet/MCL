@@ -21,11 +21,11 @@ using System.Threading.Tasks;
 using MCL.Core.Launcher.Models;
 using MCL.Core.MiniCommon.CommandParser;
 using MCL.Core.MiniCommon.Interfaces;
-using MCL.Core.ModLoaders.Fabric.Wrappers;
+using MCL.Core.ModLoaders.Quilt.Wrappers;
 
-namespace MCL.Launcher.Commands.Downloaders;
+namespace MCL.Core.Commands.Downloaders;
 
-public class DownloadFabricInstaller : ILauncherCommand
+public class DownloadQuiltLoader : ILauncherCommand
 {
     private static readonly LauncherVersion _launcherVersion = LauncherVersion.Latest();
 
@@ -35,25 +35,21 @@ public class DownloadFabricInstaller : ILauncherCommand
             args,
             new()
             {
-                Name = "dl-fabric-installer",
+                Name = "dl-quilt-loader",
                 Parameters =
                 [
-                    new() { Name = "installerversion", Optional = true },
-                    new() { Name = "update", Optional = true },
-                    new() { Name = "javapath", Optional = true }
+                    new() { Name = "gameversion", Optional = true },
+                    new() { Name = "loaderversion", Optional = true },
+                    new() { Name = "update", Optional = true }
                 ]
             },
             async options =>
             {
-                _launcherVersion.FabricInstallerVersion = options.GetValueOrDefault("installerversion", "latest");
+                _launcherVersion.MVersion = options.GetValueOrDefault("gameversion", "latest");
+                _launcherVersion.QuiltLoaderVersion = options.GetValueOrDefault("loaderversion", "latest");
                 if (!bool.TryParse(options.GetValueOrDefault("update", "false"), out bool update))
                     return;
-                await FabricInstallerDownloadWrapper.DownloadAndRun(
-                    settings,
-                    _launcherVersion,
-                    options.GetValueOrDefault("javapath", string.Empty),
-                    update
-                );
+                await QuiltLoaderDownloadWrapper.Download(settings, _launcherVersion, update);
             }
         );
     }

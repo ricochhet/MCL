@@ -84,7 +84,7 @@ public static class QuiltLoaderDownloader
                 return false;
         }
 
-        if (ObjectValidator<LauncherLoader>.IsNullOrEmpty(launcherInstance?.QuiltLoaders))
+        if (ObjectValidator<List<LauncherLoader>>.IsNull(launcherInstance?.QuiltLoaders))
             return false;
 
         foreach (LauncherLoader existingLoader in launcherInstance!.QuiltLoaders!)

@@ -26,7 +26,7 @@ using MCL.Core.MiniCommon.Interfaces;
 using MCL.Core.MiniCommon.Validation;
 using MCL.Core.Servers.Paper.Helpers;
 
-namespace MCL.Launcher.Commands.Launcher;
+namespace MCL.Core.Commands.Launcher;
 
 public class LaunchPaperServer : ILauncherCommand
 {

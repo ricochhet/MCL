@@ -16,6 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
@@ -79,7 +80,7 @@ public static class PaperServerDownloadService
             return false;
 
         if (
-            ObjectValidator<string>.IsNullOrEmpty(_launcherInstance?.PaperServerVersions)
+            ObjectValidator<List<string>>.IsNull(_launcherInstance?.PaperServerVersions)
             || ObjectValidator<LauncherVersion>.IsNull(_launcherVersion)
         )
             return false;
