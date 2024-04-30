@@ -24,7 +24,6 @@ using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Services;
 using MCL.Core.MiniCommon.Enums;
 using MCL.Core.MiniCommon.Logger;
-using MCL.Core.MiniCommon.Logger.Enums;
 using MCL.Core.MiniCommon.Models;
 using MCL.Core.MiniCommon.Services;
 using MCL.Core.MiniCommon.Validation;
@@ -36,6 +35,7 @@ namespace MCL.Core.Managers;
 public static class ServiceManager
 {
     public static Settings? Settings { get; private set; }
+    private static readonly bool _slimMode = false;
 
     public static Task<bool> Init()
     {
@@ -54,14 +54,17 @@ public static class ServiceManager
                 (RequestData requestData) => NotificationService.Info("request.get.success", requestData.URL)
             );
             Request.HttpRequest.HttpClientTimeOut = TimeSpan.FromMinutes(1);
-            SevenZipService.Init(Settings!?.SevenZipSettings);
-            ModdingService.Init(Settings!?.LauncherPath, Settings!?.ModSettings);
+            if (!_slimMode)
+            {
+                SevenZipService.Init(Settings!?.SevenZipSettings);
+                ModdingService.Init(Settings!?.LauncherPath, Settings!?.ModSettings);
+            }
             Watermark.Draw(SettingsService.WatermarkText);
             return Task.FromResult(true);
         }
         catch (Exception ex)
         {
-            Log.Base(NativeLogLevel.Fatal, ex.ToString());
+            Log.Fatal(ex.ToString());
             return Task.FromResult(false);
         }
     }

@@ -27,7 +27,6 @@ using MCL.Core.Launcher.Models;
 using MCL.Core.MiniCommon.CommandParser.Commands;
 using MCL.Core.MiniCommon.Interfaces;
 using MCL.Core.MiniCommon.Logger;
-using MCL.Core.MiniCommon.Logger.Enums;
 
 namespace MCL.Core.Managers;
 
@@ -58,7 +57,7 @@ public static class CommandManager
         }
         catch (Exception ex)
         {
-            Log.Base(NativeLogLevel.Fatal, ex.ToString());
+            Log.Fatal(ex.ToString());
             return;
         }
     }

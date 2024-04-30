@@ -41,6 +41,9 @@ public interface ILogger
     public Task Error(string message);
     public Task Error(string format, params object[] args);
 
+    public Task Fatal(string message);
+    public Task Fatal(string format, params object[] args);
+
     public Task Benchmark(string message);
     public Task Benchmark(string format, params object[] args);
 }

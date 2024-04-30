@@ -279,6 +279,42 @@ public class Log
     }
 
     /// <summary>
+    /// Log a fatal level message.
+    /// </summary>
+    public static async void Fatal(string message)
+    {
+        try
+        {
+            await _semaphore.WaitAsync();
+
+            foreach (ILogger logger in Instance._io)
+                await logger.Fatal(message);
+        }
+        finally
+        {
+            _ = _semaphore.Release();
+        }
+    }
+
+    /// <summary>
+    /// Log a fatal level message.
+    /// </summary>
+    public static async void Fatal(string format, params object[] args)
+    {
+        try
+        {
+            await _semaphore.WaitAsync();
+
+            foreach (ILogger logger in Instance._io)
+                await logger.Fatal(format, args);
+        }
+        finally
+        {
+            _ = _semaphore.Release();
+        }
+    }
+
+    /// <summary>
     /// Log a benchmark level message.
     /// </summary>
     private static async void BenchmarkLog(string message)
