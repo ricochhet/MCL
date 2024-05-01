@@ -176,7 +176,7 @@ public static class MLaunchOptions
             },
             new MArgument
             {
-                Arg = "--versionType {0}",
+                Arg = "--versionType \"{0}\"",
                 ArgParams = [$"{settings.LauncherVersion?.Brand} {settings.LauncherVersion?.Version}"]
             },
         ];

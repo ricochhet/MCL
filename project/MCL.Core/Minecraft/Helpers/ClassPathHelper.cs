@@ -17,6 +17,7 @@
  */
 
 using System;
+using System.IO;
 using System.Linq;
 using MCL.Core.Java.Enums;
 using MCL.Core.Launcher.Enums;
@@ -40,9 +41,8 @@ public static class ClassPathHelper
     )
     {
         if (
-            ObjectValidator<string>.IsNullOrWhiteSpace(
-                [launcherVersion?.MVersion, launcherVersion?.FabricLoaderVersion, launcherVersion?.QuiltLoaderVersion]
-            ) || ObjectValidator<LauncherInstance>.IsNull(launcherInstance)
+            ObjectValidator<string>.IsNullOrWhiteSpace([launcherVersion?.MVersion])
+            || ObjectValidator<LauncherInstance>.IsNull(launcherInstance)
         )
             return string.Empty;
 
@@ -67,12 +67,16 @@ public static class ClassPathHelper
             case ClientType.VANILLA:
                 break;
             case ClientType.FABRIC:
+                if (ObjectValidator<string>.IsNullOrWhiteSpace([launcherVersion?.QuiltLoaderVersion]))
+                    return string.Empty;
                 LauncherLoader? fabricLoader = launcherInstance!.FabricLoaders.Find(a =>
                     a.Version == launcherVersion!.FabricLoaderVersion
                 );
                 libraries = [.. libraries, .. fabricLoader?.Libraries];
                 break;
             case ClientType.QUILT:
+                if (ObjectValidator<string>.IsNullOrWhiteSpace([launcherVersion?.QuiltLoaderVersion]))
+                    return string.Empty;
                 LauncherLoader? quiltLoader = launcherInstance!.QuiltLoaders.Find(a =>
                     a.Version == launcherVersion!.QuiltLoaderVersion
                 );
@@ -85,6 +89,15 @@ public static class ClassPathHelper
                 break;
         }
 
-        return string.Join(separator, libraries);
+        return string.Join(
+            separator,
+            libraries.Select(a =>
+                a.Replace(launcherPath!.MPath, string.Empty)
+                    .Replace(
+                        Path.DirectorySeparatorChar + MPathResolver.BaseLibrariesPath,
+                        MPathResolver.BaseLibrariesPath
+                    )
+            )
+        );
     }
 }
