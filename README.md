@@ -1,5 +1,9 @@
 ## MCL
-Minecraft Launcher
+A CLI based Minecraft launcher with support for Fabric and Quilt mod loaders.
+
+> [!Warning]
+> #### Under Development
+> ###### There is no stable version.
 
 ## Privacy
 MCL is an open source project. Your commit credentials as author of a commit will be visible by anyone. Please make sure you understand this before submitting a PR.
@@ -39,6 +43,10 @@ Files placed in `{root}/project/MCL.Resources` or `{root}/project/MCL.Resources.
 | Fabric | ✅ | ❌ | ❌ |
 | Quilt  | ❌ | ❌ | ❌ |
 | *Forge | ❌ | ❌ | ❌ |
+
+## Localization (Translations)
+All non-machine translation contributions for any languages are welcome.
+- English [View](./project/MCL.Resources/.mcl/localization/localization.en.json)
 
 ### Suggestions & PRs
 Suggestions and pull requests are welcome, just keep in mind to follow the project architecture to keep it consistent.
