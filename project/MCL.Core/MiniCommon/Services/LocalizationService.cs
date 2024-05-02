@@ -16,6 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using System.Linq;
 using MCL.Core.MiniCommon.Enums;
 using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Models;
@@ -33,14 +34,34 @@ public static class LocalizationService
     /// </summary>
     public static void Init(string filepath, Language language, bool alwaysSaveNewTranslation = false)
     {
+        if (
+            language != Language.ENGLISH
+            && VFS.Exists(LocalizationPathResolver.LanguageFilePath(filepath, Language.ENGLISH))
+        )
+        {
+            Localization = Json.Load<Localization>(
+                LocalizationPathResolver.LanguageFilePath(filepath, Language.ENGLISH)
+            );
+            if (Localization?.Entries == null)
+                return;
+        }
+
         if (!VFS.Exists(LocalizationPathResolver.LanguageFilePath(filepath, language)) || alwaysSaveNewTranslation)
             Json.Save(
                 LocalizationPathResolver.LanguageFilePath(filepath, language),
                 new Localization(),
                 new() { WriteIndented = true }
             );
-        Localization = Json.Load<Localization>(LocalizationPathResolver.LanguageFilePath(filepath, language));
-        if (Localization?.Entries != null)
+        Localization? local = Json.Load<Localization>(LocalizationPathResolver.LanguageFilePath(filepath, language));
+        if (Localization?.Entries == null || local?.Entries == null)
+            return;
+
+        Localization!.Entries = Localization
+            .Entries.Concat(local.Entries)
+            .GroupBy(a => a)
+            .Select(a => a.Last())
+            .ToDictionary();
+        if (Localization!.Entries != null)
             _initialized = true;
         else
             NotificationService.Error("error.readfile", LocalizationPathResolver.LanguageFilePath(filepath, language));
