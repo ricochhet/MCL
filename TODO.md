@@ -3,10 +3,12 @@ TODO tasks are in order from top-to-bottom, most-to-least important.
 
 Tasks marked with (*) are easier to do.
 
+- [ ] Add message overriding to object validation for simplified user messaging flow.
 - [ ] Implement frontend interface via Avalonia.
 - [ ] Implement player skin options on non-vanilla loaders.
     - Non-vanilla loaders can use modifications such as OfflineSkins to provide skins without in-depth networking systems.
     - Skins can still be supplied via an API or website to reduce the manual processes.
+- [ ] Consider implementation of local API builder to self-host files and data for offline usage.
 - [x] Implement configuration migration service.
     - This is beneficial when the configuration model is refactored.
 - [x] Implement object validator throughout project.
