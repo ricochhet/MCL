@@ -34,12 +34,12 @@ internal static class Program
 
         Console.Title = "MCL.Launcher";
         Log.Add(new NativeLogger(NativeLogLevel.Info));
-        Log.Add(new FileStreamLogger(SettingsService.LogFilePath));
+        Log.Add(new FileStreamLogger(SettingsProvider.LogFilePath));
         await ServiceManager.Init();
 
         if (args.Length <= 0)
         {
-            SimpleMLaunchService.Init(SettingsService.SimpleMLaunchFilePath, ServiceManager.Settings);
+            MLaunchProvider.Launch(SettingsProvider.SimpleMLaunchFilePath, ServiceManager.Settings);
             return;
         }
 

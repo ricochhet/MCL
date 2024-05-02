@@ -35,14 +35,15 @@ public static class MDownloadWrapper
         if (!await VersionHelper.SetVersion(settings, launcherVersion, update))
             return false;
 
-        MDownloadService.Init(
-            settings!?.LauncherPath,
-            settings!?.LauncherVersion,
-            settings!?.LauncherSettings,
-            settings!?.LauncherInstance,
-            settings!?.MUrls
-        );
-        if (!await MDownloadService.Download(loadLocalVersionManifest: true))
+        MDownloadService downloader =
+            new(
+                settings!?.LauncherPath,
+                settings!?.LauncherVersion,
+                settings!?.LauncherSettings,
+                settings!?.LauncherInstance,
+                settings!?.MUrls
+            );
+        if (!await downloader.Download(loadLocalVersionManifest: true))
             return false;
 
         return true;

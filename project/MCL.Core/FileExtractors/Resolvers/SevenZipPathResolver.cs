@@ -19,7 +19,7 @@
 using MCL.Core.FileExtractors.Models;
 using MCL.Core.Launcher.Services;
 using MCL.Core.MiniCommon.IO;
-using MCL.Core.MiniCommon.Services;
+using MCL.Core.MiniCommon.Providers;
 using MCL.Core.MiniCommon.Validation;
 
 namespace MCL.Core.FileExtractors.Resolvers;
@@ -33,13 +33,13 @@ public static class SevenZipPathResolver
     public static string SevenZipPath(SevenZipSettings? sevenZipSettings)
     {
         string windowsExecutable = VFS.Combine(
-            SettingsService.DataDirectory,
+            SettingsProvider.DataDirectory,
             "SevenZip",
             sevenZipSettings?.Executable + ".exe"
         );
         if (VFS.Exists(windowsExecutable))
             return windowsExecutable;
-        NotificationService.Info("error.missing.7z");
+        NotificationProvider.Info("error.missing.7z");
         return sevenZipSettings?.Executable ?? ValidationShims.StringEmpty();
     }
 }

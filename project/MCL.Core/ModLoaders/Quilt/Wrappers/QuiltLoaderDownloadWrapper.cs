@@ -38,13 +38,9 @@ public static class QuiltLoaderDownloadWrapper
         if (!await QuiltVersionHelper.SetLoaderVersion(settings, launcherVersion, update))
             return false;
 
-        QuiltLoaderDownloadService.Init(
-            settings!?.LauncherPath,
-            settings!?.LauncherVersion,
-            settings!?.LauncherInstance,
-            settings!?.QuiltUrls
-        );
-        if (!await QuiltLoaderDownloadService.Download(loadLocalVersionManifest: true))
+        QuiltLoaderDownloadService downloader =
+            new(settings!?.LauncherPath, settings!?.LauncherVersion, settings!?.LauncherInstance, settings!?.QuiltUrls);
+        if (!await downloader.Download(loadLocalVersionManifest: true))
             return false;
 
         return true;

@@ -21,9 +21,9 @@ using System.Collections.Generic;
 using MCL.Core.MiniCommon.Logger.Enums;
 using MCL.Core.MiniCommon.Models;
 
-namespace MCL.Core.MiniCommon.Services;
+namespace MCL.Core.MiniCommon.Providers;
 
-public static class NotificationService
+public static class NotificationProvider
 {
     private static readonly List<Notification> _notifications = [];
     public static int MaxSize { get; set; } = 100;

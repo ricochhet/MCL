@@ -22,7 +22,7 @@ using System.Linq;
 using MCL.CodeAnalyzers.Analyzers.Models;
 using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Logger.Enums;
-using MCL.Core.MiniCommon.Services;
+using MCL.Core.MiniCommon.Providers;
 using MCL.Core.MiniCommon.Validation;
 
 namespace MCL.CodeAnalyzers.Analyzers;
@@ -51,7 +51,7 @@ public static class LineAnalyzer
             fileLines.Add(fileLineCount);
         }
 
-        NotificationService.Info(
+        NotificationProvider.Info(
             "analyzer.line.output",
             nameof(LineAnalyzer),
             fileLines.Sum().ToString(),

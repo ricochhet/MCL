@@ -25,7 +25,7 @@ using MCL.Core.MiniCommon.CommandParser;
 using MCL.Core.MiniCommon.Interfaces;
 using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Models;
-using MCL.Core.MiniCommon.Services;
+using MCL.Core.MiniCommon.Providers;
 using MCL.Core.MiniCommon.Validation;
 
 namespace MCL.CodeAnalyzers.Commands;
@@ -50,7 +50,7 @@ public class AnalyzeCode : ILauncherCommand
                 NamespaceAnalyzer.Analyze(files);
                 LocalizationKeyAnalyzer.Analyze(
                     files,
-                    LocalizationService.Localization ?? ValidationShims.ClassEmpty<Localization>()
+                    LocalizationProvider.Localization ?? ValidationShims.ClassEmpty<Localization>()
                 );
             }
         );

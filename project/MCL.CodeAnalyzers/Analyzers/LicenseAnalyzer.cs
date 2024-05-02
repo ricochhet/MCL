@@ -18,7 +18,7 @@
 
 using MCL.CodeAnalyzers.Analyzers.Models;
 using MCL.Core.MiniCommon.IO;
-using MCL.Core.MiniCommon.Services;
+using MCL.Core.MiniCommon.Providers;
 
 namespace MCL.CodeAnalyzers.Analyzers;
 
@@ -44,7 +44,7 @@ public static class LicenseAnalyzer
             if (!fileData.Contains(license))
             {
                 fail++;
-                NotificationService.Error("analyzer.error.license", file);
+                NotificationProvider.Error("analyzer.error.license", file);
             }
             else
             {
@@ -52,7 +52,7 @@ public static class LicenseAnalyzer
             }
         }
 
-        NotificationService.Info(
+        NotificationProvider.Info(
             "analyzer.output",
             nameof(LicenseAnalyzer),
             success.ToString(),

@@ -19,7 +19,7 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using MCL.Core.MiniCommon.Logger.Enums;
-using MCL.Core.MiniCommon.Services;
+using MCL.Core.MiniCommon.Providers;
 
 namespace MCL.Core.MiniCommon.Validation;
 
@@ -35,7 +35,7 @@ public static class ValidationShims
         [CallerLineNumber] int sourceLineNumber = 0
     )
     {
-        NotificationService.Log(
+        NotificationProvider.Log(
             level,
             "error.validation.string-shim",
             memberName,
@@ -55,7 +55,7 @@ public static class ValidationShims
         [CallerLineNumber] int sourceLineNumber = 0
     )
     {
-        NotificationService.Log(
+        NotificationProvider.Log(
             level,
             "error.validation.list-shim",
             memberName,
@@ -79,7 +79,7 @@ public static class ValidationShims
     )
         where TKey : notnull
     {
-        NotificationService.Log(
+        NotificationProvider.Log(
             level,
             "error.validation.list-shim",
             memberName,
@@ -100,7 +100,7 @@ public static class ValidationShims
     )
         where T : new()
     {
-        NotificationService.Log(
+        NotificationProvider.Log(
             level,
             "error.validation.class-shim",
             memberName,

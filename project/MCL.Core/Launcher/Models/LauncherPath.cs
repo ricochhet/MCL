@@ -25,19 +25,19 @@ namespace MCL.Core.Launcher.Models;
 public class LauncherPath
 {
     public string MPath { get; set; } = VFS.FromCwd(LaunchPathHelper.MPath);
-    public string ModPath { get; set; } = VFS.FromCwd(SettingsService.DataDirectory, LaunchPathHelper.ModPath);
-    public string FabricPath { get; set; } = VFS.FromCwd(SettingsService.DataDirectory, LaunchPathHelper.FabricPath);
-    public string QuiltPath { get; set; } = VFS.FromCwd(SettingsService.DataDirectory, LaunchPathHelper.QuiltPath);
-    public string PaperPath { get; set; } = VFS.FromCwd(SettingsService.DataDirectory, LaunchPathHelper.PaperPath);
+    public string ModPath { get; set; } = VFS.FromCwd(SettingsProvider.DataDirectory, LaunchPathHelper.ModPath);
+    public string FabricPath { get; set; } = VFS.FromCwd(SettingsProvider.DataDirectory, LaunchPathHelper.FabricPath);
+    public string QuiltPath { get; set; } = VFS.FromCwd(SettingsProvider.DataDirectory, LaunchPathHelper.QuiltPath);
+    public string PaperPath { get; set; } = VFS.FromCwd(SettingsProvider.DataDirectory, LaunchPathHelper.PaperPath);
 
     public LauncherPath() { }
 
     public LauncherPath(string path, string modPath, string fabricPath, string quiltPath, string paperPath)
     {
         MPath = VFS.FromCwd(path);
-        ModPath = VFS.FromCwd(SettingsService.DataDirectory, modPath);
-        FabricPath = VFS.FromCwd(SettingsService.DataDirectory, fabricPath);
-        QuiltPath = VFS.FromCwd(SettingsService.DataDirectory, quiltPath);
-        PaperPath = VFS.FromCwd(SettingsService.DataDirectory, paperPath);
+        ModPath = VFS.FromCwd(SettingsProvider.DataDirectory, modPath);
+        FabricPath = VFS.FromCwd(SettingsProvider.DataDirectory, fabricPath);
+        QuiltPath = VFS.FromCwd(SettingsProvider.DataDirectory, quiltPath);
+        PaperPath = VFS.FromCwd(SettingsProvider.DataDirectory, paperPath);
     }
 }

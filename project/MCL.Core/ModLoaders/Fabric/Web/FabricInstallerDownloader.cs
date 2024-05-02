@@ -19,7 +19,7 @@
 using System.Threading.Tasks;
 using MCL.Core.Launcher.Models;
 using MCL.Core.MiniCommon.IO;
-using MCL.Core.MiniCommon.Services;
+using MCL.Core.MiniCommon.Providers;
 using MCL.Core.MiniCommon.Validation;
 using MCL.Core.MiniCommon.Web;
 using MCL.Core.ModLoaders.Fabric.Models;
@@ -49,7 +49,7 @@ public static class FabricInstallerDownloader
         // Fabric does not provide a file hash through the current method. We do simple check of the version instead.
         if (VFS.Exists(fabricInstallerPath))
         {
-            NotificationService.Error("fabric.installer-exists", fabricInstaller!.Version);
+            NotificationProvider.Error("fabric.installer-exists", fabricInstaller!.Version);
             return true;
         }
 

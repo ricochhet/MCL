@@ -38,13 +38,14 @@ public static class FabricLoaderDownloadWrapper
         if (!await FabricVersionHelper.SetLoaderVersion(settings, launcherVersion, update))
             return false;
 
-        FabricLoaderDownloadService.Init(
-            settings!?.LauncherPath,
-            settings!?.LauncherVersion,
-            settings!?.LauncherInstance,
-            settings!?.FabricUrls
-        );
-        if (!await FabricLoaderDownloadService.Download(loadLocalVersionManifest: true))
+        FabricLoaderDownloadService downloader =
+            new(
+                settings!?.LauncherPath,
+                settings!?.LauncherVersion,
+                settings!?.LauncherInstance,
+                settings!?.FabricUrls
+            );
+        if (!await downloader.Download(loadLocalVersionManifest: true))
             return false;
 
         return true;

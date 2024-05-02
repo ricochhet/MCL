@@ -53,22 +53,18 @@ public static class PaperVersionHelper
         bool updateVersionManifest = false
     )
     {
-        PaperServerDownloadService.Init(
-            settings?.LauncherPath,
-            settings?.LauncherVersion,
-            settings?.LauncherInstance,
-            settings?.PaperUrls
-        );
-        if (!PaperServerDownloadService.LoadVersionManifestWithoutLogging() || updateVersionManifest)
+        PaperServerDownloadService downloader =
+            new(settings?.LauncherPath, settings?.LauncherVersion, settings?.LauncherInstance, settings?.PaperUrls);
+        if (!downloader.LoadVersionManifestWithoutLogging() || updateVersionManifest)
         {
-            await PaperServerDownloadService.DownloadVersionManifest();
-            PaperServerDownloadService.LoadVersionManifest();
+            await downloader.DownloadVersionManifest();
+            downloader.LoadVersionManifest();
         }
 
-        if (ObjectValidator<PaperVersionManifest>.IsNull(PaperServerDownloadService.PaperVersionManifest))
+        if (ObjectValidator<PaperVersionManifest>.IsNull(downloader.PaperVersionManifest))
             return false;
 
-        List<string> versions = GetVersionIds(PaperServerDownloadService.PaperVersionManifest!);
+        List<string> versions = GetVersionIds(downloader.PaperVersionManifest!);
         string? version = launcherVersion.PaperServerVersion;
 
         if (version == "latest" || ObjectValidator<string>.IsNullOrWhiteSpace([version]))
@@ -80,7 +76,7 @@ public static class PaperVersionHelper
         if (ObjectValidator<LauncherVersion>.IsNull(settings?.LauncherVersion))
             return false;
         settings!.LauncherVersion!.PaperServerVersion = version!;
-        SettingsService.Save(settings);
+        SettingsProvider.Save(settings);
         return true;
     }
 

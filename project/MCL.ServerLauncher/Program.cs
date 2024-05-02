@@ -34,12 +34,12 @@ internal static class Program
 
         Console.Title = "MCL.ServerLauncher";
         Log.Add(new NativeLogger(NativeLogLevel.Info));
-        Log.Add(new FileStreamLogger(SettingsService.LogFilePath));
+        Log.Add(new FileStreamLogger(SettingsProvider.LogFilePath));
         await ServiceManager.Init();
 
         if (args.Length <= 0)
         {
-            SimplePaperLaunchService.Init(SettingsService.SimplePaperLaunchFilePath, ServiceManager.Settings);
+            PaperLaunchProvider.Launch(SettingsProvider.SimplePaperLaunchFilePath, ServiceManager.Settings);
             return;
         }
 

@@ -20,9 +20,9 @@ using System;
 using System.Collections.Generic;
 using MCL.Core.MiniCommon.Models;
 
-namespace MCL.Core.MiniCommon.Services;
+namespace MCL.Core.MiniCommon.Providers;
 
-public static class RequestDataService
+public static class RequestDataProvider
 {
     private static readonly List<RequestData> _requests = [];
     public static int MaxSize { get; set; } = 100;

@@ -22,7 +22,7 @@ using MCL.CodeAnalyzers.Analyzers.Models;
 using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Logger.Enums;
 using MCL.Core.MiniCommon.Models;
-using MCL.Core.MiniCommon.Services;
+using MCL.Core.MiniCommon.Providers;
 using MCL.Core.MiniCommon.Validation;
 
 namespace MCL.CodeAnalyzers.Analyzers;
@@ -59,7 +59,7 @@ public static partial class LocalizationKeyAnalyzer
                 if (!localization!.Entries!.ContainsKey(quoteMatch!.Value!.Replace("\"", string.Empty)))
                 {
                     fail++;
-                    NotificationService.Error("analyzer.error.localization", file, quoteMatch!.Value);
+                    NotificationProvider.Error("analyzer.error.localization", file, quoteMatch!.Value);
                 }
                 else
                 {
@@ -68,7 +68,7 @@ public static partial class LocalizationKeyAnalyzer
             }
         }
 
-        NotificationService.Info(
+        NotificationProvider.Info(
             "analyzer.output",
             nameof(LocalizationKeyAnalyzer),
             success.ToString(),

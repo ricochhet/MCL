@@ -38,7 +38,7 @@ internal static class Program
 
         Console.Title = "MCL.CodeAnalyzers";
         Log.Add(new NativeLogger(NativeLogLevel.Info));
-        Log.Add(new FileStreamLogger(SettingsService.LogFilePath, NativeLogLevel.Info));
+        Log.Add(new FileStreamLogger(SettingsProvider.LogFilePath, NativeLogLevel.Info));
         await ServiceManager.Init();
 
         if (args.Length <= 0)

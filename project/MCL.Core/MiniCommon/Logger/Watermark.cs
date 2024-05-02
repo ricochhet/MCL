@@ -18,7 +18,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using MCL.Core.MiniCommon.Services;
+using MCL.Core.MiniCommon.Providers;
 
 namespace MCL.Core.MiniCommon.Logger;
 
@@ -43,7 +43,7 @@ public static class Watermark
 
         result.Add($"└─{line}─┘");
         foreach (string textItem in result)
-            NotificationService.InfoLog(textItem);
+            NotificationProvider.InfoLog(textItem);
     }
 
     private static int TextLength(string s)

@@ -21,7 +21,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MCL.Core.MiniCommon.Models;
-using MCL.Core.MiniCommon.Services;
+using MCL.Core.MiniCommon.Providers;
 using MCL.Core.MiniCommon.Validation;
 
 namespace MCL.Core.MiniCommon.CommandParser;
@@ -77,7 +77,7 @@ public static class CommandLine
                     )
                         action(options);
                     else
-                        NotificationService.Error("commandline.error", command.Usage());
+                        NotificationProvider.Error("commandline.error", command.Usage());
                 }
             }
         }
@@ -142,7 +142,7 @@ public static class CommandLine
                     )
                         await action(options);
                     else
-                        NotificationService.Error("commandline.error", command.Usage());
+                        NotificationProvider.Error("commandline.error", command.Usage());
                 }
             }
         }
@@ -173,10 +173,10 @@ public static class CommandLine
     /// </summary>
     private static void LogException(Exception ex)
     {
-        NotificationService.Error(
+        NotificationProvider.Error(
             "log.stack.trace",
             ex.Message,
-            ex.StackTrace ?? LocalizationService.Translate("stack.trace.null")
+            ex.StackTrace ?? LocalizationProvider.Translate("stack.trace.null")
         );
     }
 
@@ -185,7 +185,7 @@ public static class CommandLine
     /// </summary>
     public static void Pause()
     {
-        NotificationService.Info("commandline.exit", "F");
+        NotificationProvider.Info("commandline.exit", "F");
 
 #pragma warning disable IDE0079
 #pragma warning disable S108

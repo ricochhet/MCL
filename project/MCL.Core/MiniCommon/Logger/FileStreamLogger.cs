@@ -24,7 +24,7 @@ using System.Threading.Tasks;
 using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Logger.Enums;
 using MCL.Core.MiniCommon.Logger.Models;
-using MCL.Core.MiniCommon.Services;
+using MCL.Core.MiniCommon.Providers;
 using MCL.Core.MiniCommon.Validation;
 
 namespace MCL.Core.MiniCommon.Logger;
@@ -109,9 +109,9 @@ public class FileStreamLogger : ILogger, IDisposable
     private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
     {
         if (e.ExceptionObject is Exception ex)
-            NotificationService.Error("log.unhandled.exception", ex.ToString());
+            NotificationProvider.Error("log.unhandled.exception", ex.ToString());
         else
-            NotificationService.Error(
+            NotificationProvider.Error(
                 "log.unhandled.object",
                 e.ExceptionObject.ToString() ?? ValidationShims.StringEmpty()
             );
@@ -172,7 +172,7 @@ public class FileStreamLogger : ILogger, IDisposable
         }
         catch (Exception ex)
         {
-            NotificationService.Error("error.writefile", ex.Message);
+            NotificationProvider.Error("error.writefile", ex.Message);
         }
     }
 

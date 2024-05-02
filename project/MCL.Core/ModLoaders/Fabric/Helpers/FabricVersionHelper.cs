@@ -38,17 +38,18 @@ public static class FabricVersionHelper
         bool updateVersionManifest = false
     )
     {
-        FabricInstallerDownloadService.Init(settings?.LauncherPath, settings?.LauncherVersion, settings?.FabricUrls);
-        if (!FabricInstallerDownloadService.LoadVersionManifestWithoutLogging() || updateVersionManifest)
+        FabricInstallerDownloadService downloader =
+            new(settings?.LauncherPath, settings?.LauncherVersion, settings?.FabricUrls);
+        if (!downloader.LoadVersionManifestWithoutLogging() || updateVersionManifest)
         {
-            await FabricInstallerDownloadService.DownloadVersionManifest();
-            FabricInstallerDownloadService.LoadVersionManifest();
+            await downloader.DownloadVersionManifest();
+            downloader.LoadVersionManifest();
         }
 
-        if (ObjectValidator<FabricVersionManifest>.IsNull(FabricInstallerDownloadService.FabricVersionManifest))
+        if (ObjectValidator<FabricVersionManifest>.IsNull(downloader.FabricVersionManifest))
             return false;
 
-        List<string> installerVersions = GetInstallerVersionIds(FabricInstallerDownloadService.FabricVersionManifest!);
+        List<string> installerVersions = GetInstallerVersionIds(downloader.FabricVersionManifest!);
         string? installerVersion = launcherVersion.FabricInstallerVersion;
 
         if (installerVersion == "latest" || ObjectValidator<string>.IsNullOrWhiteSpace([installerVersion]))
@@ -60,7 +61,7 @@ public static class FabricVersionHelper
         if (ObjectValidator<LauncherVersion>.IsNull(settings?.LauncherVersion))
             return false;
         settings!.LauncherVersion!.FabricInstallerVersion = installerVersion!;
-        SettingsService.Save(settings);
+        SettingsProvider.Save(settings);
         return true;
     }
 
@@ -73,22 +74,18 @@ public static class FabricVersionHelper
         bool updateVersionManifest = false
     )
     {
-        FabricLoaderDownloadService.Init(
-            settings?.LauncherPath,
-            settings?.LauncherVersion,
-            settings?.LauncherInstance,
-            settings?.FabricUrls
-        );
-        if (!FabricLoaderDownloadService.LoadVersionManifestWithoutLogging() || updateVersionManifest)
+        FabricLoaderDownloadService downloader =
+            new(settings?.LauncherPath, settings?.LauncherVersion, settings?.LauncherInstance, settings?.FabricUrls);
+        if (!downloader.LoadVersionManifestWithoutLogging() || updateVersionManifest)
         {
-            await FabricLoaderDownloadService.DownloadVersionManifest();
-            FabricLoaderDownloadService.LoadVersionManifest();
+            await downloader.DownloadVersionManifest();
+            downloader.LoadVersionManifest();
         }
 
-        if (ObjectValidator<FabricVersionManifest>.IsNull(FabricLoaderDownloadService.FabricVersionManifest))
+        if (ObjectValidator<FabricVersionManifest>.IsNull(downloader.FabricVersionManifest))
             return false;
 
-        List<string> loaderVersions = GetLoaderVersionIds(FabricLoaderDownloadService.FabricVersionManifest!);
+        List<string> loaderVersions = GetLoaderVersionIds(downloader.FabricVersionManifest!);
         string? loaderVersion = launcherVersion.FabricLoaderVersion;
 
         if (loaderVersion == "latest" || ObjectValidator<string>.IsNullOrWhiteSpace([loaderVersion]))
@@ -100,7 +97,7 @@ public static class FabricVersionHelper
         if (ObjectValidator<LauncherVersion>.IsNull(settings?.LauncherVersion))
             return false;
         settings!.LauncherVersion!.FabricLoaderVersion = loaderVersion!;
-        SettingsService.Save(settings);
+        SettingsProvider.Save(settings);
         return true;
     }
 

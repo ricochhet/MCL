@@ -21,11 +21,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Encodings.Web;
+using MCL.Core.FileExtractors.Models;
 using MCL.Core.FileExtractors.Services;
 using MCL.Core.Launcher.Models;
 using MCL.Core.MiniCommon.Cryptography.Helpers;
 using MCL.Core.MiniCommon.IO;
-using MCL.Core.MiniCommon.Services;
+using MCL.Core.MiniCommon.Providers;
 using MCL.Core.MiniCommon.Validation;
 using MCL.Core.Modding.Enums;
 using MCL.Core.Modding.Models;
@@ -33,19 +34,18 @@ using MCL.Core.Modding.Resolvers;
 
 namespace MCL.Core.Modding.Services;
 
-public static class ModdingService
+public class ModdingService
 {
-    public static LauncherPath? LauncherPath { get; private set; }
-    public static ModSettings? ModSettings { get; private set; }
+    private readonly LauncherPath? LauncherPath;
+    private readonly SevenZipSettings? SevenZipSettings;
+    public readonly ModSettings? ModSettings;
 
-    static ModdingService() { }
+    private ModdingService() { }
 
-    /// <summary>
-    /// Initialize the Modding service.
-    /// </summary>
-    public static void Init(LauncherPath? launcherPath, ModSettings? modSettings)
+    public ModdingService(LauncherPath? launcherPath, SevenZipSettings? sevenZipSettings, ModSettings? modSettings)
     {
         LauncherPath = launcherPath;
+        SevenZipSettings = sevenZipSettings;
         ModSettings = modSettings;
         if (!VFS.Exists(LauncherPath?.ModPath ?? ValidationShims.StringEmpty()))
             VFS.CreateDirectory(launcherPath?.ModPath ?? ValidationShims.StringEmpty());
@@ -54,19 +54,19 @@ public static class ModdingService
     /// <summary>
     /// Save mod store data from the mod store location.
     /// </summary>
-    public static bool Save(string? modStoreName)
+    public bool Save(string? modStoreName)
     {
         string modPath = ModPathResolver.ModPath(LauncherPath, modStoreName);
         if (!VFS.Exists(modPath))
         {
-            NotificationService.Error("modding.save.error-nodir", modPath);
+            NotificationProvider.Error("modding.save.error-nodir", modPath);
             return false;
         }
 
         string[] modFilePaths = VFS.GetFiles(modPath, "*", SearchOption.TopDirectoryOnly);
         if (modFilePaths.Length <= 0)
         {
-            NotificationService.Error("modding.save.error-nofile", modPath);
+            NotificationProvider.Error("modding.save.error-nofile", modPath);
             return false;
         }
 
@@ -76,7 +76,7 @@ public static class ModdingService
             .ToArray();
         if (filteredModFilePaths.Length <= 0)
         {
-            NotificationService.Error("modding.save.error-nofile", modPath);
+            NotificationProvider.Error("modding.save.error-nofile", modPath);
             return false;
         }
 
@@ -110,7 +110,7 @@ public static class ModdingService
     /// <summary>
     /// Register a mod store path to ModSettings.
     /// </summary>
-    public static void Register(string modStoreName)
+    public void Register(string modStoreName)
     {
         if (
             VFS.Exists(ModPathResolver.ModStorePath(LauncherPath, modStoreName))
@@ -125,7 +125,7 @@ public static class ModdingService
     /// <summary>
     /// Load ModFiles from the mod store data file.
     /// </summary>
-    public static ModFiles? Load(string? modStoreName)
+    public ModFiles? Load(string? modStoreName)
     {
         string modStorePath = ModPathResolver.ModStorePath(LauncherPath, modStoreName);
         if (VFS.Exists(modStorePath) && (ModSettings?.IsStoreSaved(modStoreName) ?? false))
@@ -136,7 +136,7 @@ public static class ModdingService
     /// <summary>
     /// Delete a mod store data file.
     /// </summary>
-    public static bool Delete(string modStoreName)
+    public bool Delete(string modStoreName)
     {
         string modStorePath = ModPathResolver.ModStorePath(LauncherPath, modStoreName);
         if (!VFS.Exists(modStorePath))
@@ -155,7 +155,7 @@ public static class ModdingService
     /// <summary>
     /// Delete a mod store deployment path from the data file.
     /// </summary>
-    public static bool DeleteSavedDeployPath(string deployPath)
+    public bool DeleteSavedDeployPath(string deployPath)
     {
         if (ModSettings?.IsDeployPathSaved(deployPath) ?? false)
 #pragma warning disable IDE0079
@@ -171,11 +171,11 @@ public static class ModdingService
     /// <summary>
     /// Deploy ModFiles to the specified deployment path.
     /// </summary>
-    public static bool Deploy(ModFiles? modFiles, string deployPath, bool overwrite = false)
+    public bool Deploy(ModFiles? modFiles, string deployPath, bool overwrite = false)
     {
         if (ObjectValidator<List<ModFile>>.IsNullOrEmpty(modFiles?.Files))
         {
-            NotificationService.Error("modding.deploy.error-nofile");
+            NotificationProvider.Error("modding.deploy.error-nofile");
             return false;
         }
 
@@ -194,7 +194,7 @@ public static class ModdingService
         {
             if (ObjectValidator<string>.IsNullOrWhiteSpace([modFile?.ModPath]))
             {
-                NotificationService.Error("modding.deploy.error-nodata");
+                NotificationProvider.Error("modding.deploy.error-nodata");
                 return false;
             }
 
@@ -210,7 +210,8 @@ public static class ModdingService
                     VFS.CopyFile(modFile!.ModPath!, VFS.Combine(deployPath, VFS.GetFileName(modFile!.ModPath!)));
                     break;
                 case ModRule.UNZIP_AND_COPY:
-                    SevenZipService.Extract(modFile!.ModPath!, deployPath);
+                    SevenZipService sz = new(SevenZipSettings);
+                    sz.Extract(modFile!.ModPath!, deployPath);
                     break;
             }
         }

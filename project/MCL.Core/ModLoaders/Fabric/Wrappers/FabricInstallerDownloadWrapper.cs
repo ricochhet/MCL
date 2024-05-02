@@ -49,8 +49,9 @@ public static class FabricInstallerDownloadWrapper
         if (!await FabricVersionHelper.SetLoaderVersion(settings, launcherVersion, update))
             return false;
 
-        FabricInstallerDownloadService.Init(settings!?.LauncherPath, settings!?.LauncherVersion, settings!?.FabricUrls);
-        if (!await FabricInstallerDownloadService.Download(loadLocalVersionManifest: true))
+        FabricInstallerDownloadService downloader =
+            new(settings!?.LauncherPath, settings!?.LauncherVersion, settings!?.FabricUrls);
+        if (!await downloader.Download(loadLocalVersionManifest: true))
             return false;
 
         JavaLauncher.Launch(

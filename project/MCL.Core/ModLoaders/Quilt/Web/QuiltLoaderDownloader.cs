@@ -98,7 +98,7 @@ public static class QuiltLoaderDownloader
             launcherInstance!.QuiltLoaders!.Remove(existingLoader);
 
         launcherInstance!.QuiltLoaders!.Add(loader);
-        SettingsService.Load()?.Save(launcherInstance);
+        SettingsProvider.Load()?.Save(launcherInstance);
         return true;
     }
 }

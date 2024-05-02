@@ -21,7 +21,7 @@ using MCL.Core.Launcher.Models;
 using MCL.Core.MiniCommon.Decorators;
 using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Logger.Enums;
-using MCL.Core.MiniCommon.Services;
+using MCL.Core.MiniCommon.Providers;
 using MCL.Core.MiniCommon.Validation;
 using MCL.Core.ModLoaders.Quilt.Helpers;
 using MCL.Core.ModLoaders.Quilt.Models;
@@ -30,34 +30,32 @@ using MCL.Core.ModLoaders.Quilt.Web;
 
 namespace MCL.Core.ModLoaders.Quilt.Services;
 
-public static class QuiltInstallerDownloadService
+public class QuiltInstallerDownloadService
 {
-    public static QuiltVersionManifest? QuiltVersionManifest { get; private set; }
-    public static QuiltInstaller? QuiltInstaller { get; private set; }
-    private static LauncherPath? _launcherPath;
-    private static LauncherVersion? _launcherVersion;
-    private static QuiltUrls? _quiltUrls;
-    private static bool _initialized = false;
+    public QuiltVersionManifest? QuiltVersionManifest { get; private set; }
+    public QuiltInstaller? QuiltInstaller { get; private set; }
+    private readonly LauncherPath? _launcherPath;
+    private readonly LauncherVersion? _launcherVersion;
+    private readonly QuiltUrls? _quiltUrls;
 
-    /// <summary>
-    /// Initialize the Quilt installer download service.
-    /// </summary>
-    public static void Init(LauncherPath? launcherPath, LauncherVersion? launcherVersion, QuiltUrls? quiltUrls)
+    private QuiltInstallerDownloadService() { }
+
+    public QuiltInstallerDownloadService(
+        LauncherPath? launcherPath,
+        LauncherVersion? launcherVersion,
+        QuiltUrls? quiltUrls
+    )
     {
         _launcherPath = launcherPath;
         _launcherVersion = launcherVersion;
         _quiltUrls = quiltUrls;
-        _initialized = true;
     }
 
     /// <summary>
     /// Download all parts of the Quilt installer.
     /// </summary>
-    public static async Task<bool> Download(bool loadLocalVersionManifest = false)
+    public async Task<bool> Download(bool loadLocalVersionManifest = false)
     {
-        if (!_initialized)
-            return false;
-
         if (!loadLocalVersionManifest && !await DownloadVersionManifest())
             return false;
 
@@ -76,16 +74,13 @@ public static class QuiltInstallerDownloadService
     /// <summary>
     /// Download the Quilt version manifest.
     /// </summary>
-    public static async Task<bool> DownloadVersionManifest()
+    public async Task<bool> DownloadVersionManifest()
     {
         return await TimingDecorator.TimeAsync(async () =>
         {
-            if (!_initialized)
-                return false;
-
             if (!await QuiltVersionManifestDownloader.Download(_launcherPath, _quiltUrls))
             {
-                NotificationService.Error("error.download", nameof(QuiltVersionManifestDownloader));
+                NotificationProvider.Error("error.download", nameof(QuiltVersionManifestDownloader));
                 return false;
             }
 
@@ -96,15 +91,12 @@ public static class QuiltInstallerDownloadService
     /// <summary>
     /// Load the Quilt version manifest from the download path.
     /// </summary>
-    public static bool LoadVersionManifest()
+    public bool LoadVersionManifest()
     {
-        if (!_initialized)
-            return false;
-
         QuiltVersionManifest = Json.Load<QuiltVersionManifest>(QuiltPathResolver.VersionManifestPath(_launcherPath));
         if (ObjectValidator<QuiltVersionManifest>.IsNull(QuiltVersionManifest))
         {
-            NotificationService.Error("error.readfile", nameof(QuiltVersionManifest));
+            NotificationProvider.Error("error.readfile", nameof(QuiltVersionManifest));
             return false;
         }
 
@@ -114,11 +106,8 @@ public static class QuiltInstallerDownloadService
     /// <summary>
     /// Load the Quilt version manifest from the download path, without logging errors if loading failed.
     /// </summary>
-    public static bool LoadVersionManifestWithoutLogging()
+    public bool LoadVersionManifestWithoutLogging()
     {
-        if (!_initialized)
-            return false;
-
         QuiltVersionManifest = Json.Load<QuiltVersionManifest>(QuiltPathResolver.VersionManifestPath(_launcherPath));
         if (ObjectValidator<QuiltVersionManifest>.IsNull(QuiltVersionManifest, NativeLogLevel.Debug))
             return false;
@@ -129,15 +118,12 @@ public static class QuiltInstallerDownloadService
     /// <summary>
     /// Load the Quilt installer version specified by the QuiltInstallerVersion from the QuiltVersionManifest download path.
     /// </summary>
-    public static bool LoadVersion()
+    public bool LoadVersion()
     {
-        if (!_initialized)
-            return false;
-
         QuiltInstaller = QuiltVersionHelper.GetInstallerVersion(_launcherVersion, QuiltVersionManifest);
         if (ObjectValidator<QuiltInstaller>.IsNull(QuiltInstaller))
         {
-            NotificationService.Error(
+            NotificationProvider.Error(
                 "error.parse",
                 _launcherVersion?.QuiltInstallerVersion ?? ValidationShims.StringEmpty(),
                 nameof(QuiltInstaller)
@@ -151,16 +137,13 @@ public static class QuiltInstallerDownloadService
     /// <summary>
     /// Download the Quilt installer jar.
     /// </summary>
-    public static async Task<bool> DownloadJar()
+    public async Task<bool> DownloadJar()
     {
         return await TimingDecorator.TimeAsync(async () =>
         {
-            if (!_initialized)
-                return false;
-
             if (!await QuiltInstallerDownloader.Download(_launcherPath, _launcherVersion, QuiltInstaller))
             {
-                NotificationService.Error("error.download", nameof(QuiltInstallerDownloader));
+                NotificationProvider.Error("error.download", nameof(QuiltInstallerDownloader));
                 return false;
             }
 

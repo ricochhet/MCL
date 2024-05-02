@@ -19,9 +19,8 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text.RegularExpressions;
 using MCL.Core.MiniCommon.Logger.Enums;
-using MCL.Core.MiniCommon.Services;
+using MCL.Core.MiniCommon.Providers;
 using MCL.Core.MiniCommon.Validation;
 
 namespace MCL.Core.MiniCommon.IO.Helpers;
@@ -65,13 +64,13 @@ public static class ProcessHelper
                 process.OutputDataReceived += (sender, e) =>
                 {
                     if (ObjectValidator<string>.IsNotNullOrWhiteSpace([e?.Data], NativeLogLevel.Debug))
-                        NotificationService.PrintLog(DetermineLogType(e!.Data!), e!.Data!);
+                        NotificationProvider.PrintLog(DetermineLogType(e!.Data!), e!.Data!);
                 };
 
                 process.ErrorDataReceived += (sender, e) =>
                 {
                     if (ObjectValidator<string>.IsNotNullOrWhiteSpace([e?.Data], NativeLogLevel.Debug))
-                        NotificationService.PrintLog(DetermineLogType(e!.Data!), e!.Data!);
+                        NotificationProvider.PrintLog(DetermineLogType(e!.Data!), e!.Data!);
                 };
 
                 process.Start();
@@ -81,17 +80,17 @@ public static class ProcessHelper
             else
             {
                 process.Start();
-                NotificationService.InfoLog(process.StandardOutput.ReadToEnd());
+                NotificationProvider.InfoLog(process.StandardOutput.ReadToEnd());
             }
 
             process.WaitForExit();
         }
         catch (Exception ex)
         {
-            NotificationService.Error(
+            NotificationProvider.Error(
                 "log.stack.trace",
                 ex.Message,
-                ex.StackTrace ?? LocalizationService.Translate("stack.trace.null")
+                ex.StackTrace ?? LocalizationProvider.Translate("stack.trace.null")
             );
         }
     }

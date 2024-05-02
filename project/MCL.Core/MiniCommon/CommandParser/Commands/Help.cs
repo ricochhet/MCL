@@ -22,7 +22,7 @@ using MCL.Core.MiniCommon.CommandParser.Converters;
 using MCL.Core.MiniCommon.CommandParser.Helpers;
 using MCL.Core.MiniCommon.Interfaces;
 using MCL.Core.MiniCommon.Models;
-using MCL.Core.MiniCommon.Services;
+using MCL.Core.MiniCommon.Providers;
 
 namespace MCL.Core.MiniCommon.CommandParser.Commands;
 
@@ -37,9 +37,7 @@ public class Help : ILauncherCommand
             (string? _) =>
             {
                 foreach (Command command in CommandHelper.Commands)
-                {
-                    NotificationService.InfoLog(command.Usage());
-                }
+                    NotificationProvider.InfoLog(command.Usage());
             }
         );
 

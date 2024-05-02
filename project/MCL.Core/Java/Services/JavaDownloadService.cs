@@ -26,24 +26,23 @@ using MCL.Core.Minecraft.Models;
 using MCL.Core.MiniCommon.Decorators;
 using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Logger.Enums;
-using MCL.Core.MiniCommon.Services;
+using MCL.Core.MiniCommon.Providers;
 using MCL.Core.MiniCommon.Validation;
 
 namespace MCL.Core.Java.Services;
 
-public static class JavaDownloadService
+public class JavaDownloadService
 {
-    private static JavaVersionManifest? _javaVersionManifest;
-    private static JavaVersionDetails? _javaVersionDetails;
-    private static LauncherPath? _launcherPath;
-    private static MUrls? _mUrls;
-    private static JavaRuntimeType? _javaRuntimeType;
-    private static JavaRuntimePlatform? _javaRuntimePlatform;
+    private JavaVersionManifest? _javaVersionManifest;
+    private JavaVersionDetails? _javaVersionDetails;
+    private readonly LauncherPath? _launcherPath;
+    private readonly MUrls? _mUrls;
+    private readonly JavaRuntimeType? _javaRuntimeType;
+    private readonly JavaRuntimePlatform? _javaRuntimePlatform;
 
-    /// <summary>
-    /// Initialize the Java download service.
-    /// </summary>
-    public static void Init(
+    private JavaDownloadService() { }
+
+    public JavaDownloadService(
         LauncherPath? launcherPath,
         MUrls? mUrls,
         JavaRuntimeType? javaRuntimeType,
@@ -59,7 +58,7 @@ public static class JavaDownloadService
     /// <summary>
     /// Download all parts of the Java runtime environment.
     /// </summary>
-    public static async Task<bool> Download(bool loadLocalVersionManifest = false, bool loadLocalVersionDetails = false)
+    public async Task<bool> Download(bool loadLocalVersionManifest = false, bool loadLocalVersionDetails = false)
     {
         if (!loadLocalVersionManifest && !await DownloadJavaVersionManifest())
             return false;
@@ -82,13 +81,13 @@ public static class JavaDownloadService
     /// <summary>
     /// Exclusively download the Java version manifest.
     /// </summary>
-    public static async Task<bool> DownloadJavaVersionManifest()
+    public async Task<bool> DownloadJavaVersionManifest()
     {
         return await TimingDecorator.TimeAsync(async () =>
         {
             if (!await JavaVersionManifestDownloader.Download(_launcherPath, _mUrls))
             {
-                NotificationService.Error("error.download", nameof(JavaVersionManifestDownloader));
+                NotificationProvider.Error("error.download", nameof(JavaVersionManifestDownloader));
                 return false;
             }
 
@@ -99,12 +98,12 @@ public static class JavaDownloadService
     /// <summary>
     /// Load the Java version manifest from the download path.
     /// </summary>
-    public static bool LoadJavaVersionManifest()
+    public bool LoadJavaVersionManifest()
     {
         _javaVersionManifest = Json.Load<JavaVersionManifest>(JavaPathResolver.JavaVersionManifestPath(_launcherPath));
         if (ObjectValidator<JavaVersionManifest>.IsNull(_javaVersionManifest))
         {
-            NotificationService.Error("error.readfile", nameof(_javaVersionManifest));
+            NotificationProvider.Error("error.readfile", nameof(_javaVersionManifest));
             return false;
         }
 
@@ -114,7 +113,7 @@ public static class JavaDownloadService
     /// <summary>
     /// Load the Java version manifest from the download path, without logging errors if loading failed.
     /// </summary>
-    public static bool LoadJavaVersionManifestWithoutLogging()
+    public bool LoadJavaVersionManifestWithoutLogging()
     {
         _javaVersionManifest = Json.Load<JavaVersionManifest>(JavaPathResolver.JavaVersionManifestPath(_launcherPath));
         if (ObjectValidator<JavaVersionManifest>.IsNull(_javaVersionManifest, NativeLogLevel.Debug))
@@ -126,7 +125,7 @@ public static class JavaDownloadService
     /// <summary>
     /// Exclusively download the Java version details.
     /// </summary>
-    public static async Task<bool> DownloadJavaVersionDetails()
+    public async Task<bool> DownloadJavaVersionDetails()
     {
         return await TimingDecorator.TimeAsync(async () =>
         {
@@ -139,7 +138,7 @@ public static class JavaDownloadService
                 )
             )
             {
-                NotificationService.Error("error.download", nameof(JavaVersionDetailsDownloader));
+                NotificationProvider.Error("error.download", nameof(JavaVersionDetailsDownloader));
                 return false;
             }
 
@@ -150,14 +149,14 @@ public static class JavaDownloadService
     /// <summary>
     /// Load the Java version details from the download path.
     /// </summary>
-    public static bool LoadJavaVersionDetails()
+    public bool LoadJavaVersionDetails()
     {
         _javaVersionDetails = Json.Load<JavaVersionDetails>(
             JavaPathResolver.JavaVersionDetailsPath(_launcherPath, JavaRuntimeTypeResolver.ToString(_javaRuntimeType))
         );
         if (ObjectValidator<JavaVersionDetails>.IsNull(_javaVersionDetails))
         {
-            NotificationService.Error("error.readfile", nameof(_javaVersionDetails));
+            NotificationProvider.Error("error.readfile", nameof(_javaVersionDetails));
             return false;
         }
 
@@ -167,13 +166,13 @@ public static class JavaDownloadService
     /// <summary>
     /// Download the Java runtime environment.
     /// </summary>
-    public static async Task<bool> DownloadJavaRuntime()
+    public async Task<bool> DownloadJavaRuntime()
     {
         return await TimingDecorator.TimeAsync(async () =>
         {
             if (!await JavaRuntimeDownloader.Download(_launcherPath, _javaRuntimeType, _javaVersionDetails))
             {
-                NotificationService.Error("error.download", nameof(JavaRuntimeDownloader));
+                NotificationProvider.Error("error.download", nameof(JavaRuntimeDownloader));
                 return false;
             }
 

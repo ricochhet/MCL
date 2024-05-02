@@ -31,18 +31,19 @@ public static class JavaDownloadWrapper
         if (ObjectValidator<Settings>.IsNull(settings))
             return false;
 
-        JavaDownloadService.Init(
-            settings!?.LauncherPath,
-            settings!?.MUrls,
-            JavaVersionHelper.GetMVersionJava(
+        JavaDownloadService downloader =
+            new(
                 settings!?.LauncherPath,
-                settings!?.LauncherVersion,
-                settings!?.LauncherSettings
-            ),
-            settings!?.LauncherSettings?.JavaRuntimePlatform
-        );
+                settings!?.MUrls,
+                JavaVersionHelper.GetMVersionJava(
+                    settings!?.LauncherPath,
+                    settings!?.LauncherVersion,
+                    settings!?.LauncherSettings
+                ),
+                settings!?.LauncherSettings?.JavaRuntimePlatform
+            );
 
-        if (!await JavaDownloadService.Download())
+        if (!await downloader.Download())
             return false;
 
         return true;

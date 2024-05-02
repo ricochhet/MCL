@@ -24,7 +24,7 @@ using MCL.Core.Launcher.Services;
 using MCL.Core.MiniCommon.Decorators;
 using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Logger.Enums;
-using MCL.Core.MiniCommon.Services;
+using MCL.Core.MiniCommon.Providers;
 using MCL.Core.MiniCommon.Validation;
 using MCL.Core.Servers.Paper.Helpers;
 using MCL.Core.Servers.Paper.Models;
@@ -33,20 +33,18 @@ using MCL.Core.Servers.Paper.Web;
 
 namespace MCL.Core.Servers.Paper.Services;
 
-public static class PaperServerDownloadService
+public class PaperServerDownloadService
 {
-    public static PaperVersionManifest? PaperVersionManifest { get; private set; }
-    public static PaperBuild? PaperBuild { get; private set; }
-    private static LauncherPath? _launcherPath;
-    private static LauncherVersion? _launcherVersion;
-    private static LauncherInstance? _launcherInstance;
-    private static PaperUrls? _paperUrls;
-    private static bool _initialized = false;
+    public PaperVersionManifest? PaperVersionManifest { get; private set; }
+    public PaperBuild? PaperBuild { get; private set; }
+    private readonly LauncherPath? _launcherPath;
+    private readonly LauncherVersion? _launcherVersion;
+    private readonly LauncherInstance? _launcherInstance;
+    private readonly PaperUrls? _paperUrls;
 
-    /// <summary>
-    /// Initialize the Paper server download service.
-    /// </summary>
-    public static void Init(
+    private PaperServerDownloadService() { }
+
+    public PaperServerDownloadService(
         LauncherPath? launcherPath,
         LauncherVersion? launcherVersion,
         LauncherInstance? launcherInstance,
@@ -57,17 +55,13 @@ public static class PaperServerDownloadService
         _launcherVersion = launcherVersion;
         _launcherInstance = launcherInstance;
         _paperUrls = paperUrls;
-        _initialized = true;
     }
 
     /// <summary>
     /// Download all parts of the Paper server.
     /// </summary>
-    public static async Task<bool> Download(bool loadLocalVersionManifest = false)
+    public async Task<bool> Download(bool loadLocalVersionManifest = false)
     {
-        if (!_initialized)
-            return false;
-
         if (!loadLocalVersionManifest && !await DownloadVersionManifest())
             return false;
 
@@ -97,7 +91,7 @@ public static class PaperServerDownloadService
             _launcherInstance!.PaperServerVersions.Remove(existingVersion);
 
         _launcherInstance!.PaperServerVersions.Add(_launcherVersion!.PaperServerVersion);
-        SettingsService.Load()?.Save(_launcherInstance);
+        SettingsProvider.Load()?.Save(_launcherInstance);
 
         return true;
     }
@@ -105,16 +99,13 @@ public static class PaperServerDownloadService
     /// <summary>
     /// Download the Paper version manifest.
     /// </summary>
-    public static async Task<bool> DownloadVersionManifest()
+    public async Task<bool> DownloadVersionManifest()
     {
         return await TimingDecorator.TimeAsync(async () =>
         {
-            if (!_initialized)
-                return false;
-
             if (!await PaperVersionManifestDownloader.Download(_launcherPath, _launcherVersion, _paperUrls))
             {
-                NotificationService.Error("error.download", nameof(PaperVersionManifestDownloader));
+                NotificationProvider.Error("error.download", nameof(PaperVersionManifestDownloader));
                 return false;
             }
 
@@ -125,11 +116,8 @@ public static class PaperServerDownloadService
     /// <summary>
     /// Load the Paper version manifest from the download path.
     /// </summary>
-    public static bool LoadVersionManifest()
+    public bool LoadVersionManifest()
     {
-        if (!_initialized)
-            return false;
-
         if (ObjectValidator<string>.IsNullOrWhiteSpace([_launcherVersion?.MVersion]))
             return false;
 
@@ -138,7 +126,7 @@ public static class PaperServerDownloadService
         );
         if (ObjectValidator<PaperVersionManifest>.IsNull(PaperVersionManifest))
         {
-            NotificationService.Error("error.readfile", nameof(PaperVersionManifest));
+            NotificationProvider.Error("error.readfile", nameof(PaperVersionManifest));
             return false;
         }
 
@@ -148,11 +136,8 @@ public static class PaperServerDownloadService
     /// <summary>
     /// Load the Paper version manifest from the download path, without logging errors if loading failed.
     /// </summary>
-    public static bool LoadVersionManifestWithoutLogging()
+    public bool LoadVersionManifestWithoutLogging()
     {
-        if (!_initialized)
-            return false;
-
         if (ObjectValidator<string>.IsNullOrWhiteSpace([_launcherVersion?.MVersion], NativeLogLevel.Debug))
             return false;
 
@@ -168,15 +153,12 @@ public static class PaperServerDownloadService
     /// <summary>
     /// Load the Paper server version specified by the PaperServerVersion from the PaperVersionManifest download path.
     /// </summary>
-    public static bool LoadVersion()
+    public bool LoadVersion()
     {
-        if (!_initialized)
-            return false;
-
         PaperBuild = PaperVersionHelper.GetVersion(_launcherVersion, PaperVersionManifest);
         if (ObjectValidator<PaperBuild>.IsNull(PaperBuild))
         {
-            NotificationService.Error(
+            NotificationProvider.Error(
                 "error.parse",
                 _launcherVersion?.PaperServerVersion ?? ValidationShims.StringEmpty(),
                 nameof(PaperBuild)
@@ -190,16 +172,13 @@ public static class PaperServerDownloadService
     /// <summary>
     /// Download the Paper server.
     /// </summary>
-    public static async Task<bool> DownloadJar()
+    public async Task<bool> DownloadJar()
     {
         return await TimingDecorator.TimeAsync(async () =>
         {
-            if (!_initialized)
-                return false;
-
             if (!await PaperServerDownloader.Download(_launcherPath, _launcherVersion, PaperBuild, _paperUrls))
             {
-                NotificationService.Error("error.download", nameof(PaperServerDownloader));
+                NotificationProvider.Error("error.download", nameof(PaperServerDownloader));
                 return false;
             }
 

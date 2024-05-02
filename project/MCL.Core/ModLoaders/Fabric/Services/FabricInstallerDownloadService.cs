@@ -21,7 +21,7 @@ using MCL.Core.Launcher.Models;
 using MCL.Core.MiniCommon.Decorators;
 using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Logger.Enums;
-using MCL.Core.MiniCommon.Services;
+using MCL.Core.MiniCommon.Providers;
 using MCL.Core.MiniCommon.Validation;
 using MCL.Core.ModLoaders.Fabric.Helpers;
 using MCL.Core.ModLoaders.Fabric.Models;
@@ -30,34 +30,32 @@ using MCL.Core.ModLoaders.Fabric.Web;
 
 namespace MCL.Core.ModLoaders.Fabric.Services;
 
-public static class FabricInstallerDownloadService
+public class FabricInstallerDownloadService
 {
-    public static FabricVersionManifest? FabricVersionManifest { get; private set; }
-    public static FabricInstaller? FabricInstaller { get; private set; }
-    private static LauncherPath? _launcherPath;
-    private static LauncherVersion? _launcherVersion;
-    private static FabricUrls? _fabricUrls;
-    private static bool _initialized = false;
+    public FabricVersionManifest? FabricVersionManifest { get; private set; }
+    public FabricInstaller? FabricInstaller { get; private set; }
+    private readonly LauncherPath? _launcherPath;
+    private readonly LauncherVersion? _launcherVersion;
+    private readonly FabricUrls? _fabricUrls;
 
-    /// <summary>
-    /// Initialize the Fabric installer download service.
-    /// </summary>
-    public static void Init(LauncherPath? launcherPath, LauncherVersion? launcherVersion, FabricUrls? fabricUrls)
+    private FabricInstallerDownloadService() { }
+
+    public FabricInstallerDownloadService(
+        LauncherPath? launcherPath,
+        LauncherVersion? launcherVersion,
+        FabricUrls? fabricUrls
+    )
     {
         _launcherPath = launcherPath;
         _launcherVersion = launcherVersion;
         _fabricUrls = fabricUrls;
-        _initialized = true;
     }
 
     /// <summary>
     /// Download all parts of the Fabric installer.
     /// </summary>
-    public static async Task<bool> Download(bool loadLocalVersionManifest = false)
+    public async Task<bool> Download(bool loadLocalVersionManifest = false)
     {
-        if (!_initialized)
-            return false;
-
         if (!loadLocalVersionManifest && !await DownloadVersionManifest())
             return false;
 
@@ -76,16 +74,13 @@ public static class FabricInstallerDownloadService
     /// <summary>
     /// Download the Fabric version manifest.
     /// </summary>
-    public static async Task<bool> DownloadVersionManifest()
+    public async Task<bool> DownloadVersionManifest()
     {
         return await TimingDecorator.TimeAsync(async () =>
         {
-            if (!_initialized)
-                return false;
-
             if (!await FabricVersionManifestDownloader.Download(_launcherPath, _fabricUrls))
             {
-                NotificationService.Error("error.download", nameof(FabricVersionManifestDownloader));
+                NotificationProvider.Error("error.download", nameof(FabricVersionManifestDownloader));
                 return false;
             }
 
@@ -96,15 +91,12 @@ public static class FabricInstallerDownloadService
     /// <summary>
     /// Load the Fabric version manifest from the download path.
     /// </summary>
-    public static bool LoadVersionManifest()
+    public bool LoadVersionManifest()
     {
-        if (!_initialized)
-            return false;
-
         FabricVersionManifest = Json.Load<FabricVersionManifest>(FabricPathResolver.VersionManifestPath(_launcherPath));
         if (ObjectValidator<FabricVersionManifest>.IsNull(FabricVersionManifest))
         {
-            NotificationService.Error("error.readfile", nameof(FabricVersionManifest));
+            NotificationProvider.Error("error.readfile", nameof(FabricVersionManifest));
             return false;
         }
 
@@ -114,11 +106,8 @@ public static class FabricInstallerDownloadService
     /// <summary>
     /// Load the Fabric version manifest from the download path, without logging errors if loading failed.
     /// </summary>
-    public static bool LoadVersionManifestWithoutLogging()
+    public bool LoadVersionManifestWithoutLogging()
     {
-        if (!_initialized)
-            return false;
-
         FabricVersionManifest = Json.Load<FabricVersionManifest>(FabricPathResolver.VersionManifestPath(_launcherPath));
         if (ObjectValidator<FabricVersionManifest>.IsNull(FabricVersionManifest, NativeLogLevel.Debug))
             return false;
@@ -129,15 +118,12 @@ public static class FabricInstallerDownloadService
     /// <summary>
     /// Load the Fabric installer version specified by the FabricInstallerVersion from the FabricVersionManifest download path.
     /// </summary>
-    public static bool LoadVersion()
+    public bool LoadVersion()
     {
-        if (!_initialized)
-            return false;
-
         FabricInstaller = FabricVersionHelper.GetInstallerVersion(_launcherVersion, FabricVersionManifest);
         if (ObjectValidator<FabricInstaller>.IsNull(FabricInstaller))
         {
-            NotificationService.Error(
+            NotificationProvider.Error(
                 "error.parse",
                 _launcherVersion?.FabricInstallerVersion ?? ValidationShims.StringEmpty(),
                 nameof(FabricInstaller)
@@ -151,16 +137,13 @@ public static class FabricInstallerDownloadService
     /// <summary>
     /// Download the Fabric installer jar.
     /// </summary>
-    public static async Task<bool> DownloadJar()
+    public async Task<bool> DownloadJar()
     {
         return await TimingDecorator.TimeAsync(async () =>
         {
-            if (!_initialized)
-                return false;
-
             if (!await FabricInstallerDownloader.Download(_launcherPath, _launcherVersion, FabricInstaller))
             {
-                NotificationService.Error("error.download", nameof(FabricInstallerDownloader));
+                NotificationProvider.Error("error.download", nameof(FabricInstallerDownloader));
                 return false;
             }
 

@@ -49,8 +49,9 @@ public static class QuiltInstallerDownloadWrapper
         if (!await QuiltVersionHelper.SetLoaderVersion(settings, launcherVersion, update))
             return false;
 
-        QuiltInstallerDownloadService.Init(settings!?.LauncherPath, settings!?.LauncherVersion, settings!?.QuiltUrls);
-        if (!await QuiltInstallerDownloadService.Download(loadLocalVersionManifest: true))
+        QuiltInstallerDownloadService downloader =
+            new(settings!?.LauncherPath, settings!?.LauncherVersion, settings!?.QuiltUrls);
+        if (!await downloader.Download(loadLocalVersionManifest: true))
             return false;
 
         JavaLauncher.Launch(

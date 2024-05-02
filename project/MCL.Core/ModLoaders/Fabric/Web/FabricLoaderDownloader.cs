@@ -104,7 +104,7 @@ public static class FabricLoaderDownloader
             launcherInstance!.FabricLoaders!.Remove(existingLoader);
 
         launcherInstance!.FabricLoaders!.Add(loader);
-        SettingsService.Load()?.Save(launcherInstance);
+        SettingsProvider.Load()?.Save(launcherInstance);
         return true;
     }
 }

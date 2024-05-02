@@ -63,23 +63,24 @@ public static class VersionHelper
         bool updateVersionManifest = false
     )
     {
-        MDownloadService.Init(
-            settings?.LauncherPath,
-            settings?.LauncherVersion,
-            settings?.LauncherSettings,
-            settings?.LauncherInstance,
-            settings?.MUrls
-        );
-        if (!MDownloadService.LoadVersionManifestWithoutLogging() || updateVersionManifest)
+        MDownloadService downloader =
+            new(
+                settings?.LauncherPath,
+                settings?.LauncherVersion,
+                settings?.LauncherSettings,
+                settings?.LauncherInstance,
+                settings?.MUrls
+            );
+        if (!downloader.LoadVersionManifestWithoutLogging() || updateVersionManifest)
         {
-            await MDownloadService.DownloadVersionManifest();
-            MDownloadService.LoadVersionManifest();
+            await downloader.DownloadVersionManifest();
+            downloader.LoadVersionManifest();
         }
 
-        if (ObjectValidator<MVersionManifest>.IsNull(MDownloadService.VersionManifest))
+        if (ObjectValidator<MVersionManifest>.IsNull(downloader.VersionManifest))
             return false;
 
-        List<string> versions = GetVersionIds(MDownloadService.VersionManifest);
+        List<string> versions = GetVersionIds(downloader.VersionManifest);
         string? version = launcherVersion.MVersion;
 
         if (version == "latest" || ObjectValidator<string>.IsNullOrWhiteSpace([version]))
@@ -91,7 +92,7 @@ public static class VersionHelper
         if (ObjectValidator<LauncherVersion>.IsNull(settings?.LauncherVersion))
             return false;
         settings!.LauncherVersion!.MVersion = version!;
-        SettingsService.Save(settings);
+        SettingsProvider.Save(settings);
         return true;
     }
 

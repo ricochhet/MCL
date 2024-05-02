@@ -38,13 +38,9 @@ public static class PaperDownloadWrapper
         if (!await PaperVersionHelper.SetVersion(settings, launcherVersion, update))
             return false;
 
-        PaperServerDownloadService.Init(
-            settings!?.LauncherPath,
-            settings!?.LauncherVersion,
-            settings!?.LauncherInstance,
-            settings!?.PaperUrls
-        );
-        if (!await PaperServerDownloadService.Download(loadLocalVersionManifest: true))
+        PaperServerDownloadService downloader =
+            new(settings!?.LauncherPath, settings!?.LauncherVersion, settings!?.LauncherInstance, settings!?.PaperUrls);
+        if (!await downloader.Download(loadLocalVersionManifest: true))
             return false;
 
         return true;

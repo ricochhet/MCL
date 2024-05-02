@@ -24,14 +24,13 @@ using MCL.Core.MiniCommon.Validation;
 
 namespace MCL.Core.FileExtractors.Services;
 
-public static class SevenZipService
+public class SevenZipService
 {
-    private static SevenZipSettings? SevenZipSettings { get; set; }
+    private SevenZipSettings? SevenZipSettings { get; set; }
 
-    /// <summary>
-    /// Initialize the SevenZip service.
-    /// </summary>
-    public static void Init(SevenZipSettings? sevenZipSettings)
+    private SevenZipService() { }
+
+    public SevenZipService(SevenZipSettings? sevenZipSettings)
     {
         SevenZipSettings = sevenZipSettings;
     }
@@ -39,7 +38,7 @@ public static class SevenZipService
     /// <summary>
     /// Extract an archive using SevenZip, using arguments specified by SevenZipSettings.
     /// </summary>
-    public static void Extract(string source, string destination)
+    public void Extract(string source, string destination)
     {
         ProcessHelper.RunProcess(
             SevenZipPathResolver.SevenZipPath(SevenZipSettings),

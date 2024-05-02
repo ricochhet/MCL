@@ -25,28 +25,26 @@ using MCL.Core.Minecraft.Web;
 using MCL.Core.MiniCommon.Decorators;
 using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Logger.Enums;
-using MCL.Core.MiniCommon.Services;
+using MCL.Core.MiniCommon.Providers;
 using MCL.Core.MiniCommon.Validation;
 
 namespace MCL.Core.Minecraft.Services;
 
-public static class MDownloadService
+public class MDownloadService
 {
-    public static MVersionManifest? VersionManifest { get; private set; }
-    public static MVersionDetails? VersionDetails { get; private set; }
-    public static MVersion? Version { get; private set; }
-    private static MAssetsData? _assets;
-    private static LauncherPath? _launcherPath;
-    private static LauncherVersion? _launcherVersion;
-    private static LauncherSettings? _launcherSettings;
-    private static LauncherInstance? _launcherInstance;
-    private static MUrls? _mUrls;
-    private static bool _initialized = false;
+    public MVersionManifest? VersionManifest { get; private set; }
+    public MVersionDetails? VersionDetails { get; private set; }
+    public MVersion? Version { get; private set; }
+    private MAssetsData? _assets;
+    private readonly LauncherPath? _launcherPath;
+    private readonly LauncherVersion? _launcherVersion;
+    private readonly LauncherSettings? _launcherSettings;
+    private readonly LauncherInstance? _launcherInstance;
+    private readonly MUrls? _mUrls;
 
-    /// <summary>
-    /// Initialize the game download service.
-    /// </summary>
-    public static void Init(
+    private MDownloadService() { }
+
+    public MDownloadService(
         LauncherPath? launcherPath,
         LauncherVersion? launcherVersion,
         LauncherSettings? launcherSettings,
@@ -59,7 +57,6 @@ public static class MDownloadService
         _launcherInstance = launcherInstance;
         _launcherSettings = launcherSettings;
         _mUrls = mUrls;
-        _initialized = true;
     }
 
 #pragma warning disable IDE0079
@@ -67,16 +64,13 @@ public static class MDownloadService
     /// <summary>
     /// Download all parts of the game.
     /// </summary>
-    public static async Task<bool> Download(
+    public async Task<bool> Download(
         bool loadLocalVersionManifest = false,
         bool loadLocalVersionDetails = false,
         bool loadLocalAssetIndex = false
     )
 #pragma warning restore IDE0079, S3776
     {
-        if (!_initialized)
-            return false;
-
         if (!loadLocalVersionManifest && !await DownloadVersionManifest())
             return false;
 
@@ -125,16 +119,13 @@ public static class MDownloadService
     /// <summary>
     /// Exclusively download the game version manifest.
     /// </summary>
-    public static async Task<bool> DownloadVersionManifest()
+    public async Task<bool> DownloadVersionManifest()
     {
         return await TimingDecorator.TimeAsync(async () =>
         {
-            if (!_initialized)
-                return false;
-
             if (!await VersionManifestDownloader.Download(_launcherPath, _mUrls))
             {
-                NotificationService.Error("error.download", nameof(MVersionManifest));
+                NotificationProvider.Error("error.download", nameof(MVersionManifest));
                 return false;
             }
 
@@ -145,15 +136,12 @@ public static class MDownloadService
     /// <summary>
     /// Load the game version manifest from the download path.
     /// </summary>
-    public static bool LoadVersionManifest()
+    public bool LoadVersionManifest()
     {
-        if (!_initialized)
-            return false;
-
         VersionManifest = Json.Load<MVersionManifest>(MPathResolver.VersionManifestPath(_launcherPath));
         if (ObjectValidator<MVersionManifest>.IsNull(VersionManifest))
         {
-            NotificationService.Error("error.readfile", nameof(MVersionManifest));
+            NotificationProvider.Error("error.readfile", nameof(MVersionManifest));
             return false;
         }
 
@@ -163,11 +151,8 @@ public static class MDownloadService
     /// <summary>
     /// Load the game version manifest from the download path, without logging errors if loading failed.
     /// </summary>
-    public static bool LoadVersionManifestWithoutLogging()
+    public bool LoadVersionManifestWithoutLogging()
     {
-        if (!_initialized)
-            return false;
-
         VersionManifest = Json.Load<MVersionManifest>(MPathResolver.VersionManifestPath(_launcherPath));
         if (ObjectValidator<MVersionManifest>.IsNull(VersionManifest, NativeLogLevel.Debug))
             return false;
@@ -178,15 +163,12 @@ public static class MDownloadService
     /// <summary>
     /// Load the game version specified by the MVersion from the MVersionManifest download path.
     /// </summary>
-    public static bool LoadVersion()
+    public bool LoadVersion()
     {
-        if (!_initialized)
-            return false;
-
         Version = VersionHelper.GetVersion(_launcherVersion, VersionManifest);
         if (ObjectValidator<MVersion>.IsNull(Version))
         {
-            NotificationService.Error(
+            NotificationProvider.Error(
                 "error.parse",
                 _launcherVersion?.MVersion ?? ValidationShims.StringEmpty(),
                 nameof(MVersion)
@@ -200,16 +182,13 @@ public static class MDownloadService
     /// <summary>
     /// Exclusively download the game version details.
     /// </summary>
-    public static async Task<bool> DownloadVersionDetails()
+    public async Task<bool> DownloadVersionDetails()
     {
         return await TimingDecorator.TimeAsync(async () =>
         {
-            if (!_initialized)
-                return false;
-
             if (!await VersionDetailsDownloader.Download(_launcherPath, Version))
             {
-                NotificationService.Error("error.download", nameof(VersionDetailsDownloader));
+                NotificationProvider.Error("error.download", nameof(VersionDetailsDownloader));
                 return false;
             }
 
@@ -220,15 +199,12 @@ public static class MDownloadService
     /// <summary>
     /// Load the game version details from the download path.
     /// </summary>
-    public static bool LoadVersionDetails()
+    public bool LoadVersionDetails()
     {
-        if (!_initialized)
-            return false;
-
         VersionDetails = Json.Load<MVersionDetails>(MPathResolver.VersionDetailsPath(_launcherPath, Version));
         if (ObjectValidator<MVersionDetails>.IsNull(VersionDetails))
         {
-            NotificationService.Error("error.readfile", nameof(MVersionDetails));
+            NotificationProvider.Error("error.readfile", nameof(MVersionDetails));
             return false;
         }
 
@@ -238,13 +214,10 @@ public static class MDownloadService
     /// <summary>
     /// Exclusively download the game libraries.
     /// </summary>
-    public static async Task<bool> DownloadLibraries()
+    public async Task<bool> DownloadLibraries()
     {
         return await TimingDecorator.TimeAsync(async () =>
         {
-            if (!_initialized)
-                return false;
-
             if (
                 !await LibraryDownloader.Download(
                     _launcherPath,
@@ -255,7 +228,7 @@ public static class MDownloadService
                 )
             )
             {
-                NotificationService.Error("error.download", nameof(LibraryDownloader));
+                NotificationProvider.Error("error.download", nameof(LibraryDownloader));
                 return false;
             }
 
@@ -266,16 +239,13 @@ public static class MDownloadService
     /// <summary>
     /// Exclusively download the game client.
     /// </summary>
-    public static async Task<bool> DownloadClient()
+    public async Task<bool> DownloadClient()
     {
         return await TimingDecorator.TimeAsync(async () =>
         {
-            if (!_initialized)
-                return false;
-
             if (!await ClientDownloader.Download(_launcherPath, VersionDetails))
             {
-                NotificationService.Error("error.download", nameof(ClientDownloader));
+                NotificationProvider.Error("error.download", nameof(ClientDownloader));
                 return false;
             }
 
@@ -286,16 +256,13 @@ public static class MDownloadService
     /// <summary>
     /// Exclusively download the game client mappings
     /// </summary>
-    public static async Task<bool> DownloadClientMappings()
+    public async Task<bool> DownloadClientMappings()
     {
         return await TimingDecorator.TimeAsync(async () =>
         {
-            if (!_initialized)
-                return false;
-
             if (!await ClientMappingsDownloader.Download(_launcherPath, VersionDetails))
             {
-                NotificationService.Error("error.download", nameof(ClientMappingsDownloader));
+                NotificationProvider.Error("error.download", nameof(ClientMappingsDownloader));
                 return false;
             }
 
@@ -306,16 +273,13 @@ public static class MDownloadService
     /// <summary>
     /// Exclusively download the game server.
     /// </summary>
-    public static async Task<bool> DownloadServer()
+    public async Task<bool> DownloadServer()
     {
         return await TimingDecorator.TimeAsync(async () =>
         {
-            if (!_initialized)
-                return false;
-
             if (!await ServerDownloader.Download(_launcherPath, VersionDetails))
             {
-                NotificationService.Error("error.download", nameof(ServerDownloader));
+                NotificationProvider.Error("error.download", nameof(ServerDownloader));
                 return false;
             }
 
@@ -326,16 +290,13 @@ public static class MDownloadService
     /// <summary>
     /// Exclusively download the game server mappings.
     /// </summary>
-    public static async Task<bool> DownloadServerMappings()
+    public async Task<bool> DownloadServerMappings()
     {
         return await TimingDecorator.TimeAsync(async () =>
         {
-            if (!_initialized)
-                return false;
-
             if (!await ServerMappingsDownloader.Download(_launcherPath, VersionDetails))
             {
-                NotificationService.Error("error.download", nameof(ServerMappingsDownloader));
+                NotificationProvider.Error("error.download", nameof(ServerMappingsDownloader));
                 return false;
             }
 
@@ -346,16 +307,13 @@ public static class MDownloadService
     /// <summary>
     /// Download the game asset index.
     /// </summary>
-    public static async Task<bool> DownloadAssetIndex()
+    public async Task<bool> DownloadAssetIndex()
     {
         return await TimingDecorator.TimeAsync(async () =>
         {
-            if (!_initialized)
-                return false;
-
             if (!await AssetIndexDownloader.Download(_launcherPath, VersionDetails))
             {
-                NotificationService.Error("error.download", nameof(AssetIndexDownloader));
+                NotificationProvider.Error("error.download", nameof(AssetIndexDownloader));
                 return false;
             }
 
@@ -366,15 +324,12 @@ public static class MDownloadService
     /// <summary>
     /// Load the game asset index from the download path.
     /// </summary>
-    public static bool LoadAssetIndex()
+    public bool LoadAssetIndex()
     {
-        if (!_initialized)
-            return false;
-
         _assets = Json.Load<MAssetsData>(MPathResolver.ClientAssetIndexPath(_launcherPath, VersionDetails));
         if (ObjectValidator<MAssetsData>.IsNull(_assets))
         {
-            NotificationService.Error("error.readfile", nameof(MAssetsData));
+            NotificationProvider.Error("error.readfile", nameof(MAssetsData));
             return false;
         }
 
@@ -384,16 +339,13 @@ public static class MDownloadService
     /// <summary>
     /// Exclusively download the game resources.
     /// </summary>
-    public static async Task<bool> DownloadResources()
+    public async Task<bool> DownloadResources()
     {
         return await TimingDecorator.TimeAsync(async () =>
         {
-            if (!_initialized)
-                return false;
-
             if (!await ResourceDownloader.Download(_launcherPath, _mUrls, _assets))
             {
-                NotificationService.Error("error.download", nameof(ResourceDownloader));
+                NotificationProvider.Error("error.download", nameof(ResourceDownloader));
                 return false;
             }
 
@@ -404,16 +356,13 @@ public static class MDownloadService
     /// <summary>
     /// Exclusively download the game logging configuration.
     /// </summary>
-    public static async Task<bool> DownloadLogging()
+    public async Task<bool> DownloadLogging()
     {
         return await TimingDecorator.TimeAsync(async () =>
         {
-            if (!_initialized)
-                return false;
-
             if (!await LoggingDownloader.Download(_launcherPath, VersionDetails))
             {
-                NotificationService.Error("error.download", nameof(LoggingDownloader));
+                NotificationProvider.Error("error.download", nameof(LoggingDownloader));
                 return false;
             }
 

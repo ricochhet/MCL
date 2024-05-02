@@ -38,17 +38,18 @@ public static class QuiltVersionHelper
         bool updateVersionManifest = false
     )
     {
-        QuiltInstallerDownloadService.Init(settings?.LauncherPath, settings?.LauncherVersion, settings?.QuiltUrls);
-        if (!QuiltInstallerDownloadService.LoadVersionManifestWithoutLogging() || updateVersionManifest)
+        QuiltInstallerDownloadService downloader =
+            new(settings?.LauncherPath, settings?.LauncherVersion, settings?.QuiltUrls);
+        if (!downloader.LoadVersionManifestWithoutLogging() || updateVersionManifest)
         {
-            await QuiltInstallerDownloadService.DownloadVersionManifest();
-            QuiltInstallerDownloadService.LoadVersionManifest();
+            await downloader.DownloadVersionManifest();
+            downloader.LoadVersionManifest();
         }
 
-        if (ObjectValidator<QuiltVersionManifest>.IsNull(QuiltInstallerDownloadService.QuiltVersionManifest))
+        if (ObjectValidator<QuiltVersionManifest>.IsNull(downloader.QuiltVersionManifest))
             return false;
 
-        List<string> installerVersions = GetInstallerVersionIds(QuiltInstallerDownloadService.QuiltVersionManifest!);
+        List<string> installerVersions = GetInstallerVersionIds(downloader.QuiltVersionManifest!);
         string? installerVersion = launcherVersion.QuiltInstallerVersion;
 
         if (installerVersion == "latest" || ObjectValidator<string>.IsNullOrWhiteSpace([installerVersion]))
@@ -60,7 +61,7 @@ public static class QuiltVersionHelper
         if (ObjectValidator<LauncherVersion>.IsNull(settings?.LauncherVersion))
             return false;
         settings!.LauncherVersion!.QuiltInstallerVersion = installerVersion!;
-        SettingsService.Save(settings);
+        SettingsProvider.Save(settings);
         return true;
     }
 
@@ -73,22 +74,18 @@ public static class QuiltVersionHelper
         bool updateVersionManifest = false
     )
     {
-        QuiltLoaderDownloadService.Init(
-            settings?.LauncherPath,
-            settings?.LauncherVersion,
-            settings?.LauncherInstance,
-            settings?.QuiltUrls
-        );
-        if (!QuiltLoaderDownloadService.LoadVersionManifestWithoutLogging() || updateVersionManifest)
+        QuiltLoaderDownloadService downloader =
+            new(settings?.LauncherPath, settings?.LauncherVersion, settings?.LauncherInstance, settings?.QuiltUrls);
+        if (!downloader.LoadVersionManifestWithoutLogging() || updateVersionManifest)
         {
-            await QuiltLoaderDownloadService.DownloadVersionManifest();
-            QuiltLoaderDownloadService.LoadVersionManifest();
+            await downloader.DownloadVersionManifest();
+            downloader.LoadVersionManifest();
         }
 
-        if (ObjectValidator<QuiltVersionManifest>.IsNull(QuiltLoaderDownloadService.QuiltVersionManifest))
+        if (ObjectValidator<QuiltVersionManifest>.IsNull(downloader.QuiltVersionManifest))
             return false;
 
-        List<string> loaderVersions = GetLoaderVersionIds(QuiltLoaderDownloadService.QuiltVersionManifest!);
+        List<string> loaderVersions = GetLoaderVersionIds(downloader.QuiltVersionManifest!);
         string? loaderVersion = launcherVersion.QuiltLoaderVersion;
 
         if (loaderVersion == "latest" || ObjectValidator<string>.IsNullOrWhiteSpace([loaderVersion]))
@@ -100,7 +97,7 @@ public static class QuiltVersionHelper
         if (ObjectValidator<LauncherVersion>.IsNull(settings?.LauncherVersion))
             return false;
         settings!.LauncherVersion!.QuiltLoaderVersion = loaderVersion!;
-        SettingsService.Save(settings);
+        SettingsProvider.Save(settings);
         return true;
     }
 

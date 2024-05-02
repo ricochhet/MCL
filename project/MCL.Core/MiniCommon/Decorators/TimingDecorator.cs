@@ -20,7 +20,7 @@ using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using MCL.Core.MiniCommon.Services;
+using MCL.Core.MiniCommon.Providers;
 
 namespace MCL.Core.MiniCommon.Decorators;
 
@@ -31,7 +31,7 @@ public static class TimingDecorator
         Stopwatch sw = Stopwatch.StartNew();
         T? result = await func();
         sw.Stop();
-        NotificationService.Benchmark("timing.output", methodName, sw.Elapsed.ToString("c"));
+        NotificationProvider.Benchmark("timing.output", methodName, sw.Elapsed.ToString("c"));
         return result;
     }
 
@@ -40,6 +40,6 @@ public static class TimingDecorator
         Stopwatch sw = Stopwatch.StartNew();
         await func();
         sw.Stop();
-        NotificationService.Benchmark("timing.output", memberName, sw.Elapsed.ToString("c"));
+        NotificationProvider.Benchmark("timing.output", memberName, sw.Elapsed.ToString("c"));
     }
 }

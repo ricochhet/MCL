@@ -17,40 +17,62 @@
  */
 
 using System.Collections.Generic;
+using MCL.Core.Launcher.Enums;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Minecraft.Helpers;
 using MCL.Core.MiniCommon.CommandParser.Helpers;
 using MCL.Core.MiniCommon.IO;
-using MCL.Core.MiniCommon.Services;
+using MCL.Core.MiniCommon.Providers;
+using MCL.Core.MiniCommon.Resolvers;
 using MCL.Core.MiniCommon.Validation;
 
 namespace MCL.Core.Launcher.Services;
 
-public static class SimplePaperLaunchService
+public static class MLaunchProvider
 {
     /// <summary>
     /// Launch the game process specified by a launch file.
     /// </summary>
-    public static void Init(string filePath, Settings? settings)
+    public static void Launch(string filePath, Settings? settings)
     {
         if (!VFS.Exists(filePath))
             return;
 
-        if (ObjectValidator<LauncherVersion>.IsNull(settings?.LauncherVersion))
+        if (
+            ObjectValidator<LauncherSettings>.IsNull(settings?.LauncherSettings)
+            || ObjectValidator<LauncherVersion>.IsNull(settings?.LauncherVersion)
+            || ObjectValidator<LauncherUsername>.IsNull(settings?.LauncherUsername)
+        )
             return;
 
         Dictionary<string, string> options = CommandFileHelper.Commands(filePath);
 
+        settings!.LauncherSettings!.ClientType = EnumResolver.Parse(
+            options.GetValueOrDefault("client", "vanilla"),
+            ClientType.VANILLA
+        );
+        settings!.LauncherSettings!.AuthType = EnumResolver.Parse(
+            options.GetValueOrDefault("online", "offline"),
+            AuthType.OFFLINE
+        );
         settings!.LauncherVersion!.MVersion = options.GetValueOrDefault(
             "gameversion",
             settings!.LauncherVersion!.MVersion
         );
-        settings!.LauncherVersion!.PaperServerVersion = options.GetValueOrDefault(
-            "paperversion",
-            settings!.LauncherVersion!.PaperServerVersion
+        settings!.LauncherVersion!.FabricLoaderVersion = options.GetValueOrDefault(
+            "fabricversion",
+            settings!.LauncherVersion!.FabricLoaderVersion
+        );
+        settings!.LauncherVersion!.QuiltLoaderVersion = options.GetValueOrDefault(
+            "quiltversion",
+            settings!.LauncherVersion!.QuiltLoaderVersion
+        );
+        settings!.LauncherUsername!.Username = options.GetValueOrDefault(
+            "username",
+            settings!.LauncherUsername!.Username
         );
 
-        NotificationService.Info("launcher.simple.launch");
+        NotificationProvider.Info("launcher.simple.launch");
         MinecraftLauncher.Launch(settings, options.GetValueOrDefault("javapath", string.Empty));
     }
 }

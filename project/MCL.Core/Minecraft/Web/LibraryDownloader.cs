@@ -98,7 +98,7 @@ public static class LibraryDownloader
             launcherInstance!.Versions!.Remove(existingLoader);
 
         launcherInstance!.Versions!.Add(_loader);
-        SettingsService.Load()?.Save(launcherInstance);
+        SettingsProvider.Load()?.Save(launcherInstance);
         return true;
     }
 

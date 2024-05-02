@@ -21,7 +21,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using MCL.Core.MiniCommon.Logger.Enums;
-using MCL.Core.MiniCommon.Services;
+using MCL.Core.MiniCommon.Providers;
 using MCL.Core.MiniCommon.Validation.Exceptions;
 using MCL.Core.MiniCommon.Validation.Models;
 
@@ -72,7 +72,7 @@ public class ObjectValidator<T>
         else
         {
             foreach (string error in _errors)
-                NotificationService.PrintLog(level, error);
+                NotificationProvider.PrintLog(level, error);
         }
         return _errors.Count == 0;
     }
@@ -106,7 +106,7 @@ public class ObjectValidator<T>
         foreach (string? property in properties ?? [.. ValidationShims.ListEmpty<string>()])
             validator.AddRule(
                 a => !string.IsNullOrWhiteSpace(property),
-                LocalizationService.FormatTranslate(
+                LocalizationProvider.FormatTranslate(
                     "error.validation.string",
                     propertiesName,
                     memberName,
@@ -164,7 +164,7 @@ public class ObjectValidator<T>
     {
         ObjectValidator<List<T1>> validator = new();
 
-        string message = LocalizationService.FormatTranslate(
+        string message = LocalizationProvider.FormatTranslate(
             "error.validation.list",
             objName,
             propertiesName,
@@ -196,7 +196,7 @@ public class ObjectValidator<T>
     {
         ObjectValidator<Dictionary<T1, T2>> validator = new();
 
-        string message = LocalizationService.FormatTranslate(
+        string message = LocalizationProvider.FormatTranslate(
             "error.validation.list",
             objName,
             propertiesName,
@@ -241,7 +241,7 @@ public class ObjectValidator<T>
     {
         ObjectValidator<T> validator = new();
 
-        string message = LocalizationService.FormatTranslate(
+        string message = LocalizationProvider.FormatTranslate(
             "error.validation.object",
             objName ?? ValidationShims.StringEmpty(),
             propertiesName ?? ValidationShims.StringEmpty(),

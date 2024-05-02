@@ -20,7 +20,7 @@ using System.Text.RegularExpressions;
 using MCL.CodeAnalyzers.Analyzers.Models;
 using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Logger.Enums;
-using MCL.Core.MiniCommon.Services;
+using MCL.Core.MiniCommon.Providers;
 using MCL.Core.MiniCommon.Validation;
 
 namespace MCL.CodeAnalyzers.Analyzers;
@@ -47,7 +47,7 @@ public static partial class NamespaceAnalyzer
 
             if (ObjectValidator<string>.IsNullOrWhiteSpace([name], NativeLogLevel.Debug))
             {
-                NotificationService.Error("analyzer.error.namespace", file, name ?? ValidationShims.StringEmpty());
+                NotificationProvider.Error("analyzer.error.namespace", file, name ?? ValidationShims.StringEmpty());
                 continue;
             }
 
@@ -70,11 +70,11 @@ public static partial class NamespaceAnalyzer
                 VFS.WriteFile(file, fileData.Replace(oldNamespace, newNamespace));
 
                 fail++;
-                NotificationService.Error("analyzer.error.namespace", VFS.GetFileName(file), name);
+                NotificationProvider.Error("analyzer.error.namespace", VFS.GetFileName(file), name);
             }
         }
 
-        NotificationService.Info(
+        NotificationProvider.Info(
             "analyzer.output",
             nameof(NamespaceAnalyzer),
             success.ToString(),

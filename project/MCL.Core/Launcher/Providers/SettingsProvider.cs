@@ -21,11 +21,11 @@ using System.Collections.Generic;
 using System.Text.Json;
 using MCL.Core.Launcher.Models;
 using MCL.Core.MiniCommon.IO;
-using MCL.Core.MiniCommon.Services;
+using MCL.Core.MiniCommon.Providers;
 
 namespace MCL.Core.Launcher.Services;
 
-public static class SettingsService
+public static class SettingsProvider
 {
     public const string DataDirectory = ".mcl";
     public const string SettingsFileName = "mcl.json";
@@ -55,12 +55,12 @@ public static class SettingsService
     /// Initialize the Settings service.
     /// Create a new configuration file if one is not present.
     /// </summary>
-    public static void Init()
+    public static void FirstRun()
     {
         if (!VFS.Exists(_settingsFilePath))
         {
-            NotificationService.Warn("launcher.settings.missing", SettingsFileName, DataDirectory);
-            NotificationService.Info("launcher.settings.setup", _settingsFilePath);
+            NotificationProvider.Warn("launcher.settings.missing", SettingsFileName, DataDirectory);
+            NotificationProvider.Info("launcher.settings.setup", _settingsFilePath);
             Settings settings =
                 new()
                 {
@@ -93,7 +93,7 @@ public static class SettingsService
             Json.Save(_settingsFilePath, settings, JsonSerializerOptions);
         }
 
-        NotificationService.Info("launcher.settings.using", _settingsFilePath);
+        NotificationProvider.Info("launcher.settings.using", _settingsFilePath);
     }
 
     /// <summary>
@@ -122,11 +122,11 @@ public static class SettingsService
             if (inputJson != null)
                 return inputJson;
 
-            NotificationService.Error("launcher.settings.missing", SettingsFileName, DataDirectory);
+            NotificationProvider.Error("launcher.settings.missing", SettingsFileName, DataDirectory);
             return null;
         }
 
-        NotificationService.Error("launcher.settings.missing", SettingsFileName, DataDirectory);
+        NotificationProvider.Error("launcher.settings.missing", SettingsFileName, DataDirectory);
         return null;
     }
 }

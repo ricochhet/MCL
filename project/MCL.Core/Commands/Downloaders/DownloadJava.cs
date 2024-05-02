@@ -21,7 +21,7 @@ using MCL.Core.Java.Wrappers;
 using MCL.Core.Launcher.Models;
 using MCL.Core.MiniCommon.CommandParser;
 using MCL.Core.MiniCommon.Interfaces;
-using MCL.Core.MiniCommon.Services;
+using MCL.Core.MiniCommon.Providers;
 
 namespace MCL.Core.Commands.Downloaders;
 
@@ -31,7 +31,7 @@ public class DownloadJava : ILauncherCommand
     {
         await CommandLine.ProcessArgumentAsync(
             args,
-            new() { Name = "dl-java", Description = LocalizationService.Translate("command.download-java") },
+            new() { Name = "dl-java", Description = LocalizationProvider.Translate("command.download-java") },
             async _ => await JavaDownloadWrapper.Download(settings)
         );
     }

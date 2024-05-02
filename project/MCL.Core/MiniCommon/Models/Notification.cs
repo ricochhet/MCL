@@ -18,7 +18,7 @@
 
 using System;
 using MCL.Core.MiniCommon.Logger.Enums;
-using MCL.Core.MiniCommon.Services;
+using MCL.Core.MiniCommon.Providers;
 
 namespace MCL.Core.MiniCommon.Models;
 
@@ -36,7 +36,7 @@ public class Notification
     {
         LogLevel = logLevel;
         ID = id;
-        Message = LocalizationService.Translate(ID);
+        Message = LocalizationProvider.Translate(ID);
         Exception = exception;
         OnNotificationAdded?.Invoke(this);
     }
@@ -46,7 +46,7 @@ public class Notification
         LogLevel = logLevel;
         ID = id;
         Params = _params;
-        Message = LocalizationService.FormatTranslate(ID, Params);
+        Message = LocalizationProvider.FormatTranslate(ID, Params);
         Exception = exception;
         OnNotificationAdded?.Invoke(this);
     }

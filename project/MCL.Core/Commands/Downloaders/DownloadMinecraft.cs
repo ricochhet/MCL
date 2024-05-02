@@ -22,7 +22,7 @@ using MCL.Core.Launcher.Models;
 using MCL.Core.Minecraft.Wrappers;
 using MCL.Core.MiniCommon.CommandParser;
 using MCL.Core.MiniCommon.Interfaces;
-using MCL.Core.MiniCommon.Services;
+using MCL.Core.MiniCommon.Providers;
 
 namespace MCL.Core.Commands.Downloaders;
 
@@ -42,7 +42,7 @@ public class DownloadMinecraft : ILauncherCommand
                     new() { Name = "gameversion", Optional = true },
                     new() { Name = "update", Optional = true }
                 ],
-                Description = LocalizationService.Translate("command.download-minecraft")
+                Description = LocalizationProvider.Translate("command.download-minecraft")
             },
             async options =>
             {

@@ -19,48 +19,40 @@
 
 using System;
 using System.Threading.Tasks;
-using MCL.Core.FileExtractors.Services;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Services;
 using MCL.Core.MiniCommon.Enums;
 using MCL.Core.MiniCommon.Logger;
 using MCL.Core.MiniCommon.Models;
-using MCL.Core.MiniCommon.Services;
+using MCL.Core.MiniCommon.Providers;
 using MCL.Core.MiniCommon.Validation;
 using MCL.Core.MiniCommon.Web;
-using MCL.Core.Modding.Services;
 
 namespace MCL.Core.Managers;
 
 public static class ServiceManager
 {
     public static Settings? Settings { get; private set; }
-    private static readonly bool _slimMode = false;
 
     public static Task<bool> Init()
     {
         try
         {
-            LocalizationService.Init(SettingsService.LocalizationPath, Language.ENGLISH);
-            NotificationService.OnNotificationAdded(
+            LocalizationProvider.Init(SettingsProvider.LocalizationPath, Language.ENGLISH);
+            NotificationProvider.OnNotificationAdded(
                 (Notification notification) => Log.Base(notification.LogLevel, notification.Message)
             );
-            NotificationService.Info("log.initialized");
-            SettingsService.Init();
-            Settings = SettingsService.Load();
+            NotificationProvider.Info("log.initialized");
+            SettingsProvider.FirstRun();
+            Settings = SettingsProvider.Load();
             if (ObjectValidator<Settings>.IsNull(Settings))
                 return Task.FromResult(false);
-            RequestDataService.OnRequestCompleted(
+            RequestDataProvider.OnRequestCompleted(
                 (RequestData requestData) =>
-                    NotificationService.Info("request.get.success", requestData.URL, requestData.Elapsed.ToString("c"))
+                    NotificationProvider.Info("request.get.success", requestData.URL, requestData.Elapsed.ToString("c"))
             );
             Request.HttpRequest.HttpClientTimeOut = TimeSpan.FromMinutes(1);
-            if (!_slimMode)
-            {
-                SevenZipService.Init(Settings!?.SevenZipSettings);
-                ModdingService.Init(Settings!?.LauncherPath, Settings!?.ModSettings);
-            }
-            Watermark.Draw(SettingsService.WatermarkText);
+            Watermark.Draw(SettingsProvider.WatermarkText);
             return Task.FromResult(true);
         }
         catch (Exception ex)

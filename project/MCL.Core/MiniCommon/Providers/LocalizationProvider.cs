@@ -22,9 +22,9 @@ using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Models;
 using MCL.Core.MiniCommon.Resolvers;
 
-namespace MCL.Core.MiniCommon.Services;
+namespace MCL.Core.MiniCommon.Providers;
 
-public static class LocalizationService
+public static class LocalizationProvider
 {
     public static Localization? Localization { get; private set; } = new();
     private static bool _initialized = false;
@@ -64,7 +64,7 @@ public static class LocalizationService
         if (Localization!.Entries != null)
             _initialized = true;
         else
-            NotificationService.Error("error.readfile", LocalizationPathResolver.LanguageFilePath(filepath, language));
+            NotificationProvider.Error("error.readfile", LocalizationPathResolver.LanguageFilePath(filepath, language));
     }
 
     /// <summary>

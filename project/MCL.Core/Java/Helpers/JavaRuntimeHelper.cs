@@ -21,7 +21,7 @@ using MCL.Core.Java.Enums;
 using MCL.Core.Java.Resolvers;
 using MCL.Core.Launcher.Models;
 using MCL.Core.MiniCommon.IO;
-using MCL.Core.MiniCommon.Services;
+using MCL.Core.MiniCommon.Providers;
 using MCL.Core.MiniCommon.Validation;
 
 namespace MCL.Core.Java.Helpers;
@@ -51,7 +51,7 @@ public static class JavaRuntimeHelper
             if (ObjectValidator<string>.IsNullOrWhiteSpace([javaHomeEnvironmentVariable]))
                 return javaHome;
 
-            NotificationService.Info("error.missing.java");
+            NotificationProvider.Info("error.missing.java");
             return javaHomeEnvironmentVariable!;
         }
 
