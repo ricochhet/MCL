@@ -17,7 +17,7 @@
  */
 
 using MCL.Core.FileExtractors.Models;
-using MCL.Core.Launcher.Services;
+using MCL.Core.Launcher.Providers;
 using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Providers;
 using MCL.Core.MiniCommon.Validation;

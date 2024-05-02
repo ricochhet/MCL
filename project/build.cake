@@ -38,7 +38,7 @@ Task("Publish")
             NoLogo = true,
             Configuration = config,
             Runtime = publishRuntime,
-            PublishSingleFile = true,
+            // PublishSingleFile = true,
             SelfContained = false,
             OutputDirectory = buildDir
         });

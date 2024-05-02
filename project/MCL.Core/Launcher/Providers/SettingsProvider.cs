@@ -23,7 +23,7 @@ using MCL.Core.Launcher.Models;
 using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Providers;
 
-namespace MCL.Core.Launcher.Services;
+namespace MCL.Core.Launcher.Providers;
 
 public static class SettingsProvider
 {

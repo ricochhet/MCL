@@ -22,7 +22,7 @@ using MCL.Core.Java.Extensions;
 using MCL.Core.Java.Models;
 using MCL.Core.Launcher.Enums;
 using MCL.Core.Launcher.Models;
-using MCL.Core.Launcher.Services;
+using MCL.Core.Launcher.Providers;
 using MCL.Core.MiniCommon.Validation;
 using MCL.Core.Modding.Extensions;
 using MCL.Core.Modding.Models;

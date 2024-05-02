@@ -24,7 +24,7 @@ using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Providers;
 using MCL.Core.MiniCommon.Validation;
 
-namespace MCL.Core.Launcher.Services;
+namespace MCL.Core.Launcher.Providers;
 
 public static class PaperLaunchProvider
 {

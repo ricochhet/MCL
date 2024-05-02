@@ -20,7 +20,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
-using MCL.Core.Launcher.Services;
+using MCL.Core.Launcher.Providers;
 using MCL.Core.MiniCommon.Decorators;
 using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Logger.Enums;

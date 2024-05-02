@@ -20,7 +20,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MCL.Core.Launcher.Models;
-using MCL.Core.Launcher.Services;
+using MCL.Core.Launcher.Providers;
 using MCL.Core.MiniCommon.Validation;
 using MCL.Core.ModLoaders.Quilt.Models;
 using MCL.Core.ModLoaders.Quilt.Services;

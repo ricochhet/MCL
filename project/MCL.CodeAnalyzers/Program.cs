@@ -20,7 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MCL.CodeAnalyzers.Commands;
-using MCL.Core.Launcher.Services;
+using MCL.Core.Launcher.Providers;
 using MCL.Core.Managers;
 using MCL.Core.MiniCommon.CommandParser.Commands;
 using MCL.Core.MiniCommon.Interfaces;

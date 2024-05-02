@@ -17,7 +17,7 @@
  */
 
 using MCL.Core.Launcher.Helpers;
-using MCL.Core.Launcher.Services;
+using MCL.Core.Launcher.Providers;
 using MCL.Core.MiniCommon.IO;
 
 namespace MCL.Core.Launcher.Models;

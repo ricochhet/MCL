@@ -22,7 +22,7 @@ using MCL.Core.Java.Enums;
 using MCL.Core.Java.Resolvers;
 using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
-using MCL.Core.Launcher.Services;
+using MCL.Core.Launcher.Providers;
 using MCL.Core.Minecraft.Enums;
 using MCL.Core.Minecraft.Models;
 using MCL.Core.Minecraft.Resolvers;

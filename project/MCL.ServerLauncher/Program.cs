@@ -18,7 +18,7 @@
 
 using System;
 using System.Threading.Tasks;
-using MCL.Core.Launcher.Services;
+using MCL.Core.Launcher.Providers;
 using MCL.Core.Managers;
 using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Logger;

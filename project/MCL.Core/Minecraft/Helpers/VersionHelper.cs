@@ -21,7 +21,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MCL.Core.Launcher.Enums;
 using MCL.Core.Launcher.Models;
-using MCL.Core.Launcher.Services;
+using MCL.Core.Launcher.Providers;
 using MCL.Core.Minecraft.Models;
 using MCL.Core.Minecraft.Resolvers;
 using MCL.Core.Minecraft.Services;
