@@ -67,7 +67,7 @@ public static class ClassPathHelper
             case ClientType.VANILLA:
                 break;
             case ClientType.FABRIC:
-                if (ObjectValidator<string>.IsNullOrWhiteSpace([launcherVersion?.QuiltLoaderVersion]))
+                if (ObjectValidator<string>.IsNullOrWhiteSpace([launcherVersion?.FabricLoaderVersion]))
                     return string.Empty;
                 LauncherLoader? fabricLoader = launcherInstance!.FabricLoaders.Find(a =>
                     a.Version == launcherVersion!.FabricLoaderVersion
