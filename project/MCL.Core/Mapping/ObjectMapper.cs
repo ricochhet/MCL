@@ -27,6 +27,23 @@ public static class ObjectMapper
     /// <summary>
     /// Map properties of T to the properties of U.
     /// </summary>
+#pragma warning disable IDE0079
+#pragma warning disable S125
+    /*
+    *    SourceObject source = new SourceObject { Name = "John", Age = 30 };
+    *    DestinationObject destination = new DestinationObject();
+    *
+    *    // Define your property mappings using functions
+    *    Dictionary<Func<SourceObject, object>, Action<DestinationObject, object>> propertyMap = new Dictionary<Func<SourceObject, object>, Action<DestinationObject, object>>
+    *    {
+    *        { src => src.Name, (dest, val) => dest.FullName = (string)val },
+    *        { src => src.Age, (dest, val) => dest.Years = (int)val }
+    *    };
+    *
+    *    // Map properties from source to destination
+    *    ObjectMapper.MapProperties(source, destination, propertyMap);
+    */
+#pragma warning restore IDE0079, S125
     public static void MapProperties<T, U>(T source, U destination, Dictionary<Func<T, object>, Action<U, object>> propertyMap)
     {
         foreach ((Func<T, object> key, Action<U, object> value) in propertyMap)
