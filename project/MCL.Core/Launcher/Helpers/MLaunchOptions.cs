@@ -50,28 +50,32 @@ public static class MLaunchOptions
             },
             new MArgument
             {
-                Arg = "-Dgraal.LoopRotation=true",
+                Arg = "-Dgraal.LoopRotation={0}",
+                ArgParams = ["true"],
                 Condition = settings.LauncherSettings?.JvmType == JvmArgumentType.GRAAL_VM
             },
             new MArgument
             {
-                Arg = "-Dgraal.PartialUnroll=true",
+                Arg = "-Dgraal.PartialUnroll={0}",
+                ArgParams = ["true"],
                 Condition = settings.LauncherSettings?.JvmType == JvmArgumentType.GRAAL_VM
             },
             new MArgument
             {
-                Arg = "-Dgraal.VectorizeSIMD=true",
+                Arg = "-Dgraal.VectorizeSIMD={0}",
+                ArgParams = ["true"],
                 Condition = settings.LauncherSettings?.JvmType == JvmArgumentType.GRAAL_VM
             },
             new MArgument { Arg = "-XX:+UnlockExperimentalVMOptions" },
             new MArgument { Arg = "-XX:+UseG1GC" },
-            new MArgument { Arg = "-XX:G1NewSizePercent=20" },
-            new MArgument { Arg = "-XX:G1ReservePercent=20" },
-            new MArgument { Arg = "-XX:MaxGCPauseMillis=50" },
-            new MArgument { Arg = "-XX:G1HeapRegionSize=32M" },
+            new MArgument { Arg = "-XX:G1NewSizePercent={0}", ArgParams = ["20"] },
+            new MArgument { Arg = "-XX:G1ReservePercent={0}", ArgParams = ["20"] },
+            new MArgument { Arg = "-XX:MaxGCPauseMillis={0}", ArgParams = ["50"] },
+            new MArgument { Arg = "-XX:G1HeapRegionSize={0}", ArgParams = ["32M"] },
             new MArgument
             {
-                Arg = "-XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump"
+                Arg = "-XX:HeapDumpPath={0}",
+                ArgParams = ["MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump"]
             },
             new MArgument
             {
@@ -122,9 +126,9 @@ public static class MLaunchOptions
                 ArgParams = [ClientTypeResolver.ToString(ClientType.VANILLA, settings.MainClassNames)],
                 Condition = settings.LauncherSettings?.ClientType == ClientType.QUILT
             },
-            new MArgument { Arg = "-Dlog4j2.formatMsgNoLookups=true" },
-            new MArgument { Arg = "-Djava.rmi.server.useCodebaseOnly=true" },
-            new MArgument { Arg = "-Dcom.sun.jndi.rmi.object.trustURLCodebase=false" },
+            new MArgument { Arg = "-Dlog4j2.formatMsgNoLookups={0}", ArgParams = ["true"] },
+            new MArgument { Arg = "-Djava.rmi.server.useCodebaseOnly={0}", ArgParams = ["true"] },
+            new MArgument { Arg = "-Dcom.sun.jndi.rmi.object.trustURLCodebase={0}", ArgParams = ["false"] },
             new MArgument
             {
                 Arg = "-Dminecraft.launcher.brand={0}",

@@ -47,17 +47,20 @@ public static class PaperLaunchOptions
             },
             new MArgument
             {
-                Arg = "-Dgraal.LoopRotation=true",
+                Arg = "-Dgraal.LoopRotation={0}",
+                ArgParams = ["true"],
                 Condition = settings!?.LauncherSettings?.JvmType == JvmArgumentType.GRAAL_VM
             },
             new MArgument
             {
-                Arg = "-Dgraal.PartialUnroll=true",
+                Arg = "-Dgraal.PartialUnroll={0}",
+                ArgParams = ["true"],
                 Condition = settings!?.LauncherSettings?.JvmType == JvmArgumentType.GRAAL_VM
             },
             new MArgument
             {
-                Arg = "-Dgraal.VectorizeSIMD=true",
+                Arg = "-Dgraal.VectorizeSIMD={0}",
+                ArgParams = ["true"],
                 Condition = settings!?.LauncherSettings?.JvmType == JvmArgumentType.GRAAL_VM
             },
             new MArgument { Arg = "-XX:+AlwaysPreTouch" },
@@ -66,20 +69,20 @@ public static class PaperLaunchOptions
             new MArgument { Arg = "-XX:+PerfDisableSharedMem" },
             new MArgument { Arg = "-XX:+UnlockExperimentalVMOptions" },
             new MArgument { Arg = "-XX:+UseG1GC" },
-            new MArgument { Arg = "-XX:G1HeapRegionSize=8M" },
-            new MArgument { Arg = "-XX:G1HeapWastePercent=5" },
-            new MArgument { Arg = "-XX:G1MaxNewSizePercent=40" },
-            new MArgument { Arg = "-XX:G1MixedGCCountTarget=4" },
-            new MArgument { Arg = "-XX:G1MixedGCLiveThresholdPercent=90" },
-            new MArgument { Arg = "-XX:G1NewSizePercent=30" },
-            new MArgument { Arg = "-XX:G1RSetUpdatingPauseTimePercent=5" },
-            new MArgument { Arg = "-XX:G1ReservePercent=20" },
-            new MArgument { Arg = "-XX:InitiatingHeapOccupancyPercent=15" },
-            new MArgument { Arg = "-XX:MaxGCPauseMillis=200" },
-            new MArgument { Arg = "-XX:MaxTenuringThreshold=1" },
-            new MArgument { Arg = "-XX:SurvivorRatio=32" },
-            new MArgument { Arg = "-Dusing.aikars.flags=https://mcflags.emc.gs" },
-            new MArgument { Arg = "-Daikars.new.flags=true" },
+            new MArgument { Arg = "-XX:G1HeapRegionSize={0}", ArgParams = ["8M"] },
+            new MArgument { Arg = "-XX:G1HeapWastePercent={0}", ArgParams = ["5"] },
+            new MArgument { Arg = "-XX:G1MaxNewSizePercent={0}", ArgParams = ["40"] },
+            new MArgument { Arg = "-XX:G1MixedGCCountTarget={0}", ArgParams = ["4"] },
+            new MArgument { Arg = "-XX:G1MixedGCLiveThresholdPercent={0}", ArgParams = ["90"] },
+            new MArgument { Arg = "-XX:G1NewSizePercent={0}", ArgParams = ["30"] },
+            new MArgument { Arg = "-XX:G1RSetUpdatingPauseTimePercent={0}", ArgParams = ["5"] },
+            new MArgument { Arg = "-XX:G1ReservePercent={0}", ArgParams = ["20"] },
+            new MArgument { Arg = "-XX:InitiatingHeapOccupancyPercent={0}", ArgParams = ["15"] },
+            new MArgument { Arg = "-XX:MaxGCPauseMillis={0}", ArgParams = ["200"] },
+            new MArgument { Arg = "-XX:MaxTenuringThreshold={0}", ArgParams = ["1"] },
+            new MArgument { Arg = "-XX:SurvivorRatio={0}", ArgParams = ["32"] },
+            new MArgument { Arg = "-Dusing.aikars.flags={0}", ArgParams = ["https://mcflags.emc.gs"] },
+            new MArgument { Arg = "-Daikars.new.flags={0}", ArgParams = ["true"] },
             new MArgument
             {
                 Arg = "-jar \"{0}\" {1}",
