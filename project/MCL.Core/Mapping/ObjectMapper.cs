@@ -17,6 +17,7 @@
  */
 
 
+using System;
 using System.Collections.Generic;
 
 namespace MCL.Core.Mapping;
@@ -26,50 +27,12 @@ public static class ObjectMapper
     /// <summary>
     /// Map properties of T to the properties of U.
     /// </summary>
-#pragma warning disable IDE0079
-#pragma warning disable S125
-    /*
-    * SourceObject source = new SourceObject
-    * {
-    *     Name = "John",
-    *     Age = 30,
-    *     Address = new Address
-    *     {
-    *         Street = "123 Main St",
-    *         City = "New York"
-    *     }
-    * };
-    * DestinationObject destination = new DestinationObject();
-    * Dictionary<string, string> propertyMap = new Dictionary<string, string>
-    * {
-    *     { "Name", "FullName" },
-    *     { "Age", "Years" },
-    *     { "Address.Street", "Location.Street" },
-    *     { "Address.City", "Location.City" }
-    * };
-    * ObjectMapper.MapProperties(source, destination, propertyMap);
-    */
-#pragma warning restore IDE0079, S125
-    public static void MapProperties<T, U>(T source, U destination, Dictionary<string, string> propertyMap)
+    public static void MapProperties<T, U>(T source, U destination, Dictionary<Func<T, object>, Action<U, object>> propertyMap)
     {
-        foreach ((string entryKey, string entryValue) in propertyMap)
+        foreach ((Func<T, object> key, Action<U, object> value) in propertyMap)
         {
-            if (typeof(T).GetProperty(entryKey) != null)
-            {
-                object? value = typeof(T).GetProperty(entryKey)?.GetValue(source);
-                if (value != null && typeof(U).GetProperty(entryValue) != null)
-                {
-                    if (
-                        value.GetType().IsClass
-                        && !value.GetType().IsPrimitive
-                        && !value.GetType().IsValueType
-                        && value is not string
-                    )
-                        MapProperties(value, typeof(U).GetProperty(entryValue)?.GetValue(destination), propertyMap);
-                    else
-                        typeof(U).GetProperty(entryValue)?.SetValue(destination, value);
-                }
-            }
+            object val = key.Invoke(source);
+            value.Invoke(destination, val);
         }
     }
 }
