@@ -24,11 +24,31 @@ namespace MCL.Core.MiniCommon.IO;
 public static class Json
 {
     /// <summary>
+    /// Serialize data of type T.
+    /// </summary>
+    public static string Serialize<T>(T data, JsonSerializerOptions options)
+    {
+#pragma warning disable IL2026, IL3050
+        return JsonSerializer.Serialize(data, options);
+#pragma warning restore IL2026, IL3050
+    }
+
+    /// <summary>
     /// Serialize data of type T from serializer context.
     /// </summary>
     public static string Serialize<T>(T data, JsonSerializerContext ctx)
     {
         return JsonSerializer.Serialize(data!, typeof(T), ctx);
+    }
+
+    /// <summary>
+    /// Deserialize data of type T.
+    /// </summary>
+    public static T? Deserialize<T>(string json, JsonSerializerOptions options)
+    {
+#pragma warning disable IL2026, IL3050
+        return JsonSerializer.Deserialize<T>(json, options);
+#pragma warning restore IL2026, IL3050
     }
 
     /// <summary>
@@ -44,6 +64,19 @@ public static class Json
     /// Serialize data of type T, and save to a file.
     /// </summary>
 
+    public static void Save<T>(string filepath, T data, JsonSerializerOptions options)
+    {
+        if (!VFS.Exists(filepath))
+            VFS.CreateDirectory(VFS.GetDirectoryName(filepath));
+
+        string json = Serialize(data, options);
+        VFS.WriteFile(filepath, json);
+    }
+
+    /// <summary>
+    /// Serialize data of type T, and save to a file.
+    /// </summary>
+
     public static void Save<T>(string filepath, T data, JsonSerializerContext ctx)
     {
         if (!VFS.Exists(filepath))
@@ -51,6 +84,26 @@ public static class Json
 
         string json = Serialize(data, ctx);
         VFS.WriteFile(filepath, json);
+    }
+
+    /// <summary>
+    /// Deserialize file text, and return as type T.
+    /// </summary>
+    public static T? Load<T>(string filepath, JsonSerializerOptions options)
+        where T : new()
+    {
+        if (!VFS.Exists(filepath))
+            return default;
+
+        string json = VFS.ReadAllText(filepath);
+        try
+        {
+            return Deserialize<T>(json, options);
+        }
+        catch
+        {
+            return default;
+        }
     }
 
     /// <summary>
