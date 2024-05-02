@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 using MCL.Core.MiniCommon.Logger.Enums;
 using MCL.Core.MiniCommon.Services;
 using MCL.Core.MiniCommon.Validation;
@@ -64,13 +65,13 @@ public static class ProcessHelper
                 process.OutputDataReceived += (sender, e) =>
                 {
                     if (ObjectValidator<string>.IsNotNullOrWhiteSpace([e?.Data], NativeLogLevel.Debug))
-                        NotificationService.InfoLog(e!.Data!);
+                        NotificationService.PrintLog(DetermineLogType(e!.Data!), e!.Data!);
                 };
 
                 process.ErrorDataReceived += (sender, e) =>
                 {
                     if (ObjectValidator<string>.IsNotNullOrWhiteSpace([e?.Data], NativeLogLevel.Debug))
-                        NotificationService.ErrorLog(e!.Data!);
+                        NotificationService.PrintLog(DetermineLogType(e!.Data!), e!.Data!);
                 };
 
                 process.Start();
@@ -93,5 +94,15 @@ public static class ProcessHelper
                 ex.StackTrace ?? LocalizationService.Translate("stack.trace.null")
             );
         }
+    }
+
+    private static NativeLogLevel DetermineLogType(string data)
+    {
+        if (data.Contains("WARN", StringComparison.CurrentCultureIgnoreCase))
+            return NativeLogLevel.Warn;
+        else if (data.Contains("ERROR", StringComparison.CurrentCultureIgnoreCase))
+            return NativeLogLevel.Error;
+        else
+            return NativeLogLevel.Info;
     }
 }
