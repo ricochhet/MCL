@@ -33,7 +33,7 @@ public class MArgument
     public MArgument(string arg, string[]? argParams = null, int priority = 0, bool ignore = false)
     {
         Arg = arg;
-        ArgParams = argParams;
+        ArgParams = argParams ?? [];
         Priority = priority;
         Ignore = ignore;
     }
