@@ -154,7 +154,7 @@ public class BaseRequest : IBaseHttpRequest
                     NotificationProvider.Info("request.get.exists", request);
                     return response;
                 }
-                //TODO: check if this actually works.
+
                 Json.Save(filepath, Json.Deserialize<T>(response, ctx), ctx);
                 return response;
             }

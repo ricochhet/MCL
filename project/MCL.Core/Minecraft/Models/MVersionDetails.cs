@@ -17,6 +17,7 @@
  */
 
 using System.Collections.Generic;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 
 namespace MCL.Core.Minecraft.Models;
@@ -70,4 +71,5 @@ public class MVersionDetails
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(MVersionDetails))]
+[JsonSerializable(typeof(JsonElement))]
 internal partial class MVersionDetailsContext : JsonSerializerContext { }

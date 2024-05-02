@@ -17,6 +17,7 @@
  */
 
 using System.Collections.Generic;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using MCL.Core.Minecraft.Models;
 
@@ -53,4 +54,5 @@ public class FabricProfile
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(FabricProfile))]
+[JsonSerializable(typeof(JsonElement))]
 internal partial class FabricProfileContext : JsonSerializerContext { }
