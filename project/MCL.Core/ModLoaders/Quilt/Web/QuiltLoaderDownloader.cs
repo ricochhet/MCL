@@ -86,12 +86,16 @@ public static class QuiltLoaderDownloader
 
         if (ObjectValidator<List<LauncherLoader>>.IsNull(launcherInstance?.QuiltLoaders))
             return false;
+        List<LauncherLoader> existingLoaders = [];
 
         foreach (LauncherLoader existingLoader in launcherInstance!.QuiltLoaders!)
         {
             if (existingLoader.Version == loader.Version)
                 launcherInstance!.QuiltLoaders!.Remove(existingLoader);
         }
+
+        foreach (LauncherLoader existingLoader in existingLoaders)
+            launcherInstance!.QuiltLoaders!.Remove(existingLoader);
 
         launcherInstance!.QuiltLoaders!.Add(loader);
         SettingsService.Load()?.Save(launcherInstance);

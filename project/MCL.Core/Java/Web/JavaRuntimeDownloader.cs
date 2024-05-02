@@ -23,6 +23,7 @@ using MCL.Core.Java.Models;
 using MCL.Core.Java.Resolvers;
 using MCL.Core.Launcher.Models;
 using MCL.Core.MiniCommon.IO;
+using MCL.Core.MiniCommon.Logger.Enums;
 using MCL.Core.MiniCommon.Validation;
 using MCL.Core.MiniCommon.Web;
 
@@ -44,7 +45,7 @@ public static class JavaRuntimeDownloader
 
         foreach ((string path, JavaRuntimeFile javaRuntimeFile) in javaRuntimeFiles!.Files!)
         {
-            if (ObjectValidator<JavaRuntimeFileDownloads>.IsNull(javaRuntimeFile?.Downloads))
+            if (ObjectValidator<JavaRuntimeFileDownloads>.IsNull(javaRuntimeFile?.Downloads, NativeLogLevel.Debug))
                 continue;
 
             if (javaRuntimeFile!.Type != "file")

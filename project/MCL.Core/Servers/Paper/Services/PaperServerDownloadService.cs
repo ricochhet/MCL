@@ -84,12 +84,16 @@ public static class PaperServerDownloadService
             || ObjectValidator<LauncherVersion>.IsNull(_launcherVersion)
         )
             return false;
+        List<string> existingVersions = [];
 
         foreach (string version in _launcherInstance!.PaperServerVersions!)
         {
             if (version == _launcherVersion!.PaperServerVersion)
-                _launcherInstance!.PaperServerVersions.Remove(version);
+                existingVersions.Add(version);
         }
+
+        foreach (string existingVersion in existingVersions)
+            _launcherInstance!.PaperServerVersions.Remove(existingVersion);
 
         _launcherInstance!.PaperServerVersions.Add(_launcherVersion!.PaperServerVersion);
         SettingsService.Load()?.Save(_launcherInstance);

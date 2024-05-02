@@ -51,7 +51,8 @@ public static class ServiceManager
             if (ObjectValidator<Settings>.IsNull(Settings))
                 return Task.FromResult(false);
             RequestDataService.OnRequestCompleted(
-                (RequestData requestData) => NotificationService.Info("request.get.success", requestData.URL)
+                (RequestData requestData) =>
+                    NotificationService.Info("request.get.success", requestData.URL, requestData.Elapsed.ToString("c"))
             );
             Request.HttpRequest.HttpClientTimeOut = TimeSpan.FromMinutes(1);
             if (!_slimMode)

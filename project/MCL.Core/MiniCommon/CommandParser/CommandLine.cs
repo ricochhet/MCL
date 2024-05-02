@@ -42,7 +42,7 @@ public static class CommandLine
             if (index != -1)
             {
                 T? value = default;
-                if (index + 1 < args.Length && !args[index + 1].StartsWith("--"))
+                if (index + 1 < args.Length && !args[index + 1].StartsWith(Prefix))
                 {
                     value = converter(args[index + 1]);
                 }
@@ -63,18 +63,22 @@ public static class CommandLine
         try
         {
             int index = Array.IndexOf(args, Prefix + command.Name);
-            if (index != -1 && index + 1 < args.Length && !args[index + 1].StartsWith("--"))
+            if (index != -1)
             {
-                Dictionary<string, string> options = ParseKeyValuePairs(args[index + 1]);
-                if (
-                    command
-                        .Parameters.Where(a => !a.Optional)
-                        .All(a => options.ContainsKey(a?.Name ?? ValidationShims.StringEmpty()))
-                    || ObjectValidator<List<CommandParameter>>.IsNullOrEmpty(command.Parameters)
-                )
-                    action(options);
-                else
-                    NotificationService.Error("commandline.error", command.Usage());
+                if (args.Length <= index + 1)
+                    action([]);
+                else if (index + 1 < args.Length && !args[index + 1].StartsWith(Prefix))
+                {
+                    Dictionary<string, string> options = ParseKeyValuePairs(args[index + 1]);
+                    if (
+                        command
+                            .Parameters.Where(a => !a.Optional)
+                            .All(a => options.ContainsKey(a?.Name ?? ValidationShims.StringEmpty()))
+                    )
+                        action(options);
+                    else
+                        NotificationService.Error("commandline.error", command.Usage());
+                }
             }
         }
         catch (Exception ex)
@@ -99,7 +103,7 @@ public static class CommandLine
             if (index != -1)
             {
                 T? value = default;
-                if (index + 1 < args.Length && !args[index + 1].StartsWith("--"))
+                if (index + 1 < args.Length && !args[index + 1].StartsWith(Prefix))
                 {
                     value = converter(args[index + 1]);
                 }
@@ -124,18 +128,22 @@ public static class CommandLine
         try
         {
             int index = Array.IndexOf(args, Prefix + command.Name);
-            if (index != -1 && index + 1 < args.Length && !args[index + 1].StartsWith("--"))
+            if (index != -1)
             {
-                Dictionary<string, string> options = ParseKeyValuePairs(args[index + 1]);
-                if (
-                    command
-                        .Parameters.Where(a => !a.Optional)
-                        .All(a => options.ContainsKey(a?.Name ?? ValidationShims.StringEmpty()))
-                    || ObjectValidator<List<CommandParameter>>.IsNullOrEmpty(command.Parameters)
-                )
-                    await action(options);
-                else
-                    NotificationService.Error("commandline.error", command.Usage());
+                if (args.Length <= index + 1)
+                    await action([]);
+                else if (index + 1 < args.Length && !args[index + 1].StartsWith(Prefix))
+                {
+                    Dictionary<string, string> options = ParseKeyValuePairs(args[index + 1]);
+                    if (
+                        command
+                            .Parameters.Where(a => !a.Optional)
+                            .All(a => options.ContainsKey(a?.Name ?? ValidationShims.StringEmpty()))
+                    )
+                        await action(options);
+                    else
+                        NotificationService.Error("commandline.error", command.Usage());
+                }
             }
         }
         catch (Exception ex)

@@ -86,12 +86,16 @@ public static class LibraryDownloader
 
         if (ObjectValidator<List<LauncherLoader>>.IsNull(launcherInstance?.Versions))
             return false;
+        List<LauncherLoader> existingLoaders = [];
 
         foreach (LauncherLoader existingLoader in launcherInstance!.Versions!)
         {
             if (existingLoader.Version == _loader.Version)
                 launcherInstance!.Versions!.Remove(existingLoader);
         }
+
+        foreach (LauncherLoader existingLoader in existingLoaders)
+            launcherInstance!.Versions!.Remove(existingLoader);
 
         launcherInstance!.Versions!.Add(_loader);
         SettingsService.Load()?.Save(launcherInstance);

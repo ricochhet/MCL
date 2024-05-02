@@ -92,12 +92,16 @@ public static class FabricLoaderDownloader
 
         if (ObjectValidator<List<LauncherLoader>>.IsNull(launcherInstance?.FabricLoaders))
             return false;
+        List<LauncherLoader> existingLoaders = [];
 
         foreach (LauncherLoader existingLoader in launcherInstance!.FabricLoaders!)
         {
             if (existingLoader.Version == loader.Version)
-                launcherInstance!.FabricLoaders!.Remove(existingLoader);
+                existingLoaders.Add(existingLoader);
         }
+
+        foreach (LauncherLoader existingLoader in existingLoaders)
+            launcherInstance!.FabricLoaders!.Remove(existingLoader);
 
         launcherInstance!.FabricLoaders!.Add(loader);
         SettingsService.Load()?.Save(launcherInstance);

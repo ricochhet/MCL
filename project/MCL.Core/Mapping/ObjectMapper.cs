@@ -44,7 +44,11 @@ public static class ObjectMapper
     *    ObjectMapper.MapProperties(source, destination, propertyMap);
     */
 #pragma warning restore IDE0079, S125
-    public static void MapProperties<T, U>(T source, U destination, Dictionary<Func<T, object>, Action<U, object>> propertyMap)
+    public static void MapProperties<T, U>(
+        T source,
+        U destination,
+        Dictionary<Func<T, object>, Action<U, object>> propertyMap
+    )
     {
         foreach ((Func<T, object> key, Action<U, object> value) in propertyMap)
         {

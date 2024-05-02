@@ -29,8 +29,8 @@ public static class RequestDataService
 
     public static void Add(RequestData item) => _requests.Add(item);
 
-    public static void Add(string url, string filePath, int size, string sha1) =>
-        _requests.Add(new(url, filePath, size, sha1));
+    public static void Add(string url, string filePath, int size, string sha1, TimeSpan elasped) =>
+        _requests.Add(new(url, filePath, size, sha1, elasped));
 
     public static void Clear() => _requests.Clear();
 
