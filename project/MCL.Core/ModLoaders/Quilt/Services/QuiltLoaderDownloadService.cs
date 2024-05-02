@@ -18,6 +18,7 @@
 
 using System.Threading.Tasks;
 using MCL.Core.Launcher.Models;
+using MCL.Core.MiniCommon.Decorators;
 using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Logger.Enums;
 using MCL.Core.MiniCommon.Services;
@@ -93,16 +94,19 @@ public static class QuiltLoaderDownloadService
     /// </summary>
     public static async Task<bool> DownloadVersionManifest()
     {
-        if (!_initialized)
-            return false;
-
-        if (!await QuiltVersionManifestDownloader.Download(_launcherPath, _quiltUrls))
+        return await TimingDecorator.TimeAsync(async () =>
         {
-            NotificationService.Error("error.download", nameof(QuiltVersionManifestDownloader));
-            return false;
-        }
+            if (!_initialized)
+                return false;
 
-        return true;
+            if (!await QuiltVersionManifestDownloader.Download(_launcherPath, _quiltUrls))
+            {
+                NotificationService.Error("error.download", nameof(QuiltVersionManifestDownloader));
+                return false;
+            }
+
+            return true;
+        });
     }
 
     /// <summary>
@@ -143,16 +147,19 @@ public static class QuiltLoaderDownloadService
     /// </summary>
     public static async Task<bool> DownloadProfile()
     {
-        if (!_initialized)
-            return false;
-
-        if (!await QuiltProfileDownloader.Download(_launcherPath, _launcherVersion, _quiltUrls))
+        return await TimingDecorator.TimeAsync(async () =>
         {
-            NotificationService.Error("error.download", nameof(QuiltProfileDownloader));
-            return false;
-        }
+            if (!_initialized)
+                return false;
 
-        return true;
+            if (!await QuiltProfileDownloader.Download(_launcherPath, _launcherVersion, _quiltUrls))
+            {
+                NotificationService.Error("error.download", nameof(QuiltProfileDownloader));
+                return false;
+            }
+
+            return true;
+        });
     }
 
     /// <summary>
@@ -207,23 +214,26 @@ public static class QuiltLoaderDownloadService
     /// </summary>
     public static async Task<bool> DownloadLoader()
     {
-        if (!_initialized)
-            return false;
-
-        if (
-            !await QuiltLoaderDownloader.Download(
-                _launcherPath,
-                _launcherVersion,
-                _launcherInstance,
-                QuiltProfile,
-                _quiltUrls
-            )
-        )
+        return await TimingDecorator.TimeAsync(async () =>
         {
-            NotificationService.Error("error.download", nameof(QuiltLoaderDownloader));
-            return false;
-        }
+            if (!_initialized)
+                return false;
 
-        return true;
+            if (
+                !await QuiltLoaderDownloader.Download(
+                    _launcherPath,
+                    _launcherVersion,
+                    _launcherInstance,
+                    QuiltProfile,
+                    _quiltUrls
+                )
+            )
+            {
+                NotificationService.Error("error.download", nameof(QuiltLoaderDownloader));
+                return false;
+            }
+
+            return true;
+        });
     }
 }

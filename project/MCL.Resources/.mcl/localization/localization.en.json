@@ -6,6 +6,7 @@
     "log.initialized": "Intialized Logger",
     "log.unhandled.exception": "Unhandled exception: {0}",
     "log.unhandled.object": "Unhandled non-exception object: {0}",
+    "timing.output": "Method: {0}() took {1} to complete.",
     "request.get.start": "Sending GET request to: {0}",
     "request.get.exists": "File already exists: {0}",
     "request.get.success": "Successfully received response from: {0} in {1}.",

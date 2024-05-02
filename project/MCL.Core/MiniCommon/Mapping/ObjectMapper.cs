@@ -20,7 +20,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace MCL.Core.Mapping;
+namespace MCL.Core.MiniCommon.Mapping;
 
 public static class ObjectMapper
 {

@@ -23,6 +23,7 @@ using MCL.Core.Java.Resolvers;
 using MCL.Core.Java.Web;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Minecraft.Models;
+using MCL.Core.MiniCommon.Decorators;
 using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Logger.Enums;
 using MCL.Core.MiniCommon.Services;
@@ -83,13 +84,16 @@ public static class JavaDownloadService
     /// </summary>
     public static async Task<bool> DownloadJavaVersionManifest()
     {
-        if (!await JavaVersionManifestDownloader.Download(_launcherPath, _mUrls))
+        return await TimingDecorator.TimeAsync(async () =>
         {
-            NotificationService.Error("error.download", nameof(JavaVersionManifestDownloader));
-            return false;
-        }
+            if (!await JavaVersionManifestDownloader.Download(_launcherPath, _mUrls))
+            {
+                NotificationService.Error("error.download", nameof(JavaVersionManifestDownloader));
+                return false;
+            }
 
-        return true;
+            return true;
+        });
     }
 
     /// <summary>
@@ -124,20 +128,23 @@ public static class JavaDownloadService
     /// </summary>
     public static async Task<bool> DownloadJavaVersionDetails()
     {
-        if (
-            !await JavaVersionDetailsDownloader.Download(
-                _launcherPath,
-                _javaRuntimePlatform,
-                _javaRuntimeType,
-                _javaVersionManifest
-            )
-        )
+        return await TimingDecorator.TimeAsync(async () =>
         {
-            NotificationService.Error("error.download", nameof(JavaVersionDetailsDownloader));
-            return false;
-        }
+            if (
+                !await JavaVersionDetailsDownloader.Download(
+                    _launcherPath,
+                    _javaRuntimePlatform,
+                    _javaRuntimeType,
+                    _javaVersionManifest
+                )
+            )
+            {
+                NotificationService.Error("error.download", nameof(JavaVersionDetailsDownloader));
+                return false;
+            }
 
-        return true;
+            return true;
+        });
     }
 
     /// <summary>
@@ -162,12 +169,15 @@ public static class JavaDownloadService
     /// </summary>
     public static async Task<bool> DownloadJavaRuntime()
     {
-        if (!await JavaRuntimeDownloader.Download(_launcherPath, _javaRuntimeType, _javaVersionDetails))
+        return await TimingDecorator.TimeAsync(async () =>
         {
-            NotificationService.Error("error.download", nameof(JavaRuntimeDownloader));
-            return false;
-        }
+            if (!await JavaRuntimeDownloader.Download(_launcherPath, _javaRuntimeType, _javaVersionDetails))
+            {
+                NotificationService.Error("error.download", nameof(JavaRuntimeDownloader));
+                return false;
+            }
 
-        return true;
+            return true;
+        });
     }
 }

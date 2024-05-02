@@ -18,6 +18,7 @@
 
 using System.Threading.Tasks;
 using MCL.Core.Launcher.Models;
+using MCL.Core.MiniCommon.Decorators;
 using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Logger.Enums;
 using MCL.Core.MiniCommon.Services;
@@ -77,16 +78,19 @@ public static class FabricInstallerDownloadService
     /// </summary>
     public static async Task<bool> DownloadVersionManifest()
     {
-        if (!_initialized)
-            return false;
-
-        if (!await FabricVersionManifestDownloader.Download(_launcherPath, _fabricUrls))
+        return await TimingDecorator.TimeAsync(async () =>
         {
-            NotificationService.Error("error.download", nameof(FabricVersionManifestDownloader));
-            return false;
-        }
+            if (!_initialized)
+                return false;
 
-        return true;
+            if (!await FabricVersionManifestDownloader.Download(_launcherPath, _fabricUrls))
+            {
+                NotificationService.Error("error.download", nameof(FabricVersionManifestDownloader));
+                return false;
+            }
+
+            return true;
+        });
     }
 
     /// <summary>
@@ -149,15 +153,18 @@ public static class FabricInstallerDownloadService
     /// </summary>
     public static async Task<bool> DownloadJar()
     {
-        if (!_initialized)
-            return false;
-
-        if (!await FabricInstallerDownloader.Download(_launcherPath, _launcherVersion, FabricInstaller))
+        return await TimingDecorator.TimeAsync(async () =>
         {
-            NotificationService.Error("error.download", nameof(FabricInstallerDownloader));
-            return false;
-        }
+            if (!_initialized)
+                return false;
 
-        return true;
+            if (!await FabricInstallerDownloader.Download(_launcherPath, _launcherVersion, FabricInstaller))
+            {
+                NotificationService.Error("error.download", nameof(FabricInstallerDownloader));
+                return false;
+            }
+
+            return true;
+        });
     }
 }

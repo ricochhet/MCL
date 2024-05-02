@@ -22,6 +22,7 @@ using MCL.Core.Minecraft.Helpers;
 using MCL.Core.Minecraft.Models;
 using MCL.Core.Minecraft.Resolvers;
 using MCL.Core.Minecraft.Web;
+using MCL.Core.MiniCommon.Decorators;
 using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Logger.Enums;
 using MCL.Core.MiniCommon.Services;
@@ -126,16 +127,19 @@ public static class MDownloadService
     /// </summary>
     public static async Task<bool> DownloadVersionManifest()
     {
-        if (!_initialized)
-            return false;
-
-        if (!await VersionManifestDownloader.Download(_launcherPath, _mUrls))
+        return await TimingDecorator.TimeAsync(async () =>
         {
-            NotificationService.Error("error.download", nameof(MVersionManifest));
-            return false;
-        }
+            if (!_initialized)
+                return false;
 
-        return true;
+            if (!await VersionManifestDownloader.Download(_launcherPath, _mUrls))
+            {
+                NotificationService.Error("error.download", nameof(MVersionManifest));
+                return false;
+            }
+
+            return true;
+        });
     }
 
     /// <summary>
@@ -198,16 +202,19 @@ public static class MDownloadService
     /// </summary>
     public static async Task<bool> DownloadVersionDetails()
     {
-        if (!_initialized)
-            return false;
-
-        if (!await VersionDetailsDownloader.Download(_launcherPath, Version))
+        return await TimingDecorator.TimeAsync(async () =>
         {
-            NotificationService.Error("error.download", nameof(VersionDetailsDownloader));
-            return false;
-        }
+            if (!_initialized)
+                return false;
 
-        return true;
+            if (!await VersionDetailsDownloader.Download(_launcherPath, Version))
+            {
+                NotificationService.Error("error.download", nameof(VersionDetailsDownloader));
+                return false;
+            }
+
+            return true;
+        });
     }
 
     /// <summary>
@@ -233,24 +240,27 @@ public static class MDownloadService
     /// </summary>
     public static async Task<bool> DownloadLibraries()
     {
-        if (!_initialized)
-            return false;
-
-        if (
-            !await LibraryDownloader.Download(
-                _launcherPath,
-                _launcherVersion,
-                _launcherInstance,
-                _launcherSettings,
-                VersionDetails
-            )
-        )
+        return await TimingDecorator.TimeAsync(async () =>
         {
-            NotificationService.Error("error.download", nameof(LibraryDownloader));
-            return false;
-        }
+            if (!_initialized)
+                return false;
 
-        return true;
+            if (
+                !await LibraryDownloader.Download(
+                    _launcherPath,
+                    _launcherVersion,
+                    _launcherInstance,
+                    _launcherSettings,
+                    VersionDetails
+                )
+            )
+            {
+                NotificationService.Error("error.download", nameof(LibraryDownloader));
+                return false;
+            }
+
+            return true;
+        });
     }
 
     /// <summary>
@@ -258,16 +268,19 @@ public static class MDownloadService
     /// </summary>
     public static async Task<bool> DownloadClient()
     {
-        if (!_initialized)
-            return false;
-
-        if (!await ClientDownloader.Download(_launcherPath, VersionDetails))
+        return await TimingDecorator.TimeAsync(async () =>
         {
-            NotificationService.Error("error.download", nameof(ClientDownloader));
-            return false;
-        }
+            if (!_initialized)
+                return false;
 
-        return true;
+            if (!await ClientDownloader.Download(_launcherPath, VersionDetails))
+            {
+                NotificationService.Error("error.download", nameof(ClientDownloader));
+                return false;
+            }
+
+            return true;
+        });
     }
 
     /// <summary>
@@ -275,16 +288,19 @@ public static class MDownloadService
     /// </summary>
     public static async Task<bool> DownloadClientMappings()
     {
-        if (!_initialized)
-            return false;
-
-        if (!await ClientMappingsDownloader.Download(_launcherPath, VersionDetails))
+        return await TimingDecorator.TimeAsync(async () =>
         {
-            NotificationService.Error("error.download", nameof(ClientMappingsDownloader));
-            return false;
-        }
+            if (!_initialized)
+                return false;
 
-        return true;
+            if (!await ClientMappingsDownloader.Download(_launcherPath, VersionDetails))
+            {
+                NotificationService.Error("error.download", nameof(ClientMappingsDownloader));
+                return false;
+            }
+
+            return true;
+        });
     }
 
     /// <summary>
@@ -292,16 +308,19 @@ public static class MDownloadService
     /// </summary>
     public static async Task<bool> DownloadServer()
     {
-        if (!_initialized)
-            return false;
-
-        if (!await ServerDownloader.Download(_launcherPath, VersionDetails))
+        return await TimingDecorator.TimeAsync(async () =>
         {
-            NotificationService.Error("error.download", nameof(ServerDownloader));
-            return false;
-        }
+            if (!_initialized)
+                return false;
 
-        return true;
+            if (!await ServerDownloader.Download(_launcherPath, VersionDetails))
+            {
+                NotificationService.Error("error.download", nameof(ServerDownloader));
+                return false;
+            }
+
+            return true;
+        });
     }
 
     /// <summary>
@@ -309,16 +328,19 @@ public static class MDownloadService
     /// </summary>
     public static async Task<bool> DownloadServerMappings()
     {
-        if (!_initialized)
-            return false;
-
-        if (!await ServerMappingsDownloader.Download(_launcherPath, VersionDetails))
+        return await TimingDecorator.TimeAsync(async () =>
         {
-            NotificationService.Error("error.download", nameof(ServerMappingsDownloader));
-            return false;
-        }
+            if (!_initialized)
+                return false;
 
-        return true;
+            if (!await ServerMappingsDownloader.Download(_launcherPath, VersionDetails))
+            {
+                NotificationService.Error("error.download", nameof(ServerMappingsDownloader));
+                return false;
+            }
+
+            return true;
+        });
     }
 
     /// <summary>
@@ -326,16 +348,19 @@ public static class MDownloadService
     /// </summary>
     public static async Task<bool> DownloadAssetIndex()
     {
-        if (!_initialized)
-            return false;
-
-        if (!await AssetIndexDownloader.Download(_launcherPath, VersionDetails))
+        return await TimingDecorator.TimeAsync(async () =>
         {
-            NotificationService.Error("error.download", nameof(AssetIndexDownloader));
-            return false;
-        }
+            if (!_initialized)
+                return false;
 
-        return true;
+            if (!await AssetIndexDownloader.Download(_launcherPath, VersionDetails))
+            {
+                NotificationService.Error("error.download", nameof(AssetIndexDownloader));
+                return false;
+            }
+
+            return true;
+        });
     }
 
     /// <summary>
@@ -361,16 +386,19 @@ public static class MDownloadService
     /// </summary>
     public static async Task<bool> DownloadResources()
     {
-        if (!_initialized)
-            return false;
-
-        if (!await ResourceDownloader.Download(_launcherPath, _mUrls, _assets))
+        return await TimingDecorator.TimeAsync(async () =>
         {
-            NotificationService.Error("error.download", nameof(ResourceDownloader));
-            return false;
-        }
+            if (!_initialized)
+                return false;
 
-        return true;
+            if (!await ResourceDownloader.Download(_launcherPath, _mUrls, _assets))
+            {
+                NotificationService.Error("error.download", nameof(ResourceDownloader));
+                return false;
+            }
+
+            return true;
+        });
     }
 
     /// <summary>
@@ -378,15 +406,18 @@ public static class MDownloadService
     /// </summary>
     public static async Task<bool> DownloadLogging()
     {
-        if (!_initialized)
-            return false;
-
-        if (!await LoggingDownloader.Download(_launcherPath, VersionDetails))
+        return await TimingDecorator.TimeAsync(async () =>
         {
-            NotificationService.Error("error.download", nameof(LoggingDownloader));
-            return false;
-        }
+            if (!_initialized)
+                return false;
 
-        return true;
+            if (!await LoggingDownloader.Download(_launcherPath, VersionDetails))
+            {
+                NotificationService.Error("error.download", nameof(LoggingDownloader));
+                return false;
+            }
+
+            return true;
+        });
     }
 }

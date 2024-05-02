@@ -18,6 +18,7 @@
 
 using System.Threading.Tasks;
 using MCL.Core.Launcher.Models;
+using MCL.Core.MiniCommon.Decorators;
 using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Logger.Enums;
 using MCL.Core.MiniCommon.Services;
@@ -77,16 +78,19 @@ public static class QuiltInstallerDownloadService
     /// </summary>
     public static async Task<bool> DownloadVersionManifest()
     {
-        if (!_initialized)
-            return false;
-
-        if (!await QuiltVersionManifestDownloader.Download(_launcherPath, _quiltUrls))
+        return await TimingDecorator.TimeAsync(async () =>
         {
-            NotificationService.Error("error.download", nameof(QuiltVersionManifestDownloader));
-            return false;
-        }
+            if (!_initialized)
+                return false;
 
-        return true;
+            if (!await QuiltVersionManifestDownloader.Download(_launcherPath, _quiltUrls))
+            {
+                NotificationService.Error("error.download", nameof(QuiltVersionManifestDownloader));
+                return false;
+            }
+
+            return true;
+        });
     }
 
     /// <summary>
@@ -149,15 +153,18 @@ public static class QuiltInstallerDownloadService
     /// </summary>
     public static async Task<bool> DownloadJar()
     {
-        if (!_initialized)
-            return false;
-
-        if (!await QuiltInstallerDownloader.Download(_launcherPath, _launcherVersion, QuiltInstaller))
+        return await TimingDecorator.TimeAsync(async () =>
         {
-            NotificationService.Error("error.download", nameof(QuiltInstallerDownloader));
-            return false;
-        }
+            if (!_initialized)
+                return false;
 
-        return true;
+            if (!await QuiltInstallerDownloader.Download(_launcherPath, _launcherVersion, QuiltInstaller))
+            {
+                NotificationService.Error("error.download", nameof(QuiltInstallerDownloader));
+                return false;
+            }
+
+            return true;
+        });
     }
 }

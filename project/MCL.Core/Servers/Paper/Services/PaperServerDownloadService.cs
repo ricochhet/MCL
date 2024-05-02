@@ -21,6 +21,7 @@ using System.Threading.Tasks;
 using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Services;
+using MCL.Core.MiniCommon.Decorators;
 using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Logger.Enums;
 using MCL.Core.MiniCommon.Services;
@@ -106,16 +107,19 @@ public static class PaperServerDownloadService
     /// </summary>
     public static async Task<bool> DownloadVersionManifest()
     {
-        if (!_initialized)
-            return false;
-
-        if (!await PaperVersionManifestDownloader.Download(_launcherPath, _launcherVersion, _paperUrls))
+        return await TimingDecorator.TimeAsync(async () =>
         {
-            NotificationService.Error("error.download", nameof(PaperVersionManifestDownloader));
-            return false;
-        }
+            if (!_initialized)
+                return false;
 
-        return true;
+            if (!await PaperVersionManifestDownloader.Download(_launcherPath, _launcherVersion, _paperUrls))
+            {
+                NotificationService.Error("error.download", nameof(PaperVersionManifestDownloader));
+                return false;
+            }
+
+            return true;
+        });
     }
 
     /// <summary>
@@ -188,15 +192,18 @@ public static class PaperServerDownloadService
     /// </summary>
     public static async Task<bool> DownloadJar()
     {
-        if (!_initialized)
-            return false;
-
-        if (!await PaperServerDownloader.Download(_launcherPath, _launcherVersion, PaperBuild, _paperUrls))
+        return await TimingDecorator.TimeAsync(async () =>
         {
-            NotificationService.Error("error.download", nameof(PaperServerDownloader));
-            return false;
-        }
+            if (!_initialized)
+                return false;
 
-        return true;
+            if (!await PaperServerDownloader.Download(_launcherPath, _launcherVersion, PaperBuild, _paperUrls))
+            {
+                NotificationService.Error("error.download", nameof(PaperServerDownloader));
+                return false;
+            }
+
+            return true;
+        });
     }
 }

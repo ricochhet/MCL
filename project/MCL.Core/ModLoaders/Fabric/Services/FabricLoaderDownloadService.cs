@@ -18,6 +18,7 @@
 
 using System.Threading.Tasks;
 using MCL.Core.Launcher.Models;
+using MCL.Core.MiniCommon.Decorators;
 using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Logger.Enums;
 using MCL.Core.MiniCommon.Services;
@@ -93,16 +94,19 @@ public static class FabricLoaderDownloadService
     /// </summary>
     public static async Task<bool> DownloadVersionManifest()
     {
-        if (!_initialized)
-            return false;
-
-        if (!await FabricVersionManifestDownloader.Download(_launcherPath, _fabricUrls))
+        return await TimingDecorator.TimeAsync(async () =>
         {
-            NotificationService.Error("error.download", nameof(FabricVersionManifestDownloader));
-            return false;
-        }
+            if (!_initialized)
+                return false;
 
-        return true;
+            if (!await FabricVersionManifestDownloader.Download(_launcherPath, _fabricUrls))
+            {
+                NotificationService.Error("error.download", nameof(FabricVersionManifestDownloader));
+                return false;
+            }
+
+            return true;
+        });
     }
 
     /// <summary>
@@ -143,16 +147,19 @@ public static class FabricLoaderDownloadService
     /// </summary>
     public static async Task<bool> DownloadProfile()
     {
-        if (!_initialized)
-            return false;
-
-        if (!await FabricProfileDownloader.Download(_launcherPath, _launcherVersion, _fabricUrls))
+        return await TimingDecorator.TimeAsync(async () =>
         {
-            NotificationService.Error("error.download", nameof(FabricProfileDownloader));
-            return false;
-        }
+            if (!_initialized)
+                return false;
 
-        return true;
+            if (!await FabricProfileDownloader.Download(_launcherPath, _launcherVersion, _fabricUrls))
+            {
+                NotificationService.Error("error.download", nameof(FabricProfileDownloader));
+                return false;
+            }
+
+            return true;
+        });
     }
 
     /// <summary>
@@ -207,23 +214,26 @@ public static class FabricLoaderDownloadService
     /// </summary>
     public static async Task<bool> DownloadLoader()
     {
-        if (!_initialized)
-            return false;
-
-        if (
-            !await FabricLoaderDownloader.Download(
-                _launcherPath,
-                _launcherVersion,
-                _launcherInstance,
-                FabricProfile,
-                _fabricUrls
-            )
-        )
+        return await TimingDecorator.TimeAsync(async () =>
         {
-            NotificationService.Error("error.download", nameof(FabricLoaderDownloader));
-            return false;
-        }
+            if (!_initialized)
+                return false;
 
-        return true;
+            if (
+                !await FabricLoaderDownloader.Download(
+                    _launcherPath,
+                    _launcherVersion,
+                    _launcherInstance,
+                    FabricProfile,
+                    _fabricUrls
+                )
+            )
+            {
+                NotificationService.Error("error.download", nameof(FabricLoaderDownloader));
+                return false;
+            }
+
+            return true;
+        });
     }
 }
