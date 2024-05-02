@@ -40,6 +40,16 @@
     "analyzer.error.license": "'{0}' does not contain a valid license.",
     "analyzer.error.localization": "'{0}' - '{1}' is not a valid localization key.",
     "analyzer.output": "[{0}] Done: '{1}', Fail: '{2}', Total: '{3}'",
-    "analyzer.line.output": "[{0}] Total: '{1}', Average (Per File): '{2}'"
+    "analyzer.line.output": "[{0}] Total: '{1}', Average (Per File): '{2}'",
+    "command.download-java": "Download the Mojang provided Java runtime environment.",
+    "command.download-minecraft": "Download Minecraft.",
+    "command.download-paper-server": "Install Paper Server.",
+    "command.download-quilt-loader": "Install Quilt Loader.",
+    "command.download-fabric-loader": "Install Fabric Loader.",
+    "command.download-quilt-installer": "Download and install Quilt Loader from the installer.",
+    "command.download-fabric-installer": "Download and install Fabric Loader from the installer.",
+    "command.launch-minecraft": "Launch Minecraft.",
+    "command.launch-paper-server": "Launch Paper Server.",
+    "command.deploy-mods": "Deploy game modifications."
   }
 }

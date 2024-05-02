@@ -33,6 +33,7 @@ public class LauncherSettings
     public ClientType ClientType { get; set; } = ClientType.VANILLA;
     public FabricInstallerType FabricInstallerType { get; set; } = FabricInstallerType.INSTALL_CLIENT;
     public QuiltInstallerType QuiltInstallerType { get; set; } = QuiltInstallerType.INSTALL_CLIENT;
+    public JvmArgumentType JvmType { get; set; } = JvmArgumentType.DEFAULT;
     public JavaRuntimeType JavaRuntimeType { get; set; } = JavaRuntimeType.JAVA_RUNTIME_GAMMA;
     public JavaRuntimePlatform JavaRuntimePlatform { get; set; } =
         JavaRuntimePlatformResolver.OSToJavaRuntimePlatform();

@@ -21,6 +21,7 @@ using System.Threading.Tasks;
 using MCL.Core.Launcher.Models;
 using MCL.Core.MiniCommon.CommandParser;
 using MCL.Core.MiniCommon.Interfaces;
+using MCL.Core.MiniCommon.Services;
 using MCL.Core.ModLoaders.Fabric.Wrappers;
 
 namespace MCL.Core.Commands.Downloaders;
@@ -42,7 +43,8 @@ public class DownloadFabricInstaller : ILauncherCommand
                     new() { Name = "loaderversion", Optional = true },
                     new() { Name = "update", Optional = true },
                     new() { Name = "javapath", Optional = true }
-                ]
+                ],
+                Description = LocalizationService.Translate("command.download-fabric-installer")
             },
             async options =>
             {

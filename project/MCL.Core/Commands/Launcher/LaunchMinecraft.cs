@@ -26,6 +26,7 @@ using MCL.Core.MiniCommon.CommandParser;
 using MCL.Core.MiniCommon.CommandParser.Converters;
 using MCL.Core.MiniCommon.Interfaces;
 using MCL.Core.MiniCommon.Resolvers;
+using MCL.Core.MiniCommon.Services;
 using MCL.Core.MiniCommon.Validation;
 
 namespace MCL.Core.Commands.Launcher;
@@ -48,7 +49,8 @@ public class LaunchMinecraft : ILauncherCommand
                     new() { Name = "quiltversion", Optional = true },
                     new() { Name = "username", Optional = true },
                     new() { Name = "javapath", Optional = true }
-                ]
+                ],
+                Description = LocalizationService.Translate("command.launch-minecraft")
             },
             options =>
             {

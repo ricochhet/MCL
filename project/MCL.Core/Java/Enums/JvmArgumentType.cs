@@ -16,23 +16,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using System.Threading.Tasks;
-using MCL.Core.Java.Wrappers;
-using MCL.Core.Launcher.Models;
-using MCL.Core.MiniCommon.CommandParser;
-using MCL.Core.MiniCommon.Interfaces;
-using MCL.Core.MiniCommon.Services;
+namespace MCL.Core.Java.Enums;
 
-namespace MCL.Core.Commands.Downloaders;
-
-public class DownloadJava : ILauncherCommand
+public enum JvmArgumentType
 {
-    public async Task Init(string[] args, Settings? settings)
-    {
-        await CommandLine.ProcessArgumentAsync(
-            args,
-            new() { Name = "dl-java", Description = LocalizationService.Translate("command.download-java") },
-            async _ => await JavaDownloadWrapper.Download(settings)
-        );
-    }
+    DEFAULT,
+    GRAAL_VM,
 }

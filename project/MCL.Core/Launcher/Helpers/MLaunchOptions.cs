@@ -16,6 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using MCL.Core.Java.Enums;
 using MCL.Core.Launcher.Enums;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Resolvers;
@@ -46,6 +47,21 @@ public static class MLaunchOptions
             {
                 Arg = "-Xmx{0}m",
                 ArgParams = [settings.LauncherMemory?.MemoryMaxMb.ToString() ?? ValidationShims.StringEmpty()]
+            },
+            new MArgument
+            {
+                Arg = "-Dgraal.LoopRotation=true",
+                Condition = settings.LauncherSettings?.JvmType == JvmArgumentType.GRAAL_VM
+            },
+            new MArgument
+            {
+                Arg = "-Dgraal.PartialUnroll=true",
+                Condition = settings.LauncherSettings?.JvmType == JvmArgumentType.GRAAL_VM
+            },
+            new MArgument
+            {
+                Arg = "-Dgraal.VectorizeSIMD=true",
+                Condition = settings.LauncherSettings?.JvmType == JvmArgumentType.GRAAL_VM
             },
             new MArgument { Arg = "-XX:+UnlockExperimentalVMOptions" },
             new MArgument { Arg = "-XX:+UseG1GC" },

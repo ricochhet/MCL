@@ -22,6 +22,7 @@ using MCL.Core.Launcher.Models;
 using MCL.Core.MiniCommon.CommandParser;
 using MCL.Core.MiniCommon.CommandParser.Converters;
 using MCL.Core.MiniCommon.Interfaces;
+using MCL.Core.MiniCommon.Services;
 using MCL.Core.MiniCommon.Validation;
 using MCL.Core.Modding.Resolvers;
 using MCL.Core.Modding.Services;
@@ -34,7 +35,7 @@ public class DeployMods : ILauncherCommand
     {
         CommandLine.ProcessArgument(
             args,
-            new() { Name = "deploy-mods" },
+            new() { Name = "deploy-mods", Description = LocalizationService.Translate("command.deploy-mods") },
             ArgumentConverter.ToString,
             (string? value) =>
             {

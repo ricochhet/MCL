@@ -21,6 +21,7 @@ using System.Threading.Tasks;
 using MCL.Core.Launcher.Models;
 using MCL.Core.MiniCommon.CommandParser;
 using MCL.Core.MiniCommon.Interfaces;
+using MCL.Core.MiniCommon.Services;
 using MCL.Core.ModLoaders.Quilt.Wrappers;
 
 namespace MCL.Core.Commands.Downloaders;
@@ -41,7 +42,8 @@ public class DownloadQuiltLoader : ILauncherCommand
                     new() { Name = "gameversion", Optional = true },
                     new() { Name = "loaderversion", Optional = true },
                     new() { Name = "update", Optional = true }
-                ]
+                ],
+                Description = LocalizationService.Translate("command.download-quilt-loader")
             },
             async options =>
             {

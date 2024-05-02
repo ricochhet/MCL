@@ -23,6 +23,7 @@ using MCL.Core.Launcher.Models;
 using MCL.Core.MiniCommon.CommandParser;
 using MCL.Core.MiniCommon.CommandParser.Converters;
 using MCL.Core.MiniCommon.Interfaces;
+using MCL.Core.MiniCommon.Services;
 using MCL.Core.MiniCommon.Validation;
 using MCL.Core.Servers.Paper.Helpers;
 
@@ -42,7 +43,8 @@ public class LaunchPaperServer : ILauncherCommand
                     new() { Name = "gameversion", Optional = true },
                     new() { Name = "paperversion", Optional = true },
                     new() { Name = "javapath", Optional = true }
-                ]
+                ],
+                Description = LocalizationService.Translate("command.launch-paper-server")
             },
             options =>
             {
