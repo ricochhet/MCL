@@ -27,7 +27,7 @@ public static class MArgumentExt
     /// <summary>
     /// Convert an array of MArgument into JvmArguments object.
     /// </summary>
-    public static JvmArguments? JvmArguments(this MArgument[] arguments)
+    public static JvmArguments? JvmArguments(this MOption[] arguments)
     {
         return new JvmArguments { Arguments = arguments.Where(a => a.Condition).ToList() };
     }

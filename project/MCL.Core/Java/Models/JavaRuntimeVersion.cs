@@ -28,3 +28,7 @@ public class JavaRuntimeVersion(string name, string released)
     [JsonPropertyName("released")]
     public string Released { get; set; } = released;
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(JavaRuntimeVersion))]
+internal partial class JavaRuntimeVersionContext : JsonSerializerContext { }

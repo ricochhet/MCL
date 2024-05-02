@@ -16,6 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using System.Text.Json.Serialization;
 using MCL.Core.MiniCommon.Cryptography.Helpers;
 
 namespace MCL.Core.Launcher.Models;
@@ -37,3 +38,7 @@ public class LauncherUsername(string username)
 
     public string OfflineUUID() => CryptographyHelper.CreateUUID($"OfflinePlayer:{ValidateUsername()}");
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(LauncherUsername))]
+internal partial class LauncherUsernameContext : JsonSerializerContext { }

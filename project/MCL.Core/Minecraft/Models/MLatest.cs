@@ -28,3 +28,7 @@ public class MLatest(string release, string snapshot)
     [JsonPropertyName("snapshot")]
     public string Snapshot { get; set; } = snapshot;
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(MLatest))]
+internal partial class MLatestContext : JsonSerializerContext { }

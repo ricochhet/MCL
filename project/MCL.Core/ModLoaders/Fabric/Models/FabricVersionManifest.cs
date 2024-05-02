@@ -40,3 +40,7 @@ public class FabricVersionManifest
 
     public FabricVersionManifest() { }
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(FabricVersionManifest))]
+internal partial class FabricVersionManifestContext : JsonSerializerContext { }

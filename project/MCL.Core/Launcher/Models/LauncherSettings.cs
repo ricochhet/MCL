@@ -16,6 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using System.Text.Json.Serialization;
 using MCL.Core.BuildInfo;
 using MCL.Core.Java.Enums;
 using MCL.Core.Java.Resolvers;
@@ -57,3 +58,7 @@ public class LauncherSettings
         JavaRuntimePlatform = javaRuntimePlatform;
     }
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(LauncherSettings))]
+internal partial class LauncherSettingsContext : JsonSerializerContext { }

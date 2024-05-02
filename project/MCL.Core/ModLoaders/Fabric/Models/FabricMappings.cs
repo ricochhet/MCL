@@ -40,3 +40,7 @@ public class FabricMappings(string gameVersion, string separator, int build, str
     [JsonPropertyName("stable")]
     public bool Stable { get; set; } = stable;
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(FabricMappings))]
+internal partial class FabricMappingsContext : JsonSerializerContext { }

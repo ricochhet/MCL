@@ -16,6 +16,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using System.Text.Json.Serialization;
+
 namespace MCL.Core.Launcher.Models;
 
 public class MainClassNames
@@ -24,3 +26,7 @@ public class MainClassNames
     public string Fabric { get; set; } = "net.fabricmc.loader.impl.launch.knot.KnotClient";
     public string Quilt { get; set; } = "org.quiltmc.loader.impl.launch.knot.KnotClient";
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(MainClassNames))]
+internal partial class MainClassNamesContext : JsonSerializerContext { }

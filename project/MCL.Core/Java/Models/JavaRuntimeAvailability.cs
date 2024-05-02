@@ -28,3 +28,7 @@ public class JavaRuntimeAvailability(int group, int progress)
     [JsonPropertyName("progress")]
     public int Progress { get; set; } = progress;
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(JavaRuntimeAvailability))]
+internal partial class JavaRuntimeAvailabilityContext : JsonSerializerContext { }

@@ -54,3 +54,7 @@ public class QuiltLibrary(string name, string url)
         return path.Replace(" ", "_");
     }
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(QuiltLibrary))]
+internal partial class QuiltLibraryContext : JsonSerializerContext { }

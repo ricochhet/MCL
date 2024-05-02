@@ -16,6 +16,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using System.Text.Json.Serialization;
+
 namespace MCL.Core.Java.Models;
 
 public class JavaSettings
@@ -25,3 +27,7 @@ public class JavaSettings
 
     public JavaSettings() { }
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(JavaSettings))]
+internal partial class JavaSettingsContext : JsonSerializerContext { }

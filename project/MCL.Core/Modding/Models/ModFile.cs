@@ -16,6 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using System.Text.Json.Serialization;
 using MCL.Core.Modding.Enums;
 
 namespace MCL.Core.Modding.Models;
@@ -37,3 +38,7 @@ public class ModFile
         Priority = priority;
     }
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(ModFile))]
+internal partial class ModFileContext : JsonSerializerContext { }

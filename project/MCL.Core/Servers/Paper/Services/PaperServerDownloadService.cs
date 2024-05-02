@@ -122,7 +122,8 @@ public class PaperServerDownloadService
             return false;
 
         PaperVersionManifest = Json.Load<PaperVersionManifest>(
-            PaperPathResolver.VersionManifestPath(_launcherPath, _launcherVersion)
+            PaperPathResolver.VersionManifestPath(_launcherPath, _launcherVersion),
+            PaperVersionManifestContext.Default
         );
         if (ObjectValidator<PaperVersionManifest>.IsNull(PaperVersionManifest))
         {
@@ -142,7 +143,8 @@ public class PaperServerDownloadService
             return false;
 
         PaperVersionManifest = Json.Load<PaperVersionManifest>(
-            PaperPathResolver.VersionManifestPath(_launcherPath, _launcherVersion)
+            PaperPathResolver.VersionManifestPath(_launcherPath, _launcherVersion),
+            PaperVersionManifestContext.Default
         );
         if (ObjectValidator<PaperVersionManifest>.IsNull(PaperVersionManifest, NativeLogLevel.Debug))
             return false;

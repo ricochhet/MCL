@@ -23,7 +23,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text;
-using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using MCL.Core.MiniCommon.Cryptography.Helpers;
 using MCL.Core.MiniCommon.IO;
@@ -36,7 +36,6 @@ namespace MCL.Core.MiniCommon.Web.Abstractions;
 public class BaseRequest : IBaseHttpRequest
 {
     private static readonly HttpClient _httpClient = new();
-    public virtual JsonSerializerOptions JsonSerializerOptions { get; set; } = Json.JsonSerializerOptions;
 
     public virtual HttpClient GetHttpClient() => _httpClient;
 
@@ -106,12 +105,12 @@ public class BaseRequest : IBaseHttpRequest
     }
 
     /// <inheritdoc />
-    public virtual async Task<T?> GetObjectFromJsonAsync<T>(string request)
+    public virtual async Task<T?> GetObjectFromJsonAsync<T>(string request, JsonSerializerContext ctx)
         where T : struct
     {
         try
         {
-            return await _httpClient.GetFromJsonAsync<T>(request);
+            return await _httpClient.GetFromJsonAsync(request, typeof(T), ctx) as T?;
         }
         catch (Exception ex)
         {
@@ -126,7 +125,13 @@ public class BaseRequest : IBaseHttpRequest
     }
 
     /// <inheritdoc />
-    public virtual async Task<string?> GetJsonAsync<T>(string request, string filepath, Encoding encoding)
+    public virtual async Task<string?> GetJsonAsync<T>(
+        string request,
+        string filepath,
+        Encoding encoding,
+        JsonSerializerContext ctx
+    )
+        where T : class
     {
         Stopwatch sw = Stopwatch.StartNew();
         for (int retry = 0; retry < Math.Max(1, Retry); retry++)
@@ -149,8 +154,8 @@ public class BaseRequest : IBaseHttpRequest
                     NotificationProvider.Info("request.get.exists", request);
                     return response;
                 }
-
-                Json.Save(filepath, Json.Deserialize<T>(response), JsonSerializerOptions);
+                //TODO: check if this actually works.
+                Json.Save(filepath, Json.Deserialize<T>(response, ctx), ctx);
                 return response;
             }
             catch (Exception ex)

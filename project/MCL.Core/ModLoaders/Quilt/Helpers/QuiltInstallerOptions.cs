@@ -28,7 +28,7 @@ public static class QuiltInstallerOptions
     /// <summary>
     /// The default JvmArguments to run the Quilt installer.
     /// </summary>
-    public static MArgument[]? DefaultJvmArguments(
+    public static MOption[]? DefaultJvmArguments(
         LauncherPath? launcherPath,
         LauncherVersion? launcherVersion,
         QuiltInstallerType installerType
@@ -48,19 +48,19 @@ public static class QuiltInstallerOptions
 
         return
         [
-            new MArgument
+            new MOption
             {
                 Arg = "-jar \"{0}\"",
                 ArgParams = [QuiltPathResolver.InstallerPath(launcherPath, launcherVersion)]
             },
-            new MArgument
+            new MOption
             {
                 Arg = $"install {QuiltInstallerTypeResolver.ToString(installerType)} {0} {1}",
                 ArgParams = [launcherVersion!.MVersion, launcherVersion!.QuiltLoaderVersion]
             },
-            new MArgument { Arg = "--download-server", Condition = installerType == QuiltInstallerType.INSTALL_SERVER },
-            new MArgument { Arg = "--install-dir=\"{0}\"", ArgParams = [launcherPath!.MPath] },
-            new MArgument { Arg = "--no-profile" }
+            new MOption { Arg = "--download-server", Condition = installerType == QuiltInstallerType.INSTALL_SERVER },
+            new MOption { Arg = "--install-dir=\"{0}\"", ArgParams = [launcherPath!.MPath] },
+            new MOption { Arg = "--no-profile" }
         ];
     }
 }

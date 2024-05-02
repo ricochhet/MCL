@@ -76,3 +76,7 @@ public class Settings
 
     public Settings() { }
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(Settings))]
+internal partial class SettingsContext : JsonSerializerContext { }

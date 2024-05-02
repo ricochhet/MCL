@@ -19,6 +19,7 @@
 using System.IO;
 using System.Net.Http;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace MCL.Core.MiniCommon.Web.Interfaces;
@@ -43,13 +44,19 @@ public interface IHttpRequest
     /// <summary>
     /// Sends a GET async request to the specified URI, and returns the response body as a deserialized object of type T.
     /// </summary>
-    public static abstract Task<T?> GetObjectFromJsonAsync<T>(string request)
+    public static abstract Task<T?> GetObjectFromJsonAsync<T>(string request, JsonSerializerContext ctx)
         where T : struct;
 
     /// <summary>
     /// Sends a GET async request to the specified URI, and saves the deserialized response of type T to a file.
     /// </summary>
-    public static abstract Task<string?> GetJsonAsync<T>(string request, string filepath, Encoding encoding);
+    public static abstract Task<string?> GetJsonAsync<T>(
+        string request,
+        string filepath,
+        Encoding encoding,
+        JsonSerializerContext ctx
+    )
+        where T : class;
 
     /// <summary>
     /// Sends a GET async request to the specified URI, and saves the response to a file.

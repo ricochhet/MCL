@@ -16,6 +16,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using System.Text.Json.Serialization;
+
 namespace MCL.Core.Servers.Paper.Models;
 
 public class PaperUrls
@@ -26,3 +28,7 @@ public class PaperUrls
 
     public PaperUrls() { }
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(PaperUrls))]
+internal partial class PaperUrlsContext : JsonSerializerContext { }

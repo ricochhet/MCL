@@ -37,3 +37,7 @@ public class MAssetIndex(string id, string sha1, int size, int totalSize, string
     [JsonPropertyName("url")]
     public string URL { get; set; } = url;
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(MAssetIndex))]
+internal partial class MAssetIndexContext : JsonSerializerContext { }

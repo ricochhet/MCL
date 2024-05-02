@@ -50,3 +50,7 @@ public class FabricProfile
 
     public FabricProfile() { }
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(FabricProfile))]
+internal partial class FabricProfileContext : JsonSerializerContext { }

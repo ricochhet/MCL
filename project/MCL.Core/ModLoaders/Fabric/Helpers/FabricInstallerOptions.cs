@@ -28,7 +28,7 @@ public static class FabricInstallerOptions
     /// <summary>
     /// The default JvmArguments to run the Fabric installer.
     /// </summary>
-    public static MArgument[]? DefaultJvmArguments(
+    public static MOption[]? DefaultJvmArguments(
         LauncherPath? launcherPath,
         LauncherVersion? launcherVersion,
         FabricInstallerType installerType
@@ -48,19 +48,19 @@ public static class FabricInstallerOptions
 
         return
         [
-            new MArgument
+            new MOption
             {
                 Arg = "-jar \"{0}\" {1}",
                 ArgParams = [FabricPathResolver.InstallerPath(launcherPath, launcherVersion), "client"]
             },
-            new MArgument
+            new MOption
             {
                 Arg = "-dir \"{0}\" {1}",
                 ArgParams = [launcherPath!.MPath, FabricInstallerTypeResolver.ToString(installerType)]
             },
-            new MArgument { Arg = "-mcversion {0}", ArgParams = [launcherVersion!.MVersion] },
-            new MArgument { Arg = "-loader {0}", ArgParams = [launcherVersion!.FabricLoaderVersion] },
-            new MArgument { Arg = "-noprofile" }
+            new MOption { Arg = "-mcversion {0}", ArgParams = [launcherVersion!.MVersion] },
+            new MOption { Arg = "-loader {0}", ArgParams = [launcherVersion!.FabricLoaderVersion] },
+            new MOption { Arg = "-noprofile" }
         ];
     }
 }

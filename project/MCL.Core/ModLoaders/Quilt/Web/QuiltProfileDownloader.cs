@@ -47,7 +47,8 @@ public static class QuiltProfileDownloader
         string? quiltProfile = await Request.GetJsonAsync<QuiltProfile>(
             QuiltPathResolver.LoaderProfilePath(quiltUrls, launcherVersion),
             QuiltPathResolver.ProfilePath(launcherPath, launcherVersion),
-            Encoding.UTF8
+            Encoding.UTF8,
+            QuiltProfileContext.Default
         );
         if (ObjectValidator<string>.IsNullOrWhiteSpace([quiltProfile]))
             return false;

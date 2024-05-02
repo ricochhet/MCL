@@ -41,3 +41,7 @@ public class PaperBuild
     [JsonPropertyName("downloads")]
     public PaperDownloads? Downloads { get; set; }
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(PaperBuild))]
+internal partial class PaperBuildContext : JsonSerializerContext { }

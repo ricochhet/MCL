@@ -93,7 +93,10 @@ public class QuiltInstallerDownloadService
     /// </summary>
     public bool LoadVersionManifest()
     {
-        QuiltVersionManifest = Json.Load<QuiltVersionManifest>(QuiltPathResolver.VersionManifestPath(_launcherPath));
+        QuiltVersionManifest = Json.Load<QuiltVersionManifest>(
+            QuiltPathResolver.VersionManifestPath(_launcherPath),
+            QuiltVersionManifestContext.Default
+        );
         if (ObjectValidator<QuiltVersionManifest>.IsNull(QuiltVersionManifest))
         {
             NotificationProvider.Error("error.readfile", nameof(QuiltVersionManifest));
@@ -108,7 +111,10 @@ public class QuiltInstallerDownloadService
     /// </summary>
     public bool LoadVersionManifestWithoutLogging()
     {
-        QuiltVersionManifest = Json.Load<QuiltVersionManifest>(QuiltPathResolver.VersionManifestPath(_launcherPath));
+        QuiltVersionManifest = Json.Load<QuiltVersionManifest>(
+            QuiltPathResolver.VersionManifestPath(_launcherPath),
+            QuiltVersionManifestContext.Default
+        );
         if (ObjectValidator<QuiltVersionManifest>.IsNull(QuiltVersionManifest, NativeLogLevel.Debug))
             return false;
 

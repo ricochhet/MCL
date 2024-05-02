@@ -138,7 +138,10 @@ public class MDownloadService
     /// </summary>
     public bool LoadVersionManifest()
     {
-        VersionManifest = Json.Load<MVersionManifest>(MPathResolver.VersionManifestPath(_launcherPath));
+        VersionManifest = Json.Load<MVersionManifest>(
+            MPathResolver.VersionManifestPath(_launcherPath),
+            MVersionManifestContext.Default
+        );
         if (ObjectValidator<MVersionManifest>.IsNull(VersionManifest))
         {
             NotificationProvider.Error("error.readfile", nameof(MVersionManifest));
@@ -153,7 +156,10 @@ public class MDownloadService
     /// </summary>
     public bool LoadVersionManifestWithoutLogging()
     {
-        VersionManifest = Json.Load<MVersionManifest>(MPathResolver.VersionManifestPath(_launcherPath));
+        VersionManifest = Json.Load<MVersionManifest>(
+            MPathResolver.VersionManifestPath(_launcherPath),
+            MVersionManifestContext.Default
+        );
         if (ObjectValidator<MVersionManifest>.IsNull(VersionManifest, NativeLogLevel.Debug))
             return false;
 
@@ -201,7 +207,10 @@ public class MDownloadService
     /// </summary>
     public bool LoadVersionDetails()
     {
-        VersionDetails = Json.Load<MVersionDetails>(MPathResolver.VersionDetailsPath(_launcherPath, Version));
+        VersionDetails = Json.Load<MVersionDetails>(
+            MPathResolver.VersionDetailsPath(_launcherPath, Version),
+            MVersionDetailsContext.Default
+        );
         if (ObjectValidator<MVersionDetails>.IsNull(VersionDetails))
         {
             NotificationProvider.Error("error.readfile", nameof(MVersionDetails));
@@ -326,7 +335,10 @@ public class MDownloadService
     /// </summary>
     public bool LoadAssetIndex()
     {
-        _assets = Json.Load<MAssetsData>(MPathResolver.ClientAssetIndexPath(_launcherPath, VersionDetails));
+        _assets = Json.Load<MAssetsData>(
+            MPathResolver.ClientAssetIndexPath(_launcherPath, VersionDetails),
+            MAssetsDataContext.Default
+        );
         if (ObjectValidator<MAssetsData>.IsNull(_assets))
         {
             NotificationProvider.Error("error.readfile", nameof(MAssetsData));

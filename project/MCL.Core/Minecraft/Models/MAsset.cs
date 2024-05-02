@@ -28,3 +28,7 @@ public class MAsset(string hash, int size)
     [JsonPropertyName("size")]
     public int Size { get; set; } = size;
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(MAsset))]
+internal partial class MAssetContext : JsonSerializerContext { }

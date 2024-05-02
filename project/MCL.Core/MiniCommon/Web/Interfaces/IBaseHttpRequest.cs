@@ -20,18 +20,13 @@ using System;
 using System.IO;
 using System.Net.Http;
 using System.Text;
-using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace MCL.Core.MiniCommon.Web.Interfaces;
 
 public interface IBaseHttpRequest
 {
-    /// <summary>
-    /// Gets or sets the http client json serialization options.
-    /// </summary>
-    public abstract JsonSerializerOptions JsonSerializerOptions { get; set; }
-
     /// <summary>
     /// Gets or sets the http clients retry count.
     /// </summary>
@@ -65,13 +60,19 @@ public interface IBaseHttpRequest
     /// <summary>
     /// Sends a GET async request to the specified URI, and returns the response body as a deserialized object of type T.
     /// </summary>
-    public abstract Task<T?> GetObjectFromJsonAsync<T>(string request)
+    public abstract Task<T?> GetObjectFromJsonAsync<T>(string request, JsonSerializerContext ctx)
         where T : struct;
 
     /// <summary>
     /// Sends a GET async request to the specified URI, and saves the deserialized response of type T to a file.
     /// </summary>
-    public abstract Task<string?> GetJsonAsync<T>(string request, string filepath, Encoding encoding);
+    public abstract Task<string?> GetJsonAsync<T>(
+        string request,
+        string filepath,
+        Encoding encoding,
+        JsonSerializerContext ctx
+    )
+        where T : class;
 
     /// <summary>
     /// Sends a GET async request to the specified URI, and saves the response to a file.

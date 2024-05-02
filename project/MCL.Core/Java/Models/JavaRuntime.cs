@@ -52,3 +52,7 @@ public class JavaRuntime(
     [JsonPropertyName("minecraft-java-exe")]
     public List<JavaRuntimeObject> MinecraftJavaExe { get; set; } = minecraftJavaExe;
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(JavaRuntime))]
+internal partial class JavaRuntimeContext : JsonSerializerContext { }

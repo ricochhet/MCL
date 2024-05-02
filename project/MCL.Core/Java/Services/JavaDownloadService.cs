@@ -100,7 +100,10 @@ public class JavaDownloadService
     /// </summary>
     public bool LoadJavaVersionManifest()
     {
-        _javaVersionManifest = Json.Load<JavaVersionManifest>(JavaPathResolver.JavaVersionManifestPath(_launcherPath));
+        _javaVersionManifest = Json.Load<JavaVersionManifest>(
+            JavaPathResolver.JavaVersionManifestPath(_launcherPath),
+            JavaVersionManifestContext.Default
+        );
         if (ObjectValidator<JavaVersionManifest>.IsNull(_javaVersionManifest))
         {
             NotificationProvider.Error("error.readfile", nameof(_javaVersionManifest));
@@ -115,7 +118,10 @@ public class JavaDownloadService
     /// </summary>
     public bool LoadJavaVersionManifestWithoutLogging()
     {
-        _javaVersionManifest = Json.Load<JavaVersionManifest>(JavaPathResolver.JavaVersionManifestPath(_launcherPath));
+        _javaVersionManifest = Json.Load<JavaVersionManifest>(
+            JavaPathResolver.JavaVersionManifestPath(_launcherPath),
+            JavaVersionManifestContext.Default
+        );
         if (ObjectValidator<JavaVersionManifest>.IsNull(_javaVersionManifest, NativeLogLevel.Debug))
             return false;
 
@@ -152,7 +158,8 @@ public class JavaDownloadService
     public bool LoadJavaVersionDetails()
     {
         _javaVersionDetails = Json.Load<JavaVersionDetails>(
-            JavaPathResolver.JavaVersionDetailsPath(_launcherPath, JavaRuntimeTypeResolver.ToString(_javaRuntimeType))
+            JavaPathResolver.JavaVersionDetailsPath(_launcherPath, JavaRuntimeTypeResolver.ToString(_javaRuntimeType)),
+            JavaVersionDetailsContext.Default
         );
         if (ObjectValidator<JavaVersionDetails>.IsNull(_javaVersionDetails))
         {

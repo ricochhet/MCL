@@ -34,3 +34,7 @@ public class MDownloads(MDownload client, MDownload clientMappings, MDownload se
     [JsonPropertyName("server_mappings")]
     public MDownload ServerMappings { get; set; } = serverMappings;
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(MDownloads))]
+internal partial class MDownloadsContext : JsonSerializerContext { }

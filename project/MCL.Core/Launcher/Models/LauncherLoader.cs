@@ -17,6 +17,7 @@
  */
 
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace MCL.Core.Launcher.Models;
 
@@ -25,3 +26,7 @@ public class LauncherLoader
     public string Version { get; set; } = string.Empty;
     public List<string> Libraries { get; set; } = [];
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(LauncherLoader))]
+internal partial class LauncherLoaderContext : JsonSerializerContext { }

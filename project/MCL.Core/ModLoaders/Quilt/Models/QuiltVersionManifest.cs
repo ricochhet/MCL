@@ -40,3 +40,7 @@ public class QuiltVersionManifest
 
     public QuiltVersionManifest() { }
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(QuiltVersionManifest))]
+internal partial class QuiltVersionManifestContext : JsonSerializerContext { }

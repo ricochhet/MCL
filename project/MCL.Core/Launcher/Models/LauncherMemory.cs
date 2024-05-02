@@ -16,6 +16,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using System.Text.Json.Serialization;
+
 namespace MCL.Core.Launcher.Models;
 
 public class LauncherMemory
@@ -23,3 +25,7 @@ public class LauncherMemory
     public int MemoryMinMb { get; set; } = 4096;
     public int MemoryMaxMb { get; set; } = 4096;
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(LauncherMemory))]
+internal partial class LauncherMemoryContext : JsonSerializerContext { }

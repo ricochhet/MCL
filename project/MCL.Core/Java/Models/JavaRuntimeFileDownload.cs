@@ -31,3 +31,7 @@ public class JavaRuntimeFileDownload(string sha1, int size, string url)
     [JsonPropertyName("url")]
     public string URL { get; set; } = url;
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(JavaRuntimeFileDownload))]
+internal partial class JavaRuntimeFileDownloadContext : JsonSerializerContext { }

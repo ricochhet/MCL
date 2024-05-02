@@ -35,3 +35,7 @@ public class JavaRuntimeObject(
     [JsonPropertyName("version")]
     public JavaRuntimeVersion JavaRuntimeVersion { get; set; } = javaRuntimeVersion;
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(JavaRuntimeObject))]
+internal partial class JavaRuntimeObjectContext : JsonSerializerContext { }

@@ -19,6 +19,7 @@
 using System.IO;
 using System.Net.Http;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using MCL.Core.MiniCommon.Logger.Enums;
 using MCL.Core.MiniCommon.Validation;
@@ -52,20 +53,26 @@ public class ValidatedRequest : BaseRequest
     }
 
     /// <inheritdoc />
-    public override async Task<T?> GetObjectFromJsonAsync<T>(string request)
+    public override async Task<T?> GetObjectFromJsonAsync<T>(string request, JsonSerializerContext ctx)
         where T : struct
     {
         if (ObjectValidator<string>.IsNullOrWhiteSpace([request], NativeLogLevel.Fatal))
             return null;
-        return await base.GetObjectFromJsonAsync<T>(request);
+        return await base.GetObjectFromJsonAsync<T>(request, ctx);
     }
 
     /// <inheritdoc />
-    public override async Task<string?> GetJsonAsync<T>(string request, string filepath, Encoding encoding)
+    public override async Task<string?> GetJsonAsync<T>(
+        string request,
+        string filepath,
+        Encoding encoding,
+        JsonSerializerContext ctx
+    )
+        where T : class
     {
         if (ObjectValidator<string>.IsNullOrWhiteSpace([request, filepath], NativeLogLevel.Fatal))
             return null;
-        return await base.GetJsonAsync<T>(request, filepath, encoding);
+        return await base.GetJsonAsync<T>(request, filepath, encoding, ctx);
     }
 
     /// <inheritdoc />

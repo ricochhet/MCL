@@ -35,3 +35,7 @@ public class MLibrary(string name, MLibraryDownloads downloads, List<MLibraryRul
     [JsonPropertyName("natives")]
     public MLibraryNatives? Natives { get; set; } = natives;
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(MLibrary))]
+internal partial class MLibraryContext : JsonSerializerContext { }

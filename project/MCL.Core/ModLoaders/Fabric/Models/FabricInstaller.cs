@@ -34,3 +34,7 @@ public class FabricInstaller(string url, string maven, string version, bool stab
     [JsonPropertyName("stable")]
     public bool Stable { get; set; } = stable;
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(FabricInstaller))]
+internal partial class FabricInstallerContext : JsonSerializerContext { }

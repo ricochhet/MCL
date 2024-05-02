@@ -17,6 +17,7 @@
  */
 
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace MCL.Core.Modding.Models;
 
@@ -24,3 +25,7 @@ public class ModFiles
 {
     public List<ModFile> Files { get; set; } = [];
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(ModFiles))]
+internal partial class ModFilesContext : JsonSerializerContext { }

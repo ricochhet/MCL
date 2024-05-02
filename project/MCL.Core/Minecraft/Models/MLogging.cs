@@ -25,3 +25,7 @@ public class MLogging(MLoggingClient client)
     [JsonPropertyName("client")]
     public MLoggingClient Client { get; set; } = client;
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(MLogging))]
+internal partial class MLoggingContext : JsonSerializerContext { }

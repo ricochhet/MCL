@@ -31,3 +31,7 @@ public class MDownload(string sha1, int size, string url)
     [JsonPropertyName("url")]
     public string URL { get; set; } = url;
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(MDownload))]
+internal partial class MDownloadContext : JsonSerializerContext { }

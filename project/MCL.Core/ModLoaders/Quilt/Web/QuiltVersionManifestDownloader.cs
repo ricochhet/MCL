@@ -40,7 +40,8 @@ public static class QuiltVersionManifestDownloader
         string? quiltVersionManifest = await Request.GetJsonAsync<QuiltVersionManifest>(
             quiltUrls!.VersionManifest,
             filepath,
-            Encoding.UTF8
+            Encoding.UTF8,
+            QuiltVersionManifestContext.Default
         );
         if (ObjectValidator<string>.IsNullOrWhiteSpace([quiltVersionManifest]))
             return false;

@@ -16,6 +16,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using System.Text.Json.Serialization;
+
 namespace MCL.Core.ModLoaders.Quilt.Models;
 
 public class QuiltUrls
@@ -30,3 +32,7 @@ public class QuiltUrls
 
     public QuiltUrls() { }
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(QuiltUrls))]
+internal partial class QuiltUrlsContext : JsonSerializerContext { }

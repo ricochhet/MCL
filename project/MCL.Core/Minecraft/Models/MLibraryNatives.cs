@@ -31,3 +31,7 @@ public class MLibraryNatives(string windows, string osx, string linux)
     [JsonPropertyName("linux")]
     public string Linux { get; set; } = linux;
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(MLibraryNatives))]
+internal partial class MLibraryNativesContext : JsonSerializerContext { }

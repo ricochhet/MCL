@@ -44,7 +44,8 @@ public static class PaperVersionManifestDownloader
         string? paperIndex = await Request.GetJsonAsync<PaperVersionManifest>(
             string.Format(paperUrls!.VersionManifest, "paper", launcherVersion!.MVersion),
             filepath,
-            Encoding.UTF8
+            Encoding.UTF8,
+            PaperVersionManifestContext.Default
         );
         if (ObjectValidator<string>.IsNullOrWhiteSpace([paperIndex]))
             return false;

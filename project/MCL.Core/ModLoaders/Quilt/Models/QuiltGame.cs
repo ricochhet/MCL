@@ -28,3 +28,7 @@ public class QuiltGame(string version, bool stable)
     [JsonPropertyName("stable")]
     public bool Stable { get; set; } = stable;
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(QuiltGame))]
+internal partial class QuiltGameContext : JsonSerializerContext { }

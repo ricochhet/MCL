@@ -20,7 +20,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text.Encodings.Web;
 using MCL.Core.FileExtractors.Models;
 using MCL.Core.FileExtractors.Services;
 using MCL.Core.Launcher.Models;
@@ -98,11 +97,7 @@ public class ModdingService
 #pragma warning disable S2589
             ModSettings?.ModStores.Add(modStoreName ?? ValidationShims.StringEmpty());
 #pragma warning restore IDE0079, S2589
-        Json.Save(
-            filepath,
-            modFiles,
-            new() { WriteIndented = true, Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping }
-        );
+        Json.Save(filepath, modFiles, ModFilesContext.Default);
 
         return true;
     }
@@ -129,7 +124,7 @@ public class ModdingService
     {
         string modStorePath = ModPathResolver.ModStorePath(LauncherPath, modStoreName);
         if (VFS.Exists(modStorePath) && (ModSettings?.IsStoreSaved(modStoreName) ?? false))
-            return Json.Load<ModFiles>(modStorePath);
+            return Json.Load<ModFiles>(modStorePath, ModFilesContext.Default);
         return default;
     }
 

@@ -8,6 +8,7 @@
         <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
         <PublishDir>.\bin\publish</PublishDir>
         <FileVersion>1.0.0.0</FileVersion>
+        <PublishAot>true</PublishAot>
     </PropertyGroup>
     <PropertyGroup>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>

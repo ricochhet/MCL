@@ -18,7 +18,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text.Json;
 using MCL.Core.Launcher.Models;
 using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Providers;
@@ -48,8 +47,6 @@ public static class SettingsProvider
         "If you paid money, you were scammed"
     ];
     private static readonly string _settingsFilePath = VFS.FromCwd(DataDirectory, SettingsFileName);
-
-    public static JsonSerializerOptions JsonSerializerOptions { get; set; } = Json.JsonSerializerOptions;
 
     /// <summary>
     /// Initialize the Settings service.
@@ -90,7 +87,7 @@ public static class SettingsProvider
                     OverrideModSettings = new(),
                 };
 
-            Json.Save(_settingsFilePath, settings, JsonSerializerOptions);
+            Json.Save(_settingsFilePath, settings, SettingsContext.Default);
         }
 
         NotificationProvider.Info("launcher.settings.using", _settingsFilePath);
@@ -108,7 +105,7 @@ public static class SettingsProvider
         if (existingSettings == settings)
             return;
 
-        Json.Save(_settingsFilePath, settings, JsonSerializerOptions);
+        Json.Save(_settingsFilePath, settings, SettingsContext.Default);
     }
 
     /// <summary>
@@ -118,7 +115,7 @@ public static class SettingsProvider
     {
         if (VFS.Exists(_settingsFilePath))
         {
-            Settings? inputJson = Json.Load<Settings>(_settingsFilePath);
+            Settings? inputJson = Json.Load<Settings>(_settingsFilePath, SettingsContext.Default);
             if (inputJson != null)
                 return inputJson;
 

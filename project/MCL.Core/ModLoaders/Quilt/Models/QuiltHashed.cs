@@ -31,3 +31,7 @@ public class QuiltHashed(string maven, string version, bool stable)
     [JsonPropertyName("stable")]
     public bool Stable { get; set; } = stable;
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(QuiltHashed))]
+internal partial class QuiltHashedContext : JsonSerializerContext { }

@@ -18,6 +18,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using MCL.Core.Launcher.Models;
 using MCL.Core.MiniCommon.Validation;
 
@@ -25,7 +26,7 @@ namespace MCL.Core.Java.Models;
 
 public class JvmArguments
 {
-    public List<MArgument> Arguments { get; set; } = [];
+    public List<MOption> Arguments { get; set; } = [];
     private readonly List<string> parsedLaunchArgs = [];
 
     public void Add(string arg, string[]? argParams = null, int priority = 0) =>
@@ -34,8 +35,8 @@ public class JvmArguments
     public string Build()
     {
         parsedLaunchArgs.Clear();
-        List<MArgument> sortedLaunchArgs = [.. Arguments.OrderBy(a => a.Priority)];
-        foreach (MArgument arg in sortedLaunchArgs)
+        List<MOption> sortedLaunchArgs = [.. Arguments.OrderBy(a => a.Priority)];
+        foreach (MOption arg in sortedLaunchArgs)
         {
             if (!arg.Ignore)
                 parsedLaunchArgs.Add(arg.Parse() ?? ValidationShims.StringEmpty());
@@ -43,3 +44,7 @@ public class JvmArguments
         return string.Join(" ", parsedLaunchArgs);
     }
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(JvmArguments))]
+internal partial class JvmArgumentsContext : JsonSerializerContext { }

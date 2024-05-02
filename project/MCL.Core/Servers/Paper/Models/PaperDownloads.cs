@@ -28,3 +28,7 @@ public class PaperDownloads
     [JsonPropertyName("mojang-mappings")]
     public PaperDownloadItem? MojangMappings { get; set; }
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(PaperDownloads))]
+internal partial class PaperDownloadsContext : JsonSerializerContext { }

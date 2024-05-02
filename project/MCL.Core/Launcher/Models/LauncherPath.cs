@@ -16,6 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using System.Text.Json.Serialization;
 using MCL.Core.Launcher.Helpers;
 using MCL.Core.Launcher.Providers;
 using MCL.Core.MiniCommon.IO;
@@ -41,3 +42,7 @@ public class LauncherPath
         PaperPath = VFS.FromCwd(SettingsProvider.DataDirectory, paperPath);
     }
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(LauncherPath))]
+internal partial class LauncherPathContext : JsonSerializerContext { }

@@ -31,3 +31,7 @@ public class MClassifiers(MArtifact nativesLinux, MArtifact nativesMacos, MArtif
     [JsonPropertyName("natives-windows")]
     public MArtifact? NativesWindows { get; set; } = nativesWindows;
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(MClassifiers))]
+internal partial class MClassifiersContext : JsonSerializerContext { }

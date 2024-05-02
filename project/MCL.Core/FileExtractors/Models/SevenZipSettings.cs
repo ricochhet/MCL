@@ -16,6 +16,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using System.Text.Json.Serialization;
+
 namespace MCL.Core.FileExtractors.Models;
 
 public class SevenZipSettings
@@ -25,3 +27,7 @@ public class SevenZipSettings
 
     public SevenZipSettings() { }
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(SevenZipSettings))]
+internal partial class SevenZipSettingsContext : JsonSerializerContext { }

@@ -28,3 +28,7 @@ public class MJavaVersion(string component, int majorVersion)
     [JsonPropertyName("majorVersion")]
     public int MajorVersion { get; set; } = majorVersion;
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(MJavaVersion))]
+internal partial class MJavaVersionContext : JsonSerializerContext { }

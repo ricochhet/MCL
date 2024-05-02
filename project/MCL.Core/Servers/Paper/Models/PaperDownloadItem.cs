@@ -28,3 +28,7 @@ public class PaperDownloadItem
     [JsonPropertyName("sha256")]
     public string? SHA256 { get; set; }
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(PaperDownloadItem))]
+internal partial class PaperDownloadItemContext : JsonSerializerContext { }

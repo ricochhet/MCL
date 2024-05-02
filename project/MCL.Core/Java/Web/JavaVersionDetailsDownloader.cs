@@ -62,7 +62,8 @@ public static class JavaVersionDetailsDownloader
         string? javaRuntimeFiles = await Request.GetJsonAsync<JavaVersionDetails>(
             request!,
             JavaPathResolver.JavaVersionDetailsPath(launcherPath, JavaRuntimeTypeResolver.ToString(javaRuntimeType)),
-            Encoding.UTF8
+            Encoding.UTF8,
+            JavaVersionDetailsContext.Default
         );
         if (ObjectValidator<string>.IsNullOrWhiteSpace([javaRuntimeFiles]))
             return false;

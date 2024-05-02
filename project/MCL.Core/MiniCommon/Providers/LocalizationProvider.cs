@@ -40,7 +40,8 @@ public static class LocalizationProvider
         )
         {
             Localization = Json.Load<Localization>(
-                LocalizationPathResolver.LanguageFilePath(filepath, Language.ENGLISH)
+                LocalizationPathResolver.LanguageFilePath(filepath, Language.ENGLISH),
+                LocalizationContext.Default
             );
             if (Localization?.Entries == null)
                 return;
@@ -50,9 +51,12 @@ public static class LocalizationProvider
             Json.Save(
                 LocalizationPathResolver.LanguageFilePath(filepath, language),
                 new Localization(),
-                new() { WriteIndented = true }
+                LocalizationContext.Default
             );
-        Localization? local = Json.Load<Localization>(LocalizationPathResolver.LanguageFilePath(filepath, language));
+        Localization? local = Json.Load<Localization>(
+            LocalizationPathResolver.LanguageFilePath(filepath, language),
+            LocalizationContext.Default
+        );
         if (Localization?.Entries == null || local?.Entries == null)
             return;
 

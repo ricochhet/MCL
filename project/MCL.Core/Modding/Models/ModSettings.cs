@@ -17,6 +17,7 @@
  */
 
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 using MCL.Core.MiniCommon.Validation;
 
 namespace MCL.Core.Modding.Models;
@@ -34,3 +35,7 @@ public class ModSettings
 
     public bool IsDeployPathSaved(string deployPathName) => DeployPaths.Contains(deployPathName);
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(ModSettings))]
+internal partial class ModSettingsContext : JsonSerializerContext { }

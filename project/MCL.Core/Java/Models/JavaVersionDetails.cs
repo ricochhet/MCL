@@ -28,3 +28,7 @@ public class JavaVersionDetails
 
     public JavaVersionDetails() { }
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(JavaVersionDetails))]
+internal partial class JavaVersionDetailsContext : JsonSerializerContext { }

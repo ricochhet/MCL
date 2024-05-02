@@ -69,3 +69,7 @@ public class FabricLibrary(string name, string url, string md5, string sha1, str
         return path.Replace(" ", "_");
     }
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(FabricLibrary))]
+internal partial class FabricLibraryContext : JsonSerializerContext { }

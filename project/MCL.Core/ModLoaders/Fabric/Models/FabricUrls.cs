@@ -16,6 +16,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using System.Text.Json.Serialization;
+
 namespace MCL.Core.ModLoaders.Fabric.Models;
 
 public class FabricUrls
@@ -30,3 +32,7 @@ public class FabricUrls
 
     public FabricUrls() { }
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(FabricUrls))]
+internal partial class FabricUrlsContext : JsonSerializerContext { }

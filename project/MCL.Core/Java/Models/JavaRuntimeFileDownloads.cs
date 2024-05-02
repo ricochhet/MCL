@@ -28,3 +28,7 @@ public class JavaRuntimeFileDownloads(JavaRuntimeFileDownload lzma, JavaRuntimeF
     [JsonPropertyName("raw")]
     public JavaRuntimeFileDownload Raw { get; set; } = raw;
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(JavaRuntimeFileDownloads))]
+internal partial class JavaRuntimeFileDownloadsContext : JsonSerializerContext { }

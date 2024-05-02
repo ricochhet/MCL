@@ -16,6 +16,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using System.Text.Json.Serialization;
+
 namespace MCL.Core.Minecraft.Models;
 
 public class MUrls
@@ -28,3 +30,7 @@ public class MUrls
 
     public MUrls() { }
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(MUrls))]
+internal partial class MUrlsContext : JsonSerializerContext { }

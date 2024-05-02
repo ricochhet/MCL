@@ -35,7 +35,8 @@ public static class AssetHelper
             return string.Empty;
 
         MVersionManifest? versionManifest = Json.Load<MVersionManifest>(
-            MPathResolver.VersionManifestPath(launcherPath)
+            MPathResolver.VersionManifestPath(launcherPath),
+            MVersionManifestContext.Default
         );
 
         if (ObjectValidator<MVersionManifest>.IsNull(versionManifest))
@@ -46,7 +47,8 @@ public static class AssetHelper
             return string.Empty;
 
         MVersionDetails? versionDetails = Json.Load<MVersionDetails>(
-            MPathResolver.VersionDetailsPath(launcherPath, version)
+            MPathResolver.VersionDetailsPath(launcherPath, version),
+            MVersionDetailsContext.Default
         );
 
         if (ObjectValidator<string>.IsNullOrWhiteSpace([versionDetails?.Assets]))

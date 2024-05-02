@@ -16,6 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using System.Text.Json.Serialization;
 using MCL.Core.BuildInfo;
 
 namespace MCL.Core.Launcher.Models;
@@ -65,3 +66,7 @@ public class LauncherVersion
             PaperServerVersion = "latest"
         };
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(LauncherVersion))]
+internal partial class LauncherVersionContext : JsonSerializerContext { }

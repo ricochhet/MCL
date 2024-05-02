@@ -17,6 +17,7 @@
  */
 
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace MCL.Core.MiniCommon.Models;
 
@@ -31,3 +32,7 @@ public class Localization
         Entries.Add("log", "{0}");
     }
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(Localization))]
+internal partial class LocalizationContext : JsonSerializerContext { }

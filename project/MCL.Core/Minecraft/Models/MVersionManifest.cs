@@ -31,3 +31,7 @@ public class MVersionManifest
 
     public MVersionManifest() { }
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(MVersionManifest))]
+internal partial class MVersionManifestContext : JsonSerializerContext { }

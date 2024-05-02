@@ -16,58 +16,48 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using System.Text.Encodings.Web;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace MCL.Core.MiniCommon.IO;
 
 public static class Json
 {
-    public static JsonSerializerOptions JsonSerializerOptions { get; private set; } =
-        new() { WriteIndented = true, Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping };
-
     /// <summary>
-    /// Serialize data of type T.
+    /// Serialize data of type T from serializer context.
     /// </summary>
-    public static string Serialize<T>(T data, JsonSerializerOptions? options = null)
+    public static string Serialize<T>(T data, JsonSerializerContext ctx)
     {
-        return JsonSerializer.Serialize(data, options);
+        return JsonSerializer.Serialize(data!, typeof(T), ctx);
     }
 
     /// <summary>
-    /// Deserialize data of type T.
+    /// Deserialize data of type T from serializer context.
     /// </summary>
-    public static T? Deserialize<T>(string json, JsonSerializerOptions? options = null)
+    public static T? Deserialize<T>(string data, JsonSerializerContext ctx)
+        where T : class
     {
-        return JsonSerializer.Deserialize<T>(json, options);
-    }
-
-    /// <summary>
-    /// Serialize data of type T, and save to a file.
-    /// </summary>
-
-    public static void Save<T>(string filepath, T data)
-    {
-        string json = Serialize(data);
-        VFS.WriteFile(filepath, json);
+        return JsonSerializer.Deserialize(data!, typeof(T), ctx) as T;
     }
 
     /// <summary>
     /// Serialize data of type T, and save to a file.
     /// </summary>
-    public static void Save<T>(string filepath, T data, JsonSerializerOptions options)
+
+    public static void Save<T>(string filepath, T data, JsonSerializerContext ctx)
     {
         if (!VFS.Exists(filepath))
             VFS.CreateDirectory(VFS.GetDirectoryName(filepath));
 
-        VFS.WriteFile(filepath, Serialize(data, options));
+        string json = Serialize(data, ctx);
+        VFS.WriteFile(filepath, json);
     }
 
     /// <summary>
     /// Deserialize file text, and return as type T.
     /// </summary>
-    public static T? Load<T>(string filepath)
-        where T : new()
+    public static T? Load<T>(string filepath, JsonSerializerContext ctx)
+        where T : class
     {
         if (!VFS.Exists(filepath))
             return default;
@@ -75,27 +65,7 @@ public static class Json
         string json = VFS.ReadAllText(filepath);
         try
         {
-            return Deserialize<T>(json);
-        }
-        catch
-        {
-            return default;
-        }
-    }
-
-    /// <summary>
-    /// Deserialize file text, and return as type T.
-    /// </summary>
-    public static T? Load<T>(string filepath, JsonSerializerOptions options)
-        where T : new()
-    {
-        if (!VFS.Exists(filepath))
-            return default;
-
-        string json = VFS.ReadAllText(filepath);
-        try
-        {
-            return Deserialize<T>(json, options);
+            return Deserialize<T>(json, ctx);
         }
         catch
         {

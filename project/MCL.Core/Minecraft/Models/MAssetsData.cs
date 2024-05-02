@@ -28,3 +28,7 @@ public class MAssetsData
 
     public MAssetsData() { }
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(MAssetsData))]
+internal partial class MAssetsDataContext : JsonSerializerContext { }

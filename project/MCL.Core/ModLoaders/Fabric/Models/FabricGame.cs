@@ -28,3 +28,7 @@ public class FabricGame(string version, bool stable)
     [JsonPropertyName("stable")]
     public bool Stable { get; set; } = stable;
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(FabricGame))]
+internal partial class FabricGameContext : JsonSerializerContext { }

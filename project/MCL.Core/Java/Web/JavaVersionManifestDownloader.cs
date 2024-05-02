@@ -41,7 +41,8 @@ public static class JavaVersionManifestDownloader
         string? javaVersionManifest = await Request.GetJsonAsync<JavaVersionManifest>(
             mUrls!.JavaVersionManifest,
             filepath,
-            Encoding.UTF8
+            Encoding.UTF8,
+            JavaVersionManifestContext.Default
         );
         if (ObjectValidator<string>.IsNullOrWhiteSpace([javaVersionManifest]))
             return false;

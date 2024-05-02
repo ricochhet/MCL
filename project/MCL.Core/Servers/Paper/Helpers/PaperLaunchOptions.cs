@@ -28,62 +28,62 @@ public static class PaperLaunchOptions
     /// <summary>
     /// The default JvmArguments to launch the process with.
     /// </summary>
-    public static MArgument[]? DefaultJvmArguments(Settings settings)
+    public static MOption[]? DefaultJvmArguments(Settings settings)
     {
         if (!PaperVersionHelper.VersionExists(settings))
             return null;
 
         return
         [
-            new MArgument
+            new MOption
             {
                 Arg = "-Xms{0}m",
                 ArgParams = [settings!?.LauncherMemory?.MemoryMinMb.ToString() ?? ValidationShims.StringEmpty()]
             },
-            new MArgument
+            new MOption
             {
                 Arg = "-Xmx{0}m",
                 ArgParams = [settings!?.LauncherMemory?.MemoryMaxMb.ToString() ?? ValidationShims.StringEmpty()]
             },
-            new MArgument
+            new MOption
             {
                 Arg = "-Dgraal.LoopRotation={0}",
                 ArgParams = ["true"],
                 Condition = settings!?.LauncherSettings?.JvmType == JvmArgumentType.GRAAL_VM
             },
-            new MArgument
+            new MOption
             {
                 Arg = "-Dgraal.PartialUnroll={0}",
                 ArgParams = ["true"],
                 Condition = settings!?.LauncherSettings?.JvmType == JvmArgumentType.GRAAL_VM
             },
-            new MArgument
+            new MOption
             {
                 Arg = "-Dgraal.VectorizeSIMD={0}",
                 ArgParams = ["true"],
                 Condition = settings!?.LauncherSettings?.JvmType == JvmArgumentType.GRAAL_VM
             },
-            new MArgument { Arg = "-XX:+AlwaysPreTouch" },
-            new MArgument { Arg = "-XX:+DisableExplicitGC" },
-            new MArgument { Arg = "-XX:+ParallelRefProcEnabled" },
-            new MArgument { Arg = "-XX:+PerfDisableSharedMem" },
-            new MArgument { Arg = "-XX:+UnlockExperimentalVMOptions" },
-            new MArgument { Arg = "-XX:+UseG1GC" },
-            new MArgument { Arg = "-XX:G1HeapRegionSize={0}", ArgParams = ["8M"] },
-            new MArgument { Arg = "-XX:G1HeapWastePercent={0}", ArgParams = ["5"] },
-            new MArgument { Arg = "-XX:G1MaxNewSizePercent={0}", ArgParams = ["40"] },
-            new MArgument { Arg = "-XX:G1MixedGCCountTarget={0}", ArgParams = ["4"] },
-            new MArgument { Arg = "-XX:G1MixedGCLiveThresholdPercent={0}", ArgParams = ["90"] },
-            new MArgument { Arg = "-XX:G1NewSizePercent={0}", ArgParams = ["30"] },
-            new MArgument { Arg = "-XX:G1RSetUpdatingPauseTimePercent={0}", ArgParams = ["5"] },
-            new MArgument { Arg = "-XX:G1ReservePercent={0}", ArgParams = ["20"] },
-            new MArgument { Arg = "-XX:InitiatingHeapOccupancyPercent={0}", ArgParams = ["15"] },
-            new MArgument { Arg = "-XX:MaxGCPauseMillis={0}", ArgParams = ["200"] },
-            new MArgument { Arg = "-XX:MaxTenuringThreshold={0}", ArgParams = ["1"] },
-            new MArgument { Arg = "-XX:SurvivorRatio={0}", ArgParams = ["32"] },
-            new MArgument { Arg = "-Dusing.aikars.flags={0}", ArgParams = ["https://mcflags.emc.gs"] },
-            new MArgument { Arg = "-Daikars.new.flags={0}", ArgParams = ["true"] },
-            new MArgument
+            new MOption { Arg = "-XX:+AlwaysPreTouch" },
+            new MOption { Arg = "-XX:+DisableExplicitGC" },
+            new MOption { Arg = "-XX:+ParallelRefProcEnabled" },
+            new MOption { Arg = "-XX:+PerfDisableSharedMem" },
+            new MOption { Arg = "-XX:+UnlockExperimentalVMOptions" },
+            new MOption { Arg = "-XX:+UseG1GC" },
+            new MOption { Arg = "-XX:G1HeapRegionSize={0}", ArgParams = ["8M"] },
+            new MOption { Arg = "-XX:G1HeapWastePercent={0}", ArgParams = ["5"] },
+            new MOption { Arg = "-XX:G1MaxNewSizePercent={0}", ArgParams = ["40"] },
+            new MOption { Arg = "-XX:G1MixedGCCountTarget={0}", ArgParams = ["4"] },
+            new MOption { Arg = "-XX:G1MixedGCLiveThresholdPercent={0}", ArgParams = ["90"] },
+            new MOption { Arg = "-XX:G1NewSizePercent={0}", ArgParams = ["30"] },
+            new MOption { Arg = "-XX:G1RSetUpdatingPauseTimePercent={0}", ArgParams = ["5"] },
+            new MOption { Arg = "-XX:G1ReservePercent={0}", ArgParams = ["20"] },
+            new MOption { Arg = "-XX:InitiatingHeapOccupancyPercent={0}", ArgParams = ["15"] },
+            new MOption { Arg = "-XX:MaxGCPauseMillis={0}", ArgParams = ["200"] },
+            new MOption { Arg = "-XX:MaxTenuringThreshold={0}", ArgParams = ["1"] },
+            new MOption { Arg = "-XX:SurvivorRatio={0}", ArgParams = ["32"] },
+            new MOption { Arg = "-Dusing.aikars.flags={0}", ArgParams = ["https://mcflags.emc.gs"] },
+            new MOption { Arg = "-Daikars.new.flags={0}", ArgParams = ["true"] },
+            new MOption
             {
                 Arg = "-jar \"{0}\" {1}",
                 ArgParams = [PaperPathResolver.JarName(settings!?.LauncherVersion), "nogui"]

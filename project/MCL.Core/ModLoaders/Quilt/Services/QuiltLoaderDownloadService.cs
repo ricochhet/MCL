@@ -105,7 +105,10 @@ public class QuiltLoaderDownloadService
     /// </summary>
     public bool LoadVersionManifest()
     {
-        QuiltVersionManifest = Json.Load<QuiltVersionManifest>(QuiltPathResolver.VersionManifestPath(_launcherPath));
+        QuiltVersionManifest = Json.Load<QuiltVersionManifest>(
+            QuiltPathResolver.VersionManifestPath(_launcherPath),
+            QuiltVersionManifestContext.Default
+        );
         if (ObjectValidator<QuiltVersionManifest>.IsNull(QuiltVersionManifest))
         {
             NotificationProvider.Error("error.readfile", nameof(QuiltVersionManifest));
@@ -120,7 +123,10 @@ public class QuiltLoaderDownloadService
     /// </summary>
     public bool LoadVersionManifestWithoutLogging()
     {
-        QuiltVersionManifest = Json.Load<QuiltVersionManifest>(QuiltPathResolver.VersionManifestPath(_launcherPath));
+        QuiltVersionManifest = Json.Load<QuiltVersionManifest>(
+            QuiltPathResolver.VersionManifestPath(_launcherPath),
+            QuiltVersionManifestContext.Default
+        );
         if (ObjectValidator<QuiltVersionManifest>.IsNull(QuiltVersionManifest, NativeLogLevel.Debug))
             return false;
 
@@ -156,7 +162,10 @@ public class QuiltLoaderDownloadService
         )
             return false;
 
-        QuiltProfile = Json.Load<QuiltProfile>(QuiltPathResolver.ProfilePath(_launcherPath, _launcherVersion));
+        QuiltProfile = Json.Load<QuiltProfile>(
+            QuiltPathResolver.ProfilePath(_launcherPath, _launcherVersion),
+            QuiltProfileContext.Default
+        );
         if (ObjectValidator<QuiltProfile>.IsNull(QuiltProfile))
         {
             NotificationProvider.Error("error.download", nameof(QuiltProfile));

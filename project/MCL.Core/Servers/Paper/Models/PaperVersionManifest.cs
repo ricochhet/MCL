@@ -35,3 +35,7 @@ public class PaperVersionManifest
     [JsonPropertyName("builds")]
     public List<PaperBuild>? Builds { get; set; }
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(PaperVersionManifest))]
+internal partial class PaperVersionManifestContext : JsonSerializerContext { }

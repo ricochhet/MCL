@@ -31,3 +31,7 @@ public class PaperBuildChange
     [JsonPropertyName("message")]
     public string? Message { get; set; }
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(PaperBuildChange))]
+internal partial class PaperBuildChangeContext : JsonSerializerContext { }

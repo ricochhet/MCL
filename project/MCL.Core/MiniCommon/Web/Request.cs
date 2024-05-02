@@ -19,6 +19,7 @@
 using System.IO;
 using System.Net.Http;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using MCL.Core.MiniCommon.Web.Abstractions;
 using MCL.Core.MiniCommon.Web.Interfaces;
@@ -48,16 +49,22 @@ public class Request : IHttpRequest
     }
 
     /// <inheritdoc />
-    public static async Task<T?> GetObjectFromJsonAsync<T>(string request)
+    public static async Task<T?> GetObjectFromJsonAsync<T>(string request, JsonSerializerContext ctx)
         where T : struct
     {
-        return await HttpRequest.GetObjectFromJsonAsync<T>(request);
+        return await HttpRequest.GetObjectFromJsonAsync<T>(request, ctx);
     }
 
     /// <inheritdoc />
-    public static async Task<string?> GetJsonAsync<T>(string request, string filepath, Encoding encoding)
+    public static async Task<string?> GetJsonAsync<T>(
+        string request,
+        string filepath,
+        Encoding encoding,
+        JsonSerializerContext ctx
+    )
+        where T : class
     {
-        return await HttpRequest.GetJsonAsync<T>(request, filepath, encoding);
+        return await HttpRequest.GetJsonAsync<T>(request, filepath, encoding, ctx);
     }
 
     /// <inheritdoc />

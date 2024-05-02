@@ -67,3 +67,7 @@ public class MVersionDetails
 
     public MVersionDetails() { }
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(MVersionDetails))]
+internal partial class MVersionDetailsContext : JsonSerializerContext { }

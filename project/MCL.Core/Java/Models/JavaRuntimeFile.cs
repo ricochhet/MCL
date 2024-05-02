@@ -31,3 +31,7 @@ public class JavaRuntimeFile(JavaRuntimeFileDownloads downloads, bool executable
     [JsonPropertyName("type")]
     public string Type { get; set; } = type;
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(JavaRuntimeFile))]
+internal partial class JavaRuntimeFileContext : JsonSerializerContext { }

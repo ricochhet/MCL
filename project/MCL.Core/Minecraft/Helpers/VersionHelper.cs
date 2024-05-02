@@ -145,7 +145,8 @@ public static class VersionHelper
             return null;
 
         MVersionManifest? versionManifest = Json.Load<MVersionManifest>(
-            MPathResolver.VersionManifestPath(launcherPath)
+            MPathResolver.VersionManifestPath(launcherPath),
+            MVersionManifestContext.Default
         );
 
         if (ObjectValidator<List<MVersion>>.IsNullOrEmpty(versionManifest?.Versions))
@@ -156,7 +157,8 @@ public static class VersionHelper
             return null;
 
         MVersionDetails? versionDetails = Json.Load<MVersionDetails>(
-            MPathResolver.VersionDetailsPath(launcherPath, version)
+            MPathResolver.VersionDetailsPath(launcherPath, version),
+            MVersionDetailsContext.Default
         );
         if (ObjectValidator<MVersionDetails>.IsNull(versionDetails))
             return null;

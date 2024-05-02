@@ -40,7 +40,8 @@ public static class VersionManifestDownloader
         string? versionManifest = await Request.GetJsonAsync<MVersionManifest>(
             mUrls!.VersionManifest!,
             filepath,
-            Encoding.UTF8
+            Encoding.UTF8,
+            MVersionManifestContext.Default
         );
         if (ObjectValidator<string>.IsNullOrWhiteSpace([versionManifest]))
             return false;

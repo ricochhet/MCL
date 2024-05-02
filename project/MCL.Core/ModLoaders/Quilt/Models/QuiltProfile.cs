@@ -50,3 +50,7 @@ public class QuiltProfile
 
     public QuiltProfile() { }
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(QuiltProfile))]
+internal partial class QuiltProfileContext : JsonSerializerContext { }

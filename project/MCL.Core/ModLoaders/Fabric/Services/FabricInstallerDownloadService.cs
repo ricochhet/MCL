@@ -93,7 +93,10 @@ public class FabricInstallerDownloadService
     /// </summary>
     public bool LoadVersionManifest()
     {
-        FabricVersionManifest = Json.Load<FabricVersionManifest>(FabricPathResolver.VersionManifestPath(_launcherPath));
+        FabricVersionManifest = Json.Load<FabricVersionManifest>(
+            FabricPathResolver.VersionManifestPath(_launcherPath),
+            FabricVersionManifestContext.Default
+        );
         if (ObjectValidator<FabricVersionManifest>.IsNull(FabricVersionManifest))
         {
             NotificationProvider.Error("error.readfile", nameof(FabricVersionManifest));
@@ -108,7 +111,10 @@ public class FabricInstallerDownloadService
     /// </summary>
     public bool LoadVersionManifestWithoutLogging()
     {
-        FabricVersionManifest = Json.Load<FabricVersionManifest>(FabricPathResolver.VersionManifestPath(_launcherPath));
+        FabricVersionManifest = Json.Load<FabricVersionManifest>(
+            FabricPathResolver.VersionManifestPath(_launcherPath),
+            FabricVersionManifestContext.Default
+        );
         if (ObjectValidator<FabricVersionManifest>.IsNull(FabricVersionManifest, NativeLogLevel.Debug))
             return false;
 

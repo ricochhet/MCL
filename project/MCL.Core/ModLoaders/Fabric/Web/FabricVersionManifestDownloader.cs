@@ -40,7 +40,8 @@ public static class FabricVersionManifestDownloader
         string? fabricVersionManifest = await Request.GetJsonAsync<FabricVersionManifest>(
             fabricUrls!.VersionManifest!,
             filepath,
-            Encoding.UTF8
+            Encoding.UTF8,
+            FabricVersionManifestContext.Default
         );
         if (ObjectValidator<string>.IsNullOrWhiteSpace([fabricVersionManifest]))
             return false;

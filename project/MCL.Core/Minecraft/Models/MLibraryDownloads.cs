@@ -28,3 +28,7 @@ public class MLibraryDownloads(MArtifact artifact, MClassifiers classifiers)
     [JsonPropertyName("classifiers")]
     public MClassifiers? Classifiers { get; set; } = classifiers;
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(MLibraryDownloads))]
+internal partial class MLibraryDownloadsContext : JsonSerializerContext { }

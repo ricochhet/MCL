@@ -16,11 +16,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using System.Text.Json.Serialization;
 using MCL.Core.MiniCommon.Validation;
 
 namespace MCL.Core.Launcher.Models;
 
-public class MArgument
+public class MOption
 {
     public string? Arg { get; set; }
     public string[]? ArgParams { get; set; }
@@ -28,9 +29,9 @@ public class MArgument
     public bool Ignore { get; set; }
     public bool Condition { get; set; } = true;
 
-    public MArgument() { }
+    public MOption() { }
 
-    public MArgument(string arg, string[]? argParams = null, int priority = 0, bool ignore = false)
+    public MOption(string arg, string[]? argParams = null, int priority = 0, bool ignore = false)
     {
         Arg = arg;
         ArgParams = argParams ?? [];
@@ -46,3 +47,7 @@ public class MArgument
         return string.Format(Arg ?? ValidationShims.StringEmpty(), ArgParams);
     }
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(MOption))]
+internal partial class MOptionContext : JsonSerializerContext { }

@@ -40,3 +40,7 @@ public class QuiltMappings(string gameVersion, string separator, int build, stri
     [JsonPropertyName("hashed")]
     public string Hashed { get; set; } = hashed;
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(QuiltMappings))]
+internal partial class QuiltMappingsContext : JsonSerializerContext { }

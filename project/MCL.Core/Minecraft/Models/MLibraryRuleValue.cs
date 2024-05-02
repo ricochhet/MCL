@@ -25,3 +25,7 @@ public class MLibraryRuleValue(string name)
     [JsonPropertyName("name")]
     public string Name { get; set; } = name;
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(MLibraryRuleValue))]
+internal partial class MLibraryRuleValueContext : JsonSerializerContext { }

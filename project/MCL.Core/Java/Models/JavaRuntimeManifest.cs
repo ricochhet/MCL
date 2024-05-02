@@ -31,3 +31,7 @@ public class JavaRuntimeManifest(string sha1, int size, string url)
     [JsonPropertyName("url")]
     public string Url { get; set; } = url;
 }
+
+[JsonSourceGenerationOptions(WriteIndented = true)]
+[JsonSerializable(typeof(JavaRuntimeManifest))]
+internal partial class JavaRuntimeManifestContext : JsonSerializerContext { }
