@@ -42,7 +42,9 @@ public static class JavaLauncher
     )
     {
         if (
-            ObjectValidator<Settings>.IsNull(settings) || ObjectValidator<string>.IsNullOrWhiteSpace([workingDirectory])
+            ObjectValidator<Settings>.IsNull(settings)
+            || ObjectValidator<string>.IsNullOrWhiteSpace([workingDirectory])
+            || ObjectValidator<JvmArguments>.IsNull(jvmArguments)
         )
             return;
         if (!VFS.Exists(workingDirectory))

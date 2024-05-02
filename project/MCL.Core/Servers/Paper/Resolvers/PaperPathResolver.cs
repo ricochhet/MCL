@@ -28,7 +28,7 @@ public static class PaperPathResolver
     /// The Paper server installation path.
     /// </summary>
     public static string InstallerPath(LauncherPath? launcherPath, LauncherVersion? launcherVersion) =>
-        VFS.FromCwd(
+        VFS.Combine(
             launcherPath?.PaperPath ?? ValidationShims.StringEmpty(),
             launcherVersion?.MVersion ?? ValidationShims.StringEmpty()
         );
@@ -37,18 +37,21 @@ public static class PaperPathResolver
     /// The Paper server version manifest path.
     /// </summary>
     public static string VersionManifestPath(LauncherPath? launcherPath, LauncherVersion? launcherVersion) =>
-        VFS.FromCwd(
+        VFS.Combine(
             launcherPath?.PaperPath ?? ValidationShims.StringEmpty(),
             launcherVersion?.MVersion ?? ValidationShims.StringEmpty(),
             "paper_manifest.json"
         );
 
     /// <summary>
+    /// The Paper server client jar name.
+    /// </summary>
+    public static string JarName(LauncherVersion? launcherVersion) =>
+        $"paper-{launcherVersion?.MVersion}-{launcherVersion?.PaperServerVersion}.jar";
+
+    /// <summary>
     /// The Paper server client jar path.
     /// </summary>
     public static string JarPath(LauncherPath? launcherPath, LauncherVersion? launcherVersion) =>
-        VFS.Combine(
-            InstallerPath(launcherPath, launcherVersion),
-            $"paper-{launcherVersion?.MVersion}-{launcherVersion?.PaperServerVersion}.jar"
-        );
+        VFS.Combine(InstallerPath(launcherPath, launcherVersion), JarName(launcherVersion));
 }

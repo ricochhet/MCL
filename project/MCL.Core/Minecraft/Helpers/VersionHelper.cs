@@ -19,6 +19,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MCL.Core.Launcher.Enums;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Services;
 using MCL.Core.Minecraft.Models;
@@ -31,6 +32,28 @@ namespace MCL.Core.Minecraft.Helpers;
 
 public static class VersionHelper
 {
+    /// <summary>
+    /// Check if the launcher version based on the ClientType exists.
+    /// </summary>
+    public static bool VersionExists(Settings settings)
+    {
+        if (
+            ObjectValidator<Settings>.IsNull(settings)
+            || ObjectValidator<LauncherInstance>.IsNull(settings.LauncherInstance)
+        )
+            return false;
+
+        return settings.LauncherSettings!.ClientType switch
+        {
+            ClientType.VANILLA => ObjectValidator<LauncherLoader>.IsNotNullOrEmpty(settings.LauncherInstance!.Versions),
+            ClientType.FABRIC
+                => ObjectValidator<LauncherLoader>.IsNotNullOrEmpty(settings.LauncherInstance!.FabricLoaders),
+            ClientType.QUILT
+                => ObjectValidator<LauncherLoader>.IsNotNullOrEmpty(settings.LauncherInstance!.QuiltLoaders),
+            _ => false,
+        };
+    }
+
     /// <summary>
     /// Get the MVersionManifest and set the version of MVersion in Settings.
     /// </summary>

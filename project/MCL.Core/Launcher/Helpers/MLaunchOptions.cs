@@ -32,7 +32,7 @@ public static class MLaunchOptions
     /// </summary>
     public static MArgument[]? DefaultJvmArguments(Settings settings)
     {
-        if (ObjectValidator<Settings>.IsNull(settings))
+        if (!VersionHelper.VersionExists(settings))
             return null;
 
         return

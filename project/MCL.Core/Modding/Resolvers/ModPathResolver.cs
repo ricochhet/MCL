@@ -28,7 +28,7 @@ public static class ModPathResolver
     /// The mod store path.
     /// </summary>
     public static string ModPath(LauncherPath? launcherPath, string? modStoreName) =>
-        VFS.FromCwd(
+        VFS.Combine(
             launcherPath?.ModPath ?? ValidationShims.StringEmpty(),
             modStoreName ?? ValidationShims.StringEmpty()
         );
@@ -37,7 +37,7 @@ public static class ModPathResolver
     /// The mod store data path.
     /// </summary>
     public static string ModStorePath(LauncherPath? launcherPath, string? modStoreName) =>
-        VFS.FromCwd(launcherPath?.ModPath ?? ValidationShims.StringEmpty(), $"{modStoreName}.modstore.json");
+        VFS.Combine(launcherPath?.ModPath ?? ValidationShims.StringEmpty(), $"{modStoreName}.modstore.json");
 
     /// <summary>
     /// The mod deployment path.

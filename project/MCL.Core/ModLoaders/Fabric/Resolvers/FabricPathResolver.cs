@@ -28,7 +28,7 @@ public static class FabricPathResolver
     /// <summary>
     /// The Fabric mod path.
     /// </summary>
-    public static string ModPath(LauncherPath launcherPath) => VFS.FromCwd(launcherPath.FabricPath, "mods");
+    public static string ModPath(LauncherPath launcherPath) => VFS.Combine(launcherPath.FabricPath, "mods");
 
     /// <summary>
     /// The Fabric mod version path specified by the MVersion.
@@ -56,13 +56,13 @@ public static class FabricPathResolver
     /// The Fabric manifest path.
     /// </summary>
     public static string VersionManifestPath(LauncherPath? launcherPath) =>
-        VFS.FromCwd(launcherPath?.FabricPath ?? ValidationShims.StringEmpty(), "fabric_manifest.json");
+        VFS.Combine(launcherPath?.FabricPath ?? ValidationShims.StringEmpty(), "fabric_manifest.json");
 
     /// <summary>
     /// The Fabric profile path specified by the FabricLoaderVersion.
     /// </summary>
     public static string ProfilePath(LauncherPath? launcherPath, LauncherVersion? launcherVersion) =>
-        VFS.FromCwd(
+        VFS.Combine(
             launcherPath?.FabricPath ?? ValidationShims.StringEmpty(),
             $"fabric_profile-{launcherVersion?.MVersion}-{launcherVersion?.FabricLoaderVersion}.json"
         );

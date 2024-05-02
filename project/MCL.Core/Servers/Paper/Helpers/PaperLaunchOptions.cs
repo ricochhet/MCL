@@ -29,7 +29,7 @@ public static class PaperLaunchOptions
     /// </summary>
     public static MArgument[]? DefaultJvmArguments(Settings settings)
     {
-        if (ObjectValidator<Settings>.IsNull(settings))
+        if (!PaperVersionHelper.VersionExists(settings))
             return null;
 
         return
@@ -66,8 +66,8 @@ public static class PaperLaunchOptions
             new MArgument { Arg = "-Daikars.new.flags=true" },
             new MArgument
             {
-                Arg = "-jar {0} {1}",
-                ArgParams = [PaperPathResolver.JarPath(settings!?.LauncherPath, settings!?.LauncherVersion), "nogui"]
+                Arg = "-jar \"{0}\" {1}",
+                ArgParams = [PaperPathResolver.JarName(settings!?.LauncherVersion), "nogui"]
             },
         ];
     }

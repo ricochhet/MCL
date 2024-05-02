@@ -21,10 +21,10 @@ using MCL.Core.Java.Helpers;
 using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Minecraft.Helpers;
+using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Validation;
 using MCL.Core.ModLoaders.Quilt.Enums;
 using MCL.Core.ModLoaders.Quilt.Helpers;
-using MCL.Core.ModLoaders.Quilt.Resolvers;
 using MCL.Core.ModLoaders.Quilt.Services;
 
 namespace MCL.Core.ModLoaders.Quilt.Wrappers;
@@ -46,6 +46,8 @@ public static class QuiltInstallerDownloadWrapper
             return false;
         if (!await QuiltVersionHelper.SetInstallerVersion(settings, launcherVersion, update))
             return false;
+        if (!await QuiltVersionHelper.SetLoaderVersion(settings, launcherVersion, update))
+            return false;
 
         QuiltInstallerDownloadService.Init(settings!?.LauncherPath, settings!?.LauncherVersion, settings!?.QuiltUrls);
         if (!await QuiltInstallerDownloadService.Download(loadLocalVersionManifest: true))
@@ -53,7 +55,7 @@ public static class QuiltInstallerDownloadWrapper
 
         JavaLauncher.Launch(
             settings,
-            QuiltPathResolver.InstallersPath(settings!?.LauncherPath),
+            VFS.FileSystem.Cwd,
             QuiltInstallerOptions
                 .DefaultJvmArguments(
                     settings!?.LauncherPath,

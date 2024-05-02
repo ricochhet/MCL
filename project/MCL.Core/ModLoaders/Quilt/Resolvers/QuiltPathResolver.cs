@@ -28,7 +28,7 @@ public static class QuiltPathResolver
     /// <summary>
     /// The Quilt mod path.
     /// </summary>
-    public static string ModPath(LauncherPath launcherPath) => VFS.FromCwd(launcherPath.QuiltPath, "mods");
+    public static string ModPath(LauncherPath launcherPath) => VFS.Combine(launcherPath.QuiltPath, "mods");
 
     /// <summary>
     /// The Quilt mod version path specified by the MVersion.
@@ -56,13 +56,13 @@ public static class QuiltPathResolver
     /// The Quilt manifest path.
     /// </summary>
     public static string VersionManifestPath(LauncherPath? launcherPath) =>
-        VFS.FromCwd(launcherPath?.QuiltPath ?? ValidationShims.StringEmpty(), "quilt_manifest.json");
+        VFS.Combine(launcherPath?.QuiltPath ?? ValidationShims.StringEmpty(), "quilt_manifest.json");
 
     /// <summary>
     /// The Quilt profile path specified by the QuiltLoaderVersion.
     /// </summary>
     public static string ProfilePath(LauncherPath? launcherPath, LauncherVersion? launcherVersion) =>
-        VFS.FromCwd(
+        VFS.Combine(
             launcherPath?.QuiltPath ?? ValidationShims.StringEmpty(),
             $"quilt_profile-{launcherVersion?.MVersion}-{launcherVersion?.QuiltLoaderVersion}.json"
         );

@@ -151,7 +151,7 @@ public static class PaperServerDownloadService
         PaperVersionManifest = Json.Load<PaperVersionManifest>(
             PaperPathResolver.VersionManifestPath(_launcherPath, _launcherVersion)
         );
-        if (ObjectValidator<PaperVersionManifest>.IsNull(PaperVersionManifest))
+        if (ObjectValidator<PaperVersionManifest>.IsNull(PaperVersionManifest, NativeLogLevel.Debug))
             return false;
 
         return true;

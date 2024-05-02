@@ -39,6 +39,7 @@ public class DownloadQuiltInstaller : ILauncherCommand
                 Parameters =
                 [
                     new() { Name = "installerversion", Optional = true },
+                    new() { Name = "loaderversion", Optional = true },
                     new() { Name = "update", Optional = true },
                     new() { Name = "javapath", Optional = true }
                 ]
@@ -46,6 +47,7 @@ public class DownloadQuiltInstaller : ILauncherCommand
             async options =>
             {
                 _launcherVersion.QuiltInstallerVersion = options.GetValueOrDefault("installerversion", "latest");
+                _launcherVersion.QuiltLoaderVersion = options.GetValueOrDefault("loaderversion", "latest");
                 if (!bool.TryParse(options.GetValueOrDefault("update", "false"), out bool update))
                     return;
                 await QuiltInstallerDownloadWrapper.DownloadAndRun(

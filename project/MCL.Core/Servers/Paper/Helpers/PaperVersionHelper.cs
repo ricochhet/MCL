@@ -30,6 +30,21 @@ namespace MCL.Core.Servers.Paper.Helpers;
 public static class PaperVersionHelper
 {
     /// <summary>
+    /// Check if the paper server version exists.
+    /// </summary>
+    public static bool VersionExists(Settings settings)
+    {
+        if (
+            ObjectValidator<Settings>.IsNull(settings)
+            || ObjectValidator<LauncherInstance>.IsNull(settings.LauncherInstance)
+            || ObjectValidator<LauncherVersion>.IsNull(settings.LauncherVersion)
+        )
+            return false;
+
+        return settings.LauncherInstance!.PaperServerVersions.Contains(settings.LauncherVersion!.PaperServerVersion);
+    }
+
+    /// <summary>
     /// Get the PaperVersionManifest and set the version of PaperServerVersion in Settings.
     /// </summary>
     public static async Task<bool> SetVersion(

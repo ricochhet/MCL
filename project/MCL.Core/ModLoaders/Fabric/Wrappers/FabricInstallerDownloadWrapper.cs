@@ -21,10 +21,10 @@ using MCL.Core.Java.Helpers;
 using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Minecraft.Helpers;
+using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Validation;
 using MCL.Core.ModLoaders.Fabric.Enums;
 using MCL.Core.ModLoaders.Fabric.Helpers;
-using MCL.Core.ModLoaders.Fabric.Resolvers;
 using MCL.Core.ModLoaders.Fabric.Services;
 
 namespace MCL.Core.ModLoaders.Fabric.Wrappers;
@@ -46,6 +46,8 @@ public static class FabricInstallerDownloadWrapper
             return false;
         if (!await FabricVersionHelper.SetInstallerVersion(settings, launcherVersion, update))
             return false;
+        if (!await FabricVersionHelper.SetLoaderVersion(settings, launcherVersion, update))
+            return false;
 
         FabricInstallerDownloadService.Init(settings!?.LauncherPath, settings!?.LauncherVersion, settings!?.FabricUrls);
         if (!await FabricInstallerDownloadService.Download(loadLocalVersionManifest: true))
@@ -53,7 +55,7 @@ public static class FabricInstallerDownloadWrapper
 
         JavaLauncher.Launch(
             settings,
-            FabricPathResolver.InstallersPath(settings!?.LauncherPath),
+            VFS.FileSystem.Cwd,
             FabricInstallerOptions
                 .DefaultJvmArguments(
                     settings!?.LauncherPath,
