@@ -1,0 +1,46 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Run CSharpier",
+            "type": "shell",
+            "command": "dotnet",
+            "args": [
+                "csharpier", "."
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/project/"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Run Cake Build",
+            "type": "shell",
+            "command": "dotnet-cake",
+            "args": [
+                "build.cake"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/project/"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": [],
+            "dependsOn": "Run CSharpier"
+        }
+    ]
+}
