@@ -96,6 +96,9 @@ public static class ProcessHelper
         }
     }
 
+    /// <summary>
+    /// Check if a data string contains a log related substring.
+    /// </summary>
     private static NativeLogLevel DetermineLogType(string data)
     {
         if (data.Contains("WARN", StringComparison.CurrentCultureIgnoreCase))
