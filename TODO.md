@@ -7,7 +7,7 @@ Tasks marked with (*) are easier to do.
 - [ ] Implement player skin options on non-vanilla loaders.
     - Non-vanilla loaders can use modifications such as OfflineSkins to provide skins without in-depth networking systems.
     - Skins can still be supplied via an API or website to reduce the manual processes.
-- [ ] Implement configuration migration service.
+- [x] Implement configuration migration service.
     - This is beneficial when the configuration model is refactored.
 - [x] Implement object validator throughout project.
 - [x] Download commands should require a version flag.
