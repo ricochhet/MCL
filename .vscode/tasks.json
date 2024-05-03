@@ -42,7 +42,8 @@
                 "reveal": "always",
                 "panel": "shared"
             },
-            "problemMatcher": []
+            "problemMatcher": [],
+            "dependsOn": "Run CSharpier"
         },
         {
             "label": "Run Cake Build",
@@ -63,7 +64,7 @@
                 "panel": "shared"
             },
             "problemMatcher": [],
-            "dependsOn": "Run CSharpier"
+            "dependsOn": ["Run CSharpier", "Run Roslynator"]
         }
     ]
 }
