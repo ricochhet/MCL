@@ -27,7 +27,7 @@ namespace MCL.Core.MiniCommon.IO;
 public class BaseJson : IBaseJson
 {
     /// <inheritdoc />
-    public static string Serialize<T>(T data, JsonSerializerOptions options)
+    public virtual string Serialize<T>(T data, JsonSerializerOptions options)
     {
         if (AotConstants.IsNativeAot)
             throw new SerializationException();
@@ -37,13 +37,13 @@ public class BaseJson : IBaseJson
     }
 
     /// <inheritdoc />
-    public static string Serialize<T>(T data, JsonSerializerContext ctx)
+    public virtual string Serialize<T>(T data, JsonSerializerContext ctx)
     {
         return JsonSerializer.Serialize(data!, typeof(T), ctx);
     }
 
     /// <inheritdoc />
-    public static T? Deserialize<T>(string json, JsonSerializerOptions options)
+    public virtual T? Deserialize<T>(string json, JsonSerializerOptions options)
     {
         if (AotConstants.IsNativeAot)
             throw new SerializationException();
@@ -53,7 +53,7 @@ public class BaseJson : IBaseJson
     }
 
     /// <inheritdoc />
-    public static T? Deserialize<T>(string data, JsonSerializerContext ctx)
+    public virtual T? Deserialize<T>(string data, JsonSerializerContext ctx)
         where T : class
     {
         return JsonSerializer.Deserialize(data!, typeof(T), ctx) as T;
@@ -61,7 +61,7 @@ public class BaseJson : IBaseJson
 
     /// <inheritdoc />
 
-    public static void Save<T>(string filepath, T data, JsonSerializerOptions options)
+    public virtual void Save<T>(string filepath, T data, JsonSerializerOptions options)
     {
         if (AotConstants.IsNativeAot)
             throw new SerializationException();
@@ -75,7 +75,7 @@ public class BaseJson : IBaseJson
 
     /// <inheritdoc />
 
-    public static void Save<T>(string filepath, T data, JsonSerializerContext ctx)
+    public virtual void Save<T>(string filepath, T data, JsonSerializerContext ctx)
     {
         if (!VFS.Exists(filepath))
             VFS.CreateDirectory(VFS.GetDirectoryName(filepath));
@@ -85,7 +85,7 @@ public class BaseJson : IBaseJson
     }
 
     /// <inheritdoc />
-    public static T? Load<T>(string filepath, JsonSerializerOptions options)
+    public virtual T? Load<T>(string filepath, JsonSerializerOptions options)
         where T : new()
     {
         if (AotConstants.IsNativeAot)
@@ -106,7 +106,7 @@ public class BaseJson : IBaseJson
     }
 
     /// <inheritdoc />
-    public static T? Load<T>(string filepath, JsonSerializerContext ctx)
+    public virtual T? Load<T>(string filepath, JsonSerializerContext ctx)
         where T : class
     {
         if (!VFS.Exists(filepath))

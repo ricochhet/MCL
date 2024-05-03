@@ -22,7 +22,7 @@ using MCL.Core.MiniCommon.IO.Interfaces;
 
 namespace MCL.Core.MiniCommon.IO;
 
-public class Json : IBaseJson
+public class Json : IJson
 {
     public static BaseJson BaseJson { get; private set; } = new();
 

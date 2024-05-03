@@ -18,78 +18,29 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using MCL.Core.MiniCommon.Models;
-using MCL.Core.MiniCommon.Providers;
-using MCL.Core.MiniCommon.Validation;
 
 namespace MCL.Core.MiniCommon.CommandParser;
 
-public static class CommandLine
+public class CommandLine : ICommandLine
 {
-    public static string Prefix { get; private set; } = "--";
-    private static readonly char[] _separator = [',', ';'];
 
-    /// <summary>
-    /// Processes a command line argument identified by a flag and invokes the provided action with the argument's value of type T.
-    /// </summary>
+    public static BaseCommandLine BaseCommandLine { get; private set; } = new();
+
+    /// <inheritdoc />
     public static void ProcessArgument<T>(string[] args, Command command, Func<string, T?> converter, Action<T?> action)
     {
-        try
-        {
-            int index = Array.IndexOf(args, Prefix + command.Name);
-            if (index != -1)
-            {
-                T? value = default;
-                if (index + 1 < args.Length && !args[index + 1].StartsWith(Prefix))
-                {
-                    value = converter(args[index + 1]);
-                }
-                action(value);
-            }
-        }
-        catch (Exception ex)
-        {
-            LogException(ex);
-        }
+        BaseCommandLine.ProcessArgument(args, command, converter, action);
     }
 
-    /// <summary>
-    /// Processes a command line argument identified by a flag and invokes the provided action with a dictionary of key-value pairs extracted from the argument.
-    /// </summary>
+    /// <inheritdoc />
     public static void ProcessArgument(string[] args, Command command, Action<Dictionary<string, string>> action)
     {
-        try
-        {
-            int index = Array.IndexOf(args, Prefix + command.Name);
-            if (index != -1)
-            {
-                if (args.Length <= index + 1)
-                    action([]);
-                else if (index + 1 < args.Length && !args[index + 1].StartsWith(Prefix))
-                {
-                    Dictionary<string, string> options = ParseKeyValuePairs(args[index + 1]);
-                    if (
-                        command
-                            .Parameters.Where(a => !a.Optional)
-                            .All(a => options.ContainsKey(a?.Name ?? ValidationShims.StringEmpty()))
-                    )
-                        action(options);
-                    else
-                        NotificationProvider.Error("commandline.error", command.Usage());
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            LogException(ex);
-        }
+        BaseCommandLine.ProcessArgument(args, command, action);
     }
 
-    /// <summary>
-    /// Processes a command line argument identified by a flag and invokes the provided action with the argument's value of type T.
-    /// </summary>
+    /// <inheritdoc />
     public static async Task ProcessArgumentAsync<T>(
         string[] args,
         Command command,
@@ -97,99 +48,22 @@ public static class CommandLine
         Func<T?, Task> action
     )
     {
-        try
-        {
-            int index = Array.IndexOf(args, Prefix + command.Name);
-            if (index != -1)
-            {
-                T? value = default;
-                if (index + 1 < args.Length && !args[index + 1].StartsWith(Prefix))
-                {
-                    value = converter(args[index + 1]);
-                }
-                await action(value);
-            }
-        }
-        catch (Exception ex)
-        {
-            LogException(ex);
-        }
+        await BaseCommandLine.ProcessArgumentAsync(args, command, converter, action);
     }
 
-    /// <summary>
-    /// Processes a command line argument identified by a flag and invokes the provided action with a dictionary of key-value pairs extracted from the argument.
-    /// </summary>
+    /// <inheritdoc />
     public static async Task ProcessArgumentAsync(
         string[] args,
         Command command,
         Func<Dictionary<string, string>, Task> action
     )
     {
-        try
-        {
-            int index = Array.IndexOf(args, Prefix + command.Name);
-            if (index != -1)
-            {
-                if (args.Length <= index + 1)
-                    await action([]);
-                else if (index + 1 < args.Length && !args[index + 1].StartsWith(Prefix))
-                {
-                    Dictionary<string, string> options = ParseKeyValuePairs(args[index + 1]);
-                    if (
-                        command
-                            .Parameters.Where(a => !a.Optional)
-                            .All(a => options.ContainsKey(a?.Name ?? ValidationShims.StringEmpty()))
-                    )
-                        await action(options);
-                    else
-                        NotificationProvider.Error("commandline.error", command.Usage());
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            LogException(ex);
-        }
+        await BaseCommandLine.ProcessArgumentAsync(args, command, action);
     }
 
-    /// <summary>
-    /// Parses a string containing key-value pairs separated by specified separators into a dictionary.
-    /// </summary>
-    public static Dictionary<string, string> ParseKeyValuePairs(string input)
-    {
-        Dictionary<string, string> keyValuePairs = [];
-        string[] pairs = input.Split(_separator, StringSplitOptions.RemoveEmptyEntries);
-        foreach (string pair in pairs)
-        {
-            string[] keyValue = pair.Split('=');
-            if (keyValue.Length == 2)
-                keyValuePairs[keyValue[0]] = keyValue[1];
-        }
-        return keyValuePairs;
-    }
-
-    /// <summary>
-    /// Logs an exception message along with stack trace information.
-    /// </summary>
-    private static void LogException(Exception ex)
-    {
-        NotificationProvider.Error(
-            "log.stack.trace",
-            ex.Message,
-            ex.StackTrace ?? LocalizationProvider.Translate("stack.trace.null")
-        );
-    }
-
-    /// <summary>
-    /// Pauses the command line execution until the user presses the 'F' key.
-    /// </summary>
+    /// <inheritdoc />
     public static void Pause()
     {
-        NotificationProvider.Info("commandline.exit", "F");
-
-#pragma warning disable IDE0079
-#pragma warning disable S108
-        while (Console.ReadKey(intercept: true).Key != ConsoleKey.F) { }
-#pragma warning restore IDE0079, S108
+        BaseCommandLine.Pause();
     }
 }

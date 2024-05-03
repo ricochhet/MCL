@@ -21,50 +21,50 @@ using System.Text.Json.Serialization;
 
 namespace MCL.Core.MiniCommon.IO.Interfaces;
 
-public interface IBaseJson
+public interface IJson
 {
     /// <summary>
     /// Serialize data of type T.
     /// </summary>
-    public abstract string Serialize<T>(T data, JsonSerializerOptions options);
+    public static abstract string Serialize<T>(T data, JsonSerializerOptions options);
 
     /// <summary>
     /// Serialize data of type T from serializer context.
     /// </summary>
-    public abstract string Serialize<T>(T data, JsonSerializerContext ctx);
+    public static abstract string Serialize<T>(T data, JsonSerializerContext ctx);
 
     /// <summary>
     /// Deserialize data of type T.
     /// </summary>
-    public abstract T? Deserialize<T>(string json, JsonSerializerOptions options);
+    public static abstract T? Deserialize<T>(string json, JsonSerializerOptions options);
 
     /// <summary>
     /// Deserialize data of type T from serializer context.
     /// </summary>
-    public abstract T? Deserialize<T>(string data, JsonSerializerContext ctx)
+    public static abstract T? Deserialize<T>(string data, JsonSerializerContext ctx)
         where T : class;
 
     /// <summary>
     /// Serialize data of type T, and save to a file.
     /// </summary>
 
-    public abstract void Save<T>(string filepath, T data, JsonSerializerOptions options);
+    public static abstract void Save<T>(string filepath, T data, JsonSerializerOptions options);
 
     /// <summary>
     /// Serialize data of type T, and save to a file.
     /// </summary>
 
-    public abstract void Save<T>(string filepath, T data, JsonSerializerContext ctx);
+    public static abstract void Save<T>(string filepath, T data, JsonSerializerContext ctx);
 
     /// <summary>
     /// Deserialize file text, and return as type T.
     /// </summary>
-    public abstract T? Load<T>(string filepath, JsonSerializerOptions options)
+    public static abstract T? Load<T>(string filepath, JsonSerializerOptions options)
         where T : new();
 
     /// <summary>
     /// Deserialize file text, and return as type T.
     /// </summary>
-    public abstract T? Load<T>(string filepath, JsonSerializerContext ctx)
+    public static abstract T? Load<T>(string filepath, JsonSerializerContext ctx)
         where T : class;
 }
