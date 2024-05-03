@@ -9,6 +9,7 @@ Tasks marked with (*) are easier to do.
     - Skins can still be supplied via an API or website to reduce the manual processes.
 - [ ] Consider implementation of local API builder to self-host files and data for offline usage.
 - [x] Add message overriding to object validation for simplified user messaging flow.
+    - [ ] Add message overriding to validation shims.
 - [x] Implement configuration migration service.
     - This is beneficial when the configuration model is refactored.
 - [x] Implement object validator throughout project.
