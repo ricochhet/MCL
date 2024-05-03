@@ -34,4 +34,4 @@ public class FabricIntermediary(string maven, string version, bool stable)
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(FabricIntermediary))]
-internal partial class FabricIntermediaryContext : JsonSerializerContext { }
+internal partial class FabricIntermediaryContext : JsonSerializerContext;

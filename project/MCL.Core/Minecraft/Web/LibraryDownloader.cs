@@ -37,7 +37,6 @@ public static class LibraryDownloader
 {
     private static LauncherLoader? _loader;
 
-#pragma warning disable IDE0079
 #pragma warning disable S3776
     /// <summary>
     /// Download the game libraries specified by the MVersionDetails.
@@ -49,13 +48,15 @@ public static class LibraryDownloader
         LauncherSettings? launcherSettings,
         MVersionDetails? versionDetails
     )
-#pragma warning restore IDE0079, S3776
+#pragma warning restore S3776
     {
         if (
             ObjectValidator<List<MLibrary>>.IsNullOrEmpty(versionDetails?.Libraries)
             || ObjectValidator<string>.IsNullOrWhiteSpace([launcherVersion?.MVersion, launcherPath?.MPath])
         )
+        {
             return false;
+        }
 
         string libPath = VFS.Combine(launcherPath!.MPath, "libraries");
         _loader = new() { Version = launcherVersion!.MVersion };
@@ -76,7 +77,9 @@ public static class LibraryDownloader
                     [lib!.Downloads!.Artifact?.Path, lib!.Downloads!.Artifact?.URL, lib!.Downloads!.Artifact?.SHA1]
                 )
             )
+            {
                 return false;
+            }
 
             string filepath = VFS.Combine(libPath, lib!.Downloads!.Artifact!.Path);
             if (!await Request.DownloadSHA1(lib!.Downloads!.Artifact.URL, filepath, lib!.Downloads!.Artifact.SHA1))
@@ -162,7 +165,9 @@ public static class LibraryDownloader
                         ]
                     )
                 )
+                {
                     return false;
+                }
 
                 classifierFilePath = VFS.Combine(libraryPath, lib!.Downloads!.Classifiers!.NativesWindows!.Path);
                 classifierUrl = lib!.Downloads!.Classifiers!.NativesWindows!.URL!;
@@ -179,7 +184,9 @@ public static class LibraryDownloader
                         ]
                     )
                 )
+                {
                     return false;
+                }
 
                 classifierFilePath = VFS.Combine(libraryPath, lib!.Downloads!.Classifiers!.NativesLinux!.Path);
                 classifierUrl = lib!.Downloads!.Classifiers!.NativesLinux!.URL!;
@@ -196,7 +203,9 @@ public static class LibraryDownloader
                         ]
                     )
                 )
+                {
                     return false;
+                }
 
                 classifierFilePath = VFS.Combine(libraryPath, lib!.Downloads!.Classifiers!.NativesMacos!.Path);
                 classifierUrl = lib!.Downloads!.Classifiers!.NativesMacos!.URL!;

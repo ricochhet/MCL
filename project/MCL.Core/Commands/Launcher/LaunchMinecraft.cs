@@ -59,7 +59,9 @@ public class LaunchMinecraft : IBaseCommand
                     || ObjectValidator<LauncherUsername>.IsNull(settings?.LauncherUsername)
                     || ObjectValidator<LauncherVersion>.IsNull(settings?.LauncherVersion)
                 )
+                {
                     return;
+                }
                 settings!.LauncherSettings!.ClientType = EnumResolver.Parse(
                     options.GetValueOrDefault("client", "vanilla"),
                     ClientType.VANILLA

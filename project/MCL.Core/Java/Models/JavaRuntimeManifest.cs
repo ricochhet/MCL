@@ -34,4 +34,4 @@ public class JavaRuntimeManifest(string sha1, int size, string url)
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(JavaRuntimeManifest))]
-internal partial class JavaRuntimeManifestContext : JsonSerializerContext { }
+internal partial class JavaRuntimeManifestContext : JsonSerializerContext;

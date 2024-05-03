@@ -43,7 +43,9 @@ public class FabricInstallerOptions : IModLoaderInstallerOptions<FabricInstaller
                 ]
             )
         )
+        {
             return null;
+        }
 
         return
         [

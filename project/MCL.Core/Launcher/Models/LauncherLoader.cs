@@ -29,4 +29,4 @@ public class LauncherLoader
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(LauncherLoader))]
-internal partial class LauncherLoaderContext : JsonSerializerContext { }
+internal partial class LauncherLoaderContext : JsonSerializerContext;

@@ -79,4 +79,4 @@ public class Settings
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(Settings))]
-internal partial class SettingsContext : JsonSerializerContext { }
+internal partial class SettingsContext : JsonSerializerContext;

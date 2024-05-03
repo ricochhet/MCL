@@ -44,7 +44,10 @@ public static class MinecraftLauncher
                 VersionHelper.GetVersionDetails(settings.LauncherPath, settings.LauncherVersion)
             )
         )
+        {
             return;
+        }
+
         JavaLauncher.Launch(
             settings,
             settings.LauncherPath?.MPath ?? ValidationShims.StringEmpty(),

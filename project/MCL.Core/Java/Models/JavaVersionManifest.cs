@@ -51,4 +51,4 @@ public class JavaVersionManifest
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(JavaVersionManifest))]
-internal partial class JavaVersionManifestContext : JsonSerializerContext { }
+internal partial class JavaVersionManifestContext : JsonSerializerContext;

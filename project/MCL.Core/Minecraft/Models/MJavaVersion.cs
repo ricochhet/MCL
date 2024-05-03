@@ -31,4 +31,4 @@ public class MJavaVersion(string component, int majorVersion)
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(MJavaVersion))]
-internal partial class MJavaVersionContext : JsonSerializerContext { }
+internal partial class MJavaVersionContext : JsonSerializerContext;

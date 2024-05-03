@@ -35,4 +35,4 @@ public class QuiltUrls
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(QuiltUrls))]
-internal partial class QuiltUrlsContext : JsonSerializerContext { }
+internal partial class QuiltUrlsContext : JsonSerializerContext;

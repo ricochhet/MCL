@@ -41,7 +41,9 @@ public class QuiltProfileDownloader : IModLoaderProfileDownloader<QuiltUrls>
                 [launcherVersion?.MVersion, launcherVersion?.QuiltLoaderVersion, quiltUrls?.LoaderProfile]
             )
         )
+        {
             return false;
+        }
 
         string? quiltProfile = await Request.GetJsonAsync<QuiltProfile>(
             QuiltPathResolver.LoaderProfilePath(quiltUrls, launcherVersion),

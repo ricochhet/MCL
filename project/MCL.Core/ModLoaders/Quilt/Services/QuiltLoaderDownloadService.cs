@@ -147,7 +147,9 @@ public class QuiltLoaderDownloadService : IModLoaderLoaderDownloadService
                 [_launcherVersion?.MVersion, _launcherVersion?.QuiltLoaderVersion]
             )
         )
+        {
             return false;
+        }
 
         QuiltProfile = Json.Load<QuiltProfile>(
             QuiltPathResolver.ProfilePath(_launcherPath, _launcherVersion),

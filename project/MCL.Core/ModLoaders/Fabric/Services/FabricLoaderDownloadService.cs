@@ -147,7 +147,9 @@ public class FabricLoaderDownloadService : IModLoaderLoaderDownloadService
                 [_launcherVersion?.MVersion, _launcherVersion?.FabricLoaderVersion]
             )
         )
+        {
             return false;
+        }
 
         FabricProfile = Json.Load<FabricProfile>(
             FabricPathResolver.ProfilePath(_launcherPath, _launcherVersion),

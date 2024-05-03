@@ -42,7 +42,9 @@ public class QuiltInstallerDownloader : IModLoaderInstallerDownloader<QuiltInsta
                 [launcherVersion?.QuiltInstallerVersion, quiltInstaller?.URL, quiltInstaller?.Version]
             )
         )
+        {
             return false;
+        }
 
         string quiltInstallerPath = QuiltPathResolver.InstallerPath(launcherPath, launcherVersion);
         // Quilt does not provide a file hash through the current method. We do simple check of the version instead.

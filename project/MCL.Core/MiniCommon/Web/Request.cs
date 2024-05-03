@@ -28,7 +28,7 @@ namespace MCL.Core.MiniCommon.Web;
 
 public class Request : IHttpRequest
 {
-    public static ValidatedRequest HttpRequest { get; private set; } = new();
+    public static ValidatedRequest HttpRequest { get; } = new();
 
     /// <inheritdoc />
     public static async Task<HttpResponseMessage?> GetAsync(string request)

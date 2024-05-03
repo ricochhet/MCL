@@ -38,4 +38,4 @@ public class MLibrary(string name, MLibraryDownloads downloads, List<MLibraryRul
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(MLibrary))]
-internal partial class MLibraryContext : JsonSerializerContext { }
+internal partial class MLibraryContext : JsonSerializerContext;

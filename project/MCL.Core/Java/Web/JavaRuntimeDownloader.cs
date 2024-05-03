@@ -56,7 +56,9 @@ public static class JavaRuntimeDownloader
                     [javaRuntimeFile!.Downloads!.Raw?.URL, javaRuntimeFile!.Downloads!.Raw?.SHA1]
                 )
             )
+            {
                 return false;
+            }
 
             if (
                 !await Request.DownloadSHA1(
@@ -71,7 +73,9 @@ public static class JavaRuntimeDownloader
                     javaRuntimeFile!.Downloads!.Raw?.SHA1 ?? ValidationShims.StringEmpty()
                 )
             )
+            {
                 return false;
+            }
         }
 
         return true;

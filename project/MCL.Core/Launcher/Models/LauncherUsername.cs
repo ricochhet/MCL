@@ -41,4 +41,4 @@ public class LauncherUsername(string username)
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(LauncherUsername))]
-internal partial class LauncherUsernameContext : JsonSerializerContext { }
+internal partial class LauncherUsernameContext : JsonSerializerContext;

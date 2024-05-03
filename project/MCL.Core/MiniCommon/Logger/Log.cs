@@ -44,7 +44,6 @@ public class Log
         }
     }
 
-#pragma warning disable IDE0079
 #pragma warning disable S3168
     /// <summary>
     /// Add a new logger the Log instance.
@@ -357,5 +356,5 @@ public class Log
         benchmarker.Stop();
         _ = Instance._benchmarkers.Remove(name);
     }
-#pragma warning restore IDE0079, S3168
+#pragma warning restore S3168
 }

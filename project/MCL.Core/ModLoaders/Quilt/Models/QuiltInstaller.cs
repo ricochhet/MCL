@@ -34,4 +34,4 @@ public class QuiltInstaller(string url, string maven, string version)
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(QuiltInstaller))]
-internal partial class QuiltInstallerContext : JsonSerializerContext { }
+internal partial class QuiltInstallerContext : JsonSerializerContext;

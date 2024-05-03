@@ -55,4 +55,4 @@ public class JavaRuntime(
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(JavaRuntime))]
-internal partial class JavaRuntimeContext : JsonSerializerContext { }
+internal partial class JavaRuntimeContext : JsonSerializerContext;

@@ -43,4 +43,4 @@ public class QuiltMappings(string gameVersion, string separator, int build, stri
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(QuiltMappings))]
-internal partial class QuiltMappingsContext : JsonSerializerContext { }
+internal partial class QuiltMappingsContext : JsonSerializerContext;

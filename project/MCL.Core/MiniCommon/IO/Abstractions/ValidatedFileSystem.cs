@@ -67,7 +67,6 @@ public class ValidatedFileSystem : BaseFileSystem
         return base.Combine(Cwd, filepath);
     }
 
-#pragma warning disable IDE0079
 #pragma warning disable S2234
     /// <inheritdoc />
     public override string FromCwd(string path1, string path2)
@@ -84,7 +83,7 @@ public class ValidatedFileSystem : BaseFileSystem
             return string.Empty;
         return base.Combine(Cwd, path1, path2, path3);
     }
-#pragma warning restore IDE0079, S2234
+#pragma warning restore S2234
 
     /// <inheritdoc />
     public override string FromCwd(params string[] paths)
@@ -219,7 +218,10 @@ public class ValidatedFileSystem : BaseFileSystem
             ObjectValidator<string>.IsNullOrWhiteSpace([filepath], NativeLogLevel.Fatal)
             || ObjectValidator<byte[]>.IsNull(data, NativeLogLevel.Fatal)
         )
+        {
             return;
+        }
+
         base.WriteFile(filepath, data);
     }
 

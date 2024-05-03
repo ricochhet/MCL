@@ -49,7 +49,7 @@ public static class ProcessHelper
                 RedirectStandardError = !useShellExecute,
             };
 
-        if (environmentalVariables != null && environmentalVariables.Count > 0)
+        if (environmentalVariables?.Count > 0)
         {
             foreach ((string name, string item) in environmentalVariables)
                 startInfo.EnvironmentVariables[name] = item;

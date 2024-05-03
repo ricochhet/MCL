@@ -41,7 +41,7 @@ public class MOption
 
     public string? Parse()
     {
-        if (ArgParams == null || ArgParams.Length <= 0)
+        if (ArgParams == null || ArgParams.Length == 0)
             return Arg;
 
         return string.Format(Arg ?? ValidationShims.StringEmpty(), ArgParams);
@@ -50,4 +50,4 @@ public class MOption
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(MOption))]
-internal partial class MOptionContext : JsonSerializerContext { }
+internal partial class MOptionContext : JsonSerializerContext;

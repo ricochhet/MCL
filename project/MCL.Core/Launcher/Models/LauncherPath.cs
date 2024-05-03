@@ -45,4 +45,4 @@ public class LauncherPath
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(LauncherPath))]
-internal partial class LauncherPathContext : JsonSerializerContext { }
+internal partial class LauncherPathContext : JsonSerializerContext;

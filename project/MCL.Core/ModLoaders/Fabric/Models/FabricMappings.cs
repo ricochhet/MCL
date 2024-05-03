@@ -43,4 +43,4 @@ public class FabricMappings(string gameVersion, string separator, int build, str
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(FabricMappings))]
-internal partial class FabricMappingsContext : JsonSerializerContext { }
+internal partial class FabricMappingsContext : JsonSerializerContext;

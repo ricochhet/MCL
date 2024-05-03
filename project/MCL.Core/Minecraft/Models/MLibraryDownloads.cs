@@ -31,4 +31,4 @@ public class MLibraryDownloads(MArtifact artifact, MClassifiers classifiers)
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(MLibraryDownloads))]
-internal partial class MLibraryDownloadsContext : JsonSerializerContext { }
+internal partial class MLibraryDownloadsContext : JsonSerializerContext;

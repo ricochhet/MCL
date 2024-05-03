@@ -26,7 +26,7 @@ namespace MCL.Core.FileExtractors.Services;
 
 public class SevenZipService
 {
-    private SevenZipSettings? SevenZipSettings { get; set; }
+    private SevenZipSettings? SevenZipSettings { get; }
 
     private SevenZipService() { }
 

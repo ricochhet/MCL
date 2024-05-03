@@ -22,10 +22,9 @@ using MCL.Core.Launcher.Models;
 
 namespace MCL.Core.ModLoaders.Interfaces.Helpers;
 
-#pragma warning disable IDE0079
 #pragma warning disable S2436
 public interface IModLoaderVersionHelper<in T1, T2, T3>
-#pragma warning restore IDE0079, S2436
+#pragma warning restore S2436
 {
     /// <summary>
     /// Get the manifest and set the version of InstallerVersion in Settings.

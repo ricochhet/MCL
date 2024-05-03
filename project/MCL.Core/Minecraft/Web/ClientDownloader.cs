@@ -37,7 +37,9 @@ public static class ClientDownloader
                 [versionDetails?.Downloads?.Client?.SHA1, versionDetails?.Downloads?.Client?.URL, versionDetails?.ID]
             )
         )
+        {
             return false;
+        }
 
         return await Request.DownloadSHA1(
             versionDetails!.Downloads!.Client!.URL,

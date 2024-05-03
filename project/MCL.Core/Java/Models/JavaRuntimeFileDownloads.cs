@@ -31,4 +31,4 @@ public class JavaRuntimeFileDownloads(JavaRuntimeFileDownload lzma, JavaRuntimeF
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(JavaRuntimeFileDownloads))]
-internal partial class JavaRuntimeFileDownloadsContext : JsonSerializerContext { }
+internal partial class JavaRuntimeFileDownloadsContext : JsonSerializerContext;

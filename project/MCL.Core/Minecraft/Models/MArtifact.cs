@@ -37,4 +37,4 @@ public class MArtifact(string path, string sha1, int size, string url)
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(MArtifact))]
-internal partial class MArtifactContext : JsonSerializerContext { }
+internal partial class MArtifactContext : JsonSerializerContext;

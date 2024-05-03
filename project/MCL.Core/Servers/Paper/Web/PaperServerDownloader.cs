@@ -49,7 +49,9 @@ public static class PaperServerDownloader
                 ]
             )
         )
+        {
             return false;
+        }
 
         PaperServerProperties.NewEula(launcherPath, launcherVersion);
         PaperServerProperties.NewProperties(launcherPath, launcherVersion);

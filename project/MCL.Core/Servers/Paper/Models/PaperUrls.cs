@@ -31,4 +31,4 @@ public class PaperUrls
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(PaperUrls))]
-internal partial class PaperUrlsContext : JsonSerializerContext { }
+internal partial class PaperUrlsContext : JsonSerializerContext;

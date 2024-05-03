@@ -62,7 +62,9 @@ public static partial class NamespaceAnalyzer
                 .Replace(" ", string.Empty);
 
             if (path == directory)
+            {
                 success++;
+            }
             else
             {
                 string oldNamespace = "namespace " + path.Replace("/", ".") + ";";

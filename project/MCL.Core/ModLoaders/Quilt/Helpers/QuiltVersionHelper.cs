@@ -134,7 +134,9 @@ public class QuiltVersionHelper : IModLoaderVersionHelper<QuiltVersionManifest, 
             ObjectValidator<string>.IsNullOrWhiteSpace([installerVersion?.QuiltInstallerVersion])
             || ObjectValidator<List<QuiltInstaller>>.IsNullOrEmpty(quiltVersionManifest?.Installer)
         )
+        {
             return null;
+        }
 
         QuiltInstaller? quiltInstaller = quiltVersionManifest!.Installer!.FirstOrDefault();
         foreach (QuiltInstaller item in quiltVersionManifest!.Installer!)
@@ -155,7 +157,9 @@ public class QuiltVersionHelper : IModLoaderVersionHelper<QuiltVersionManifest, 
             ObjectValidator<string>.IsNullOrWhiteSpace([loaderVersion?.QuiltLoaderVersion])
             || ObjectValidator<List<QuiltLoader>>.IsNullOrEmpty(quiltVersionManifest?.Loader)
         )
+        {
             return null;
+        }
 
         QuiltLoader? quiltLoader = quiltVersionManifest!.Loader!.FirstOrDefault();
         foreach (QuiltLoader item in quiltVersionManifest!.Loader!)

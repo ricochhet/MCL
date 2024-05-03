@@ -41,7 +41,9 @@ public static class VersionHelper
             ObjectValidator<Settings>.IsNull(settings)
             || ObjectValidator<LauncherInstance>.IsNull(settings.LauncherInstance)
         )
+        {
             return false;
+        }
 
         return settings.LauncherSettings!.ClientType switch
         {
@@ -125,13 +127,17 @@ public static class VersionHelper
                 ObjectValidator<string>.IsNullOrWhiteSpace([launcherVersion?.MVersion])
                 && item.ID == versionManifest!.Latest?.Release
             )
+            {
                 return item;
+            }
 
             if (
                 ObjectValidator<string>.IsNotNullOrWhiteSpace([launcherVersion?.MVersion])
                 && item.ID == launcherVersion?.MVersion
             )
+            {
                 return item;
+            }
         }
         return null;
     }

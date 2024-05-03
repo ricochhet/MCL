@@ -30,4 +30,4 @@ public class JavaSettings
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(JavaSettings))]
-internal partial class JavaSettingsContext : JsonSerializerContext { }
+internal partial class JavaSettingsContext : JsonSerializerContext;

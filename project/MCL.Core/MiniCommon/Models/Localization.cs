@@ -35,4 +35,4 @@ public class Localization
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(Localization))]
-internal partial class LocalizationContext : JsonSerializerContext { }
+internal partial class LocalizationContext : JsonSerializerContext;

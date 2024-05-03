@@ -34,4 +34,4 @@ public class QuiltHashed(string maven, string version, bool stable)
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(QuiltHashed))]
-internal partial class QuiltHashedContext : JsonSerializerContext { }
+internal partial class QuiltHashedContext : JsonSerializerContext;

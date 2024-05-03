@@ -39,7 +39,7 @@ public class BaseJson : IBaseJson
     /// <inheritdoc />
     public virtual string Serialize<T>(T data, JsonSerializerContext ctx)
     {
-        return JsonSerializer.Serialize(data!, typeof(T), ctx);
+        return JsonSerializer.Serialize(data, typeof(T), ctx);
     }
 
     /// <inheritdoc />
@@ -60,7 +60,6 @@ public class BaseJson : IBaseJson
     }
 
     /// <inheritdoc />
-
     public virtual void Save<T>(string filepath, T data, JsonSerializerOptions options)
     {
         if (AotConstants.IsNativeAot)
@@ -74,7 +73,6 @@ public class BaseJson : IBaseJson
     }
 
     /// <inheritdoc />
-
     public virtual void Save<T>(string filepath, T data, JsonSerializerContext ctx)
     {
         if (!VFS.Exists(filepath))

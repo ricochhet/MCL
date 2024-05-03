@@ -31,4 +31,4 @@ public class JavaRuntimeVersion(string name, string released)
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(JavaRuntimeVersion))]
-internal partial class JavaRuntimeVersionContext : JsonSerializerContext { }
+internal partial class JavaRuntimeVersionContext : JsonSerializerContext;

@@ -38,7 +38,9 @@ public static class ServerDownloader
                 [versionDetails?.Downloads?.Server?.SHA1, versionDetails?.Downloads?.Server?.URL, versionDetails?.ID]
             )
         )
+        {
             return false;
+        }
 
         ServerProperties.NewEula(launcherPath);
         ServerProperties.NewProperties(launcherPath);

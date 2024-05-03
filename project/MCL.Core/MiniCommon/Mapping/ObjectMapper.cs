@@ -16,7 +16,6 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-
 using System;
 using System.Collections.Generic;
 
@@ -27,7 +26,6 @@ public static class ObjectMapper
     /// <summary>
     /// Map properties of T to the properties of U.
     /// </summary>
-#pragma warning disable IDE0079
 #pragma warning disable S125
     /*
     *    SourceObject source = new SourceObject { Name = "John", Age = 30 };
@@ -43,7 +41,7 @@ public static class ObjectMapper
     *    // Map properties from source to destination
     *    ObjectMapper.MapProperties(source, destination, propertyMap);
     */
-#pragma warning restore IDE0079, S125
+#pragma warning restore S125
     public static void MapProperties<T, U>(
         T source,
         U destination,

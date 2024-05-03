@@ -47,13 +47,11 @@ public interface IBaseJson
     /// <summary>
     /// Serialize data of type T, and save to a file.
     /// </summary>
-
     public abstract void Save<T>(string filepath, T data, JsonSerializerOptions options);
 
     /// <summary>
     /// Serialize data of type T, and save to a file.
     /// </summary>
-
     public abstract void Save<T>(string filepath, T data, JsonSerializerContext ctx);
 
     /// <summary>

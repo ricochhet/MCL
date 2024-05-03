@@ -31,4 +31,4 @@ public class MLatest(string release, string snapshot)
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(MLatest))]
-internal partial class MLatestContext : JsonSerializerContext { }
+internal partial class MLatestContext : JsonSerializerContext;

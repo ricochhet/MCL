@@ -37,4 +37,4 @@ public class MLoggingFile(string iD, string sha1, int size, string url)
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(MLoggingFile))]
-internal partial class MLoggingFileContext : JsonSerializerContext { }
+internal partial class MLoggingFileContext : JsonSerializerContext;

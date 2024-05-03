@@ -63,7 +63,7 @@ public class ModdingService
         }
 
         string[] modFilePaths = VFS.GetFiles(modPath, "*", SearchOption.TopDirectoryOnly);
-        if (modFilePaths.Length <= 0)
+        if (modFilePaths.Length == 0)
         {
             NotificationProvider.Error("modding.save.error-nofile", modPath);
             return false;
@@ -73,7 +73,7 @@ public class ModdingService
         string[] filteredModFilePaths = modFilePaths
             .Where(file => Array.Exists(fileTypes, file.ToLower().EndsWith))
             .ToArray();
-        if (filteredModFilePaths.Length <= 0)
+        if (filteredModFilePaths.Length == 0)
         {
             NotificationProvider.Error("modding.save.error-nofile", modPath);
             return false;
@@ -83,20 +83,23 @@ public class ModdingService
         foreach (string modFilePath in filteredModFilePaths)
         {
             if (ModSettings?.CopyOnlyTypes.Contains(VFS.GetFileExtension(modFilePath)) ?? false)
+            {
                 modFiles.Files.Add(
                     new(modFilePath, CryptographyHelper.CreateSHA1(modFilePath, true), ModRule.COPY_ONLY)
                 );
+            }
             else if (ModSettings?.UnzipAndCopyTypes.Contains(VFS.GetFileExtension(modFilePath)) ?? false)
+            {
                 modFiles.Files.Add(
                     new(modFilePath, CryptographyHelper.CreateSHA1(modFilePath, true), ModRule.UNZIP_AND_COPY)
                 );
+            }
         }
         string filepath = ModPathResolver.ModStorePath(LauncherPath, modStoreName);
         if (!ModSettings?.IsStoreSaved(modStoreName) ?? false)
-#pragma warning disable IDE0079
 #pragma warning disable S2589
             ModSettings?.ModStores.Add(modStoreName ?? ValidationShims.StringEmpty());
-#pragma warning restore IDE0079, S2589
+#pragma warning restore S2589
         Json.Save(filepath, modFiles, ModFilesContext.Default);
 
         return true;
@@ -111,10 +114,9 @@ public class ModdingService
             VFS.Exists(ModPathResolver.ModStorePath(LauncherPath, modStoreName))
             && (!ModSettings?.IsStoreSaved(modStoreName) ?? false)
         )
-#pragma warning disable IDE0079
 #pragma warning disable S2589
             ModSettings?.ModStores.Add(modStoreName);
-#pragma warning restore IDE0079, S2589
+#pragma warning restore S2589
     }
 
     /// <summary>
@@ -138,10 +140,9 @@ public class ModdingService
             return false;
 
         if (ModSettings?.IsStoreSaved(modStoreName) ?? false)
-#pragma warning disable IDE0079
 #pragma warning disable S2589
             ModSettings?.ModStores.Remove(modStoreName);
-#pragma warning restore IDE0079, S2589
+#pragma warning restore S2589
 
         VFS.DeleteFile(modStorePath);
         return true;
@@ -153,10 +154,9 @@ public class ModdingService
     public bool DeleteSavedDeployPath(string deployPath)
     {
         if (ModSettings?.IsDeployPathSaved(deployPath) ?? false)
-#pragma warning disable IDE0079
 #pragma warning disable S2589
             ModSettings?.DeployPaths.Remove(deployPath);
-#pragma warning restore IDE0079, S2589
+#pragma warning restore S2589
         else
             return false;
 
@@ -175,7 +175,9 @@ public class ModdingService
         }
 
         if (!VFS.Exists(deployPath))
+        {
             VFS.CreateDirectory(deployPath);
+        }
         else
         {
             VFS.DeleteDirectory(deployPath);

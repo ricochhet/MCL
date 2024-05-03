@@ -134,7 +134,9 @@ public class FabricVersionHelper : IModLoaderVersionHelper<FabricVersionManifest
             ObjectValidator<string>.IsNullOrWhiteSpace([installerVersion?.FabricInstallerVersion])
             || ObjectValidator<List<FabricInstaller>>.IsNullOrEmpty(fabricVersionManifest?.Installer)
         )
+        {
             return null;
+        }
 
         FabricInstaller? fabricInstaller = fabricVersionManifest!.Installer!.FirstOrDefault();
         foreach (FabricInstaller item in fabricVersionManifest!.Installer!)
@@ -155,7 +157,9 @@ public class FabricVersionHelper : IModLoaderVersionHelper<FabricVersionManifest
             ObjectValidator<string>.IsNullOrWhiteSpace([loaderVersion?.FabricLoaderVersion])
             || ObjectValidator<List<FabricLoader>>.IsNullOrEmpty(fabricVersionManifest?.Loader)
         )
+        {
             return null;
+        }
 
         FabricLoader? fabricLoader = fabricVersionManifest!.Loader!.FirstOrDefault();
         foreach (FabricLoader item in fabricVersionManifest!.Loader!)

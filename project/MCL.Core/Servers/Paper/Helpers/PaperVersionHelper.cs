@@ -39,7 +39,9 @@ public static class PaperVersionHelper
             || ObjectValidator<LauncherInstance>.IsNull(settings.LauncherInstance)
             || ObjectValidator<LauncherVersion>.IsNull(settings.LauncherVersion)
         )
+        {
             return false;
+        }
 
         return settings.LauncherInstance!.PaperServerVersions.Contains(settings.LauncherVersion!.PaperServerVersion);
     }
@@ -107,7 +109,9 @@ public static class PaperVersionHelper
             ObjectValidator<string>.IsNullOrWhiteSpace([paperServerVersion?.PaperServerVersion])
             || ObjectValidator<List<PaperBuild>>.IsNullOrEmpty(paperVersionManifest?.Builds)
         )
+        {
             return null;
+        }
 
         PaperBuild? paperBuild = paperVersionManifest!.Builds!.LastOrDefault();
         foreach (PaperBuild item in paperVersionManifest!.Builds!)

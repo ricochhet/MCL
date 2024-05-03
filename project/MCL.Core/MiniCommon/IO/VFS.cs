@@ -24,12 +24,11 @@ using MCL.Core.MiniCommon.IO.Interfaces;
 
 namespace MCL.Core.MiniCommon.IO;
 
-#pragma warning disable IDE0079
 #pragma warning disable S101
 public class VFS : IFileSystem
-#pragma warning restore IDE0079, S101
+#pragma warning restore S101
 {
-    public static ValidatedFileSystem FileSystem { get; private set; } = new();
+    public static ValidatedFileSystem FileSystem { get; } = new();
 
     /// <inheritdoc />
     public static string Combine(string path1, string path2)
@@ -61,7 +60,6 @@ public class VFS : IFileSystem
         return FileSystem.Combine(FileSystem.Cwd, filepath);
     }
 
-#pragma warning disable IDE0079
 #pragma warning disable S2234
     /// <inheritdoc />
     public static string FromCwd(string path1, string path2)
@@ -74,7 +72,7 @@ public class VFS : IFileSystem
     {
         return FileSystem.Combine(FileSystem.Cwd, path1, path2, path3);
     }
-#pragma warning restore IDE0079, S2234
+#pragma warning restore S2234
 
     /// <inheritdoc />
     public static string FromCwd(params string[] paths)

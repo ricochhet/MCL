@@ -72,4 +72,4 @@ public class MVersionDetails
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(MVersionDetails))]
 [JsonSerializable(typeof(JsonElement))]
-internal partial class MVersionDetailsContext : JsonSerializerContext { }
+internal partial class MVersionDetailsContext : JsonSerializerContext;

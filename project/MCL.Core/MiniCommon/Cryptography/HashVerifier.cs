@@ -67,6 +67,7 @@ public static class HashVerifier
         foreach ((string key, string value) in hashes)
         {
             if (!VFS.Exists(key))
+            {
                 hashVerifiedFiles.Add(
                     new()
                     {
@@ -76,9 +77,11 @@ public static class HashVerifier
                         Verified = false
                     }
                 );
+            }
 
             string currentHash = ComputeHash(hashType, key);
             if (value != currentHash)
+            {
                 hashVerifiedFiles.Add(
                     new()
                     {
@@ -88,8 +91,10 @@ public static class HashVerifier
                         Verified = false
                     }
                 );
+            }
 
             if (value == currentHash)
+            {
                 hashVerifiedFiles.Add(
                     new()
                     {
@@ -99,6 +104,7 @@ public static class HashVerifier
                         Verified = true
                     }
                 );
+            }
         }
 
         return hashVerifiedFiles;

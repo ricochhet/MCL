@@ -47,4 +47,4 @@ public class JvmArguments
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(JvmArguments))]
-internal partial class JvmArgumentsContext : JsonSerializerContext { }
+internal partial class JvmArgumentsContext : JsonSerializerContext;

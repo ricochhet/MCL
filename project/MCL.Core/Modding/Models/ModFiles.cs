@@ -28,4 +28,4 @@ public class ModFiles
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(ModFiles))]
-internal partial class ModFilesContext : JsonSerializerContext { }
+internal partial class ModFilesContext : JsonSerializerContext;

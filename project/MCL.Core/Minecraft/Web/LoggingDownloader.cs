@@ -41,7 +41,9 @@ public static class LoggingDownloader
                 ]
             )
         )
+        {
             return false;
+        }
 
         return await Request.DownloadSHA1(
             versionDetails!.Logging!.Client!.File!.URL,

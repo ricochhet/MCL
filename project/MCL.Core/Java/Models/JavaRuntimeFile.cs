@@ -34,4 +34,4 @@ public class JavaRuntimeFile(JavaRuntimeFileDownloads downloads, bool executable
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(JavaRuntimeFile))]
-internal partial class JavaRuntimeFileContext : JsonSerializerContext { }
+internal partial class JavaRuntimeFileContext : JsonSerializerContext;

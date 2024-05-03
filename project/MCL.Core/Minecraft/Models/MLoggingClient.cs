@@ -34,4 +34,4 @@ public class MLoggingClient(string argument, MLoggingFile file, string type)
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(MLoggingClient))]
-internal partial class MLoggingClientContext : JsonSerializerContext { }
+internal partial class MLoggingClientContext : JsonSerializerContext;

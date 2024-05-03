@@ -33,7 +33,6 @@ namespace MCL.Core.ModLoaders.Quilt.Web;
 
 public class QuiltLoaderDownloader : IModLoaderLoaderDownloader<QuiltProfile, QuiltUrls>
 {
-#pragma warning disable IDE0079
 #pragma warning disable S3776
     /// <inheritdoc />
     public static async Task<bool> Download(
@@ -43,14 +42,16 @@ public class QuiltLoaderDownloader : IModLoaderLoaderDownloader<QuiltProfile, Qu
         QuiltProfile? quiltProfile,
         QuiltUrls? quiltUrls
     )
-#pragma warning restore IDE0079, S3776
+#pragma warning restore S3776
     {
         if (
             ObjectValidator<string>.IsNullOrWhiteSpace(
                 [launcherVersion?.QuiltLoaderVersion, quiltUrls?.ApiLoaderName, quiltUrls?.ApiIntermediaryName]
             ) || ObjectValidator<List<QuiltLibrary>>.IsNullOrEmpty(quiltProfile?.Libraries)
         )
+        {
             return false;
+        }
 
         LauncherLoader loader = new() { Version = launcherVersion!.QuiltLoaderVersion };
 

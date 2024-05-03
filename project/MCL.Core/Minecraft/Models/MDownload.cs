@@ -34,4 +34,4 @@ public class MDownload(string sha1, int size, string url)
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(MDownload))]
-internal partial class MDownloadContext : JsonSerializerContext { }
+internal partial class MDownloadContext : JsonSerializerContext;

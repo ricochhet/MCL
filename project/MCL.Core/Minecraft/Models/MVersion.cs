@@ -40,4 +40,4 @@ public class MVersion(string id, string type, string url, string time, string re
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(MVersion))]
-internal partial class MVersionContext : JsonSerializerContext { }
+internal partial class MVersionContext : JsonSerializerContext;

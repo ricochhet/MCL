@@ -32,4 +32,4 @@ public class MArgument(List<object> game, List<object> jvm)
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(MArgument))]
-internal partial class MArgumentContext : JsonSerializerContext { }
+internal partial class MArgumentContext : JsonSerializerContext;

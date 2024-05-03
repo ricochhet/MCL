@@ -34,4 +34,4 @@ public class MClassifiers(MArtifact nativesLinux, MArtifact nativesMacos, MArtif
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(MClassifiers))]
-internal partial class MClassifiersContext : JsonSerializerContext { }
+internal partial class MClassifiersContext : JsonSerializerContext;

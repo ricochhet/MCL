@@ -48,11 +48,13 @@ public static class LocalizationProvider
         }
 
         if (!VFS.Exists(LocalizationPathResolver.LanguageFilePath(filepath, language)) || alwaysSaveNewTranslation)
+        {
             Json.Save(
                 LocalizationPathResolver.LanguageFilePath(filepath, language),
                 new Localization(),
                 LocalizationContext.Default
             );
+        }
         Localization? local = Json.Load<Localization>(
             LocalizationPathResolver.LanguageFilePath(filepath, language),
             LocalizationContext.Default
@@ -92,7 +94,7 @@ public static class LocalizationProvider
             return LocalizationServiceError(id, _params);
         if (Localization?.Entries.TryGetValue(id, out string? value) ?? false)
         {
-            if (_params.Length <= 0)
+            if (_params.Length == 0)
                 return value;
             return string.Format(value, _params);
         }

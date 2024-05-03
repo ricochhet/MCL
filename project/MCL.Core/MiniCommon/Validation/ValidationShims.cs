@@ -68,10 +68,9 @@ public static class ValidationShims
     /// <summary>
     /// Coalescing operator shim for empty dictionary to log when it gets called.
     /// </summary>
-#pragma warning disable IDE0079
 #pragma warning disable S4144
     public static Dictionary<TKey, TValue> DictionaryEmpty<TKey, TValue>(
-#pragma warning restore IDE0079, S4144
+#pragma warning restore S4144
         NativeLogLevel level = NativeLogLevel.Debug,
         [CallerMemberName] string memberName = "",
         [CallerFilePath] string sourceFilePath = "",

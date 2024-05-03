@@ -37,4 +37,4 @@ public class FabricInstaller(string url, string maven, string version, bool stab
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(FabricInstaller))]
-internal partial class FabricInstallerContext : JsonSerializerContext { }
+internal partial class FabricInstallerContext : JsonSerializerContext;

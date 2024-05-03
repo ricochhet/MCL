@@ -23,7 +23,7 @@ namespace MCL.Core.MiniCommon.CommandParser.Helpers;
 
 public static class CommandHelper
 {
-    public static List<Command> Commands { get; private set; } = [];
+    public static List<Command> Commands { get; } = [];
 
     public static void Add(Command command)
     {

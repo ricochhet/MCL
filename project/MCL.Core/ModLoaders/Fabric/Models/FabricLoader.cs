@@ -40,4 +40,4 @@ public class FabricLoader(string separator, int build, string maven, string vers
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(FabricLoader))]
-internal partial class FabricLoaderContext : JsonSerializerContext { }
+internal partial class FabricLoaderContext : JsonSerializerContext;

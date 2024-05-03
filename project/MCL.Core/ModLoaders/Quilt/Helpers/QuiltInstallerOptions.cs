@@ -43,7 +43,9 @@ public class QuiltInstallerOptions : IModLoaderInstallerOptions<QuiltInstallerTy
                 ]
             )
         )
+        {
             return null;
+        }
 
         return
         [

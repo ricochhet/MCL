@@ -34,4 +34,4 @@ public class MLibraryNatives(string windows, string osx, string linux)
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(MLibraryNatives))]
-internal partial class MLibraryNativesContext : JsonSerializerContext { }
+internal partial class MLibraryNativesContext : JsonSerializerContext;

@@ -41,7 +41,9 @@ public class FabricProfileDownloader : IModLoaderProfileDownloader<FabricUrls>
                 [launcherVersion?.MVersion, launcherVersion?.FabricLoaderVersion, fabricUrls?.LoaderProfile]
             )
         )
+        {
             return false;
+        }
 
         string? fabricProfile = await Request.GetJsonAsync<FabricProfile>(
             FabricPathResolver.LoaderProfilePath(fabricUrls, launcherVersion),

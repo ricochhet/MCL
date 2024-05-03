@@ -28,4 +28,4 @@ public class LauncherMemory
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(LauncherMemory))]
-internal partial class LauncherMemoryContext : JsonSerializerContext { }
+internal partial class LauncherMemoryContext : JsonSerializerContext;

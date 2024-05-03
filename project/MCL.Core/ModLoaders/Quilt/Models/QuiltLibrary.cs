@@ -39,7 +39,7 @@ public class QuiltLibrary(string name, string url)
     public static string ParsePath(string name)
     {
         string[] parts = name.Split(":", 3);
-        char separator = '/';
+        const char separator = '/';
         string path =
             parts[0].Replace('.', separator)
             + separator
@@ -57,4 +57,4 @@ public class QuiltLibrary(string name, string url)
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(QuiltLibrary))]
-internal partial class QuiltLibraryContext : JsonSerializerContext { }
+internal partial class QuiltLibraryContext : JsonSerializerContext;

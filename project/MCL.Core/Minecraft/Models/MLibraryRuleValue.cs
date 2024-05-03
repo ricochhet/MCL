@@ -28,4 +28,4 @@ public class MLibraryRuleValue(string name)
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(MLibraryRuleValue))]
-internal partial class MLibraryRuleValueContext : JsonSerializerContext { }
+internal partial class MLibraryRuleValueContext : JsonSerializerContext;

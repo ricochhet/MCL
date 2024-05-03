@@ -27,8 +27,7 @@ using MCL.Core.MiniCommon.Validation.Models;
 
 namespace MCL.Core.MiniCommon.Validation;
 
-#pragma warning disable IDE0079
-#pragma warning disable S107
+#pragma warning disable RCS1163, RCS1158, S107
 
 public class ObjectValidator<T>
     where T : class
@@ -68,7 +67,9 @@ public class ObjectValidator<T>
     {
         List<string> _errors = _rules.Where(rule => !rule.Rule(obj)).Select(rule => rule.ErrorMessage).ToList();
         if (level == NativeLogLevel.Fatal && _errors.Count > 0)
+        {
             throw new ObjectValidationException(string.Join(", ", _errors));
+        }
         else
         {
             foreach (string error in _errors)
@@ -104,6 +105,7 @@ public class ObjectValidator<T>
         ObjectValidator<T> validator = new();
 
         foreach (string? property in properties ?? [.. ValidationShims.ListEmpty<string>()])
+        {
             validator.AddRule(
                 a => !string.IsNullOrWhiteSpace(property),
                 LocalizationProvider.FormatTranslate(
@@ -114,6 +116,7 @@ public class ObjectValidator<T>
                     sourceLineNumber.ToString()
                 )
             );
+        }
 
         return !validator.Validate(default, level);
     }
@@ -172,9 +175,9 @@ public class ObjectValidator<T>
             sourceFilePath,
             sourceLineNumber.ToString()
         );
-        validator.AddRule(a => obj != null && obj.Count > 0, message);
+        validator.AddRule(a => obj?.Count > 0, message);
         foreach (List<T1> property in properties ?? [.. ValidationShims.ListEmpty<List<T1>>()])
-            validator.AddRule(a => property != null && property.Count > 0, message);
+            validator.AddRule(a => property?.Count > 0, message);
 
         return !validator.Validate(obj, level);
     }
@@ -204,9 +207,9 @@ public class ObjectValidator<T>
             sourceFilePath,
             sourceLineNumber.ToString()
         );
-        validator.AddRule(a => obj != null && obj.Count > 0, message);
+        validator.AddRule(a => obj?.Count > 0, message);
         foreach (Dictionary<T1, T2> property in properties ?? [.. ValidationShims.ListEmpty<Dictionary<T1, T2>>()])
-            validator.AddRule(a => property != null && property.Count > 0, message);
+            validator.AddRule(a => property?.Count > 0, message);
 
         return !validator.Validate(obj, level);
     }

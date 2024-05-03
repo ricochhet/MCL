@@ -31,4 +31,4 @@ public class JavaRuntimeAvailability(int group, int progress)
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(JavaRuntimeAvailability))]
-internal partial class JavaRuntimeAvailabilityContext : JsonSerializerContext { }
+internal partial class JavaRuntimeAvailabilityContext : JsonSerializerContext;

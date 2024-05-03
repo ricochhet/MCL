@@ -38,4 +38,4 @@ public class ModSettings
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(ModSettings))]
-internal partial class ModSettingsContext : JsonSerializerContext { }
+internal partial class ModSettingsContext : JsonSerializerContext;

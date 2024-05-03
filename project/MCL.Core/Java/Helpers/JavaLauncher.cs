@@ -46,7 +46,9 @@ public static class JavaLauncher
             || ObjectValidator<string>.IsNullOrWhiteSpace([workingDirectory])
             || ObjectValidator<JvmArguments>.IsNull(jvmArguments)
         )
+        {
             return;
+        }
         if (!VFS.Exists(workingDirectory))
             return;
         string _javaHome = javaHome;

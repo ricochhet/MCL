@@ -37,7 +37,7 @@ internal static class Program
         Log.Add(new FileStreamLogger(SettingsProvider.LogFilePath));
         await ServiceManager.Init();
 
-        if (args.Length <= 0)
+        if (args.Length == 0)
         {
             MLaunchProvider.Launch(SettingsProvider.SimpleMLaunchFilePath, ServiceManager.Settings);
             return;

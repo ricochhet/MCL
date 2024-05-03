@@ -47,13 +47,11 @@ public interface IJson
     /// <summary>
     /// Serialize data of type T, and save to a file.
     /// </summary>
-
     public static abstract void Save<T>(string filepath, T data, JsonSerializerOptions options);
 
     /// <summary>
     /// Serialize data of type T, and save to a file.
     /// </summary>
-
     public static abstract void Save<T>(string filepath, T data, JsonSerializerContext ctx);
 
     /// <summary>

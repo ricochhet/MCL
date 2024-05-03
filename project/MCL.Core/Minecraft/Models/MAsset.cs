@@ -31,4 +31,4 @@ public class MAsset(string hash, int size)
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(MAsset))]
-internal partial class MAssetContext : JsonSerializerContext { }
+internal partial class MAssetContext : JsonSerializerContext;

@@ -72,7 +72,9 @@ public class BaseCommandLine : IBaseCommandLine
             if (index != -1)
             {
                 if (args.Length <= index + 1)
+                {
                     action([]);
+                }
                 else if (index + 1 < args.Length && !args[index + 1].StartsWith(Prefix))
                 {
                     Dictionary<string, string> options = args[index + 1].ParseKeyValuePairs();
@@ -81,9 +83,13 @@ public class BaseCommandLine : IBaseCommandLine
                             .Parameters.Where(a => !a.Optional)
                             .All(a => options.ContainsKey(a?.Name ?? ValidationShims.StringEmpty()))
                     )
+                    {
                         action(options);
+                    }
                     else
+                    {
                         NotificationProvider.Error("commandline.error", command.Usage());
+                    }
                 }
             }
         }
@@ -137,7 +143,9 @@ public class BaseCommandLine : IBaseCommandLine
             if (index != -1)
             {
                 if (args.Length <= index + 1)
+                {
                     await action([]);
+                }
                 else if (index + 1 < args.Length && !args[index + 1].StartsWith(Prefix))
                 {
                     Dictionary<string, string> options = args[index + 1].ParseKeyValuePairs();
@@ -146,9 +154,13 @@ public class BaseCommandLine : IBaseCommandLine
                             .Parameters.Where(a => !a.Optional)
                             .All(a => options.ContainsKey(a?.Name ?? ValidationShims.StringEmpty()))
                     )
+                    {
                         await action(options);
+                    }
                     else
+                    {
                         NotificationProvider.Error("commandline.error", command.Usage());
+                    }
                 }
             }
         }
@@ -177,9 +189,8 @@ public class BaseCommandLine : IBaseCommandLine
     {
         NotificationProvider.Info("commandline.exit", "F");
 
-#pragma warning disable IDE0079
 #pragma warning disable S108
         while (Console.ReadKey(intercept: true).Key != ConsoleKey.F) { }
-#pragma warning restore IDE0079, S108
+#pragma warning restore S108
     }
 }

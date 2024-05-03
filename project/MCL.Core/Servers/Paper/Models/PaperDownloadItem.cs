@@ -31,4 +31,4 @@ public class PaperDownloadItem
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(PaperDownloadItem))]
-internal partial class PaperDownloadItemContext : JsonSerializerContext { }
+internal partial class PaperDownloadItemContext : JsonSerializerContext;

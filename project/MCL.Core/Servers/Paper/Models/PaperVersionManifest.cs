@@ -38,4 +38,4 @@ public class PaperVersionManifest
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(PaperVersionManifest))]
-internal partial class PaperVersionManifestContext : JsonSerializerContext { }
+internal partial class PaperVersionManifestContext : JsonSerializerContext;

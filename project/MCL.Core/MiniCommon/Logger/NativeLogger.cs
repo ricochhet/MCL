@@ -98,12 +98,16 @@ public partial class NativeLogger : ILogger
     private void UnhandledException(object sender, UnhandledExceptionEventArgs e)
     {
         if (e.ExceptionObject is Exception ex)
+        {
             NotificationProvider.Error("log.unhandled.exception", ex.ToString());
+        }
         else
+        {
             NotificationProvider.Error(
                 "log.unhandled.object",
                 e.ExceptionObject.ToString() ?? ValidationShims.StringEmpty()
             );
+        }
     }
 
     /// <summary>

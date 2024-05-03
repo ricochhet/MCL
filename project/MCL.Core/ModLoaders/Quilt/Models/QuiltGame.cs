@@ -31,4 +31,4 @@ public class QuiltGame(string version, bool stable)
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(QuiltGame))]
-internal partial class QuiltGameContext : JsonSerializerContext { }
+internal partial class QuiltGameContext : JsonSerializerContext;

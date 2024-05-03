@@ -43,7 +43,9 @@ public static class MLaunchProvider
             || ObjectValidator<LauncherVersion>.IsNull(settings?.LauncherVersion)
             || ObjectValidator<LauncherUsername>.IsNull(settings?.LauncherUsername)
         )
+        {
             return;
+        }
 
         Dictionary<string, string> options = CommandFileHelper.Commands(filePath);
 

@@ -37,7 +37,9 @@ public static class AssetIndexDownloader
                 [versionDetails?.AssetIndex?.SHA1, versionDetails?.AssetIndex?.URL, versionDetails?.Assets]
             )
         )
+        {
             return false;
+        }
 
         return await Request.DownloadSHA1(
             versionDetails!.AssetIndex!.URL,

@@ -243,7 +243,10 @@ public class BaseRequest : IBaseHttpRequest
             return true;
         }
         else if (!await Download(request, filepath))
+        {
             return false;
+        }
+
         return true;
     }
 
@@ -257,7 +260,10 @@ public class BaseRequest : IBaseHttpRequest
             return true;
         }
         else if (!await Download(request, filepath))
+        {
             return false;
+        }
+
         return true;
     }
 
@@ -283,8 +289,8 @@ public class BaseRequest : IBaseHttpRequest
                     VFS.CreateDirectory(VFS.GetDirectoryName(filepath));
 
                 RequestDataProvider.Add(request, filepath, 0, string.Empty, sw.Elapsed);
-                using Stream contentStream = await response.Content.ReadAsStreamAsync();
-                using FileStream fileStream = new(filepath, FileMode.Create, FileAccess.Write, FileShare.None);
+                await using Stream contentStream = await response.Content.ReadAsStreamAsync();
+                await using FileStream fileStream = new(filepath, FileMode.Create, FileAccess.Write, FileShare.None);
                 await contentStream.CopyToAsync(fileStream);
                 return true;
             }

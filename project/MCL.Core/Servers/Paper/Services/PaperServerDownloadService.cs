@@ -78,7 +78,10 @@ public class PaperServerDownloadService
             ObjectValidator<List<string>>.IsNull(_launcherInstance?.PaperServerVersions)
             || ObjectValidator<LauncherVersion>.IsNull(_launcherVersion)
         )
+        {
             return false;
+        }
+
         List<string> existingVersions = [];
 
         foreach (string version in _launcherInstance!.PaperServerVersions!)

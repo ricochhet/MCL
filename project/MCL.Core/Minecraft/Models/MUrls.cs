@@ -33,4 +33,4 @@ public class MUrls
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(MUrls))]
-internal partial class MUrlsContext : JsonSerializerContext { }
+internal partial class MUrlsContext : JsonSerializerContext;

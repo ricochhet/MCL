@@ -33,7 +33,6 @@ namespace MCL.Core.ModLoaders.Fabric.Web;
 
 public class FabricLoaderDownloader : IModLoaderLoaderDownloader<FabricProfile, FabricUrls>
 {
-#pragma warning disable IDE0079
 #pragma warning disable S3776
     /// <inheritdoc />
     public static async Task<bool> Download(
@@ -43,14 +42,16 @@ public class FabricLoaderDownloader : IModLoaderLoaderDownloader<FabricProfile, 
         FabricProfile? fabricProfile,
         FabricUrls? fabricUrls
     )
-#pragma warning restore IDE0079, S3776
+#pragma warning restore S3776
     {
         if (
             ObjectValidator<string>.IsNullOrWhiteSpace(
                 [launcherVersion?.FabricLoaderVersion, fabricUrls?.ApiLoaderName, fabricUrls?.ApiIntermediaryName]
             ) || ObjectValidator<List<FabricLibrary>>.IsNullOrEmpty(fabricProfile?.Libraries)
         )
+        {
             return false;
+        }
 
         LauncherLoader loader = new() { Version = launcherVersion!.FabricLoaderVersion };
 

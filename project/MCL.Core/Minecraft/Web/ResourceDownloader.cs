@@ -38,7 +38,9 @@ public static class ResourceDownloader
             ObjectValidator<string>.IsNullOrWhiteSpace([mUrls?.MinecraftResources])
             || ObjectValidator<Dictionary<string, MAsset>>.IsNullOrEmpty(assets?.Objects)
         )
+        {
             return false;
+        }
 
         string objectsPath = VFS.Combine(MPathResolver.AssetsPath(launcherPath), "objects");
         foreach ((_, MAsset asset) in assets!.Objects!)

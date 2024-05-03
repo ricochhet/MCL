@@ -31,4 +31,4 @@ public class FabricGame(string version, bool stable)
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(FabricGame))]
-internal partial class FabricGameContext : JsonSerializerContext { }
+internal partial class FabricGameContext : JsonSerializerContext;

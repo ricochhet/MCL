@@ -61,4 +61,4 @@ public class LauncherSettings
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(LauncherSettings))]
-internal partial class LauncherSettingsContext : JsonSerializerContext { }
+internal partial class LauncherSettingsContext : JsonSerializerContext;

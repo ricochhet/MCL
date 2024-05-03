@@ -22,6 +22,7 @@ namespace MCL.Core.MiniCommon.Logger.Enums;
 
 public enum NativeLogLevel
 {
+#pragma warning disable RCS1154
     Benchmark = ConsoleColor.Gray,
     Debug = ConsoleColor.DarkGreen,
     Warn = ConsoleColor.DarkYellow,
@@ -29,4 +30,5 @@ public enum NativeLogLevel
     Info = ConsoleColor.DarkCyan,
     Native = ConsoleColor.Magenta,
     Fatal = ConsoleColor.Red
+#pragma warning restore RCS1154
 }

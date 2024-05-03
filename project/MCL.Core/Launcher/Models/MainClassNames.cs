@@ -29,4 +29,4 @@ public class MainClassNames
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(MainClassNames))]
-internal partial class MainClassNamesContext : JsonSerializerContext { }
+internal partial class MainClassNamesContext : JsonSerializerContext;

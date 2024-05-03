@@ -27,7 +27,7 @@ namespace MCL.Core.MiniCommon.CommandParser;
 
 public class CommandLine : ICommandLine
 {
-    public static BaseCommandLine BaseCommandLine { get; private set; } = new();
+    public static BaseCommandLine BaseCommandLine { get; } = new();
 
     /// <inheritdoc />
     public static void ProcessArgument<T>(string[] args, Command command, Func<string, T?> converter, Action<T?> action)

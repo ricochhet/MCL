@@ -30,4 +30,4 @@ public class SevenZipSettings
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(SevenZipSettings))]
-internal partial class SevenZipSettingsContext : JsonSerializerContext { }
+internal partial class SevenZipSettingsContext : JsonSerializerContext;

@@ -37,4 +37,4 @@ public class QuiltLoader(string separator, int build, string maven, string versi
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(QuiltLoader))]
-internal partial class QuiltLoaderContext : JsonSerializerContext { }
+internal partial class QuiltLoaderContext : JsonSerializerContext;

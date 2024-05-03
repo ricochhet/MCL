@@ -35,4 +35,4 @@ public class FabricUrls
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(FabricUrls))]
-internal partial class FabricUrlsContext : JsonSerializerContext { }
+internal partial class FabricUrlsContext : JsonSerializerContext;

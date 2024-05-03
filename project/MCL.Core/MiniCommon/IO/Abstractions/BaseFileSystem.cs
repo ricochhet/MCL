@@ -60,7 +60,6 @@ public abstract class BaseFileSystem : IBaseFileSystem
         return Combine(Cwd, filepath);
     }
 
-#pragma warning disable IDE0079
 #pragma warning disable S2234
     /// <inheritdoc />
     public virtual string FromCwd(string path1, string path2)
@@ -73,7 +72,7 @@ public abstract class BaseFileSystem : IBaseFileSystem
     {
         return Combine(Cwd, path1, path2, path3);
     }
-#pragma warning restore IDE0079, S2234
+#pragma warning restore S2234
 
     /// <inheritdoc />
     public virtual string FromCwd(params string[] paths)

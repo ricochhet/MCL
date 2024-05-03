@@ -33,4 +33,4 @@ public class LauncherInstance
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(LauncherInstance))]
-internal partial class LauncherInstanceContext : JsonSerializerContext { }
+internal partial class LauncherInstanceContext : JsonSerializerContext;

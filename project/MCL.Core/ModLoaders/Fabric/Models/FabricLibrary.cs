@@ -54,7 +54,7 @@ public class FabricLibrary(string name, string url, string md5, string sha1, str
     public static string ParsePath(string name)
     {
         string[] parts = name.Split(":", 3);
-        char separator = '/';
+        const char separator = '/';
         string path =
             parts[0].Replace('.', separator)
             + separator
@@ -72,4 +72,4 @@ public class FabricLibrary(string name, string url, string md5, string sha1, str
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(FabricLibrary))]
-internal partial class FabricLibraryContext : JsonSerializerContext { }
+internal partial class FabricLibraryContext : JsonSerializerContext;

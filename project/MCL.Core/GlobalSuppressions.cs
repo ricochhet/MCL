@@ -9,3 +9,9 @@
     "S1192",
     Justification = "Occurs commonly when specifying localization keys."
 )]
+
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage(
+    "CodeAnalysis",
+    "IDE0079",
+    Justification = "Non-native code analysis is improperly detected."
+)]

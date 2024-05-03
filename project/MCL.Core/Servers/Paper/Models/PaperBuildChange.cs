@@ -34,4 +34,4 @@ public class PaperBuildChange
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(PaperBuildChange))]
-internal partial class PaperBuildChangeContext : JsonSerializerContext { }
+internal partial class PaperBuildChangeContext : JsonSerializerContext;

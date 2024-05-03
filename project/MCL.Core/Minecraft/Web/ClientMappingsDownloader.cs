@@ -41,7 +41,9 @@ public static class ClientMappingsDownloader
                 ]
             )
         )
+        {
             return false;
+        }
 
         return await Request.DownloadSHA1(
             versionDetails!.Downloads!.ClientMappings!.URL,

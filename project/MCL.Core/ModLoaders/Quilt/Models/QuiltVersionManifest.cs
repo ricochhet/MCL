@@ -43,4 +43,4 @@ public class QuiltVersionManifest
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(QuiltVersionManifest))]
-internal partial class QuiltVersionManifestContext : JsonSerializerContext { }
+internal partial class QuiltVersionManifestContext : JsonSerializerContext;

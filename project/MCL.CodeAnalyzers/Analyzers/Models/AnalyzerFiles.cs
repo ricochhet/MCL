@@ -22,6 +22,5 @@ namespace MCL.CodeAnalyzers.Analyzers.Models;
 
 public static class AnalyzerFiles
 {
-    public static List<string> Restricted { get; private set; } =
-        ["AssemblyInfo", "AssemblyAttributes", "GlobalSuppressions"];
+    public static List<string> Restricted { get; } = ["AssemblyInfo", "AssemblyAttributes", "GlobalSuppressions"];
 }

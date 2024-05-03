@@ -42,7 +42,9 @@ public class FabricInstallerDownloader : IModLoaderInstallerDownloader<FabricIns
                 [launcherVersion?.FabricInstallerVersion, fabricInstaller?.URL, fabricInstaller?.Version]
             )
         )
+        {
             return false;
+        }
 
         string fabricInstallerPath = FabricPathResolver.InstallerPath(launcherPath, launcherVersion);
         // Fabric does not provide a file hash through the current method. We do simple check of the version instead.

@@ -31,4 +31,4 @@ public class MAssetsData
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(MAssetsData))]
-internal partial class MAssetsDataContext : JsonSerializerContext { }
+internal partial class MAssetsDataContext : JsonSerializerContext;

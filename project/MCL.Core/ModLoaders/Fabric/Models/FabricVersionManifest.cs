@@ -43,4 +43,4 @@ public class FabricVersionManifest
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(FabricVersionManifest))]
-internal partial class FabricVersionManifestContext : JsonSerializerContext { }
+internal partial class FabricVersionManifestContext : JsonSerializerContext;

@@ -69,4 +69,4 @@ public class LauncherVersion
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(LauncherVersion))]
-internal partial class LauncherVersionContext : JsonSerializerContext { }
+internal partial class LauncherVersionContext : JsonSerializerContext;

@@ -31,4 +31,4 @@ public class JavaVersionDetails
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(JavaVersionDetails))]
-internal partial class JavaVersionDetailsContext : JsonSerializerContext { }
+internal partial class JavaVersionDetailsContext : JsonSerializerContext;

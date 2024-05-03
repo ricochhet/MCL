@@ -59,7 +59,6 @@ public class MDownloadService
         _mUrls = mUrls;
     }
 
-#pragma warning disable IDE0079
 #pragma warning disable S3776
     /// <summary>
     /// Download all parts of the game.
@@ -69,7 +68,7 @@ public class MDownloadService
         bool loadLocalVersionDetails = false,
         bool loadLocalAssetIndex = false
     )
-#pragma warning restore IDE0079, S3776
+#pragma warning restore S3776
     {
         if (!loadLocalVersionManifest && !await DownloadVersionManifest())
             return false;

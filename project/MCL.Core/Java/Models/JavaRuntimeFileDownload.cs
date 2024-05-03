@@ -34,4 +34,4 @@ public class JavaRuntimeFileDownload(string sha1, int size, string url)
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(JavaRuntimeFileDownload))]
-internal partial class JavaRuntimeFileDownloadContext : JsonSerializerContext { }
+internal partial class JavaRuntimeFileDownloadContext : JsonSerializerContext;

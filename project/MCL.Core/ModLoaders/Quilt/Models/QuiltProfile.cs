@@ -55,4 +55,4 @@ public class QuiltProfile
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(QuiltProfile))]
 [JsonSerializable(typeof(JsonElement))]
-internal partial class QuiltProfileContext : JsonSerializerContext { }
+internal partial class QuiltProfileContext : JsonSerializerContext;

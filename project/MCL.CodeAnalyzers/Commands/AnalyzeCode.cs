@@ -46,7 +46,6 @@ public class AnalyzeCode : IBaseCommand
                 );
 
                 LicenseAnalyzer.Analyze(files);
-                LineAnalyzer.Analyze(files);
                 NamespaceAnalyzer.Analyze(files);
                 LocalizationKeyAnalyzer.Analyze(
                     files,

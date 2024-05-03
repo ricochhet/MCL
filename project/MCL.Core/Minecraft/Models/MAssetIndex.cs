@@ -40,4 +40,4 @@ public class MAssetIndex(string id, string sha1, int size, int totalSize, string
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(MAssetIndex))]
-internal partial class MAssetIndexContext : JsonSerializerContext { }
+internal partial class MAssetIndexContext : JsonSerializerContext;

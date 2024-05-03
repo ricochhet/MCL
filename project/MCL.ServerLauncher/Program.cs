@@ -37,7 +37,7 @@ internal static class Program
         Log.Add(new FileStreamLogger(SettingsProvider.LogFilePath));
         await ServiceManager.Init();
 
-        if (args.Length <= 0)
+        if (args.Length == 0)
         {
             PaperLaunchProvider.Launch(SettingsProvider.SimplePaperLaunchFilePath, ServiceManager.Settings);
             return;

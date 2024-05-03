@@ -55,4 +55,4 @@ public class FabricProfile
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(FabricProfile))]
 [JsonSerializable(typeof(JsonElement))]
-internal partial class FabricProfileContext : JsonSerializerContext { }
+internal partial class FabricProfileContext : JsonSerializerContext;

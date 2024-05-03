@@ -25,7 +25,7 @@ namespace MCL.Core.MiniCommon.IO;
 
 public class Json : IJson
 {
-    public static BaseJson BaseJson { get; private set; } = new();
+    public static BaseJson BaseJson { get; } = new();
 
     /// <inheritdoc />
     public static string Serialize<T>(T data, JsonSerializerOptions options)

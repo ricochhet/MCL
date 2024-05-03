@@ -44,4 +44,4 @@ public class PaperBuild
 
 [JsonSourceGenerationOptions(WriteIndented = true)]
 [JsonSerializable(typeof(PaperBuild))]
-internal partial class PaperBuildContext : JsonSerializerContext { }
+internal partial class PaperBuildContext : JsonSerializerContext;

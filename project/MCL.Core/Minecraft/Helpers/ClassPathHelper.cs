@@ -44,7 +44,9 @@ public static class ClassPathHelper
             ObjectValidator<string>.IsNullOrWhiteSpace([launcherVersion?.MVersion])
             || ObjectValidator<LauncherInstance>.IsNull(launcherInstance)
         )
+        {
             return string.Empty;
+        }
 
         string separator = launcherSettings?.JavaRuntimePlatform switch
         {
