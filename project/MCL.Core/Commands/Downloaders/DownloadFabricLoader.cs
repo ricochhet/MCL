@@ -26,7 +26,7 @@ using MCL.Core.ModLoaders.Fabric.Wrappers;
 
 namespace MCL.Core.Commands.Downloaders;
 
-public class DownloadFabricLoader : ILauncherCommand
+public class DownloadFabricLoader : IBaseCommand
 {
     private static readonly LauncherVersion _launcherVersion = LauncherVersion.Latest();
 

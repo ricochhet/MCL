@@ -16,8 +16,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using System.Runtime.Serialization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using MCL.Core.BuildInfo;
 
 namespace MCL.Core.MiniCommon.IO;
 
@@ -28,6 +30,8 @@ public static class Json
     /// </summary>
     public static string Serialize<T>(T data, JsonSerializerOptions options)
     {
+        if (AotConstants.IsNativeAot)
+            throw new SerializationException();
 #pragma warning disable IL2026, IL3050
         return JsonSerializer.Serialize(data, options);
 #pragma warning restore IL2026, IL3050
@@ -46,6 +50,8 @@ public static class Json
     /// </summary>
     public static T? Deserialize<T>(string json, JsonSerializerOptions options)
     {
+        if (AotConstants.IsNativeAot)
+            throw new SerializationException();
 #pragma warning disable IL2026, IL3050
         return JsonSerializer.Deserialize<T>(json, options);
 #pragma warning restore IL2026, IL3050
@@ -66,6 +72,9 @@ public static class Json
 
     public static void Save<T>(string filepath, T data, JsonSerializerOptions options)
     {
+        if (AotConstants.IsNativeAot)
+            throw new SerializationException();
+
         if (!VFS.Exists(filepath))
             VFS.CreateDirectory(VFS.GetDirectoryName(filepath));
 
@@ -92,6 +101,9 @@ public static class Json
     public static T? Load<T>(string filepath, JsonSerializerOptions options)
         where T : new()
     {
+        if (AotConstants.IsNativeAot)
+            throw new SerializationException();
+
         if (!VFS.Exists(filepath))
             return default;
 

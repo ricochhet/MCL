@@ -24,14 +24,13 @@ using MCL.Core.MiniCommon.Validation;
 using MCL.Core.MiniCommon.Web;
 using MCL.Core.ModLoaders.Fabric.Models;
 using MCL.Core.ModLoaders.Fabric.Resolvers;
+using MCL.Core.ModLoaders.Interfaces.Web;
 
 namespace MCL.Core.ModLoaders.Fabric.Web;
 
-public static class FabricInstallerDownloader
+public class FabricInstallerDownloader : IModLoaderInstallerDownloader<FabricInstaller>
 {
-    /// <summary>
-    /// Download a Fabric installer specified by the FabricInstaller object.
-    /// </summary>
+    /// <inheritdoc />
     public static async Task<bool> Download(
         LauncherPath? launcherPath,
         LauncherVersion? launcherVersion,

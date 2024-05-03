@@ -27,10 +27,11 @@ using MCL.Core.ModLoaders.Fabric.Helpers;
 using MCL.Core.ModLoaders.Fabric.Models;
 using MCL.Core.ModLoaders.Fabric.Resolvers;
 using MCL.Core.ModLoaders.Fabric.Web;
+using MCL.Core.ModLoaders.Interfaces.Services;
 
 namespace MCL.Core.ModLoaders.Fabric.Services;
 
-public class FabricLoaderDownloadService
+public class FabricLoaderDownloadService : IModLoaderLoaderDownloadService
 {
     public FabricVersionManifest? FabricVersionManifest { get; private set; }
     public FabricProfile? FabricProfile { get; private set; }
@@ -57,9 +58,7 @@ public class FabricLoaderDownloadService
         _fabricUrls = fabricUrls;
     }
 
-    /// <summary>
-    /// Download all parts of the Fabric loader.
-    /// </summary>
+    /// <inheritdoc />
     public async Task<bool> Download(bool loadLocalVersionManifest = false, bool loadLocalVersionDetails = false)
     {
         if (!loadLocalVersionManifest && !await DownloadVersionManifest())
@@ -83,9 +82,7 @@ public class FabricLoaderDownloadService
         return true;
     }
 
-    /// <summary>
-    /// Download the Fabric version manifest.
-    /// </summary>
+    /// <inheritdoc />
     public async Task<bool> DownloadVersionManifest()
     {
         return await TimingDecorator.TimeAsync(async () =>
@@ -100,9 +97,7 @@ public class FabricLoaderDownloadService
         });
     }
 
-    /// <summary>
-    /// Load the Fabric version manifest from the download path.
-    /// </summary>
+    /// <inheritdoc />
     public bool LoadVersionManifest()
     {
         FabricVersionManifest = Json.Load<FabricVersionManifest>(
@@ -118,9 +113,7 @@ public class FabricLoaderDownloadService
         return true;
     }
 
-    /// <summary>
-    /// Load the Fabric version manifest from the download path, without logging errors if loading failed.
-    /// </summary>
+    /// <inheritdoc />
     public bool LoadVersionManifestWithoutLogging()
     {
         FabricVersionManifest = Json.Load<FabricVersionManifest>(
@@ -133,9 +126,7 @@ public class FabricLoaderDownloadService
         return true;
     }
 
-    /// <summary>
-    /// Exclusively download the Fabric profile.
-    /// </summary>
+    /// <inheritdoc />
     public async Task<bool> DownloadProfile()
     {
         return await TimingDecorator.TimeAsync(async () =>
@@ -150,9 +141,7 @@ public class FabricLoaderDownloadService
         });
     }
 
-    /// <summary>
-    /// Load the Fabric profile from the download path.
-    /// </summary>
+    /// <inheritdoc />
     public bool LoadProfile()
     {
         if (
@@ -175,9 +164,7 @@ public class FabricLoaderDownloadService
         return true;
     }
 
-    /// <summary>
-    /// Load the Fabric loader version specified by the FabricLoaderVersion from the FabricVersionManifest download path.
-    /// </summary>
+    /// <inheritdoc />
     public bool LoadLoaderVersion()
     {
         FabricLoader? fabricLoader = FabricVersionHelper.GetLoaderVersion(_launcherVersion, FabricVersionManifest);
@@ -194,9 +181,7 @@ public class FabricLoaderDownloadService
         return true;
     }
 
-    /// <summary>
-    /// Download the Fabric loader jar.
-    /// </summary>
+    /// <inheritdoc />
     public async Task<bool> DownloadLoader()
     {
         return await TimingDecorator.TimeAsync(async () =>

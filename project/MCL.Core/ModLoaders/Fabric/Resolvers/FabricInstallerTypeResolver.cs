@@ -18,14 +18,13 @@
 
 using System;
 using MCL.Core.ModLoaders.Fabric.Enums;
+using MCL.Core.ModLoaders.Interfaces.Resolvers;
 
 namespace MCL.Core.ModLoaders.Fabric.Resolvers;
 
-public static class FabricInstallerTypeResolver
+public class FabricInstallerTypeResolver : IModLoaderInstallerTypeResolver<FabricInstallerType>
 {
-    /// <summary>
-    /// Convert FabricInstallerType into installation option string.
-    /// </summary>
+    /// <inheritdoc />
     public static string ToString(FabricInstallerType type) =>
         type switch
         {

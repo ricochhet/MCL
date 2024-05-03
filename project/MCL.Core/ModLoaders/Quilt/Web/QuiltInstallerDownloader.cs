@@ -22,16 +22,15 @@ using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Providers;
 using MCL.Core.MiniCommon.Validation;
 using MCL.Core.MiniCommon.Web;
+using MCL.Core.ModLoaders.Interfaces.Web;
 using MCL.Core.ModLoaders.Quilt.Models;
 using MCL.Core.ModLoaders.Quilt.Resolvers;
 
 namespace MCL.Core.ModLoaders.Quilt.Web;
 
-public static class QuiltInstallerDownloader
+public class QuiltInstallerDownloader : IModLoaderInstallerDownloader<QuiltInstaller>
 {
-    /// <summary>
-    /// Download a Quilt installer specified by the QuiltInstaller object.
-    /// </summary>
+    /// <inheritdoc />
     public static async Task<bool> Download(
         LauncherPath? launcherPath,
         LauncherVersion? launcherVersion,

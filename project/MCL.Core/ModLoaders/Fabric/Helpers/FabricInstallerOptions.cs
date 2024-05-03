@@ -20,14 +20,13 @@ using MCL.Core.Launcher.Models;
 using MCL.Core.MiniCommon.Validation;
 using MCL.Core.ModLoaders.Fabric.Enums;
 using MCL.Core.ModLoaders.Fabric.Resolvers;
+using MCL.Core.ModLoaders.Interfaces.Helpers;
 
 namespace MCL.Core.ModLoaders.Fabric.Helpers;
 
-public static class FabricInstallerOptions
+public class FabricInstallerOptions : IModLoaderInstallerOptions<FabricInstallerType>
 {
-    /// <summary>
-    /// The default JvmArguments to run the Fabric installer.
-    /// </summary>
+    /// <inheritdoc />
     public static MOption[]? DefaultJvmArguments(
         LauncherPath? launcherPath,
         LauncherVersion? launcherVersion,

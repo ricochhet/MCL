@@ -21,16 +21,15 @@ using System.Threading.Tasks;
 using MCL.Core.Launcher.Models;
 using MCL.Core.MiniCommon.Validation;
 using MCL.Core.MiniCommon.Web;
+using MCL.Core.ModLoaders.Interfaces.Web;
 using MCL.Core.ModLoaders.Quilt.Models;
 using MCL.Core.ModLoaders.Quilt.Resolvers;
 
 namespace MCL.Core.ModLoaders.Quilt.Web;
 
-public static class QuiltProfileDownloader
+public class QuiltProfileDownloader : IModLoaderProfileDownloader<QuiltUrls>
 {
-    /// <summary>
-    /// Download a Quilt profile specified by the QuiltLoaderVersion.
-    /// </summary>
+    /// <inheritdoc />
     public static async Task<bool> Download(
         LauncherPath? launcherPath,
         LauncherVersion? launcherVersion,

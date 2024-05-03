@@ -16,23 +16,24 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using System.Threading.Tasks;
-using MCL.Core.Java.Wrappers;
-using MCL.Core.Launcher.Models;
-using MCL.Core.MiniCommon.CommandParser;
-using MCL.Core.MiniCommon.Interfaces;
-using MCL.Core.MiniCommon.Providers;
+using System.Diagnostics;
 
-namespace MCL.Core.Commands.Downloaders;
+namespace MCL.Core.BuildInfo;
 
-public class DownloadJava : IBaseCommand
+public static class AotConstants
 {
-    public async Task Init(string[] args, Settings? settings)
+#if NET8_0_OR_GREATER
+    public static bool IsNativeAot { get; }
+
+    static AotConstants()
     {
-        await CommandLine.ProcessArgumentAsync(
-            args,
-            new() { Name = "dl-java", Description = LocalizationProvider.Translate("command.download-java") },
-            async _ => await JavaDownloadWrapper.Download(settings)
-        );
+        StackTrace stackTrace = new(false);
+#pragma warning disable IL2026
+        IsNativeAot = stackTrace.GetFrame(0)?.GetMethod() is null;
+#pragma warning restore IL2026
     }
+#else
+    // This is a compile-time const so that the irrelevant code is removed during compilation.
+    public const bool IsNativeAot = false;
+#endif
 }

@@ -26,7 +26,7 @@ using MCL.Core.MiniCommon.Providers;
 
 namespace MCL.Core.Commands.Downloaders;
 
-public class DownloadMinecraft : ILauncherCommand
+public class DownloadMinecraft : IBaseCommand
 {
     private static readonly LauncherVersion _launcherVersion = LauncherVersion.Latest();
 

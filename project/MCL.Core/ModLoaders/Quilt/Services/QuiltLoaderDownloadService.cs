@@ -23,6 +23,7 @@ using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Logger.Enums;
 using MCL.Core.MiniCommon.Providers;
 using MCL.Core.MiniCommon.Validation;
+using MCL.Core.ModLoaders.Interfaces.Services;
 using MCL.Core.ModLoaders.Quilt.Helpers;
 using MCL.Core.ModLoaders.Quilt.Models;
 using MCL.Core.ModLoaders.Quilt.Resolvers;
@@ -30,7 +31,7 @@ using MCL.Core.ModLoaders.Quilt.Web;
 
 namespace MCL.Core.ModLoaders.Quilt.Services;
 
-public class QuiltLoaderDownloadService
+public class QuiltLoaderDownloadService : IModLoaderLoaderDownloadService
 {
     public QuiltVersionManifest? QuiltVersionManifest { get; private set; }
     public QuiltProfile? QuiltProfile { get; private set; }
@@ -57,9 +58,7 @@ public class QuiltLoaderDownloadService
         _quiltUrls = quiltUrls;
     }
 
-    /// <summary>
-    /// Download all parts of the Quilt loader.
-    /// </summary>
+    /// <inheritdoc />
     public async Task<bool> Download(bool loadLocalVersionManifest = false, bool loadLocalVersionDetails = false)
     {
         if (!loadLocalVersionManifest && !await DownloadVersionManifest())
@@ -83,9 +82,7 @@ public class QuiltLoaderDownloadService
         return true;
     }
 
-    /// <summary>
-    /// Download the Quilt version manifest.
-    /// </summary>
+    /// <inheritdoc />
     public async Task<bool> DownloadVersionManifest()
     {
         return await TimingDecorator.TimeAsync(async () =>
@@ -100,9 +97,7 @@ public class QuiltLoaderDownloadService
         });
     }
 
-    /// <summary>
-    /// Load the Quilt version manifest from the download path.
-    /// </summary>
+    /// <inheritdoc />
     public bool LoadVersionManifest()
     {
         QuiltVersionManifest = Json.Load<QuiltVersionManifest>(
@@ -118,9 +113,7 @@ public class QuiltLoaderDownloadService
         return true;
     }
 
-    /// <summary>
-    /// Load the Quilt version manifest from the download path, without logging errors if loading failed.
-    /// </summary>
+    /// <inheritdoc />
     public bool LoadVersionManifestWithoutLogging()
     {
         QuiltVersionManifest = Json.Load<QuiltVersionManifest>(
@@ -133,9 +126,7 @@ public class QuiltLoaderDownloadService
         return true;
     }
 
-    /// <summary>
-    /// Exclusively download the Quilt profile.
-    /// </summary>
+    /// <inheritdoc />
     public async Task<bool> DownloadProfile()
     {
         return await TimingDecorator.TimeAsync(async () =>
@@ -150,9 +141,7 @@ public class QuiltLoaderDownloadService
         });
     }
 
-    /// <summary>
-    /// Load the Quilt profile from the download path.
-    /// </summary>
+    /// <inheritdoc />
     public bool LoadProfile()
     {
         if (
@@ -175,9 +164,7 @@ public class QuiltLoaderDownloadService
         return true;
     }
 
-    /// <summary>
-    /// Load the Quilt loader version specified by the QuiltLoaderVersion from the QuiltVersionManifest download path.
-    /// </summary>
+    /// <inheritdoc />
     public bool LoadLoaderVersion()
     {
         QuiltLoader? quiltLoader = QuiltVersionHelper.GetLoaderVersion(_launcherVersion, QuiltVersionManifest);
@@ -194,9 +181,7 @@ public class QuiltLoaderDownloadService
         return true;
     }
 
-    /// <summary>
-    /// Download the Quilt loader jar.
-    /// </summary>
+    /// <inheritdoc />
     public async Task<bool> DownloadLoader()
     {
         return await TimingDecorator.TimeAsync(async () =>

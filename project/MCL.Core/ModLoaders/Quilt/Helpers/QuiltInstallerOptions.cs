@@ -18,16 +18,15 @@
 
 using MCL.Core.Launcher.Models;
 using MCL.Core.MiniCommon.Validation;
+using MCL.Core.ModLoaders.Interfaces.Helpers;
 using MCL.Core.ModLoaders.Quilt.Enums;
 using MCL.Core.ModLoaders.Quilt.Resolvers;
 
 namespace MCL.Core.ModLoaders.Quilt.Helpers;
 
-public static class QuiltInstallerOptions
+public class QuiltInstallerOptions : IModLoaderInstallerOptions<QuiltInstallerType>
 {
-    /// <summary>
-    /// The default JvmArguments to run the Quilt installer.
-    /// </summary>
+    /// <inheritdoc />
     public static MOption[]? DefaultJvmArguments(
         LauncherPath? launcherPath,
         LauncherVersion? launcherVersion,

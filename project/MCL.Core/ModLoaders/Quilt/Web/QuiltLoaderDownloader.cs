@@ -25,18 +25,17 @@ using MCL.Core.Minecraft.Resolvers;
 using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Validation;
 using MCL.Core.MiniCommon.Web;
+using MCL.Core.ModLoaders.Interfaces.Web;
 using MCL.Core.ModLoaders.Quilt.Models;
 using MCL.Core.ModLoaders.Quilt.Resolvers;
 
 namespace MCL.Core.ModLoaders.Quilt.Web;
 
-public static class QuiltLoaderDownloader
+public class QuiltLoaderDownloader : IModLoaderLoaderDownloader<QuiltProfile, QuiltUrls>
 {
 #pragma warning disable IDE0079
 #pragma warning disable S3776
-    /// <summary>
-    /// Download a Quilt loader specified by the QuiltProfile object.
-    /// </summary>
+    /// <inheritdoc />
     public static async Task<bool> Download(
         LauncherPath? launcherPath,
         LauncherVersion? launcherVersion,

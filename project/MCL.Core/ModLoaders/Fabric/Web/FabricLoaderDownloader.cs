@@ -27,16 +27,15 @@ using MCL.Core.MiniCommon.Validation;
 using MCL.Core.MiniCommon.Web;
 using MCL.Core.ModLoaders.Fabric.Models;
 using MCL.Core.ModLoaders.Fabric.Resolvers;
+using MCL.Core.ModLoaders.Interfaces.Web;
 
 namespace MCL.Core.ModLoaders.Fabric.Web;
 
-public static class FabricLoaderDownloader
+public class FabricLoaderDownloader : IModLoaderLoaderDownloader<FabricProfile, FabricUrls>
 {
 #pragma warning disable IDE0079
 #pragma warning disable S3776
-    /// <summary>
-    /// Download a Fabric loader specified by the FabricProfile object.
-    /// </summary>
+    /// <inheritdoc />
     public static async Task<bool> Download(
         LauncherPath? launcherPath,
         LauncherVersion? launcherVersion,

@@ -44,11 +44,11 @@ internal static class Program
         if (args.Length <= 0)
             return;
 
-        List<ILauncherCommand> commands = [];
+        List<IBaseCommand> commands = [];
         commands.Add(new AnalyzeCode());
         commands.Add(new Help());
 
-        foreach (ILauncherCommand command in commands)
+        foreach (IBaseCommand command in commands)
             await command.Init(args, ServiceManager.Settings);
     }
 }

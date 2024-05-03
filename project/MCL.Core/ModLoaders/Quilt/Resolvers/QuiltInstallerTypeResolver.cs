@@ -17,15 +17,14 @@
  */
 
 using System;
+using MCL.Core.ModLoaders.Interfaces.Resolvers;
 using MCL.Core.ModLoaders.Quilt.Enums;
 
 namespace MCL.Core.ModLoaders.Quilt.Resolvers;
 
-public static class QuiltInstallerTypeResolver
+public class QuiltInstallerTypeResolver : IModLoaderInstallerTypeResolver<QuiltInstallerType>
 {
-    /// <summary>
-    /// Convert QuiltInstallerType into installation option string.
-    /// </summary>
+    /// <inheritdoc />
     public static string ToString(QuiltInstallerType type) =>
         type switch
         {

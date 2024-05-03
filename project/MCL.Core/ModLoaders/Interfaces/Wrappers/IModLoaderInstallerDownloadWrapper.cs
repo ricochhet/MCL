@@ -19,9 +19,14 @@
 using System.Threading.Tasks;
 using MCL.Core.Launcher.Models;
 
-namespace MCL.Core.MiniCommon.Interfaces;
+namespace MCL.Core.ModLoaders.Interfaces.Wrappers;
 
-public interface ILauncherCommand
+public interface IModLoaderInstallerDownloadWrapper
 {
-    public abstract Task Init(string[] args, Settings? settings);
+    public static abstract Task<bool> DownloadAndRun(
+        Settings? settings,
+        LauncherVersion launcherVersion,
+        string javaPath,
+        bool update
+    );
 }

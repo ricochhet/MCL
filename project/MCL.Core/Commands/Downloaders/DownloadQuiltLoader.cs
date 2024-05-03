@@ -26,7 +26,7 @@ using MCL.Core.ModLoaders.Quilt.Wrappers;
 
 namespace MCL.Core.Commands.Downloaders;
 
-public class DownloadQuiltLoader : ILauncherCommand
+public class DownloadQuiltLoader : IBaseCommand
 {
     private static readonly LauncherVersion _launcherVersion = LauncherVersion.Latest();
 

@@ -29,7 +29,7 @@ using MCL.Core.Modding.Services;
 
 namespace MCL.Core.Commands.Modding;
 
-public class DeployMods : ILauncherCommand
+public class DeployMods : IBaseCommand
 {
     public Task Init(string[] args, Settings? settings)
     {

@@ -20,25 +20,20 @@ using MCL.Core.Launcher.Models;
 using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Validation;
 using MCL.Core.ModLoaders.Fabric.Models;
+using MCL.Core.ModLoaders.Interfaces.Resolvers;
 
 namespace MCL.Core.ModLoaders.Fabric.Resolvers;
 
-public static class FabricPathResolver
+public class FabricPathResolver : IModLoaderPathResolver<FabricUrls>
 {
-    /// <summary>
-    /// The Fabric mod path.
-    /// </summary>
+    /// <inheritdoc />
     public static string ModPath(LauncherPath launcherPath) => VFS.Combine(launcherPath.FabricPath, "mods");
 
-    /// <summary>
-    /// The Fabric mod version path specified by the MVersion.
-    /// </summary>
+    /// <inheritdoc />
     public static string ModVersionPath(LauncherPath launcherPath, LauncherVersion launcherVersion) =>
         VFS.Combine(ModPath(launcherPath), launcherVersion.MVersion);
 
-    /// <summary>
-    /// The Fabric installer jar path specified by the FabricInstallerVersion.
-    /// </summary>
+    /// <inheritdoc />
     public static string InstallerPath(LauncherPath? launcherPath, LauncherVersion? launcherVersion) =>
         VFS.Combine(
             launcherPath?.FabricPath ?? ValidationShims.StringEmpty(),
@@ -46,36 +41,26 @@ public static class FabricPathResolver
             $"fabric-installer-{launcherVersion?.FabricInstallerVersion}.jar"
         );
 
-    /// <summary>
-    /// The base installer path for Fabric installers.
-    /// </summary>
+    /// <inheritdoc />
     public static string InstallersPath(LauncherPath? launcherPath) =>
         VFS.Combine(launcherPath?.FabricPath ?? ValidationShims.StringEmpty(), "installers");
 
-    /// <summary>
-    /// The Fabric manifest path.
-    /// </summary>
+    /// <inheritdoc />
     public static string VersionManifestPath(LauncherPath? launcherPath) =>
         VFS.Combine(launcherPath?.FabricPath ?? ValidationShims.StringEmpty(), "fabric_manifest.json");
 
-    /// <summary>
-    /// The Fabric profile path specified by the FabricLoaderVersion.
-    /// </summary>
+    /// <inheritdoc />
     public static string ProfilePath(LauncherPath? launcherPath, LauncherVersion? launcherVersion) =>
         VFS.Combine(
             launcherPath?.FabricPath ?? ValidationShims.StringEmpty(),
             $"fabric_profile-{launcherVersion?.MVersion}-{launcherVersion?.FabricLoaderVersion}.json"
         );
 
-    /// <summary>
-    /// The Fabric loader jar path specified by the FabricLoaderVersion.
-    /// </summary>
+    /// <inheritdoc />
     public static string LoaderJarPath(FabricUrls? fabricUrls, LauncherVersion? launcherVersion) =>
         fabricUrls?.LoaderJar.Replace("{0}", launcherVersion?.FabricLoaderVersion) ?? ValidationShims.StringEmpty();
 
-    /// <summary>
-    /// The Fabric loader profile path specified by the FabricLoaderVersion.
-    /// </summary>
+    /// <inheritdoc />
     public static string LoaderProfilePath(FabricUrls? fabricUrls, LauncherVersion? launcherVersion) =>
         string.Format(
             fabricUrls?.LoaderProfile ?? ValidationShims.StringEmpty(),

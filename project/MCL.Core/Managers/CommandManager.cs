@@ -38,7 +38,7 @@ public static class CommandManager
     {
         try
         {
-            List<ILauncherCommand> commands = [];
+            List<IBaseCommand> commands = [];
 
             commands.Add(new DownloadJava());
             commands.Add(new DownloadMinecraft());
@@ -52,7 +52,7 @@ public static class CommandManager
             commands.Add(new DeployMods());
             commands.Add(new Help());
 
-            foreach (ILauncherCommand command in commands)
+            foreach (IBaseCommand command in commands)
                 await command.Init(args, ServiceManager.Settings);
         }
         catch (Exception ex)

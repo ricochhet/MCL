@@ -16,23 +16,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using System.Threading.Tasks;
-using MCL.Core.Java.Wrappers;
-using MCL.Core.Launcher.Models;
-using MCL.Core.MiniCommon.CommandParser;
-using MCL.Core.MiniCommon.Interfaces;
-using MCL.Core.MiniCommon.Providers;
+namespace MCL.Core.ModLoaders.Interfaces.Resolvers;
 
-namespace MCL.Core.Commands.Downloaders;
-
-public class DownloadJava : IBaseCommand
+public interface IModLoaderInstallerTypeResolver<in T>
 {
-    public async Task Init(string[] args, Settings? settings)
-    {
-        await CommandLine.ProcessArgumentAsync(
-            args,
-            new() { Name = "dl-java", Description = LocalizationProvider.Translate("command.download-java") },
-            async _ => await JavaDownloadWrapper.Download(settings)
-        );
-    }
+    /// <summary>
+    /// Convert InstallerType into installation option string.
+    /// </summary>
+    public static abstract string ToString(T type);
 }

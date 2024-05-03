@@ -30,7 +30,7 @@ using MCL.Core.MiniCommon.Validation;
 
 namespace MCL.CodeAnalyzers.Commands;
 
-public class AnalyzeCode : ILauncherCommand
+public class AnalyzeCode : IBaseCommand
 {
     public Task Init(string[] args, Settings? settings)
     {

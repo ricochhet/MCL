@@ -22,16 +22,15 @@ using System.Threading.Tasks;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Providers;
 using MCL.Core.MiniCommon.Validation;
+using MCL.Core.ModLoaders.Interfaces.Helpers;
 using MCL.Core.ModLoaders.Quilt.Models;
 using MCL.Core.ModLoaders.Quilt.Services;
 
 namespace MCL.Core.ModLoaders.Quilt.Helpers;
 
-public static class QuiltVersionHelper
+public class QuiltVersionHelper : IModLoaderVersionHelper<QuiltVersionManifest, QuiltInstaller, QuiltLoader>
 {
-    /// <summary>
-    /// Get the Fabric Quilt and set the version of QuiltInstallerVersion in Settings.
-    /// </summary>
+    /// <inheritdoc />
     public static async Task<bool> SetInstallerVersion(
         Settings? settings,
         LauncherVersion launcherVersion,
@@ -65,9 +64,7 @@ public static class QuiltVersionHelper
         return true;
     }
 
-    /// <summary>
-    /// Get the Quilt manifest and set the version of QuiltLoaderVersion in Settings.
-    /// </summary>
+    /// <inheritdoc />
     public static async Task<bool> SetLoaderVersion(
         Settings? settings,
         LauncherVersion launcherVersion,
@@ -101,9 +98,7 @@ public static class QuiltVersionHelper
         return true;
     }
 
-    /// <summary>
-    /// Get a list of Quilt installer version identifiers.
-    /// </summary>
+    /// <inheritdoc />
     public static List<string> GetInstallerVersionIds(QuiltVersionManifest quiltVersionManifest)
     {
         if (ObjectValidator<List<QuiltInstaller>>.IsNullOrEmpty(quiltVersionManifest?.Installer))
@@ -116,9 +111,7 @@ public static class QuiltVersionHelper
         return versions;
     }
 
-    /// <summary>
-    /// Get a list of Quilt loader version identifiers.
-    /// </summary>
+    /// <inheritdoc />
     public static List<string> GetLoaderVersionIds(QuiltVersionManifest quiltVersionManifest)
     {
         if (ObjectValidator<List<QuiltLoader>>.IsNullOrEmpty(quiltVersionManifest?.Loader))
@@ -131,9 +124,7 @@ public static class QuiltVersionHelper
         return versions;
     }
 
-    /// <summary>
-    /// Get a QuiltInstaller object from the QuiltVersionManifest.
-    /// </summary>
+    /// <inheritdoc />
     public static QuiltInstaller? GetInstallerVersion(
         LauncherVersion? installerVersion,
         QuiltVersionManifest? quiltVersionManifest
@@ -154,9 +145,7 @@ public static class QuiltVersionHelper
         return quiltInstaller;
     }
 
-    /// <summary>
-    /// Get a QuiltLoader object from the QuiltVersionManifest.
-    /// </summary>
+    /// <inheritdoc />
     public static QuiltLoader? GetLoaderVersion(
         LauncherVersion? loaderVersion,
         QuiltVersionManifest? quiltVersionManifest

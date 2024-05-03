@@ -22,11 +22,13 @@ using MCL.Core.Minecraft.Helpers;
 using MCL.Core.MiniCommon.Validation;
 using MCL.Core.ModLoaders.Fabric.Helpers;
 using MCL.Core.ModLoaders.Fabric.Services;
+using MCL.Core.ModLoaders.Interfaces.Wrappers;
 
 namespace MCL.Core.ModLoaders.Fabric.Wrappers;
 
-public static class FabricLoaderDownloadWrapper
+public class FabricLoaderDownloadWrapper : IModLoaderLoaderDownloadWrapper
 {
+    /// <inheritdoc />
     public static async Task<bool> Download(Settings? settings, LauncherVersion launcherVersion, bool update)
     {
         if (ObjectValidator<Settings>.IsNull(settings))

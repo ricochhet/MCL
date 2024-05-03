@@ -31,7 +31,7 @@ using MCL.Core.MiniCommon.Validation;
 
 namespace MCL.Core.Commands.Launcher;
 
-public class LaunchMinecraft : ILauncherCommand
+public class LaunchMinecraft : IBaseCommand
 {
     public Task Init(string[] args, Settings? settings)
     {

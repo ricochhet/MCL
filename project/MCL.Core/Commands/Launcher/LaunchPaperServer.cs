@@ -29,7 +29,7 @@ using MCL.Core.Servers.Paper.Helpers;
 
 namespace MCL.Core.Commands.Launcher;
 
-public class LaunchPaperServer : ILauncherCommand
+public class LaunchPaperServer : IBaseCommand
 {
     public Task Init(string[] args, Settings? settings)
     {

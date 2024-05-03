@@ -26,7 +26,7 @@ using MCL.Core.Servers.Paper.Wrappers;
 
 namespace MCL.Core.Commands.Downloaders;
 
-public class DownloadPaperServer : ILauncherCommand
+public class DownloadPaperServer : IBaseCommand
 {
     private static readonly LauncherVersion _launcherVersion = LauncherVersion.Latest();
 

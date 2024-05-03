@@ -20,13 +20,15 @@ using System.Threading.Tasks;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Minecraft.Helpers;
 using MCL.Core.MiniCommon.Validation;
+using MCL.Core.ModLoaders.Interfaces.Wrappers;
 using MCL.Core.ModLoaders.Quilt.Helpers;
 using MCL.Core.ModLoaders.Quilt.Services;
 
 namespace MCL.Core.ModLoaders.Quilt.Wrappers;
 
-public static class QuiltLoaderDownloadWrapper
+public class QuiltLoaderDownloadWrapper : IModLoaderLoaderDownloadWrapper
 {
+    /// <inheritdoc />
     public static async Task<bool> Download(Settings? settings, LauncherVersion launcherVersion, bool update)
     {
         if (ObjectValidator<Settings>.IsNull(settings))

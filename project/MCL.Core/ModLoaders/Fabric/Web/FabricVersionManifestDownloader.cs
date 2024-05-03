@@ -23,14 +23,13 @@ using MCL.Core.MiniCommon.Validation;
 using MCL.Core.MiniCommon.Web;
 using MCL.Core.ModLoaders.Fabric.Models;
 using MCL.Core.ModLoaders.Fabric.Resolvers;
+using MCL.Core.ModLoaders.Interfaces.Web;
 
 namespace MCL.Core.ModLoaders.Fabric.Web;
 
-public static class FabricVersionManifestDownloader
+public class FabricVersionManifestDownloader : IModLoaderVersionManifestDownloader<FabricUrls>
 {
-    /// <summary>
-    /// Download the Fabric version manifest.
-    /// </summary>
+    /// <inheritdoc />
     public static async Task<bool> Download(LauncherPath? launcherPath, FabricUrls? fabricUrls)
     {
         if (ObjectValidator<string>.IsNullOrWhiteSpace([fabricUrls?.VersionManifest]))

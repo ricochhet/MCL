@@ -21,16 +21,15 @@ using System.Threading.Tasks;
 using MCL.Core.Launcher.Models;
 using MCL.Core.MiniCommon.Validation;
 using MCL.Core.MiniCommon.Web;
+using MCL.Core.ModLoaders.Interfaces.Web;
 using MCL.Core.ModLoaders.Quilt.Models;
 using MCL.Core.ModLoaders.Quilt.Resolvers;
 
 namespace MCL.Core.ModLoaders.Quilt.Web;
 
-public static class QuiltVersionManifestDownloader
+public class QuiltVersionManifestDownloader : IModLoaderVersionManifestDownloader<QuiltUrls>
 {
-    /// <summary>
-    /// Download the Quilt version manifest.
-    /// </summary>
+    /// <inheritdoc />
     public static async Task<bool> Download(LauncherPath? launcherPath, QuiltUrls? quiltUrls)
     {
         if (ObjectValidator<string>.IsNullOrWhiteSpace([quiltUrls?.VersionManifest]))

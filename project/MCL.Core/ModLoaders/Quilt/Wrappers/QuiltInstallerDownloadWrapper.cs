@@ -23,14 +23,16 @@ using MCL.Core.Launcher.Models;
 using MCL.Core.Minecraft.Helpers;
 using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Validation;
+using MCL.Core.ModLoaders.Interfaces.Wrappers;
 using MCL.Core.ModLoaders.Quilt.Enums;
 using MCL.Core.ModLoaders.Quilt.Helpers;
 using MCL.Core.ModLoaders.Quilt.Services;
 
 namespace MCL.Core.ModLoaders.Quilt.Wrappers;
 
-public static class QuiltInstallerDownloadWrapper
+public class QuiltInstallerDownloadWrapper : IModLoaderInstallerDownloadWrapper
 {
+    /// <inheritdoc />
     public static async Task<bool> DownloadAndRun(
         Settings? settings,
         LauncherVersion launcherVersion,
