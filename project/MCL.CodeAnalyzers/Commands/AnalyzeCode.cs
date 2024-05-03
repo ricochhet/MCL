@@ -26,7 +26,7 @@ using MCL.Core.MiniCommon.Interfaces;
 using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Models;
 using MCL.Core.MiniCommon.Providers;
-using MCL.Core.MiniCommon.Validation;
+using MCL.Core.MiniCommon.Validation.Operators;
 
 namespace MCL.CodeAnalyzers.Commands;
 

@@ -18,7 +18,6 @@
 
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
-using MCL.Core.MiniCommon.Validation;
 using MCL.Core.MiniCommon.Validation.Operators;
 
 namespace MCL.Core.Modding.Models;

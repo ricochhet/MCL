@@ -16,14 +16,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using MCL.CodeAnalyzers.Analyzers.Models;
 using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Logger.Enums;
 using MCL.Core.MiniCommon.Models;
 using MCL.Core.MiniCommon.Providers;
-using MCL.Core.MiniCommon.Validation;
 using MCL.Core.MiniCommon.Validation.Validators;
 
 namespace MCL.CodeAnalyzers.Analyzers;

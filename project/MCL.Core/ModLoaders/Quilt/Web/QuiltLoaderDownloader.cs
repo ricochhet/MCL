@@ -23,7 +23,6 @@ using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Providers;
 using MCL.Core.Minecraft.Resolvers;
 using MCL.Core.MiniCommon.IO;
-using MCL.Core.MiniCommon.Validation;
 using MCL.Core.MiniCommon.Validation.Validators;
 using MCL.Core.MiniCommon.Web;
 using MCL.Core.ModLoaders.Interfaces.Web;

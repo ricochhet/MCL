@@ -21,7 +21,7 @@ using System.Runtime.CompilerServices;
 using MCL.Core.MiniCommon.Logger.Enums;
 using MCL.Core.MiniCommon.Providers;
 
-namespace MCL.Core.MiniCommon.Validation;
+namespace MCL.Core.MiniCommon.Validation.Operators;
 
 public static class ListOperator
 {
