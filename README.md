@@ -30,7 +30,7 @@ Files placed in `{root}/project/MCL.Resources` or `{root}/project/MCL.Resources.
 ## Development
 1. Install Roslynator Analyzers: `./scripts/setup.ps1` (from `/MCL/` root).
     - Alternatively, download and extract the assemblies to `{root}/.nupkg/analyzers/dotnet/roslyn4.7/cs/*.dll`
-2 [SonarLint](https://www.sonarsource.com/products/sonarlint/) is used for development, it is optional, but recommended.
+2. [SonarLint](https://www.sonarsource.com/products/sonarlint/) is used for development, it is optional, but recommended.
 3. Use or reference `.vscode/tasks.json` for formatting, code analysis, and building.
 4. Follow [build steps](#build) for building.
 
