@@ -33,15 +33,33 @@ public static class ValidationShims
         [CallerMemberName] string memberName = "",
         [CallerFilePath] string sourceFilePath = "",
         [CallerLineNumber] int sourceLineNumber = 0
+    ) => StringEmpty(string.Empty, level, memberName, sourceFilePath, sourceLineNumber);
+
+    /// <summary>
+    /// Coalescing operator shim for string.Empty to log when it gets called.
+    /// </summary>
+    public static string StringEmpty(
+        string message,
+        NativeLogLevel level = NativeLogLevel.Debug,
+        [CallerMemberName] string memberName = "",
+        [CallerFilePath] string sourceFilePath = "",
+        [CallerLineNumber] int sourceLineNumber = 0
     )
     {
-        NotificationProvider.Log(
-            level,
-            "error.validation.string-shim",
-            memberName,
-            sourceFilePath,
-            sourceLineNumber.ToString()
-        );
+        if (string.IsNullOrWhiteSpace(message))
+        {
+            NotificationProvider.Log(
+                level,
+                "error.validation.string-shim",
+                memberName,
+                sourceFilePath,
+                sourceLineNumber.ToString()
+            );
+        }
+        else
+        {
+            NotificationProvider.PrintLog(level, message, memberName, sourceFilePath, sourceLineNumber.ToString());
+        }
         return string.Empty;
     }
 
@@ -53,15 +71,33 @@ public static class ValidationShims
         [CallerMemberName] string memberName = "",
         [CallerFilePath] string sourceFilePath = "",
         [CallerLineNumber] int sourceLineNumber = 0
+    ) => ListEmpty<T>(string.Empty, level, memberName, sourceFilePath, sourceLineNumber);
+
+    /// <summary>
+    /// Coalescing operator shim for empty list to log when it gets called.
+    /// </summary>
+    public static List<T> ListEmpty<T>(
+        string message,
+        NativeLogLevel level = NativeLogLevel.Debug,
+        [CallerMemberName] string memberName = "",
+        [CallerFilePath] string sourceFilePath = "",
+        [CallerLineNumber] int sourceLineNumber = 0
     )
     {
-        NotificationProvider.Log(
-            level,
-            "error.validation.list-shim",
-            memberName,
-            sourceFilePath,
-            sourceLineNumber.ToString()
-        );
+        if (string.IsNullOrWhiteSpace(message))
+        {
+            NotificationProvider.Log(
+                level,
+                "error.validation.list-shim",
+                memberName,
+                sourceFilePath,
+                sourceLineNumber.ToString()
+            );
+        }
+        else
+        {
+            NotificationProvider.PrintLog(level, message, memberName, sourceFilePath, sourceLineNumber.ToString());
+        }
         return [];
     }
 
@@ -76,15 +112,37 @@ public static class ValidationShims
         [CallerFilePath] string sourceFilePath = "",
         [CallerLineNumber] int sourceLineNumber = 0
     )
+        where TKey : notnull =>
+        DictionaryEmpty<TKey, TValue>(string.Empty, level, memberName, sourceFilePath, sourceLineNumber);
+
+    /// <summary>
+    /// Coalescing operator shim for empty dictionary to log when it gets called.
+    /// </summary>
+#pragma warning disable S4144
+    public static Dictionary<TKey, TValue> DictionaryEmpty<TKey, TValue>(
+#pragma warning restore S4144
+        string message,
+        NativeLogLevel level = NativeLogLevel.Debug,
+        [CallerMemberName] string memberName = "",
+        [CallerFilePath] string sourceFilePath = "",
+        [CallerLineNumber] int sourceLineNumber = 0
+    )
         where TKey : notnull
     {
-        NotificationProvider.Log(
-            level,
-            "error.validation.list-shim",
-            memberName,
-            sourceFilePath,
-            sourceLineNumber.ToString()
-        );
+        if (string.IsNullOrWhiteSpace(message))
+        {
+            NotificationProvider.Log(
+                level,
+                "error.validation.list-shim",
+                memberName,
+                sourceFilePath,
+                sourceLineNumber.ToString()
+            );
+        }
+        else
+        {
+            NotificationProvider.PrintLog(level, message, memberName, sourceFilePath, sourceLineNumber.ToString());
+        }
         return [];
     }
 
@@ -97,15 +155,34 @@ public static class ValidationShims
         [CallerFilePath] string sourceFilePath = "",
         [CallerLineNumber] int sourceLineNumber = 0
     )
+        where T : new() => ClassEmpty<T>(string.Empty, level, memberName, sourceFilePath, sourceLineNumber);
+
+    /// <summary>
+    /// Coalescing operator shim for empty class to log when it gets called.
+    /// </summary>
+    public static T ClassEmpty<T>(
+        string message,
+        NativeLogLevel level = NativeLogLevel.Debug,
+        [CallerMemberName] string memberName = "",
+        [CallerFilePath] string sourceFilePath = "",
+        [CallerLineNumber] int sourceLineNumber = 0
+    )
         where T : new()
     {
-        NotificationProvider.Log(
-            level,
-            "error.validation.class-shim",
-            memberName,
-            sourceFilePath,
-            sourceLineNumber.ToString()
-        );
+        if (string.IsNullOrWhiteSpace(message))
+        {
+            NotificationProvider.Log(
+                level,
+                "error.validation.class-shim",
+                memberName,
+                sourceFilePath,
+                sourceLineNumber.ToString()
+            );
+        }
+        else
+        {
+            NotificationProvider.PrintLog(level, message, memberName, sourceFilePath, sourceLineNumber.ToString());
+        }
         return new();
     }
 }

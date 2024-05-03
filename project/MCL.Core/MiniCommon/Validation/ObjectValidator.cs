@@ -89,7 +89,7 @@ public class ObjectValidator<T>
         [CallerFilePath] string sourceFilePath = "",
         [CallerLineNumber] int sourceLineNumber = 0
     ) =>
-        !IsNullOrWhiteSpaceImpl(
+        !IsNullOrWhiteSpace(
             properties,
             string.Empty,
             level,
@@ -110,10 +110,22 @@ public class ObjectValidator<T>
         [CallerMemberName] string memberName = "",
         [CallerFilePath] string sourceFilePath = "",
         [CallerLineNumber] int sourceLineNumber = 0
+    ) => !IsNullOrWhiteSpace(properties, message, level, propertiesName, memberName, sourceFilePath, sourceLineNumber);
+
+    /// <summary>
+    /// Validate an array of strings is null, empty, or whitespace.
+    /// </summary>
+    public static bool IsNullOrWhiteSpace(
+        string?[] properties,
+        NativeLogLevel level = NativeLogLevel.Error,
+        [CallerArgumentExpression(nameof(properties))] string propertiesName = "",
+        [CallerMemberName] string memberName = "",
+        [CallerFilePath] string sourceFilePath = "",
+        [CallerLineNumber] int sourceLineNumber = 0
     ) =>
-        !IsNullOrWhiteSpaceImpl(
+        IsNullOrWhiteSpace(
             properties,
-            message,
+            string.Empty,
             level,
             propertiesName,
             memberName,
@@ -124,7 +136,7 @@ public class ObjectValidator<T>
     /// <summary>
     /// Validate an array of strings is null, empty, or whitespace.
     /// </summary>
-    public static bool IsNullOrWhiteSpaceImpl(
+    public static bool IsNullOrWhiteSpace(
         string?[] properties,
         string message,
         NativeLogLevel level = NativeLogLevel.Error,
@@ -178,7 +190,7 @@ public class ObjectValidator<T>
         [CallerFilePath] string sourceFilePath = "",
         [CallerLineNumber] int sourceLineNumber = 0
     ) =>
-        !IsNullOrEmptyImpl(
+        !IsNullOrEmpty(
             obj,
             string.Empty,
             level,
@@ -204,7 +216,7 @@ public class ObjectValidator<T>
         [CallerFilePath] string sourceFilePath = "",
         [CallerLineNumber] int sourceLineNumber = 0
     ) =>
-        !IsNullOrEmptyImpl(
+        !IsNullOrEmpty(
             obj,
             message,
             level,
@@ -230,7 +242,7 @@ public class ObjectValidator<T>
         [CallerLineNumber] int sourceLineNumber = 0
     )
         where T1 : notnull =>
-        !IsNullOrEmptyImpl(
+        !IsNullOrEmpty(
             obj,
             string.Empty,
             level,
@@ -257,7 +269,7 @@ public class ObjectValidator<T>
         [CallerLineNumber] int sourceLineNumber = 0
     )
         where T1 : notnull =>
-        !IsNullOrEmptyImpl(
+        !IsNullOrEmpty(
             obj,
             message,
             level,
@@ -272,7 +284,32 @@ public class ObjectValidator<T>
     /// <summary>
     /// Validate a list is null, or empty.
     /// </summary>
-    public static bool IsNullOrEmptyImpl<T1>(
+    public static bool IsNullOrEmpty<T1>(
+        List<T1>? obj,
+        NativeLogLevel level = NativeLogLevel.Error,
+        List<T1>[]? properties = null,
+        [CallerArgumentExpression(nameof(obj))] string objName = "",
+        [CallerArgumentExpression(nameof(properties))] string propertiesName = "",
+        [CallerMemberName] string memberName = "",
+        [CallerFilePath] string sourceFilePath = "",
+        [CallerLineNumber] int sourceLineNumber = 0
+    ) =>
+        IsNullOrEmpty(
+            obj,
+            string.Empty,
+            level,
+            properties,
+            objName,
+            propertiesName,
+            memberName,
+            sourceFilePath,
+            sourceLineNumber
+        );
+
+    /// <summary>
+    /// Validate a list is null, or empty.
+    /// </summary>
+    public static bool IsNullOrEmpty<T1>(
         List<T1>? obj,
         string message,
         NativeLogLevel level = NativeLogLevel.Error,
@@ -318,7 +355,23 @@ public class ObjectValidator<T>
     /// <summary>
     /// Validate a dictionary is null, or empty.
     /// </summary>
-    public static bool IsNullOrEmptyImpl<T1, T2>(
+    public static bool IsNullOrEmpty<T1, T2>(
+        Dictionary<T1, T2>? obj,
+        NativeLogLevel level = NativeLogLevel.Error,
+        Dictionary<T1, T2>[]? properties = null,
+        [CallerArgumentExpression(nameof(obj))] string objName = "",
+        [CallerArgumentExpression(nameof(properties))] string propertiesName = "",
+        [CallerMemberName] string memberName = "",
+        [CallerFilePath] string sourceFilePath = "",
+        [CallerLineNumber] int sourceLineNumber = 0
+    )
+        where T1 : notnull =>
+        IsNullOrEmpty(obj, level, properties, objName, propertiesName, memberName, sourceFilePath, sourceLineNumber);
+
+    /// <summary>
+    /// Validate a dictionary is null, or empty.
+    /// </summary>
+    public static bool IsNullOrEmpty<T1, T2>(
         Dictionary<T1, T2>? obj,
         string message,
         NativeLogLevel level = NativeLogLevel.Error,
@@ -375,7 +428,7 @@ public class ObjectValidator<T>
         [CallerFilePath] string sourceFilePath = "",
         [CallerLineNumber] int sourceLineNumber = 0
     ) =>
-        !IsNullImpl(
+        !IsNull(
             obj,
             string.Empty,
             level,
@@ -401,17 +454,7 @@ public class ObjectValidator<T>
         [CallerFilePath] string sourceFilePath = "",
         [CallerLineNumber] int sourceLineNumber = 0
     ) =>
-        !IsNullImpl(
-            obj,
-            message,
-            level,
-            properties,
-            objName,
-            propertiesName,
-            memberName,
-            sourceFilePath,
-            sourceLineNumber
-        );
+        !IsNull(obj, message, level, properties, objName, propertiesName, memberName, sourceFilePath, sourceLineNumber);
 
     /// <summary>
     /// Validate object of type T is null.
@@ -426,7 +469,7 @@ public class ObjectValidator<T>
         [CallerFilePath] string sourceFilePath = "",
         [CallerLineNumber] int sourceLineNumber = 0
     ) =>
-        IsNullImpl(
+        IsNull(
             obj,
             string.Empty,
             level,
@@ -442,32 +485,6 @@ public class ObjectValidator<T>
     /// Validate object of type T is null.
     /// </summary>
     public static bool IsNull(
-        T? obj,
-        string message,
-        NativeLogLevel level = NativeLogLevel.Error,
-        object[]? properties = null,
-        [CallerArgumentExpression(nameof(obj))] string? objName = "",
-        [CallerArgumentExpression(nameof(properties))] string? propertiesName = "",
-        [CallerMemberName] string memberName = "",
-        [CallerFilePath] string sourceFilePath = "",
-        [CallerLineNumber] int sourceLineNumber = 0
-    ) =>
-        IsNullImpl(
-            obj,
-            message,
-            level,
-            properties,
-            objName,
-            propertiesName,
-            memberName,
-            sourceFilePath,
-            sourceLineNumber
-        );
-
-    /// <summary>
-    /// Validate object of type T is null.
-    /// </summary>
-    public static bool IsNullImpl(
         T? obj,
         string message,
         NativeLogLevel level = NativeLogLevel.Error,
