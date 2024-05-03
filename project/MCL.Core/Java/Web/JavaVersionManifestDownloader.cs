@@ -23,6 +23,7 @@ using MCL.Core.Java.Resolvers;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Minecraft.Models;
 using MCL.Core.MiniCommon.Validation;
+using MCL.Core.MiniCommon.Validation.Validators;
 using MCL.Core.MiniCommon.Web;
 
 namespace MCL.Core.Java.Web;
@@ -34,7 +35,7 @@ public static class JavaVersionManifestDownloader
     /// </summary>
     public static async Task<bool> Download(LauncherPath? launcherPath, MUrls? mUrls)
     {
-        if (ObjectValidator<string>.IsNullOrWhiteSpace([mUrls?.JavaVersionManifest]))
+        if (StringValidator.IsNullOrWhiteSpace([mUrls?.JavaVersionManifest]))
             return false;
 
         string filepath = JavaPathResolver.JavaVersionManifestPath(launcherPath);
@@ -44,6 +45,6 @@ public static class JavaVersionManifestDownloader
             Encoding.UTF8,
             JavaVersionManifestContext.Default
         );
-        return ObjectValidator<string>.IsNotNullOrWhiteSpace([javaVersionManifest]);
+        return StringValidator.IsNotNullOrWhiteSpace([javaVersionManifest]);
     }
 }

@@ -19,6 +19,7 @@
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using MCL.Core.MiniCommon.Validation;
+using MCL.Core.MiniCommon.Validation.Operators;
 
 namespace MCL.Core.Modding.Models;
 
@@ -31,7 +32,7 @@ public class ModSettings
 
     public ModSettings() { }
 
-    public bool IsStoreSaved(string? modStoreName) => ModStores.Contains(modStoreName ?? ValidationShims.StringEmpty());
+    public bool IsStoreSaved(string? modStoreName) => ModStores.Contains(modStoreName ?? StringOperator.Empty());
 
     public bool IsDeployPathSaved(string deployPathName) => DeployPaths.Contains(deployPathName);
 }

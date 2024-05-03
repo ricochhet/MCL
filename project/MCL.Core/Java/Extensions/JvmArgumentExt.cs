@@ -99,7 +99,7 @@ public static class JvmArgumentExt
     public static JvmArguments Concat(this JvmArguments jvmArguments, JvmArguments? concat)
     {
         List<MOption> arguments = jvmArguments
-            .Arguments.Concat(concat?.Arguments ?? ValidationShims.ListEmpty<MOption>())
+            .Arguments.Concat(concat?.Arguments ?? [])
             .GroupBy(arg => arg.Arg)
             .Select(group => group.Last())
             .ToList();

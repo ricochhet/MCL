@@ -23,6 +23,7 @@ using MCL.Core.Launcher.Resolvers;
 using MCL.Core.Minecraft.Helpers;
 using MCL.Core.Minecraft.Resolvers;
 using MCL.Core.MiniCommon.Validation;
+using MCL.Core.MiniCommon.Validation.Operators;
 
 namespace MCL.Core.Launcher.Helpers;
 
@@ -41,12 +42,12 @@ public static class MLaunchOptions
             new MOption
             {
                 Arg = "-Xms{0}m",
-                ArgParams = [settings.LauncherMemory?.MemoryMinMb.ToString() ?? ValidationShims.StringEmpty()]
+                ArgParams = [settings.LauncherMemory?.MemoryMinMb.ToString() ?? StringOperator.Empty()]
             },
             new MOption
             {
                 Arg = "-Xmx{0}m",
-                ArgParams = [settings.LauncherMemory?.MemoryMaxMb.ToString() ?? ValidationShims.StringEmpty()]
+                ArgParams = [settings.LauncherMemory?.MemoryMaxMb.ToString() ?? StringOperator.Empty()]
             },
             new MOption
             {
@@ -132,12 +133,12 @@ public static class MLaunchOptions
             new MOption
             {
                 Arg = "-Dminecraft.launcher.brand={0}",
-                ArgParams = [settings.LauncherVersion?.Brand ?? ValidationShims.StringEmpty()]
+                ArgParams = [settings.LauncherVersion?.Brand ?? StringOperator.Empty()]
             },
             new MOption
             {
                 Arg = "-Dminecraft.launcher.version={0}",
-                ArgParams = [settings.LauncherVersion?.Version ?? ValidationShims.StringEmpty()]
+                ArgParams = [settings.LauncherVersion?.Version ?? StringOperator.Empty()]
             },
             new MOption
             {
@@ -156,12 +157,12 @@ public static class MLaunchOptions
             new MOption
             {
                 Arg = "--username {0}",
-                ArgParams = [settings.LauncherUsername?.ValidateUsername() ?? ValidationShims.StringEmpty()]
+                ArgParams = [settings.LauncherUsername?.ValidateUsername() ?? StringOperator.Empty()]
             },
             new MOption
             {
                 Arg = "--userType {0}",
-                ArgParams = [settings.LauncherUsername?.UserType ?? ValidationShims.StringEmpty()]
+                ArgParams = [settings.LauncherUsername?.UserType ?? StringOperator.Empty()]
             },
             new MOption { Arg = "--gameDir {0}", ArgParams = ["."] },
             new MOption
@@ -173,18 +174,18 @@ public static class MLaunchOptions
             new MOption
             {
                 Arg = "--accessToken {0}",
-                ArgParams = [settings.LauncherUsername?.AccessToken ?? ValidationShims.StringEmpty()]
+                ArgParams = [settings.LauncherUsername?.AccessToken ?? StringOperator.Empty()]
             },
             new MOption
             {
                 Arg = "--uuid {0}",
-                ArgParams = [settings.LauncherUsername?.UUID() ?? ValidationShims.StringEmpty()],
+                ArgParams = [settings.LauncherUsername?.UUID() ?? StringOperator.Empty()],
                 Condition = settings.LauncherSettings?.AuthType == AuthType.ONLINE
             },
             new MOption
             {
                 Arg = "--uuid {0}",
-                ArgParams = [settings.LauncherUsername?.OfflineUUID() ?? ValidationShims.StringEmpty()],
+                ArgParams = [settings.LauncherUsername?.OfflineUUID() ?? StringOperator.Empty()],
                 Condition = settings.LauncherSettings?.AuthType == AuthType.OFFLINE
             },
             new MOption { Arg = "--clientId {0}", ArgParams = ["0"] },
@@ -192,7 +193,7 @@ public static class MLaunchOptions
             new MOption
             {
                 Arg = "--version {0}",
-                ArgParams = [settings.LauncherVersion?.MVersion ?? ValidationShims.StringEmpty()]
+                ArgParams = [settings.LauncherVersion?.MVersion ?? StringOperator.Empty()]
             },
             new MOption
             {

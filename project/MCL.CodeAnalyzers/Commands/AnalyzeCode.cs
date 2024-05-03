@@ -49,7 +49,7 @@ public class AnalyzeCode : IBaseCommand
                 NamespaceAnalyzer.Analyze(files);
                 LocalizationKeyAnalyzer.Analyze(
                     files,
-                    LocalizationProvider.Localization ?? ValidationShims.ClassEmpty<Localization>()
+                    LocalizationProvider.Localization ?? ClassOperator.Empty<Localization>()
                 );
             }
         );

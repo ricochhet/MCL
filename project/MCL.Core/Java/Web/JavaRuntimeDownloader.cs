@@ -25,6 +25,8 @@ using MCL.Core.Launcher.Models;
 using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Logger.Enums;
 using MCL.Core.MiniCommon.Validation;
+using MCL.Core.MiniCommon.Validation.Operators;
+using MCL.Core.MiniCommon.Validation.Validators;
 using MCL.Core.MiniCommon.Web;
 
 namespace MCL.Core.Java.Web;
@@ -40,19 +42,19 @@ public static class JavaRuntimeDownloader
         JavaVersionDetails? javaRuntimeFiles
     )
     {
-        if (ObjectValidator<Dictionary<string, JavaRuntimeFile>>.IsNullOrEmpty(javaRuntimeFiles?.Files))
+        if (DictionaryValidator.IsNullOrEmpty(javaRuntimeFiles?.Files))
             return false;
 
         foreach ((string path, JavaRuntimeFile javaRuntimeFile) in javaRuntimeFiles!.Files!)
         {
-            if (ObjectValidator<JavaRuntimeFileDownloads>.IsNull(javaRuntimeFile?.Downloads, NativeLogLevel.Debug))
+            if (ClassValidator.IsNull(javaRuntimeFile?.Downloads, NativeLogLevel.Debug))
                 continue;
 
             if (javaRuntimeFile!.Type != "file")
                 continue;
 
             if (
-                ObjectValidator<string>.IsNullOrWhiteSpace(
+                StringValidator.IsNullOrWhiteSpace(
                     [javaRuntimeFile!.Downloads!.Raw?.URL, javaRuntimeFile!.Downloads!.Raw?.SHA1]
                 )
             )
@@ -62,7 +64,7 @@ public static class JavaRuntimeDownloader
 
             if (
                 !await Request.DownloadSHA1(
-                    javaRuntimeFile!.Downloads!.Raw?.URL ?? ValidationShims.StringEmpty(),
+                    javaRuntimeFile!.Downloads!.Raw?.URL ?? StringOperator.Empty(),
                     VFS.Combine(
                         JavaPathResolver.JavaRuntimeVersionPath(
                             launcherPath,
@@ -70,7 +72,7 @@ public static class JavaRuntimeDownloader
                         ),
                         path
                     ),
-                    javaRuntimeFile!.Downloads!.Raw?.SHA1 ?? ValidationShims.StringEmpty()
+                    javaRuntimeFile!.Downloads!.Raw?.SHA1 ?? StringOperator.Empty()
                 )
             )
             {

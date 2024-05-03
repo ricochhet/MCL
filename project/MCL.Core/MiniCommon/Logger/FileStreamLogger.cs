@@ -26,6 +26,7 @@ using MCL.Core.MiniCommon.Logger.Enums;
 using MCL.Core.MiniCommon.Logger.Models;
 using MCL.Core.MiniCommon.Providers;
 using MCL.Core.MiniCommon.Validation;
+using MCL.Core.MiniCommon.Validation.Operators;
 
 namespace MCL.Core.MiniCommon.Logger;
 
@@ -114,10 +115,7 @@ public class FileStreamLogger : ILogger, IDisposable
         }
         else
         {
-            NotificationProvider.Error(
-                "log.unhandled.object",
-                e.ExceptionObject.ToString() ?? ValidationShims.StringEmpty()
-            );
+            NotificationProvider.Error("log.unhandled.object", e.ExceptionObject.ToString() ?? StringOperator.Empty());
         }
     }
 

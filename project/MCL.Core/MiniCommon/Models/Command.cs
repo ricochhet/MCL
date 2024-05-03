@@ -23,6 +23,7 @@ using MCL.Core.MiniCommon.CommandParser.Helpers;
 using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Logger.Enums;
 using MCL.Core.MiniCommon.Validation;
+using MCL.Core.MiniCommon.Validation.Validators;
 
 namespace MCL.Core.MiniCommon.Models;
 
@@ -39,12 +40,11 @@ public class Command
 
     public string Usage()
     {
-        VFS.Combine("1", "2");
         string _parameters = string.Join(" ", Parameters.Select(a => $"\n\t<{a.Name}(Optional:{a.Optional})=value>"));
-        string parameters = ObjectValidator<string>.IsNotNullOrWhiteSpace([_parameters], NativeLogLevel.Debug)
+        string parameters = StringValidator.IsNotNullOrWhiteSpace([_parameters], NativeLogLevel.Debug)
             ? _parameters
             : "\n\tNo parameters.";
-        string description = ObjectValidator<string>.IsNotNullOrWhiteSpace([Description], NativeLogLevel.Debug)
+        string description = StringValidator.IsNotNullOrWhiteSpace([Description], NativeLogLevel.Debug)
             ? Description
             : "No description.";
         return $"\nCommand:\n\t{CommandLine.BaseCommandLine.Prefix}{Name}\nParameters:\t{parameters}\nDescription:\n\t{description}";

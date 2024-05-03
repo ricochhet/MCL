@@ -20,6 +20,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MCL.Core.Launcher.Models;
 using MCL.Core.MiniCommon.Validation;
+using MCL.Core.MiniCommon.Validation.Validators;
 using MCL.Core.MiniCommon.Web;
 using MCL.Core.ModLoaders.Fabric.Models;
 using MCL.Core.ModLoaders.Fabric.Resolvers;
@@ -37,7 +38,7 @@ public class FabricProfileDownloader : IModLoaderProfileDownloader<FabricUrls>
     )
     {
         if (
-            ObjectValidator<string>.IsNullOrWhiteSpace(
+            StringValidator.IsNullOrWhiteSpace(
                 [launcherVersion?.MVersion, launcherVersion?.FabricLoaderVersion, fabricUrls?.LoaderProfile]
             )
         )
@@ -51,6 +52,6 @@ public class FabricProfileDownloader : IModLoaderProfileDownloader<FabricUrls>
             Encoding.UTF8,
             FabricProfileContext.Default
         );
-        return ObjectValidator<string>.IsNotNullOrWhiteSpace([fabricProfile]);
+        return StringValidator.IsNotNullOrWhiteSpace([fabricProfile]);
     }
 }

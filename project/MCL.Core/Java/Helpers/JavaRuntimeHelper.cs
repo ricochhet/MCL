@@ -23,6 +23,7 @@ using MCL.Core.Launcher.Models;
 using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Providers;
 using MCL.Core.MiniCommon.Validation;
+using MCL.Core.MiniCommon.Validation.Validators;
 
 namespace MCL.Core.Java.Helpers;
 
@@ -42,13 +43,13 @@ public static class JavaRuntimeHelper
 
         if (!VFS.Exists(javaHome))
         {
-            if (ObjectValidator<string>.IsNullOrWhiteSpace([settings?.JavaSettings?.HomeEnvironmentVariable]))
+            if (StringValidator.IsNullOrWhiteSpace([settings?.JavaSettings?.HomeEnvironmentVariable]))
                 return javaHome;
 
             string? javaHomeEnvironmentVariable = Environment.GetEnvironmentVariable(
                 settings!.JavaSettings!.HomeEnvironmentVariable
             );
-            if (ObjectValidator<string>.IsNullOrWhiteSpace([javaHomeEnvironmentVariable]))
+            if (StringValidator.IsNullOrWhiteSpace([javaHomeEnvironmentVariable]))
                 return javaHome;
 
             NotificationProvider.Info("error.missing.java");

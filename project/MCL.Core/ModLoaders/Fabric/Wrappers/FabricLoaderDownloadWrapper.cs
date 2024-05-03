@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Minecraft.Helpers;
 using MCL.Core.MiniCommon.Validation;
+using MCL.Core.MiniCommon.Validation.Validators;
 using MCL.Core.ModLoaders.Fabric.Helpers;
 using MCL.Core.ModLoaders.Fabric.Services;
 using MCL.Core.ModLoaders.Interfaces.Wrappers;
@@ -31,9 +32,9 @@ public class FabricLoaderDownloadWrapper : IModLoaderLoaderDownloadWrapper
     /// <inheritdoc />
     public static async Task<bool> Download(Settings? settings, LauncherVersion launcherVersion, bool update)
     {
-        if (ObjectValidator<Settings>.IsNull(settings))
+        if (ClassValidator.IsNull(settings))
             return false;
-        if (ObjectValidator<string>.IsNullOrWhiteSpace([launcherVersion.MVersion, launcherVersion.FabricLoaderVersion]))
+        if (StringValidator.IsNullOrWhiteSpace([launcherVersion.MVersion, launcherVersion.FabricLoaderVersion]))
             return false;
         if (!await VersionHelper.SetVersion(settings, launcherVersion, update))
             return false;

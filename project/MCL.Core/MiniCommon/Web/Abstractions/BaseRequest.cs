@@ -29,6 +29,8 @@ using MCL.Core.MiniCommon.Cryptography.Helpers;
 using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Providers;
 using MCL.Core.MiniCommon.Validation;
+using MCL.Core.MiniCommon.Validation.Operators;
+using MCL.Core.MiniCommon.Validation.Validators;
 using MCL.Core.MiniCommon.Web.Interfaces;
 
 namespace MCL.Core.MiniCommon.Web.Abstractions;
@@ -141,8 +143,8 @@ public class BaseRequest : IBaseHttpRequest
             string hash;
             try
             {
-                response = await GetStringAsync(request) ?? ValidationShims.StringEmpty();
-                if (ObjectValidator<string>.IsNullOrWhiteSpace([response]))
+                response = await GetStringAsync(request) ?? StringOperator.Empty();
+                if (StringValidator.IsNullOrWhiteSpace([response]))
                 {
                     NotificationProvider.Error("error.download", request);
                     return default;
@@ -183,8 +185,8 @@ public class BaseRequest : IBaseHttpRequest
             string hash;
             try
             {
-                response = await GetStringAsync(request) ?? ValidationShims.StringEmpty();
-                if (ObjectValidator<string>.IsNullOrWhiteSpace([response]))
+                response = await GetStringAsync(request) ?? StringOperator.Empty();
+                if (StringValidator.IsNullOrWhiteSpace([response]))
                 {
                     NotificationProvider.Error("error.download", request);
                     return default;
@@ -279,7 +281,7 @@ public class BaseRequest : IBaseHttpRequest
             {
                 response = await GetAsync(request) ?? new(HttpStatusCode.BadRequest);
 
-                if (ObjectValidator<HttpResponseMessage>.IsNull(response))
+                if (ClassValidator.IsNull(response))
                     return false;
 
                 if (!response.IsSuccessStatusCode)

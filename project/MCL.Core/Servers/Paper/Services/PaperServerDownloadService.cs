@@ -26,6 +26,8 @@ using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Logger.Enums;
 using MCL.Core.MiniCommon.Providers;
 using MCL.Core.MiniCommon.Validation;
+using MCL.Core.MiniCommon.Validation.Operators;
+using MCL.Core.MiniCommon.Validation.Validators;
 using MCL.Core.Servers.Paper.Helpers;
 using MCL.Core.Servers.Paper.Models;
 using MCL.Core.Servers.Paper.Resolvers;
@@ -74,10 +76,7 @@ public class PaperServerDownloadService
         if (!await DownloadJar())
             return false;
 
-        if (
-            ObjectValidator<List<string>>.IsNull(_launcherInstance?.PaperServerVersions)
-            || ObjectValidator<LauncherVersion>.IsNull(_launcherVersion)
-        )
+        if (ClassValidator.IsNull(_launcherInstance?.PaperServerVersions) || ClassValidator.IsNull(_launcherVersion))
         {
             return false;
         }
@@ -121,14 +120,14 @@ public class PaperServerDownloadService
     /// </summary>
     public bool LoadVersionManifest()
     {
-        if (ObjectValidator<string>.IsNullOrWhiteSpace([_launcherVersion?.MVersion]))
+        if (StringValidator.IsNullOrWhiteSpace([_launcherVersion?.MVersion]))
             return false;
 
         PaperVersionManifest = Json.Load<PaperVersionManifest>(
             PaperPathResolver.VersionManifestPath(_launcherPath, _launcherVersion),
             PaperVersionManifestContext.Default
         );
-        if (ObjectValidator<PaperVersionManifest>.IsNull(PaperVersionManifest))
+        if (ClassValidator.IsNull(PaperVersionManifest))
         {
             NotificationProvider.Error("error.readfile", nameof(PaperVersionManifest));
             return false;
@@ -142,7 +141,7 @@ public class PaperServerDownloadService
     /// </summary>
     public bool LoadVersionManifestWithoutLogging()
     {
-        if (ObjectValidator<string>.IsNullOrWhiteSpace([_launcherVersion?.MVersion], NativeLogLevel.Debug))
+        if (StringValidator.IsNullOrWhiteSpace([_launcherVersion?.MVersion], NativeLogLevel.Debug))
             return false;
 
         PaperVersionManifest = Json.Load<PaperVersionManifest>(
@@ -150,7 +149,7 @@ public class PaperServerDownloadService
             PaperVersionManifestContext.Default
         );
 
-        return ObjectValidator<PaperVersionManifest>.IsNotNull(PaperVersionManifest, NativeLogLevel.Debug);
+        return ClassValidator.IsNotNull(PaperVersionManifest, NativeLogLevel.Debug);
     }
 
     /// <summary>
@@ -159,11 +158,11 @@ public class PaperServerDownloadService
     public bool LoadVersion()
     {
         PaperBuild = PaperVersionHelper.GetVersion(_launcherVersion, PaperVersionManifest);
-        if (ObjectValidator<PaperBuild>.IsNull(PaperBuild))
+        if (ClassValidator.IsNull(PaperBuild))
         {
             NotificationProvider.Error(
                 "error.parse",
-                _launcherVersion?.PaperServerVersion ?? ValidationShims.StringEmpty(),
+                _launcherVersion?.PaperServerVersion ?? StringOperator.Empty(),
                 nameof(PaperBuild)
             );
             return false;

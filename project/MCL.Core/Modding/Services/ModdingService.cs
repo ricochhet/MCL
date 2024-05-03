@@ -27,6 +27,8 @@ using MCL.Core.MiniCommon.Cryptography.Helpers;
 using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Providers;
 using MCL.Core.MiniCommon.Validation;
+using MCL.Core.MiniCommon.Validation.Operators;
+using MCL.Core.MiniCommon.Validation.Validators;
 using MCL.Core.Modding.Enums;
 using MCL.Core.Modding.Models;
 using MCL.Core.Modding.Resolvers;
@@ -46,8 +48,8 @@ public class ModdingService
         LauncherPath = launcherPath;
         SevenZipSettings = sevenZipSettings;
         ModSettings = modSettings;
-        if (!VFS.Exists(LauncherPath?.ModPath ?? ValidationShims.StringEmpty()))
-            VFS.CreateDirectory(launcherPath?.ModPath ?? ValidationShims.StringEmpty());
+        if (!VFS.Exists(LauncherPath?.ModPath ?? StringOperator.Empty()))
+            VFS.CreateDirectory(launcherPath?.ModPath ?? StringOperator.Empty());
     }
 
     /// <summary>
@@ -98,7 +100,7 @@ public class ModdingService
         string filepath = ModPathResolver.ModStorePath(LauncherPath, modStoreName);
         if (!ModSettings?.IsStoreSaved(modStoreName) ?? false)
 #pragma warning disable S2589
-            ModSettings?.ModStores.Add(modStoreName ?? ValidationShims.StringEmpty());
+            ModSettings?.ModStores.Add(modStoreName ?? StringOperator.Empty());
 #pragma warning restore S2589
         Json.Save(filepath, modFiles, ModFilesContext.Default);
 
@@ -168,7 +170,7 @@ public class ModdingService
     /// </summary>
     public bool Deploy(ModFiles? modFiles, string deployPath, bool overwrite = false)
     {
-        if (ObjectValidator<List<ModFile>>.IsNullOrEmpty(modFiles?.Files))
+        if (ListValidator.IsNullOrEmpty(modFiles?.Files))
         {
             NotificationProvider.Error("modding.deploy.error-nofile");
             return false;
@@ -189,7 +191,7 @@ public class ModdingService
 
         foreach (ModFile modFile in sortedModFiles)
         {
-            if (ObjectValidator<string>.IsNullOrWhiteSpace([modFile?.ModPath]))
+            if (StringValidator.IsNullOrWhiteSpace([modFile?.ModPath]))
             {
                 NotificationProvider.Error("modding.deploy.error-nodata");
                 return false;

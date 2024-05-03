@@ -18,6 +18,7 @@
 
 using System.Text.Json.Serialization;
 using MCL.Core.MiniCommon.Validation;
+using MCL.Core.MiniCommon.Validation.Operators;
 
 namespace MCL.Core.Launcher.Models;
 
@@ -44,7 +45,7 @@ public class MOption
         if (ArgParams == null || ArgParams.Length == 0)
             return Arg;
 
-        return string.Format(Arg ?? ValidationShims.StringEmpty(), ArgParams);
+        return string.Format(Arg ?? StringOperator.Empty(), ArgParams);
     }
 }
 

@@ -25,6 +25,7 @@ using MCL.Core.Java.Models;
 using MCL.Core.Java.Resolvers;
 using MCL.Core.Launcher.Models;
 using MCL.Core.MiniCommon.Validation;
+using MCL.Core.MiniCommon.Validation.Validators;
 using MCL.Core.MiniCommon.Web;
 
 namespace MCL.Core.Java.Web;
@@ -41,7 +42,7 @@ public static class JavaVersionDetailsDownloader
         JavaVersionManifest? javaVersionManifest
     )
     {
-        if (ObjectValidator<JavaVersionManifest>.IsNull(javaVersionManifest))
+        if (ClassValidator.IsNull(javaVersionManifest))
             return false;
 
         string? request = javaRuntimePlatform switch
@@ -56,7 +57,7 @@ public static class JavaVersionDetailsDownloader
             JavaRuntimePlatform.WINDOWSX86 => GetJavaRuntimeUrl(javaRuntimeType, javaVersionManifest!?.WindowsX86),
             _ => string.Empty,
         };
-        if (ObjectValidator<string>.IsNullOrWhiteSpace([request]))
+        if (StringValidator.IsNullOrWhiteSpace([request]))
             return false;
 
         string? javaRuntimeFiles = await Request.GetJsonAsync<JavaVersionDetails>(
@@ -65,7 +66,7 @@ public static class JavaVersionDetailsDownloader
             Encoding.UTF8,
             JavaVersionDetailsContext.Default
         );
-        return ObjectValidator<string>.IsNotNullOrWhiteSpace([javaRuntimeFiles]);
+        return StringValidator.IsNotNullOrWhiteSpace([javaRuntimeFiles]);
     }
 
     public static string? GetJavaRuntimeUrl(JavaRuntimeType? javaRuntimeType, JavaRuntime? javaRuntime) =>
@@ -104,10 +105,8 @@ public static class JavaVersionDetailsDownloader
 
     private static bool ObjectsValidate(JavaRuntime? javaRuntime, List<JavaRuntimeObject>? javaRuntimeObjects)
     {
-        return ObjectValidator<JavaRuntime>.IsNotNull(javaRuntime)
-            && ObjectValidator<JavaRuntimeObject>.IsNotNullOrEmpty(javaRuntimeObjects)
-            && ObjectValidator<string>.IsNotNullOrWhiteSpace(
-                [javaRuntimeObjects?.FirstOrDefault()?.JavaRuntimeManifest?.Url]
-            );
+        return ClassValidator.IsNotNull(javaRuntime)
+            && ListValidator.IsNotNullOrEmpty(javaRuntimeObjects)
+            && StringValidator.IsNotNullOrWhiteSpace([javaRuntimeObjects?.FirstOrDefault()?.JavaRuntimeManifest?.Url]);
     }
 }

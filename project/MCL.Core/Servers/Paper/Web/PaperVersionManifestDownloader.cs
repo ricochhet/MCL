@@ -20,6 +20,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MCL.Core.Launcher.Models;
 using MCL.Core.MiniCommon.Validation;
+using MCL.Core.MiniCommon.Validation.Validators;
 using MCL.Core.MiniCommon.Web;
 using MCL.Core.Servers.Paper.Models;
 using MCL.Core.Servers.Paper.Resolvers;
@@ -37,7 +38,7 @@ public static class PaperVersionManifestDownloader
         PaperUrls? paperUrls
     )
     {
-        if (ObjectValidator<string>.IsNullOrWhiteSpace([launcherVersion?.MVersion, paperUrls?.VersionManifest]))
+        if (StringValidator.IsNullOrWhiteSpace([launcherVersion?.MVersion, paperUrls?.VersionManifest]))
             return false;
 
         string filepath = PaperPathResolver.VersionManifestPath(launcherPath, launcherVersion);
@@ -47,6 +48,6 @@ public static class PaperVersionManifestDownloader
             Encoding.UTF8,
             PaperVersionManifestContext.Default
         );
-        return ObjectValidator<string>.IsNotNullOrWhiteSpace([paperIndex]);
+        return StringValidator.IsNotNullOrWhiteSpace([paperIndex]);
     }
 }

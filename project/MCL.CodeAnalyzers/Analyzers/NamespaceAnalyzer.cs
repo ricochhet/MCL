@@ -22,6 +22,8 @@ using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Logger.Enums;
 using MCL.Core.MiniCommon.Providers;
 using MCL.Core.MiniCommon.Validation;
+using MCL.Core.MiniCommon.Validation.Operators;
+using MCL.Core.MiniCommon.Validation.Validators;
 
 namespace MCL.CodeAnalyzers.Analyzers;
 
@@ -45,9 +47,9 @@ public static partial class NamespaceAnalyzer
             if (AnalyzerFiles.Restricted.Exists(file.Contains))
                 continue;
 
-            if (ObjectValidator<string>.IsNullOrWhiteSpace([name], NativeLogLevel.Debug))
+            if (StringValidator.IsNullOrWhiteSpace([name], NativeLogLevel.Debug))
             {
-                NotificationProvider.Error("analyzer.error.namespace", file, name ?? ValidationShims.StringEmpty());
+                NotificationProvider.Error("analyzer.error.namespace", file, name ?? StringOperator.Empty());
                 continue;
             }
 

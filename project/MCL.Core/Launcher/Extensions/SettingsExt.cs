@@ -24,6 +24,7 @@ using MCL.Core.Launcher.Enums;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Providers;
 using MCL.Core.MiniCommon.Validation;
+using MCL.Core.MiniCommon.Validation.Validators;
 using MCL.Core.Modding.Extensions;
 using MCL.Core.Modding.Models;
 
@@ -44,7 +45,7 @@ public static class SettingsExt
     )
         where T : class
     {
-        if (options.TryGetValue(key, out string? value) && ObjectValidator<T>.IsNotNull(propertySelector(settings)))
+        if (options.TryGetValue(key, out string? value) && ClassValidator.IsNotNull(propertySelector(settings)))
         {
             T convertedValue = converter(value);
             setter(settings, convertedValue);
@@ -63,8 +64,7 @@ public static class SettingsExt
                 if (settings.MJvmArguments != jvmArguments)
                 {
                     settings.MJvmArguments =
-                        jvmArguments?.Concat(settings.OverrideMJvmArguments)
-                        ?? ValidationShims.ClassEmpty<JvmArguments>();
+                        jvmArguments?.Concat(settings.OverrideMJvmArguments) ?? ClassOperator.Empty<JvmArguments>();
                     SettingsProvider.Save(settings);
                 }
                 break;
@@ -73,7 +73,7 @@ public static class SettingsExt
                 {
                     settings.FabricJvmArguments =
                         jvmArguments?.Concat(settings.OverrideFabricJvmArguments)
-                        ?? ValidationShims.ClassEmpty<JvmArguments>();
+                        ?? ClassOperator.Empty<JvmArguments>();
                     SettingsProvider.Save(settings);
                 }
                 break;
@@ -81,8 +81,7 @@ public static class SettingsExt
                 if (settings.QuiltJvmArguments != jvmArguments)
                 {
                     settings.QuiltJvmArguments =
-                        jvmArguments?.Concat(settings.OverrideQuiltJvmArguments)
-                        ?? ValidationShims.ClassEmpty<JvmArguments>();
+                        jvmArguments?.Concat(settings.OverrideQuiltJvmArguments) ?? ClassOperator.Empty<JvmArguments>();
                     SettingsProvider.Save(settings);
                 }
                 break;
@@ -99,7 +98,7 @@ public static class SettingsExt
         if (settings.PaperJvmArguments != jvmArguments)
         {
             settings.PaperJvmArguments =
-                jvmArguments?.Concat(settings.OverridePaperJvmArguments) ?? ValidationShims.ClassEmpty<JvmArguments>();
+                jvmArguments?.Concat(settings.OverridePaperJvmArguments) ?? ClassOperator.Empty<JvmArguments>();
             SettingsProvider.Save(settings);
         }
         return settings;
@@ -113,7 +112,7 @@ public static class SettingsExt
         if (settings.ModSettings != modSettings)
         {
             settings.ModSettings =
-                modSettings?.Concat(settings.OverrideModSettings) ?? ValidationShims.ClassEmpty<ModSettings>();
+                modSettings?.Concat(settings.OverrideModSettings) ?? ClassOperator.Empty<ModSettings>();
             SettingsProvider.Save(settings);
         }
         return settings;
@@ -127,8 +126,7 @@ public static class SettingsExt
         if (settings.LauncherInstance != launcherInstance)
         {
             settings.LauncherInstance =
-                launcherInstance?.Concat(settings.OverrideLauncherInstance)
-                ?? ValidationShims.ClassEmpty<LauncherInstance>();
+                launcherInstance?.Concat(settings.OverrideLauncherInstance) ?? ClassOperator.Empty<LauncherInstance>();
             SettingsProvider.Save(settings);
         }
         return settings;

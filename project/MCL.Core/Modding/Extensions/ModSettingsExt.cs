@@ -31,25 +31,25 @@ public static class ModSettingsExt
     public static ModSettings Concat(this ModSettings modSettings, ModSettings? concat)
     {
         List<string> copyOnlyTypes = modSettings
-            .CopyOnlyTypes.Concat(concat?.CopyOnlyTypes ?? ValidationShims.ListEmpty<string>())
+            .CopyOnlyTypes.Concat(concat?.CopyOnlyTypes ?? [])
             .GroupBy(arg => arg)
             .Select(group => group.Last())
             .ToList();
 
         List<string> unzipAndCopyTypes = modSettings
-            .UnzipAndCopyTypes.Concat(concat?.UnzipAndCopyTypes ?? ValidationShims.ListEmpty<string>())
+            .UnzipAndCopyTypes.Concat(concat?.UnzipAndCopyTypes ?? [])
             .GroupBy(arg => arg)
             .Select(group => group.Last())
             .ToList();
 
         List<string> modStores = modSettings
-            .ModStores.Concat(concat?.ModStores ?? ValidationShims.ListEmpty<string>())
+            .ModStores.Concat(concat?.ModStores ?? [])
             .GroupBy(arg => arg)
             .Select(group => group.Last())
             .ToList();
 
         List<string> deployPaths = modSettings
-            .DeployPaths.Concat(concat?.DeployPaths ?? ValidationShims.ListEmpty<string>())
+            .DeployPaths.Concat(concat?.DeployPaths ?? [])
             .GroupBy(arg => arg)
             .Select(group => group.Last())
             .ToList();

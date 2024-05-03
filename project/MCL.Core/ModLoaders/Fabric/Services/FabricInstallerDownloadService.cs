@@ -23,6 +23,8 @@ using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Logger.Enums;
 using MCL.Core.MiniCommon.Providers;
 using MCL.Core.MiniCommon.Validation;
+using MCL.Core.MiniCommon.Validation.Operators;
+using MCL.Core.MiniCommon.Validation.Validators;
 using MCL.Core.ModLoaders.Fabric.Helpers;
 using MCL.Core.ModLoaders.Fabric.Models;
 using MCL.Core.ModLoaders.Fabric.Resolvers;
@@ -92,7 +94,7 @@ public class FabricInstallerDownloadService : IModLoaderInstallerDownloadService
             FabricPathResolver.VersionManifestPath(_launcherPath),
             FabricVersionManifestContext.Default
         );
-        if (ObjectValidator<FabricVersionManifest>.IsNull(FabricVersionManifest))
+        if (ClassValidator.IsNull(FabricVersionManifest))
         {
             NotificationProvider.Error("error.readfile", nameof(FabricVersionManifest));
             return false;
@@ -109,18 +111,18 @@ public class FabricInstallerDownloadService : IModLoaderInstallerDownloadService
             FabricVersionManifestContext.Default
         );
 
-        return ObjectValidator<FabricVersionManifest>.IsNotNull(FabricVersionManifest, NativeLogLevel.Debug);
+        return ClassValidator.IsNotNull(FabricVersionManifest, NativeLogLevel.Debug);
     }
 
     /// <inheritdoc />
     public bool LoadVersion()
     {
         FabricInstaller = FabricVersionHelper.GetInstallerVersion(_launcherVersion, FabricVersionManifest);
-        if (ObjectValidator<FabricInstaller>.IsNull(FabricInstaller))
+        if (ClassValidator.IsNull(FabricInstaller))
         {
             NotificationProvider.Error(
                 "error.parse",
-                _launcherVersion?.FabricInstallerVersion ?? ValidationShims.StringEmpty(),
+                _launcherVersion?.FabricInstallerVersion ?? StringOperator.Empty(),
                 nameof(FabricInstaller)
             );
             return false;

@@ -25,6 +25,7 @@ using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Providers;
 using MCL.Core.MiniCommon.Resolvers;
 using MCL.Core.MiniCommon.Validation;
+using MCL.Core.MiniCommon.Validation.Validators;
 
 namespace MCL.Core.Launcher.Providers;
 
@@ -39,9 +40,9 @@ public static class MLaunchProvider
             return;
 
         if (
-            ObjectValidator<LauncherSettings>.IsNull(settings?.LauncherSettings)
-            || ObjectValidator<LauncherVersion>.IsNull(settings?.LauncherVersion)
-            || ObjectValidator<LauncherUsername>.IsNull(settings?.LauncherUsername)
+            ClassValidator.IsNull(settings?.LauncherSettings)
+            || ClassValidator.IsNull(settings?.LauncherVersion)
+            || ClassValidator.IsNull(settings?.LauncherUsername)
         )
         {
             return;

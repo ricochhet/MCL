@@ -23,6 +23,8 @@ using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Logger.Enums;
 using MCL.Core.MiniCommon.Providers;
 using MCL.Core.MiniCommon.Validation;
+using MCL.Core.MiniCommon.Validation.Operators;
+using MCL.Core.MiniCommon.Validation.Validators;
 using MCL.Core.ModLoaders.Interfaces.Services;
 using MCL.Core.ModLoaders.Quilt.Helpers;
 using MCL.Core.ModLoaders.Quilt.Models;
@@ -92,7 +94,7 @@ public class QuiltInstallerDownloadService : IModLoaderInstallerDownloadService
             QuiltPathResolver.VersionManifestPath(_launcherPath),
             QuiltVersionManifestContext.Default
         );
-        if (ObjectValidator<QuiltVersionManifest>.IsNull(QuiltVersionManifest))
+        if (ClassValidator.IsNull(QuiltVersionManifest))
         {
             NotificationProvider.Error("error.readfile", nameof(QuiltVersionManifest));
             return false;
@@ -109,18 +111,18 @@ public class QuiltInstallerDownloadService : IModLoaderInstallerDownloadService
             QuiltVersionManifestContext.Default
         );
 
-        return ObjectValidator<QuiltVersionManifest>.IsNotNull(QuiltVersionManifest, NativeLogLevel.Debug);
+        return ClassValidator.IsNotNull(QuiltVersionManifest, NativeLogLevel.Debug);
     }
 
     /// <inheritdoc />
     public bool LoadVersion()
     {
         QuiltInstaller = QuiltVersionHelper.GetInstallerVersion(_launcherVersion, QuiltVersionManifest);
-        if (ObjectValidator<QuiltInstaller>.IsNull(QuiltInstaller))
+        if (ClassValidator.IsNull(QuiltInstaller))
         {
             NotificationProvider.Error(
                 "error.parse",
-                _launcherVersion?.QuiltInstallerVersion ?? ValidationShims.StringEmpty(),
+                _launcherVersion?.QuiltInstallerVersion ?? StringOperator.Empty(),
                 nameof(QuiltInstaller)
             );
             return false;

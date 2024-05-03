@@ -23,6 +23,7 @@ using MCL.Core.Minecraft.Models;
 using MCL.Core.Minecraft.Resolvers;
 using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Validation;
+using MCL.Core.MiniCommon.Validation.Validators;
 using MCL.Core.MiniCommon.Web;
 
 namespace MCL.Core.Minecraft.Web;
@@ -35,8 +36,8 @@ public static class ResourceDownloader
     public static async Task<bool> Download(LauncherPath? launcherPath, MUrls? mUrls, MAssetsData? assets)
     {
         if (
-            ObjectValidator<string>.IsNullOrWhiteSpace([mUrls?.MinecraftResources])
-            || ObjectValidator<Dictionary<string, MAsset>>.IsNullOrEmpty(assets?.Objects)
+            StringValidator.IsNullOrWhiteSpace([mUrls?.MinecraftResources])
+            || DictionaryValidator.IsNullOrEmpty(assets?.Objects)
         )
         {
             return false;
@@ -45,7 +46,7 @@ public static class ResourceDownloader
         string objectsPath = VFS.Combine(MPathResolver.AssetsPath(launcherPath), "objects");
         foreach ((_, MAsset asset) in assets!.Objects!)
         {
-            if (ObjectValidator<string>.IsNullOrWhiteSpace([asset?.Hash]))
+            if (StringValidator.IsNullOrWhiteSpace([asset?.Hash]))
                 return false;
 
             string request = $"{mUrls!.MinecraftResources}/{asset!.Hash[..2]}/{asset!.Hash}";

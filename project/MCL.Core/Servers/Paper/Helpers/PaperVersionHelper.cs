@@ -22,6 +22,8 @@ using System.Threading.Tasks;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Providers;
 using MCL.Core.MiniCommon.Validation;
+using MCL.Core.MiniCommon.Validation.Operators;
+using MCL.Core.MiniCommon.Validation.Validators;
 using MCL.Core.Servers.Paper.Models;
 using MCL.Core.Servers.Paper.Services;
 
@@ -35,9 +37,9 @@ public static class PaperVersionHelper
     public static bool VersionExists(Settings settings)
     {
         if (
-            ObjectValidator<Settings>.IsNull(settings)
-            || ObjectValidator<LauncherInstance>.IsNull(settings.LauncherInstance)
-            || ObjectValidator<LauncherVersion>.IsNull(settings.LauncherVersion)
+            ClassValidator.IsNull(settings)
+            || ClassValidator.IsNull(settings.LauncherInstance)
+            || ClassValidator.IsNull(settings.LauncherVersion)
         )
         {
             return false;
@@ -63,19 +65,19 @@ public static class PaperVersionHelper
             downloader.LoadVersionManifest();
         }
 
-        if (ObjectValidator<PaperVersionManifest>.IsNull(downloader.PaperVersionManifest))
+        if (ClassValidator.IsNull(downloader.PaperVersionManifest))
             return false;
 
         List<string> versions = GetVersionIds(downloader.PaperVersionManifest!);
         string? version = launcherVersion.PaperServerVersion;
 
-        if (version == "latest" || ObjectValidator<string>.IsNullOrWhiteSpace([version]))
+        if (version == "latest" || StringValidator.IsNullOrWhiteSpace([version]))
             version = versions.LastOrDefault(); // Latest is the last version of the array.
 
-        if (!versions.Contains(version ?? ValidationShims.StringEmpty()))
+        if (!versions.Contains(version ?? StringOperator.Empty()))
             return false;
 
-        if (ObjectValidator<LauncherVersion>.IsNull(settings?.LauncherVersion))
+        if (ClassValidator.IsNull(settings?.LauncherVersion))
             return false;
         settings!.LauncherVersion!.PaperServerVersion = version!;
         SettingsProvider.Save(settings);
@@ -87,7 +89,7 @@ public static class PaperVersionHelper
     /// </summary>
     public static List<string> GetVersionIds(PaperVersionManifest paperVersionManifest)
     {
-        if (ObjectValidator<List<PaperBuild>>.IsNullOrEmpty(paperVersionManifest?.Builds))
+        if (ListValidator.IsNullOrEmpty(paperVersionManifest?.Builds))
             return [];
 
         List<string> versions = [];
@@ -106,8 +108,8 @@ public static class PaperVersionHelper
     )
     {
         if (
-            ObjectValidator<string>.IsNullOrWhiteSpace([paperServerVersion?.PaperServerVersion])
-            || ObjectValidator<List<PaperBuild>>.IsNullOrEmpty(paperVersionManifest?.Builds)
+            StringValidator.IsNullOrWhiteSpace([paperServerVersion?.PaperServerVersion])
+            || ListValidator.IsNullOrEmpty(paperVersionManifest?.Builds)
         )
         {
             return null;

@@ -18,6 +18,7 @@
 
 using MCL.Core.Launcher.Models;
 using MCL.Core.MiniCommon.Validation;
+using MCL.Core.MiniCommon.Validation.Validators;
 using MCL.Core.ModLoaders.Fabric.Enums;
 using MCL.Core.ModLoaders.Fabric.Resolvers;
 using MCL.Core.ModLoaders.Interfaces.Helpers;
@@ -34,7 +35,7 @@ public class FabricInstallerOptions : IModLoaderInstallerOptions<FabricInstaller
     )
     {
         if (
-            ObjectValidator<string>.IsNullOrWhiteSpace(
+            StringValidator.IsNullOrWhiteSpace(
                 [
                     launcherVersion?.MVersion,
                     launcherVersion?.FabricInstallerVersion,

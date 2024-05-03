@@ -27,6 +27,8 @@ using MCL.Core.Minecraft.Resolvers;
 using MCL.Core.Minecraft.Services;
 using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Validation;
+using MCL.Core.MiniCommon.Validation.Operators;
+using MCL.Core.MiniCommon.Validation.Validators;
 
 namespace MCL.Core.Minecraft.Helpers;
 
@@ -37,21 +39,16 @@ public static class VersionHelper
     /// </summary>
     public static bool VersionExists(Settings settings)
     {
-        if (
-            ObjectValidator<Settings>.IsNull(settings)
-            || ObjectValidator<LauncherInstance>.IsNull(settings.LauncherInstance)
-        )
+        if (ClassValidator.IsNull(settings) || ClassValidator.IsNull(settings.LauncherInstance))
         {
             return false;
         }
 
         return settings.LauncherSettings!.ClientType switch
         {
-            ClientType.VANILLA => ObjectValidator<LauncherLoader>.IsNotNullOrEmpty(settings.LauncherInstance!.Versions),
-            ClientType.FABRIC
-                => ObjectValidator<LauncherLoader>.IsNotNullOrEmpty(settings.LauncherInstance!.FabricLoaders),
-            ClientType.QUILT
-                => ObjectValidator<LauncherLoader>.IsNotNullOrEmpty(settings.LauncherInstance!.QuiltLoaders),
+            ClientType.VANILLA => ListValidator.IsNotNullOrEmpty(settings.LauncherInstance!.Versions),
+            ClientType.FABRIC => ListValidator.IsNotNullOrEmpty(settings.LauncherInstance!.FabricLoaders),
+            ClientType.QUILT => ListValidator.IsNotNullOrEmpty(settings.LauncherInstance!.QuiltLoaders),
             _ => false,
         };
     }
@@ -79,19 +76,19 @@ public static class VersionHelper
             downloader.LoadVersionManifest();
         }
 
-        if (ObjectValidator<MVersionManifest>.IsNull(downloader.VersionManifest))
+        if (ClassValidator.IsNull(downloader.VersionManifest))
             return false;
 
         List<string> versions = GetVersionIds(downloader.VersionManifest);
         string? version = launcherVersion.MVersion;
 
-        if (version == "latest" || ObjectValidator<string>.IsNullOrWhiteSpace([version]))
+        if (version == "latest" || StringValidator.IsNullOrWhiteSpace([version]))
             version = versions.FirstOrDefault();
 
-        if (!versions.Contains(version ?? ValidationShims.StringEmpty()))
+        if (!versions.Contains(version ?? StringOperator.Empty()))
             return false;
 
-        if (ObjectValidator<LauncherVersion>.IsNull(settings?.LauncherVersion))
+        if (ClassValidator.IsNull(settings?.LauncherVersion))
             return false;
         settings!.LauncherVersion!.MVersion = version!;
         SettingsProvider.Save(settings);
@@ -103,7 +100,7 @@ public static class VersionHelper
     /// </summary>
     public static List<string> GetVersionIds(MVersionManifest? versionManifest)
     {
-        if (ObjectValidator<List<MVersion>>.IsNullOrEmpty(versionManifest?.Versions))
+        if (ListValidator.IsNullOrEmpty(versionManifest?.Versions))
             return [];
 
         List<string> versions = [];
@@ -118,13 +115,13 @@ public static class VersionHelper
     /// </summary>
     public static MVersion? GetVersion(LauncherVersion? launcherVersion, MVersionManifest? versionManifest)
     {
-        if (ObjectValidator<List<MVersion>>.IsNullOrEmpty(versionManifest?.Versions))
+        if (ListValidator.IsNullOrEmpty(versionManifest?.Versions))
             return null;
 
         foreach (MVersion item in versionManifest!.Versions!)
         {
             if (
-                ObjectValidator<string>.IsNullOrWhiteSpace([launcherVersion?.MVersion])
+                StringValidator.IsNullOrWhiteSpace([launcherVersion?.MVersion])
                 && item.ID == versionManifest!.Latest?.Release
             )
             {
@@ -132,7 +129,7 @@ public static class VersionHelper
             }
 
             if (
-                ObjectValidator<string>.IsNotNullOrWhiteSpace([launcherVersion?.MVersion])
+                StringValidator.IsNotNullOrWhiteSpace([launcherVersion?.MVersion])
                 && item.ID == launcherVersion?.MVersion
             )
             {
@@ -147,7 +144,7 @@ public static class VersionHelper
     /// </summary>
     public static MVersionDetails? GetVersionDetails(LauncherPath? launcherPath, LauncherVersion? launcherVersion)
     {
-        if (ObjectValidator<string>.IsNullOrWhiteSpace([launcherVersion?.MVersion]))
+        if (StringValidator.IsNullOrWhiteSpace([launcherVersion?.MVersion]))
             return null;
 
         MVersionManifest? versionManifest = Json.Load<MVersionManifest>(
@@ -155,17 +152,17 @@ public static class VersionHelper
             MVersionManifestContext.Default
         );
 
-        if (ObjectValidator<List<MVersion>>.IsNullOrEmpty(versionManifest?.Versions))
+        if (ListValidator.IsNullOrEmpty(versionManifest?.Versions))
             return null;
 
         MVersion? version = GetVersion(launcherVersion, versionManifest);
-        if (ObjectValidator<MVersion>.IsNull(version))
+        if (ClassValidator.IsNull(version))
             return null;
 
         MVersionDetails? versionDetails = Json.Load<MVersionDetails>(
             MPathResolver.VersionDetailsPath(launcherPath, version),
             MVersionDetailsContext.Default
         );
-        return ObjectValidator<MVersionDetails>.IsNotNull(versionDetails) ? versionDetails : null;
+        return ClassValidator.IsNotNull(versionDetails) ? versionDetails : null;
     }
 }

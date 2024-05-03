@@ -25,6 +25,7 @@ using MCL.Core.MiniCommon.Extensions;
 using MCL.Core.MiniCommon.Models;
 using MCL.Core.MiniCommon.Providers;
 using MCL.Core.MiniCommon.Validation;
+using MCL.Core.MiniCommon.Validation.Operators;
 
 namespace MCL.Core.MiniCommon.CommandParser.Abstractions;
 
@@ -81,7 +82,7 @@ public class BaseCommandLine : IBaseCommandLine
                     if (
                         command
                             .Parameters.Where(a => !a.Optional)
-                            .All(a => options.ContainsKey(a?.Name ?? ValidationShims.StringEmpty()))
+                            .All(a => options.ContainsKey(a?.Name ?? StringOperator.Empty()))
                     )
                     {
                         action(options);
@@ -152,7 +153,7 @@ public class BaseCommandLine : IBaseCommandLine
                     if (
                         command
                             .Parameters.Where(a => !a.Optional)
-                            .All(a => options.ContainsKey(a?.Name ?? ValidationShims.StringEmpty()))
+                            .All(a => options.ContainsKey(a?.Name ?? StringOperator.Empty()))
                     )
                     {
                         await action(options);

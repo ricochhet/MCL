@@ -24,6 +24,7 @@ using MCL.Core.MiniCommon.CommandParser.Converters;
 using MCL.Core.MiniCommon.Interfaces;
 using MCL.Core.MiniCommon.Providers;
 using MCL.Core.MiniCommon.Validation;
+using MCL.Core.MiniCommon.Validation.Validators;
 using MCL.Core.Modding.Resolvers;
 using MCL.Core.Modding.Services;
 
@@ -39,7 +40,7 @@ public class DeployMods : IBaseCommand
             ArgumentConverter.ToString,
             (string? value) =>
             {
-                if (ObjectValidator<Settings>.IsNull(settings))
+                if (ClassValidator.IsNull(settings))
                     return;
 
                 ModdingService modding = new(settings?.LauncherPath, settings?.SevenZipSettings, settings?.ModSettings);

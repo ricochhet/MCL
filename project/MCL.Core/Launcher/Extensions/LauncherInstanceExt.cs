@@ -31,25 +31,25 @@ public static class LauncherInstanceExt
     public static LauncherInstance Concat(this LauncherInstance launcherInstance, LauncherInstance? concat)
     {
         List<LauncherLoader> versions = launcherInstance
-            .Versions.Concat(concat?.Versions ?? ValidationShims.ListEmpty<LauncherLoader>())
+            .Versions.Concat(concat?.Versions ?? [])
             .GroupBy(arg => arg.Version)
             .Select(group => group.Last())
             .ToList();
 
         List<LauncherLoader> fabricLoaders = launcherInstance
-            .FabricLoaders.Concat(concat?.FabricLoaders ?? ValidationShims.ListEmpty<LauncherLoader>())
+            .FabricLoaders.Concat(concat?.FabricLoaders ?? [])
             .GroupBy(arg => arg.Version)
             .Select(group => group.Last())
             .ToList();
 
         List<LauncherLoader> quiltLoaders = launcherInstance
-            .QuiltLoaders.Concat(concat?.QuiltLoaders ?? ValidationShims.ListEmpty<LauncherLoader>())
+            .QuiltLoaders.Concat(concat?.QuiltLoaders ?? [])
             .GroupBy(arg => arg.Version)
             .Select(group => group.Last())
             .ToList();
 
         List<string> paperServerVersions = launcherInstance
-            .PaperServerVersions.Concat(concat?.PaperServerVersions ?? ValidationShims.ListEmpty<string>())
+            .PaperServerVersions.Concat(concat?.PaperServerVersions ?? [])
             .GroupBy(arg => arg)
             .Select(group => group.Last())
             .ToList();

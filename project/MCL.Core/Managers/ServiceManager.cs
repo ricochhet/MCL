@@ -25,6 +25,7 @@ using MCL.Core.MiniCommon.Logger;
 using MCL.Core.MiniCommon.Models;
 using MCL.Core.MiniCommon.Providers;
 using MCL.Core.MiniCommon.Validation;
+using MCL.Core.MiniCommon.Validation.Validators;
 using MCL.Core.MiniCommon.Web;
 
 namespace MCL.Core.Managers;
@@ -44,7 +45,7 @@ public static class ServiceManager
             NotificationProvider.Info("log.initialized");
             SettingsProvider.FirstRun();
             Settings = SettingsProvider.Load();
-            if (ObjectValidator<Settings>.IsNull(Settings))
+            if (ClassValidator.IsNull(Settings))
                 return Task.FromResult(false);
             RequestDataProvider.OnRequestCompleted(
                 (RequestData requestData) =>

@@ -21,6 +21,7 @@ using MCL.Core.Minecraft.Models;
 using MCL.Core.Minecraft.Resolvers;
 using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Validation;
+using MCL.Core.MiniCommon.Validation.Validators;
 
 namespace MCL.Core.Minecraft.Helpers;
 
@@ -31,7 +32,7 @@ public static class AssetHelper
     /// </summary>
     public static string GetAssetId(LauncherPath? launcherPath, LauncherVersion? launcherVersion)
     {
-        if (ObjectValidator<string>.IsNullOrWhiteSpace([launcherVersion?.MVersion]))
+        if (StringValidator.IsNullOrWhiteSpace([launcherVersion?.MVersion]))
             return string.Empty;
 
         MVersionManifest? versionManifest = Json.Load<MVersionManifest>(
@@ -39,11 +40,11 @@ public static class AssetHelper
             MVersionManifestContext.Default
         );
 
-        if (ObjectValidator<MVersionManifest>.IsNull(versionManifest))
+        if (ClassValidator.IsNull(versionManifest))
             return string.Empty;
 
         MVersion? version = VersionHelper.GetVersion(launcherVersion, versionManifest);
-        if (ObjectValidator<MVersion>.IsNull(version))
+        if (ClassValidator.IsNull(version))
             return string.Empty;
 
         MVersionDetails? versionDetails = Json.Load<MVersionDetails>(
@@ -51,8 +52,6 @@ public static class AssetHelper
             MVersionDetailsContext.Default
         );
 
-        return ObjectValidator<string>.IsNotNullOrWhiteSpace([versionDetails?.Assets])
-            ? versionDetails!.Assets!
-            : string.Empty;
+        return StringValidator.IsNotNullOrWhiteSpace([versionDetails?.Assets]) ? versionDetails!.Assets! : string.Empty;
     }
 }

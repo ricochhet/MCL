@@ -22,6 +22,7 @@ using MCL.Core.Minecraft.Helpers;
 using MCL.Core.Minecraft.Models;
 using MCL.Core.MiniCommon.Resolvers;
 using MCL.Core.MiniCommon.Validation;
+using MCL.Core.MiniCommon.Validation.Validators;
 
 namespace MCL.Core.Java.Helpers;
 
@@ -36,10 +37,10 @@ public static class JavaVersionHelper
         LauncherSettings? launcherSettings
     )
     {
-        if (ObjectValidator<string>.IsNullOrWhiteSpace([launcherVersion?.MVersion]))
+        if (StringValidator.IsNullOrWhiteSpace([launcherVersion?.MVersion]))
             return launcherSettings?.JavaRuntimeType;
         MVersionDetails? versionDetails = VersionHelper.GetVersionDetails(launcherPath, launcherVersion);
-        if (ObjectValidator<string>.IsNullOrWhiteSpace([versionDetails?.JavaVersion?.Component]))
+        if (StringValidator.IsNullOrWhiteSpace([versionDetails?.JavaVersion?.Component]))
             return launcherSettings?.JavaRuntimeType;
         return EnumResolver.Parse(
             versionDetails!.JavaVersion!.Component,

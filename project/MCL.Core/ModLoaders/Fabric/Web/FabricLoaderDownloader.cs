@@ -24,6 +24,7 @@ using MCL.Core.Launcher.Providers;
 using MCL.Core.Minecraft.Resolvers;
 using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Validation;
+using MCL.Core.MiniCommon.Validation.Validators;
 using MCL.Core.MiniCommon.Web;
 using MCL.Core.ModLoaders.Fabric.Models;
 using MCL.Core.ModLoaders.Fabric.Resolvers;
@@ -45,9 +46,9 @@ public class FabricLoaderDownloader : IModLoaderLoaderDownloader<FabricProfile, 
 #pragma warning restore S3776
     {
         if (
-            ObjectValidator<string>.IsNullOrWhiteSpace(
+            StringValidator.IsNullOrWhiteSpace(
                 [launcherVersion?.FabricLoaderVersion, fabricUrls?.ApiLoaderName, fabricUrls?.ApiIntermediaryName]
-            ) || ObjectValidator<List<FabricLibrary>>.IsNullOrEmpty(fabricProfile?.Libraries)
+            ) || ListValidator.IsNullOrEmpty(fabricProfile?.Libraries)
         )
         {
             return false;
@@ -57,7 +58,7 @@ public class FabricLoaderDownloader : IModLoaderLoaderDownloader<FabricProfile, 
 
         foreach (FabricLibrary library in fabricProfile!.Libraries!)
         {
-            if (ObjectValidator<string>.IsNullOrWhiteSpace([library?.Name, library?.URL]))
+            if (StringValidator.IsNullOrWhiteSpace([library?.Name, library?.URL]))
                 return false;
 
             string request;
@@ -74,7 +75,7 @@ public class FabricLoaderDownloader : IModLoaderLoaderDownloader<FabricProfile, 
             }
             else
             {
-                if (ObjectValidator<string>.IsNullOrWhiteSpace([library!.SHA1]))
+                if (StringValidator.IsNullOrWhiteSpace([library!.SHA1]))
                     return false;
                 request = FabricLibrary.ParseURL(library!.Name, library!.URL);
                 hash = library!.SHA1!;
@@ -90,7 +91,7 @@ public class FabricLoaderDownloader : IModLoaderLoaderDownloader<FabricProfile, 
                 return false;
         }
 
-        if (ObjectValidator<List<LauncherLoader>>.IsNull(launcherInstance?.FabricLoaders))
+        if (ClassValidator.IsNull(launcherInstance?.FabricLoaders))
             return false;
         List<LauncherLoader> existingLoaders = [];
 

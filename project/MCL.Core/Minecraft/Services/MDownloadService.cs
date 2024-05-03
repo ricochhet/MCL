@@ -27,6 +27,8 @@ using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Logger.Enums;
 using MCL.Core.MiniCommon.Providers;
 using MCL.Core.MiniCommon.Validation;
+using MCL.Core.MiniCommon.Validation.Operators;
+using MCL.Core.MiniCommon.Validation.Validators;
 
 namespace MCL.Core.Minecraft.Services;
 
@@ -141,7 +143,7 @@ public class MDownloadService
             MPathResolver.VersionManifestPath(_launcherPath),
             MVersionManifestContext.Default
         );
-        if (ObjectValidator<MVersionManifest>.IsNull(VersionManifest))
+        if (ClassValidator.IsNull(VersionManifest))
         {
             NotificationProvider.Error("error.readfile", nameof(MVersionManifest));
             return false;
@@ -160,7 +162,7 @@ public class MDownloadService
             MVersionManifestContext.Default
         );
 
-        return ObjectValidator<MVersionManifest>.IsNotNull(VersionManifest, NativeLogLevel.Debug);
+        return ClassValidator.IsNotNull(VersionManifest, NativeLogLevel.Debug);
     }
 
     /// <summary>
@@ -169,11 +171,11 @@ public class MDownloadService
     public bool LoadVersion()
     {
         Version = VersionHelper.GetVersion(_launcherVersion, VersionManifest);
-        if (ObjectValidator<MVersion>.IsNull(Version))
+        if (ClassValidator.IsNull(Version))
         {
             NotificationProvider.Error(
                 "error.parse",
-                _launcherVersion?.MVersion ?? ValidationShims.StringEmpty(),
+                _launcherVersion?.MVersion ?? StringOperator.Empty(),
                 nameof(MVersion)
             );
             return false;
@@ -208,7 +210,7 @@ public class MDownloadService
             MPathResolver.VersionDetailsPath(_launcherPath, Version),
             MVersionDetailsContext.Default
         );
-        if (ObjectValidator<MVersionDetails>.IsNull(VersionDetails))
+        if (ClassValidator.IsNull(VersionDetails))
         {
             NotificationProvider.Error("error.readfile", nameof(MVersionDetails));
             return false;
@@ -336,7 +338,7 @@ public class MDownloadService
             MPathResolver.ClientAssetIndexPath(_launcherPath, VersionDetails),
             MAssetsDataContext.Default
         );
-        if (ObjectValidator<MAssetsData>.IsNull(_assets))
+        if (ClassValidator.IsNull(_assets))
         {
             NotificationProvider.Error("error.readfile", nameof(MAssetsData));
             return false;

@@ -23,6 +23,8 @@ using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Logger.Enums;
 using MCL.Core.MiniCommon.Providers;
 using MCL.Core.MiniCommon.Validation;
+using MCL.Core.MiniCommon.Validation.Operators;
+using MCL.Core.MiniCommon.Validation.Validators;
 using MCL.Core.ModLoaders.Fabric.Helpers;
 using MCL.Core.ModLoaders.Fabric.Models;
 using MCL.Core.ModLoaders.Fabric.Resolvers;
@@ -49,7 +51,7 @@ public class FabricLoaderDownloadService : IModLoaderLoaderDownloadService
         FabricUrls? fabricUrls
     )
     {
-        if (ObjectValidator<LauncherInstance>.IsNull(launcherInstance))
+        if (ClassValidator.IsNull(launcherInstance))
             return;
 
         _launcherPath = launcherPath;
@@ -104,7 +106,7 @@ public class FabricLoaderDownloadService : IModLoaderLoaderDownloadService
             FabricPathResolver.VersionManifestPath(_launcherPath),
             FabricVersionManifestContext.Default
         );
-        if (ObjectValidator<FabricVersionManifest>.IsNull(FabricVersionManifest))
+        if (ClassValidator.IsNull(FabricVersionManifest))
         {
             NotificationProvider.Error("error.readfile", nameof(FabricVersionManifest));
             return false;
@@ -121,7 +123,7 @@ public class FabricLoaderDownloadService : IModLoaderLoaderDownloadService
             FabricVersionManifestContext.Default
         );
 
-        return ObjectValidator<FabricVersionManifest>.IsNotNull(FabricVersionManifest, NativeLogLevel.Debug);
+        return ClassValidator.IsNotNull(FabricVersionManifest, NativeLogLevel.Debug);
     }
 
     /// <inheritdoc />
@@ -142,11 +144,7 @@ public class FabricLoaderDownloadService : IModLoaderLoaderDownloadService
     /// <inheritdoc />
     public bool LoadProfile()
     {
-        if (
-            ObjectValidator<string>.IsNullOrWhiteSpace(
-                [_launcherVersion?.MVersion, _launcherVersion?.FabricLoaderVersion]
-            )
-        )
+        if (StringValidator.IsNullOrWhiteSpace([_launcherVersion?.MVersion, _launcherVersion?.FabricLoaderVersion]))
         {
             return false;
         }
@@ -155,7 +153,7 @@ public class FabricLoaderDownloadService : IModLoaderLoaderDownloadService
             FabricPathResolver.ProfilePath(_launcherPath, _launcherVersion),
             FabricProfileContext.Default
         );
-        if (ObjectValidator<FabricProfile>.IsNull(FabricProfile))
+        if (ClassValidator.IsNull(FabricProfile))
         {
             NotificationProvider.Error("error.download", nameof(FabricProfile));
             return false;
@@ -168,11 +166,11 @@ public class FabricLoaderDownloadService : IModLoaderLoaderDownloadService
     public bool LoadLoaderVersion()
     {
         FabricLoader? fabricLoader = FabricVersionHelper.GetLoaderVersion(_launcherVersion, FabricVersionManifest);
-        if (ObjectValidator<FabricLoader>.IsNull(fabricLoader))
+        if (ClassValidator.IsNull(fabricLoader))
         {
             NotificationProvider.Error(
                 "error.parse",
-                _launcherVersion?.FabricLoaderVersion ?? ValidationShims.StringEmpty(),
+                _launcherVersion?.FabricLoaderVersion ?? StringOperator.Empty(),
                 nameof(FabricLoader)
             );
             return false;

@@ -23,6 +23,7 @@ using MCL.Core.MiniCommon.CommandParser.Helpers;
 using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Providers;
 using MCL.Core.MiniCommon.Validation;
+using MCL.Core.MiniCommon.Validation.Validators;
 
 namespace MCL.Core.Launcher.Providers;
 
@@ -36,7 +37,7 @@ public static class PaperLaunchProvider
         if (!VFS.Exists(filePath))
             return;
 
-        if (ObjectValidator<LauncherVersion>.IsNull(settings?.LauncherVersion))
+        if (ClassValidator.IsNull(settings?.LauncherVersion))
             return;
 
         Dictionary<string, string> options = CommandFileHelper.Commands(filePath);

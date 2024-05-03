@@ -23,6 +23,7 @@ using MCL.Core.Launcher.Models;
 using MCL.Core.Minecraft.Helpers;
 using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Validation;
+using MCL.Core.MiniCommon.Validation.Validators;
 using MCL.Core.ModLoaders.Fabric.Enums;
 using MCL.Core.ModLoaders.Fabric.Helpers;
 using MCL.Core.ModLoaders.Fabric.Services;
@@ -40,9 +41,9 @@ public class FabricInstallerDownloadWrapper : IModLoaderInstallerDownloadWrapper
         bool update
     )
     {
-        if (ObjectValidator<Settings>.IsNull(settings))
+        if (ClassValidator.IsNull(settings))
             return false;
-        if (ObjectValidator<string>.IsNullOrWhiteSpace([launcherVersion.FabricInstallerVersion]))
+        if (StringValidator.IsNullOrWhiteSpace([launcherVersion.FabricInstallerVersion]))
             return false;
         if (!await VersionHelper.SetVersion(settings, launcherVersion, update))
             return false;

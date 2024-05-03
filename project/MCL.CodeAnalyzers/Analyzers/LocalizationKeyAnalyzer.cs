@@ -24,6 +24,7 @@ using MCL.Core.MiniCommon.Logger.Enums;
 using MCL.Core.MiniCommon.Models;
 using MCL.Core.MiniCommon.Providers;
 using MCL.Core.MiniCommon.Validation;
+using MCL.Core.MiniCommon.Validation.Validators;
 
 namespace MCL.CodeAnalyzers.Analyzers;
 
@@ -37,7 +38,7 @@ public static partial class LocalizationKeyAnalyzer
         int success = 0;
         int fail = 0;
 
-        if (ObjectValidator<Dictionary<string, string>>.IsNullOrEmpty(localization?.Entries))
+        if (DictionaryValidator.IsNullOrEmpty(localization?.Entries))
             return;
 
         foreach (string file in files)
@@ -53,7 +54,7 @@ public static partial class LocalizationKeyAnalyzer
                 Regex matchQuotes = QuoteRegex();
                 Match quoteMatch = matchQuotes.Match(match.Value);
 
-                if (ObjectValidator<string>.IsNullOrWhiteSpace([quoteMatch?.Value], NativeLogLevel.Debug))
+                if (StringValidator.IsNullOrWhiteSpace([quoteMatch?.Value], NativeLogLevel.Debug))
                     continue;
 
                 if (!localization!.Entries!.ContainsKey(quoteMatch!.Value!.Replace("\"", string.Empty)))

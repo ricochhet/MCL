@@ -19,6 +19,7 @@
 using MCL.Core.Launcher.Models;
 using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Validation;
+using MCL.Core.MiniCommon.Validation.Operators;
 using MCL.Core.ModLoaders.Interfaces.Resolvers;
 using MCL.Core.ModLoaders.Quilt.Models;
 
@@ -36,34 +37,34 @@ public class QuiltPathResolver : IModLoaderPathResolver<QuiltUrls>
     /// <inheritdoc />
     public static string InstallerPath(LauncherPath? launcherPath, LauncherVersion? launcherVersion) =>
         VFS.Combine(
-            launcherPath?.QuiltPath ?? ValidationShims.StringEmpty(),
+            launcherPath?.QuiltPath ?? StringOperator.Empty(),
             "installers",
             $"quilt-installer-{launcherVersion?.QuiltInstallerVersion}.jar"
         );
 
     /// <inheritdoc />
     public static string InstallersPath(LauncherPath? launcherPath) =>
-        VFS.Combine(launcherPath?.QuiltPath ?? ValidationShims.StringEmpty(), "installers");
+        VFS.Combine(launcherPath?.QuiltPath ?? StringOperator.Empty(), "installers");
 
     /// <inheritdoc />
     public static string VersionManifestPath(LauncherPath? launcherPath) =>
-        VFS.Combine(launcherPath?.QuiltPath ?? ValidationShims.StringEmpty(), "quilt_manifest.json");
+        VFS.Combine(launcherPath?.QuiltPath ?? StringOperator.Empty(), "quilt_manifest.json");
 
     /// <inheritdoc />
     public static string ProfilePath(LauncherPath? launcherPath, LauncherVersion? launcherVersion) =>
         VFS.Combine(
-            launcherPath?.QuiltPath ?? ValidationShims.StringEmpty(),
+            launcherPath?.QuiltPath ?? StringOperator.Empty(),
             $"quilt_profile-{launcherVersion?.MVersion}-{launcherVersion?.QuiltLoaderVersion}.json"
         );
 
     /// <inheritdoc />
     public static string LoaderJarPath(QuiltUrls? quiltUrls, LauncherVersion? launcherVersion) =>
-        quiltUrls?.LoaderJar.Replace("{0}", launcherVersion?.QuiltLoaderVersion) ?? ValidationShims.StringEmpty();
+        quiltUrls?.LoaderJar.Replace("{0}", launcherVersion?.QuiltLoaderVersion) ?? StringOperator.Empty();
 
     /// <inheritdoc />
     public static string LoaderProfilePath(QuiltUrls? quiltUrls, LauncherVersion? launcherVersion) =>
         string.Format(
-            quiltUrls?.LoaderProfile ?? ValidationShims.StringEmpty(),
+            quiltUrls?.LoaderProfile ?? StringOperator.Empty(),
             launcherVersion?.MVersion,
             launcherVersion?.QuiltLoaderVersion
         );

@@ -22,6 +22,8 @@ using System.Threading.Tasks;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Providers;
 using MCL.Core.MiniCommon.Validation;
+using MCL.Core.MiniCommon.Validation.Operators;
+using MCL.Core.MiniCommon.Validation.Validators;
 using MCL.Core.ModLoaders.Interfaces.Helpers;
 using MCL.Core.ModLoaders.Quilt.Models;
 using MCL.Core.ModLoaders.Quilt.Services;
@@ -45,19 +47,19 @@ public class QuiltVersionHelper : IModLoaderVersionHelper<QuiltVersionManifest, 
             downloader.LoadVersionManifest();
         }
 
-        if (ObjectValidator<QuiltVersionManifest>.IsNull(downloader.QuiltVersionManifest))
+        if (ClassValidator.IsNull(downloader.QuiltVersionManifest))
             return false;
 
         List<string> installerVersions = GetInstallerVersionIds(downloader.QuiltVersionManifest!);
         string? installerVersion = launcherVersion.QuiltInstallerVersion;
 
-        if (installerVersion == "latest" || ObjectValidator<string>.IsNullOrWhiteSpace([installerVersion]))
+        if (installerVersion == "latest" || StringValidator.IsNullOrWhiteSpace([installerVersion]))
             installerVersion = installerVersions.FirstOrDefault();
 
-        if (!installerVersions.Contains(installerVersion ?? ValidationShims.StringEmpty()))
+        if (!installerVersions.Contains(installerVersion ?? StringOperator.Empty()))
             return false;
 
-        if (ObjectValidator<LauncherVersion>.IsNull(settings?.LauncherVersion))
+        if (ClassValidator.IsNull(settings?.LauncherVersion))
             return false;
         settings!.LauncherVersion!.QuiltInstallerVersion = installerVersion!;
         SettingsProvider.Save(settings);
@@ -79,19 +81,19 @@ public class QuiltVersionHelper : IModLoaderVersionHelper<QuiltVersionManifest, 
             downloader.LoadVersionManifest();
         }
 
-        if (ObjectValidator<QuiltVersionManifest>.IsNull(downloader.QuiltVersionManifest))
+        if (ClassValidator.IsNull(downloader.QuiltVersionManifest))
             return false;
 
         List<string> loaderVersions = GetLoaderVersionIds(downloader.QuiltVersionManifest!);
         string? loaderVersion = launcherVersion.QuiltLoaderVersion;
 
-        if (loaderVersion == "latest" || ObjectValidator<string>.IsNullOrWhiteSpace([loaderVersion]))
+        if (loaderVersion == "latest" || StringValidator.IsNullOrWhiteSpace([loaderVersion]))
             loaderVersion = loaderVersions.FirstOrDefault();
 
-        if (!loaderVersions.Contains(loaderVersion ?? ValidationShims.StringEmpty()))
+        if (!loaderVersions.Contains(loaderVersion ?? StringOperator.Empty()))
             return false;
 
-        if (ObjectValidator<LauncherVersion>.IsNull(settings?.LauncherVersion))
+        if (ClassValidator.IsNull(settings?.LauncherVersion))
             return false;
         settings!.LauncherVersion!.QuiltLoaderVersion = loaderVersion!;
         SettingsProvider.Save(settings);
@@ -101,7 +103,7 @@ public class QuiltVersionHelper : IModLoaderVersionHelper<QuiltVersionManifest, 
     /// <inheritdoc />
     public static List<string> GetInstallerVersionIds(QuiltVersionManifest quiltVersionManifest)
     {
-        if (ObjectValidator<List<QuiltInstaller>>.IsNullOrEmpty(quiltVersionManifest?.Installer))
+        if (ListValidator.IsNullOrEmpty(quiltVersionManifest?.Installer))
             return [];
 
         List<string> versions = [];
@@ -114,7 +116,7 @@ public class QuiltVersionHelper : IModLoaderVersionHelper<QuiltVersionManifest, 
     /// <inheritdoc />
     public static List<string> GetLoaderVersionIds(QuiltVersionManifest quiltVersionManifest)
     {
-        if (ObjectValidator<List<QuiltLoader>>.IsNullOrEmpty(quiltVersionManifest?.Loader))
+        if (ListValidator.IsNullOrEmpty(quiltVersionManifest?.Loader))
             return [];
 
         List<string> versions = [];
@@ -131,8 +133,8 @@ public class QuiltVersionHelper : IModLoaderVersionHelper<QuiltVersionManifest, 
     )
     {
         if (
-            ObjectValidator<string>.IsNullOrWhiteSpace([installerVersion?.QuiltInstallerVersion])
-            || ObjectValidator<List<QuiltInstaller>>.IsNullOrEmpty(quiltVersionManifest?.Installer)
+            StringValidator.IsNullOrWhiteSpace([installerVersion?.QuiltInstallerVersion])
+            || ListValidator.IsNullOrEmpty(quiltVersionManifest?.Installer)
         )
         {
             return null;
@@ -154,8 +156,8 @@ public class QuiltVersionHelper : IModLoaderVersionHelper<QuiltVersionManifest, 
     )
     {
         if (
-            ObjectValidator<string>.IsNullOrWhiteSpace([loaderVersion?.QuiltLoaderVersion])
-            || ObjectValidator<List<QuiltLoader>>.IsNullOrEmpty(quiltVersionManifest?.Loader)
+            StringValidator.IsNullOrWhiteSpace([loaderVersion?.QuiltLoaderVersion])
+            || ListValidator.IsNullOrEmpty(quiltVersionManifest?.Loader)
         )
         {
             return null;

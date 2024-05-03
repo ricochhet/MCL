@@ -20,6 +20,7 @@ using MCL.Core.Launcher.Models;
 using MCL.Core.Minecraft.Models;
 using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Validation;
+using MCL.Core.MiniCommon.Validation.Operators;
 
 namespace MCL.Core.Minecraft.Resolvers;
 
@@ -36,7 +37,7 @@ public static class MPathResolver
     public static string ClientLibrary(LauncherVersion? launcherVersion) =>
         VFS.Combine(
             BaseVersionsPath,
-            launcherVersion?.MVersion ?? ValidationShims.StringEmpty(),
+            launcherVersion?.MVersion ?? StringOperator.Empty(),
             $"{launcherVersion?.MVersion}.jar"
         );
 
@@ -46,7 +47,7 @@ public static class MPathResolver
     public static string NativesLibraries(LauncherVersion? launcherVersion) =>
         VFS.Combine(
             BaseVersionsPath,
-            launcherVersion?.MVersion ?? ValidationShims.StringEmpty(),
+            launcherVersion?.MVersion ?? StringOperator.Empty(),
             $"{launcherVersion?.MVersion}-natives"
         );
 
@@ -54,28 +55,28 @@ public static class MPathResolver
     /// The assets path.
     /// </summary>
     public static string AssetsPath(LauncherPath? launcherPath) =>
-        VFS.Combine(launcherPath?.MPath ?? ValidationShims.StringEmpty(), BaseAssetsPath);
+        VFS.Combine(launcherPath?.MPath ?? StringOperator.Empty(), BaseAssetsPath);
 
     /// <summary>
     /// The library path.
     /// </summary>
     public static string LibraryPath(LauncherPath? launcherPath) =>
-        VFS.Combine(launcherPath?.MPath ?? ValidationShims.StringEmpty(), BaseLibrariesPath);
+        VFS.Combine(launcherPath?.MPath ?? StringOperator.Empty(), BaseLibrariesPath);
 
     /// <summary>
     /// The server client path.
     /// </summary>
     public static string ServerPath(LauncherPath? launcherPath) =>
-        VFS.Combine(launcherPath?.MPath ?? ValidationShims.StringEmpty(), BaseServerPath);
+        VFS.Combine(launcherPath?.MPath ?? StringOperator.Empty(), BaseServerPath);
 
     /// <summary>
     /// The client version path specified by the MVersionDetails identifier.
     /// </summary>
     public static string VersionPath(LauncherPath? launcherPath, MVersionDetails? versionDetails) =>
         VFS.Combine(
-            launcherPath?.MPath ?? ValidationShims.StringEmpty(),
+            launcherPath?.MPath ?? StringOperator.Empty(),
             BaseVersionsPath,
-            versionDetails?.ID ?? ValidationShims.StringEmpty()
+            versionDetails?.ID ?? StringOperator.Empty()
         );
 
     /// <summary>
@@ -104,7 +105,7 @@ public static class MPathResolver
 
     // The logging configuration XML file.
     public static string LoggingPath(LauncherVersion? launcherVersion) =>
-        VFS.Combine(BaseVersionsPath, launcherVersion?.MVersion ?? ValidationShims.StringEmpty(), "client.xml");
+        VFS.Combine(BaseVersionsPath, launcherVersion?.MVersion ?? StringOperator.Empty(), "client.xml");
 
     /// <summary>
     /// The server library jar path.
@@ -134,11 +135,11 @@ public static class MPathResolver
     /// The main version manifest path.
     /// </summary>
     public static string VersionManifestPath(LauncherPath? launcherPath) =>
-        VFS.Combine(launcherPath?.MPath ?? ValidationShims.StringEmpty(), "version_manifest.json");
+        VFS.Combine(launcherPath?.MPath ?? StringOperator.Empty(), "version_manifest.json");
 
     /// <summary>
     /// The version details path specified by the MVersion identifier.
     /// </summary>
     public static string VersionDetailsPath(LauncherPath? launcherPath, MVersion? version) =>
-        VFS.Combine(launcherPath?.MPath ?? ValidationShims.StringEmpty(), BaseVersionsPath, version?.ID + ".json");
+        VFS.Combine(launcherPath?.MPath ?? StringOperator.Empty(), BaseVersionsPath, version?.ID + ".json");
 }

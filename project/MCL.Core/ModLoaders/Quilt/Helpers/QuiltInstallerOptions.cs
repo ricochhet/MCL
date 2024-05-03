@@ -18,6 +18,7 @@
 
 using MCL.Core.Launcher.Models;
 using MCL.Core.MiniCommon.Validation;
+using MCL.Core.MiniCommon.Validation.Validators;
 using MCL.Core.ModLoaders.Interfaces.Helpers;
 using MCL.Core.ModLoaders.Quilt.Enums;
 using MCL.Core.ModLoaders.Quilt.Resolvers;
@@ -34,7 +35,7 @@ public class QuiltInstallerOptions : IModLoaderInstallerOptions<QuiltInstallerTy
     )
     {
         if (
-            ObjectValidator<string>.IsNullOrWhiteSpace(
+            StringValidator.IsNullOrWhiteSpace(
                 [
                     launcherVersion?.MVersion,
                     launcherVersion?.QuiltInstallerVersion,

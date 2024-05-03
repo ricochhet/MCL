@@ -19,6 +19,7 @@
 using System;
 using System.Diagnostics;
 using MCL.Core.MiniCommon.Validation;
+using MCL.Core.MiniCommon.Validation.Validators;
 
 namespace MCL.Core.BuildInfo;
 
@@ -30,7 +31,11 @@ public static class ApplicationConstants
         {
             if (CompileConstants.IsDebug)
                 return Version.Parse("0.0.0.1");
-            if (ObjectValidator<string>.IsNotNull(Process.GetCurrentProcess().MainModule!.FileVersionInfo.FileVersion))
+            if (
+                StringValidator.IsNullOrWhiteSpace(
+                    [Process.GetCurrentProcess().MainModule!.FileVersionInfo.FileVersion]
+                )
+            )
             {
                 return Version.TryParse(
                     Process.GetCurrentProcess().MainModule!.FileVersionInfo.FileVersion,

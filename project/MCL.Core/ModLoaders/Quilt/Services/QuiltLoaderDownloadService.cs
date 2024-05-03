@@ -23,6 +23,8 @@ using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Logger.Enums;
 using MCL.Core.MiniCommon.Providers;
 using MCL.Core.MiniCommon.Validation;
+using MCL.Core.MiniCommon.Validation.Operators;
+using MCL.Core.MiniCommon.Validation.Validators;
 using MCL.Core.ModLoaders.Interfaces.Services;
 using MCL.Core.ModLoaders.Quilt.Helpers;
 using MCL.Core.ModLoaders.Quilt.Models;
@@ -49,7 +51,7 @@ public class QuiltLoaderDownloadService : IModLoaderLoaderDownloadService
         QuiltUrls? quiltUrls
     )
     {
-        if (ObjectValidator<LauncherInstance>.IsNull(launcherInstance))
+        if (ClassValidator.IsNull(launcherInstance))
             return;
 
         _launcherInstance = launcherInstance;
@@ -104,7 +106,7 @@ public class QuiltLoaderDownloadService : IModLoaderLoaderDownloadService
             QuiltPathResolver.VersionManifestPath(_launcherPath),
             QuiltVersionManifestContext.Default
         );
-        if (ObjectValidator<QuiltVersionManifest>.IsNull(QuiltVersionManifest))
+        if (ClassValidator.IsNull(QuiltVersionManifest))
         {
             NotificationProvider.Error("error.readfile", nameof(QuiltVersionManifest));
             return false;
@@ -121,7 +123,7 @@ public class QuiltLoaderDownloadService : IModLoaderLoaderDownloadService
             QuiltVersionManifestContext.Default
         );
 
-        return ObjectValidator<QuiltVersionManifest>.IsNotNull(QuiltVersionManifest, NativeLogLevel.Debug);
+        return ClassValidator.IsNotNull(QuiltVersionManifest, NativeLogLevel.Debug);
     }
 
     /// <inheritdoc />
@@ -142,11 +144,7 @@ public class QuiltLoaderDownloadService : IModLoaderLoaderDownloadService
     /// <inheritdoc />
     public bool LoadProfile()
     {
-        if (
-            ObjectValidator<string>.IsNullOrWhiteSpace(
-                [_launcherVersion?.MVersion, _launcherVersion?.QuiltLoaderVersion]
-            )
-        )
+        if (StringValidator.IsNullOrWhiteSpace([_launcherVersion?.MVersion, _launcherVersion?.QuiltLoaderVersion]))
         {
             return false;
         }
@@ -155,7 +153,7 @@ public class QuiltLoaderDownloadService : IModLoaderLoaderDownloadService
             QuiltPathResolver.ProfilePath(_launcherPath, _launcherVersion),
             QuiltProfileContext.Default
         );
-        if (ObjectValidator<QuiltProfile>.IsNull(QuiltProfile))
+        if (ClassValidator.IsNull(QuiltProfile))
         {
             NotificationProvider.Error("error.download", nameof(QuiltProfile));
             return false;
@@ -168,11 +166,11 @@ public class QuiltLoaderDownloadService : IModLoaderLoaderDownloadService
     public bool LoadLoaderVersion()
     {
         QuiltLoader? quiltLoader = QuiltVersionHelper.GetLoaderVersion(_launcherVersion, QuiltVersionManifest);
-        if (ObjectValidator<QuiltLoader>.IsNull(quiltLoader))
+        if (ClassValidator.IsNull(quiltLoader))
         {
             NotificationProvider.Error(
                 "error.parse",
-                _launcherVersion?.QuiltLoaderVersion ?? ValidationShims.StringEmpty(),
+                _launcherVersion?.QuiltLoaderVersion ?? StringOperator.Empty(),
                 nameof(QuiltLoader)
             );
             return false;

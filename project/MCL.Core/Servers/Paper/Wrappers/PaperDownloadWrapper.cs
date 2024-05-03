@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Minecraft.Helpers;
 using MCL.Core.MiniCommon.Validation;
+using MCL.Core.MiniCommon.Validation.Validators;
 using MCL.Core.Servers.Paper.Helpers;
 using MCL.Core.Servers.Paper.Services;
 
@@ -29,9 +30,9 @@ public static class PaperDownloadWrapper
 {
     public static async Task<bool> Download(Settings? settings, LauncherVersion launcherVersion, bool update)
     {
-        if (ObjectValidator<Settings>.IsNull(settings))
+        if (ClassValidator.IsNull(settings))
             return false;
-        if (ObjectValidator<string>.IsNullOrWhiteSpace([launcherVersion.MVersion, launcherVersion.PaperServerVersion]))
+        if (StringValidator.IsNullOrWhiteSpace([launcherVersion.MVersion, launcherVersion.PaperServerVersion]))
             return false;
         if (!await VersionHelper.SetVersion(settings, launcherVersion, update))
             return false;

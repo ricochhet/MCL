@@ -22,6 +22,7 @@ using System.Diagnostics;
 using MCL.Core.MiniCommon.Logger.Enums;
 using MCL.Core.MiniCommon.Providers;
 using MCL.Core.MiniCommon.Validation;
+using MCL.Core.MiniCommon.Validation.Validators;
 
 namespace MCL.Core.MiniCommon.IO.Helpers;
 
@@ -63,13 +64,13 @@ public static class ProcessHelper
             {
                 process.OutputDataReceived += (sender, e) =>
                 {
-                    if (ObjectValidator<string>.IsNotNullOrWhiteSpace([e?.Data], NativeLogLevel.Debug))
+                    if (StringValidator.IsNotNullOrWhiteSpace([e?.Data], NativeLogLevel.Debug))
                         NotificationProvider.PrintLog(DetermineLogType(e!.Data!), e!.Data!);
                 };
 
                 process.ErrorDataReceived += (sender, e) =>
                 {
-                    if (ObjectValidator<string>.IsNotNullOrWhiteSpace([e?.Data], NativeLogLevel.Debug))
+                    if (StringValidator.IsNotNullOrWhiteSpace([e?.Data], NativeLogLevel.Debug))
                         NotificationProvider.PrintLog(DetermineLogType(e!.Data!), e!.Data!);
                 };
 

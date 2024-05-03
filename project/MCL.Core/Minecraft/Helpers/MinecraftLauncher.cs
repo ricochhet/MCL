@@ -22,6 +22,8 @@ using MCL.Core.Launcher.Helpers;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Minecraft.Models;
 using MCL.Core.MiniCommon.Validation;
+using MCL.Core.MiniCommon.Validation.Operators;
+using MCL.Core.MiniCommon.Validation.Validators;
 
 namespace MCL.Core.Minecraft.Helpers;
 
@@ -32,25 +34,21 @@ public static class MinecraftLauncher
     /// </summary>
     public static void Launch(Settings settings, string javaHome)
     {
-        if (ObjectValidator<Settings>.IsNull(settings))
+        if (ClassValidator.IsNull(settings))
             return;
 
         settings.Save(
             settings.LauncherSettings?.ClientType,
             MLaunchOptions.DefaultJvmArguments(settings)?.JvmArguments()
         );
-        if (
-            ObjectValidator<MVersionDetails>.IsNull(
-                VersionHelper.GetVersionDetails(settings.LauncherPath, settings.LauncherVersion)
-            )
-        )
+        if (ClassValidator.IsNull(VersionHelper.GetVersionDetails(settings.LauncherPath, settings.LauncherVersion)))
         {
             return;
         }
 
         JavaLauncher.Launch(
             settings,
-            settings.LauncherPath?.MPath ?? ValidationShims.StringEmpty(),
+            settings.LauncherPath?.MPath ?? StringOperator.Empty(),
             settings.LauncherSettings?.ClientType,
             JavaVersionHelper.GetMVersionJava(
                 settings.LauncherPath,

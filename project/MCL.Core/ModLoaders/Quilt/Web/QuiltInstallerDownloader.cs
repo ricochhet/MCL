@@ -21,6 +21,7 @@ using MCL.Core.Launcher.Models;
 using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Providers;
 using MCL.Core.MiniCommon.Validation;
+using MCL.Core.MiniCommon.Validation.Validators;
 using MCL.Core.MiniCommon.Web;
 using MCL.Core.ModLoaders.Interfaces.Web;
 using MCL.Core.ModLoaders.Quilt.Models;
@@ -38,7 +39,7 @@ public class QuiltInstallerDownloader : IModLoaderInstallerDownloader<QuiltInsta
     )
     {
         if (
-            ObjectValidator<string>.IsNullOrWhiteSpace(
+            StringValidator.IsNullOrWhiteSpace(
                 [launcherVersion?.QuiltInstallerVersion, quiltInstaller?.URL, quiltInstaller?.Version]
             )
         )
