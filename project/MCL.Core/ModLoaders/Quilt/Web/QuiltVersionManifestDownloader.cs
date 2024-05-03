@@ -42,8 +42,6 @@ public class QuiltVersionManifestDownloader : IModLoaderVersionManifestDownloade
             Encoding.UTF8,
             QuiltVersionManifestContext.Default
         );
-        if (ObjectValidator<string>.IsNullOrWhiteSpace([quiltVersionManifest]))
-            return false;
-        return true;
+        return ObjectValidator<string>.IsNotNullOrWhiteSpace([quiltVersionManifest]);
     }
 }

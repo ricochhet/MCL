@@ -24,6 +24,7 @@ using MCL.Core.MiniCommon.CommandParser;
 using MCL.Core.MiniCommon.Cryptography.Enums;
 using MCL.Core.MiniCommon.Cryptography.Helpers;
 using MCL.Core.MiniCommon.Cryptography.Models;
+using MCL.Core.MiniCommon.Extensions;
 using MCL.Core.MiniCommon.IO;
 using MCL.Core.MiniCommon.Resolvers;
 
@@ -60,7 +61,7 @@ public static class HashVerifier
         HashType hashType = EnumResolver.Parse(lines.FirstOrDefault() ?? "md5", HashType.MD5);
         Dictionary<string, string> hashes = [];
         foreach (string line in lines.Skip(1))
-            hashes = hashes.Concat(CommandLine.ParseKeyValuePairs(line)).ToDictionary();
+            hashes = hashes.Concat(line.ParseKeyValuePairs()).ToDictionary();
         hashes = hashes.GroupBy(a => a).Select(a => a.Last()).ToDictionary();
 
         foreach ((string key, string value) in hashes)

@@ -40,9 +40,7 @@ public static class PaperDownloadWrapper
 
         PaperServerDownloadService downloader =
             new(settings!?.LauncherPath, settings!?.LauncherVersion, settings!?.LauncherInstance, settings!?.PaperUrls);
-        if (!await downloader.Download(loadLocalVersionManifest: true))
-            return false;
 
-        return true;
+        return await downloader.Download(loadLocalVersionManifest: true);
     }
 }

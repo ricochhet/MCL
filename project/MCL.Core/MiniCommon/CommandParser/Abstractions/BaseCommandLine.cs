@@ -20,21 +20,27 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MCL.Core.MiniCommon.CommandParser.Interfaces;
+using MCL.Core.MiniCommon.Extensions;
 using MCL.Core.MiniCommon.Models;
 using MCL.Core.MiniCommon.Providers;
 using MCL.Core.MiniCommon.Validation;
 
-namespace MCL.Core.MiniCommon.CommandParser;
+namespace MCL.Core.MiniCommon.CommandParser.Abstractions;
 
 public class BaseCommandLine : IBaseCommandLine
 {
     public virtual string Prefix { get; set; } = "--";
-    public virtual char[] Seperator { get; set; } = [',', ';'];
 
     /// <summary>
     /// Processes a command line argument identified by a flag and invokes the provided action with the argument's value of type T.
     /// </summary>
-    public virtual void ProcessArgument<T>(string[] args, Command command, Func<string, T?> converter, Action<T?> action)
+    public virtual void ProcessArgument<T>(
+        string[] args,
+        Command command,
+        Func<string, T?> converter,
+        Action<T?> action
+    )
     {
         try
         {
@@ -69,7 +75,7 @@ public class BaseCommandLine : IBaseCommandLine
                     action([]);
                 else if (index + 1 < args.Length && !args[index + 1].StartsWith(Prefix))
                 {
-                    Dictionary<string, string> options = ParseKeyValuePairs(args[index + 1]);
+                    Dictionary<string, string> options = args[index + 1].ParseKeyValuePairs();
                     if (
                         command
                             .Parameters.Where(a => !a.Optional)
@@ -134,7 +140,7 @@ public class BaseCommandLine : IBaseCommandLine
                     await action([]);
                 else if (index + 1 < args.Length && !args[index + 1].StartsWith(Prefix))
                 {
-                    Dictionary<string, string> options = ParseKeyValuePairs(args[index + 1]);
+                    Dictionary<string, string> options = args[index + 1].ParseKeyValuePairs();
                     if (
                         command
                             .Parameters.Where(a => !a.Optional)
@@ -150,22 +156,6 @@ public class BaseCommandLine : IBaseCommandLine
         {
             LogException(ex);
         }
-    }
-
-    /// <summary>
-    /// Parses a string containing key-value pairs separated by specified separators into a dictionary.
-    /// </summary>
-    public virtual Dictionary<string, string> ParseKeyValuePairs(string input)
-    {
-        Dictionary<string, string> keyValuePairs = [];
-        string[] pairs = input.Split(Seperator, StringSplitOptions.RemoveEmptyEntries);
-        foreach (string pair in pairs)
-        {
-            string[] keyValue = pair.Split('=');
-            if (keyValue.Length == 2)
-                keyValuePairs[keyValue[0]] = keyValue[1];
-        }
-        return keyValuePairs;
     }
 
     /// <summary>

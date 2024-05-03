@@ -21,12 +21,11 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using MCL.Core.MiniCommon.Models;
 
-namespace MCL.Core.MiniCommon.CommandParser;
+namespace MCL.Core.MiniCommon.CommandParser.Interfaces;
 
 public interface IBaseCommandLine
 {
     public string Prefix { get; set; }
-    public char[] Seperator { get; set; }
 
     /// <summary>
     /// Processes a command line argument identified by a flag and invokes the provided action with the argument's value of type T.
@@ -51,16 +50,7 @@ public interface IBaseCommandLine
     /// <summary>
     /// Processes a command line argument identified by a flag and invokes the provided action with a dictionary of key-value pairs extracted from the argument.
     /// </summary>
-    public Task ProcessArgumentAsync(
-        string[] args,
-        Command command,
-        Func<Dictionary<string, string>, Task> action
-    );
-
-    /// <summary>
-    /// Parses a string containing key-value pairs separated by specified separators into a dictionary.
-    /// </summary>
-    public Dictionary<string, string> ParseKeyValuePairs(string input);
+    public Task ProcessArgumentAsync(string[] args, Command command, Func<Dictionary<string, string>, Task> action);
 
     /// <summary>
     /// Logs an exception message along with stack trace information.

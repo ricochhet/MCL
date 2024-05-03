@@ -104,7 +104,6 @@ public static class ProcessHelper
             return NativeLogLevel.Warn;
         else if (data.Contains("ERROR", StringComparison.CurrentCultureIgnoreCase))
             return NativeLogLevel.Error;
-        else
-            return NativeLogLevel.Info;
+        return NativeLogLevel.Info;
     }
 }

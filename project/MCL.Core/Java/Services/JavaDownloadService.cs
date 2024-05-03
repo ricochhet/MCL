@@ -122,10 +122,8 @@ public class JavaDownloadService
             JavaPathResolver.JavaVersionManifestPath(_launcherPath),
             JavaVersionManifestContext.Default
         );
-        if (ObjectValidator<JavaVersionManifest>.IsNull(_javaVersionManifest, NativeLogLevel.Debug))
-            return false;
 
-        return true;
+        return ObjectValidator<JavaVersionManifest>.IsNotNull(_javaVersionManifest, NativeLogLevel.Debug);
     }
 
     /// <summary>

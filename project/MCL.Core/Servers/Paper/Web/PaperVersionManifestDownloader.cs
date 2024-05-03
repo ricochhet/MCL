@@ -47,8 +47,6 @@ public static class PaperVersionManifestDownloader
             Encoding.UTF8,
             PaperVersionManifestContext.Default
         );
-        if (ObjectValidator<string>.IsNullOrWhiteSpace([paperIndex]))
-            return false;
-        return true;
+        return ObjectValidator<string>.IsNotNullOrWhiteSpace([paperIndex]);
     }
 }

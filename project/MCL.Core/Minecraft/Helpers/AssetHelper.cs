@@ -51,8 +51,8 @@ public static class AssetHelper
             MVersionDetailsContext.Default
         );
 
-        if (ObjectValidator<string>.IsNullOrWhiteSpace([versionDetails?.Assets]))
-            return string.Empty;
-        return versionDetails!.Assets!;
+        return ObjectValidator<string>.IsNotNullOrWhiteSpace([versionDetails?.Assets])
+            ? versionDetails!.Assets!
+            : string.Empty;
     }
 }

@@ -42,9 +42,7 @@ public class QuiltLoaderDownloadWrapper : IModLoaderLoaderDownloadWrapper
 
         QuiltLoaderDownloadService downloader =
             new(settings!?.LauncherPath, settings!?.LauncherVersion, settings!?.LauncherInstance, settings!?.QuiltUrls);
-        if (!await downloader.Download(loadLocalVersionManifest: true))
-            return false;
 
-        return true;
+        return await downloader.Download(loadLocalVersionManifest: true);
     }
 }

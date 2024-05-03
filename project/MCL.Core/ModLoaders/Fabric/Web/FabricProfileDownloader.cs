@@ -49,8 +49,6 @@ public class FabricProfileDownloader : IModLoaderProfileDownloader<FabricUrls>
             Encoding.UTF8,
             FabricProfileContext.Default
         );
-        if (ObjectValidator<string>.IsNullOrWhiteSpace([fabricProfile]))
-            return false;
-        return true;
+        return ObjectValidator<string>.IsNotNullOrWhiteSpace([fabricProfile]);
     }
 }

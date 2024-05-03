@@ -49,8 +49,6 @@ public class QuiltProfileDownloader : IModLoaderProfileDownloader<QuiltUrls>
             Encoding.UTF8,
             QuiltProfileContext.Default
         );
-        if (ObjectValidator<string>.IsNullOrWhiteSpace([quiltProfile]))
-            return false;
-        return true;
+        return ObjectValidator<string>.IsNotNullOrWhiteSpace([quiltProfile]);
     }
 }

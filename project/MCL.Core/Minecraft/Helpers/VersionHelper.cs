@@ -160,8 +160,6 @@ public static class VersionHelper
             MPathResolver.VersionDetailsPath(launcherPath, version),
             MVersionDetailsContext.Default
         );
-        if (ObjectValidator<MVersionDetails>.IsNull(versionDetails))
-            return null;
-        return versionDetails;
+        return ObjectValidator<MVersionDetails>.IsNotNull(versionDetails) ? versionDetails : null;
     }
 }

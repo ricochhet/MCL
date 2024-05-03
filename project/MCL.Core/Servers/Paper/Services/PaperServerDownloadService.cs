@@ -146,10 +146,8 @@ public class PaperServerDownloadService
             PaperPathResolver.VersionManifestPath(_launcherPath, _launcherVersion),
             PaperVersionManifestContext.Default
         );
-        if (ObjectValidator<PaperVersionManifest>.IsNull(PaperVersionManifest, NativeLogLevel.Debug))
-            return false;
 
-        return true;
+        return ObjectValidator<PaperVersionManifest>.IsNotNull(PaperVersionManifest, NativeLogLevel.Debug);
     }
 
     /// <summary>

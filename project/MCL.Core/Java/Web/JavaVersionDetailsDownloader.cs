@@ -65,9 +65,7 @@ public static class JavaVersionDetailsDownloader
             Encoding.UTF8,
             JavaVersionDetailsContext.Default
         );
-        if (ObjectValidator<string>.IsNullOrWhiteSpace([javaRuntimeFiles]))
-            return false;
-        return true;
+        return ObjectValidator<string>.IsNotNullOrWhiteSpace([javaRuntimeFiles]);
     }
 
     public static string? GetJavaRuntimeUrl(JavaRuntimeType? javaRuntimeType, JavaRuntime? javaRuntime) =>
@@ -106,14 +104,10 @@ public static class JavaVersionDetailsDownloader
 
     private static bool ObjectsValidate(JavaRuntime? javaRuntime, List<JavaRuntimeObject>? javaRuntimeObjects)
     {
-        if (
-            ObjectValidator<JavaRuntime>.IsNull(javaRuntime)
-            || ObjectValidator<List<JavaRuntimeObject>>.IsNullOrEmpty(javaRuntimeObjects)
-            || ObjectValidator<string>.IsNullOrWhiteSpace(
+        return ObjectValidator<JavaRuntime>.IsNotNull(javaRuntime)
+            && ObjectValidator<JavaRuntimeObject>.IsNotNullOrEmpty(javaRuntimeObjects)
+            && ObjectValidator<string>.IsNotNullOrWhiteSpace(
                 [javaRuntimeObjects?.FirstOrDefault()?.JavaRuntimeManifest?.Url]
-            )
-        )
-            return false;
-        return true;
+            );
     }
 }

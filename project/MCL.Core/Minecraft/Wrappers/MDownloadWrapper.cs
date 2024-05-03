@@ -43,9 +43,7 @@ public static class MDownloadWrapper
                 settings!?.LauncherInstance,
                 settings!?.MUrls
             );
-        if (!await downloader.Download(loadLocalVersionManifest: true))
-            return false;
 
-        return true;
+        return await downloader.Download(loadLocalVersionManifest: true);
     }
 }

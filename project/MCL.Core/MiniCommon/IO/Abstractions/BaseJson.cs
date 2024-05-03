@@ -22,7 +22,7 @@ using System.Text.Json.Serialization;
 using MCL.Core.BuildInfo;
 using MCL.Core.MiniCommon.IO.Interfaces;
 
-namespace MCL.Core.MiniCommon.IO;
+namespace MCL.Core.MiniCommon.IO.Abstractions;
 
 public class BaseJson : IBaseJson
 {

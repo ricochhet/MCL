@@ -47,6 +47,6 @@ public class Command
         string description = ObjectValidator<string>.IsNotNullOrWhiteSpace([Description], NativeLogLevel.Debug)
             ? Description
             : "No description.";
-        return $"\nCommand:\n\t{CommandLine.Prefix}{Name}\nParameters:\t{parameters}\nDescription:\n\t{description}";
+        return $"\nCommand:\n\t{CommandLine.BaseCommandLine.Prefix}{Name}\nParameters:\t{parameters}\nDescription:\n\t{description}";
     }
 }

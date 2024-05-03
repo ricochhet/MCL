@@ -43,8 +43,6 @@ public static class VersionManifestDownloader
             Encoding.UTF8,
             MVersionManifestContext.Default
         );
-        if (ObjectValidator<string>.IsNullOrWhiteSpace([versionManifest]))
-            return false;
-        return true;
+        return ObjectValidator<string>.IsNotNullOrWhiteSpace([versionManifest]);
     }
 }

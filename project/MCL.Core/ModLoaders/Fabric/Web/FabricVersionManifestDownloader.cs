@@ -42,8 +42,6 @@ public class FabricVersionManifestDownloader : IModLoaderVersionManifestDownload
             Encoding.UTF8,
             FabricVersionManifestContext.Default
         );
-        if (ObjectValidator<string>.IsNullOrWhiteSpace([fabricVersionManifest]))
-            return false;
-        return true;
+        return ObjectValidator<string>.IsNotNullOrWhiteSpace([fabricVersionManifest]);
     }
 }

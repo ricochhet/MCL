@@ -44,8 +44,6 @@ public static class JavaVersionManifestDownloader
             Encoding.UTF8,
             JavaVersionManifestContext.Default
         );
-        if (ObjectValidator<string>.IsNullOrWhiteSpace([javaVersionManifest]))
-            return false;
-        return true;
+        return ObjectValidator<string>.IsNotNullOrWhiteSpace([javaVersionManifest]);
     }
 }

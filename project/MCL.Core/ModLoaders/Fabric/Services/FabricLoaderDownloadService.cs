@@ -120,10 +120,8 @@ public class FabricLoaderDownloadService : IModLoaderLoaderDownloadService
             FabricPathResolver.VersionManifestPath(_launcherPath),
             FabricVersionManifestContext.Default
         );
-        if (ObjectValidator<FabricVersionManifest>.IsNull(FabricVersionManifest, NativeLogLevel.Debug))
-            return false;
 
-        return true;
+        return ObjectValidator<FabricVersionManifest>.IsNotNull(FabricVersionManifest, NativeLogLevel.Debug);
     }
 
     /// <inheritdoc />

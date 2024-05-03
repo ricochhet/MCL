@@ -16,22 +16,28 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using MCL.Core.MiniCommon.Extensions;
-using MCL.Core.MiniCommon.IO;
 
-namespace MCL.Core.MiniCommon.CommandParser.Helpers;
+namespace MCL.Core.MiniCommon.Extensions;
 
-public static class CommandFileHelper
+public static class DictionaryExt
 {
-    public static Dictionary<string, string> Commands(string filePath)
+    private static readonly char[] _seperator = [',', ';'];
+
+    /// <summary>
+    /// Parses a string containing key-value pairs separated by specified separators into a dictionary.
+    /// </summary>
+    public static Dictionary<string, string> ParseKeyValuePairs(this string input)
     {
-        string[] lines = VFS.ReadAllLines(filePath);
-        Dictionary<string, string> options = [];
-        foreach (string line in lines)
-            options = options.Concat(line.ParseKeyValuePairs()).ToDictionary();
-        return options.GroupBy(a => a).Select(a => a.Last()).ToDictionary();
+        Dictionary<string, string> keyValuePairs = [];
+        string[] pairs = input.Split(_seperator, StringSplitOptions.RemoveEmptyEntries);
+        foreach (string pair in pairs)
+        {
+            string[] keyValue = pair.Split('=');
+            if (keyValue.Length == 2)
+                keyValuePairs[keyValue[0]] = keyValue[1];
+        }
+        return keyValuePairs;
     }
 }

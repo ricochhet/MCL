@@ -55,20 +55,17 @@ public static class PaperServerDownloader
         PaperServerProperties.NewProperties(launcherPath, launcherVersion);
 
         string filepath = PaperPathResolver.JarPath(launcherPath, launcherVersion);
-        if (
-            !await Request.DownloadSHA256(
-                string.Format(
-                    paperUrls!.PaperJar,
-                    "paper",
-                    launcherVersion!.MVersion,
-                    paperBuild!.Build!.ToString(),
-                    paperBuild!.Downloads!.Application!.Name
-                ),
-                filepath,
-                paperBuild!.Downloads!.Application!.SHA256!
-            )
-        )
-            return false;
-        return true;
+
+        return await Request.DownloadSHA256(
+            string.Format(
+                paperUrls!.PaperJar,
+                "paper",
+                launcherVersion!.MVersion,
+                paperBuild!.Build!.ToString(),
+                paperBuild!.Downloads!.Application!.Name
+            ),
+            filepath,
+            paperBuild!.Downloads!.Application!.SHA256!
+        );
     }
 }

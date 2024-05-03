@@ -108,10 +108,8 @@ public class QuiltInstallerDownloadService : IModLoaderInstallerDownloadService
             QuiltPathResolver.VersionManifestPath(_launcherPath),
             QuiltVersionManifestContext.Default
         );
-        if (ObjectValidator<QuiltVersionManifest>.IsNull(QuiltVersionManifest, NativeLogLevel.Debug))
-            return false;
 
-        return true;
+        return ObjectValidator<QuiltVersionManifest>.IsNotNull(QuiltVersionManifest, NativeLogLevel.Debug);
     }
 
     /// <inheritdoc />

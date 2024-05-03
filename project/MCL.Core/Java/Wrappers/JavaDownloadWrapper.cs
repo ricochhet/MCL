@@ -43,9 +43,6 @@ public static class JavaDownloadWrapper
                 settings!?.LauncherSettings?.JavaRuntimePlatform
             );
 
-        if (!await downloader.Download())
-            return false;
-
-        return true;
+        return await downloader.Download();
     }
 }

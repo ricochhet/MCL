@@ -19,13 +19,14 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using MCL.Core.MiniCommon.CommandParser.Abstractions;
+using MCL.Core.MiniCommon.CommandParser.Interfaces;
 using MCL.Core.MiniCommon.Models;
 
 namespace MCL.Core.MiniCommon.CommandParser;
 
 public class CommandLine : ICommandLine
 {
-
     public static BaseCommandLine BaseCommandLine { get; private set; } = new();
 
     /// <inheritdoc />

@@ -160,10 +160,8 @@ public class MDownloadService
             MPathResolver.VersionManifestPath(_launcherPath),
             MVersionManifestContext.Default
         );
-        if (ObjectValidator<MVersionManifest>.IsNull(VersionManifest, NativeLogLevel.Debug))
-            return false;
 
-        return true;
+        return ObjectValidator<MVersionManifest>.IsNotNull(VersionManifest, NativeLogLevel.Debug);
     }
 
     /// <summary>

@@ -18,6 +18,7 @@
 
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using MCL.Core.MiniCommon.IO.Abstractions;
 using MCL.Core.MiniCommon.IO.Interfaces;
 
 namespace MCL.Core.MiniCommon.IO;

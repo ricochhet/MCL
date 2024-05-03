@@ -21,19 +21,28 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using MCL.Core.MiniCommon.Models;
 
-namespace MCL.Core.MiniCommon.CommandParser;
+namespace MCL.Core.MiniCommon.CommandParser.Interfaces;
 
 public interface ICommandLine
 {
     /// <summary>
     /// Processes a command line argument identified by a flag and invokes the provided action with the argument's value of type T.
     /// </summary>
-    public static abstract void ProcessArgument<T>(string[] args, Command command, Func<string, T?> converter, Action<T?> action);
+    public static abstract void ProcessArgument<T>(
+        string[] args,
+        Command command,
+        Func<string, T?> converter,
+        Action<T?> action
+    );
 
     /// <summary>
     /// Processes a command line argument identified by a flag and invokes the provided action with a dictionary of key-value pairs extracted from the argument.
     /// </summary>
-    public static abstract void ProcessArgument(string[] args, Command command, Action<Dictionary<string, string>> action);
+    public static abstract void ProcessArgument(
+        string[] args,
+        Command command,
+        Action<Dictionary<string, string>> action
+    );
 
     /// <summary>
     /// Processes a command line argument identified by a flag and invokes the provided action with the argument's value of type T.

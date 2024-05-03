@@ -47,9 +47,6 @@ public class FabricLoaderDownloadWrapper : IModLoaderLoaderDownloadWrapper
                 settings!?.LauncherInstance,
                 settings!?.FabricUrls
             );
-        if (!await downloader.Download(loadLocalVersionManifest: true))
-            return false;
-
-        return true;
+        return await downloader.Download(loadLocalVersionManifest: true);
     }
 }
