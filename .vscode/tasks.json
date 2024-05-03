@@ -22,6 +22,29 @@
             "problemMatcher": []
         },
         {
+            "label": "Run Roslynator",
+            "type": "shell",
+            "command": "dotnet",
+            "args": [
+                "roslynator", "analyze", 
+                "MCL.Core/MCL.Core.csproj", "MCL.Launcher/MCL.Launcher.csproj", 
+                "MCL.ServerLauncher/MCL.ServerLauncher.csproj", "MCL.CodeAnalyzers/MCL.CodeAnalyzers.csproj",
+                "-a", "../.nupkg/roslynator/analyzers/dotnet/roslyn4.7/cs/"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}/project/"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+        {
             "label": "Run Cake Build",
             "type": "shell",
             "command": "dotnet-cake",

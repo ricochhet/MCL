@@ -14,9 +14,9 @@ git config --local user.email "USERNAME@SOMETHING.com"
 ```
 
 ## Requirements
-- .NET 8 SDK
-- Visual Studio Code or SonarLint compatible IDE.
-- SonarLint
+- .NET 8 SDK or higher.
+- Visual Studio Code or alternatives.
+- [NetCoreDbg](https://github.com/Samsung/netcoredbg) or alternatives.
 
 ## Build
 1. Install Cake: `dotnet tool install Cake.Tool --version 4.0.0` or run `dotnet tool restore` (from `/project/` root).
@@ -26,6 +26,12 @@ git config --local user.email "USERNAME@SOMETHING.com"
 If you want to build with an icon, you can place an icon in `{root}/project/MCL.Resources.Local/icon.ico`.
 
 Files placed in `{root}/project/MCL.Resources` or `{root}/project/MCL.Resources.Local` will be copied over to `project/Build`.
+
+## Development
+1. Install Roslynator Analyzers: `./scripts/setup.ps1` (from `/MCL/` root).
+    - [SonarLint](https://www.sonarsource.com/products/sonarlint/) is used for development, it is optional, but recommended.
+2. Use or reference `.vscode/tasks.json` for formatting, code analysis, and building.
+3. Follow [build steps](#build) for building.
 
 ## Platforms
 
