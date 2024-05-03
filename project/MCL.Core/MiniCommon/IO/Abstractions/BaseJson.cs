@@ -16,64 +16,110 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+using System.Runtime.Serialization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using MCL.Core.BuildInfo;
 using MCL.Core.MiniCommon.IO.Interfaces;
 
 namespace MCL.Core.MiniCommon.IO;
 
-public class Json : IBaseJson
+public class BaseJson : IBaseJson
 {
-    public static BaseJson BaseJson { get; private set; } = new();
-
     /// <inheritdoc />
     public static string Serialize<T>(T data, JsonSerializerOptions options)
     {
-        return BaseJson.Serialize(data, options);
+        if (AotConstants.IsNativeAot)
+            throw new SerializationException();
+#pragma warning disable IL2026, IL3050
+        return JsonSerializer.Serialize(data, options);
+#pragma warning restore IL2026, IL3050
     }
 
     /// <inheritdoc />
     public static string Serialize<T>(T data, JsonSerializerContext ctx)
     {
-        return BaseJson.Serialize(data, ctx);
+        return JsonSerializer.Serialize(data!, typeof(T), ctx);
     }
 
     /// <inheritdoc />
     public static T? Deserialize<T>(string json, JsonSerializerOptions options)
     {
-        return BaseJson.Deserialize<T>(json, options);
+        if (AotConstants.IsNativeAot)
+            throw new SerializationException();
+#pragma warning disable IL2026, IL3050
+        return JsonSerializer.Deserialize<T>(json, options);
+#pragma warning restore IL2026, IL3050
     }
 
     /// <inheritdoc />
     public static T? Deserialize<T>(string data, JsonSerializerContext ctx)
         where T : class
     {
-        return BaseJson.Deserialize<T>(data, ctx);
+        return JsonSerializer.Deserialize(data!, typeof(T), ctx) as T;
     }
 
     /// <inheritdoc />
+
     public static void Save<T>(string filepath, T data, JsonSerializerOptions options)
     {
-        BaseJson.Save(filepath, data, options);
+        if (AotConstants.IsNativeAot)
+            throw new SerializationException();
+
+        if (!VFS.Exists(filepath))
+            VFS.CreateDirectory(VFS.GetDirectoryName(filepath));
+
+        string json = Serialize(data, options);
+        VFS.WriteFile(filepath, json);
     }
 
     /// <inheritdoc />
+
     public static void Save<T>(string filepath, T data, JsonSerializerContext ctx)
     {
-        BaseJson.Save(filepath, data, ctx);
+        if (!VFS.Exists(filepath))
+            VFS.CreateDirectory(VFS.GetDirectoryName(filepath));
+
+        string json = Serialize(data, ctx);
+        VFS.WriteFile(filepath, json);
     }
 
     /// <inheritdoc />
     public static T? Load<T>(string filepath, JsonSerializerOptions options)
         where T : new()
     {
-        return BaseJson.Load<T>(filepath, options);
+        if (AotConstants.IsNativeAot)
+            throw new SerializationException();
+
+        if (!VFS.Exists(filepath))
+            return default;
+
+        string json = VFS.ReadAllText(filepath);
+        try
+        {
+            return Deserialize<T>(json, options);
+        }
+        catch
+        {
+            return default;
+        }
     }
 
     /// <inheritdoc />
     public static T? Load<T>(string filepath, JsonSerializerContext ctx)
         where T : class
     {
-        return BaseJson.Load<T>(filepath, ctx);
+        if (!VFS.Exists(filepath))
+            return default;
+
+        string json = VFS.ReadAllText(filepath);
+        try
+        {
+            return Deserialize<T>(json, ctx);
+        }
+        catch
+        {
+            return default;
+        }
     }
 }
