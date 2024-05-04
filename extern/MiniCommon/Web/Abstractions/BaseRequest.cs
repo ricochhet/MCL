@@ -107,7 +107,10 @@ public class BaseRequest : IBaseHttpRequest
     }
 
     /// <inheritdoc />
-    public virtual async Task<T?> GetObjectFromJsonAsync<T>(string request, JsonSerializerContext ctx)
+    public virtual async Task<T?> GetObjectFromJsonAsync<T>(
+        string request,
+        JsonSerializerContext ctx
+    )
         where T : struct
     {
         try
@@ -150,7 +153,13 @@ public class BaseRequest : IBaseHttpRequest
                     return default;
                 }
                 hash = CryptographyHelper.CreateSHA1(response, encoding);
-                RequestDataProvider.Add(request, filepath, encoding.GetByteCount(response), hash, sw.Elapsed);
+                RequestDataProvider.Add(
+                    request,
+                    filepath,
+                    encoding.GetByteCount(response),
+                    hash,
+                    sw.Elapsed
+                );
                 if (VFS.Exists(filepath) && CryptographyHelper.CreateSHA1(filepath, true) == hash)
                 {
                     NotificationProvider.Info("request.get.exists", request);
@@ -175,7 +184,11 @@ public class BaseRequest : IBaseHttpRequest
     }
 
     /// <inheritdoc />
-    public virtual async Task<string?> GetStringAsync(string request, string filepath, Encoding encoding)
+    public virtual async Task<string?> GetStringAsync(
+        string request,
+        string filepath,
+        Encoding encoding
+    )
     {
         Stopwatch sw = Stopwatch.StartNew();
         for (int retry = 0; retry < Math.Max(1, Retry); retry++)
@@ -192,7 +205,13 @@ public class BaseRequest : IBaseHttpRequest
                     return default;
                 }
                 hash = CryptographyHelper.CreateSHA1(response, encoding);
-                RequestDataProvider.Add(request, filepath, encoding.GetByteCount(response), hash, sw.Elapsed);
+                RequestDataProvider.Add(
+                    request,
+                    filepath,
+                    encoding.GetByteCount(response),
+                    hash,
+                    sw.Elapsed
+                );
                 if (VFS.Exists(filepath) && CryptographyHelper.CreateSHA1(filepath, true) == hash)
                 {
                     NotificationProvider.Info("request.get.exists", request);
@@ -292,7 +311,8 @@ public class BaseRequest : IBaseHttpRequest
 
                 RequestDataProvider.Add(request, filepath, 0, string.Empty, sw.Elapsed);
                 await using Stream contentStream = await response.Content.ReadAsStreamAsync();
-                await using FileStream fileStream = new(filepath, FileMode.Create, FileAccess.Write, FileShare.None);
+                await using FileStream fileStream =
+                    new(filepath, FileMode.Create, FileAccess.Write, FileShare.None);
                 await contentStream.CopyToAsync(fileStream);
                 return true;
             }

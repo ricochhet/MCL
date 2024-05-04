@@ -17,7 +17,6 @@
  */
 
 using MCL.Core.FileExtractors.Models;
-using MCL.Core.Launcher.Providers;
 using MiniCommon.BuildInfo;
 using MiniCommon.IO;
 using MiniCommon.Providers;

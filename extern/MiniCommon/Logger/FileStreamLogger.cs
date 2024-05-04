@@ -115,7 +115,10 @@ public class FileStreamLogger : ILogger, IDisposable
         }
         else
         {
-            NotificationProvider.Error("log.unhandled.object", e.ExceptionObject.ToString() ?? Validate.For.EmptyString());
+            NotificationProvider.Error(
+                "log.unhandled.object",
+                e.ExceptionObject.ToString() ?? Validate.For.EmptyString()
+            );
         }
     }
 

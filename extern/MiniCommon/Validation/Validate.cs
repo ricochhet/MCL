@@ -25,10 +25,7 @@ public sealed class Validate : IValidationClause
     private static IValidationClause? _for;
     public static IValidationClause For
     {
-        get
-        {
-            return _for ??= new Validate();
-        }
+        get { return _for ??= new Validate(); }
     }
 
     private Validate() { }

@@ -65,7 +65,11 @@ public class BaseCommandLine : IBaseCommandLine
     /// <summary>
     /// Processes a command line argument identified by a flag and invokes the provided action with a dictionary of key-value pairs extracted from the argument.
     /// </summary>
-    public virtual void ProcessArgument(string[] args, Command command, Action<Dictionary<string, string>> action)
+    public virtual void ProcessArgument(
+        string[] args,
+        Command command,
+        Action<Dictionary<string, string>> action
+    )
     {
         try
         {

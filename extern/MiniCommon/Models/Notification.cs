@@ -41,7 +41,12 @@ public class Notification
         OnNotificationAdded?.Invoke(this);
     }
 
-    public Notification(NativeLogLevel logLevel, string id, string[] _params, Exception? exception = null)
+    public Notification(
+        NativeLogLevel logLevel,
+        string id,
+        string[] _params,
+        Exception? exception = null
+    )
     {
         LogLevel = logLevel;
         ID = id;

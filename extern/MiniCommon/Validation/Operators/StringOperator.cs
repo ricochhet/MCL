@@ -62,7 +62,13 @@ public static class StringOperator
         }
         else
         {
-            NotificationProvider.PrintLog(level, message, memberName, sourceFilePath, sourceLineNumber.ToString());
+            NotificationProvider.PrintLog(
+                level,
+                message,
+                memberName,
+                sourceFilePath,
+                sourceLineNumber.ToString()
+            );
         }
         return string.Empty;
     }

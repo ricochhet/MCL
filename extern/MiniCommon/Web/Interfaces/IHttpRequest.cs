@@ -44,7 +44,10 @@ public interface IHttpRequest
     /// <summary>
     /// Sends a GET async request to the specified URI, and returns the response body as a deserialized object of type T.
     /// </summary>
-    public static abstract Task<T?> GetObjectFromJsonAsync<T>(string request, JsonSerializerContext ctx)
+    public static abstract Task<T?> GetObjectFromJsonAsync<T>(
+        string request,
+        JsonSerializerContext ctx
+    )
         where T : struct;
 
     /// <summary>
@@ -61,7 +64,11 @@ public interface IHttpRequest
     /// <summary>
     /// Sends a GET async request to the specified URI, and saves the response to a file.
     /// </summary>
-    public static abstract Task<string?> GetStringAsync(string request, string filepath, Encoding encoding);
+    public static abstract Task<string?> GetStringAsync(
+        string request,
+        string filepath,
+        Encoding encoding
+    );
 
     /// <summary>
     /// Sends a GET async request to the specified URI, and returns the response body as a string.

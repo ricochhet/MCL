@@ -64,7 +64,17 @@ public static class StringValidator
         [CallerMemberName] string memberName = "",
         [CallerFilePath] string sourceFilePath = "",
         [CallerLineNumber] int sourceLineNumber = 0
-    ) => !IsNullOrWhiteSpace(clause, properties, message, level, propertiesName, memberName, sourceFilePath, sourceLineNumber);
+    ) =>
+        !IsNullOrWhiteSpace(
+            clause,
+            properties,
+            message,
+            level,
+            propertiesName,
+            memberName,
+            sourceFilePath,
+            sourceLineNumber
+        );
 
     /// <summary>
     /// Validate an array of strings is null, empty, or whitespace.

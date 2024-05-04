@@ -6,10 +6,10 @@
             "type": "shell",
             "command": "dotnet",
             "args": [
-                "csharpier", "."
+                "csharpier", "${workspaceFolder}/project", "${workspaceFolder}/extern"
             ],
             "options": {
-                "cwd": "${workspaceFolder}/project/"
+                "cwd": "${workspaceFolder}/project"
             },
             "group": {
                 "kind": "build",

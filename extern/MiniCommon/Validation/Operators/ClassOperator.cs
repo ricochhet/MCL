@@ -37,7 +37,8 @@ public static class ClassOperator
         [CallerFilePath] string sourceFilePath = "",
         [CallerLineNumber] int sourceLineNumber = 0
     )
-        where T : new() => EmptyClass<T>(clause, string.Empty, level, memberName, sourceFilePath, sourceLineNumber);
+        where T : new() =>
+        EmptyClass<T>(clause, string.Empty, level, memberName, sourceFilePath, sourceLineNumber);
 
     /// <summary>
     /// Coalescing operator shim for empty class to log when it gets called.
@@ -64,7 +65,13 @@ public static class ClassOperator
         }
         else
         {
-            NotificationProvider.PrintLog(level, message, memberName, sourceFilePath, sourceLineNumber.ToString());
+            NotificationProvider.PrintLog(
+                level,
+                message,
+                memberName,
+                sourceFilePath,
+                sourceLineNumber.ToString()
+            );
         }
         return new();
     }

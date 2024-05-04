@@ -29,12 +29,14 @@ public static class CryptographyHelper
     /// <summary>
     /// Create a MD5 hash from a filestream, and return as string.
     /// </summary>
-    public static string CreateMD5(string fileName, bool formatting) => CreateHash(fileName, formatting, MD5.Create());
+    public static string CreateMD5(string fileName, bool formatting) =>
+        CreateHash(fileName, formatting, MD5.Create());
 
     /// <summary>
     /// Create a MD5 hash from a string, and return as string.
     /// </summary>
-    public static string CreateMD5(string value, Encoding enc) => CreateHash(value, enc, MD5.Create());
+    public static string CreateMD5(string value, Encoding enc) =>
+        CreateHash(value, enc, MD5.Create());
 
     /// <summary>
     /// Create a SHA1 hash from a filestream, and return as string.
@@ -45,7 +47,8 @@ public static class CryptographyHelper
     /// <summary>
     /// Create a SHA1 hash from a string, and return as string.
     /// </summary>
-    public static string CreateSHA1(string value, Encoding enc) => CreateHash(value, enc, SHA1.Create());
+    public static string CreateSHA1(string value, Encoding enc) =>
+        CreateHash(value, enc, SHA1.Create());
 
     /// <summary>
     /// Create a SHA256 hash from a filestream, and return as string.
@@ -56,7 +59,8 @@ public static class CryptographyHelper
     /// <summary>
     /// Create a SHA256 hash from a string, and return as string.
     /// </summary>
-    public static string CreateSHA256(string value, Encoding enc) => CreateHash(value, enc, SHA256.Create());
+    public static string CreateSHA256(string value, Encoding enc) =>
+        CreateHash(value, enc, SHA256.Create());
 
     /// <summary>
     /// Create a hash from a filestream, and return as string.

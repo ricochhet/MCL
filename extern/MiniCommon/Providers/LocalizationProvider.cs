@@ -32,7 +32,11 @@ public static class LocalizationProvider
     /// <summary>
     /// Initialize the Localization service.
     /// </summary>
-    public static void Init(string filepath, Language language, bool alwaysSaveNewTranslation = false)
+    public static void Init(
+        string filepath,
+        Language language,
+        bool alwaysSaveNewTranslation = false
+    )
     {
         if (
             language != Language.ENGLISH
@@ -47,7 +51,10 @@ public static class LocalizationProvider
                 return;
         }
 
-        if (!VFS.Exists(LocalizationPathResolver.LanguageFilePath(filepath, language)) || alwaysSaveNewTranslation)
+        if (
+            !VFS.Exists(LocalizationPathResolver.LanguageFilePath(filepath, language))
+            || alwaysSaveNewTranslation
+        )
         {
             Json.Save(
                 LocalizationPathResolver.LanguageFilePath(filepath, language),
@@ -68,9 +75,16 @@ public static class LocalizationProvider
             .Select(a => a.Last())
             .ToDictionary();
         if (Localization!.Entries != null)
+        {
             _initialized = true;
+        }
         else
-            NotificationProvider.Error("error.readfile", LocalizationPathResolver.LanguageFilePath(filepath, language));
+        {
+            NotificationProvider.Error(
+                "error.readfile",
+                LocalizationPathResolver.LanguageFilePath(filepath, language)
+            );
+        }
     }
 
     /// <summary>

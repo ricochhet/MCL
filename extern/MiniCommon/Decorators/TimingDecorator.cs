@@ -26,7 +26,10 @@ namespace MiniCommon.Decorators;
 
 public static class TimingDecorator
 {
-    public static async Task<T> TimeAsync<T>(Func<Task<T>> func, [CallerMemberName] string methodName = "")
+    public static async Task<T> TimeAsync<T>(
+        Func<Task<T>> func,
+        [CallerMemberName] string methodName = ""
+    )
     {
         Stopwatch sw = Stopwatch.StartNew();
         T? result = await func();

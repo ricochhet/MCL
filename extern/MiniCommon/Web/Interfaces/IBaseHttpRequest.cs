@@ -77,7 +77,11 @@ public interface IBaseHttpRequest
     /// <summary>
     /// Sends a GET async request to the specified URI, and saves the response to a file.
     /// </summary>
-    public abstract Task<string?> GetStringAsync(string request, string filepath, Encoding encoding);
+    public abstract Task<string?> GetStringAsync(
+        string request,
+        string filepath,
+        Encoding encoding
+    );
 
     /// <summary>
     /// Sends a GET async request to the specified URI, and returns the response body as a string.

@@ -39,7 +39,10 @@ public class Command
 
     public string Usage()
     {
-        string _parameters = string.Join(" ", Parameters.Select(a => $"\n\t<{a.Name}(Optional:{a.Optional})=value>"));
+        string _parameters = string.Join(
+            " ",
+            Parameters.Select(a => $"\n\t<{a.Name}(Optional:{a.Optional})=value>")
+        );
         string parameters = Validate.For.IsNotNullOrWhiteSpace([_parameters], NativeLogLevel.Debug)
             ? _parameters
             : "\n\tNo parameters.";

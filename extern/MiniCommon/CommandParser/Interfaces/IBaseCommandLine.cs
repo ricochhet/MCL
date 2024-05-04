@@ -30,12 +30,21 @@ public interface IBaseCommandLine
     /// <summary>
     /// Processes a command line argument identified by a flag and invokes the provided action with the argument's value of type T.
     /// </summary>
-    public void ProcessArgument<T>(string[] args, Command command, Func<string, T?> converter, Action<T?> action);
+    public void ProcessArgument<T>(
+        string[] args,
+        Command command,
+        Func<string, T?> converter,
+        Action<T?> action
+    );
 
     /// <summary>
     /// Processes a command line argument identified by a flag and invokes the provided action with a dictionary of key-value pairs extracted from the argument.
     /// </summary>
-    public void ProcessArgument(string[] args, Command command, Action<Dictionary<string, string>> action);
+    public void ProcessArgument(
+        string[] args,
+        Command command,
+        Action<Dictionary<string, string>> action
+    );
 
     /// <summary>
     /// Processes a command line argument identified by a flag and invokes the provided action with the argument's value of type T.
@@ -50,7 +59,11 @@ public interface IBaseCommandLine
     /// <summary>
     /// Processes a command line argument identified by a flag and invokes the provided action with a dictionary of key-value pairs extracted from the argument.
     /// </summary>
-    public Task ProcessArgumentAsync(string[] args, Command command, Func<Dictionary<string, string>, Task> action);
+    public Task ProcessArgumentAsync(
+        string[] args,
+        Command command,
+        Func<Dictionary<string, string>, Task> action
+    );
 
     /// <summary>
     /// Logs an exception message along with stack trace information.

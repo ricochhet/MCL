@@ -73,7 +73,18 @@ public static class ClassValidator
         [CallerLineNumber] int sourceLineNumber = 0
     )
         where T : class =>
-        !IsNull(clause, obj, message, level, properties, objName, propertiesName, memberName, sourceFilePath, sourceLineNumber);
+        !IsNull(
+            clause,
+            obj,
+            message,
+            level,
+            properties,
+            objName,
+            propertiesName,
+            memberName,
+            sourceFilePath,
+            sourceLineNumber
+        );
 
     /// <summary>
     /// Validate object of type T is null.

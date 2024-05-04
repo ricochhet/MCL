@@ -190,7 +190,11 @@ public interface IFileSystem
     /// <summary>
     /// Gets the files within a directory and its subdirectories as FileInfo objects.
     /// </summary>
-    public static abstract FileInfo[] GetFileInfos(string filepath, string searchPattern, SearchOption searchOption);
+    public static abstract FileInfo[] GetFileInfos(
+        string filepath,
+        string searchPattern,
+        SearchOption searchOption
+    );
 
     /// <summary>
     /// Deletes a directory.

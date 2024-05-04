@@ -30,13 +30,22 @@ public class CommandLine : ICommandLine
     public static BaseCommandLine BaseCommandLine { get; } = new();
 
     /// <inheritdoc />
-    public static void ProcessArgument<T>(string[] args, Command command, Func<string, T?> converter, Action<T?> action)
+    public static void ProcessArgument<T>(
+        string[] args,
+        Command command,
+        Func<string, T?> converter,
+        Action<T?> action
+    )
     {
         BaseCommandLine.ProcessArgument(args, command, converter, action);
     }
 
     /// <inheritdoc />
-    public static void ProcessArgument(string[] args, Command command, Action<Dictionary<string, string>> action)
+    public static void ProcessArgument(
+        string[] args,
+        Command command,
+        Action<Dictionary<string, string>> action
+    )
     {
         BaseCommandLine.ProcessArgument(args, command, action);
     }

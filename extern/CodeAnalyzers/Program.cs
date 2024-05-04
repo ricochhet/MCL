@@ -29,7 +29,6 @@ using MiniCommon.Logger;
 using MiniCommon.Logger.Enums;
 using MiniCommon.Models;
 using MiniCommon.Providers;
-using MiniCommon.Web;
 
 namespace CodeAnalyzers;
 

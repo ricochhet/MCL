@@ -201,7 +201,11 @@ public class VFS : IFileSystem
     }
 
     /// <inheritdoc />
-    public static DirectoryInfo[] GetDirectoryInfos(string filepath, string searchPattern, SearchOption searchOption)
+    public static DirectoryInfo[] GetDirectoryInfos(
+        string filepath,
+        string searchPattern,
+        SearchOption searchOption
+    )
     {
         return FileSystem.GetDirectoryInfos(filepath, searchPattern, searchOption);
     }
@@ -224,7 +228,11 @@ public class VFS : IFileSystem
     }
 
     /// <inheritdoc />
-    public static FileInfo[] GetFileInfos(string filepath, string searchPattern, SearchOption searchOption)
+    public static FileInfo[] GetFileInfos(
+        string filepath,
+        string searchPattern,
+        SearchOption searchOption
+    )
     {
         return FileSystem.GetFileInfos(filepath, searchPattern, searchOption);
     }

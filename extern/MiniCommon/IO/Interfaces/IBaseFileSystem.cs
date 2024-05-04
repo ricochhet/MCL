@@ -171,7 +171,11 @@ public interface IBaseFileSystem
     /// <summary>
     /// Gets the directories within a directory as DirectoryInfo objects.
     /// </summary>
-    public abstract DirectoryInfo[] GetDirectoryInfos(string filepath, string searchPattern, SearchOption searchOption);
+    public abstract DirectoryInfo[] GetDirectoryInfos(
+        string filepath,
+        string searchPattern,
+        SearchOption searchOption
+    );
 
     /// <summary>
     /// Gets the files within a directory.
@@ -191,7 +195,11 @@ public interface IBaseFileSystem
     /// <summary>
     /// Gets the files within a directory and its subdirectories as FileInfo objects.
     /// </summary>
-    public abstract FileInfo[] GetFileInfos(string filepath, string searchPattern, SearchOption searchOption);
+    public abstract FileInfo[] GetFileInfos(
+        string filepath,
+        string searchPattern,
+        SearchOption searchOption
+    );
 
     /// <summary>
     /// Deletes a directory.

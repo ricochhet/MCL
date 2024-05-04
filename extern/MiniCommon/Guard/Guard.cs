@@ -16,12 +16,17 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace MiniCommon.Validation.Extensions;
+using MiniCommon.Guard.Interfaces;
 
-public static class ValidationExt
+namespace MiniCommon.Guard;
+
+public sealed class Guard : IGuardClause
 {
-    public static string? NullIfEmpty(this string s) => string.IsNullOrEmpty(s) ? null : s;
+    private static IGuardClause? _against;
+    public static IGuardClause Against
+    {
+        get { return _against ??= new Guard(); }
+    }
 
-    public static string? NullIfWhitespace(this string s) =>
-        string.IsNullOrWhiteSpace(s) ? null : s;
+    private Guard() { }
 }

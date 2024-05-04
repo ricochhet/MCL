@@ -16,12 +16,6 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-namespace MiniCommon.Validation.Extensions;
+namespace MiniCommon.Guard.Interfaces;
 
-public static class ValidationExt
-{
-    public static string? NullIfEmpty(this string s) => string.IsNullOrEmpty(s) ? null : s;
-
-    public static string? NullIfWhitespace(this string s) =>
-        string.IsNullOrWhiteSpace(s) ? null : s;
-}
+public interface IGuardClause;

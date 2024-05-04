@@ -42,7 +42,8 @@ public static class NotificationProvider
     public static void Debug(string id, params string[] _params) =>
         _notifications.Add(new(NativeLogLevel.Debug, id, _params));
 
-    public static void WarnLog(params string[] _params) => _notifications.Add(new(NativeLogLevel.Warn, "log", _params));
+    public static void WarnLog(params string[] _params) =>
+        _notifications.Add(new(NativeLogLevel.Warn, "log", _params));
 
     public static void Warn(string id, params string[] _params) =>
         _notifications.Add(new(NativeLogLevel.Warn, id, _params));
@@ -59,7 +60,8 @@ public static class NotificationProvider
     public static void Fatal(string id, params string[] _params) =>
         _notifications.Add(new(NativeLogLevel.Fatal, id, _params));
 
-    public static void InfoLog(params string[] _params) => _notifications.Add(new(NativeLogLevel.Info, "log", _params));
+    public static void InfoLog(params string[] _params) =>
+        _notifications.Add(new(NativeLogLevel.Info, "log", _params));
 
     public static void Info(string id, params string[] _params) =>
         _notifications.Add(new(NativeLogLevel.Info, id, _params));

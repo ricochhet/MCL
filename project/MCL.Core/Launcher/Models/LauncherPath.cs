@@ -18,7 +18,6 @@
 
 using System.Text.Json.Serialization;
 using MCL.Core.Launcher.Helpers;
-using MCL.Core.Launcher.Providers;
 using MiniCommon.BuildInfo;
 using MiniCommon.IO;
 

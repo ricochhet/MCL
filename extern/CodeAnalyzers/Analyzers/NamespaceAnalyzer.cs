@@ -49,7 +49,11 @@ public static partial class NamespaceAnalyzer
 
             if (Validate.For.IsNullOrWhiteSpace([name], NativeLogLevel.Debug))
             {
-                NotificationProvider.Error("analyzer.error.namespace", file, name ?? Validate.For.EmptyString());
+                NotificationProvider.Error(
+                    "analyzer.error.namespace",
+                    file,
+                    name ?? Validate.For.EmptyString()
+                );
                 continue;
             }
 

@@ -40,7 +40,15 @@ public static class DictionaryOperator
         [CallerFilePath] string sourceFilePath = "",
         [CallerLineNumber] int sourceLineNumber = 0
     )
-        where TKey : notnull => EmptyDictionary<TKey, TValue>(clause, string.Empty, level, memberName, sourceFilePath, sourceLineNumber);
+        where TKey : notnull =>
+        EmptyDictionary<TKey, TValue>(
+            clause,
+            string.Empty,
+            level,
+            memberName,
+            sourceFilePath,
+            sourceLineNumber
+        );
 
     /// <summary>
     /// Coalescing operator shim for empty dictionary to log when it gets called.
@@ -69,7 +77,13 @@ public static class DictionaryOperator
         }
         else
         {
-            NotificationProvider.PrintLog(level, message, memberName, sourceFilePath, sourceLineNumber.ToString());
+            NotificationProvider.PrintLog(
+                level,
+                message,
+                memberName,
+                sourceFilePath,
+                sourceLineNumber.ToString()
+            );
         }
         return [];
     }

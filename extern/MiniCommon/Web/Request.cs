@@ -49,7 +49,10 @@ public class Request : IHttpRequest
     }
 
     /// <inheritdoc />
-    public static async Task<T?> GetObjectFromJsonAsync<T>(string request, JsonSerializerContext ctx)
+    public static async Task<T?> GetObjectFromJsonAsync<T>(
+        string request,
+        JsonSerializerContext ctx
+    )
         where T : struct
     {
         return await HttpRequest.GetObjectFromJsonAsync<T>(request, ctx);
@@ -68,7 +71,11 @@ public class Request : IHttpRequest
     }
 
     /// <inheritdoc />
-    public static async Task<string?> GetStringAsync(string request, string filepath, Encoding encoding)
+    public static async Task<string?> GetStringAsync(
+        string request,
+        string filepath,
+        Encoding encoding
+    )
     {
         return await HttpRequest.GetStringAsync(request, filepath, encoding);
     }

@@ -283,7 +283,11 @@ public abstract class BaseFileSystem : IBaseFileSystem
     }
 
     /// <inheritdoc />
-    public virtual DirectoryInfo[] GetDirectoryInfos(string filepath, string searchPattern, SearchOption searchOption)
+    public virtual DirectoryInfo[] GetDirectoryInfos(
+        string filepath,
+        string searchPattern,
+        SearchOption searchOption
+    )
     {
         return new DirectoryInfo(filepath).GetDirectories(searchPattern, searchOption);
     }
@@ -335,7 +339,11 @@ public abstract class BaseFileSystem : IBaseFileSystem
     }
 
     /// <inheritdoc />
-    public virtual FileInfo[] GetFileInfos(string filepath, string searchPattern, SearchOption searchOption)
+    public virtual FileInfo[] GetFileInfos(
+        string filepath,
+        string searchPattern,
+        SearchOption searchOption
+    )
     {
         return new DirectoryInfo(filepath).GetFiles(searchPattern, searchOption);
     }

@@ -40,7 +40,9 @@ public static class LicenseAnalyzer
         {
             if (AnalyzerFiles.Restricted.Exists(file.Contains))
                 continue;
-            string fileData = VFS.ReadAllText(file).Replace("\n", string.Empty).Replace("\r", string.Empty);
+            string fileData = VFS.ReadAllText(file)
+                .Replace("\n", string.Empty)
+                .Replace("\r", string.Empty);
             if (!fileData.Contains(license))
             {
                 fail++;

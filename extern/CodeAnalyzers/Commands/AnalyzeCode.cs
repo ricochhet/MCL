@@ -36,7 +36,15 @@ public class AnalyzeCode<T> : IBaseCommand<T>
     {
         CommandLine.ProcessArgument(
             args,
-            new() { Name = "analyze", Parameters = [new() { Name = "path", Optional = false }, new() { Name = "license", Optional = true }] },
+            new()
+            {
+                Name = "analyze",
+                Parameters =
+                [
+                    new() { Name = "path", Optional = false },
+                    new() { Name = "license", Optional = true }
+                ]
+            },
             options =>
             {
                 string[] files = VFS.GetFiles(
@@ -45,7 +53,10 @@ public class AnalyzeCode<T> : IBaseCommand<T>
                     SearchOption.AllDirectories
                 );
 
-                LicenseAnalyzer.Analyze(files, options.GetValueOrDefault("license", "LICENSE-NOTICE.txt"));
+                LicenseAnalyzer.Analyze(
+                    files,
+                    options.GetValueOrDefault("license", "LICENSE-NOTICE.txt")
+                );
                 NamespaceAnalyzer.Analyze(files);
                 LocalizationKeyAnalyzer.Analyze(
                     files,

@@ -54,7 +54,10 @@ public class ValidatedRequest : BaseRequest
     }
 
     /// <inheritdoc />
-    public override async Task<T?> GetObjectFromJsonAsync<T>(string request, JsonSerializerContext ctx)
+    public override async Task<T?> GetObjectFromJsonAsync<T>(
+        string request,
+        JsonSerializerContext ctx
+    )
         where T : struct
     {
         if (Validate.For.IsNullOrWhiteSpace([request], NativeLogLevel.Fatal))
@@ -77,7 +80,11 @@ public class ValidatedRequest : BaseRequest
     }
 
     /// <inheritdoc />
-    public override async Task<string?> GetStringAsync(string request, string filepath, Encoding encoding)
+    public override async Task<string?> GetStringAsync(
+        string request,
+        string filepath,
+        Encoding encoding
+    )
     {
         if (Validate.For.IsNullOrWhiteSpace([request, filepath], NativeLogLevel.Fatal))
             return null;

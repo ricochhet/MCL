@@ -157,8 +157,13 @@ public static class DictionaryValidator
             );
         }
         validator.AddRule(a => obj?.Count > 0, message);
-        foreach (Dictionary<T1, T2> property in properties ?? [.. Validate.For.EmptyList<Dictionary<T1, T2>>()])
+        foreach (
+            Dictionary<T1, T2> property in properties
+                ?? [.. Validate.For.EmptyList<Dictionary<T1, T2>>()]
+        )
+        {
             validator.AddRule(a => property?.Count > 0, message);
+        }
 
         return !validator.Validate(obj, level);
     }

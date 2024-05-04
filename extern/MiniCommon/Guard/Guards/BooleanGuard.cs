@@ -17,29 +17,31 @@
  */
 
 using System;
-using System.Collections.Generic;
-using MiniCommon.IO;
+using MiniCommon.Guard.Interfaces;
 
-namespace MiniCommon.BuildInfo;
+namespace MiniCommon.Guard.Guards;
 
-public static class AssemblyConstants
+#pragma warning disable IDE0060, RCS1175, RCS1163, RCS1158, S107
+
+public static class BooleanGuard
 {
-    public const string DataDirectory = ".mcl";
-    public const string LocalizationDirectory = "localization";
-    public const string LogsDirectory = "logs";
-    public static readonly string LogFilePath = VFS.FromCwd(
-        DataDirectory,
-        LogsDirectory,
-        $"{DateTime.Now:yyyy-MM-dd-HH-mm-ss}.log"
-    );
-    public static readonly string LocalizationPath = VFS.FromCwd(
-        DataDirectory,
-        LocalizationDirectory
-    );
-    public static readonly List<string> WatermarkText =
-    [
-        "MCL",
-        "This work is free of charge",
-        "If you paid money, you were scammed"
-    ];
+    public static void True(this IGuardClause guardClause, bool argument, string argumentName)
+    {
+        if (argument)
+        {
+            throw new ArgumentException(
+                string.Format("{0} is not allowing to be true", argumentName)
+            );
+        }
+    }
+
+    public static void False(this IGuardClause guardClause, bool argument, string argumentName)
+    {
+        if (!argument)
+        {
+            throw new ArgumentException(
+                string.Format("{0} is not allowing to be false", argumentName)
+            );
+        }
+    }
 }

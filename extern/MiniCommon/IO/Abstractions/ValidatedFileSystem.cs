@@ -259,7 +259,11 @@ public class ValidatedFileSystem : BaseFileSystem
     }
 
     /// <inheritdoc />
-    public override DirectoryInfo[] GetDirectoryInfos(string filepath, string searchPattern, SearchOption searchOption)
+    public override DirectoryInfo[] GetDirectoryInfos(
+        string filepath,
+        string searchPattern,
+        SearchOption searchOption
+    )
     {
         if (Validate.For.IsNullOrWhiteSpace([filepath], NativeLogLevel.Fatal))
             return [];
@@ -288,7 +292,11 @@ public class ValidatedFileSystem : BaseFileSystem
     }
 
     /// <inheritdoc />
-    public override FileInfo[] GetFileInfos(string filepath, string searchPattern, SearchOption searchOption)
+    public override FileInfo[] GetFileInfos(
+        string filepath,
+        string searchPattern,
+        SearchOption searchOption
+    )
     {
         if (Validate.For.IsNullOrWhiteSpace([filepath], NativeLogLevel.Fatal))
             return [];
