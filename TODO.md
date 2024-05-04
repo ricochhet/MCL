@@ -3,7 +3,7 @@ TODO tasks are in order from top-to-bottom, most-to-least important.
 
 Tasks marked with (*) are easier to do.
 
-- [ ] Implement frontend interface via Avalonia.
+- [ ] Implement a frontend user interface. See: [#ui](#ui)
 - [ ] Implement player skin options on non-vanilla loaders.
     - Non-vanilla loaders can use modifications such as OfflineSkins to provide skins without in-depth networking systems.
     - Skins can still be supplied via an API or website to reduce the manual processes.
@@ -71,3 +71,39 @@ Tasks marked with (*) are easier to do.
     - This should be an optional step. The user should be able to have full control over the downloads.
 - [x] Implement the usage of the downloaded Java runtime.
     - This includes the setting of environment variables, e.g. JAVA_HOME.
+
+## Todo (UI)
+View the options considered for user interface below.
+
+## Specifications
+- Game version dropdown menu.
+- Mod loader version dropdown menu(s).
+- Download & Run buttons.
+- Username input field.
+- Log view window.
+
+#### Avalonia
+- Cross-platform.
+- Supports Native AOT.
+    - Does not support single file. Produces additional native DLLs. `libHarfBuzzSharp.dll` and `libSkaSharp.dll`
+- Similar experience to WPF.
+
+#### Terminal.Gui
+- Cross-platform.
+- Doesn't support Native AOT.
+    - Supposedly planned for later release.
+- Quick iteration, performant.
+
+#### ImGui.NET
+- Cross-platform.
+- Supports Native AOT.
+    - It is a wrapper around a native library.
+- Can be cumbersome to work with.
+    - Not necessarily an issue for simple applications.
+
+#### WinFormsComInterop 
+[view](https://github.com/kant2002/WinFormsComInterop)
+- No cross-platform support.
+- Supports Native AOT for WinForms.
+    - WPF support exists, currently broken.
+- Supports WPF ecosystem.
