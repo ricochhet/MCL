@@ -21,6 +21,7 @@ using MCL.Core.Launcher.Models;
 using MCL.Core.Servers.Paper.Helpers;
 using MCL.Core.Servers.Paper.Models;
 using MCL.Core.Servers.Paper.Resolvers;
+using MiniCommon.Validation;
 using MiniCommon.Validation.Validators;
 using MiniCommon.Web;
 
@@ -39,7 +40,7 @@ public static class PaperServerDownloader
     )
     {
         if (
-            StringValidator.IsNullOrWhiteSpace(
+            Validate.For.IsNullOrWhiteSpace(
                 [
                     paperUrls?.PaperJar,
                     paperBuild?.Build.ToString(),

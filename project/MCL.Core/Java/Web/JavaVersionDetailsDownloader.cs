@@ -24,6 +24,7 @@ using MCL.Core.Java.Enums;
 using MCL.Core.Java.Models;
 using MCL.Core.Java.Resolvers;
 using MCL.Core.Launcher.Models;
+using MiniCommon.Validation;
 using MiniCommon.Validation.Validators;
 using MiniCommon.Web;
 
@@ -41,7 +42,7 @@ public static class JavaVersionDetailsDownloader
         JavaVersionManifest? javaVersionManifest
     )
     {
-        if (ClassValidator.IsNull(javaVersionManifest))
+        if (Validate.For.IsNull(javaVersionManifest))
             return false;
 
         string? request = javaRuntimePlatform switch
@@ -56,7 +57,7 @@ public static class JavaVersionDetailsDownloader
             JavaRuntimePlatform.WINDOWSX86 => GetJavaRuntimeUrl(javaRuntimeType, javaVersionManifest!?.WindowsX86),
             _ => string.Empty,
         };
-        if (StringValidator.IsNullOrWhiteSpace([request]))
+        if (Validate.For.IsNullOrWhiteSpace([request]))
             return false;
 
         string? javaRuntimeFiles = await Request.GetJsonAsync<JavaVersionDetails>(
@@ -65,7 +66,7 @@ public static class JavaVersionDetailsDownloader
             Encoding.UTF8,
             JavaVersionDetailsContext.Default
         );
-        return StringValidator.IsNotNullOrWhiteSpace([javaRuntimeFiles]);
+        return Validate.For.IsNotNullOrWhiteSpace([javaRuntimeFiles]);
     }
 
     public static string? GetJavaRuntimeUrl(JavaRuntimeType? javaRuntimeType, JavaRuntime? javaRuntime) =>
@@ -104,8 +105,8 @@ public static class JavaVersionDetailsDownloader
 
     private static bool ObjectsValidate(JavaRuntime? javaRuntime, List<JavaRuntimeObject>? javaRuntimeObjects)
     {
-        return ClassValidator.IsNotNull(javaRuntime)
-            && ListValidator.IsNotNullOrEmpty(javaRuntimeObjects)
-            && StringValidator.IsNotNullOrWhiteSpace([javaRuntimeObjects?.FirstOrDefault()?.JavaRuntimeManifest?.Url]);
+        return Validate.For.IsNotNull(javaRuntime)
+            && Validate.For.IsNotNullOrEmpty(javaRuntimeObjects)
+            && Validate.For.IsNotNullOrWhiteSpace([javaRuntimeObjects?.FirstOrDefault()?.JavaRuntimeManifest?.Url]);
     }
 }

@@ -26,6 +26,7 @@ using MCL.Core.ModLoaders.Quilt.Enums;
 using MCL.Core.ModLoaders.Quilt.Helpers;
 using MCL.Core.ModLoaders.Quilt.Services;
 using MiniCommon.IO;
+using MiniCommon.Validation;
 using MiniCommon.Validation.Validators;
 
 namespace MCL.Core.ModLoaders.Quilt.Wrappers;
@@ -40,9 +41,9 @@ public class QuiltInstallerDownloadWrapper : IModLoaderInstallerDownloadWrapper
         bool update
     )
     {
-        if (ClassValidator.IsNull(settings))
+        if (Validate.For.IsNull(settings))
             return false;
-        if (StringValidator.IsNullOrWhiteSpace([launcherVersion.QuiltInstallerVersion]))
+        if (Validate.For.IsNullOrWhiteSpace([launcherVersion.QuiltInstallerVersion]))
             return false;
         if (!await VersionHelper.SetVersion(settings, launcherVersion, update))
             return false;

@@ -19,6 +19,7 @@
 using MCL.Core.Java.Enums;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Servers.Paper.Resolvers;
+using MiniCommon.Validation;
 using MiniCommon.Validation.Operators;
 
 namespace MCL.Core.Servers.Paper.Helpers;
@@ -38,12 +39,12 @@ public static class PaperLaunchOptions
             new MOption
             {
                 Arg = "-Xms{0}m",
-                ArgParams = [settings!?.LauncherMemory?.MemoryMinMb.ToString() ?? StringOperator.Empty()]
+                ArgParams = [settings!?.LauncherMemory?.MemoryMinMb.ToString() ?? Validate.For.EmptyString()]
             },
             new MOption
             {
                 Arg = "-Xmx{0}m",
-                ArgParams = [settings!?.LauncherMemory?.MemoryMaxMb.ToString() ?? StringOperator.Empty()]
+                ArgParams = [settings!?.LauncherMemory?.MemoryMaxMb.ToString() ?? Validate.For.EmptyString()]
             },
             new MOption
             {

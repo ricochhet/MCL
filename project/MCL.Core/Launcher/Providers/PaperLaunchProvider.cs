@@ -22,6 +22,7 @@ using MCL.Core.Minecraft.Helpers;
 using MiniCommon.CommandParser.Helpers;
 using MiniCommon.IO;
 using MiniCommon.Providers;
+using MiniCommon.Validation;
 using MiniCommon.Validation.Validators;
 
 namespace MCL.Core.Launcher.Providers;
@@ -36,7 +37,7 @@ public static class PaperLaunchProvider
         if (!VFS.Exists(filePath))
             return;
 
-        if (ClassValidator.IsNull(settings?.LauncherVersion))
+        if (Validate.For.IsNull(settings?.LauncherVersion))
             return;
 
         Dictionary<string, string> options = CommandFileHelper.Commands(filePath);

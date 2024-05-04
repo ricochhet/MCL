@@ -20,6 +20,7 @@ using MCL.Core.Launcher.Models;
 using MCL.Core.ModLoaders.Fabric.Models;
 using MCL.Core.ModLoaders.Interfaces.Resolvers;
 using MiniCommon.IO;
+using MiniCommon.Validation;
 using MiniCommon.Validation.Operators;
 
 namespace MCL.Core.ModLoaders.Fabric.Resolvers;
@@ -36,35 +37,35 @@ public class FabricPathResolver : IModLoaderPathResolver<FabricUrls>
     /// <inheritdoc />
     public static string InstallerPath(LauncherPath? launcherPath, LauncherVersion? launcherVersion) =>
         VFS.Combine(
-            launcherPath?.FabricPath ?? StringOperator.Empty(),
+            launcherPath?.FabricPath ?? Validate.For.EmptyString(),
             "installers",
             $"fabric-installer-{launcherVersion?.FabricInstallerVersion}.jar"
         );
 
     /// <inheritdoc />
     public static string InstallersPath(LauncherPath? launcherPath) =>
-        VFS.Combine(launcherPath?.FabricPath ?? StringOperator.Empty(), "installers");
+        VFS.Combine(launcherPath?.FabricPath ?? Validate.For.EmptyString(), "installers");
 
     /// <inheritdoc />
     public static string VersionManifestPath(LauncherPath? launcherPath) =>
-        VFS.Combine(launcherPath?.FabricPath ?? StringOperator.Empty(), "fabric_manifest.json");
+        VFS.Combine(launcherPath?.FabricPath ?? Validate.For.EmptyString(), "fabric_manifest.json");
 
     /// <inheritdoc />
     public static string ProfilePath(LauncherPath? launcherPath, LauncherVersion? launcherVersion) =>
         VFS.Combine(
-            launcherPath?.FabricPath ?? StringOperator.Empty(),
+            launcherPath?.FabricPath ?? Validate.For.EmptyString(),
             $"fabric_profile-{launcherVersion?.MVersion}-{launcherVersion?.FabricLoaderVersion}.json"
         );
 
     /// <inheritdoc />
     public static string LoaderJarPath(FabricUrls? fabricUrls, LauncherVersion? launcherVersion) =>
-        fabricUrls?.LoaderJar.Replace("{0}", launcherVersion?.FabricLoaderVersion) ?? StringOperator.Empty();
+        fabricUrls?.LoaderJar.Replace("{0}", launcherVersion?.FabricLoaderVersion) ?? Validate.For.EmptyString();
 
     /// <inheritdoc />
     public static string LoaderProfilePath(FabricUrls? fabricUrls, LauncherVersion? launcherVersion) =>
         string.Format(
-            fabricUrls?.LoaderProfile ?? StringOperator.Empty(),
-            launcherVersion?.MVersion ?? StringOperator.Empty(),
-            launcherVersion?.FabricLoaderVersion ?? StringOperator.Empty()
+            fabricUrls?.LoaderProfile ?? Validate.For.EmptyString(),
+            launcherVersion?.MVersion ?? Validate.For.EmptyString(),
+            launcherVersion?.FabricLoaderVersion ?? Validate.For.EmptyString()
         );
 }

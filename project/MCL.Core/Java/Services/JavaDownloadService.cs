@@ -27,6 +27,7 @@ using MiniCommon.Decorators;
 using MiniCommon.IO;
 using MiniCommon.Logger.Enums;
 using MiniCommon.Providers;
+using MiniCommon.Validation;
 using MiniCommon.Validation.Validators;
 
 namespace MCL.Core.Java.Services;
@@ -104,7 +105,7 @@ public class JavaDownloadService
             JavaPathResolver.JavaVersionManifestPath(_launcherPath),
             JavaVersionManifestContext.Default
         );
-        if (ClassValidator.IsNull(_javaVersionManifest))
+        if (Validate.For.IsNull(_javaVersionManifest))
         {
             NotificationProvider.Error("error.readfile", nameof(_javaVersionManifest));
             return false;
@@ -123,7 +124,7 @@ public class JavaDownloadService
             JavaVersionManifestContext.Default
         );
 
-        return ClassValidator.IsNotNull(_javaVersionManifest, NativeLogLevel.Debug);
+        return Validate.For.IsNotNull(_javaVersionManifest, NativeLogLevel.Debug);
     }
 
     /// <summary>
@@ -159,7 +160,7 @@ public class JavaDownloadService
             JavaPathResolver.JavaVersionDetailsPath(_launcherPath, JavaRuntimeTypeResolver.ToString(_javaRuntimeType)),
             JavaVersionDetailsContext.Default
         );
-        if (ClassValidator.IsNull(_javaVersionDetails))
+        if (Validate.For.IsNull(_javaVersionDetails))
         {
             NotificationProvider.Error("error.readfile", nameof(_javaVersionDetails));
             return false;

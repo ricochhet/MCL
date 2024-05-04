@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Minecraft.Helpers;
 using MCL.Core.Minecraft.Services;
+using MiniCommon.Validation;
 using MiniCommon.Validation.Validators;
 
 namespace MCL.Core.Minecraft.Wrappers;
@@ -28,9 +29,9 @@ public static class MDownloadWrapper
 {
     public static async Task<bool> Download(Settings? settings, LauncherVersion launcherVersion, bool update)
     {
-        if (ClassValidator.IsNull(settings))
+        if (Validate.For.IsNull(settings))
             return false;
-        if (StringValidator.IsNullOrWhiteSpace([launcherVersion.MVersion]))
+        if (Validate.For.IsNullOrWhiteSpace([launcherVersion.MVersion]))
             return false;
         if (!await VersionHelper.SetVersion(settings, launcherVersion, update))
             return false;

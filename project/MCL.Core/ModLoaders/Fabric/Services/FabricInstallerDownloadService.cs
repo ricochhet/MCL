@@ -27,6 +27,7 @@ using MiniCommon.Decorators;
 using MiniCommon.IO;
 using MiniCommon.Logger.Enums;
 using MiniCommon.Providers;
+using MiniCommon.Validation;
 using MiniCommon.Validation.Operators;
 using MiniCommon.Validation.Validators;
 
@@ -93,7 +94,7 @@ public class FabricInstallerDownloadService : IModLoaderInstallerDownloadService
             FabricPathResolver.VersionManifestPath(_launcherPath),
             FabricVersionManifestContext.Default
         );
-        if (ClassValidator.IsNull(FabricVersionManifest))
+        if (Validate.For.IsNull(FabricVersionManifest))
         {
             NotificationProvider.Error("error.readfile", nameof(FabricVersionManifest));
             return false;
@@ -110,18 +111,18 @@ public class FabricInstallerDownloadService : IModLoaderInstallerDownloadService
             FabricVersionManifestContext.Default
         );
 
-        return ClassValidator.IsNotNull(FabricVersionManifest, NativeLogLevel.Debug);
+        return Validate.For.IsNotNull(FabricVersionManifest, NativeLogLevel.Debug);
     }
 
     /// <inheritdoc />
     public bool LoadVersion()
     {
         FabricInstaller = FabricVersionHelper.GetInstallerVersion(_launcherVersion, FabricVersionManifest);
-        if (ClassValidator.IsNull(FabricInstaller))
+        if (Validate.For.IsNull(FabricInstaller))
         {
             NotificationProvider.Error(
                 "error.parse",
-                _launcherVersion?.FabricInstallerVersion ?? StringOperator.Empty(),
+                _launcherVersion?.FabricInstallerVersion ?? Validate.For.EmptyString(),
                 nameof(FabricInstaller)
             );
             return false;

@@ -18,6 +18,7 @@
 
 using MCL.Core.Launcher.Models;
 using MiniCommon.IO;
+using MiniCommon.Validation;
 using MiniCommon.Validation.Operators;
 
 namespace MCL.Core.Servers.Paper.Resolvers;
@@ -29,8 +30,8 @@ public static class PaperPathResolver
     /// </summary>
     public static string InstallerPath(LauncherPath? launcherPath, LauncherVersion? launcherVersion) =>
         VFS.Combine(
-            launcherPath?.PaperPath ?? StringOperator.Empty(),
-            launcherVersion?.MVersion ?? StringOperator.Empty()
+            launcherPath?.PaperPath ?? Validate.For.EmptyString(),
+            launcherVersion?.MVersion ?? Validate.For.EmptyString()
         );
 
     /// <summary>
@@ -38,8 +39,8 @@ public static class PaperPathResolver
     /// </summary>
     public static string VersionManifestPath(LauncherPath? launcherPath, LauncherVersion? launcherVersion) =>
         VFS.Combine(
-            launcherPath?.PaperPath ?? StringOperator.Empty(),
-            launcherVersion?.MVersion ?? StringOperator.Empty(),
+            launcherPath?.PaperPath ?? Validate.For.EmptyString(),
+            launcherVersion?.MVersion ?? Validate.For.EmptyString(),
             "paper_manifest.json"
         );
 

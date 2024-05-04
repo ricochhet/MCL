@@ -26,6 +26,7 @@ using MiniCommon.Decorators;
 using MiniCommon.IO;
 using MiniCommon.Logger.Enums;
 using MiniCommon.Providers;
+using MiniCommon.Validation;
 using MiniCommon.Validation.Operators;
 using MiniCommon.Validation.Validators;
 
@@ -142,7 +143,7 @@ public class MDownloadService
             MPathResolver.VersionManifestPath(_launcherPath),
             MVersionManifestContext.Default
         );
-        if (ClassValidator.IsNull(VersionManifest))
+        if (Validate.For.IsNull(VersionManifest))
         {
             NotificationProvider.Error("error.readfile", nameof(MVersionManifest));
             return false;
@@ -161,7 +162,7 @@ public class MDownloadService
             MVersionManifestContext.Default
         );
 
-        return ClassValidator.IsNotNull(VersionManifest, NativeLogLevel.Debug);
+        return Validate.For.IsNotNull(VersionManifest, NativeLogLevel.Debug);
     }
 
     /// <summary>
@@ -170,11 +171,11 @@ public class MDownloadService
     public bool LoadVersion()
     {
         Version = VersionHelper.GetVersion(_launcherVersion, VersionManifest);
-        if (ClassValidator.IsNull(Version))
+        if (Validate.For.IsNull(Version))
         {
             NotificationProvider.Error(
                 "error.parse",
-                _launcherVersion?.MVersion ?? StringOperator.Empty(),
+                _launcherVersion?.MVersion ?? Validate.For.EmptyString(),
                 nameof(MVersion)
             );
             return false;
@@ -209,7 +210,7 @@ public class MDownloadService
             MPathResolver.VersionDetailsPath(_launcherPath, Version),
             MVersionDetailsContext.Default
         );
-        if (ClassValidator.IsNull(VersionDetails))
+        if (Validate.For.IsNull(VersionDetails))
         {
             NotificationProvider.Error("error.readfile", nameof(MVersionDetails));
             return false;
@@ -337,7 +338,7 @@ public class MDownloadService
             MPathResolver.ClientAssetIndexPath(_launcherPath, VersionDetails),
             MAssetsDataContext.Default
         );
-        if (ClassValidator.IsNull(_assets))
+        if (Validate.For.IsNull(_assets))
         {
             NotificationProvider.Error("error.readfile", nameof(MAssetsData));
             return false;

@@ -21,6 +21,7 @@ using MCL.Core.Launcher.Providers;
 using MiniCommon.BuildInfo;
 using MiniCommon.IO;
 using MiniCommon.Providers;
+using MiniCommon.Validation;
 using MiniCommon.Validation.Operators;
 
 namespace MCL.Core.FileExtractors.Resolvers;
@@ -41,6 +42,6 @@ public static class SevenZipPathResolver
         if (VFS.Exists(windowsExecutable))
             return windowsExecutable;
         NotificationProvider.Info("error.missing.7z");
-        return sevenZipSettings?.Executable ?? StringOperator.Empty();
+        return sevenZipSettings?.Executable ?? Validate.For.EmptyString();
     }
 }

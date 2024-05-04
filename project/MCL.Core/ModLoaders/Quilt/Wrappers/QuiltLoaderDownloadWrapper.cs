@@ -22,6 +22,7 @@ using MCL.Core.Minecraft.Helpers;
 using MCL.Core.ModLoaders.Interfaces.Wrappers;
 using MCL.Core.ModLoaders.Quilt.Helpers;
 using MCL.Core.ModLoaders.Quilt.Services;
+using MiniCommon.Validation;
 using MiniCommon.Validation.Validators;
 
 namespace MCL.Core.ModLoaders.Quilt.Wrappers;
@@ -31,9 +32,9 @@ public class QuiltLoaderDownloadWrapper : IModLoaderLoaderDownloadWrapper
     /// <inheritdoc />
     public static async Task<bool> Download(Settings? settings, LauncherVersion launcherVersion, bool update)
     {
-        if (ClassValidator.IsNull(settings))
+        if (Validate.For.IsNull(settings))
             return false;
-        if (StringValidator.IsNullOrWhiteSpace([launcherVersion.MVersion, launcherVersion.QuiltLoaderVersion]))
+        if (Validate.For.IsNullOrWhiteSpace([launcherVersion.MVersion, launcherVersion.QuiltLoaderVersion]))
             return false;
         if (!await VersionHelper.SetVersion(settings, launcherVersion, update))
             return false;

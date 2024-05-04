@@ -26,6 +26,7 @@ using MCL.Core.ModLoaders.Fabric.Models;
 using MCL.Core.ModLoaders.Fabric.Resolvers;
 using MCL.Core.ModLoaders.Interfaces.Web;
 using MiniCommon.IO;
+using MiniCommon.Validation;
 using MiniCommon.Validation.Validators;
 using MiniCommon.Web;
 
@@ -45,9 +46,9 @@ public class FabricLoaderDownloader : IModLoaderLoaderDownloader<FabricProfile, 
 #pragma warning restore S3776
     {
         if (
-            StringValidator.IsNullOrWhiteSpace(
+            Validate.For.IsNullOrWhiteSpace(
                 [launcherVersion?.FabricLoaderVersion, fabricUrls?.ApiLoaderName, fabricUrls?.ApiIntermediaryName]
-            ) || ListValidator.IsNullOrEmpty(fabricProfile?.Libraries)
+            ) || Validate.For.IsNullOrEmpty(fabricProfile?.Libraries)
         )
         {
             return false;
@@ -57,7 +58,7 @@ public class FabricLoaderDownloader : IModLoaderLoaderDownloader<FabricProfile, 
 
         foreach (FabricLibrary library in fabricProfile!.Libraries!)
         {
-            if (StringValidator.IsNullOrWhiteSpace([library?.Name, library?.URL]))
+            if (Validate.For.IsNullOrWhiteSpace([library?.Name, library?.URL]))
                 return false;
 
             string request;
@@ -74,7 +75,7 @@ public class FabricLoaderDownloader : IModLoaderLoaderDownloader<FabricProfile, 
             }
             else
             {
-                if (StringValidator.IsNullOrWhiteSpace([library!.SHA1]))
+                if (Validate.For.IsNullOrWhiteSpace([library!.SHA1]))
                     return false;
                 request = FabricLibrary.ParseURL(library!.Name, library!.URL);
                 hash = library!.SHA1!;
@@ -90,7 +91,7 @@ public class FabricLoaderDownloader : IModLoaderLoaderDownloader<FabricProfile, 
                 return false;
         }
 
-        if (ClassValidator.IsNull(launcherInstance?.FabricLoaders))
+        if (Validate.For.IsNull(launcherInstance?.FabricLoaders))
             return false;
         List<LauncherLoader> existingLoaders = [];
 

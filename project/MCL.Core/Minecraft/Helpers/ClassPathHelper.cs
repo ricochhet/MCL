@@ -24,6 +24,7 @@ using MCL.Core.Launcher.Enums;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Minecraft.Resolvers;
 using MiniCommon.IO;
+using MiniCommon.Validation;
 using MiniCommon.Validation.Validators;
 
 namespace MCL.Core.Minecraft.Helpers;
@@ -40,7 +41,7 @@ public static class ClassPathHelper
         LauncherSettings? launcherSettings
     )
     {
-        if (StringValidator.IsNullOrWhiteSpace([launcherVersion?.MVersion]) || ClassValidator.IsNull(launcherInstance))
+        if (Validate.For.IsNullOrWhiteSpace([launcherVersion?.MVersion]) || Validate.For.IsNull(launcherInstance))
         {
             return string.Empty;
         }
@@ -57,7 +58,7 @@ public static class ClassPathHelper
         };
 
         LauncherLoader? mLoader = launcherInstance!.Versions.Find(a => a.Version == launcherVersion!.MVersion);
-        if (ClassValidator.IsNull(mLoader))
+        if (Validate.For.IsNull(mLoader))
             return string.Empty;
         string[] libraries = mLoader!.Libraries.Prepend(MPathResolver.ClientLibrary(launcherVersion)).ToArray();
 
@@ -66,7 +67,7 @@ public static class ClassPathHelper
             case ClientType.VANILLA:
                 break;
             case ClientType.FABRIC:
-                if (StringValidator.IsNullOrWhiteSpace([launcherVersion?.FabricLoaderVersion]))
+                if (Validate.For.IsNullOrWhiteSpace([launcherVersion?.FabricLoaderVersion]))
                     return string.Empty;
                 LauncherLoader? fabricLoader = launcherInstance!.FabricLoaders.Find(a =>
                     a.Version == launcherVersion!.FabricLoaderVersion
@@ -74,7 +75,7 @@ public static class ClassPathHelper
                 libraries = [.. libraries, .. fabricLoader?.Libraries];
                 break;
             case ClientType.QUILT:
-                if (StringValidator.IsNullOrWhiteSpace([launcherVersion?.QuiltLoaderVersion]))
+                if (Validate.For.IsNullOrWhiteSpace([launcherVersion?.QuiltLoaderVersion]))
                     return string.Empty;
                 LauncherLoader? quiltLoader = launcherInstance!.QuiltLoaders.Find(a =>
                     a.Version == launcherVersion!.QuiltLoaderVersion

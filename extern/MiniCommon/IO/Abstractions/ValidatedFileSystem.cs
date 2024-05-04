@@ -20,6 +20,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using MiniCommon.Logger.Enums;
+using MiniCommon.Validation;
 using MiniCommon.Validation.Exceptions;
 using MiniCommon.Validation.Validators;
 
@@ -30,7 +31,7 @@ public class ValidatedFileSystem : BaseFileSystem
     /// <inheritdoc />
     public override string Combine(string path1, string path2)
     {
-        if (StringValidator.IsNullOrWhiteSpace([path1, path2], NativeLogLevel.Fatal))
+        if (Validate.For.IsNullOrWhiteSpace([path1, path2], NativeLogLevel.Fatal))
             return string.Empty;
         return base.Combine(path1, path2);
     }
@@ -38,7 +39,7 @@ public class ValidatedFileSystem : BaseFileSystem
     /// <inheritdoc />
     public override string Combine(string path1, string path2, string path3)
     {
-        if (StringValidator.IsNullOrWhiteSpace([path1, path2, path3], NativeLogLevel.Fatal))
+        if (Validate.For.IsNullOrWhiteSpace([path1, path2, path3], NativeLogLevel.Fatal))
             return string.Empty;
         return base.Combine(path1, path2, path3);
     }
@@ -46,7 +47,7 @@ public class ValidatedFileSystem : BaseFileSystem
     /// <inheritdoc />
     public override string Combine(string path1, string path2, string path3, string path4)
     {
-        if (StringValidator.IsNullOrWhiteSpace([path1, path2, path3, path4], NativeLogLevel.Fatal))
+        if (Validate.For.IsNullOrWhiteSpace([path1, path2, path3, path4], NativeLogLevel.Fatal))
             return string.Empty;
         return base.Combine(path1, path2, path3, path4);
     }
@@ -54,7 +55,7 @@ public class ValidatedFileSystem : BaseFileSystem
     /// <inheritdoc />
     public override string Combine(params string[] paths)
     {
-        if (StringValidator.IsNullOrWhiteSpace(paths, NativeLogLevel.Fatal))
+        if (Validate.For.IsNullOrWhiteSpace(paths, NativeLogLevel.Fatal))
             return string.Empty;
         return base.Combine(paths);
     }
@@ -62,7 +63,7 @@ public class ValidatedFileSystem : BaseFileSystem
     /// <inheritdoc />
     public override string FromCwd(string filepath)
     {
-        if (StringValidator.IsNullOrWhiteSpace([filepath], NativeLogLevel.Fatal))
+        if (Validate.For.IsNullOrWhiteSpace([filepath], NativeLogLevel.Fatal))
             return string.Empty;
         return base.Combine(Cwd, filepath);
     }
@@ -71,7 +72,7 @@ public class ValidatedFileSystem : BaseFileSystem
     /// <inheritdoc />
     public override string FromCwd(string path1, string path2)
     {
-        if (StringValidator.IsNullOrWhiteSpace([path1, path2], NativeLogLevel.Fatal))
+        if (Validate.For.IsNullOrWhiteSpace([path1, path2], NativeLogLevel.Fatal))
             return string.Empty;
         return base.Combine(Cwd, path1, path2);
     }
@@ -79,7 +80,7 @@ public class ValidatedFileSystem : BaseFileSystem
     /// <inheritdoc />
     public override string FromCwd(string path1, string path2, string path3)
     {
-        if (StringValidator.IsNullOrWhiteSpace([path1, path2, path3], NativeLogLevel.Fatal))
+        if (Validate.For.IsNullOrWhiteSpace([path1, path2, path3], NativeLogLevel.Fatal))
             return string.Empty;
         return base.Combine(Cwd, path1, path2, path3);
     }
@@ -88,7 +89,7 @@ public class ValidatedFileSystem : BaseFileSystem
     /// <inheritdoc />
     public override string FromCwd(params string[] paths)
     {
-        if (StringValidator.IsNullOrWhiteSpace(paths, NativeLogLevel.Fatal))
+        if (Validate.For.IsNullOrWhiteSpace(paths, NativeLogLevel.Fatal))
             return string.Empty;
         return base.Combine(paths.Prepend(Cwd).ToArray());
     }
@@ -96,7 +97,7 @@ public class ValidatedFileSystem : BaseFileSystem
     /// <inheritdoc />
     public override string GetDirectoryName(string filepath)
     {
-        if (StringValidator.IsNullOrWhiteSpace([filepath], NativeLogLevel.Fatal))
+        if (Validate.For.IsNullOrWhiteSpace([filepath], NativeLogLevel.Fatal))
             return string.Empty;
         return base.GetDirectoryName(filepath);
     }
@@ -110,7 +111,7 @@ public class ValidatedFileSystem : BaseFileSystem
     /// <inheritdoc />
     public override string GetFileExtension(string filepath)
     {
-        if (StringValidator.IsNullOrWhiteSpace([filepath], NativeLogLevel.Fatal))
+        if (Validate.For.IsNullOrWhiteSpace([filepath], NativeLogLevel.Fatal))
             return string.Empty;
         return base.GetFileExtension(filepath);
     }
@@ -118,7 +119,7 @@ public class ValidatedFileSystem : BaseFileSystem
     /// <inheritdoc />
     public override string GetFileNameWithoutExtension(string filepath)
     {
-        if (StringValidator.IsNullOrWhiteSpace([filepath], NativeLogLevel.Fatal))
+        if (Validate.For.IsNullOrWhiteSpace([filepath], NativeLogLevel.Fatal))
             return string.Empty;
         return base.GetFileNameWithoutExtension(filepath);
     }
@@ -126,7 +127,7 @@ public class ValidatedFileSystem : BaseFileSystem
     /// <inheritdoc />
     public override string GetRelativePath(string relativeTo, string path)
     {
-        if (StringValidator.IsNullOrWhiteSpace([relativeTo, path], NativeLogLevel.Fatal))
+        if (Validate.For.IsNullOrWhiteSpace([relativeTo, path], NativeLogLevel.Fatal))
             return string.Empty;
         return base.GetRelativePath(relativeTo, path);
     }
@@ -134,7 +135,7 @@ public class ValidatedFileSystem : BaseFileSystem
     /// <inheritdoc />
     public override string GetRelativePath(string relativeTo)
     {
-        if (StringValidator.IsNullOrWhiteSpace([relativeTo], NativeLogLevel.Fatal))
+        if (Validate.For.IsNullOrWhiteSpace([relativeTo], NativeLogLevel.Fatal))
             return string.Empty;
         return base.GetRelativePath(relativeTo);
     }
@@ -142,7 +143,7 @@ public class ValidatedFileSystem : BaseFileSystem
     /// <inheritdoc />
     public override void MoveFile(string a, string b)
     {
-        if (StringValidator.IsNullOrWhiteSpace([a, b], NativeLogLevel.Fatal))
+        if (Validate.For.IsNullOrWhiteSpace([a, b], NativeLogLevel.Fatal))
             return;
         base.MoveFile(a, b);
     }
@@ -150,7 +151,7 @@ public class ValidatedFileSystem : BaseFileSystem
     /// <inheritdoc />
     public override void CopyFile(string a, string b, bool overwrite = true)
     {
-        if (StringValidator.IsNullOrWhiteSpace([a, b], NativeLogLevel.Fatal))
+        if (Validate.For.IsNullOrWhiteSpace([a, b], NativeLogLevel.Fatal))
             return;
         base.CopyFile(a, b, overwrite);
     }
@@ -158,7 +159,7 @@ public class ValidatedFileSystem : BaseFileSystem
     /// <inheritdoc />
     public override void CopyDirectory(string a, string b, bool recursive = false)
     {
-        if (StringValidator.IsNullOrWhiteSpace([a, b], NativeLogLevel.Fatal))
+        if (Validate.For.IsNullOrWhiteSpace([a, b], NativeLogLevel.Fatal))
             return;
         base.CopyDirectory(a, b, recursive);
     }
@@ -166,7 +167,7 @@ public class ValidatedFileSystem : BaseFileSystem
     /// <inheritdoc />
     public override bool Exists(string filepath)
     {
-        if (StringValidator.IsNullOrWhiteSpace([filepath], NativeLogLevel.Fatal))
+        if (Validate.For.IsNullOrWhiteSpace([filepath], NativeLogLevel.Fatal))
             return false;
         return base.Exists(filepath);
     }
@@ -174,7 +175,7 @@ public class ValidatedFileSystem : BaseFileSystem
     /// <inheritdoc />
     public override void CreateDirectory(string filepath)
     {
-        if (StringValidator.IsNullOrWhiteSpace([filepath], NativeLogLevel.Fatal))
+        if (Validate.For.IsNullOrWhiteSpace([filepath], NativeLogLevel.Fatal))
             return;
         base.CreateDirectory(filepath);
     }
@@ -182,7 +183,7 @@ public class ValidatedFileSystem : BaseFileSystem
     /// <inheritdoc />
     public override byte[] ReadFile(string filepath)
     {
-        if (StringValidator.IsNullOrWhiteSpace([filepath], NativeLogLevel.Fatal))
+        if (Validate.For.IsNullOrWhiteSpace([filepath], NativeLogLevel.Fatal))
             return [];
         return base.ReadFile(filepath);
     }
@@ -190,7 +191,7 @@ public class ValidatedFileSystem : BaseFileSystem
     /// <inheritdoc />
     public override string ReadFile(string filepath, Encoding encoding)
     {
-        if (StringValidator.IsNullOrWhiteSpace([filepath], NativeLogLevel.Fatal))
+        if (Validate.For.IsNullOrWhiteSpace([filepath], NativeLogLevel.Fatal))
             return string.Empty;
         return base.ReadFile(filepath, encoding);
     }
@@ -198,7 +199,7 @@ public class ValidatedFileSystem : BaseFileSystem
     /// <inheritdoc />
     public override string ReadAllText(string filepath)
     {
-        if (StringValidator.IsNullOrWhiteSpace([filepath], NativeLogLevel.Fatal))
+        if (Validate.For.IsNullOrWhiteSpace([filepath], NativeLogLevel.Fatal))
             return string.Empty;
         return base.ReadAllText(filepath);
     }
@@ -206,7 +207,7 @@ public class ValidatedFileSystem : BaseFileSystem
     /// <inheritdoc />
     public override string[] ReadAllLines(string filepath)
     {
-        if (StringValidator.IsNullOrWhiteSpace([filepath], NativeLogLevel.Fatal))
+        if (Validate.For.IsNullOrWhiteSpace([filepath], NativeLogLevel.Fatal))
             return [];
         return base.ReadAllLines(filepath);
     }
@@ -215,8 +216,8 @@ public class ValidatedFileSystem : BaseFileSystem
     public override void WriteFile(string filepath, byte[] data)
     {
         if (
-            StringValidator.IsNullOrWhiteSpace([filepath], NativeLogLevel.Fatal)
-            || ClassValidator.IsNull(data, NativeLogLevel.Fatal)
+            Validate.For.IsNullOrWhiteSpace([filepath], NativeLogLevel.Fatal)
+            || Validate.For.IsNull(data, NativeLogLevel.Fatal)
         )
         {
             return;
@@ -228,7 +229,7 @@ public class ValidatedFileSystem : BaseFileSystem
     /// <inheritdoc />
     public override void WriteFile(string filepath, string data, Encoding? encoding = null)
     {
-        if (StringValidator.IsNullOrWhiteSpace([filepath, data], NativeLogLevel.Fatal))
+        if (Validate.For.IsNullOrWhiteSpace([filepath, data], NativeLogLevel.Fatal))
             return;
         base.WriteFile(filepath, data, encoding);
     }
@@ -236,7 +237,7 @@ public class ValidatedFileSystem : BaseFileSystem
     /// <inheritdoc />
     public override FileStream OpenWrite(string filepath)
     {
-        if (StringValidator.IsNullOrWhiteSpace([filepath], NativeLogLevel.Fatal))
+        if (Validate.For.IsNullOrWhiteSpace([filepath], NativeLogLevel.Fatal))
             throw new ObjectValidationException(nameof(filepath));
         return base.OpenWrite(filepath);
     }
@@ -244,7 +245,7 @@ public class ValidatedFileSystem : BaseFileSystem
     /// <inheritdoc />
     public override FileStream OpenRead(string filepath)
     {
-        if (StringValidator.IsNullOrWhiteSpace([filepath], NativeLogLevel.Fatal))
+        if (Validate.For.IsNullOrWhiteSpace([filepath], NativeLogLevel.Fatal))
             throw new ObjectValidationException(nameof(filepath));
         return base.OpenRead(filepath);
     }
@@ -252,7 +253,7 @@ public class ValidatedFileSystem : BaseFileSystem
     /// <inheritdoc />
     public override string[] GetDirectories(string filepath)
     {
-        if (StringValidator.IsNullOrWhiteSpace([filepath], NativeLogLevel.Fatal))
+        if (Validate.For.IsNullOrWhiteSpace([filepath], NativeLogLevel.Fatal))
             return [];
         return base.GetDirectories(filepath);
     }
@@ -260,7 +261,7 @@ public class ValidatedFileSystem : BaseFileSystem
     /// <inheritdoc />
     public override DirectoryInfo[] GetDirectoryInfos(string filepath, string searchPattern, SearchOption searchOption)
     {
-        if (StringValidator.IsNullOrWhiteSpace([filepath], NativeLogLevel.Fatal))
+        if (Validate.For.IsNullOrWhiteSpace([filepath], NativeLogLevel.Fatal))
             return [];
         return base.GetDirectoryInfos(filepath, searchPattern, searchOption);
     }
@@ -268,7 +269,7 @@ public class ValidatedFileSystem : BaseFileSystem
     /// <inheritdoc />
     public override string[] GetFiles(string filepath)
     {
-        if (StringValidator.IsNullOrWhiteSpace([filepath], NativeLogLevel.Fatal))
+        if (Validate.For.IsNullOrWhiteSpace([filepath], NativeLogLevel.Fatal))
             return [];
         return base.GetFiles(filepath);
     }
@@ -281,7 +282,7 @@ public class ValidatedFileSystem : BaseFileSystem
         bool includeExtension = true
     )
     {
-        if (StringValidator.IsNullOrWhiteSpace([filepath], NativeLogLevel.Fatal))
+        if (Validate.For.IsNullOrWhiteSpace([filepath], NativeLogLevel.Fatal))
             return [];
         return base.GetFiles(filepath, searchPattern, searchOption, includeExtension);
     }
@@ -289,7 +290,7 @@ public class ValidatedFileSystem : BaseFileSystem
     /// <inheritdoc />
     public override FileInfo[] GetFileInfos(string filepath, string searchPattern, SearchOption searchOption)
     {
-        if (StringValidator.IsNullOrWhiteSpace([filepath], NativeLogLevel.Fatal))
+        if (Validate.For.IsNullOrWhiteSpace([filepath], NativeLogLevel.Fatal))
             return [];
         return base.GetFileInfos(filepath, searchPattern, searchOption);
     }
@@ -297,7 +298,7 @@ public class ValidatedFileSystem : BaseFileSystem
     /// <inheritdoc />
     public override void DeleteDirectory(string filepath, bool recursive = false)
     {
-        if (StringValidator.IsNullOrWhiteSpace([filepath], NativeLogLevel.Fatal))
+        if (Validate.For.IsNullOrWhiteSpace([filepath], NativeLogLevel.Fatal))
             return;
         base.DeleteDirectory(filepath, recursive);
     }
@@ -305,7 +306,7 @@ public class ValidatedFileSystem : BaseFileSystem
     /// <inheritdoc />
     public override void DeleteFile(string filepath)
     {
-        if (StringValidator.IsNullOrWhiteSpace([filepath], NativeLogLevel.Fatal))
+        if (Validate.For.IsNullOrWhiteSpace([filepath], NativeLogLevel.Fatal))
             return;
         base.DeleteFile(filepath);
     }
@@ -313,7 +314,7 @@ public class ValidatedFileSystem : BaseFileSystem
     /// <inheritdoc />
     public override int GetFilesCount(string filepath)
     {
-        if (StringValidator.IsNullOrWhiteSpace([filepath], NativeLogLevel.Fatal))
+        if (Validate.For.IsNullOrWhiteSpace([filepath], NativeLogLevel.Fatal))
             return 0;
         return base.GetFilesCount(filepath);
     }
@@ -321,7 +322,7 @@ public class ValidatedFileSystem : BaseFileSystem
     /// <inheritdoc />
     public override string MakeRelativePath(string a, string b)
     {
-        if (StringValidator.IsNullOrWhiteSpace([a, b], NativeLogLevel.Fatal))
+        if (Validate.For.IsNullOrWhiteSpace([a, b], NativeLogLevel.Fatal))
             return string.Empty;
         return base.MakeRelativePath(a, b);
     }

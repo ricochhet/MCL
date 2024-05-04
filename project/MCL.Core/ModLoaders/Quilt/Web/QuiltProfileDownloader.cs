@@ -22,6 +22,7 @@ using MCL.Core.Launcher.Models;
 using MCL.Core.ModLoaders.Interfaces.Web;
 using MCL.Core.ModLoaders.Quilt.Models;
 using MCL.Core.ModLoaders.Quilt.Resolvers;
+using MiniCommon.Validation;
 using MiniCommon.Validation.Validators;
 using MiniCommon.Web;
 
@@ -37,7 +38,7 @@ public class QuiltProfileDownloader : IModLoaderProfileDownloader<QuiltUrls>
     )
     {
         if (
-            StringValidator.IsNullOrWhiteSpace(
+            Validate.For.IsNullOrWhiteSpace(
                 [launcherVersion?.MVersion, launcherVersion?.QuiltLoaderVersion, quiltUrls?.LoaderProfile]
             )
         )
@@ -51,6 +52,6 @@ public class QuiltProfileDownloader : IModLoaderProfileDownloader<QuiltUrls>
             Encoding.UTF8,
             QuiltProfileContext.Default
         );
-        return StringValidator.IsNotNullOrWhiteSpace([quiltProfile]);
+        return Validate.For.IsNotNullOrWhiteSpace([quiltProfile]);
     }
 }

@@ -24,6 +24,7 @@ using MCL.Core.Launcher.Models;
 using MiniCommon.IO;
 using MiniCommon.IO.Helpers;
 using MiniCommon.Logger.Enums;
+using MiniCommon.Validation;
 using MiniCommon.Validation.Operators;
 using MiniCommon.Validation.Validators;
 
@@ -43,9 +44,9 @@ public static class JavaLauncher
     )
     {
         if (
-            ClassValidator.IsNull(settings)
-            || StringValidator.IsNullOrWhiteSpace([workingDirectory])
-            || ClassValidator.IsNull(jvmArguments)
+            Validate.For.IsNull(settings)
+            || Validate.For.IsNullOrWhiteSpace([workingDirectory])
+            || Validate.For.IsNull(jvmArguments)
         )
         {
             return;
@@ -53,11 +54,11 @@ public static class JavaLauncher
         if (!VFS.Exists(workingDirectory))
             return;
         string _javaHome = javaHome;
-        if (StringValidator.IsNullOrWhiteSpace([javaHome], NativeLogLevel.Debug))
+        if (Validate.For.IsNullOrWhiteSpace([javaHome], NativeLogLevel.Debug))
             _javaHome = JavaRuntimeHelper.FindJavaRuntimeEnvironment(settings, workingDirectory, javaRuntimeType);
         string javaExe = VFS.Combine(
             JavaPathResolver.JavaRuntimeBin(_javaHome),
-            settings!.JavaSettings?.Executable ?? StringOperator.Empty()
+            settings!.JavaSettings?.Executable ?? Validate.For.EmptyString()
         );
         RunJavaProcess(settings, workingDirectory, jvmArguments, javaExe, _javaHome);
     }
@@ -73,16 +74,16 @@ public static class JavaLauncher
         string javaHome
     )
     {
-        if (StringValidator.IsNullOrWhiteSpace([workingDirectory]))
+        if (Validate.For.IsNullOrWhiteSpace([workingDirectory]))
             return;
         if (!VFS.Exists(workingDirectory))
             return;
         string _javaHome = javaHome;
-        if (StringValidator.IsNullOrWhiteSpace([javaHome], NativeLogLevel.Debug))
+        if (Validate.For.IsNullOrWhiteSpace([javaHome], NativeLogLevel.Debug))
             _javaHome = JavaRuntimeHelper.FindJavaRuntimeEnvironment(settings, workingDirectory, javaRuntimeType);
         string javaExe = VFS.Combine(
             JavaPathResolver.JavaRuntimeBin(_javaHome),
-            settings!.JavaSettings?.Executable ?? StringOperator.Empty()
+            settings!.JavaSettings?.Executable ?? Validate.For.EmptyString()
         );
 
         switch (clientType)
@@ -119,10 +120,10 @@ public static class JavaLauncher
     {
         ProcessHelper.RunProcess(
             javaExe,
-            jvmArguments?.Build() ?? StringOperator.Empty(),
+            jvmArguments?.Build() ?? Validate.For.EmptyString(),
             workingDirectory,
             false,
-            new() { { settings?.JavaSettings?.HomeEnvironmentVariable ?? StringOperator.Empty(), javaHome } }
+            new() { { settings?.JavaSettings?.HomeEnvironmentVariable ?? Validate.For.EmptyString(), javaHome } }
         );
     }
 
@@ -130,5 +131,5 @@ public static class JavaLauncher
     /// Validates the JvmArguments are not null, or empty.
     /// </summary>
     private static bool JvmArgumentsExist(Settings settings, JvmArguments? jvmArguments) =>
-        ClassValidator.IsNotNull(settings) && ListValidator.IsNotNullOrEmpty(jvmArguments?.Arguments);
+        Validate.For.IsNotNull(settings) && Validate.For.IsNotNullOrEmpty(jvmArguments?.Arguments);
 }

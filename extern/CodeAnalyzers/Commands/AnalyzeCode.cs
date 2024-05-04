@@ -25,6 +25,7 @@ using MiniCommon.Interfaces;
 using MiniCommon.IO;
 using MiniCommon.Models;
 using MiniCommon.Providers;
+using MiniCommon.Validation;
 using MiniCommon.Validation.Operators;
 
 namespace CodeAnalyzers.Commands;
@@ -48,7 +49,7 @@ public class AnalyzeCode<T> : IBaseCommand<T>
                 NamespaceAnalyzer.Analyze(files);
                 LocalizationKeyAnalyzer.Analyze(
                     files,
-                    LocalizationProvider.Localization ?? ClassOperator.Empty<Localization>()
+                    LocalizationProvider.Localization ?? Validate.For.EmptyClass<Localization>()
                 );
             }
         );

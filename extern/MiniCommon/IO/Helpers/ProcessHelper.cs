@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using MiniCommon.Logger.Enums;
 using MiniCommon.Providers;
+using MiniCommon.Validation;
 using MiniCommon.Validation.Validators;
 
 namespace MiniCommon.IO.Helpers;
@@ -63,13 +64,13 @@ public static class ProcessHelper
             {
                 process.OutputDataReceived += (sender, e) =>
                 {
-                    if (StringValidator.IsNotNullOrWhiteSpace([e?.Data], NativeLogLevel.Debug))
+                    if (Validate.For.IsNotNullOrWhiteSpace([e?.Data], NativeLogLevel.Debug))
                         NotificationProvider.PrintLog(DetermineLogType(e!.Data!), e!.Data!);
                 };
 
                 process.ErrorDataReceived += (sender, e) =>
                 {
-                    if (StringValidator.IsNotNullOrWhiteSpace([e?.Data], NativeLogLevel.Debug))
+                    if (Validate.For.IsNotNullOrWhiteSpace([e?.Data], NativeLogLevel.Debug))
                         NotificationProvider.PrintLog(DetermineLogType(e!.Data!), e!.Data!);
                 };
 

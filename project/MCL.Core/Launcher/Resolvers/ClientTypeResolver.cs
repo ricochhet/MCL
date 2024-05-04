@@ -19,6 +19,7 @@
 using System;
 using MCL.Core.Launcher.Enums;
 using MCL.Core.Launcher.Models;
+using MiniCommon.Validation;
 using MiniCommon.Validation.Operators;
 
 namespace MCL.Core.Launcher.Resolvers;
@@ -31,9 +32,9 @@ public static class ClientTypeResolver
     public static string ToString(ClientType? type, MainClassNames? mainClassNames) =>
         type switch
         {
-            ClientType.VANILLA or ClientType.CUSTOM => mainClassNames?.Vanilla ?? StringOperator.Empty(),
-            ClientType.FABRIC => mainClassNames?.Fabric ?? StringOperator.Empty(),
-            ClientType.QUILT => mainClassNames?.Quilt ?? StringOperator.Empty(),
+            ClientType.VANILLA or ClientType.CUSTOM => mainClassNames?.Vanilla ?? Validate.For.EmptyString(),
+            ClientType.FABRIC => mainClassNames?.Fabric ?? Validate.For.EmptyString(),
+            ClientType.QUILT => mainClassNames?.Quilt ?? Validate.For.EmptyString(),
             _ => throw new ArgumentOutOfRangeException(nameof(type)),
         };
 }

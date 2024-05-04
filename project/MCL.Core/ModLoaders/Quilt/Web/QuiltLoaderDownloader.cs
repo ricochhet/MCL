@@ -26,6 +26,7 @@ using MCL.Core.ModLoaders.Interfaces.Web;
 using MCL.Core.ModLoaders.Quilt.Models;
 using MCL.Core.ModLoaders.Quilt.Resolvers;
 using MiniCommon.IO;
+using MiniCommon.Validation;
 using MiniCommon.Validation.Validators;
 using MiniCommon.Web;
 
@@ -45,9 +46,9 @@ public class QuiltLoaderDownloader : IModLoaderLoaderDownloader<QuiltProfile, Qu
 #pragma warning restore S3776
     {
         if (
-            StringValidator.IsNullOrWhiteSpace(
+            Validate.For.IsNullOrWhiteSpace(
                 [launcherVersion?.QuiltLoaderVersion, quiltUrls?.ApiLoaderName, quiltUrls?.ApiIntermediaryName]
-            ) || ListValidator.IsNullOrEmpty(quiltProfile?.Libraries)
+            ) || Validate.For.IsNullOrEmpty(quiltProfile?.Libraries)
         )
         {
             return false;
@@ -57,7 +58,7 @@ public class QuiltLoaderDownloader : IModLoaderLoaderDownloader<QuiltProfile, Qu
 
         foreach (QuiltLibrary library in quiltProfile!.Libraries!)
         {
-            if (StringValidator.IsNullOrWhiteSpace([library?.Name, library?.URL]))
+            if (Validate.For.IsNullOrWhiteSpace([library?.Name, library?.URL]))
                 return false;
 
             string request;
@@ -84,7 +85,7 @@ public class QuiltLoaderDownloader : IModLoaderLoaderDownloader<QuiltProfile, Qu
                 return false;
         }
 
-        if (ClassValidator.IsNull(launcherInstance?.QuiltLoaders))
+        if (Validate.For.IsNull(launcherInstance?.QuiltLoaders))
             return false;
         List<LauncherLoader> existingLoaders = [];
 

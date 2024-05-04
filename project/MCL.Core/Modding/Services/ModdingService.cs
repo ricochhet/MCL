@@ -29,6 +29,7 @@ using MCL.Core.Modding.Resolvers;
 using MiniCommon.Cryptography.Helpers;
 using MiniCommon.IO;
 using MiniCommon.Providers;
+using MiniCommon.Validation;
 using MiniCommon.Validation.Operators;
 using MiniCommon.Validation.Validators;
 
@@ -47,8 +48,8 @@ public class ModdingService
         LauncherPath = launcherPath;
         SevenZipSettings = sevenZipSettings;
         ModSettings = modSettings;
-        if (!VFS.Exists(LauncherPath?.ModPath ?? StringOperator.Empty()))
-            VFS.CreateDirectory(launcherPath?.ModPath ?? StringOperator.Empty());
+        if (!VFS.Exists(LauncherPath?.ModPath ?? Validate.For.EmptyString()))
+            VFS.CreateDirectory(launcherPath?.ModPath ?? Validate.For.EmptyString());
     }
 
     /// <summary>
@@ -99,7 +100,7 @@ public class ModdingService
         string filepath = ModPathResolver.ModStorePath(LauncherPath, modStoreName);
         if (!ModSettings?.IsStoreSaved(modStoreName) ?? false)
 #pragma warning disable S2589
-            ModSettings?.ModStores.Add(modStoreName ?? StringOperator.Empty());
+            ModSettings?.ModStores.Add(modStoreName ?? Validate.For.EmptyString());
 #pragma warning restore S2589
         Json.Save(filepath, modFiles, ModFilesContext.Default);
 
@@ -169,7 +170,7 @@ public class ModdingService
     /// </summary>
     public bool Deploy(ModFiles? modFiles, string deployPath, bool overwrite = false)
     {
-        if (ListValidator.IsNullOrEmpty(modFiles?.Files))
+        if (Validate.For.IsNullOrEmpty(modFiles?.Files))
         {
             NotificationProvider.Error("modding.deploy.error-nofile");
             return false;
@@ -190,7 +191,7 @@ public class ModdingService
 
         foreach (ModFile modFile in sortedModFiles)
         {
-            if (StringValidator.IsNullOrWhiteSpace([modFile?.ModPath]))
+            if (Validate.For.IsNullOrWhiteSpace([modFile?.ModPath]))
             {
                 NotificationProvider.Error("modding.deploy.error-nodata");
                 return false;

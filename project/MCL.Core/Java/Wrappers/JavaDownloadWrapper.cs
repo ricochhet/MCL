@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 using MCL.Core.Java.Helpers;
 using MCL.Core.Java.Services;
 using MCL.Core.Launcher.Models;
+using MiniCommon.Validation;
 using MiniCommon.Validation.Validators;
 
 namespace MCL.Core.Java.Wrappers;
@@ -28,7 +29,7 @@ public static class JavaDownloadWrapper
 {
     public static async Task<bool> Download(Settings? settings)
     {
-        if (ClassValidator.IsNull(settings))
+        if (Validate.For.IsNull(settings))
             return false;
 
         JavaDownloadService downloader =

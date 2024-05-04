@@ -23,6 +23,7 @@ using MCL.Core.ModLoaders.Fabric.Resolvers;
 using MCL.Core.ModLoaders.Interfaces.Web;
 using MiniCommon.IO;
 using MiniCommon.Providers;
+using MiniCommon.Validation;
 using MiniCommon.Validation.Validators;
 using MiniCommon.Web;
 
@@ -38,7 +39,7 @@ public class FabricInstallerDownloader : IModLoaderInstallerDownloader<FabricIns
     )
     {
         if (
-            StringValidator.IsNullOrWhiteSpace(
+            Validate.For.IsNullOrWhiteSpace(
                 [launcherVersion?.FabricInstallerVersion, fabricInstaller?.URL, fabricInstaller?.Version]
             )
         )

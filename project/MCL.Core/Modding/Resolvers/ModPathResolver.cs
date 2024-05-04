@@ -18,6 +18,7 @@
 
 using MCL.Core.Launcher.Models;
 using MiniCommon.IO;
+using MiniCommon.Validation;
 using MiniCommon.Validation.Operators;
 
 namespace MCL.Core.Modding.Resolvers;
@@ -28,17 +29,17 @@ public static class ModPathResolver
     /// The mod store path.
     /// </summary>
     public static string ModPath(LauncherPath? launcherPath, string? modStoreName) =>
-        VFS.Combine(launcherPath?.ModPath ?? StringOperator.Empty(), modStoreName ?? StringOperator.Empty());
+        VFS.Combine(launcherPath?.ModPath ?? Validate.For.EmptyString(), modStoreName ?? Validate.For.EmptyString());
 
     /// <summary>
     /// The mod store data path.
     /// </summary>
     public static string ModStorePath(LauncherPath? launcherPath, string? modStoreName) =>
-        VFS.Combine(launcherPath?.ModPath ?? StringOperator.Empty(), $"{modStoreName}.modstore.json");
+        VFS.Combine(launcherPath?.ModPath ?? Validate.For.EmptyString(), $"{modStoreName}.modstore.json");
 
     /// <summary>
     /// The mod deployment path.
     /// </summary>
     public static string ModDeployPath(LauncherPath? launcherPath) =>
-        VFS.Combine(launcherPath?.MPath ?? StringOperator.Empty(), "mods");
+        VFS.Combine(launcherPath?.MPath ?? Validate.For.EmptyString(), "mods");
 }

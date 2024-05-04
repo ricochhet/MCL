@@ -22,6 +22,7 @@ using MCL.Core.Launcher.Models;
 using MCL.Core.ModLoaders.Fabric.Models;
 using MCL.Core.ModLoaders.Fabric.Resolvers;
 using MCL.Core.ModLoaders.Interfaces.Web;
+using MiniCommon.Validation;
 using MiniCommon.Validation.Validators;
 using MiniCommon.Web;
 
@@ -32,7 +33,7 @@ public class FabricVersionManifestDownloader : IModLoaderVersionManifestDownload
     /// <inheritdoc />
     public static async Task<bool> Download(LauncherPath? launcherPath, FabricUrls? fabricUrls)
     {
-        if (StringValidator.IsNullOrWhiteSpace([fabricUrls?.VersionManifest]))
+        if (Validate.For.IsNullOrWhiteSpace([fabricUrls?.VersionManifest]))
             return false;
 
         string filepath = FabricPathResolver.VersionManifestPath(launcherPath);
@@ -42,6 +43,6 @@ public class FabricVersionManifestDownloader : IModLoaderVersionManifestDownload
             Encoding.UTF8,
             FabricVersionManifestContext.Default
         );
-        return StringValidator.IsNotNullOrWhiteSpace([fabricVersionManifest]);
+        return Validate.For.IsNotNullOrWhiteSpace([fabricVersionManifest]);
     }
 }

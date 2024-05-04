@@ -25,6 +25,7 @@ using MiniCommon.Enums;
 using MiniCommon.Logger;
 using MiniCommon.Models;
 using MiniCommon.Providers;
+using MiniCommon.Validation;
 using MiniCommon.Validation.Validators;
 using MiniCommon.Web;
 
@@ -45,7 +46,7 @@ public static class ServiceManager
             NotificationProvider.Info("log.initialized");
             SettingsProvider.FirstRun();
             Settings = SettingsProvider.Load();
-            if (ClassValidator.IsNull(Settings))
+            if (Validate.For.IsNull(Settings))
                 return Task.FromResult(false);
             RequestDataProvider.OnRequestCompleted(
                 (RequestData requestData) =>

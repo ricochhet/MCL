@@ -20,6 +20,9 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using MiniCommon.Logger.Enums;
 using MiniCommon.Providers;
+using MiniCommon.Validation.Interfaces;
+
+#pragma warning disable IDE0060, RCS1175, RCS1163, RCS1158, S107
 
 namespace MiniCommon.Validation.Operators;
 
@@ -29,21 +32,23 @@ public static class DictionaryOperator
     /// Coalescing operator shim for empty dictionary to log when it gets called.
     /// </summary>
 #pragma warning disable S4144
-    public static Dictionary<TKey, TValue> Empty<TKey, TValue>(
+    public static Dictionary<TKey, TValue> EmptyDictionary<TKey, TValue>(
 #pragma warning restore S4144
+        this IValidationClause clause,
         NativeLogLevel level = NativeLogLevel.Debug,
         [CallerMemberName] string memberName = "",
         [CallerFilePath] string sourceFilePath = "",
         [CallerLineNumber] int sourceLineNumber = 0
     )
-        where TKey : notnull => Empty<TKey, TValue>(string.Empty, level, memberName, sourceFilePath, sourceLineNumber);
+        where TKey : notnull => EmptyDictionary<TKey, TValue>(clause, string.Empty, level, memberName, sourceFilePath, sourceLineNumber);
 
     /// <summary>
     /// Coalescing operator shim for empty dictionary to log when it gets called.
     /// </summary>
 #pragma warning disable S4144
-    public static Dictionary<TKey, TValue> Empty<TKey, TValue>(
+    public static Dictionary<TKey, TValue> EmptyDictionary<TKey, TValue>(
 #pragma warning restore S4144
+        this IValidationClause clause,
         string message,
         NativeLogLevel level = NativeLogLevel.Debug,
         [CallerMemberName] string memberName = "",

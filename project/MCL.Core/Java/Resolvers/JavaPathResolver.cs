@@ -19,6 +19,7 @@
 using MCL.Core.Java.Enums;
 using MCL.Core.Launcher.Models;
 using MiniCommon.IO;
+using MiniCommon.Validation;
 using MiniCommon.Validation.Operators;
 
 namespace MCL.Core.Java.Resolvers;
@@ -29,7 +30,7 @@ public static class JavaPathResolver
     /// The Java runtime path.
     /// </summary>
     public static string JavaRuntimePath(LauncherPath? launcherPath) =>
-        VFS.Combine(launcherPath?.MPath ?? StringOperator.Empty(), "runtime");
+        VFS.Combine(launcherPath?.MPath ?? Validate.For.EmptyString(), "runtime");
 
     /// <summary>
     /// The Java runtime 'home' specified by the working directory.

@@ -21,6 +21,7 @@ using System.Threading.Tasks;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Minecraft.Models;
 using MCL.Core.Minecraft.Resolvers;
+using MiniCommon.Validation;
 using MiniCommon.Validation.Validators;
 using MiniCommon.Web;
 
@@ -33,7 +34,7 @@ public static class VersionDetailsDownloader
     /// </summary>
     public static async Task<bool> Download(LauncherPath? launcherPath, MVersion? version)
     {
-        if (StringValidator.IsNullOrWhiteSpace([version?.URL, version?.ID]))
+        if (Validate.For.IsNullOrWhiteSpace([version?.URL, version?.ID]))
             return false;
 
         string filepath = MPathResolver.VersionDetailsPath(launcherPath, version);
@@ -43,6 +44,6 @@ public static class VersionDetailsDownloader
             Encoding.UTF8,
             MVersionDetailsContext.Default
         );
-        return StringValidator.IsNotNullOrWhiteSpace([versionDetails]);
+        return Validate.For.IsNotNullOrWhiteSpace([versionDetails]);
     }
 }

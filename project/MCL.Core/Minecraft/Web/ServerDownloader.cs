@@ -21,6 +21,7 @@ using MCL.Core.Launcher.Models;
 using MCL.Core.Minecraft.Helpers;
 using MCL.Core.Minecraft.Models;
 using MCL.Core.Minecraft.Resolvers;
+using MiniCommon.Validation;
 using MiniCommon.Validation.Validators;
 using MiniCommon.Web;
 
@@ -34,7 +35,7 @@ public static class ServerDownloader
     public static async Task<bool> Download(LauncherPath? launcherPath, MVersionDetails? versionDetails)
     {
         if (
-            StringValidator.IsNullOrWhiteSpace(
+            Validate.For.IsNullOrWhiteSpace(
                 [versionDetails?.Downloads?.Server?.SHA1, versionDetails?.Downloads?.Server?.URL, versionDetails?.ID]
             )
         )

@@ -21,6 +21,7 @@ using CodeAnalyzers.Analyzers.Models;
 using MiniCommon.IO;
 using MiniCommon.Logger.Enums;
 using MiniCommon.Providers;
+using MiniCommon.Validation;
 using MiniCommon.Validation.Operators;
 using MiniCommon.Validation.Validators;
 
@@ -46,9 +47,9 @@ public static partial class NamespaceAnalyzer
             if (AnalyzerFiles.Restricted.Exists(file.Contains))
                 continue;
 
-            if (StringValidator.IsNullOrWhiteSpace([name], NativeLogLevel.Debug))
+            if (Validate.For.IsNullOrWhiteSpace([name], NativeLogLevel.Debug))
             {
-                NotificationProvider.Error("analyzer.error.namespace", file, name ?? StringOperator.Empty());
+                NotificationProvider.Error("analyzer.error.namespace", file, name ?? Validate.For.EmptyString());
                 continue;
             }
 

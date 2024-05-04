@@ -23,6 +23,7 @@ using MCL.Core.Java.Resolvers;
 using MCL.Core.Launcher.Models;
 using MiniCommon.IO;
 using MiniCommon.Logger.Enums;
+using MiniCommon.Validation;
 using MiniCommon.Validation.Operators;
 using MiniCommon.Validation.Validators;
 using MiniCommon.Web;
@@ -40,19 +41,19 @@ public static class JavaRuntimeDownloader
         JavaVersionDetails? javaRuntimeFiles
     )
     {
-        if (DictionaryValidator.IsNullOrEmpty(javaRuntimeFiles?.Files))
+        if (Validate.For.IsNullOrEmpty(javaRuntimeFiles?.Files))
             return false;
 
         foreach ((string path, JavaRuntimeFile javaRuntimeFile) in javaRuntimeFiles!.Files!)
         {
-            if (ClassValidator.IsNull(javaRuntimeFile?.Downloads, NativeLogLevel.Debug))
+            if (Validate.For.IsNull(javaRuntimeFile?.Downloads, NativeLogLevel.Debug))
                 continue;
 
             if (javaRuntimeFile!.Type != "file")
                 continue;
 
             if (
-                StringValidator.IsNullOrWhiteSpace(
+                Validate.For.IsNullOrWhiteSpace(
                     [javaRuntimeFile!.Downloads!.Raw?.URL, javaRuntimeFile!.Downloads!.Raw?.SHA1]
                 )
             )
@@ -62,7 +63,7 @@ public static class JavaRuntimeDownloader
 
             if (
                 !await Request.DownloadSHA1(
-                    javaRuntimeFile!.Downloads!.Raw?.URL ?? StringOperator.Empty(),
+                    javaRuntimeFile!.Downloads!.Raw?.URL ?? Validate.For.EmptyString(),
                     VFS.Combine(
                         JavaPathResolver.JavaRuntimeVersionPath(
                             launcherPath,
@@ -70,7 +71,7 @@ public static class JavaRuntimeDownloader
                         ),
                         path
                     ),
-                    javaRuntimeFile!.Downloads!.Raw?.SHA1 ?? StringOperator.Empty()
+                    javaRuntimeFile!.Downloads!.Raw?.SHA1 ?? Validate.For.EmptyString()
                 )
             )
             {

@@ -20,56 +20,20 @@ using System.Runtime.CompilerServices;
 using MiniCommon.Logger.Enums;
 using MiniCommon.Providers;
 using MiniCommon.Validation.Abstractions;
+using MiniCommon.Validation.Interfaces;
 using MiniCommon.Validation.Operators;
 
 namespace MiniCommon.Validation.Validators;
 
-#pragma warning disable RCS1163, RCS1158, S107
+#pragma warning disable IDE0060, RCS1175, RCS1163, RCS1158, S107
 
 public static class StringValidator
 {
     /// <summary>
-    /// Coalescing operator shim for string.Empty to log when it gets called.
-    /// </summary>
-    public static string StringEmpty(
-        NativeLogLevel level = NativeLogLevel.Debug,
-        [CallerMemberName] string memberName = "",
-        [CallerFilePath] string sourceFilePath = "",
-        [CallerLineNumber] int sourceLineNumber = 0
-    ) => StringEmpty(string.Empty, level, memberName, sourceFilePath, sourceLineNumber);
-
-    /// <summary>
-    /// Coalescing operator shim for string.Empty to log when it gets called.
-    /// </summary>
-    public static string StringEmpty(
-        string message,
-        NativeLogLevel level = NativeLogLevel.Debug,
-        [CallerMemberName] string memberName = "",
-        [CallerFilePath] string sourceFilePath = "",
-        [CallerLineNumber] int sourceLineNumber = 0
-    )
-    {
-        if (string.IsNullOrWhiteSpace(message))
-        {
-            NotificationProvider.Log(
-                level,
-                "error.validation.string-shim",
-                memberName,
-                sourceFilePath,
-                sourceLineNumber.ToString()
-            );
-        }
-        else
-        {
-            NotificationProvider.PrintLog(level, message, memberName, sourceFilePath, sourceLineNumber.ToString());
-        }
-        return string.Empty;
-    }
-
-    /// <summary>
     /// Validate an array of strings is not null, empty, or whitespace.
     /// </summary>
     public static bool IsNotNullOrWhiteSpace(
+        this IValidationClause clause,
         string?[] properties,
         NativeLogLevel level = NativeLogLevel.Error,
         [CallerArgumentExpression(nameof(properties))] string propertiesName = "",
@@ -78,6 +42,7 @@ public static class StringValidator
         [CallerLineNumber] int sourceLineNumber = 0
     ) =>
         !IsNullOrWhiteSpace(
+            clause,
             properties,
             string.Empty,
             level,
@@ -91,6 +56,7 @@ public static class StringValidator
     /// Validate an array of strings is not null, empty, or whitespace.
     /// </summary>
     public static bool IsNotNullOrWhiteSpace(
+        this IValidationClause clause,
         string?[] properties,
         string message,
         NativeLogLevel level = NativeLogLevel.Error,
@@ -98,12 +64,13 @@ public static class StringValidator
         [CallerMemberName] string memberName = "",
         [CallerFilePath] string sourceFilePath = "",
         [CallerLineNumber] int sourceLineNumber = 0
-    ) => !IsNullOrWhiteSpace(properties, message, level, propertiesName, memberName, sourceFilePath, sourceLineNumber);
+    ) => !IsNullOrWhiteSpace(clause, properties, message, level, propertiesName, memberName, sourceFilePath, sourceLineNumber);
 
     /// <summary>
     /// Validate an array of strings is null, empty, or whitespace.
     /// </summary>
     public static bool IsNullOrWhiteSpace(
+        this IValidationClause clause,
         string?[] properties,
         NativeLogLevel level = NativeLogLevel.Error,
         [CallerArgumentExpression(nameof(properties))] string propertiesName = "",
@@ -112,6 +79,7 @@ public static class StringValidator
         [CallerLineNumber] int sourceLineNumber = 0
     ) =>
         IsNullOrWhiteSpace(
+            clause,
             properties,
             string.Empty,
             level,
@@ -125,6 +93,7 @@ public static class StringValidator
     /// Validate an array of strings is null, empty, or whitespace.
     /// </summary>
     public static bool IsNullOrWhiteSpace(
+        this IValidationClause clause,
         string?[] properties,
         string message,
         NativeLogLevel level = NativeLogLevel.Error,
@@ -136,7 +105,7 @@ public static class StringValidator
     {
         BaseValidator<string> validator = new();
 
-        foreach (string? property in properties ?? [.. ListOperator.Empty<string>()])
+        foreach (string? property in properties ?? [.. Validate.For.EmptyList<string>()])
         {
             if (string.IsNullOrWhiteSpace(message))
             {

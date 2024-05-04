@@ -28,6 +28,7 @@ using MCL.Core.Minecraft.Models;
 using MCL.Core.Minecraft.Resolvers;
 using MiniCommon.IO;
 using MiniCommon.Logger.Enums;
+using MiniCommon.Validation;
 using MiniCommon.Validation.Operators;
 using MiniCommon.Validation.Validators;
 using MiniCommon.Web;
@@ -52,8 +53,8 @@ public static class LibraryDownloader
 #pragma warning restore S3776
     {
         if (
-            ListValidator.IsNullOrEmpty(versionDetails?.Libraries)
-            || StringValidator.IsNullOrWhiteSpace([launcherVersion?.MVersion, launcherPath?.MPath])
+            Validate.For.IsNullOrEmpty(versionDetails?.Libraries)
+            || Validate.For.IsNullOrWhiteSpace([launcherVersion?.MVersion, launcherPath?.MPath])
         )
         {
             return false;
@@ -64,7 +65,7 @@ public static class LibraryDownloader
 
         foreach (MLibrary lib in versionDetails!.Libraries!)
         {
-            if (ClassValidator.IsNull(lib?.Downloads))
+            if (Validate.For.IsNull(lib?.Downloads))
                 return false;
 
             if (SkipLibrary(lib, launcherSettings))
@@ -74,7 +75,7 @@ public static class LibraryDownloader
                 return false;
 
             if (
-                StringValidator.IsNullOrWhiteSpace(
+                Validate.For.IsNullOrWhiteSpace(
                     [lib!.Downloads!.Artifact?.Path, lib!.Downloads!.Artifact?.URL, lib!.Downloads!.Artifact?.SHA1]
                 )
             )
@@ -88,7 +89,7 @@ public static class LibraryDownloader
             _loader.Libraries.Add(filepath);
         }
 
-        if (ClassValidator.IsNull(launcherInstance?.Versions))
+        if (Validate.For.IsNull(launcherInstance?.Versions))
             return false;
         List<LauncherLoader> existingLoaders = [];
 
@@ -111,16 +112,16 @@ public static class LibraryDownloader
     /// </summary>
     public static bool SkipLibrary(MLibrary? lib, LauncherSettings? launcherSettings)
     {
-        if (ListValidator.IsNullOrEmpty(lib?.Rules, NativeLogLevel.Debug))
+        if (Validate.For.IsNullOrEmpty(lib?.Rules, NativeLogLevel.Debug))
             return false;
 
         bool allowLibrary = false;
         foreach (MLibraryRule rule in lib!.Rules!)
         {
             string action = rule.Action;
-            string os = rule.Os?.Name ?? StringOperator.Empty();
+            string os = rule.Os?.Name ?? Validate.For.EmptyString();
 
-            if (StringValidator.IsNullOrWhiteSpace([os]))
+            if (Validate.For.IsNullOrWhiteSpace([os]))
             {
                 allowLibrary = action == RuleTypeResolver.ToString(RuleType.ALLOW);
                 continue;
@@ -144,7 +145,7 @@ public static class LibraryDownloader
         LauncherSettings? launcherSettings
     )
     {
-        if (ClassValidator.IsNull(lib?.Downloads.Classifiers, NativeLogLevel.Debug))
+        if (Validate.For.IsNull(lib?.Downloads.Classifiers, NativeLogLevel.Debug))
             return true;
 
         string classifierFilePath = string.Empty;
@@ -158,7 +159,7 @@ public static class LibraryDownloader
             or JavaRuntimePlatform.WINDOWSX86
             or JavaRuntimePlatform.WINDOWSARM64:
                 if (
-                    StringValidator.IsNullOrWhiteSpace(
+                    Validate.For.IsNullOrWhiteSpace(
                         [
                             lib!.Downloads!.Classifiers!.NativesWindows?.URL,
                             lib!.Downloads!.Classifiers!.NativesWindows?.SHA1,
@@ -177,7 +178,7 @@ public static class LibraryDownloader
             case JavaRuntimePlatform.LINUX
             or JavaRuntimePlatform.LINUXI386:
                 if (
-                    StringValidator.IsNullOrWhiteSpace(
+                    Validate.For.IsNullOrWhiteSpace(
                         [
                             lib!.Downloads!.Classifiers!.NativesLinux?.URL,
                             lib!.Downloads!.Classifiers!.NativesLinux?.SHA1,
@@ -196,7 +197,7 @@ public static class LibraryDownloader
             case JavaRuntimePlatform.MACOS
             or JavaRuntimePlatform.MACOSARM64:
                 if (
-                    StringValidator.IsNullOrWhiteSpace(
+                    Validate.For.IsNullOrWhiteSpace(
                         [
                             lib!.Downloads!.Classifiers!.NativesMacos?.URL,
                             lib!.Downloads!.Classifiers!.NativesMacos?.SHA1,

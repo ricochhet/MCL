@@ -27,6 +27,7 @@ using MiniCommon.Decorators;
 using MiniCommon.IO;
 using MiniCommon.Logger.Enums;
 using MiniCommon.Providers;
+using MiniCommon.Validation;
 using MiniCommon.Validation.Operators;
 using MiniCommon.Validation.Validators;
 
@@ -93,7 +94,7 @@ public class QuiltInstallerDownloadService : IModLoaderInstallerDownloadService
             QuiltPathResolver.VersionManifestPath(_launcherPath),
             QuiltVersionManifestContext.Default
         );
-        if (ClassValidator.IsNull(QuiltVersionManifest))
+        if (Validate.For.IsNull(QuiltVersionManifest))
         {
             NotificationProvider.Error("error.readfile", nameof(QuiltVersionManifest));
             return false;
@@ -110,18 +111,18 @@ public class QuiltInstallerDownloadService : IModLoaderInstallerDownloadService
             QuiltVersionManifestContext.Default
         );
 
-        return ClassValidator.IsNotNull(QuiltVersionManifest, NativeLogLevel.Debug);
+        return Validate.For.IsNotNull(QuiltVersionManifest, NativeLogLevel.Debug);
     }
 
     /// <inheritdoc />
     public bool LoadVersion()
     {
         QuiltInstaller = QuiltVersionHelper.GetInstallerVersion(_launcherVersion, QuiltVersionManifest);
-        if (ClassValidator.IsNull(QuiltInstaller))
+        if (Validate.For.IsNull(QuiltInstaller))
         {
             NotificationProvider.Error(
                 "error.parse",
-                _launcherVersion?.QuiltInstallerVersion ?? StringOperator.Empty(),
+                _launcherVersion?.QuiltInstallerVersion ?? Validate.For.EmptyString(),
                 nameof(QuiltInstaller)
             );
             return false;

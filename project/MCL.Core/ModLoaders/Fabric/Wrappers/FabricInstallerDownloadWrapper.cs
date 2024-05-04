@@ -26,6 +26,7 @@ using MCL.Core.ModLoaders.Fabric.Helpers;
 using MCL.Core.ModLoaders.Fabric.Services;
 using MCL.Core.ModLoaders.Interfaces.Wrappers;
 using MiniCommon.IO;
+using MiniCommon.Validation;
 using MiniCommon.Validation.Validators;
 
 namespace MCL.Core.ModLoaders.Fabric.Wrappers;
@@ -40,9 +41,9 @@ public class FabricInstallerDownloadWrapper : IModLoaderInstallerDownloadWrapper
         bool update
     )
     {
-        if (ClassValidator.IsNull(settings))
+        if (Validate.For.IsNull(settings))
             return false;
-        if (StringValidator.IsNullOrWhiteSpace([launcherVersion.FabricInstallerVersion]))
+        if (Validate.For.IsNullOrWhiteSpace([launcherVersion.FabricInstallerVersion]))
             return false;
         if (!await VersionHelper.SetVersion(settings, launcherVersion, update))
             return false;

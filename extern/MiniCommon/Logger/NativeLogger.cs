@@ -21,6 +21,7 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using MiniCommon.Logger.Enums;
 using MiniCommon.Providers;
+using MiniCommon.Validation;
 using MiniCommon.Validation.Operators;
 
 namespace MiniCommon.Logger;
@@ -103,7 +104,7 @@ public partial class NativeLogger : ILogger
         }
         else
         {
-            NotificationProvider.Error("log.unhandled.object", e.ExceptionObject.ToString() ?? StringOperator.Empty());
+            NotificationProvider.Error("log.unhandled.object", e.ExceptionObject.ToString() ?? Validate.For.EmptyString());
         }
     }
 

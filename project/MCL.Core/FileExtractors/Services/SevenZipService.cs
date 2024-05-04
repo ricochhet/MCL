@@ -20,6 +20,7 @@ using System;
 using MCL.Core.FileExtractors.Models;
 using MCL.Core.FileExtractors.Resolvers;
 using MiniCommon.IO.Helpers;
+using MiniCommon.Validation;
 using MiniCommon.Validation.Operators;
 
 namespace MCL.Core.FileExtractors.Services;
@@ -42,7 +43,7 @@ public class SevenZipService
     {
         ProcessHelper.RunProcess(
             SevenZipPathResolver.SevenZipPath(SevenZipSettings),
-            string.Format(SevenZipSettings?.ExtractArguments ?? StringOperator.Empty(), source, destination),
+            string.Format(SevenZipSettings?.ExtractArguments ?? Validate.For.EmptyString(), source, destination),
             Environment.CurrentDirectory,
             false
         );

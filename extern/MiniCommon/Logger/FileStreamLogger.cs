@@ -25,6 +25,7 @@ using MiniCommon.IO;
 using MiniCommon.Logger.Enums;
 using MiniCommon.Logger.Models;
 using MiniCommon.Providers;
+using MiniCommon.Validation;
 using MiniCommon.Validation.Operators;
 
 namespace MiniCommon.Logger;
@@ -114,7 +115,7 @@ public class FileStreamLogger : ILogger, IDisposable
         }
         else
         {
-            NotificationProvider.Error("log.unhandled.object", e.ExceptionObject.ToString() ?? StringOperator.Empty());
+            NotificationProvider.Error("log.unhandled.object", e.ExceptionObject.ToString() ?? Validate.For.EmptyString());
         }
     }
 

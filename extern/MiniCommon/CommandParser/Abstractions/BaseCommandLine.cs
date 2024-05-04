@@ -24,6 +24,7 @@ using MiniCommon.CommandParser.Interfaces;
 using MiniCommon.Extensions;
 using MiniCommon.Models;
 using MiniCommon.Providers;
+using MiniCommon.Validation;
 using MiniCommon.Validation.Operators;
 
 namespace MiniCommon.CommandParser.Abstractions;
@@ -81,7 +82,7 @@ public class BaseCommandLine : IBaseCommandLine
                     if (
                         command
                             .Parameters.Where(a => !a.Optional)
-                            .All(a => options.ContainsKey(a?.Name ?? StringOperator.Empty()))
+                            .All(a => options.ContainsKey(a?.Name ?? Validate.For.EmptyString()))
                     )
                     {
                         action(options);
@@ -152,7 +153,7 @@ public class BaseCommandLine : IBaseCommandLine
                     if (
                         command
                             .Parameters.Where(a => !a.Optional)
-                            .All(a => options.ContainsKey(a?.Name ?? StringOperator.Empty()))
+                            .All(a => options.ContainsKey(a?.Name ?? Validate.For.EmptyString()))
                     )
                     {
                         await action(options);

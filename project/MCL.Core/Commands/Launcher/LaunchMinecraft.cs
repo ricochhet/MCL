@@ -27,6 +27,7 @@ using MiniCommon.CommandParser.Converters;
 using MiniCommon.Interfaces;
 using MiniCommon.Providers;
 using MiniCommon.Resolvers;
+using MiniCommon.Validation;
 using MiniCommon.Validation.Validators;
 
 namespace MCL.Core.Commands.Launcher;
@@ -55,9 +56,9 @@ public class LaunchMinecraft : IBaseCommand<Settings>
             options =>
             {
                 if (
-                    ClassValidator.IsNull(settings?.LauncherSettings)
-                    || ClassValidator.IsNull(settings?.LauncherUsername)
-                    || ClassValidator.IsNull(settings?.LauncherVersion)
+                    Validate.For.IsNull(settings?.LauncherSettings)
+                    || Validate.For.IsNull(settings?.LauncherUsername)
+                    || Validate.For.IsNull(settings?.LauncherVersion)
                 )
                 {
                     return;
@@ -77,7 +78,7 @@ public class LaunchMinecraft : IBaseCommand<Settings>
                     s => s?.LauncherVersion?.MVersion,
                     (s, v) =>
                     {
-                        if (ClassValidator.IsNull(s?.LauncherVersion))
+                        if (Validate.For.IsNull(s?.LauncherVersion))
                             return;
                         s!.LauncherVersion!.MVersion = v;
                     }
@@ -89,7 +90,7 @@ public class LaunchMinecraft : IBaseCommand<Settings>
                     s => s?.LauncherVersion?.FabricLoaderVersion,
                     (s, v) =>
                     {
-                        if (ClassValidator.IsNull(s?.LauncherVersion))
+                        if (Validate.For.IsNull(s?.LauncherVersion))
                             return;
                         s!.LauncherVersion!.FabricLoaderVersion = v;
                     }
@@ -101,7 +102,7 @@ public class LaunchMinecraft : IBaseCommand<Settings>
                     s => s?.LauncherVersion?.QuiltLoaderVersion,
                     (s, v) =>
                     {
-                        if (ClassValidator.IsNull(s?.LauncherVersion))
+                        if (Validate.For.IsNull(s?.LauncherVersion))
                             return;
                         s!.LauncherVersion!.QuiltLoaderVersion = v;
                     }
@@ -113,7 +114,7 @@ public class LaunchMinecraft : IBaseCommand<Settings>
                     s => s?.LauncherUsername?.Username,
                     (s, v) =>
                     {
-                        if (ClassValidator.IsNull(s?.LauncherUsername))
+                        if (Validate.For.IsNull(s?.LauncherUsername))
                             return;
                         s!.LauncherUsername!.Username = v;
                     }

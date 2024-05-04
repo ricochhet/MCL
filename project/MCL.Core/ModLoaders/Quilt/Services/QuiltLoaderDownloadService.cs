@@ -27,6 +27,7 @@ using MiniCommon.Decorators;
 using MiniCommon.IO;
 using MiniCommon.Logger.Enums;
 using MiniCommon.Providers;
+using MiniCommon.Validation;
 using MiniCommon.Validation.Operators;
 using MiniCommon.Validation.Validators;
 
@@ -50,7 +51,7 @@ public class QuiltLoaderDownloadService : IModLoaderLoaderDownloadService
         QuiltUrls? quiltUrls
     )
     {
-        if (ClassValidator.IsNull(launcherInstance))
+        if (Validate.For.IsNull(launcherInstance))
             return;
 
         _launcherInstance = launcherInstance;
@@ -105,7 +106,7 @@ public class QuiltLoaderDownloadService : IModLoaderLoaderDownloadService
             QuiltPathResolver.VersionManifestPath(_launcherPath),
             QuiltVersionManifestContext.Default
         );
-        if (ClassValidator.IsNull(QuiltVersionManifest))
+        if (Validate.For.IsNull(QuiltVersionManifest))
         {
             NotificationProvider.Error("error.readfile", nameof(QuiltVersionManifest));
             return false;
@@ -122,7 +123,7 @@ public class QuiltLoaderDownloadService : IModLoaderLoaderDownloadService
             QuiltVersionManifestContext.Default
         );
 
-        return ClassValidator.IsNotNull(QuiltVersionManifest, NativeLogLevel.Debug);
+        return Validate.For.IsNotNull(QuiltVersionManifest, NativeLogLevel.Debug);
     }
 
     /// <inheritdoc />
@@ -143,7 +144,7 @@ public class QuiltLoaderDownloadService : IModLoaderLoaderDownloadService
     /// <inheritdoc />
     public bool LoadProfile()
     {
-        if (StringValidator.IsNullOrWhiteSpace([_launcherVersion?.MVersion, _launcherVersion?.QuiltLoaderVersion]))
+        if (Validate.For.IsNullOrWhiteSpace([_launcherVersion?.MVersion, _launcherVersion?.QuiltLoaderVersion]))
         {
             return false;
         }
@@ -152,7 +153,7 @@ public class QuiltLoaderDownloadService : IModLoaderLoaderDownloadService
             QuiltPathResolver.ProfilePath(_launcherPath, _launcherVersion),
             QuiltProfileContext.Default
         );
-        if (ClassValidator.IsNull(QuiltProfile))
+        if (Validate.For.IsNull(QuiltProfile))
         {
             NotificationProvider.Error("error.download", nameof(QuiltProfile));
             return false;
@@ -165,11 +166,11 @@ public class QuiltLoaderDownloadService : IModLoaderLoaderDownloadService
     public bool LoadLoaderVersion()
     {
         QuiltLoader? quiltLoader = QuiltVersionHelper.GetLoaderVersion(_launcherVersion, QuiltVersionManifest);
-        if (ClassValidator.IsNull(quiltLoader))
+        if (Validate.For.IsNull(quiltLoader))
         {
             NotificationProvider.Error(
                 "error.parse",
-                _launcherVersion?.QuiltLoaderVersion ?? StringOperator.Empty(),
+                _launcherVersion?.QuiltLoaderVersion ?? Validate.For.EmptyString(),
                 nameof(QuiltLoader)
             );
             return false;

@@ -24,6 +24,7 @@ using MCL.Core.Launcher.Providers;
 using MCL.Core.ModLoaders.Fabric.Models;
 using MCL.Core.ModLoaders.Fabric.Services;
 using MCL.Core.ModLoaders.Interfaces.Helpers;
+using MiniCommon.Validation;
 using MiniCommon.Validation.Operators;
 using MiniCommon.Validation.Validators;
 
@@ -46,19 +47,19 @@ public class FabricVersionHelper : IModLoaderVersionHelper<FabricVersionManifest
             downloader.LoadVersionManifest();
         }
 
-        if (ClassValidator.IsNull(downloader.FabricVersionManifest))
+        if (Validate.For.IsNull(downloader.FabricVersionManifest))
             return false;
 
         List<string> installerVersions = GetInstallerVersionIds(downloader.FabricVersionManifest!);
         string? installerVersion = launcherVersion.FabricInstallerVersion;
 
-        if (installerVersion == "latest" || StringValidator.IsNullOrWhiteSpace([installerVersion]))
+        if (installerVersion == "latest" || Validate.For.IsNullOrWhiteSpace([installerVersion]))
             installerVersion = installerVersions.FirstOrDefault();
 
-        if (!installerVersions.Contains(installerVersion ?? StringOperator.Empty()))
+        if (!installerVersions.Contains(installerVersion ?? Validate.For.EmptyString()))
             return false;
 
-        if (ClassValidator.IsNull(settings?.LauncherVersion))
+        if (Validate.For.IsNull(settings?.LauncherVersion))
             return false;
         settings!.LauncherVersion!.FabricInstallerVersion = installerVersion!;
         SettingsProvider.Save(settings);
@@ -80,19 +81,19 @@ public class FabricVersionHelper : IModLoaderVersionHelper<FabricVersionManifest
             downloader.LoadVersionManifest();
         }
 
-        if (ClassValidator.IsNull(downloader.FabricVersionManifest))
+        if (Validate.For.IsNull(downloader.FabricVersionManifest))
             return false;
 
         List<string> loaderVersions = GetLoaderVersionIds(downloader.FabricVersionManifest!);
         string? loaderVersion = launcherVersion.FabricLoaderVersion;
 
-        if (loaderVersion == "latest" || StringValidator.IsNullOrWhiteSpace([loaderVersion]))
+        if (loaderVersion == "latest" || Validate.For.IsNullOrWhiteSpace([loaderVersion]))
             loaderVersion = loaderVersions.FirstOrDefault();
 
-        if (!loaderVersions.Contains(loaderVersion ?? StringOperator.Empty()))
+        if (!loaderVersions.Contains(loaderVersion ?? Validate.For.EmptyString()))
             return false;
 
-        if (ClassValidator.IsNull(settings?.LauncherVersion))
+        if (Validate.For.IsNull(settings?.LauncherVersion))
             return false;
         settings!.LauncherVersion!.FabricLoaderVersion = loaderVersion!;
         SettingsProvider.Save(settings);
@@ -102,7 +103,7 @@ public class FabricVersionHelper : IModLoaderVersionHelper<FabricVersionManifest
     /// <inheritdoc />
     public static List<string> GetInstallerVersionIds(FabricVersionManifest fabricVersionManifest)
     {
-        if (ListValidator.IsNullOrEmpty(fabricVersionManifest?.Installer))
+        if (Validate.For.IsNullOrEmpty(fabricVersionManifest?.Installer))
             return [];
 
         List<string> versions = [];
@@ -115,7 +116,7 @@ public class FabricVersionHelper : IModLoaderVersionHelper<FabricVersionManifest
     /// <inheritdoc />
     public static List<string> GetLoaderVersionIds(FabricVersionManifest fabricVersionManifest)
     {
-        if (ListValidator.IsNullOrEmpty(fabricVersionManifest?.Loader))
+        if (Validate.For.IsNullOrEmpty(fabricVersionManifest?.Loader))
             return [];
 
         List<string> versions = [];
@@ -132,8 +133,8 @@ public class FabricVersionHelper : IModLoaderVersionHelper<FabricVersionManifest
     )
     {
         if (
-            StringValidator.IsNullOrWhiteSpace([installerVersion?.FabricInstallerVersion])
-            || ListValidator.IsNullOrEmpty(fabricVersionManifest?.Installer)
+            Validate.For.IsNullOrWhiteSpace([installerVersion?.FabricInstallerVersion])
+            || Validate.For.IsNullOrEmpty(fabricVersionManifest?.Installer)
         )
         {
             return null;
@@ -155,8 +156,8 @@ public class FabricVersionHelper : IModLoaderVersionHelper<FabricVersionManifest
     )
     {
         if (
-            StringValidator.IsNullOrWhiteSpace([loaderVersion?.FabricLoaderVersion])
-            || ListValidator.IsNullOrEmpty(fabricVersionManifest?.Loader)
+            Validate.For.IsNullOrWhiteSpace([loaderVersion?.FabricLoaderVersion])
+            || Validate.For.IsNullOrEmpty(fabricVersionManifest?.Loader)
         )
         {
             return null;

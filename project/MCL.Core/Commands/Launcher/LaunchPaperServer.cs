@@ -25,6 +25,7 @@ using MiniCommon.CommandParser;
 using MiniCommon.CommandParser.Converters;
 using MiniCommon.Interfaces;
 using MiniCommon.Providers;
+using MiniCommon.Validation;
 using MiniCommon.Validation.Validators;
 
 namespace MCL.Core.Commands.Launcher;
@@ -48,7 +49,7 @@ public class LaunchPaperServer : IBaseCommand<Settings>
             },
             options =>
             {
-                if (ClassValidator.IsNull(settings?.LauncherVersion))
+                if (Validate.For.IsNull(settings?.LauncherVersion))
                     return;
 
                 settings!.Set(
@@ -58,7 +59,7 @@ public class LaunchPaperServer : IBaseCommand<Settings>
                     s => s?.LauncherVersion?.MVersion,
                     (s, v) =>
                     {
-                        if (ClassValidator.IsNull(s?.LauncherVersion))
+                        if (Validate.For.IsNull(s?.LauncherVersion))
                             return;
                         s!.LauncherVersion!.MVersion = v;
                     }
@@ -70,7 +71,7 @@ public class LaunchPaperServer : IBaseCommand<Settings>
                     s => s?.LauncherVersion?.PaperServerVersion,
                     (s, v) =>
                     {
-                        if (ClassValidator.IsNull(s?.LauncherVersion))
+                        if (Validate.For.IsNull(s?.LauncherVersion))
                             return;
                         s!.LauncherVersion!.PaperServerVersion = v;
                     }

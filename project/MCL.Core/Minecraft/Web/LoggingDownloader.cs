@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Minecraft.Models;
 using MCL.Core.Minecraft.Resolvers;
+using MiniCommon.Validation;
 using MiniCommon.Validation.Validators;
 using MiniCommon.Web;
 
@@ -33,7 +34,7 @@ public static class LoggingDownloader
     public static async Task<bool> Download(LauncherPath? launcherPath, MVersionDetails? versionDetails)
     {
         if (
-            StringValidator.IsNullOrWhiteSpace(
+            Validate.For.IsNullOrWhiteSpace(
                 [
                     versionDetails?.Logging?.Client?.File?.SHA1,
                     versionDetails?.Logging?.Client?.File?.URL,

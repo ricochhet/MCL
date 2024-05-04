@@ -22,6 +22,7 @@ using MiniCommon.IO;
 using MiniCommon.Logger.Enums;
 using MiniCommon.Models;
 using MiniCommon.Providers;
+using MiniCommon.Validation;
 using MiniCommon.Validation.Validators;
 
 namespace CodeAnalyzers.Analyzers;
@@ -36,7 +37,7 @@ public static partial class LocalizationKeyAnalyzer
         int success = 0;
         int fail = 0;
 
-        if (DictionaryValidator.IsNullOrEmpty(localization?.Entries))
+        if (Validate.For.IsNullOrEmpty(localization?.Entries))
             return;
 
         foreach (string file in files)
@@ -52,7 +53,7 @@ public static partial class LocalizationKeyAnalyzer
                 Regex matchQuotes = QuoteRegex();
                 Match quoteMatch = matchQuotes.Match(match.Value);
 
-                if (StringValidator.IsNullOrWhiteSpace([quoteMatch?.Value], NativeLogLevel.Debug))
+                if (Validate.For.IsNullOrWhiteSpace([quoteMatch?.Value], NativeLogLevel.Debug))
                     continue;
 
                 if (!localization!.Entries!.ContainsKey(quoteMatch!.Value!.Replace("\"", string.Empty)))

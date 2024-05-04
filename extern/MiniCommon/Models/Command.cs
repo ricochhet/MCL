@@ -21,6 +21,7 @@ using System.Linq;
 using MiniCommon.CommandParser;
 using MiniCommon.CommandParser.Helpers;
 using MiniCommon.Logger.Enums;
+using MiniCommon.Validation;
 using MiniCommon.Validation.Validators;
 
 namespace MiniCommon.Models;
@@ -39,10 +40,10 @@ public class Command
     public string Usage()
     {
         string _parameters = string.Join(" ", Parameters.Select(a => $"\n\t<{a.Name}(Optional:{a.Optional})=value>"));
-        string parameters = StringValidator.IsNotNullOrWhiteSpace([_parameters], NativeLogLevel.Debug)
+        string parameters = Validate.For.IsNotNullOrWhiteSpace([_parameters], NativeLogLevel.Debug)
             ? _parameters
             : "\n\tNo parameters.";
-        string description = StringValidator.IsNotNullOrWhiteSpace([Description], NativeLogLevel.Debug)
+        string description = Validate.For.IsNotNullOrWhiteSpace([Description], NativeLogLevel.Debug)
             ? Description
             : "No description.";
         return $"\nCommand:\n\t{CommandLine.BaseCommandLine.Prefix}{Name}\nParameters:\t{parameters}\nDescription:\n\t{description}";

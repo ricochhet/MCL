@@ -18,6 +18,7 @@
 
 using System;
 using System.Diagnostics;
+using MiniCommon.Validation;
 using MiniCommon.Validation.Validators;
 
 namespace MiniCommon.BuildInfo;
@@ -31,7 +32,7 @@ public static class ApplicationConstants
             if (CompileConstants.IsDebug)
                 return Version.Parse("0.0.0.1");
             if (
-                StringValidator.IsNullOrWhiteSpace(
+                Validate.For.IsNullOrWhiteSpace(
                     [Process.GetCurrentProcess().MainModule!.FileVersionInfo.FileVersion]
                 )
             )

@@ -20,6 +20,7 @@ using MCL.Core.Java.Helpers;
 using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Servers.Paper.Resolvers;
+using MiniCommon.Validation;
 using MiniCommon.Validation.Validators;
 
 namespace MCL.Core.Servers.Paper.Helpers;
@@ -31,7 +32,7 @@ public static class PaperLauncher
     /// </summary>
     public static void Launch(Settings? settings, string javaHome)
     {
-        if (ClassValidator.IsNull(settings))
+        if (Validate.For.IsNull(settings))
             return;
 
         settings!.Save(PaperLaunchOptions.DefaultJvmArguments(settings!)?.JvmArguments());

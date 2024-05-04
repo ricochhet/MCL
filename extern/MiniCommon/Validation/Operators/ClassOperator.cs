@@ -19,6 +19,9 @@
 using System.Runtime.CompilerServices;
 using MiniCommon.Logger.Enums;
 using MiniCommon.Providers;
+using MiniCommon.Validation.Interfaces;
+
+#pragma warning disable IDE0060, RCS1175, RCS1163, RCS1158, S107
 
 namespace MiniCommon.Validation.Operators;
 
@@ -27,18 +30,20 @@ public static class ClassOperator
     /// <summary>
     /// Coalescing operator shim for empty class to log when it gets called.
     /// </summary>
-    public static T Empty<T>(
+    public static T EmptyClass<T>(
+        this IValidationClause clause,
         NativeLogLevel level = NativeLogLevel.Debug,
         [CallerMemberName] string memberName = "",
         [CallerFilePath] string sourceFilePath = "",
         [CallerLineNumber] int sourceLineNumber = 0
     )
-        where T : new() => Empty<T>(string.Empty, level, memberName, sourceFilePath, sourceLineNumber);
+        where T : new() => EmptyClass<T>(clause, string.Empty, level, memberName, sourceFilePath, sourceLineNumber);
 
     /// <summary>
     /// Coalescing operator shim for empty class to log when it gets called.
     /// </summary>
-    public static T Empty<T>(
+    public static T EmptyClass<T>(
+        this IValidationClause clause,
         string message,
         NativeLogLevel level = NativeLogLevel.Debug,
         [CallerMemberName] string memberName = "",

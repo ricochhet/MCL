@@ -22,6 +22,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using MiniCommon.Logger.Enums;
+using MiniCommon.Validation;
 using MiniCommon.Validation.Validators;
 
 namespace MiniCommon.Web.Abstractions;
@@ -31,7 +32,7 @@ public class ValidatedRequest : BaseRequest
     /// <inheritdoc />
     public override async Task<HttpResponseMessage?> GetAsync(string request)
     {
-        if (StringValidator.IsNullOrWhiteSpace([request], NativeLogLevel.Fatal))
+        if (Validate.For.IsNullOrWhiteSpace([request], NativeLogLevel.Fatal))
             return null;
         return await base.GetAsync(request);
     }
@@ -39,7 +40,7 @@ public class ValidatedRequest : BaseRequest
     /// <inheritdoc />
     public override async Task<byte[]?> GetByteArrayAsync(string request)
     {
-        if (StringValidator.IsNullOrWhiteSpace([request], NativeLogLevel.Fatal))
+        if (Validate.For.IsNullOrWhiteSpace([request], NativeLogLevel.Fatal))
             return null;
         return await base.GetByteArrayAsync(request);
     }
@@ -47,7 +48,7 @@ public class ValidatedRequest : BaseRequest
     /// <inheritdoc />
     public override async Task<Stream?> GetStreamAsync(string request)
     {
-        if (StringValidator.IsNullOrWhiteSpace([request], NativeLogLevel.Fatal))
+        if (Validate.For.IsNullOrWhiteSpace([request], NativeLogLevel.Fatal))
             return null;
         return await base.GetStreamAsync(request);
     }
@@ -56,7 +57,7 @@ public class ValidatedRequest : BaseRequest
     public override async Task<T?> GetObjectFromJsonAsync<T>(string request, JsonSerializerContext ctx)
         where T : struct
     {
-        if (StringValidator.IsNullOrWhiteSpace([request], NativeLogLevel.Fatal))
+        if (Validate.For.IsNullOrWhiteSpace([request], NativeLogLevel.Fatal))
             return null;
         return await base.GetObjectFromJsonAsync<T>(request, ctx);
     }
@@ -70,7 +71,7 @@ public class ValidatedRequest : BaseRequest
     )
         where T : class
     {
-        if (StringValidator.IsNullOrWhiteSpace([request, filepath], NativeLogLevel.Fatal))
+        if (Validate.For.IsNullOrWhiteSpace([request, filepath], NativeLogLevel.Fatal))
             return null;
         return await base.GetJsonAsync<T>(request, filepath, encoding, ctx);
     }
@@ -78,7 +79,7 @@ public class ValidatedRequest : BaseRequest
     /// <inheritdoc />
     public override async Task<string?> GetStringAsync(string request, string filepath, Encoding encoding)
     {
-        if (StringValidator.IsNullOrWhiteSpace([request, filepath], NativeLogLevel.Fatal))
+        if (Validate.For.IsNullOrWhiteSpace([request, filepath], NativeLogLevel.Fatal))
             return null;
         return await base.GetStringAsync(request, filepath, encoding);
     }
@@ -92,7 +93,7 @@ public class ValidatedRequest : BaseRequest
     /// <inheritdoc />
     public override async Task<bool> DownloadSHA256(string request, string filepath, string hash)
     {
-        if (StringValidator.IsNullOrWhiteSpace([request, filepath], NativeLogLevel.Fatal))
+        if (Validate.For.IsNullOrWhiteSpace([request, filepath], NativeLogLevel.Fatal))
             return false;
         return await base.DownloadSHA256(request, filepath, hash);
     }
@@ -100,7 +101,7 @@ public class ValidatedRequest : BaseRequest
     /// <inheritdoc />
     public override async Task<bool> DownloadSHA1(string request, string filepath, string hash)
     {
-        if (StringValidator.IsNullOrWhiteSpace([request, filepath], NativeLogLevel.Fatal))
+        if (Validate.For.IsNullOrWhiteSpace([request, filepath], NativeLogLevel.Fatal))
             return false;
         return await base.DownloadSHA1(request, filepath, hash);
     }
@@ -108,7 +109,7 @@ public class ValidatedRequest : BaseRequest
     /// <inheritdoc />
     public override async Task<bool> Download(string request, string filepath)
     {
-        if (StringValidator.IsNullOrWhiteSpace([request, filepath], NativeLogLevel.Fatal))
+        if (Validate.For.IsNullOrWhiteSpace([request, filepath], NativeLogLevel.Fatal))
             return false;
         return await base.Download(request, filepath);
     }

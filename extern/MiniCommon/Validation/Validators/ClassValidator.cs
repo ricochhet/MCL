@@ -20,11 +20,12 @@ using System.Runtime.CompilerServices;
 using MiniCommon.Logger.Enums;
 using MiniCommon.Providers;
 using MiniCommon.Validation.Abstractions;
+using MiniCommon.Validation.Interfaces;
 using MiniCommon.Validation.Operators;
 
 namespace MiniCommon.Validation.Validators;
 
-#pragma warning disable RCS1163, RCS1158, S107
+#pragma warning disable IDE0060, RCS1175, RCS1163, RCS1158, S107
 
 public static class ClassValidator
 {
@@ -32,6 +33,7 @@ public static class ClassValidator
     /// Validate object of type T is not null.
     /// </summary>
     public static bool IsNotNull<T>(
+        this IValidationClause clause,
         T? obj,
         NativeLogLevel level = NativeLogLevel.Error,
         object[]? properties = null,
@@ -43,6 +45,7 @@ public static class ClassValidator
     )
         where T : class =>
         !IsNull(
+            clause,
             obj,
             string.Empty,
             level,
@@ -58,6 +61,7 @@ public static class ClassValidator
     /// Validate object of type T is not null.
     /// </summary>
     public static bool IsNotNull<T>(
+        this IValidationClause clause,
         T? obj,
         string message,
         NativeLogLevel level = NativeLogLevel.Error,
@@ -69,12 +73,13 @@ public static class ClassValidator
         [CallerLineNumber] int sourceLineNumber = 0
     )
         where T : class =>
-        !IsNull(obj, message, level, properties, objName, propertiesName, memberName, sourceFilePath, sourceLineNumber);
+        !IsNull(clause, obj, message, level, properties, objName, propertiesName, memberName, sourceFilePath, sourceLineNumber);
 
     /// <summary>
     /// Validate object of type T is null.
     /// </summary>
     public static bool IsNull<T>(
+        this IValidationClause clause,
         T? obj,
         NativeLogLevel level = NativeLogLevel.Error,
         object[]? properties = null,
@@ -86,6 +91,7 @@ public static class ClassValidator
     )
         where T : class =>
         IsNull(
+            clause,
             obj,
             string.Empty,
             level,
@@ -101,6 +107,7 @@ public static class ClassValidator
     /// Validate object of type T is null.
     /// </summary>
     public static bool IsNull<T>(
+        this IValidationClause clause,
         T? obj,
         string message,
         NativeLogLevel level = NativeLogLevel.Error,
@@ -119,8 +126,8 @@ public static class ClassValidator
         {
             message = LocalizationProvider.FormatTranslate(
                 "error.validation.object",
-                objName ?? StringOperator.Empty(),
-                propertiesName ?? StringOperator.Empty(),
+                objName ?? Validate.For.EmptyString(),
+                propertiesName ?? Validate.For.EmptyString(),
                 memberName,
                 sourceFilePath,
                 sourceLineNumber.ToString()
@@ -130,8 +137,8 @@ public static class ClassValidator
         {
             message = string.Format(
                 message,
-                objName ?? StringOperator.Empty(),
-                propertiesName ?? StringOperator.Empty(),
+                objName ?? Validate.For.EmptyString(),
+                propertiesName ?? Validate.For.EmptyString(),
                 memberName,
                 sourceFilePath,
                 sourceLineNumber.ToString()
@@ -139,7 +146,7 @@ public static class ClassValidator
         }
 
         validator.AddRule(a => obj != default(T), message);
-        foreach (object property in properties ?? [.. ListOperator.Empty<object>()])
+        foreach (object property in properties ?? [.. Validate.For.EmptyList<object>()])
             validator.AddRule(a => property != null, message);
 
         return !validator.Validate(obj, level);

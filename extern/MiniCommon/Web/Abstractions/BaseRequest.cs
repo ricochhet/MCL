@@ -28,6 +28,7 @@ using System.Threading.Tasks;
 using MiniCommon.Cryptography.Helpers;
 using MiniCommon.IO;
 using MiniCommon.Providers;
+using MiniCommon.Validation;
 using MiniCommon.Validation.Operators;
 using MiniCommon.Validation.Validators;
 using MiniCommon.Web.Interfaces;
@@ -142,8 +143,8 @@ public class BaseRequest : IBaseHttpRequest
             string hash;
             try
             {
-                response = await GetStringAsync(request) ?? StringOperator.Empty();
-                if (StringValidator.IsNullOrWhiteSpace([response]))
+                response = await GetStringAsync(request) ?? Validate.For.EmptyString();
+                if (Validate.For.IsNullOrWhiteSpace([response]))
                 {
                     NotificationProvider.Error("error.download", request);
                     return default;
@@ -184,8 +185,8 @@ public class BaseRequest : IBaseHttpRequest
             string hash;
             try
             {
-                response = await GetStringAsync(request) ?? StringOperator.Empty();
-                if (StringValidator.IsNullOrWhiteSpace([response]))
+                response = await GetStringAsync(request) ?? Validate.For.EmptyString();
+                if (Validate.For.IsNullOrWhiteSpace([response]))
                 {
                     NotificationProvider.Error("error.download", request);
                     return default;
@@ -280,7 +281,7 @@ public class BaseRequest : IBaseHttpRequest
             {
                 response = await GetAsync(request) ?? new(HttpStatusCode.BadRequest);
 
-                if (ClassValidator.IsNull(response))
+                if (Validate.For.IsNull(response))
                     return false;
 
                 if (!response.IsSuccessStatusCode)

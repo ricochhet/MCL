@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Serialization;
 using MCL.Core.Launcher.Models;
+using MiniCommon.Validation;
 using MiniCommon.Validation.Operators;
 
 namespace MCL.Core.Java.Models;
@@ -39,7 +40,7 @@ public class JvmArguments
         foreach (MOption arg in sortedLaunchArgs)
         {
             if (!arg.Ignore)
-                parsedLaunchArgs.Add(arg.Parse() ?? StringOperator.Empty());
+                parsedLaunchArgs.Add(arg.Parse() ?? Validate.For.EmptyString());
         }
         return string.Join(" ", parsedLaunchArgs);
     }
