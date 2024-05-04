@@ -42,13 +42,17 @@ public class AnalyzeCode<T> : IBaseCommand<T>
                 Parameters =
                 [
                     new() { Name = "path", Optional = false },
+                    new() { Name = "namespace", Optional = true },
                     new() { Name = "license", Optional = true }
                 ]
             },
             options =>
             {
+                string filepath = options.GetValueOrDefault("path", "./");
+                if (!filepath.EndsWith(".csproj") || !VFS.Exists(filepath))
+                    return;
                 string[] files = VFS.GetFiles(
-                    options.GetValueOrDefault("path", "./"),
+                    VFS.GetDirectoryName(filepath),
                     "*.cs",
                     SearchOption.AllDirectories
                 );
@@ -56,7 +60,10 @@ public class AnalyzeCode<T> : IBaseCommand<T>
                     files,
                     options.GetValueOrDefault("license", "LICENSE-NOTICE.txt")
                 );
-                NamespaceAnalyzer.Analyze(files);
+                NamespaceAnalyzer.Analyze(
+                    files,
+                    options.GetValueOrDefault("namespace", string.Empty)
+                );
                 LocalizationKeyAnalyzer.Analyze(
                     files,
                     LocalizationProvider.Localization ?? Validate.For.EmptyClass<Localization>()

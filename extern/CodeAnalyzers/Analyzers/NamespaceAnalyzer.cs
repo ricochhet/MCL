@@ -32,7 +32,7 @@ public static partial class NamespaceAnalyzer
     /// <summary>
     /// Analyze all files, compare the namespace with the files relative directory, and repairs it to match.
     /// </summary>
-    public static void Analyze(string[] files)
+    public static void Analyze(string[] files, string baseNamespace)
     {
         int success = 0;
         int fail = 0;
@@ -61,11 +61,19 @@ public static partial class NamespaceAnalyzer
                 .Replace(";", string.Empty)
                 .Replace(".", "/")
                 .Replace(" ", string.Empty);
-            string directory = VFS.GetDirectoryName(file)
+            string _baseNamespace = baseNamespace
                 .Replace("\\", "/")
                 .Replace("../", string.Empty)
                 .Replace(".", "/")
                 .Replace(" ", string.Empty);
+            string directory =
+                _baseNamespace
+                + VFS.GetDirectoryName(file)
+                    .Replace("\\", "/")
+                    .Replace("../", string.Empty)
+                    .Replace(".", "/")
+                    .Replace(" ", string.Empty)
+                    .Split(_baseNamespace)[^1];
 
             if (path == directory)
             {
