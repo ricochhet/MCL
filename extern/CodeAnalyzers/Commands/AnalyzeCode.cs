@@ -52,7 +52,6 @@ public class AnalyzeCode<T> : IBaseCommand<T>
                     "*.cs",
                     SearchOption.AllDirectories
                 );
-
                 LicenseAnalyzer.Analyze(
                     files,
                     options.GetValueOrDefault("license", "LICENSE-NOTICE.txt")

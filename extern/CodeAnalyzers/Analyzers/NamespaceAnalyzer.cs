@@ -75,10 +75,14 @@ public static partial class NamespaceAnalyzer
             {
                 string oldNamespace = "namespace " + path.Replace("/", ".") + ";";
                 string newNamespace = "namespace " + directory.Replace("/", ".") + ";";
-                VFS.WriteFile(file, fileData.Replace(oldNamespace, newNamespace));
 
                 fail++;
-                NotificationProvider.Error("analyzer.error.namespace", VFS.GetFileName(file), name);
+                NotificationProvider.Error(
+                    "analyzer.error.namespace",
+                    VFS.GetFileName(file),
+                    oldNamespace,
+                    newNamespace
+                );
             }
         }
 

@@ -45,7 +45,7 @@ public static partial class LocalizationKeyAnalyzer
             if (AnalyzerFiles.Restricted.Exists(file.Contains))
                 continue;
 
-            Regex matchNotification = NotificationServiceRegex();
+            Regex matchNotification = NotificationRegex();
             MatchCollection notificationMatches = matchNotification.Matches(VFS.ReadAllText(file));
 
             foreach (Match match in notificationMatches)
@@ -85,8 +85,8 @@ public static partial class LocalizationKeyAnalyzer
         );
     }
 
-    [GeneratedRegex(@"NotificationService\.[^;]*\);(?=\s|$)")]
-    private static partial Regex NotificationServiceRegex();
+    [GeneratedRegex(@"NotificationProvider\.[^;]*\);(?=\s|$)")]
+    private static partial Regex NotificationRegex();
 
     [GeneratedRegex("\"([^\"]*)\"")]
     private static partial Regex QuoteRegex();

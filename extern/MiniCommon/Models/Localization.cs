@@ -86,7 +86,7 @@ public class Localization
         #region Code Analyzers
         _entries.Add(
             "analyzer.error.namespace",
-            "'{0}' does not contain a valid namespace: '{1}' ... Fixing ..."
+            "'{0}' does not contain a valid namespace: '{1}' expects '{2}'"
         );
         _entries.Add("analyzer.error.license", "'{0}' does not contain a valid license.");
         _entries.Add(

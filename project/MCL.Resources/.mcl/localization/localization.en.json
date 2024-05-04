@@ -36,7 +36,7 @@
     "launcher.settings.using": "Using launcher config at: '{0}'",
     "launcher.settings.missing": "'{0}' could not be read, make sure it is located in '{1}' and try again.",
     "launcher.simple.launch": "Launching using simple launch mode.",
-    "analyzer.error.namespace": "'{0}' does not contain a valid namespace: '{1}' ... Fixing ...",
+    "analyzer.error.namespace": "'{0}' does not contain a valid namespace: '{1}' expects '{2}'",
     "analyzer.error.license": "'{0}' does not contain a valid license.",
     "analyzer.error.localization": "'{0}' - '{1}' is not a valid localization key.",
     "analyzer.output": "[{0}] Done: '{1}', Fail: '{2}', Total: '{3}'",
