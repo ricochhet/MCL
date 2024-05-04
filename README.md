@@ -53,6 +53,9 @@ Files placed in `{root}/project/MCL.Resources` or `{root}/project/MCL.Resources.
 
 ## Localization (Translations)
 All non-machine translation contributions for any languages are welcome.
+
+Contribution Guidelines are not required for translation contributions.
+
 - English [View](./project/MCL.Resources/.mcl/localization/localization.en.json)
 
 ## Contribution Guidelines
