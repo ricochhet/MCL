@@ -17,26 +17,35 @@
  */
 
 using System.Text.Json.Serialization;
+using System.Text.RegularExpressions;
 using MiniCommon.Cryptography.Helpers;
 
 namespace MCL.Core.Launcher.Models;
 
-public class LauncherUsername(string username)
+public partial class LauncherUsername()
 {
-    public string Username { get; set; } = username;
+    public string Username { get; set; } = "Player";
     public string UserType { get; set; } = "legacy";
     public string AccessToken { get; set; } = "1337535510N";
+
+    private const string DefaultUsername = "Player";
 
     public string ValidateUsername(int length = 16)
     {
         if (Username.Length > length)
             return Username[..length];
-        return Username;
+        Regex re = UsernameRegex();
+        if (re.IsMatch(Username))
+            return Username;
+        return DefaultUsername;
     }
 
     public string UUID() => CryptographyHelper.CreateUUID(ValidateUsername());
 
     public string OfflineUUID() => CryptographyHelper.CreateUUID($"OfflinePlayer:{ValidateUsername()}");
+
+    [GeneratedRegex(@"^[a-zA-Z0-9_]{3,16}$")]
+    private static partial Regex UsernameRegex();
 }
 
 [JsonSourceGenerationOptions(WriteIndented = true)]

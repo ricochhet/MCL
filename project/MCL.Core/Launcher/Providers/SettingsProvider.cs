@@ -55,7 +55,7 @@ public static class SettingsProvider
                     LauncherMemory = new(),
                     LauncherInstance = new(),
                     OverrideLauncherInstance = new(),
-                    LauncherUsername = new(username: "Player1337"),
+                    LauncherUsername = new(),
                     LauncherPath = new(),
                     LauncherVersion = new(),
                     LauncherSettings = new(),
