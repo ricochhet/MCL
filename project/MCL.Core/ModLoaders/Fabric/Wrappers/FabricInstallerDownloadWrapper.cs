@@ -21,12 +21,12 @@ using MCL.Core.Java.Helpers;
 using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Minecraft.Helpers;
-using MCL.Core.MiniCommon.IO;
-using MCL.Core.MiniCommon.Validation.Validators;
 using MCL.Core.ModLoaders.Fabric.Enums;
 using MCL.Core.ModLoaders.Fabric.Helpers;
 using MCL.Core.ModLoaders.Fabric.Services;
 using MCL.Core.ModLoaders.Interfaces.Wrappers;
+using MiniCommon.IO;
+using MiniCommon.Validation.Validators;
 
 namespace MCL.Core.ModLoaders.Fabric.Wrappers;
 

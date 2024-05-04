@@ -17,8 +17,8 @@
  */
 
 using MCL.Core.Launcher.Models;
-using MCL.Core.MiniCommon.IO;
-using MCL.Core.MiniCommon.Validation.Operators;
+using MiniCommon.IO;
+using MiniCommon.Validation.Operators;
 
 namespace MCL.Core.Servers.Paper.Resolvers;
 

@@ -18,17 +18,17 @@
 
 using System.Threading.Tasks;
 using MCL.Core.Launcher.Models;
-using MCL.Core.MiniCommon.Decorators;
-using MCL.Core.MiniCommon.IO;
-using MCL.Core.MiniCommon.Logger.Enums;
-using MCL.Core.MiniCommon.Providers;
-using MCL.Core.MiniCommon.Validation.Operators;
-using MCL.Core.MiniCommon.Validation.Validators;
 using MCL.Core.ModLoaders.Fabric.Helpers;
 using MCL.Core.ModLoaders.Fabric.Models;
 using MCL.Core.ModLoaders.Fabric.Resolvers;
 using MCL.Core.ModLoaders.Fabric.Web;
 using MCL.Core.ModLoaders.Interfaces.Services;
+using MiniCommon.Decorators;
+using MiniCommon.IO;
+using MiniCommon.Logger.Enums;
+using MiniCommon.Providers;
+using MiniCommon.Validation.Operators;
+using MiniCommon.Validation.Validators;
 
 namespace MCL.Core.ModLoaders.Fabric.Services;
 

@@ -20,9 +20,9 @@ using System;
 using MCL.Core.Java.Enums;
 using MCL.Core.Java.Resolvers;
 using MCL.Core.Launcher.Models;
-using MCL.Core.MiniCommon.IO;
-using MCL.Core.MiniCommon.Providers;
-using MCL.Core.MiniCommon.Validation.Validators;
+using MiniCommon.IO;
+using MiniCommon.Providers;
+using MiniCommon.Validation.Validators;
 
 namespace MCL.Core.Java.Helpers;
 

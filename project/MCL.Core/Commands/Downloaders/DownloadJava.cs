@@ -19,13 +19,13 @@
 using System.Threading.Tasks;
 using MCL.Core.Java.Wrappers;
 using MCL.Core.Launcher.Models;
-using MCL.Core.MiniCommon.CommandParser;
-using MCL.Core.MiniCommon.Interfaces;
-using MCL.Core.MiniCommon.Providers;
+using MiniCommon.CommandParser;
+using MiniCommon.Interfaces;
+using MiniCommon.Providers;
 
 namespace MCL.Core.Commands.Downloaders;
 
-public class DownloadJava : IBaseCommand
+public class DownloadJava : IBaseCommand<Settings>
 {
     public async Task Init(string[] args, Settings? settings)
     {

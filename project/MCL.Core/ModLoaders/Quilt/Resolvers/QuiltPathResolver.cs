@@ -17,10 +17,10 @@
  */
 
 using MCL.Core.Launcher.Models;
-using MCL.Core.MiniCommon.IO;
-using MCL.Core.MiniCommon.Validation.Operators;
 using MCL.Core.ModLoaders.Interfaces.Resolvers;
 using MCL.Core.ModLoaders.Quilt.Models;
+using MiniCommon.IO;
+using MiniCommon.Validation.Operators;
 
 namespace MCL.Core.ModLoaders.Quilt.Resolvers;
 

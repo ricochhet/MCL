@@ -23,14 +23,14 @@ using System.Linq;
 using MCL.Core.FileExtractors.Models;
 using MCL.Core.FileExtractors.Services;
 using MCL.Core.Launcher.Models;
-using MCL.Core.MiniCommon.Cryptography.Helpers;
-using MCL.Core.MiniCommon.IO;
-using MCL.Core.MiniCommon.Providers;
-using MCL.Core.MiniCommon.Validation.Operators;
-using MCL.Core.MiniCommon.Validation.Validators;
 using MCL.Core.Modding.Enums;
 using MCL.Core.Modding.Models;
 using MCL.Core.Modding.Resolvers;
+using MiniCommon.Cryptography.Helpers;
+using MiniCommon.IO;
+using MiniCommon.Providers;
+using MiniCommon.Validation.Operators;
+using MiniCommon.Validation.Validators;
 
 namespace MCL.Core.Modding.Services;
 

@@ -18,9 +18,10 @@
 
 using MCL.Core.FileExtractors.Models;
 using MCL.Core.Launcher.Providers;
-using MCL.Core.MiniCommon.IO;
-using MCL.Core.MiniCommon.Providers;
-using MCL.Core.MiniCommon.Validation.Operators;
+using MiniCommon.BuildInfo;
+using MiniCommon.IO;
+using MiniCommon.Providers;
+using MiniCommon.Validation.Operators;
 
 namespace MCL.Core.FileExtractors.Resolvers;
 
@@ -33,7 +34,7 @@ public static class SevenZipPathResolver
     public static string SevenZipPath(SevenZipSettings? sevenZipSettings)
     {
         string windowsExecutable = VFS.Combine(
-            SettingsProvider.DataDirectory,
+            AssemblyConstants.DataDirectory,
             "SevenZip",
             sevenZipSettings?.Executable + ".exe"
         );

@@ -23,10 +23,10 @@ using MCL.Core.Java.Models;
 using MCL.Core.Launcher.Enums;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Providers;
-using MCL.Core.MiniCommon.Validation.Operators;
-using MCL.Core.MiniCommon.Validation.Validators;
 using MCL.Core.Modding.Extensions;
 using MCL.Core.Modding.Models;
+using MiniCommon.Validation.Operators;
+using MiniCommon.Validation.Validators;
 
 namespace MCL.Core.Launcher.Extensions;
 

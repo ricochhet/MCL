@@ -20,9 +20,10 @@ using System;
 using System.Threading.Tasks;
 using MCL.Core.Launcher.Providers;
 using MCL.Core.Managers;
-using MCL.Core.MiniCommon.IO;
-using MCL.Core.MiniCommon.Logger;
-using MCL.Core.MiniCommon.Logger.Enums;
+using MiniCommon.BuildInfo;
+using MiniCommon.IO;
+using MiniCommon.Logger;
+using MiniCommon.Logger.Enums;
 
 namespace MCL.Launcher;
 
@@ -34,7 +35,7 @@ internal static class Program
 
         Console.Title = "MCL.Launcher";
         Log.Add(new NativeLogger(NativeLogLevel.Info));
-        Log.Add(new FileStreamLogger(SettingsProvider.LogFilePath));
+        Log.Add(new FileStreamLogger(AssemblyConstants.LogFilePath));
         await ServiceManager.Init();
 
         if (args.Length == 0)

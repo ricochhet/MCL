@@ -19,11 +19,11 @@
 using System.Text;
 using System.Threading.Tasks;
 using MCL.Core.Launcher.Models;
-using MCL.Core.MiniCommon.Validation.Validators;
-using MCL.Core.MiniCommon.Web;
 using MCL.Core.ModLoaders.Fabric.Models;
 using MCL.Core.ModLoaders.Fabric.Resolvers;
 using MCL.Core.ModLoaders.Interfaces.Web;
+using MiniCommon.Validation.Validators;
+using MiniCommon.Web;
 
 namespace MCL.Core.ModLoaders.Fabric.Web;
 

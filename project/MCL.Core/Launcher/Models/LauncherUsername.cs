@@ -17,7 +17,7 @@
  */
 
 using System.Text.Json.Serialization;
-using MCL.Core.MiniCommon.Cryptography.Helpers;
+using MiniCommon.Cryptography.Helpers;
 
 namespace MCL.Core.Launcher.Models;
 

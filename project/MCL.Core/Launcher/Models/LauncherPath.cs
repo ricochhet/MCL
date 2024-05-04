@@ -19,27 +19,28 @@
 using System.Text.Json.Serialization;
 using MCL.Core.Launcher.Helpers;
 using MCL.Core.Launcher.Providers;
-using MCL.Core.MiniCommon.IO;
+using MiniCommon.BuildInfo;
+using MiniCommon.IO;
 
 namespace MCL.Core.Launcher.Models;
 
 public class LauncherPath
 {
     public string MPath { get; set; } = VFS.FromCwd(LaunchPathHelper.MPath);
-    public string ModPath { get; set; } = VFS.FromCwd(SettingsProvider.DataDirectory, LaunchPathHelper.ModPath);
-    public string FabricPath { get; set; } = VFS.FromCwd(SettingsProvider.DataDirectory, LaunchPathHelper.FabricPath);
-    public string QuiltPath { get; set; } = VFS.FromCwd(SettingsProvider.DataDirectory, LaunchPathHelper.QuiltPath);
-    public string PaperPath { get; set; } = VFS.FromCwd(SettingsProvider.DataDirectory, LaunchPathHelper.PaperPath);
+    public string ModPath { get; set; } = VFS.FromCwd(AssemblyConstants.DataDirectory, LaunchPathHelper.ModPath);
+    public string FabricPath { get; set; } = VFS.FromCwd(AssemblyConstants.DataDirectory, LaunchPathHelper.FabricPath);
+    public string QuiltPath { get; set; } = VFS.FromCwd(AssemblyConstants.DataDirectory, LaunchPathHelper.QuiltPath);
+    public string PaperPath { get; set; } = VFS.FromCwd(AssemblyConstants.DataDirectory, LaunchPathHelper.PaperPath);
 
     public LauncherPath() { }
 
     public LauncherPath(string path, string modPath, string fabricPath, string quiltPath, string paperPath)
     {
         MPath = VFS.FromCwd(path);
-        ModPath = VFS.FromCwd(SettingsProvider.DataDirectory, modPath);
-        FabricPath = VFS.FromCwd(SettingsProvider.DataDirectory, fabricPath);
-        QuiltPath = VFS.FromCwd(SettingsProvider.DataDirectory, quiltPath);
-        PaperPath = VFS.FromCwd(SettingsProvider.DataDirectory, paperPath);
+        ModPath = VFS.FromCwd(AssemblyConstants.DataDirectory, modPath);
+        FabricPath = VFS.FromCwd(AssemblyConstants.DataDirectory, fabricPath);
+        QuiltPath = VFS.FromCwd(AssemblyConstants.DataDirectory, quiltPath);
+        PaperPath = VFS.FromCwd(AssemblyConstants.DataDirectory, paperPath);
     }
 }
 

@@ -19,10 +19,10 @@
 using System.Text;
 using System.Threading.Tasks;
 using MCL.Core.Launcher.Models;
-using MCL.Core.MiniCommon.Validation.Validators;
-using MCL.Core.MiniCommon.Web;
 using MCL.Core.Servers.Paper.Models;
 using MCL.Core.Servers.Paper.Resolvers;
+using MiniCommon.Validation.Validators;
+using MiniCommon.Web;
 
 namespace MCL.Core.Servers.Paper.Web;
 

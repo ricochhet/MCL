@@ -20,12 +20,13 @@ using System;
 using System.Threading.Tasks;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Providers;
-using MCL.Core.MiniCommon.Enums;
-using MCL.Core.MiniCommon.Logger;
-using MCL.Core.MiniCommon.Models;
-using MCL.Core.MiniCommon.Providers;
-using MCL.Core.MiniCommon.Validation.Validators;
-using MCL.Core.MiniCommon.Web;
+using MiniCommon.BuildInfo;
+using MiniCommon.Enums;
+using MiniCommon.Logger;
+using MiniCommon.Models;
+using MiniCommon.Providers;
+using MiniCommon.Validation.Validators;
+using MiniCommon.Web;
 
 namespace MCL.Core.Managers;
 
@@ -37,7 +38,7 @@ public static class ServiceManager
     {
         try
         {
-            LocalizationProvider.Init(SettingsProvider.LocalizationPath, Language.ENGLISH);
+            LocalizationProvider.Init(AssemblyConstants.LocalizationPath, Language.ENGLISH);
             NotificationProvider.OnNotificationAdded(
                 (Notification notification) => Log.Base(notification.LogLevel, notification.Message)
             );
@@ -51,7 +52,7 @@ public static class ServiceManager
                     NotificationProvider.Info("request.get.success", requestData.URL, requestData.Elapsed.ToString("c"))
             );
             Request.HttpRequest.HttpClientTimeOut = TimeSpan.FromMinutes(1);
-            Watermark.Draw(SettingsProvider.WatermarkText);
+            Watermark.Draw(AssemblyConstants.WatermarkText);
             return Task.FromResult(true);
         }
         catch (Exception ex)

@@ -27,12 +27,12 @@
             "command": "dotnet",
             "args": [
                 "roslynator", "analyze", 
-                "MCL.Core/MCL.Core.csproj", "MCL.Launcher/MCL.Launcher.csproj", 
-                "MCL.ServerLauncher/MCL.ServerLauncher.csproj", "MCL.CodeAnalyzers/MCL.CodeAnalyzers.csproj",
+                "../extern/CodeAnalyzers/CodeAnalyzers.csproj", "../extern/MiniCommon/MiniCommon.csproj",
+                "MCL.Core/MCL.Core.csproj", "MCL.Launcher/MCL.Launcher.csproj", "MCL.ServerLauncher/MCL.ServerLauncher.csproj",
                 "-a", "../.nupkg/roslynator/analyzers/dotnet/roslyn4.7/cs/"
             ],
             "options": {
-                "cwd": "${workspaceFolder}/project/"
+                "cwd": "${workspaceFolder}/project"
             },
             "group": {
                 "kind": "build",

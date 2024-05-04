@@ -26,11 +26,11 @@ using MCL.Core.Launcher.Providers;
 using MCL.Core.Minecraft.Enums;
 using MCL.Core.Minecraft.Models;
 using MCL.Core.Minecraft.Resolvers;
-using MCL.Core.MiniCommon.IO;
-using MCL.Core.MiniCommon.Logger.Enums;
-using MCL.Core.MiniCommon.Validation.Operators;
-using MCL.Core.MiniCommon.Validation.Validators;
-using MCL.Core.MiniCommon.Web;
+using MiniCommon.IO;
+using MiniCommon.Logger.Enums;
+using MiniCommon.Validation.Operators;
+using MiniCommon.Validation.Validators;
+using MiniCommon.Web;
 
 namespace MCL.Core.Minecraft.Web;
 

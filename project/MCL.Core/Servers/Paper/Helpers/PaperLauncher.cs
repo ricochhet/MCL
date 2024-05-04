@@ -19,8 +19,8 @@
 using MCL.Core.Java.Helpers;
 using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
-using MCL.Core.MiniCommon.Validation.Validators;
 using MCL.Core.Servers.Paper.Resolvers;
+using MiniCommon.Validation.Validators;
 
 namespace MCL.Core.Servers.Paper.Helpers;
 

@@ -17,8 +17,8 @@
  */
 
 using MCL.Core.Launcher.Models;
-using MCL.Core.MiniCommon.IO;
 using MCL.Core.Servers.Paper.Resolvers;
+using MiniCommon.IO;
 
 namespace MCL.Core.Servers.Paper.Helpers;
 

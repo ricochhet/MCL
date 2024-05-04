@@ -22,12 +22,12 @@ using MCL.Core.Minecraft.Helpers;
 using MCL.Core.Minecraft.Models;
 using MCL.Core.Minecraft.Resolvers;
 using MCL.Core.Minecraft.Web;
-using MCL.Core.MiniCommon.Decorators;
-using MCL.Core.MiniCommon.IO;
-using MCL.Core.MiniCommon.Logger.Enums;
-using MCL.Core.MiniCommon.Providers;
-using MCL.Core.MiniCommon.Validation.Operators;
-using MCL.Core.MiniCommon.Validation.Validators;
+using MiniCommon.Decorators;
+using MiniCommon.IO;
+using MiniCommon.Logger.Enums;
+using MiniCommon.Providers;
+using MiniCommon.Validation.Operators;
+using MiniCommon.Validation.Validators;
 
 namespace MCL.Core.Minecraft.Services;
 

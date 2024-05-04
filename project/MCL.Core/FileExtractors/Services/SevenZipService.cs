@@ -19,8 +19,8 @@
 using System;
 using MCL.Core.FileExtractors.Models;
 using MCL.Core.FileExtractors.Resolvers;
-using MCL.Core.MiniCommon.IO.Helpers;
-using MCL.Core.MiniCommon.Validation.Operators;
+using MiniCommon.IO.Helpers;
+using MiniCommon.Validation.Operators;
 
 namespace MCL.Core.FileExtractors.Services;
 

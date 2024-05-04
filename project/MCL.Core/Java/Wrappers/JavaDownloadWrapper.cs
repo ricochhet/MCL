@@ -20,7 +20,7 @@ using System.Threading.Tasks;
 using MCL.Core.Java.Helpers;
 using MCL.Core.Java.Services;
 using MCL.Core.Launcher.Models;
-using MCL.Core.MiniCommon.Validation.Validators;
+using MiniCommon.Validation.Validators;
 
 namespace MCL.Core.Java.Wrappers;
 

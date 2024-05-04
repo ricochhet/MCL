@@ -19,17 +19,17 @@
 using System.Threading.Tasks;
 using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
-using MCL.Core.MiniCommon.CommandParser;
-using MCL.Core.MiniCommon.CommandParser.Converters;
-using MCL.Core.MiniCommon.Interfaces;
-using MCL.Core.MiniCommon.Providers;
-using MCL.Core.MiniCommon.Validation.Validators;
 using MCL.Core.Modding.Resolvers;
 using MCL.Core.Modding.Services;
+using MiniCommon.CommandParser;
+using MiniCommon.CommandParser.Converters;
+using MiniCommon.Interfaces;
+using MiniCommon.Providers;
+using MiniCommon.Validation.Validators;
 
 namespace MCL.Core.Commands.Modding;
 
-public class DeployMods : IBaseCommand
+public class DeployMods : IBaseCommand<Settings>
 {
     public Task Init(string[] args, Settings? settings)
     {

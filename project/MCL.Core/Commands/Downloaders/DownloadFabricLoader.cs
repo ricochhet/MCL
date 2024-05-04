@@ -19,14 +19,14 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MCL.Core.Launcher.Models;
-using MCL.Core.MiniCommon.CommandParser;
-using MCL.Core.MiniCommon.Interfaces;
-using MCL.Core.MiniCommon.Providers;
 using MCL.Core.ModLoaders.Fabric.Wrappers;
+using MiniCommon.CommandParser;
+using MiniCommon.Interfaces;
+using MiniCommon.Providers;
 
 namespace MCL.Core.Commands.Downloaders;
 
-public class DownloadFabricLoader : IBaseCommand
+public class DownloadFabricLoader : IBaseCommand<Settings>
 {
     private static readonly LauncherVersion _launcherVersion = LauncherVersion.Latest();
 

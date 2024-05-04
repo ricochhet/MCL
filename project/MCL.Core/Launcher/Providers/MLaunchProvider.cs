@@ -20,11 +20,11 @@ using System.Collections.Generic;
 using MCL.Core.Launcher.Enums;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Minecraft.Helpers;
-using MCL.Core.MiniCommon.CommandParser.Helpers;
-using MCL.Core.MiniCommon.IO;
-using MCL.Core.MiniCommon.Providers;
-using MCL.Core.MiniCommon.Resolvers;
-using MCL.Core.MiniCommon.Validation.Validators;
+using MiniCommon.CommandParser.Helpers;
+using MiniCommon.IO;
+using MiniCommon.Providers;
+using MiniCommon.Resolvers;
+using MiniCommon.Validation.Validators;
 
 namespace MCL.Core.Launcher.Providers;
 

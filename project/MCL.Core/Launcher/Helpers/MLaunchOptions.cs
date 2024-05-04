@@ -22,7 +22,7 @@ using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Resolvers;
 using MCL.Core.Minecraft.Helpers;
 using MCL.Core.Minecraft.Resolvers;
-using MCL.Core.MiniCommon.Validation.Operators;
+using MiniCommon.Validation.Operators;
 
 namespace MCL.Core.Launcher.Helpers;
 

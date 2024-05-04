@@ -19,10 +19,10 @@
 using System.Threading.Tasks;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Minecraft.Helpers;
-using MCL.Core.MiniCommon.Validation.Validators;
 using MCL.Core.ModLoaders.Interfaces.Wrappers;
 using MCL.Core.ModLoaders.Quilt.Helpers;
 using MCL.Core.ModLoaders.Quilt.Services;
+using MiniCommon.Validation.Validators;
 
 namespace MCL.Core.ModLoaders.Quilt.Wrappers;
 

@@ -20,9 +20,9 @@ using System.Threading.Tasks;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Minecraft.Models;
 using MCL.Core.Minecraft.Resolvers;
-using MCL.Core.MiniCommon.IO;
-using MCL.Core.MiniCommon.Validation.Validators;
-using MCL.Core.MiniCommon.Web;
+using MiniCommon.IO;
+using MiniCommon.Validation.Validators;
+using MiniCommon.Web;
 
 namespace MCL.Core.Minecraft.Web;
 

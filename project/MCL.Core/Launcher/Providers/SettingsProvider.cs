@@ -16,37 +16,28 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-using System;
 using System.Collections.Generic;
 using MCL.Core.Launcher.Models;
-using MCL.Core.MiniCommon.IO;
-using MCL.Core.MiniCommon.Providers;
+using MiniCommon.BuildInfo;
+using MiniCommon.IO;
+using MiniCommon.Providers;
 
 namespace MCL.Core.Launcher.Providers;
 
 public static class SettingsProvider
 {
-    public const string DataDirectory = ".mcl";
     public const string SettingsFileName = "mcl.json";
     public const string SimpleMLaunchFileName = "launch.txt";
     public const string SimplePaperLaunchFileName = "paper.txt";
-    public const string LocalizationDirectory = "localization";
-    public const string LogsDirectory = "logs";
-    public static readonly string LogFilePath = VFS.FromCwd(
-        DataDirectory,
-        LogsDirectory,
-        $"{DateTime.Now:yyyy-MM-dd-HH-mm-ss}.log"
+    public static readonly string SimpleMLaunchFilePath = VFS.FromCwd(
+        AssemblyConstants.DataDirectory,
+        SimpleMLaunchFileName
     );
-    public static readonly string LocalizationPath = VFS.FromCwd(DataDirectory, LocalizationDirectory);
-    public static readonly string SimpleMLaunchFilePath = VFS.FromCwd(DataDirectory, SimpleMLaunchFileName);
-    public static readonly string SimplePaperLaunchFilePath = VFS.FromCwd(DataDirectory, SimplePaperLaunchFileName);
-    public static readonly List<string> WatermarkText =
-    [
-        "MCL.Launcher",
-        "This work is free of charge",
-        "If you paid money, you were scammed"
-    ];
-    private static readonly string _settingsFilePath = VFS.FromCwd(DataDirectory, SettingsFileName);
+    public static readonly string SimplePaperLaunchFilePath = VFS.FromCwd(
+        AssemblyConstants.DataDirectory,
+        SimplePaperLaunchFileName
+    );
+    private static readonly string _settingsFilePath = VFS.FromCwd(AssemblyConstants.DataDirectory, SettingsFileName);
 
     /// <summary>
     /// Initialize the Settings service.
@@ -56,7 +47,7 @@ public static class SettingsProvider
     {
         if (!VFS.Exists(_settingsFilePath))
         {
-            NotificationProvider.Warn("launcher.settings.missing", SettingsFileName, DataDirectory);
+            NotificationProvider.Warn("launcher.settings.missing", SettingsFileName, AssemblyConstants.DataDirectory);
             NotificationProvider.Info("launcher.settings.setup", _settingsFilePath);
             Settings settings =
                 new()
@@ -119,11 +110,11 @@ public static class SettingsProvider
             if (inputJson != null)
                 return inputJson;
 
-            NotificationProvider.Error("launcher.settings.missing", SettingsFileName, DataDirectory);
+            NotificationProvider.Error("launcher.settings.missing", SettingsFileName, AssemblyConstants.DataDirectory);
             return null;
         }
 
-        NotificationProvider.Error("launcher.settings.missing", SettingsFileName, DataDirectory);
+        NotificationProvider.Error("launcher.settings.missing", SettingsFileName, AssemblyConstants.DataDirectory);
         return null;
     }
 }

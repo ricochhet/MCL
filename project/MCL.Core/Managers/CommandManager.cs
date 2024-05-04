@@ -23,9 +23,9 @@ using MCL.Core.Commands.Downloaders;
 using MCL.Core.Commands.Launcher;
 using MCL.Core.Commands.Modding;
 using MCL.Core.Launcher.Models;
-using MCL.Core.MiniCommon.CommandParser.Commands;
-using MCL.Core.MiniCommon.Interfaces;
-using MCL.Core.MiniCommon.Logger;
+using MiniCommon.CommandParser.Commands;
+using MiniCommon.Interfaces;
+using MiniCommon.Logger;
 
 namespace MCL.Core.Managers;
 
@@ -37,7 +37,7 @@ public static class CommandManager
     {
         try
         {
-            List<IBaseCommand> commands = [];
+            List<IBaseCommand<Settings>> commands = [];
 
             commands.Add(new DownloadJava());
             commands.Add(new DownloadMinecraft());
@@ -49,9 +49,9 @@ public static class CommandManager
             commands.Add(new LaunchMinecraft());
             commands.Add(new LaunchPaperServer());
             commands.Add(new DeployMods());
-            commands.Add(new Help());
+            commands.Add(new Help<Settings>());
 
-            foreach (IBaseCommand command in commands)
+            foreach (IBaseCommand<Settings> command in commands)
                 await command.Init(args, ServiceManager.Settings);
         }
         catch (Exception ex)

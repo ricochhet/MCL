@@ -12,7 +12,6 @@
         <ProjectReference Include="..\MCL.Core\MCL.Core.csproj" />
         <ProjectReference Include="..\MCL.Launcher\MCL.Launcher.csproj" />
         <ProjectReference Include="..\MCL.ServerLauncher\MCL.ServerLauncher.csproj" />
-        <ProjectReference Include="..\MCL.CodeAnalyzers\MCL.CodeAnalyzers.csproj" />
     </ItemGroup>
     <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
 		<Exec Command="dotnet cake &quot;../build.cake&quot; --config=&quot;$(ConfigurationName)&quot; --vsbuilt=true" />

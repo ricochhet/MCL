@@ -17,7 +17,7 @@
  */
 
 using System.Text.Json.Serialization;
-using MCL.Core.BuildInfo;
+using MiniCommon.BuildInfo;
 
 namespace MCL.Core.Launcher.Models;
 

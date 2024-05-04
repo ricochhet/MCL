@@ -21,16 +21,16 @@ using System.Threading.Tasks;
 using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Providers;
-using MCL.Core.MiniCommon.Decorators;
-using MCL.Core.MiniCommon.IO;
-using MCL.Core.MiniCommon.Logger.Enums;
-using MCL.Core.MiniCommon.Providers;
-using MCL.Core.MiniCommon.Validation.Operators;
-using MCL.Core.MiniCommon.Validation.Validators;
 using MCL.Core.Servers.Paper.Helpers;
 using MCL.Core.Servers.Paper.Models;
 using MCL.Core.Servers.Paper.Resolvers;
 using MCL.Core.Servers.Paper.Web;
+using MiniCommon.Decorators;
+using MiniCommon.IO;
+using MiniCommon.Logger.Enums;
+using MiniCommon.Providers;
+using MiniCommon.Validation.Operators;
+using MiniCommon.Validation.Validators;
 
 namespace MCL.Core.Servers.Paper.Services;
 

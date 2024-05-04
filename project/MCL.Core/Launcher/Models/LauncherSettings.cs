@@ -17,12 +17,12 @@
  */
 
 using System.Text.Json.Serialization;
-using MCL.Core.BuildInfo;
 using MCL.Core.Java.Enums;
 using MCL.Core.Java.Resolvers;
 using MCL.Core.Launcher.Enums;
 using MCL.Core.ModLoaders.Fabric.Enums;
 using MCL.Core.ModLoaders.Quilt.Enums;
+using MiniCommon.BuildInfo;
 
 namespace MCL.Core.Launcher.Models;
 

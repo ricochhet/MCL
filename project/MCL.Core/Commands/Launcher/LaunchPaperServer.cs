@@ -20,16 +20,16 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using MCL.Core.Launcher.Extensions;
 using MCL.Core.Launcher.Models;
-using MCL.Core.MiniCommon.CommandParser;
-using MCL.Core.MiniCommon.CommandParser.Converters;
-using MCL.Core.MiniCommon.Interfaces;
-using MCL.Core.MiniCommon.Providers;
-using MCL.Core.MiniCommon.Validation.Validators;
 using MCL.Core.Servers.Paper.Helpers;
+using MiniCommon.CommandParser;
+using MiniCommon.CommandParser.Converters;
+using MiniCommon.Interfaces;
+using MiniCommon.Providers;
+using MiniCommon.Validation.Validators;
 
 namespace MCL.Core.Commands.Launcher;
 
-public class LaunchPaperServer : IBaseCommand
+public class LaunchPaperServer : IBaseCommand<Settings>
 {
     public Task Init(string[] args, Settings? settings)
     {

@@ -20,13 +20,13 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Minecraft.Wrappers;
-using MCL.Core.MiniCommon.CommandParser;
-using MCL.Core.MiniCommon.Interfaces;
-using MCL.Core.MiniCommon.Providers;
+using MiniCommon.CommandParser;
+using MiniCommon.Interfaces;
+using MiniCommon.Providers;
 
 namespace MCL.Core.Commands.Downloaders;
 
-public class DownloadMinecraft : IBaseCommand
+public class DownloadMinecraft : IBaseCommand<Settings>
 {
     private static readonly LauncherVersion _launcherVersion = LauncherVersion.Latest();
 

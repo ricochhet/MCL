@@ -21,10 +21,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Providers;
-using MCL.Core.MiniCommon.Validation.Operators;
-using MCL.Core.MiniCommon.Validation.Validators;
 using MCL.Core.Servers.Paper.Models;
 using MCL.Core.Servers.Paper.Services;
+using MiniCommon.Validation.Operators;
+using MiniCommon.Validation.Validators;
 
 namespace MCL.Core.Servers.Paper.Helpers;
 

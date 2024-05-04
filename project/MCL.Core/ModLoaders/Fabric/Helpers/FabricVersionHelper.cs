@@ -21,11 +21,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using MCL.Core.Launcher.Models;
 using MCL.Core.Launcher.Providers;
-using MCL.Core.MiniCommon.Validation.Operators;
-using MCL.Core.MiniCommon.Validation.Validators;
 using MCL.Core.ModLoaders.Fabric.Models;
 using MCL.Core.ModLoaders.Fabric.Services;
 using MCL.Core.ModLoaders.Interfaces.Helpers;
+using MiniCommon.Validation.Operators;
+using MiniCommon.Validation.Validators;
 
 namespace MCL.Core.ModLoaders.Fabric.Helpers;
 

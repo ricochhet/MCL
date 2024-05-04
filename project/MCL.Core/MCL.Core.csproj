@@ -10,6 +10,8 @@
         <Nullable>enable</Nullable>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     </PropertyGroup>
-    
+    <ItemGroup>
+        <ProjectReference Include="..\..\extern\MiniCommon\MiniCommon.csproj" />
+    </ItemGroup>
 
 </Project>
