@@ -3,7 +3,7 @@ TODO tasks are in order from top-to-bottom, most-to-least important.
 
 Tasks marked with (*) are easier to do.
 
-- [ ] Implement a frontend user interface. See: [#ui](#ui)
+- [ ] Implement a frontend user interface. See: [Todo (UI)](#todo-ui)
 - [ ] Implement player skin options on non-vanilla loaders.
     - Non-vanilla loaders can use modifications such as OfflineSkins to provide skins without in-depth networking systems.
     - Skins can still be supplied via an API or website to reduce the manual processes.
