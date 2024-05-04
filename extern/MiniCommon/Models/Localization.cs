@@ -57,7 +57,7 @@ public class Localization
 
         #region Error Handling
         _entries.Add("error.download", "An error occurred attempting to request: '{0}'");
-        _entries.Add("error.request", "An error occurred attempting to request: '{0}' - {1}\n{2}");
+        _entries.Add("error.request", "An error occurred attempting to request: '{0}'\n{1}\n{2}");
         _entries.Add("error.readfile", "An error occurred attempting to load: '{0}'");
         _entries.Add("error.writefile", "An error occurred attempting to write: '{0}'");
         _entries.Add(
@@ -91,7 +91,7 @@ public class Localization
         _entries.Add("analyzer.error.license", "'{0}' does not contain a valid license.");
         _entries.Add(
             "analyzer.error.localization",
-            "'{0}' - '{1}' is not a valid localization key."
+            "'{0}', '{1}' is not a valid localization key."
         );
         _entries.Add("analyzer.output", "[{0}] Done: '{1}', Fail: '{2}', Total: '{3}'");
         #endregion // Code Analyzers
