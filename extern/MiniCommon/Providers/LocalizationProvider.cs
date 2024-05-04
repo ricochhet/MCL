@@ -74,6 +74,14 @@ public static class LocalizationProvider
             .GroupBy(a => a)
             .Select(a => a.Last())
             .ToDictionary();
+
+        Localization!.Entries = Localization
+            .Default()
+            .Concat(Localization!.Entries)
+            .GroupBy(a => a)
+            .Select(a => a.Last())
+            .ToDictionary();
+
         if (Localization!.Entries != null)
         {
             _initialized = true;
