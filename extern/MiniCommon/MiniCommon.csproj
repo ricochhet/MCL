@@ -5,6 +5,7 @@
         <FileVersion>1.0.0.0</FileVersion>
         <PublishAot>true</PublishAot>
         <TrimmerSingleWarn>false</TrimmerSingleWarn>
+        <IlcUseEnvironmentalTools>true</IlcUseEnvironmentalTools>
     </PropertyGroup>
     <PropertyGroup>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>

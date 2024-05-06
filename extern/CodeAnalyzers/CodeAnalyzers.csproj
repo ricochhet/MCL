@@ -9,6 +9,7 @@
         <PublishDir>.\bin\publish</PublishDir>
         <FileVersion>1.0.0.0</FileVersion>
         <PublishAot>true</PublishAot>
+        <IlcUseEnvironmentalTools>true</IlcUseEnvironmentalTools>
     </PropertyGroup>
     <PropertyGroup>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>

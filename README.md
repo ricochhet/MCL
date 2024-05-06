@@ -17,6 +17,7 @@ git config --local user.email "USERNAME@SOMETHING.com"
 - .NET 8 SDK or higher.
 - Visual Studio Code or alternatives.
 - [NetCoreDbg](https://github.com/Samsung/netcoredbg) or alternatives.
+- [NativeAOT prerequisites](https://aka.ms/nativeaot-prerequisites)
 
 ## Build
 1. Install Cake: `dotnet tool install Cake.Tool --version 4.0.0` or run `dotnet tool restore` (from `/project/` root).
